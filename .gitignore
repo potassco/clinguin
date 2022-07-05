@@ -1,0 +1,10 @@
+out/
+__pycache__/
+.vscode/
+*.DS_Store
+*.ipynb_checkpoints
+docs/_build
+clinguin.egg-info*
+build
+.mypy_cache/
+dist/

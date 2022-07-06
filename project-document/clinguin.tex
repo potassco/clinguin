@@ -227,8 +227,9 @@ The need for flexibility leads to the conclusion, that the program may not direc
 
 \subsubsection{Monolithic Custom}
 
-\noindent The idea is to think of an architecture, which is a monolith. The architecture should be designed in a way that fulfills most requirements. One requirement which would be hard to fulfill is the Json/Independability requirement, i.e. that the gui may be switched in the future.\\
-I didn't explore on this approach much further, but it should definitely be possible, if one drops the above mentioned requirements.
+\noindent \textbf{Hard-Coded-Monolith}: The idea is to think of an architecture, which is a monolith. The architecture should be designed in a way that fulfills most requirements. One requirement which would be hard to fulfill is the Json/Independability requirement, i.e. that the gui may be switched in the future.\\[1em]
+\noindent \textbf{Json-Monolith}: It is also possible to implement it with Json as intermediary representation, to achive a seperation between gui and the rest. This approach is essentially the same as the Client-Server approach (be sure to look at it first in Section \ref{subsubsec:client-server}), just that for the message passing no server is needed, but is instead done via function calls or events. With this approach one needs to implement a lot from the Client-Server part, just without setting up a server. The downside of this approach is, that one can only use gui-frameworks from the selected programming language (i.e. Python).\\[1em]
+I didn't explore on these ideas much further, but it should definitely be possible, if one drops the independability/modularization.
 
 \subsubsection{Monolithic Model-View-Controller (MVC)}
 
@@ -273,6 +274,7 @@ On the other hand, when one uses Json as a means for the intermediate representa
 
 
 \subsubsection{Simple Message based approach (Client-Server)}
+\label{subsubsec:client-server}
 
 \noindent The next option to look at is the Client-Server approach. The main point for this architecture is the flexibility, that one can use the Json data as an intermediate representation and use whatever gui one finds suitable. Further the architecture is straightforward (also the callbacks).\\
 The server architecture could be implemented as a normal layered-architecture, where the data layer is responsible for the communication with the underlying logical-data-structrure (i.e. CLORM), the logic layer contains some business logic (might actually not be necessary) and the presentation layer handles incoming requests, processes them (i.e. forwarding to the logic/data-layers) and then formats the response as a Json.\\[1em]

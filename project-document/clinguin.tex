@@ -1,0 +1,236 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[cm]{fullpage}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xspace}
+\usepackage[english]{babel} % Used for date formatting
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{csquotes}
+\usepackage[
+    style=numeric,
+    bibstyle = numeric,
+    citestyle = numeric,
+    sorting = none,
+    backend=biber
+]{biblatex}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{nameref}
+\graphicspath{ {./img/} }
+\addbibresource{summary.bib}
+
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage[yyyymmdd]{datetime}
+
+\usepackage{mdframed}
+\usepackage{lipsum}
+
+\newmdtheoremenv{theo}{Theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - Declare some maths operators
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareMathOperator*{\argmax}{argmax}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - Declare langle and rangle in text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\<}[1]{\guilsinglleft}
+\renewcommand{\>}[1]{\guilsinglright}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - Format date to ''dd.mm.YYYY''
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DefineBibliographyExtras{english}{%
+  \protected\def\mkbibdateshort#1#2#3{%
+    \iffieldundef{#3}
+      {}
+      {\mkdayzeros{\thefield{#3}}%
+       \iffieldundef{#2}{}{.}}%
+    \iffieldundef{#2}
+      {}
+      {\mkmonthzeros{\thefield{#2}}%
+       \iffieldundef{#1}{}{.}}%
+    \iffieldbibstring{#1}
+      {\bibstring{\thefield{#1}}}
+      {\dateeraprintpre{#1}\mkyearzeros{\thefield{#1}}}}%
+  \protected\def\mkbibdatelong#1#2#3{%
+    \iffieldundef{#3}
+      {}
+      {\stripzeros{\thefield{#3}}%
+       \iffieldundef{#2}{}{\nobreakspace}}%
+    \iffieldundef{#2}
+      {}
+      {\mkbibmonth{\thefield{#2}}%
+       \iffieldundef{#1}{}{\space}}%
+    \iffieldbibstring{#1}{\bibstring{\thefield{#1}}}{\stripzeros{\thefield{#1}}}}%
+}
+
+
+% - Format other dates to ''YYYY-mm-dd''
+\renewcommand{\dateseparator}{-}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - Define LST-LISTINGS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{backcolor}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolor},
+    breaklines=true,
+    numbers=left,
+    numbersep=5pt,
+    basicstyle=\ttfamily\footnotesize,
+    captionpos=b
+}
+
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This part needs customization from you %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% your group number your names and matriculation numbers here
+\newcommand{\groupnumber}{1}
+\newcommand{\name}{Alexander Beiser}
+\newcommand{\matriculation}{To: The masses}
+\newcommand{\gt}{\ensuremath >} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           End of customization         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\projnumber}{1}
+\newcommand{\Title}{Summary}
+\setlength{\headheight}{15.2pt}
+\setlength{\headsep}{20pt}
+\setlength{\textheight}{680pt}
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{ClingUIn - Project Document}
+\fancyhead[C]{}
+\fancyhead[R]{\name}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage}
+
+
+\begin{document}
+\thispagestyle{empty}
+\noindent\framebox[\linewidth]{%
+ \begin{minipage}{\linewidth}%
+ \hspace*{5pt} \textbf{ClingUIn (Summer 2022)} \hfill University of Potsdam - Potassco
+ \hspace*{5pt}\\
+
+ \begin{center}
+  {\bf\Large ClingUIn Project Document}
+ \end{center}
+
+ \vspace*{5pt}\hspace*{5pt} \today\hfill ClingUIn\hspace*{5pt}
+\end{minipage}%
+}
+\vspace{0.5cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{center}
+%\textbf{\name} %please fill the information above
+
+%\matriculation %please fill the information above
+%\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Ideas}
+
+\subsection{Project Summary}
+
+\noindent The \textit{ClingUIn} project can be seen as a language extension to a Logic-Program, which adds the functionality to create a User-Interface (UI). Capability wise the UI shall be capable of dynamic updates, i.e. not just a static display of a stable-model(s), but a program where one can interact with the logic program.\\
+An example for this is the Sudoku problem. Using the ClingUIn one is able to generate a Sudoku playing-field, where the field is interactive in a sense, that if one selects one of the possible values a single field may have, the program automatically updates the not selected values and fills them in, if only one possibility exists. This is similar to forward checking for Constraint-Satisfactory-Problems (CSPs).\\
+
+\subsection{Prototype}
+
+\noindent Susana Hahn has written a prototype, which implements the Sudoku example from above. The used programming language is Python, further Clingo libraries (like the Clingo-Object-Relational-Mapper (CLORM)) are and the UI-framework tkinter (https://docs.python.org/3/library/tkinter.html) are used. Syntactically the prototype provides an extension by the following keywords (predicates which are used as keywords/tokens):
+
+\begin{itemize}
+    \item \textit{window(\< aattribute-name\> ,,\< aargument-key\>,,\<aargument-value\>))} - Defines the general structure/size/etc. of the displayed field
+    \item \textit{widget(\< ttype-name\>,,\<uui-id\>,,\<mmaster-id\>))} - Adds a widget (ui-element/item) to the view. The accepted types are \textit{frame} (container) and \textit{menu} (dropdown menu). The \textit{ui-id} should be unique and the \textit{master-id} represents the enclosing item (for top-level frames this is the \textit{window}).
+    \item \textit{geo(\<uui-id\>,,\<uui-layout\>,,\<aargument-key\>,,\<aargument-value\>))} - Used for specifying the exact location of a widget. The \textit{ui-id} is of a widget, the \textit{ui-layout} can be chosen from a tuple of \textit{(grid, place, pack)}, the \textit{argument-key} is used for specifying what one wants to set (e.g. row) and the \textit{argument-value} is the corresponding value.
+    \item \textit{config(\<uui-id\>,,\<aargument-key\>,,\<aargument-value\>))} - The \textit{ui-id} is of the corresponding widget, the \textit{argument-key} is the property to set (e.g. font width or some color) and the \textit{argument-value} is the corresponding value to the key.
+    \item \textit{opt(\<uui-id\>,,\<vvalue\>,,\<ooriginal-state\>))} - This is used for the dynamic updates of the gui. The \textit{ui-id} is for the corresponding widget. In the prototype the stable matches are computed via the \textit{brave} option, and for each possible value the \textit{original-state} can have, also one \textit{opt} is generated. This is used for computing what values a single sudoku field may have.
+\end{itemize}
+
+\noindent In general the program works like this: The program scans the logic-program for the syntactic elements above, and then creates the ui with the elements (function \textit{create\_layout()}, uses cautious reasoning). Then the dropdown-menus (i.e. the Sudoku cells) are filled, with the function \textit{update\_options()} (uses brave reasoning). Here for each such dropdown-menu a callback function is added, which when clicked adds an assumption, that a certain value must be used for the sudoku field. Then the process repeats itself.
+
+\subsection{Architecture Proposals}
+
+
+\subsubsection{Initial Thoughts}
+
+\noindent The architecture of ClingUIn should be flexible in a sense, that it should be compatible with several UI-Libraries/-frameworks. Further it should be efficient (which is not handled at this point, but e.g. incremental updates can be made instead of full updates).\\
+The need for flexibility leads to the conclusion, that the program may not directly construct the \textit{tkinter} (or some other frameworks) window, but must create an internal representation first (See Figure \ref{fig:arch-overview}):
+
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{imgs/overview.png}
+    \caption{Informal idea of the workings of the program}
+    \label{fig:arch-overview}
+    \end{center}
+\end{figure}
+
+\noindent Therefore for the construction of the program a few things have to be defined/thought about:
+ 
+\begin{enumerate}
+    \item Logic-Program Representation
+    \begin{itemize}
+        \item Syntax of language extension
+        \item Initial starting point \(\rightarrow\) syntax of prototype
+        \item In general the syntax should be defined in a way that helps understanding of the program
+    \end{itemize}
+    \item Processing 
+    \begin{itemize}
+        \item Produces internal representation from the logic program
+        \item Main thing: Efficiency
+        \item Other things: Libraries to use (depends on selected internal representation), etc.
+    \end{itemize}
+    \item Internal Representation
+    \begin{itemize}
+        \item \textbf{Very important to think about now}: Many different options exist, like \textit{XML}, \textit{Json}, \textit{Class-Hierarchy}, \textit{HTML}, ...
+        \item Different representations have different pros/cons:
+        \begin{itemize}
+            \item XML - Pro: Clearly defined structure, portable format. Cons: Format needs to be parsed again before it can be used (efficieny loss), postprocessing will be pretty complex
+            \item Json - Pro: For hierarchical GUI tools postprocessing will not be that much, portable format. Cons: Format needs to be parsed again, for non hierarchical GUI tools postprocessing will be quite complex
+            \item Class-Hierarchy - Pro: Efficiency, for hierarchical GUI tools postprocessing will be relatively easy. Cons: Non portable format (one is limited to Python represetation), for non hierarchical GUI tools postprocessing will be quite complex.
+            \item HTML - Pro: Direct representation of GUI elements, i.e. one can directly view the html, otherwise similar to XML. Cons: For other views than HTML postprocessing will be pretty complex
+        \end{itemize}
+    \end{itemize}
+    \item Postprocessing
+    \begin{itemize}
+        \item Depends entirely on the chosen internal representation and chosen GUI-framework
+        \item Could be implemented as a \textit{1:1} match between internal representation and GUI-framework, which would lead to a modularization of the ClingUIn
+        \item Efficiency will be important here...
+    \end{itemize}
+    \item Initial GUI-Framework to use (tkinter, web/HTML, other)
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+\end{document}

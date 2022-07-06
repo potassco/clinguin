@@ -118,7 +118,7 @@
 \setlength{\textheight}{680pt}
 \pagestyle{fancy}
 \fancyhf{} 
-\fancyhead[L]{ClingUIn - Project Document}
+\fancyhead[L]{Clinguin - Project Document}
 \fancyhead[C]{}
 \fancyhead[R]{\name}
 \renewcommand{\headrulewidth}{0.4pt}
@@ -129,14 +129,14 @@
 \thispagestyle{empty}
 \noindent\framebox[\linewidth]{%
  \begin{minipage}{\linewidth}%
- \hspace*{5pt} \textbf{ClingUIn (Summer 2022)} \hfill University of Potsdam - Potassco
+ \hspace*{5pt} \textbf{Clinguin (Summer 2022)} \hfill University of Potsdam - Potassco
  \hspace*{5pt}\\
 
  \begin{center}
-  {\bf\Large ClingUIn Project Document}
+  {\bf\Large Clinguin Project Document}
  \end{center}
 
- \vspace*{5pt}\hspace*{5pt} \today\hfill ClingUIn\hspace*{5pt}
+ \vspace*{5pt}\hspace*{5pt} \today\hfill Clinguin\hspace*{5pt}
 \end{minipage}%
 }
 \vspace{0.5cm}
@@ -155,8 +155,8 @@
 
 \subsection{Project Summary}
 
-\noindent The \textit{ClingUIn} project can be seen as a language extension to a Logic-Program, which adds the functionality to create a User-Interface (UI). Capability wise the UI shall be capable of dynamic updates, i.e. not just a static display of a stable-model(s), but a program where one can interact with the logic program.\\
-An example for this is the Sudoku problem. Using the ClingUIn one is able to generate a Sudoku playing-field, where the field is interactive in a sense, that if one selects one of the possible values a single field may have, the program automatically updates the not selected values and fills them in, if only one possibility exists. This is similar to forward checking for Constraint-Satisfactory-Problems (CSPs).\\
+\noindent The \textit{Clinguin} project can be seen as a language extension to a Logic-Program, which adds the functionality to create a User-Interface (UI). Capability wise the UI shall be capable of dynamic updates, i.e. not just a static display of a stable-model(s), but a program where one can interact with the logic program.\\
+An example for this is the Sudoku problem. Using the Clinguin one is able to generate a Sudoku playing-field, where the field is interactive in a sense, that if one selects one of the possible values a single field may have, the program automatically updates the not selected values and fills them in, if only one possibility exists. This is similar to forward checking for Constraint-Satisfactory-Problems (CSPs).\\
 
 \subsection{Prototype}
 
@@ -177,7 +177,7 @@ An example for this is the Sudoku problem. Using the ClingUIn one is able to gen
 
 \subsubsection{Initial Thoughts}
 
-\noindent The architecture of ClingUIn should be flexible in a sense, that it should be compatible with several UI-Libraries/-frameworks. Further it should be efficient (which is not handled at this point, but e.g. incremental updates can be made instead of full updates).\\
+\noindent The architecture of Clinguin should be flexible in a sense, that it should be compatible with several UI-Libraries/-frameworks. Further it should be efficient (which is not handled at this point, but e.g. incremental updates can be made instead of full updates).\\
 The need for flexibility leads to the conclusion, that the program may not directly construct the \textit{tkinter} (or some other frameworks) window, but must create an internal representation first (See Figure \ref{fig:arch-overview}):
 
 
@@ -218,12 +218,75 @@ The need for flexibility leads to the conclusion, that the program may not direc
     \item Postprocessing
     \begin{itemize}
         \item Depends entirely on the chosen internal representation and chosen GUI-framework
-        \item Could be implemented as a \textit{1:1} match between internal representation and GUI-framework, which would lead to a modularization of the ClingUIn
+        \item Could be implemented as a \textit{1:1} match between internal representation and GUI-framework, which would lead to a modularization of the Clinguin
         \item Efficiency will be important here...
     \end{itemize}
     \item Initial GUI-Framework to use (tkinter, web/HTML, other)
 \end{enumerate}
 
+
+\subsubsection{Monolithic Custom}
+
+\noindent The idea is to think of an architecture, which is a monolith. The architecture should be designed in a way that fulfills most requirements. One requirement which would be hard to fulfill is the Json/Independability requirement, i.e. that the gui may be switched in the future.\\
+I didn't explore on this approach much further, but it should definitely be possible, if one drops the above mentioned requirements.
+
+\subsubsection{Monolithic Model-View-Controller (MVC)}
+
+\noindent As the MVC pattern is a widely spread Gui-Architectural pattern it makes sense to consider it. In Figure \ref{fig:mvc} the general idea of MVC is depicted, where normally there exists one such MVC-triad per GUI element, e.g. one for the top level gui element, which contains ''children'', like menu-bar, grid-controller, etc. (as depicted in Figure \ref{fig:mvc-hierarchy}).\\
+
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.4\textwidth]{imgs/mvc.png}
+    \caption{General MVC idea}
+    \label{fig:mvc}
+    \end{center}
+\end{figure}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{imgs/mvc-architecture.png}
+    \caption{MVC Hierarchy}
+    \label{fig:mvc-hierarchy}
+    \end{center}
+\end{figure}
+
+\noindent For Clinguin this architecture open two possible tracks of implementation, where it seems to be the case that for both tracks it would be pretty hard to get the callbacks right while using an independent representation like Json.\\[1em]
+My main reason of concern in both cases is how would the notification process (callbacks) work together with Json?\\
+As far as I know, when using MVC one ''hard-codes'' the View, the Controller and the Model, each in a seperate file, where then a framework (like Windows-Presentation-Foundation (WPF) for C\# - which is actually the MVVM principle, but pretty similar...) connects the files.\\
+On the other hand, when one uses Json as a means for the intermediate representation, one normally uses some kind of Message-Oriented-Architecture (MOA), like a simple Client-Server system.\\
+
+\begin{itemize}
+    \item Implementation of Clinguin as a single MVC triad
+    \begin{itemize}
+        \item Implementing this in a way, that multiple elements are handled in one MVC should violate the MVC design principle
+        \item Normally in MVC the View should be static in a sense, that the elements of a view doesn't change, just the content - but here this would be violated
+        \item When using Json for data transfer, I can't imagine how the callbacks should work
+    \end{itemize}
+    \item Implementation of Clinguin as a MVC hierarchy
+    \begin{itemize}
+        \item Either as a code generator (i.e. a program which generates the python code, should fulfill the MVC design principle, but seems to be hard to implement)
+        \item Or implement it just via OOP - but which would still be hard and it would even be harder to get the callbacks right.
+        \item When using Json for data transfer, I can't imagine how the callbacks should work
+    \end{itemize}
+\end{itemize}
+
+
+\subsubsection{Simple Message based approach (Client-Server)}
+
+\noindent The next option to look at is the Client-Server approach. The main point for this architecture is the flexibility, that one can use the Json data as an intermediate representation and use whatever gui one finds suitable. Further the architecture is straightforward (also the callbacks).\\
+The server architecture could be implemented as a normal layered-architecture, where the data layer is responsible for the communication with the underlying logical-data-structrure (i.e. CLORM), the logic layer contains some business logic (might actually not be necessary) and the presentation layer handles incoming requests, processes them (i.e. forwarding to the logic/data-layers) and then formats the response as a Json.\\[1em]
+The Client just gets the Json and constructs with this information a gui. If a user clicks on a field a request is sent to the server, which processes it, computes the stable models, etc. . Implementation wise the client can be constructed in a variety of different ways, a straightforward one would be that the Json contains enough information that one may construct a gui with possible actions and if an action occurs, sends it back. The client may be written in any programming language. \\[1em]
+Another pro: When one uses a \textit{REST}-API, then 
+One drawback with this approach is, that the development time might be higher than a monolithic approach.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.2\textwidth]{imgs/client-server.png}
+    \caption{Cient-Server approach}
+    \label{fig:client-server}
+    \end{center}
+\end{figure}
 
 
 
@@ -234,3 +297,15 @@ The need for flexibility leads to the conclusion, that the program may not direc
 
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+

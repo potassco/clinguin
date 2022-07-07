@@ -280,7 +280,7 @@ On the other hand, when one uses Json as a means for the intermediate representa
 The server architecture could be implemented as a normal layered-architecture, where the data layer is responsible for the communication with the underlying logical-data-structrure (i.e. CLORM), the logic layer contains some business logic (might actually not be necessary) and the presentation layer handles incoming requests, processes them (i.e. forwarding to the logic/data-layers) and then formats the response as a Json.\\[1em]
 The Client just gets the Json and constructs with this information a gui. If a user clicks on a field a request is sent to the server, which processes it, computes the stable models, etc. . Implementation wise the client can be constructed in a variety of different ways, a straightforward one would be that the Json contains enough information that one may construct a gui with possible actions and if an action occurs, sends it back. The client may be written in any programming language. \\[1em]
 Another pro: When one uses a \textit{REST}-API, then 
-One drawback with this approach is, that the development time might be higher than a monolithic approach.
+One drawback with this approach is, that the development time might be higher than with a monolithic approach, but definitely still acceptable.
 
 \begin{figure}[ht]
     \begin{center}
@@ -290,7 +290,27 @@ One drawback with this approach is, that the development time might be higher th
     \end{center}
 \end{figure}
 
+\noindent One could use the following libraries for this:
 
+\begin{itemize}
+    \item Server
+        \begin{itemize}
+            \item FastAPI - A REST framework which is similar to JavaSpringBoot or NestJS, released in 2018, high performance and seems to be maintained regularly
+            \item Flask - The standard tool for developing REST Api's in Python (syntactically similar to NestJS and Java Spring Boot). Seems to be not that great in terms of performance
+        \end{itemize}
+    \item Client
+        \begin{itemize}
+            \item api-client - seems to be exactly what we need 
+        \end{itemize}
+\end{itemize}
+
+\noindent Further one can package both together, that from the outside it seems like, it is just one program, although they are two in fact. In terms of endpoints/APIs only three are proposed:
+
+\begin{itemize}
+    \item GET: ''/health'' - For startup process, check if server is running
+    \item GET: ''/'' - Get Json data to display
+    \item POST: ''/'' - Send server, what has been clicked, etc.
+\end{itemize}
 
 
 

@@ -273,7 +273,7 @@ On the other hand, when one uses Json as a means for the intermediate representa
 \end{itemize}
 
 
-\subsubsection{Simple Message based approach (Client-Server)}
+\subsubsection{Version 0: Simple Message based approach (Client-Server)}
 \label{subsubsec:client-server}
 
 \noindent The next option to look at is the Client-Server approach. The main point for this architecture is the flexibility, that one can use the Json data as an intermediate representation and use whatever gui one finds suitable. Further the architecture is straightforward (also the callbacks).\\
@@ -286,7 +286,7 @@ One drawback with this approach is, that the development time might be higher th
     \begin{center}
     \includegraphics[width=0.2\textwidth]{imgs/client-server.png}
     \caption{Cient-Server approach}
-    \label{fig:client-server}
+    \label{fig:client-server-v0}
     \end{center}
 \end{figure}
 
@@ -311,6 +311,69 @@ One drawback with this approach is, that the development time might be higher th
     \item GET: ''/'' - Get Json data to display
     \item POST: ''/'' - Send server, what has been clicked, etc.
 \end{itemize}
+
+\newpage
+\subsubsection{Version 1: Simple Message based approach (Client-Server)}
+
+\noindent Based on the \textit{Version 0} of the simple message based approach, the new approach (besides the flexibility granted by the intermediate Json format) addresses two other important tasks:
+
+\begin{itemize}
+    \item Making the server-solver as flexible as possible, that it can be switched out/in.
+    \item A concept structure of a \textit{tkinter} frontend.
+\end{itemize}
+
+\noindent The figure \ref{fig:client-server-v1} displays the advanced architecture on a high level, so one gets an idea how this works:
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.3\textwidth]{imgs/client-server-v1.png}
+    \caption{Cient-Server-v1 approach}
+    \label{fig:client-server-v1}
+    \end{center}
+\end{figure}
+
+\noindent The idea for the backend is now the following: The presentation layer consists of the API-endpoints, which just consists of two:
+
+\begin{itemize}
+    \item \textit{call} - POST: ''/'' - Solver function call.
+    \item \textit{health} - GET: ''/health'' - For startup process, check if server is running.
+\end{itemize}
+
+\noindent When the \textit{call} endpoint receives a request, it looks at it and parses it (a request should look like a function call, so e.g. \textit{assume(sudoku(1,1,1))}). The function name must be a name of a function in the solver (e.g. \textit{assume}). The other payload may be used as one wishes.\\
+Therefore the next step is to call the specified function in the solver, which processes the request and returns something (e.g. for the function \textit{solve()} this could be the Json representation of the whole GUI). For the conversion there should exist a Json-Converter which should be static in the sense, that every solver can use it easily.\\
+As the previous line suggests, there will be many solvers. A user may specify a solver as one wants. The location of the solver (i.e. the module name in Python) can be specified as a command-line-argument (e.g. \textit{\$ clinguin --solver special-solver-1,special-solver-2 1.lp 2.lp 3.lp})\\[1em]
+The first UML diagram depicts the use with the standard solver, the second one depicts a use with a special solver: 
+
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{imgs/uml-std-server.png}
+    \caption{UML-Std.-Server}
+    \label{fig:uml-std-server}
+    \end{center}
+\end{figure}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{imgs/uml-extended-server.png}
+    \caption{UML-Extended-Server}
+    \label{fig:uml-extended-server}
+    \end{center}
+\end{figure}
+
+
+\noindent The client is also constructed in a way that should achieve, that one may switch from one python-gui framework to another. This is achieved, by splitting up the engine into a base engine (traverses the Json tree) and calling then the right method. This selection what to call is done by dependency injection. What engine to use can be specified by a command-line-argument. The UML diagram (Figure \ref{fig:uml-client}) depicts how this should play out. The \textit{interface-mock} is a class that should not be instantiated, as it only contains empty/not callable functions, which shall be implemented by the actual gui-implementations. It is termed \textit{interface-mock} as interfaces do not exists, implementation wise it could be implemented as an abstract class (which exists in python through the \textit{ABC} library).
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{imgs/uml-client.png}
+    \caption{UML-Client}
+    \label{fig:uml-client}
+    \end{center}
+\end{figure}
+
+
+
 
 
 

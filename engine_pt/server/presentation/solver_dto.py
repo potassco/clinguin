@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Sequence, Any
 
-class EngineDto(BaseModel):
+class SolverDto(BaseModel):
     function:str
     arguments:Sequence[str]
 

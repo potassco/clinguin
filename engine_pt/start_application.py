@@ -1,11 +1,12 @@
 import uvicorn
 
 
-from parse_input import init
+from parse_input import ArgumentParser
 from start_server import startServer
 
 if __name__ == '__main__':
-    (logic_programs, engines) = init()
+    parser = ArgumentParser()
+    (logic_programs, engines) = parser.parse()
 
     startServer(logic_programs, engines)
 else:

@@ -2,7 +2,6 @@ import uvicorn
 
 from server.presentation.endpoints import Endpoints
 from fastapi import FastAPI, APIRouter
-from parse_input import init
 
 def startServer(logic_programs, engines):
     app = FastAPI()

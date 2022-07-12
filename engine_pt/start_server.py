@@ -1,10 +1,11 @@
 import uvicorn
-from fastapi import FastAPI
-from pydantic import BaseModel
-from init import init
 
-if __name__ == '__main__':
-    init()
-    uvicorn.run('server:app', port=8000, reload=True)
+from server.presentation.endpoints import Endpoints
+from fastapi import FastAPI, APIRouter
+from parse_input import init
 
-
+def startServer(logic_programs, engines):
+    app = FastAPI()
+    hello = Endpoints(logic_programs, engines, "World")
+    app.include_router(hello.router)
+    uvicorn.run(app)

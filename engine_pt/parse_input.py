@@ -4,7 +4,7 @@ import sys
 
 def init():
     engines = []
-    default_engine = 'engine_1'
+    default_engine = 'server.application.standard_solver'
 
 
     parser = argparse.ArgumentParser(description = 'Clinguin is a GUI language extension for a logic program that uses Clingo.')
@@ -39,6 +39,7 @@ def init():
                 import_error = True
 
     if import_error == True:
+        print("Module import error")
         sys.exit(1)
 
     # TODO:

@@ -3,5 +3,5 @@ from typing import Sequence, Any
 
 class SolverDto(BaseModel):
     function:str
-    arguments:Sequence[str]
+
 

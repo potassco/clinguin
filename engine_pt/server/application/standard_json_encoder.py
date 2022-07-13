@@ -7,6 +7,9 @@ import networkx as nx
 from clorm import Predicate, ConstantField, RawField, Raw
 from clingo import Control
 from clingo.symbol import Function, Number, String
+from clorm import StringField, RawField
+
+from typing import Sequence, Any
 
 from server.data.element import ElementDao
 from server.data.attribute import AttributeDao
@@ -30,10 +33,12 @@ class StandardJsonEncoder:
 
         # Get widget dependency to define creation order
         fb = clorm.parse_fact_string(self.facts, self.unifiers)
-        q = fb.query(ElementDao)
+
+
         dependency = []
         widgets_info = {}        
         for w in fb.query(ElementDao).all():
+            # TODO -> Not working
             widgets_info[w.id]={'parent':w.parent,'type':w.type}
             dependency.append((w.id,w.parent))
         DG = nx.DiGraph(dependency)
@@ -69,4 +74,65 @@ class StandardJsonEncoder:
 
 
         return root
+
+
+    def addBraveElements(self, class_hierarchy:Any, prg:str, brave_elements:Sequence[str]) -> Any:
+        fb = clorm.parse_fact_string(prg, self.unifiers)
+
+        dependency = []
+        widgets_info = {}        
+
+        for t in brave_elements:
+            for w in fb.query(ElementDao).all():
+                # TODO -> More efficient Query, where one selects only ''dropdownmenuitem''
+                if (str(w.type) == t):
+                    widgets_info[w.id]={'parent':w.parent,'type':w.type}
+                    dependency.append((w.id,w.parent))
+
+        DG = nx.DiGraph(dependency)
+        order = list(reversed(list(nx.topological_sort(DG))))
+
+        clone = class_hierarchy.clone()
+        elements = clone.generateTable({})
+
+        for element_id in order:
+            if element_id not in widgets_info:
+                continue
+
+            element = ElementDto(element_id, widgets_info[element_id]['type'], widgets_info[element_id]['parent'])
+
+            attributes = []
+            for a in fb.query(AttributeDao).where(AttributeDao.id == element_id).all():
+                attributes.append(AttributeDto(a.id, a.key, a.value))
+            element.setAttributes(attributes)
+
+
+            callbacks = []
+            for c in fb.query(CallbackDao).where(CallbackDao.id == element_id).all():
+                callbacks.append(CallbackDto(c.id, c.action, c.policy))
+            element.setCallbacks(callbacks)
+
+
+            if str(element_id) not in elements:
+                elements[str(element_id)] = element
+                elements[str(element.parent)].addChild(element)
+
+        return clone
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  

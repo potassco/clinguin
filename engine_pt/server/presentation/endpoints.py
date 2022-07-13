@@ -31,8 +31,41 @@ class Endpoints:
         return {"version" : "0"}
 
     async def solver(self, solver:SolverDto):
-        result = call_function(self.solver, solver.function, solver.arguments, {})
-        return {"message" : result}
+        
+        splits = solver.function.split("(") 
+
+        function = splits[0]
+
+        rest = ""
+        for i in range(1, len(splits)):
+            if i == 1:
+                rest = rest + splits[i]
+            else:
+                rest = rest + "(" + splits[i]
+
+
+        arguments = []
+        cur = ""
+        open_brackets = 0
+        for char in rest:
+            if char == '(':
+                open_brackets = open_brackets + 1
+            elif char == ')':
+                if open_brackets > 0:
+                    open_brackets = open_brackets - 1
+                else: # Last Character
+                    arguments.append(cur)
+                    break
+                    
+            elif char == ',' and open_brackets == 0:
+                arguments.append(cur)
+                cur = ""
+                continue
+
+            cur = cur + char
+
+        result = call_function(self.solver, function, arguments, {})
+        return result
 
 
 

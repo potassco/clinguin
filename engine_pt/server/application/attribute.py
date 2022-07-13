@@ -9,6 +9,8 @@ class AttributeDto:
 
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__)
-
+    
+    def clone(self):
+        return AttributeDto(self.id, self.key, self.value)
 
 

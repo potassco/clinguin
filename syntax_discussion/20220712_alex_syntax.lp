@@ -1,4 +1,4 @@
-% added feedback from 2022-07-07 meeting
+% added feedback from 2022-07-11 meeting
 % Syntax (Extension of Logic-Program):
 % This syntax is the syntax used in the Prototype (Simple client server V2)
 

@@ -1,27 +1,38 @@
 
 element(window, window, root).
 
-attribute(window, height, 500).
-attribute(window, width, 500).
-attribute(window, bgc, black).
+h(500).
+w(500).
 
-attribute(window, corg, grid).
-attribute(window, corg_col, 2).
-attribute(window, corg_row, 1).
+attribute(window, height, X) :- h(X).
+attribute(window, width, X) :- w(X).
+attribute(window, backgroundcolor, black).
 
-element(c0, container, window).
-attribute(c0, height, 300).
-attribute(c0, width, 200).
-attribute(c0, bgc, blue).
-attribute(c0, gridx, 0).
-attribute(c0, gridy, 0).
+amount(5).
+p(0..(R*R-1)) :- amount(R).
 
-element(c1, container, window).
-attribute(c1, height, 300).
-attribute(c1, width, 200).
-attribute(c1, bgc, blue).
-attribute(c1, gridx, 0).
-attribute(c1, gridy, 0).
+element(c(X), container, window) :- p(X).
+attribute(c(X), gridx, X\R) :- p(X), amount(R).
+attribute(c(X), gridy, X/R) :- p(X), amount(R).
+attribute(c(X), backgroundcolor, gray) :- p(X), X\2 == 1.
+attribute(c(X), backgroundcolor, black) :- p(X), X\2 == 0.
+attribute(c(X), height, H/R) :- p(X), h(H), amount(R).
+attribute(c(X), width, W/R) :- p(X), w(W), amount(R).
 
-callback(c0, click, assume(c0)).
-callback(c1, click, solve()).
+
+amount2(3).
+q(X,0..(R*R-1)) :- p(X), amount2(R).
+
+element(c(X,Y), container, c(X)) :- q(X,Y).
+attribute(c(X,Y), gridx, Y\R) :- q(X,Y), amount2(R).
+attribute(c(X,Y), gridy, Y/R) :- q(X,Y), amount2(R).
+attribute(c(X,Y), backgroundcolor, blue) :- q(X,Y), Y\2 == 1, X\2 == 0.
+attribute(c(X,Y), backgroundcolor, red) :- q(X,Y), Y\2 == 0, X\2 == 0.
+attribute(c(X,Y), backgroundcolor, gray) :- q(X,Y), Y\2 == 1, X\2 == 1.
+attribute(c(X,Y), backgroundcolor, white) :- q(X,Y), Y\2 == 0, X\2 == 1.
+attribute(c(X,Y), height, H/(R1 * R2)) :- q(X,Y), h(H), amount(R1), amount2(R2).
+attribute(c(X,Y), width, W/(R1 * R2)) :- q(X,Y), w(W), amount(R1), amount2(R2).
+
+
+
+

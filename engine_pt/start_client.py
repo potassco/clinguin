@@ -1,4 +1,5 @@
-from client.client_base import ClientBase
+from client_helper import start
 
-client = ClientBase()
-client.startUp()
+start()
+
+

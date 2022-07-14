@@ -40,14 +40,13 @@ class StandardSolver:
         print('not implemented')
         if predicate in self.assumptions:
             self.assumptions.remove(predicate)
+            self.assumptions.remove("assume(" + predicate + ")")
             return True
         else:
             return False
 
     def solve(self) -> Any:
         print('SOLVE()')
-
-        print(self.assumptions)
 
         self.ctl.configuration.solve.enum_mode = 'cautious'
         self.ctl.solve(on_model=self._save_cautious, assumptions=[(clingo.parse_term(a),True) for a in list(self.assumptions)])

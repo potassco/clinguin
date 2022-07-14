@@ -38,7 +38,6 @@ class StandardJsonEncoder:
         dependency = []
         widgets_info = {}        
         for w in fb.query(ElementDao).all():
-            # TODO -> Not working
             widgets_info[w.id]={'parent':w.parent,'type':w.type}
             dependency.append((w.id,w.parent))
         DG = nx.DiGraph(dependency)
@@ -53,8 +52,9 @@ class StandardJsonEncoder:
         for element_id in order:
             if str(element_id) == 'root':
                 continue
-
-            element = ElementDto(element_id, widgets_info[element_id]['type'], widgets_info[element_id]['parent'])
+            type = widgets_info[element_id]['type']
+            parent = widgets_info[element_id]['parent']
+            element = ElementDto(element_id ,type ,parent)
 
 
             attributes = []
@@ -95,6 +95,8 @@ class StandardJsonEncoder:
         clone = class_hierarchy.clone()
         elements = clone.generateTable({})
 
+        parents = set()
+
         for element_id in order:
             if element_id not in widgets_info:
                 continue
@@ -113,9 +115,21 @@ class StandardJsonEncoder:
             element.setCallbacks(callbacks)
 
 
+            parents.add(str(element.parent))
             if str(element_id) not in elements:
                 elements[str(element_id)] = element
                 elements[str(element.parent)].addChild(element)
+
+        for parent in parents:
+            parent_elem = elements[str(parent)]
+            amount = parent_elem.amountOfChildren()
+            """
+            print("Try: " + parent + "::" + str(amount))
+            if amount == 1:
+                print("Add select one")
+                parent_elem.addAttribute(AttributeDto(parent, "selected", parent_elem.getChildPerIndex(0).id))
+            """
+
 
         return clone
 

@@ -11,11 +11,11 @@ attribute(m, height, 20).
 attribute(m, width, 50).
 
 element(mi(X), dropdownmenuitem, m) :- p(X).
-attribute(m, selected, mi(X)) :- p(X).
+%attribute(m, selected, mi(X)) :- p(X).
 callback(mi(X), click, assume(p(X))) :- p(X).
 
 
-element(mi(3), dropdownmenuitem, m).
-attribute(m, initially_selected, mi(3)).
+
+
 
 

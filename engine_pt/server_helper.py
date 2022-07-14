@@ -1,15 +1,14 @@
 import uvicorn
-
+import subprocess
 
 from parse_input import ArgumentParser
-from start_server import startServer
+from server_helper_helper import startServer
 
-if __name__ == '__main__':
+def start():
     parser = ArgumentParser()
     (logic_programs, engines) = parser.parse()
 
-    startServer(logic_programs, engines)
-else:
-    print(app.test)
-    
 
+    startServer(logic_programs, engines)
+
+ 

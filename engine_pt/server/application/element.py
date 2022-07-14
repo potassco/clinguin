@@ -13,12 +13,21 @@ class ElementDto:
 
     def setAttributes(self, attributes):
         self.attributes = attributes
+    
+    def addAttribute(self, attribute):
+        self.attributes.append(attribute)
 
     def setCallbacks(self, callbacks):
         self.callbacks = callbacks
 
     def addChild(self, child):
         self.children.append(child)
+    
+    def getChildPerIndex(self, index : int):
+        return self.children[0]
+
+    def amountOfChildren(self) -> int:
+        return len(self.children)
 
 
     def toJSON(self):

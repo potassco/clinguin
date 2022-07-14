@@ -10,7 +10,6 @@ class AbstractGui:
     def window(self, id, parent, attributes, callbacks):
         print("WINDOW: " + str(id) + "::" + str(parent))
 
-
     def container(self, id, parent, attributes, callbacks):
         print("CONTAINER: " + str(id) + "::" + str(parent))
         
@@ -19,8 +18,6 @@ class AbstractGui:
 
     def dropdownmenuitem(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
-
-
 
     def draw(self):
         print("DRAW")

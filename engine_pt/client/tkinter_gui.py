@@ -12,17 +12,31 @@ class TkinterGui(AbstractGui):
 
     def __init__(self, baseEngine):
         print("Tkinter Gui")
-        self.root = None
         self.elements = {}
         self.baseEngine = baseEngine
 
+        self.first = True
+
     def window(self, id, parent, attributes, callbacks):
         #print("WINDOW: " + str(id) + "::" + str(parent))
-    
+   
+
+        if self.first == True: 
+            self._window_startup(id, parent, attributes, callbacks)
+        else:
+            keys = list(self.elements.keys()).copy()
+            for key in keys:
+                if str(key) == str(id):
+                    continue
+            
+                self.elements[str(key)][0].pack_forget()
+                del self.elements[str(key)]
+
+
+    def _window_startup(self, id, parent, attributes, callbacks):
         root = tk.Tk()
 
         root.title("Clinguin")
-
 
         tkinter_attributes = {
             "width" : AttributeDto(id, "width", root.winfo_screenwidth()),
@@ -41,31 +55,22 @@ class TkinterGui(AbstractGui):
         tka = tkinter_attributes
 
         geom_string = tka["width"].value + "x" + tka["height"].value + "+" + str(int(root.winfo_screenwidth()/2 - int(tka["width"].value)/2)) + "+" + str(int(root.winfo_screenheight()/2 - int(tka["height"].value)/2))
-        print(geom_string)
         root.geometry(geom_string)
         
         root.configure(background = tka["backgroundcolor"].value)
             
         self.elements[str(id)] = (root, {})
 
-    def container(self, id, parent, attributes, callbacks):
-        print("CONTAINER: " + str(id) + "::" + str(parent))
-        
     def dropdownmenu(self, id, parent, attributes, callbacks):
         #print("DROPDOWNMENU: " + str(id) + "::" + str(parent))
 
 
-        #languages = ['Python', 'JavaScript']
-        items = []
-
-        variable = tk.StringVar()
-        menu = ttk.OptionMenu(self.elements[parent][0], variable, *items, command=self.dropdownmenuitemClick)
-        menu.pack(expand=True)
-   
  
         tkinter_attributes = {
             "width" : AttributeDto(id, "width", "100"),
             "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "selected" : AttributeDto(id, "variable", ""),
+            "initially_selected" : AttributeDto(id, "variable", "")
             }
 
  
@@ -74,18 +79,31 @@ class TkinterGui(AbstractGui):
                 tkinter_attributes[attribute['key']].value = attribute['value']
             else:
                 print('Undefined Command: ' + attribute['key'])
-       
-       
+
+
+        variable = tk.StringVar()
+        if tkinter_attributes["initially_selected"].value != "" and tkinter_attributes["selected"].value == "":
+            variable = tk.StringVar()
+            variable.set(tkinter_attributes["initially_selected"].value)
+        elif tkinter_attributes["selected"].value != "":
+            variable = tk.StringVar()
+            variable.set(tkinter_attributes["selected"].value)
+        
+        items = []
+
+        menu = ttk.OptionMenu(self.elements[parent][0], variable, *items, command=self.dropdownmenuitemClick)
+        menu.pack(expand=True)
+         
         tka = tkinter_attributes
-        #menu.config(width=int(tka['width'].value))
             
         self.elements[str(id)] = (menu, {"variable" : variable})
 
 
     def dropdownmenuitem(self, id, parent, attributes, callbacks):
-        #print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
         
-        tkinter_attributes = {}
+        tkinter_attributes = {
+            "label" : AttributeDto(id, "label", id)
+            }
 
  
         for attribute in attributes:
@@ -100,11 +118,51 @@ class TkinterGui(AbstractGui):
             if callback['action'] == 'click':
                 click_policy = callback['policy']
        
+        tka = tkinter_attributes
        
         menu = self.elements[str(parent)][0]
 
         
-        menu['menu'].add_command(label=id, command=Test(id, parent, click_policy, self.dropdownmenuitemClick)) 
+        menu['menu'].add_command(label=tka["label"].value, command=Test(id, parent, click_policy, self.dropdownmenuitemClick)) 
+
+
+    def container(self, id, parent, attributes, callbacks):
+ 
+        tkinter_attributes = {
+            "gridx" : AttributeDto(id, "gridx", -1),
+            "gridy" : AttributeDto(id, "gridy", -1),
+            "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "width" : AttributeDto(id, "width", 50),
+            "height" : AttributeDto(id, "height", 50)
+            }
+ 
+        for attribute in attributes:
+            if attribute['key'] in tkinter_attributes:
+                tkinter_attributes[attribute['key']].value = attribute['value']
+            else:
+                print('Undefined Command: ' + attribute['key'])
+
+
+        click_policy = None        
+        for callback in callbacks:
+            if callback['action'] == 'click':
+                click_policy = callback['policy']
+      
+        container = tk.Frame(self.elements[str(parent)][0])
+        
+        tka = tkinter_attributes
+        if int(tka["gridx"].value) >= 0 and int(tka["gridy"].value) >= 0:
+            container.grid(column = int(tka["gridx"].value), row = int(tka["gridy"].value))
+
+
+        container.configure(background = tka["backgroundcolor"].value)
+
+        container.configure(width = int(tka["width"].value))
+        container.configure(height = int(tka["height"].value))
+
+        container.pack_propagate(0)
+        
+        self.elements[str(id)] = (container, {})
 
 
 
@@ -118,6 +176,7 @@ class TkinterGui(AbstractGui):
 
 
     def draw(self, id):
+        self.first = False
         self.elements[id][0].mainloop()
 
 class Test:

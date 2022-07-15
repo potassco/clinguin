@@ -21,13 +21,13 @@ See the `/syntax_discussion/20220714_alex_syntax.lp` file.
 
 `$ python start.py logic-program [... logic-program]`
 
-E.g. for the sudoku example: `$ python start.py example/sudoku/instance.lp example/sudoku/encoding.lp example/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 ### Only Server
 
 `$ python start_server.py logic-program [... logic-program]`
 
-E.g. for the sudoku example: `$ python start_server.py example/sudoku/instance.lp example/sudoku/encoding.lp example/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 ### Only Client
 

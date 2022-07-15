@@ -42,6 +42,8 @@ class TkinterGui(AbstractGui):
             "width" : AttributeDto(id, "width", root.winfo_screenwidth()),
             "height" : AttributeDto(id, "height", root.winfo_screenheight()),
             "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "resizablex" : AttributeDto(id, "resizablex", 1),
+            "resizabley" : AttributeDto(id, "resizabley", 1),
             }
             
 
@@ -58,6 +60,7 @@ class TkinterGui(AbstractGui):
         root.geometry(geom_string)
         
         root.configure(background = tka["backgroundcolor"].value)
+        root.resizable(tka['resizablex'].value,tka['resizabley'].value)
             
         self.elements[str(id)] = (root, {})
 
@@ -67,8 +70,8 @@ class TkinterGui(AbstractGui):
 
  
         tkinter_attributes = {
-            "width" : AttributeDto(id, "width", "100"),
-            "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "width" : AttributeDto(id, "width", "1"),
+            "backgroundcolor" : AttributeDto(id, "background", "red"),
             "selected" : AttributeDto(id, "variable", ""),
             "initially_selected" : AttributeDto(id, "variable", "")
             }
@@ -90,8 +93,8 @@ class TkinterGui(AbstractGui):
             variable.set(tkinter_attributes["selected"].value)
         
         items = []
-
-        menu = ttk.OptionMenu(self.elements[parent][0], variable, *items, command=self.dropdownmenuitemClick)
+        
+        menu = ttk.OptionMenu(self.elements[parent][0], variable, *items)
         menu.pack(expand=True)
          
         tka = tkinter_attributes
@@ -131,7 +134,7 @@ class TkinterGui(AbstractGui):
         tkinter_attributes = {
             "gridx" : AttributeDto(id, "gridx", -1),
             "gridy" : AttributeDto(id, "gridy", -1),
-            "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "backgroundcolor" : AttributeDto(id, "backgroundcolor", "white"),
             "width" : AttributeDto(id, "width", 50),
             "height" : AttributeDto(id, "height", 50)
             }
@@ -154,13 +157,13 @@ class TkinterGui(AbstractGui):
         if int(tka["gridx"].value) >= 0 and int(tka["gridy"].value) >= 0:
             container.grid(column = int(tka["gridx"].value), row = int(tka["gridy"].value))
 
-
         container.configure(background = tka["backgroundcolor"].value)
 
         container.configure(width = int(tka["width"].value))
         container.configure(height = int(tka["height"].value))
 
         container.pack_propagate(0)
+
         
         self.elements[str(id)] = (container, {})
 

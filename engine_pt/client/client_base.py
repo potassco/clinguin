@@ -30,6 +30,7 @@ class ClientBase:
             if status_code == 200:
                 self.connected = True
             else:
+                print("Waiting for connection")
                 time.sleep(1)
 
     def draw(self):

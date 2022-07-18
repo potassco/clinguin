@@ -153,6 +153,10 @@
 
 \section{Ideas}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Timestamp: 04.-11.07.2022
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Project Summary}
 
 \noindent The \textit{Clinguin} project can be seen as a language extension to a Logic-Program, which adds the functionality to create a User-Interface (UI). Capability wise the UI shall be capable of dynamic updates, i.e. not just a static display of a stable-model(s), but a program where one can interact with the logic program.\\
@@ -373,16 +377,82 @@ The first UML diagram depicts the use with the standard solver, the second one d
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Timestamp 12. - 18.07.2022
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \subsubsection{Version 2: An update}
-
-\noindent On a meeting for version 1 we agreed on:
+\noindent Is based on \textit{Version 1} of the Client-Server-Architecture, a result from the meeting on the 11.07.2022 and is the first version, that shall be implemented as a prototype. The basic idea, that one implements the functionality with a Client-Server based architecture stays the same. The main difference between version \textit{1} and \textit{2} lies in the following:
 
 \begin{itemize}
-    \item Only one solver for the beginning and multiples are likely dropped
-    \item Multiple iterations are likely necessary
-    \item A first prototype with the client-server architecture will be constructed (aka. ''Durchstich'' or Curthrough), with a limited amount of features
-    \item Syntax: More like HTML, e.g. for the dropdown it then holds, that when we want to define the possible options, we add multiple elements (e.g. 5), where for each the callback is specified individually
+    \item Only one solver should be active at the time.
+    \item For a first prototype only a very limited set of features shall be implemented (see syntax-definition of \textit{20220714\_alex\_syntax.lp}). In general the syntax shall be constructed in a more HTML way, therefore for example the possible values of a dropdown menu shall now be defined as seperate elements.
+    \item For the prototype the Json-format the \textit{20220711\_alex\_json\_format.txt} will be used.
+    \item For instrunctions how to execute the prototype see the \textit{/engine\_pt/README.md} Readme-file.
 \end{itemize}
+
+\noindent The following shows a more detailed view of the workings of the prototype. At first the general idea of this prototype is outlined, then sequence diagrams are shown and then a UML-Class diagram is shown:
+
+\noindent \textbf{General Working:} 
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.3\textwidth]{imgs/pt-v2-server-client.png}
+    \caption{Architectural Overview}
+    \label{fig:pt-v2-server-client}
+    \end{center}
+\end{figure}
+
+\newpage
+
+\noindent \textbf{Sequence Diagrams}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.3\textwidth]{imgs/pt-v2-sequence-normal.png}
+    \caption{Sequence Diagram Normal}
+    \label{fig:pt-v2-sequence-normal}
+    \end{center}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.3\textwidth]{imgs/pt-v2-sequence-failure.png}
+    \caption{Sequence Diagram Failure}
+    \label{fig:pt-v2-sequence-failure}
+    \end{center}
+\end{figure}
+
+\newpage
+
+\noindent \textbf{Class Diagram}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.9\textwidth]{imgs/pt-v2-class-diag.png}
+    \caption{Class Diagram}
+    \label{fig:pt-v2-class-diag}
+    \end{center}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

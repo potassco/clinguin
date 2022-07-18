@@ -1,4 +1,4 @@
-from client.client_base import ClientBase
+from client.application.client_base import ClientBase
 
 def start():
     client = ClientBase()

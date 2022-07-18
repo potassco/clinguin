@@ -37,7 +37,6 @@ class StandardSolver:
 
 
     def remove(self, predicate) -> bool:
-        print('not implemented')
         if predicate in self.assumptions:
             self.assumptions.remove(predicate)
             self.assumptions.remove("assume(" + predicate + ")")

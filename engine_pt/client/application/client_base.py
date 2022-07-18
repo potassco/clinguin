@@ -1,10 +1,10 @@
 import time
 
-from client.api import Api
-from client.call_dto import CallDto
+from client.api.api import Api
+from client.api.call_dto import CallDto
 
-from client.abstract_gui import AbstractGui
-from client.tkinter_gui import TkinterGui
+from client.presentation.abstract_gui import AbstractGui
+from client.presentation.tkinter.tkinter_gui import TkinterGui
 
 class ClientBase:
 
@@ -30,6 +30,7 @@ class ClientBase:
             if status_code == 200:
                 self.connected = True
             else:
+                print("Waiting for connection")
                 time.sleep(1)
 
     def draw(self):

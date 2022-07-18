@@ -2,10 +2,12 @@
 import tkinter as tk
 from tkinter import ttk
 
-from client.abstract_gui import AbstractGui
 
-# TODO -> Not beautiful, implement new one?
+# TODO -> Not beautiful, implement new one or create shared folder?
 from server.application.attribute import AttributeDto
+
+from client.presentation.abstract_gui import AbstractGui
+from client.presentation.tkinter.call_back_definition import CallBackDefinition
 
 
 class TkinterGui(AbstractGui):
@@ -42,6 +44,8 @@ class TkinterGui(AbstractGui):
             "width" : AttributeDto(id, "width", root.winfo_screenwidth()),
             "height" : AttributeDto(id, "height", root.winfo_screenheight()),
             "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "resizablex" : AttributeDto(id, "resizablex", 1),
+            "resizabley" : AttributeDto(id, "resizabley", 1),
             }
             
 
@@ -58,6 +62,7 @@ class TkinterGui(AbstractGui):
         root.geometry(geom_string)
         
         root.configure(background = tka["backgroundcolor"].value)
+        root.resizable(tka['resizablex'].value,tka['resizabley'].value)
             
         self.elements[str(id)] = (root, {})
 
@@ -67,8 +72,8 @@ class TkinterGui(AbstractGui):
 
  
         tkinter_attributes = {
-            "width" : AttributeDto(id, "width", "100"),
-            "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "width" : AttributeDto(id, "width", "1"),
+            "backgroundcolor" : AttributeDto(id, "background", "red"),
             "selected" : AttributeDto(id, "variable", ""),
             "initially_selected" : AttributeDto(id, "variable", "")
             }
@@ -90,8 +95,8 @@ class TkinterGui(AbstractGui):
             variable.set(tkinter_attributes["selected"].value)
         
         items = []
-
-        menu = ttk.OptionMenu(self.elements[parent][0], variable, *items, command=self.dropdownmenuitemClick)
+        
+        menu = ttk.OptionMenu(self.elements[parent][0], variable, *items)
         menu.pack(expand=True)
          
         tka = tkinter_attributes
@@ -123,7 +128,7 @@ class TkinterGui(AbstractGui):
         menu = self.elements[str(parent)][0]
 
         
-        menu['menu'].add_command(label=tka["label"].value, command=Test(id, parent, click_policy, self.dropdownmenuitemClick)) 
+        menu['menu'].add_command(label=tka["label"].value, command=CallBackDefinition(id, parent, click_policy, self.dropdownmenuitemClick)) 
 
 
     def container(self, id, parent, attributes, callbacks):
@@ -131,7 +136,7 @@ class TkinterGui(AbstractGui):
         tkinter_attributes = {
             "gridx" : AttributeDto(id, "gridx", -1),
             "gridy" : AttributeDto(id, "gridy", -1),
-            "backgroundcolor" : AttributeDto(id, "background", "white"),
+            "backgroundcolor" : AttributeDto(id, "backgroundcolor", "white"),
             "width" : AttributeDto(id, "width", 50),
             "height" : AttributeDto(id, "height", 50)
             }
@@ -154,13 +159,13 @@ class TkinterGui(AbstractGui):
         if int(tka["gridx"].value) >= 0 and int(tka["gridy"].value) >= 0:
             container.grid(column = int(tka["gridx"].value), row = int(tka["gridy"].value))
 
-
         container.configure(background = tka["backgroundcolor"].value)
 
         container.configure(width = int(tka["width"].value))
         container.configure(height = int(tka["height"].value))
 
         container.pack_propagate(0)
+
         
         self.elements[str(id)] = (container, {})
 
@@ -178,14 +183,4 @@ class TkinterGui(AbstractGui):
     def draw(self, id):
         self.first = False
         self.elements[id][0].mainloop()
-
-class Test:
-    def __init__(self, id, parent, click_policy, callback):
-        self._id = id
-        self._parent = parent
-        self._click_policy = click_policy
-        self._callback = callback
-
-    def __call__(self, *args):
-        self._callback(self._id, self._parent, self._click_policy)
 

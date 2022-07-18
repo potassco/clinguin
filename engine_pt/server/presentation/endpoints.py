@@ -4,8 +4,6 @@ from fastapi import FastAPI, APIRouter
 from pydantic import BaseModel
 from typing import Sequence, Any
 
-import uvicorn
-
 # Self Defined
 from server.presentation.endpoints_helper import call_function
 from server.presentation.solver_dto import SolverDto

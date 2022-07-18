@@ -1,10 +1,10 @@
 import time
 
-from client.api import Api
-from client.call_dto import CallDto
+from client.api.api import Api
+from client.api.call_dto import CallDto
 
-from client.abstract_gui import AbstractGui
-from client.tkinter_gui import TkinterGui
+from client.presentation.abstract_gui import AbstractGui
+from client.presentation.tkinter.tkinter_gui import TkinterGui
 
 class ClientBase:
 

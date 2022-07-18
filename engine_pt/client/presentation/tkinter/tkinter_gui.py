@@ -2,10 +2,12 @@
 import tkinter as tk
 from tkinter import ttk
 
-from client.abstract_gui import AbstractGui
 
-# TODO -> Not beautiful, implement new one?
+# TODO -> Not beautiful, implement new one or create shared folder?
 from server.application.attribute import AttributeDto
+
+from client.presentation.abstract_gui import AbstractGui
+from client.presentation.tkinter.call_back_definition import CallBackDefinition
 
 
 class TkinterGui(AbstractGui):
@@ -126,7 +128,7 @@ class TkinterGui(AbstractGui):
         menu = self.elements[str(parent)][0]
 
         
-        menu['menu'].add_command(label=tka["label"].value, command=Test(id, parent, click_policy, self.dropdownmenuitemClick)) 
+        menu['menu'].add_command(label=tka["label"].value, command=CallBackDefinition(id, parent, click_policy, self.dropdownmenuitemClick)) 
 
 
     def container(self, id, parent, attributes, callbacks):
@@ -181,14 +183,4 @@ class TkinterGui(AbstractGui):
     def draw(self, id):
         self.first = False
         self.elements[id][0].mainloop()
-
-class Test:
-    def __init__(self, id, parent, click_policy, callback):
-        self._id = id
-        self._parent = parent
-        self._click_policy = click_policy
-        self._callback = callback
-
-    def __call__(self, *args):
-        self._callback(self._id, self._parent, self._click_policy)
 

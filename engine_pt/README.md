@@ -37,3 +37,26 @@ E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.
 
 Even though it is not the most ellegant way (and it will throw errors at you, so better hide), just `Ctr-C`.
 
+## Dependencies:
+
+All dependencies can be installed via `pip install XYZ` 
+
+- Server:
+    - json
+    - pydantic
+    - typing
+    - clingo
+    - clorm
+    - networkx
+    - fastapi
+    - uvicorn
+- Client:
+    - time
+    - json
+    - tkinter
+    - httpx
+
+
+
+
+

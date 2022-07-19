@@ -4,8 +4,8 @@ from server.data.element import ElementDao
 
 class ClingoCautiousWrapper(ClingoWrapper): 
 
-    def __init__(self, ctl, unifiers, assumptions, brave_elements):
-        super().__init__(ctl, unifiers, assumptions, brave_elements)
+    def __init__(self, instance, ctl, unifiers, assumptions, brave_elements):
+        super().__init__(instance, ctl, unifiers, assumptions, brave_elements)
         self.ctl.configuration.solve.enum_mode = 'cautious'
 
     def getElements(self):

@@ -15,8 +15,8 @@ Generates a ClassHierarchy which can easily be serialized
 """
 class StandardJsonEncoder:
 
-    def __init__(self):
-        pass
+    def __init__(self, instance):
+        self._instance = instance
 
     def encode(self, wrapper):
         elements_dict = {}

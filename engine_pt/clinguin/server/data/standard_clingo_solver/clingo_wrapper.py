@@ -6,7 +6,9 @@ from server.data.attribute import AttributeDao
 from server.data.callback import CallbackDao
 
 class ClingoWrapper:
-    def __init__(self, ctl, unifiers, assumptions, brave_elements):
+    def __init__(self, instance, ctl, unifiers, assumptions, brave_elements):
+
+        self._instance = instance
         self.ctl = ctl
         self.unifiers = unifiers
         self.assumptions = assumptions

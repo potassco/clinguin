@@ -1,53 +1,37 @@
 import json
 
-import clingo
-import clorm
 import networkx as nx
 
-from clorm import Predicate, ConstantField, RawField, Raw
-from clingo import Control
-from clingo.symbol import Function, Number, String
-from clorm import StringField, RawField
-
 from typing import Sequence, Any
-
-from server.data.element import ElementDao
-from server.data.attribute import AttributeDao
-from server.data.callback import CallbackDao
 
 from server.application.element import ElementDto
 from server.application.attribute import AttributeDto
 from server.application.callback import CallbackDto
 
+from server.data.standard_clingo_solver import StandardClingoSolver, ClingoWrapper
 
 """
 Generates a ClassHierarchy which can easily be serialized
 """
 class StandardJsonEncoder:
 
-    def __init__(self, facts):
-        self.facts = facts
-        self.unifiers = [ElementDao, AttributeDao, CallbackDao]
+    def __init__(self):
+        pass
 
-    def solve(self):
-
-        # Get widget dependency to define creation order
-        fb = clorm.parse_fact_string(self.facts, self.unifiers)
-
-
-        dependency = []
-        widgets_info = {}        
-        for w in fb.query(ElementDao).all():
-            widgets_info[w.id]={'parent':w.parent,'type':w.type}
-            dependency.append((w.id,w.parent))
-        DG = nx.DiGraph(dependency)
-        order = list(reversed(list(nx.topological_sort(DG))))
-
-        
+    def encode(self, wrapper):
         elements = {}
 
         root = ElementDto('root', 'root', 'root')
         elements[str(root.id)] = root    
+
+        dependency = []
+        widgets_info = {}        
+        for w in wrapper.getCautiousElements():
+            # Skip brave-elements
+            widgets_info[w.id]={'parent':w.parent,'type':w.type}
+            dependency.append((w.id,w.parent))
+        DG = nx.DiGraph(dependency)
+        order = list(reversed(list(nx.topological_sort(DG))))
 
         for element_id in order:
             if str(element_id) == 'root':
@@ -58,13 +42,13 @@ class StandardJsonEncoder:
 
 
             attributes = []
-            for a in fb.query(AttributeDao).where(AttributeDao.id == element_id).all():
+            for a in wrapper.getCautiousAttributesForElementId(element_id):
                 attributes.append(AttributeDto(a.id, a.key, a.value))
             element.setAttributes(attributes)
 
 
             callbacks = []
-            for c in fb.query(CallbackDao).where(CallbackDao.id == element_id).all():
+            for c in wrapper.getCautiousCallbacksForElementId(element_id):
                 callbacks.append(CallbackDto(c.id, c.action, c.policy))
             element.setCallbacks(callbacks)
 
@@ -73,26 +57,21 @@ class StandardJsonEncoder:
             elements[str(element.parent)].addChild(element)
 
 
-        return root
-
-
-    def addBraveElements(self, class_hierarchy:Any, prg:str, brave_elements:Sequence[str]) -> Any:
-        fb = clorm.parse_fact_string(prg, self.unifiers)
+        #-----------------------------------------------------------------------
+        # ----- BRAVE ----
+        #-----------------------------------------------------------------------
 
         dependency = []
         widgets_info = {}        
 
-        for t in brave_elements:
-            for w in fb.query(ElementDao).all():
-                # TODO -> More efficient Query, where one selects only ''dropdownmenuitem''
-                if (str(w.type) == t):
-                    widgets_info[w.id]={'parent':w.parent,'type':w.type}
-                    dependency.append((w.id,w.parent))
+        for w in wrapper.getBraveElements():
+            widgets_info[w.id]={'parent':w.parent,'type':w.type}
+            dependency.append((w.id,w.parent))
 
         DG = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(DG))))
 
-        clone = class_hierarchy.clone()
+        clone = root.clone()
         elements = clone.generateTable({})
 
         parents = set()
@@ -104,13 +83,13 @@ class StandardJsonEncoder:
             element = ElementDto(element_id, widgets_info[element_id]['type'], widgets_info[element_id]['parent'])
 
             attributes = []
-            for a in fb.query(AttributeDao).where(AttributeDao.id == element_id).all():
+            for a in wrapper.getBraveAttributesForElementId(element_id):
                 attributes.append(AttributeDto(a.id, a.key, a.value))
             element.setAttributes(attributes)
 
 
             callbacks = []
-            for c in fb.query(CallbackDao).where(CallbackDao.id == element_id).all():
+            for c in wrapper.getBraveCallbacksForElementId(element_id):
                 callbacks.append(CallbackDto(c.id, c.action, c.policy))
             element.setCallbacks(callbacks)
 
@@ -137,16 +116,3 @@ class StandardJsonEncoder:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
- 

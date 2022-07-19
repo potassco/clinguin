@@ -1,6 +1,6 @@
-from client.application.client_base import ClientBase
-from utils.logger import Logger
-from utils.singleton_container import SingletonContainer
+from clinguin.client.application.client_base import ClientBase
+from clinguin.utils.logger import Logger
+from clinguin.utils.singleton_container import SingletonContainer
 
 def start(time_stamp):
     logger = Logger(time_stamp + "-client")

@@ -7,14 +7,14 @@ class Logger:
 
 
     def __init__(self, name, reroute_default = False):
-        log_file_path = "../logs/" + name + ".log"
+        log_file_path = "./logs/" + name + ".log"
 
         formatter = logging.Formatter('%(levelname)s<%(asctime)s>: %(message)s')
 
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.DEBUG)
 
-        with open(log_file_path, "a") as file_object:
+        with open(log_file_path, "a+") as file_object:
             file_object.write("<<<<<NEW-LOG-INSTANCE-" + name + ">>>>>\n\n")
 
         handler_f = logging.FileHandler(log_file_path)

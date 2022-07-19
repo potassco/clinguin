@@ -13,9 +13,6 @@ class ArgumentParser():
 
         args = self._parseArgs()
 
-        print(args.solver)
-        print(args.source_files)
-
         source_files = self._checkSourceFilesExist(args.source_files)
 
         solvers = self._importSolver(args.solver)
@@ -49,7 +46,7 @@ class ArgumentParser():
 
     def _importSolver(self, solver_paths : Sequence[str]) -> Sequence[any]:
         solvers = []
-        default_solver_lib = 'server.application.standard_solver'
+        default_solver_lib = 'clinguin.server.application.standard_solver'
         default_solver_class = 'StandardSolver'
 
         import_error = False
@@ -89,7 +86,7 @@ class ArgumentParser():
 
     def _loadSolver(self, library_path, class_name, import_error, solvers) -> (bool, Sequence[Any]):
         new_solvers = solvers.copy()
-
+        print(library_path)
         module_spec = importlib.util.find_spec(library_path)
         if module_spec is not None:
             module = importlib.import_module(library_path)

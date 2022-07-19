@@ -1,7 +1,7 @@
 import json
 import httpx
 
-from client.api.call_dto import CallDto
+from clinguin.client.api.call_dto import CallDto
 
 class Api:
     

@@ -1,6 +1,6 @@
-from server.data.standard_clingo_solver.clingo_wrapper import ClingoWrapper
+from clinguin.server.data.standard_clingo_solver.clingo_wrapper import ClingoWrapper
 
-from server.data.element import ElementDao
+from clinguin.server.data.element import ElementDao
 
 class ClingoCautiousWrapper(ClingoWrapper): 
 

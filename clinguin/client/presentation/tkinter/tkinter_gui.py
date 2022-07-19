@@ -4,10 +4,10 @@ from tkinter import ttk
 
 
 # TODO -> Not beautiful, implement new one or create shared folder?
-from server.application.attribute import AttributeDto
+from clinguin.server.application.attribute import AttributeDto
 
-from client.presentation.abstract_gui import AbstractGui
-from client.presentation.tkinter.call_back_definition import CallBackDefinition
+from clinguin.client.presentation.abstract_gui import AbstractGui
+from clinguin.client.presentation.tkinter.call_back_definition import CallBackDefinition
 
 
 class TkinterGui(AbstractGui):

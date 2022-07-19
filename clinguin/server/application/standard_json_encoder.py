@@ -4,11 +4,11 @@ import networkx as nx
 
 from typing import Sequence, Any
 
-from server.application.element import ElementDto
-from server.application.attribute import AttributeDto
-from server.application.callback import CallbackDto
+from clinguin.server.application.element import ElementDto
+from clinguin.server.application.attribute import AttributeDto
+from clinguin.server.application.callback import CallbackDto
 
-from server.data.standard_clingo_solver.standard_clingo_solver import StandardClingoSolver
+from clinguin.server.data.standard_clingo_solver.standard_clingo_solver import StandardClingoSolver
 
 """
 Generates a ClassHierarchy which can easily be serialized

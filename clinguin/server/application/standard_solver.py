@@ -1,8 +1,8 @@
 import networkx as nx
 from typing import Sequence, Any
 
-from server.application.standard_json_encoder import StandardJsonEncoder
-from server.data.standard_clingo_solver.standard_clingo_solver import StandardClingoSolver
+from clinguin.server.application.standard_json_encoder import StandardJsonEncoder
+from clinguin.server.data.standard_clingo_solver.standard_clingo_solver import StandardClingoSolver
 
 class StandardSolver:
 

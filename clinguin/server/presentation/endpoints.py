@@ -5,12 +5,13 @@ from pydantic import BaseModel
 from typing import Sequence, Any
 
 # Self Defined
-from server.presentation.endpoints_helper import call_function
-from server.presentation.solver_dto import SolverDto
+from clinguin.server.presentation.endpoints_helper import call_function
+from clinguin.server.presentation.solver_dto import SolverDto
 
 import logging 
-from utils.logger import Logger
-from utils.singleton_container import SingletonContainer
+
+from clinguin.utils.logger import Logger
+from clinguin.utils.singleton_container import SingletonContainer
 
 
 class Endpoints:
@@ -34,6 +35,11 @@ class Endpoints:
 
 
     async def health(self):
+        # TODO get the real version:
+        # try:
+        #     VERSION = pkg_resources.require("clingraph")[0].version
+        # except pkg_resources.DistributionNotFound:
+        #     VERSION = '0.0.0'
         return {"version" : "0"}
 
     async def solver(self, solver:SolverDto):

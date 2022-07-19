@@ -1,10 +1,10 @@
 import time
 
-from client.api.api import Api
-from client.api.call_dto import CallDto
+from clinguin.client.api.api import Api
+from clinguin.client.api.call_dto import CallDto
 
-from client.presentation.abstract_gui import AbstractGui
-from client.presentation.tkinter.tkinter_gui import TkinterGui
+from clinguin.client.presentation.abstract_gui import AbstractGui
+from clinguin.client.presentation.tkinter.tkinter_gui import TkinterGui
 
 class ClientBase:
 

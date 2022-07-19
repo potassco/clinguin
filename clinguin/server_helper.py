@@ -1,7 +1,7 @@
 import uvicorn
 import logging
 
-from server.presentation.endpoints import Endpoints
+from .server.presentation.endpoints import Endpoints
 from fastapi import FastAPI, APIRouter
 
 def start(logic_programs, engines, time_stamp):
@@ -11,7 +11,7 @@ def start(logic_programs, engines, time_stamp):
 
     @app.on_event("startup")
     async def startup_event():
-        log_file_path = "../logs/" + log_file_name + ".log"
+        log_file_path = "./logs/" + log_file_name + ".log"
         formatter = logging.Formatter('%(levelname)s<%(asctime)s>: %(message)s')
 
         logger = logging.getLogger("uvicorn.access")

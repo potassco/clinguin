@@ -1,9 +1,9 @@
 import clorm
 import clingo
 
-from server.data.element import ElementDao
-from server.data.attribute import AttributeDao
-from server.data.callback import CallbackDao
+from clinguin.server.data.element import ElementDao
+from clinguin.server.data.attribute import AttributeDao
+from clinguin.server.data.callback import CallbackDao
 
 class ClingoWrapper:
     def __init__(self, instance, ctl, unifiers, assumptions, brave_elements):

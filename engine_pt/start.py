@@ -3,15 +3,17 @@ from subprocess import Popen
 import threading
 import sys
 
+from parse_input import ArgumentParser
 
-from server_helper import start
-from client_helper import start as cart
+from server_helper import start as server_start
+from client_helper import start as client_start
 
-print(sys.argv)
+parser = ArgumentParser()
+(logic_programs, engines) = parser.parse()
 
-server = threading.Thread(target=start)
-client = threading.Thread(target=cart)
-
+server = threading.Thread(target=server_start, args = [logic_programs, engines])
 server.start()
-client.start()
+
+client_start()
+
 

@@ -2,8 +2,7 @@ import networkx as nx
 from typing import Sequence, Any
 
 from server.application.standard_json_encoder import StandardJsonEncoder
-from server.data.standard_clingo_solver import StandardClingoSolver, ClingoWrapper
-
+from server.data.standard_clingo_solver.standard_clingo_solver import StandardClingoSolver
 class StandardSolver:
 
     def __init__(self, logic_programs):

@@ -30,5 +30,3 @@ attribute(m(X,Y), selected, V) :- sudoku(X,Y,V).
 attribute(mi(X,Y,V), label, V) :- sudoku(X,Y,V).
 
 
-
-

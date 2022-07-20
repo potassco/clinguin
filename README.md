@@ -31,9 +31,9 @@ See the `/syntax_discussion/20220714_alex_syntax.lp` file.
 
 ### Whole-Application
 
-`$ python start.py logic-program [... logic-program] --solver solver-library`
+`$ clinguin start.py logic-program [... logic-program] --solver solver-library`
 
-E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ clinguin examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 Or to specify the solver: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp --solver server.application.standard_solver.StandardSolver`
 

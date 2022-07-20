@@ -8,28 +8,35 @@ from typing import Sequence, Any
 from server.presentation.endpoints_helper import call_function
 from server.presentation.solver_dto import SolverDto
 
+import logging 
+from utils.logger import Logger
+from utils.singleton_container import SingletonContainer
+
+
 class Endpoints:
-    def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], name: str = "Default",) -> None:
-        self.name = name
+    def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], log_file_name:str) -> None:
+        logger = Logger(log_file_name, reroute_default = True)
+
+        self._instance = SingletonContainer(logger)
+        
         self.router = APIRouter()
 
         # Definition of endpoints
         self.router.add_api_route("/health", self.health, methods=["GET"])
         self.router.add_api_route("/", self.solver, methods=["POST"])
 
-        self._initSolver(logic_programs, solver_classes)
+        self._initSolver(logic_programs, solver_classes, self._instance)
         
         
-    def _initSolver(self, logic_programs : Sequence[str], solver_classes : Sequence[Any]) -> None:
+    def _initSolver(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], instance) -> None:
         self.solver = []
-        self.solver.append(solver_classes[0](logic_programs))
+        self.solver.append(solver_classes[0](logic_programs, instance))
 
 
     async def health(self):
         return {"version" : "0"}
 
     async def solver(self, solver:SolverDto):
-        
         splits = solver.function.split("(") 
 
         function = splits[0]

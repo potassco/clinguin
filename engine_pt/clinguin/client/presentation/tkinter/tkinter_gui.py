@@ -12,10 +12,11 @@ from client.presentation.tkinter.call_back_definition import CallBackDefinition
 
 class TkinterGui(AbstractGui):
 
-    def __init__(self, baseEngine):
+    def __init__(self, baseEngine, instance):
         print("Tkinter Gui")
         self.elements = {}
         self.baseEngine = baseEngine
+        self._instance = instance
 
         self.first = True
 

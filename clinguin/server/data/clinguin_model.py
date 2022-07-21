@@ -1,5 +1,6 @@
 import clorm
 import clingo
+import logging
 
 from clorm import Predicate, ConstantField, RawField, Raw
 from clingo import Control
@@ -12,7 +13,11 @@ from clinguin.server.data.callback import CallbackDao
 
 class ClinguinModel:
 
-    def __init__(self, files, factbase=None):
+    def __init__(self, files, parsed_config, factbase=None):
+
+        self._parsed_config = parsed_config
+        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
+
         self.ctl = Control()
         for f in files:
             self.ctl.load(str(f))

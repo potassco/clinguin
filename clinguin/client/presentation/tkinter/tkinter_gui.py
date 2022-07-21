@@ -12,10 +12,9 @@ class Attribute:
 
 class TkinterGui(AbstractGui):
 
-    def __init__(self, baseEngine, instance):
+    def __init__(self, baseEngine):
         self.elements = {}
         self.baseEngine = baseEngine
-        self._instance = instance
 
         self.first = True
 
@@ -171,7 +170,7 @@ class TkinterGui(AbstractGui):
     def dropdownmenuitemClick(self, id, parent, click_policy):
         variable = self.elements[str(parent)][1]["variable"]
         variable.set(id)
-        print(str(id) + "::" + str(parent) + "::" + str(click_policy))
+        # print(str(id) + "::" + str(parent) + "::" + str(click_policy))
         if (click_policy is not None):
             self.baseEngine.assume(click_policy)
 

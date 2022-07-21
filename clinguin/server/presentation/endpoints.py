@@ -19,10 +19,10 @@ from clinguin.server.application.standard_solver import ClingoBackend
 
 class Endpoints:
     def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], parsed_config) -> None:
-        logger = Logger(parsed_config['timestamp'] + '-server', reroute_default = True)
+        Logger.setupLogger(parsed_config['logger']['server'])
+        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
 
         self._parsed_config = parsed_config
-        self._instance = SingletonContainer(logger)
         
         self.router = APIRouter()
 
@@ -31,20 +31,14 @@ class Endpoints:
         self.router.add_api_route("/", self.standardSolver, methods=["GET"])
         self.router.add_api_route("/solver", self.solver, methods=["POST"])
 
-        self._initSolver(logic_programs, solver_classes, self._instance)
-
-        
-        
-    def _initSolver(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], instance) -> None:
         self._solver = []
-        self._solver.append(solver_classes[0](logic_programs))
-
+        self._solver.append(solver_classes[0](parsed_config, logic_programs))
 
     async def health(self):
         return {
-            "name" : self._parsed_config["name"],
-            "version" : self._parsed_config["version"],
-            "description" : self._parsed_config["description"]
+            "name" : self._parsed_config["metadata"]["name"],
+            "version" : self._parsed_config["metadata"]["version"],
+            "description" : self._parsed_config["metadata"]["description"]
             }
 
     async def standardSolver(self):

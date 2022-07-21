@@ -1,4 +1,5 @@
 import time
+import logging
 
 from clinguin.client.api.api import Api
 from clinguin.client.api.call_dto import CallDto
@@ -10,14 +11,16 @@ class ClientBase:
 
     endpoint_health = "health"
 
-    def __init__(self, instance):
-        self.api = Api(instance)
+    def __init__(self, parsed_config):
+        self._parsed_config = parsed_config
+        self._logger = logging.getLogger(parsed_config['logger']['client']['name'])
+
+        self.api = Api(parsed_config)
         self.connected = False
-        self._instance = instance
 
         self.solve_dto = CallDto("solve")
 
-        self.gui_generator = TkinterGui(self, instance)
+        self.gui_generator = TkinterGui(self)
 
 
     def startUp(self):
@@ -29,20 +32,18 @@ class ClientBase:
             (status_code, json) = self.api.get(self.endpoint_health)
 
             if status_code == 200:
-                self._instance.logger.info("Successfully connected to server")
                 self.connected = True
             else:
-                self._instance.logger.info("Waiting for connection")
+                logging.getLogger("client").info("Waiting for connection")
                 time.sleep(1)
 
     def draw(self):
         (status_code, response) = self.api.get("")
         if status_code == 200:
             self.baseEngine(response)
-            self._instance.logger.info("Draw of GUI complete")
             self.gui_generator.draw(response['children'][0]['id'])
         else:
-            self._instance.logger.error("Connection error, staus code: " + str(status_code))
+            logging.getLogger("client").error("Connection error, status code: " + str(status_code))
 
             self.connected = False
             self.connect()
@@ -61,7 +62,7 @@ class ClientBase:
 
                 self.baseEngine(child)
             else:
-                self._instance.logger.warning("Could not find element type: " + child['type'])
+                logging.getLogger("client").error("Could not find element type: " + child['type'])
 
     def assume(self, click_policy):
         self.api.post("solver", CallDto(click_policy))

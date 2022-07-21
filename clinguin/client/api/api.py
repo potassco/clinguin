@@ -1,25 +1,29 @@
 import json
 import httpx
+import logging
 
 from clinguin.client.api.call_dto import CallDto
 
 class Api:
     
-    def __init__(self, instance, base_url = "http://127.0.0.1:8000/"):
+    def __init__(self, parsed_config, base_url = "http://127.0.0.1:8000/"):
+
+        self._parsed_config = parsed_config
+        self._logger = logging.getLogger(parsed_config['logger']['client']['name'])
+
         self.base_url = base_url
-        self._instance = instance
 
     def get(self, endpoint):
-        self._instance.logger.info("Sending GET request to: " + str(self.base_url + endpoint))
         try:
+            self._logger.debug("Sending GET to " + str(self.base_url) + str(endpoint))
             r = httpx.get(self.base_url + endpoint)
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")
 
     def post(self, endpoint, body:CallDto):
-        self._instance.logger.info("Sending POST request to: " + str(self.base_url + endpoint) + ", with the content: " + str(body.function))
         try:
+            self._logger.debug("Sending POST to " + str(self.base_url) + str(endpoint) + " with content:" + str(body.function))
             r = httpx.post(self.base_url + endpoint, data = body.toJSON())
             return (r.status_code, r.json())
         except httpx.ConnectError:

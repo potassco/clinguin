@@ -1,12 +1,18 @@
 import networkx as nx
 from typing import Sequence, Any
 
+import logging
+
 from clinguin.server.application.standard_json_encoder import StandardJsonEncoder
 
 from clinguin.server.data.clinguin_model import ClinguinModel
 
 # Like an interface
 class ClinguinBackend:
+    
+    def __init__(self, parsed_config):
+        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
+        self._parsed_config = parsed_config
 
     @classmethod
     def _registerOptions(cls, parser):
@@ -17,16 +23,11 @@ class ClinguinBackend:
 
 class ClingoBackend(ClinguinBackend):
 
-    def __init__(self, files):
-
-        self._setup(files)
-        
-    def _setup(self, files):
-
+    def __init__(self, parsed_config, files):
+        super().__init__(parsed_config)
         self._assumptions = set()
         self._files = files
-        print("ClingoBackend Setup clomplete")
-    
+   
     """
     # TODO 
     @classmethod
@@ -55,9 +56,9 @@ class ClingoBackend(ClinguinBackend):
 
     # becomes an endpoint option is the basic default one! instead of solve just get
     def _get(self):
-        print("_get()")
+        self._logger.debug("_get()")
         
-        model = ClinguinModel(self._files)
+        model = ClinguinModel(self._files, self._parsed_config)
         model.computeCautious(self._assumptions, lambda w: True)
         model.computeBrave(self._assumptions, lambda w : str(w.type) == 'dropdownmenuitem')
 
@@ -65,20 +66,20 @@ class ClingoBackend(ClinguinBackend):
 
     # becomes an endpoint option
     def assume(self, predicate):
-        print("assume()")
+        self._logger.debug("assume(" + str(predicate) + ")")
         if predicate not in self._assumptions:
             self._assumptions.add(predicate)
         return self._get()
     
     # becomes an endpoint option
-    def solve(self, predicate):
-        print("solve()")
+    def solve(self):
+        self._logger.debug("solve()")
         self.model = None
         return self._get()
 
     # becomes an endpoint option
     def remove(self, predicate):
-        print("remove()")
+        self._logger.debug("remove(" + str(predicate) + ")")
         if predicate in self._assumptions:
             self._assumptions.remove(predicate)
             self._assumptions.remove("assume(" + predicate + ")")

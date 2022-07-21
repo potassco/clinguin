@@ -1,70 +1,78 @@
 import logging
 
+log_levels = {
+    "NOTSET" : logging.NOTSET,
+    "DEBUG" : logging.DEBUG,
+    "INFO" : logging.INFO,
+    "WARNING" : logging.WARNING,
+    "ERROR" : logging.ERROR,
+    "CRITICAL" : logging.CRITICAL
+}
 
 class Logger:
+    
+    @classmethod
+    def _getLogFilePath(ctl, logger_config):
+        log_file_path = "./logs/" + logger_config['timestamp'] + "-" + logger_config['name'] + ".log"
+        return log_file_path
 
-    instance = None 
+    @classmethod
+    def _addShellHandlerToLogger(ctl, logger, logger_config):
+        shell_formatter = logging.Formatter(logger_config['format_shell'])
 
-
-    def __init__(self, name, reroute_default = False):
-        log_file_path = "./logs/" + name + ".log"
-
-        formatter = logging.Formatter('%(levelname)s<%(asctime)s>: %(message)s')
-
-        self.logger = logging.getLogger(name)
-        self.logger.setLevel(logging.DEBUG)
-
-        with open(log_file_path, "a+") as file_object:
-            file_object.write("<<<<<NEW-LOG-INSTANCE-" + name + ">>>>>\n\n")
-
-        handler_f = logging.FileHandler(log_file_path)
-        handler_f.setFormatter(formatter)
+        logger.setLevel(log_levels[logger_config['log_level']])
 
         handler_sh = logging.StreamHandler()
-        handler_sh.setFormatter(formatter)
+        handler_sh.setFormatter(shell_formatter)
 
-        self.logger.addHandler(handler_f)
-        self.logger.addHandler(handler_sh)
+        logger.addHandler(handler_sh)
 
-        """
-        if reroute_default:
-            loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
-            print(loggers)
+    @classmethod
+    def _addFileHandlerToLogger(ctl, logger, logger_config, log_file_path):
+        file_formatter = logging.Formatter(logger_config['format_file'])
 
-            uvicorn_error = logging.getLogger("uvicorn.error")
+        with open(log_file_path, "a+") as file_object:
+            file_object.write("<<<<<NEW-LOG-INSTANCE-" + logger_config['name'] + ">>>>>\n\n")
 
-            print(uvicorn_error.hasHandlers())
-            
-            uvicorn_error.addHandler(handler_sh)
-            uvicorn_error.addHandler(handler_f)
-            #uvicorn_error.disabled = True
-            uvicorn_access = logging.getLogger("uvicorn.access")
-            uvicorn_access.disabled = True
+        handler_f = logging.FileHandler(log_file_path)
+        handler_f.setFormatter(file_formatter)
+        logger.addHandler(handler_f)
 
-            uvicorn = logging.getLogger("uvicorn")
-            print(uvicorn.hasHandlers())
-            uvicorn = logging.getLogger("fastapi")
-            print(uvicorn.hasHandlers())
-            uvicorn = logging.getLogger()
-            print(uvicorn.hasHandlers())
-        """
- 
-             
-            #default.addHandler(handler_f)
 
-    def debug(self, message):
-        self.logger.debug(message)
 
-    def info(self, message):
-        self.logger.info(message)
 
-    def warning(self, message):
-        self.logger.warning(message)
+    @classmethod
+    def setupLogger(ctl, logger_config):
+        log_file_path = ctl._getLogFilePath(logger_config)
 
-    def error(self, message):
-        self.logger.error(message)
+        logger = logging.getLogger(logger_config['name'])
+        ctl._addShellHandlerToLogger(logger, logger_config)
+        ctl._addFileHandlerToLogger(logger, logger_config, log_file_path)
 
-    def critical(self, message):
-        self.logger.critical(message)
+    @classmethod
+    def setupUvicornLoggerOnStartup(ctl, logger_config):
+        # ----------------------------------------------------------
+        # Remove handlers from uvicorn loggers
 
-    
+        logger = logging.getLogger("uvicorn.access")
+        for handler in logger.handlers:
+            logger.removeHandler(handler)
+
+        logger = logging.getLogger("uvicorn.error")
+        for handler in logger.handlers:
+            logger.removeHandler(handler)
+
+        logger = logging.getLogger("uvicorn")
+        for handler in logger.handlers:
+            logger.removeHandler(handler)
+        
+        # Add new handlers to top-level-uvicorn logger
+        log_file_path = ctl._getLogFilePath(logger_config)
+
+        logger = logging.getLogger("uvicorn")
+        ctl._addShellHandlerToLogger(logger, logger_config)
+        ctl._addFileHandlerToLogger(logger, logger_config, log_file_path)
+
+
+        
+

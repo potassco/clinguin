@@ -47,7 +47,7 @@ class ArgumentParser():
     def _importSolver(self, solver_paths : Sequence[str]) -> Sequence[any]:
         solvers = []
         default_solver_lib = 'clinguin.server.application.standard_solver'
-        default_solver_class = 'StandardSolver'
+        default_solver_class = 'ClingoBackend'
 
         import_error = False
         if solver_paths == None or len(solver_paths) == 0:

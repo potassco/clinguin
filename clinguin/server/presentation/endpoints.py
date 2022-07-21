@@ -10,10 +10,10 @@ from typing import Sequence, Any
 from clinguin.server.presentation.endpoints_helper import call_function
 from clinguin.server.presentation.solver_dto import SolverDto
 
-
 from clinguin.utils.logger import Logger
 from clinguin.utils.singleton_container import SingletonContainer
 
+from clinguin.server.application.standard_solver import ClingoBackend
 
 class Endpoints:
     def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], log_file_name:str) -> None:
@@ -25,14 +25,16 @@ class Endpoints:
 
         # Definition of endpoints
         self.router.add_api_route("/health", self.health, methods=["GET"])
-        self.router.add_api_route("/", self.solver, methods=["POST"])
+        self.router.add_api_route("/", self.standardSolver, methods=["GET"])
+        self.router.add_api_route("/solver", self.solver, methods=["POST"])
 
         self._initSolver(logic_programs, solver_classes, self._instance)
+
         
         
     def _initSolver(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], instance) -> None:
-        self.solver = []
-        self.solver.append(solver_classes[0](logic_programs, instance))
+        self._solver = []
+        self._solver.append(solver_classes[0](logic_programs))
 
 
     async def health(self):
@@ -43,8 +45,12 @@ class Endpoints:
         #     VERSION = '0.0.0'
         return {"version" : "0"}
 
-    async def solver(self, solver:SolverDto):
-        splits = solver.function.split("(") 
+    async def standardSolver(self):
+        return self._solver[0]._get()
+
+    async def solver(self, solver_call_string:SolverDto):
+
+        splits = solver_call_string.function.split("(") 
 
         function = splits[0]
 
@@ -76,7 +82,7 @@ class Endpoints:
 
             cur = cur + char
 
-        result = call_function(self.solver, function, arguments, {})
+        result = call_function(self._solver, function, arguments, {})
         return result
 
 

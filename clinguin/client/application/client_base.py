@@ -36,7 +36,7 @@ class ClientBase:
                 time.sleep(1)
 
     def draw(self):
-        (status_code, response) = self.api.post("", self.solve_dto)
+        (status_code, response) = self.api.get("")
         if status_code == 200:
             self.baseEngine(response)
             self._instance.logger.info("Draw of GUI complete")
@@ -64,7 +64,7 @@ class ClientBase:
                 self._instance.logger.warning("Could not find element type: " + child['type'])
 
     def assume(self, click_policy):
-        self.api.post("", CallDto(click_policy))
+        self.api.post("solver", CallDto(click_policy))
 
         time.sleep(1)
         self.draw()

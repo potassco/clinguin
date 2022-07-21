@@ -8,8 +8,6 @@ from clinguin.server.application.element import ElementDto
 from clinguin.server.application.attribute import AttributeDto
 from clinguin.server.application.callback import CallbackDto
 
-from clinguin.server.data.standard_clingo_solver.standard_clingo_solver import StandardClingoSolver
-
 """
 Generates a ClassHierarchy which can easily be serialized
 """
@@ -18,19 +16,20 @@ class StandardJsonEncoder:
     def __init__(self, instance):
         self._instance = instance
 
-    def encode(self, wrapper):
+    @classmethod
+    def encode(ctl, model):
         elements_dict = {}
 
         root = ElementDto('root', 'root', 'root')
         elements_dict[str(root.id)] = root    
 
-        self._generateHierarchy(wrapper.cautious_wrapper, root, elements_dict)
-        self._generateHierarchy(wrapper.brave_wrapper, root, elements_dict)
+        ctl._generateHierarchy(model, root, elements_dict)
+        #self._generateHierarchy(wrapper.brave_wrapper, root, elements_dict)
 
         return root
 
-
-    def _generateHierarchy(self, wrapper, hierarchy_root, elements_dict):
+    @classmethod
+    def _generateHierarchy(ctl, wrapper, hierarchy_root, elements_dict):
 
         dependency = []
         widgets_info = {}        

@@ -13,18 +13,37 @@ class ArgumentParser():
 
         args = self._parseArgs()
 
-        source_files = self._checkSourceFilesExist(args.source_files)
+        return_dict = {}
+        return_dict['method'] = args.method
 
-        solvers = self._importSolver(args.solver)
+        if args.method == 'server' or args.method == 'client-server':
+            return_dict['source_files'] = self._checkSourceFilesExist(args.source_files)
+            return_dict['solvers'] = self._importSolver(args.solver)
         
-        return (source_files, solvers)
+        return return_dict
 
 
     def _parseArgs(self) -> Any:
         parser = argparse.ArgumentParser(description = 'Clinguin is a GUI language extension for a logic program that uses Clingo.')
 
-        parser.add_argument('--solver', type = str, nargs = '*', help = 'Optionally specify which solver(s) to use (seperate solvers by \',\'')
-        parser.add_argument('source_files', nargs = '+', help = 'Specify at least one source file')
+        subparsers = parser.add_subparsers(help='sub-command help')
+
+        # Client
+        parser_client = subparsers.add_parser('client')
+        parser_client.set_defaults(method='client')
+        
+        # Server
+        parser_server = subparsers.add_parser('server')
+        parser_server.add_argument('--solver', type = str, nargs = 1, help = 'Optionally specify which solver(s) to use (seperate solvers by \',\'')
+        parser_server.add_argument('source_files', nargs = '+', help = 'Specify at least one source file')
+        parser_server.set_defaults(method='server')
+
+        # Client-Server
+        parser_server_client = subparsers.add_parser('client-server')
+        parser_server_client.add_argument('--solver', type = str, nargs = 1, help = 'Optionally specify which solver(s) to use (seperate solvers by \',\'')
+        parser_server_client.add_argument('source_files', nargs = '+', help = 'Specify at least one source file')
+        parser_server_client.set_defaults(method='client-server')
+
 
         args = parser.parse_args()
         

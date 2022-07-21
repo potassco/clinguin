@@ -12,7 +12,7 @@ from clinguin.client_helper import start as client_start
 
 
 parser = ArgumentParser()
-(logic_programs, engines) = parser.parse()
+args_dict = parser.parse()
 
 
 config = configparser.ConfigParser(interpolation=None)
@@ -35,7 +35,11 @@ for key in config['options.logger']:
     if 'timestamp' not in parsed_config['logger'][str(key)]:
         parsed_config['logger'][str(key)]['timestamp'] = timestamp
 
-server = threading.Thread(target=server_start, args = [logic_programs, engines, parsed_config])
-server.start()
+if args_dict['method'] == 'server' or args_dict['method'] == 'client-server':
+    server = threading.Thread(target=server_start, args = [args_dict['source_files'], args_dict['solvers'], parsed_config])
+    server.start()
 
-client_start(parsed_config)
+if args_dict['method'] == 'client' or args_dict['method'] == 'client-server':
+    client_start(parsed_config)
+
+

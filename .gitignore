@@ -8,3 +8,4 @@ clinguin.egg-info*
 build
 .mypy_cache/
 dist/
+logs/*

@@ -1,7 +1,7 @@
 import uvicorn
 import logging
 
-from .server.presentation.endpoints import Endpoints
+from clinguin.server.presentation.endpoints import Endpoints
 from fastapi import FastAPI, APIRouter
 
 def start(logic_programs, engines, time_stamp):

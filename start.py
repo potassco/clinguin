@@ -4,10 +4,10 @@ import threading
 import sys
 from datetime import datetime
 
-from parse_input import ArgumentParser
+from clinguin.parse_input import ArgumentParser
 
-from server_helper import start as server_start
-from client_helper import start as client_start
+from clinguin.server_helper import start as server_start
+from clinguin.client_helper import start as client_start
 
 
 parser = ArgumentParser()

@@ -1,6 +1,8 @@
 # Standard Python
 from fastapi import FastAPI, APIRouter
 
+import logging 
+
 from pydantic import BaseModel
 from typing import Sequence, Any
 
@@ -8,7 +10,6 @@ from typing import Sequence, Any
 from clinguin.server.presentation.endpoints_helper import call_function
 from clinguin.server.presentation.solver_dto import SolverDto
 
-import logging 
 
 from clinguin.utils.logger import Logger
 from clinguin.utils.singleton_container import SingletonContainer

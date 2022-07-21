@@ -2,6 +2,7 @@
 from fastapi import FastAPI, APIRouter
 
 import logging 
+import clingo
 
 from pydantic import BaseModel
 from typing import Sequence, Any
@@ -15,10 +16,12 @@ from clinguin.utils.singleton_container import SingletonContainer
 
 from clinguin.server.application.standard_solver import ClingoBackend
 
-class Endpoints:
-    def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], log_file_name:str) -> None:
-        logger = Logger(log_file_name, reroute_default = True)
 
+class Endpoints:
+    def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], parsed_config) -> None:
+        logger = Logger(parsed_config['timestamp'] + '-server', reroute_default = True)
+
+        self._parsed_config = parsed_config
         self._instance = SingletonContainer(logger)
         
         self.router = APIRouter()
@@ -38,51 +41,22 @@ class Endpoints:
 
 
     async def health(self):
-        # TODO get the real version:
-        # try:
-        #     VERSION = pkg_resources.require("clingraph")[0].version
-        # except pkg_resources.DistributionNotFound:
-        #     VERSION = '0.0.0'
-        return {"version" : "0"}
+        return {
+            "name" : self._parsed_config["name"],
+            "version" : self._parsed_config["version"],
+            "description" : self._parsed_config["description"]
+            }
 
     async def standardSolver(self):
         return self._solver[0]._get()
 
     async def solver(self, solver_call_string:SolverDto):
 
-        splits = solver_call_string.function.split("(") 
+        symbol = clingo.parse_term(solver_call_string.function)
+        function_name = symbol.name
+        function_arguments = (list(map(lambda symb:str(symb), symbol.arguments)))
 
-        function = splits[0]
-
-        rest = ""
-        for i in range(1, len(splits)):
-            if i == 1:
-                rest = rest + splits[i]
-            else:
-                rest = rest + "(" + splits[i]
-
-
-        arguments = []
-        cur = ""
-        open_brackets = 0
-        for char in rest:
-            if char == '(':
-                open_brackets = open_brackets + 1
-            elif char == ')':
-                if open_brackets > 0:
-                    open_brackets = open_brackets - 1
-                else: # Last Character
-                    arguments.append(cur)
-                    break
-                    
-            elif char == ',' and open_brackets == 0:
-                arguments.append(cur)
-                cur = ""
-                continue
-
-            cur = cur + char
-
-        result = call_function(self._solver, function, arguments, {})
+        result = call_function(self._solver, function_name, function_arguments, {})
         return result
 
 

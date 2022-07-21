@@ -2,6 +2,8 @@ from subprocess import Popen
 
 import threading
 import sys
+import configparser
+
 from datetime import datetime
 
 from clinguin.parse_input import ArgumentParser
@@ -15,9 +17,16 @@ parser = ArgumentParser()
 
 timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
 
-server = threading.Thread(target=server_start, args = [logic_programs, engines, timestamp])
+config = configparser.ConfigParser()
+config.read('setup.cfg')
+
+parsed_config = {}
+for key in config['metadata']:
+    parsed_config[str(key)] = str(config['metadata'][key])
+parsed_config['timestamp'] = timestamp
+
+server = threading.Thread(target=server_start, args = [logic_programs, engines, parsed_config])
 server.start()
 
-client_start(timestamp)
-
+client_start(parsed_config)
 

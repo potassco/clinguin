@@ -4,8 +4,8 @@ import logging
 from clinguin.server.presentation.endpoints import Endpoints
 from fastapi import FastAPI, APIRouter
 
-def start(logic_programs, engines, time_stamp):
-    log_file_name = time_stamp + "-server"
+def start(logic_programs, engines, parsed_config):
+    log_file_name = parsed_config['timestamp'] + "-server"
     app = FastAPI()
     
 
@@ -35,7 +35,7 @@ def start(logic_programs, engines, time_stamp):
         logger.addHandler(handler_sh)
 
 
-    hello = Endpoints(logic_programs, engines, log_file_name)
+    hello = Endpoints(logic_programs, engines, parsed_config)
     app.include_router(hello.router)
 
     uvicorn.run(app)

@@ -2,6 +2,9 @@ import networkx as nx
 from typing import Sequence, Any
 
 import logging
+import clingo
+from clingo import Control
+from clingo.symbol import Function, Number, String
 
 from clinguin.server.application.standard_json_encoder import StandardJsonEncoder
 
@@ -15,6 +18,11 @@ class ClingoBackend(ClinguinBackend):
         super().__init__(parsed_config)
         self._assumptions = set()
         self._files = args_dict['source_files']
+
+        self._ctl = Control()
+        for f in self._files:
+            self._ctl.load(str(f))
+        self._ctl.ground([("base", [])])
    
     @classmethod
     def _registerOptions(cls, parser):
@@ -25,8 +33,8 @@ class ClingoBackend(ClinguinBackend):
         self._logger.debug("_get()")
         
         model = ClinguinModel(self._files, self._parsed_config)
-        model.computeCautious(self._assumptions, lambda w: True)
-        model.computeBrave(self._assumptions, lambda w : str(w.type) == 'dropdownmenuitem')
+        model.computeCautious(self._ctl, self._assumptions, lambda w: True)
+        model.computeBrave(self._ctl, self._assumptions, lambda w : str(w.type) == 'dropdownmenuitem')
 
         return StandardJsonEncoder.encode(model)
 

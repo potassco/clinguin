@@ -7,52 +7,18 @@ from clinguin.server.application.standard_json_encoder import StandardJsonEncode
 
 from clinguin.server.data.clinguin_model import ClinguinModel
 
-# Like an interface
-class ClinguinBackend:
-    
-    def __init__(self, parsed_config):
-        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
-        self._parsed_config = parsed_config
-
-    @classmethod
-    def _registerOptions(cls, parser):
-        pass
-
-    def _get(self):
-        pass
+from clinguin.server.application.clinguin_backend import ClinguinBackend
 
 class ClingoBackend(ClinguinBackend):
 
-    def __init__(self, parsed_config, files):
+    def __init__(self, parsed_config, args_dict):
         super().__init__(parsed_config)
         self._assumptions = set()
-        self._files = files
+        self._files = args_dict['source_files']
    
-    """
-    # TODO 
     @classmethod
     def _registerOptions(cls, parser):
-        parser.add_argument('files', nargs = '+', help = 'Files')
-        # any argument passsed here will be passed to the init on creation
-        return ["files"] 
-        # clinguin server -h
-        # server --   
-        # ClingoBackend:
-        #     files: laksjsakds
-
-        # ConfigBackend:
-        #      name: sss
-
-        # clinguin server --server=ClingoBackend filesl
-        # clinguin server --server=ConfigBackend --name
-
-        # clinguin client -h
-        # server --   
-        # TkinterUI:
-        #     ksjaksjfklsa s s
-    """
-        
-
+        parser.add_argument('source_files', nargs = '+', help = 'Files')
 
     # becomes an endpoint option is the basic default one! instead of solve just get
     def _get(self):

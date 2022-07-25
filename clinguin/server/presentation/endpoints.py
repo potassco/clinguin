@@ -18,7 +18,7 @@ from clinguin.server.application.standard_solver import ClingoBackend
 
 
 class Endpoints:
-    def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], parsed_config) -> None:
+    def __init__(self ,args_dict ,parsed_config) -> None:
         Logger.setupLogger(parsed_config['logger']['server'])
         self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
 
@@ -32,7 +32,7 @@ class Endpoints:
         self.router.add_api_route("/solver", self.solver, methods=["POST"])
 
         self._solver = []
-        self._solver.append(solver_classes[0](parsed_config, logic_programs))
+        self._solver.append(args_dict['solver'][0](parsed_config, args_dict))
 
     async def health(self):
         return {

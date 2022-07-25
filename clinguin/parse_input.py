@@ -2,6 +2,7 @@ import argparse
 import importlib
 import sys
 import os
+import inspect
 
 from typing import Sequence, Any
 
@@ -11,56 +12,65 @@ class ArgumentParser():
 
     def parse(self):
 
-        args = self._parseArgs()
+        parser = self._createParser()
+        subparsers = parser.add_subparsers(help='sub-command help')
+
+        parser_client = self._createClientSubparser(subparsers)
+        parser_server = self._createServerSubparser(subparsers)
+        parser_client_server = self._createClientServerSubparser(subparsers)
+
+        args, unknown_args = parser.parse_known_args()
 
         return_dict = {}
         return_dict['method'] = args.method
 
         if args.method == 'server' or args.method == 'client-server':
-            return_dict['source_files'] = self._checkSourceFilesExist(args.source_files)
-            return_dict['solvers'] = self._importSolver(args.solver)
+            solver = self._importSolver(args.solver)    
+
+            self._addSolverArgumentsToParser(solver, parser_server)
+            self._addSolverArgumentsToParser(solver, parser_client_server)
+            
+            args, unknown_args = parser.parse_known_args()
+            if len(unknown_args) != 0:
+                print("[WARN (Pre-Logging-Phase)]: Could not parse arguments: " + str(unknown_args))
+            return_dict = vars(args)
+            return_dict['solver'] = solver
         
         return return_dict
 
-
-    def _parseArgs(self) -> Any:
+    def _createParser(self):
         parser = argparse.ArgumentParser(description = 'Clinguin is a GUI language extension for a logic program that uses Clingo.')
+        return parser
 
-        subparsers = parser.add_subparsers(help='sub-command help')
-
-        # Client
+    def _createClientSubparser(self, subparsers):
         parser_client = subparsers.add_parser('client')
         parser_client.set_defaults(method='client')
+
+        return parser_client
         
-        # Server
+    def _createServerSubparser(self, subparsers):
         parser_server = subparsers.add_parser('server')
         parser_server.add_argument('--solver', type = str, nargs = 1, help = 'Optionally specify which solver(s) to use (seperate solvers by \',\'')
-        parser_server.add_argument('source_files', nargs = '+', help = 'Specify at least one source file')
         parser_server.set_defaults(method='server')
 
-        # Client-Server
+        return parser_server
+
+    def _createClientServerSubparser(self, subparsers):
         parser_server_client = subparsers.add_parser('client-server')
         parser_server_client.add_argument('--solver', type = str, nargs = 1, help = 'Optionally specify which solver(s) to use (seperate solvers by \',\'')
-        parser_server_client.add_argument('source_files', nargs = '+', help = 'Specify at least one source file')
         parser_server_client.set_defaults(method='client-server')
 
+        return parser_server_client
 
-        args = parser.parse_args()
-        
-        return args
-
-
-    def _checkSourceFilesExist(self, source_files : Sequence[str]) -> Sequence[str]:
-        file_error = False
-        for f in source_files:
-            if os.path.exists(f) == False:
-                file_error = True
-
-        if file_error == True:
-            print("File load error")
-            sys.exit(1)
-
-        return source_files
+    def _addSolverArgumentsToParser(self, solvers, subparser):
+        for solver in solvers:
+            if hasattr(solver, '_registerOptions'):
+                opt_function_signature = inspect.getargspec(solver._registerOptions)
+                # [0] = args, [1] = varargs, [2] = keywords
+                if len(opt_function_signature[0]) == 2 and\
+                    opt_function_signature[1] == None and\
+                        opt_function_signature[2] == None:
+                    solver._registerOptions(subparser)
 
 
     def _importSolver(self, solver_paths : Sequence[str]) -> Sequence[any]:
@@ -83,7 +93,6 @@ class ArgumentParser():
         if import_error == True:
             print("Module import error")
             sys.exit(1)
-
         return solvers
 
 

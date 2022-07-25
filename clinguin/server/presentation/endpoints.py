@@ -2,6 +2,7 @@
 from fastapi import FastAPI, APIRouter
 
 import logging 
+import clingo
 
 from pydantic import BaseModel
 from typing import Sequence, Any
@@ -15,11 +16,13 @@ from clinguin.utils.singleton_container import SingletonContainer
 
 from clinguin.server.application.standard_solver import ClingoBackend
 
-class Endpoints:
-    def __init__(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], log_file_name:str) -> None:
-        logger = Logger(log_file_name, reroute_default = True)
 
-        self._instance = SingletonContainer(logger)
+class Endpoints:
+    def __init__(self ,args_dict ,parsed_config) -> None:
+        Logger.setupLogger(parsed_config['logger']['server'])
+        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
+
+        self._parsed_config = parsed_config
         
         self.router = APIRouter()
 
@@ -28,61 +31,26 @@ class Endpoints:
         self.router.add_api_route("/", self.standardSolver, methods=["GET"])
         self.router.add_api_route("/solver", self.solver, methods=["POST"])
 
-        self._initSolver(logic_programs, solver_classes, self._instance)
-
-        
-        
-    def _initSolver(self, logic_programs : Sequence[str], solver_classes : Sequence[Any], instance) -> None:
         self._solver = []
-        self._solver.append(solver_classes[0](logic_programs))
-
+        self._solver.append(args_dict['solver'][0](parsed_config, args_dict))
 
     async def health(self):
-        # TODO get the real version:
-        # try:
-        #     VERSION = pkg_resources.require("clingraph")[0].version
-        # except pkg_resources.DistributionNotFound:
-        #     VERSION = '0.0.0'
-        return {"version" : "0"}
+        return {
+            "name" : self._parsed_config["metadata"]["name"],
+            "version" : self._parsed_config["metadata"]["version"],
+            "description" : self._parsed_config["metadata"]["description"]
+            }
 
     async def standardSolver(self):
         return self._solver[0]._get()
 
     async def solver(self, solver_call_string:SolverDto):
 
-        splits = solver_call_string.function.split("(") 
+        symbol = clingo.parse_term(solver_call_string.function)
+        function_name = symbol.name
+        function_arguments = (list(map(lambda symb:str(symb), symbol.arguments)))
 
-        function = splits[0]
-
-        rest = ""
-        for i in range(1, len(splits)):
-            if i == 1:
-                rest = rest + splits[i]
-            else:
-                rest = rest + "(" + splits[i]
-
-
-        arguments = []
-        cur = ""
-        open_brackets = 0
-        for char in rest:
-            if char == '(':
-                open_brackets = open_brackets + 1
-            elif char == ')':
-                if open_brackets > 0:
-                    open_brackets = open_brackets - 1
-                else: # Last Character
-                    arguments.append(cur)
-                    break
-                    
-            elif char == ',' and open_brackets == 0:
-                arguments.append(cur)
-                cur = ""
-                continue
-
-            cur = cur + char
-
-        result = call_function(self._solver, function, arguments, {})
+        result = call_function(self._solver, function_name, function_arguments, {})
         return result
 
 

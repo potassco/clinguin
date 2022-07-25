@@ -31,7 +31,7 @@ See the `/syntax_discussion/20220714_alex_syntax.lp` file.
 
 ### Whole-Application
 
-`$ clinguin start.py logic-program [... logic-program] --solver solver-library`
+`$ clinguin start.py client-server [--solver=solver] logic-program [... logic-program] --solver solver-library`
 
 E.g. for the sudoku example: `$ clinguin examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
@@ -39,13 +39,13 @@ Or to specify the solver: `$ python start.py examples/sudoku/instance.lp example
 
 ### Only Server
 
-`$ python start_server.py logic-program [... logic-program]`
+`$ python start.py server [--solver=solver] logic-program [... logic-program]`
 
 E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 ### Only Client
 
-`$ python start_client.py`
+`$ python start.py client`
 
 ### Shutting down
 

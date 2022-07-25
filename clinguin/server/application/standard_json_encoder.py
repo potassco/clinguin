@@ -13,8 +13,8 @@ Generates a ClassHierarchy which can easily be serialized
 """
 class StandardJsonEncoder:
 
-    def __init__(self, instance):
-        self._instance = instance
+    def __init__(self):
+        pass
 
     @classmethod
     def encode(ctl, model):
@@ -24,7 +24,6 @@ class StandardJsonEncoder:
         elements_dict[str(root.id)] = root    
 
         ctl._generateHierarchy(model, root, elements_dict)
-        #self._generateHierarchy(wrapper.brave_wrapper, root, elements_dict)
 
         return root
 

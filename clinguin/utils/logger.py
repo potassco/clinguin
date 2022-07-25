@@ -20,7 +20,7 @@ class Logger:
     def _addShellHandlerToLogger(ctl, logger, logger_config):
         shell_formatter = logging.Formatter(logger_config['format_shell'])
 
-        logger.setLevel(log_levels[logger_config['log_level']])
+        logger.setLevel(log_levels[logger_config['level']])
 
         handler_sh = logging.StreamHandler()
         handler_sh.setFormatter(shell_formatter)
@@ -50,7 +50,7 @@ class Logger:
         ctl._addFileHandlerToLogger(logger, logger_config, log_file_path)
 
     @classmethod
-    def setupUvicornLoggerOnStartup(ctl, logger_config):
+    def setupUvicornLoggerOnStartup(ctl, args):
         # ----------------------------------------------------------
         # Remove handlers from uvicorn loggers
 
@@ -66,6 +66,7 @@ class Logger:
         for handler in logger.handlers:
             logger.removeHandler(handler)
         
+        logger_config = args.log_args
         # Add new handlers to top-level-uvicorn logger
         log_file_path = ctl._getLogFilePath(logger_config)
 

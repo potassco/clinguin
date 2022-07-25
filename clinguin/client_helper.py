@@ -2,10 +2,10 @@ from clinguin.client.application.client_base import ClientBase
 from clinguin.utils.logger import Logger
 from clinguin.utils.singleton_container import SingletonContainer
 
-def start(parsed_config):
-    Logger.setupLogger(parsed_config['logger']['client'])
+def start(args):
+    Logger.setupLogger(args.log_args)
     
-    client = ClientBase(parsed_config)
+    client = ClientBase(args)
     client.startUp()
 
 

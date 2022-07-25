@@ -12,10 +12,9 @@ from clinguin.server.data.callback import CallbackDao
 
 class ClinguinModel:
 
-    def __init__(self, files, parsed_config, factbase=None):
+    def __init__(self, files, logger, factbase=None):
 
-        self._parsed_config = parsed_config
-        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
+        self._logger = logger
         self.unifiers = [ElementDao, AttributeDao, CallbackDao]
 
         if factbase is None:

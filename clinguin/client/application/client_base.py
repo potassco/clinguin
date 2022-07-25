@@ -11,11 +11,10 @@ class ClientBase:
 
     endpoint_health = "health"
 
-    def __init__(self, parsed_config):
-        self._parsed_config = parsed_config
-        self._logger = logging.getLogger(parsed_config['logger']['client']['name'])
+    def __init__(self, args):
+        self._logger = logging.getLogger(args.log_args['name'])
 
-        self.api = Api(parsed_config)
+        self.api = Api(args)
         self.connected = False
 
         self.solve_dto = CallDto("solve")

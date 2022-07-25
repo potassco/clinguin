@@ -14,10 +14,10 @@ from clinguin.server.application.clinguin_backend import ClinguinBackend
 
 class ClingoBackend(ClinguinBackend):
 
-    def __init__(self, parsed_config, args_dict):
-        super().__init__(parsed_config)
+    def __init__(self, args):
+        super().__init__(args)
         self._assumptions = set()
-        self._files = args_dict['source_files']
+        self._files = args.source_files
 
         self._ctl = Control()
         for f in self._files:
@@ -32,10 +32,11 @@ class ClingoBackend(ClinguinBackend):
     def _get(self):
         self._logger.debug("_get()")
         
-        model = ClinguinModel(self._files, self._parsed_config)
+        model = ClinguinModel(self._files, self._logger)
         model.computeCautious(self._ctl, self._assumptions, lambda w: True)
         model.computeBrave(self._ctl, self._assumptions, lambda w : str(w.type) == 'dropdownmenuitem')
 
+        self._logger.debug("will encode")
         return StandardJsonEncoder.encode(model)
 
     # becomes an endpoint option

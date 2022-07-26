@@ -7,7 +7,6 @@ import textwrap
 import inspect
 from typing import Sequence, Any
 
-print(__name__)
 from .server.application.clinguin_backend import ClinguinBackend
 from .server.application.standard_solver import ClingoBackend
 
@@ -51,6 +50,7 @@ class ArgumentParser():
         self._createClientServerSubparser(subparsers,general_options_parser)
         
         args = parser.parse_args()
+
         self._addSelectedSolver(args)
 
         return args
@@ -117,7 +117,9 @@ class ArgumentParser():
         custom_imports_parser.add_argument('--custom-classes', type = str,
             help = 'Location of custom classes')
         self._addDefaultArgumentsToSolverParser(custom_imports_parser)
+
         args, _ = custom_imports_parser.parse_known_args()
+
         self.solver_name = args.solver
         self._importClasses(args.custom_classes)    
 
@@ -140,6 +142,9 @@ class ArgumentParser():
 
         parser_client.set_defaults(method='client')
 
+        parser_client.add_argument('--log-disable', 
+            action='store_true',
+            help = 'Disable logging')
         parser_client.add_argument('--logger-name', 
             type = str, 
             help = 'Set logger name',
@@ -164,7 +169,6 @@ class ArgumentParser():
 
 
 
-
         return parser_client
     
     def _createServerSubparser(self, subparsers,parent):
@@ -177,6 +181,9 @@ class ArgumentParser():
 
         parser_server.set_defaults(method='server')
 
+        parser_server.add_argument('--log-disable', 
+            action='store_true',
+            help = 'Disable logging')
         parser_server.add_argument('--logger-name', 
             type = str, 
             help = 'Set logger name',
@@ -217,6 +224,9 @@ class ArgumentParser():
 
         parser_server_client.set_defaults(method='client-server')
 
+        parser_server_client.add_argument('--client-log-disable', 
+            action='store_true',
+            help = 'Disable logging')
         parser_server_client.add_argument('--client-logger-name', 
             type = str, 
             help = 'Set logger name',
@@ -232,13 +242,16 @@ class ArgumentParser():
             type = str, 
             help = 'Log format shell',
             metavar='',
-            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+            default='[C][%(levelname)s]<%(asctime)s>: %(message)s')
         parser_server_client.add_argument('--client-log-format-file', 
             type = str, 
             help = 'Log format file',
             metavar='',
             default='%(levelname)s<%(asctime)s>: %(message)s')
 
+        parser_server_client.add_argument('--server-log-disable', 
+            action='store_true',
+            help = 'Disable logging')
         parser_server_client.add_argument('--server-logger-name', 
             type = str, 
             help = 'Set logger name',
@@ -254,7 +267,7 @@ class ArgumentParser():
             type = str, 
             help = 'Log format shell',
             metavar='',
-            default='[C][%(levelname)s]<%(asctime)s>: %(message)s')
+            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
         parser_server_client.add_argument('--server-log-format-file', 
             type = str, 
             help = 'Log format file',

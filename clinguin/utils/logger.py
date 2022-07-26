@@ -12,15 +12,15 @@ log_levels = {
 class Logger:
     
     @classmethod
-    def _getLogFilePath(ctl, logger_config):
-        log_file_path = "./logs/" + logger_config['timestamp'] + "-" + logger_config['name'] + ".log"
+    def _getLogFilePath(ctl, log_arg_dict):
+        log_file_path = "./logs/" + log_arg_dict['timestamp'] + "-" + log_arg_dict['name'] + ".log"
         return log_file_path
 
     @classmethod
-    def _addShellHandlerToLogger(ctl, logger, logger_config):
-        shell_formatter = logging.Formatter(logger_config['format_shell'])
+    def _addShellHandlerToLogger(ctl, logger, log_arg_dict):
+        shell_formatter = logging.Formatter(log_arg_dict['format_shell'])
 
-        logger.setLevel(log_levels[logger_config['level']])
+        logger.setLevel(log_levels[log_arg_dict['level']])
 
         handler_sh = logging.StreamHandler()
         handler_sh.setFormatter(shell_formatter)
@@ -28,11 +28,11 @@ class Logger:
         logger.addHandler(handler_sh)
 
     @classmethod
-    def _addFileHandlerToLogger(ctl, logger, logger_config, log_file_path):
-        file_formatter = logging.Formatter(logger_config['format_file'])
+    def _addFileHandlerToLogger(ctl, logger, log_arg_dict, log_file_path):
+        file_formatter = logging.Formatter(log_arg_dict['format_file'])
 
         with open(log_file_path, "a+") as file_object:
-            file_object.write("<<<<<NEW-LOG-INSTANCE-" + logger_config['name'] + ">>>>>\n\n")
+            file_object.write("<<<<<NEW-LOG-INSTANCE-" + log_arg_dict['name'] + ">>>>>\n\n")
 
         handler_f = logging.FileHandler(log_file_path)
         handler_f.setFormatter(file_formatter)
@@ -42,15 +42,18 @@ class Logger:
 
 
     @classmethod
-    def setupLogger(ctl, logger_config):
-        log_file_path = ctl._getLogFilePath(logger_config)
+    def setupLogger(ctl, log_arg_dict):
+        if log_arg_dict['disabled']:
+            return
 
-        logger = logging.getLogger(logger_config['name'])
-        ctl._addShellHandlerToLogger(logger, logger_config)
-        ctl._addFileHandlerToLogger(logger, logger_config, log_file_path)
+        log_file_path = ctl._getLogFilePath(log_arg_dict)
+
+        logger = logging.getLogger(log_arg_dict['name'])
+        ctl._addShellHandlerToLogger(logger, log_arg_dict)
+        ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
 
     @classmethod
-    def setupUvicornLoggerOnStartup(ctl, args):
+    def setupUvicornLoggerOnStartup(ctl, log_arg_dict):
         # ----------------------------------------------------------
         # Remove handlers from uvicorn loggers
 
@@ -65,14 +68,16 @@ class Logger:
         logger = logging.getLogger("uvicorn")
         for handler in logger.handlers:
             logger.removeHandler(handler)
-        
-        logger_config = args
+
+        if log_arg_dict['disabled']:
+            return
+
         # Add new handlers to top-level-uvicorn logger
-        log_file_path = ctl._getLogFilePath(logger_config)
+        log_file_path = ctl._getLogFilePath(log_arg_dict)
 
         logger = logging.getLogger("uvicorn")
-        ctl._addShellHandlerToLogger(logger, logger_config)
-        ctl._addFileHandlerToLogger(logger, logger_config, log_file_path)
+        ctl._addShellHandlerToLogger(logger, log_arg_dict)
+        ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
 
 
         

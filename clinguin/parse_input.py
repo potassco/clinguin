@@ -140,7 +140,6 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
 
-        parser_client.set_defaults(method='client')
 
         parser_client.add_argument('--log-disable', 
             action='store_true',
@@ -179,7 +178,6 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
 
-        parser_server.set_defaults(method='server')
 
         parser_server.add_argument('--log-disable', 
             action='store_true',
@@ -222,8 +220,7 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
 
-        parser_server_client.set_defaults(method='client-server')
-
+        
         parser_server_client.add_argument('--client-log-disable', 
             action='store_true',
             help = 'Disable logging')

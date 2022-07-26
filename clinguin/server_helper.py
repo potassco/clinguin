@@ -1,19 +1,18 @@
 import uvicorn
-
-from clinguin.utils.logger import Logger
-
-from clinguin.server.presentation.endpoints import Endpoints
 from fastapi import FastAPI, APIRouter
 
-def start(args,parse_config):
+from clinguin.utils.logger import Logger
+from clinguin.server.presentation.endpoints import Endpoints
+
+def start(args,parse_config, log_dict):
 
     app = FastAPI()
     
     @app.on_event("startup")
     async def startup_event():
-        Logger.setupUvicornLoggerOnStartup(args)
+        Logger.setupUvicornLoggerOnStartup(log_dict)
 
-    endpoints = Endpoints(args,parse_config)
+    endpoints = Endpoints(args,parse_config, log_dict)
     app.include_router(endpoints.router)
 
     uvicorn.run(app)

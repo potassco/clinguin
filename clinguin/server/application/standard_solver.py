@@ -14,10 +14,10 @@ from clinguin.server.application.clinguin_backend import ClinguinBackend
 
 class ClingoBackend(ClinguinBackend):
 
-    def __init__(self, args):
-        super().__init__(args)
+    def __init__(self, args, log_dict):
+        super().__init__(args, log_dict)
         self._assumptions = set()
-        self._files = args.source_files
+        self._files = args['source_files']
 
         self._ctl = Control()
         for f in self._files:

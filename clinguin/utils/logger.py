@@ -66,7 +66,7 @@ class Logger:
         for handler in logger.handlers:
             logger.removeHandler(handler)
         
-        logger_config = args.log_args
+        logger_config = args
         # Add new handlers to top-level-uvicorn logger
         log_file_path = ctl._getLogFilePath(logger_config)
 

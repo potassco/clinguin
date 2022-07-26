@@ -3,8 +3,8 @@ import logging
 # Like an interface
 class ClinguinBackend:
     
-    def __init__(self, args):
-        self._logger = logging.getLogger(args.log_args['name'])
+    def __init__(self, args, log_dict):
+        self._logger = logging.getLogger(log_dict['name'])
         self.args = args
 
     @classmethod

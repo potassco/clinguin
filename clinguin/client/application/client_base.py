@@ -12,7 +12,7 @@ class ClientBase:
     endpoint_health = "health"
 
     def __init__(self, args):
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(args['name'])
 
         self.api = Api(args)
         self.connected = False

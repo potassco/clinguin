@@ -6,8 +6,10 @@ import inspect
 import textwrap
 import inspect
 from typing import Sequence, Any
+
 from clinguin.server.application.clinguin_backend import ClinguinBackend
 from clinguin.server.application.standard_solver import ClingoBackend
+
 import glob
 
 class ArgumentParser():
@@ -30,7 +32,10 @@ class ArgumentParser():
         self._parseCustomClasses()
         
         return_dict = {}
-        process = sys.argv[1]
+        if len(sys.argv) > 1:
+            process = sys.argv[1]
+        else:
+            process = sys.argv[0]
 
         general_options_parser = self._createGeneralOptionsParser()
         parser = argparse.ArgumentParser(description = self.clinguin_description(process),
@@ -50,10 +55,10 @@ class ArgumentParser():
         return args
 
     def _addSelectedSolver(self,args):
-        if 'solver' in args:
+        if 'solver' in args and args.solver != None:
             args.solver=self.solver
-
-
+        else:
+            args.solver=ClingoBackend
 
 
     @property
@@ -68,15 +73,15 @@ class ArgumentParser():
     @property
     def _client_server_title(self):
         return '''
-             _ |  _  o ._ _|_     _  _  ._    _  ._ 
-            (_ | (/_ | | | |_    _> (/_ | \/ (/_ |   
+             _ | o  _  ._ _|_     _  _  ._    _  ._ 
+            (_ | | (/_ | | |_    _> (/_ | \/ (/_ |   
 
             '''
     @property
     def _client_title(self):
         return '''
-                       _ |  _  o ._ _|_
-                      (_ | (/_ | | | |_
+                       _ | o  _  ._ _|_
+                      (_ | | (/_ | | |_
 
             '''
     @property    
@@ -118,23 +123,6 @@ class ArgumentParser():
     def _createGeneralOptionsParser(self):
         general_options_parser = argparse.ArgumentParser(add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
-        general_options_parser.add_argument('--log-level', 
-            type = str, 
-            help = 'Log level',
-            metavar='',
-            choices=['DEBUG', 'INFO', 'ERROR', 'WARNING'],
-            default='DEBUG')
-        general_options_parser.add_argument('--log-format-shell', 
-            type = str, 
-            help = 'Log format shell',
-            metavar='',
-            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
-        general_options_parser.add_argument('--log-format-file', 
-            type = str, 
-            help = 'Log format file',
-            metavar='',
-            default='%(levelname)s<%(asctime)s>: %(message)s')
-
         general_options_parser.add_argument('--custom-classes', type = str,
             help = 'Path to custom classes',metavar='')
 
@@ -149,6 +137,33 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
 
+        parser_client.set_defaults(method='client')
+
+        parser_client.add_argument('--logger-name', 
+            type = str, 
+            help = 'Set logger name',
+            metavar='',
+            default='client')
+        parser_client.add_argument('--log-level', 
+            type = str, 
+            help = 'Log level',
+            metavar='',
+            choices=['DEBUG', 'INFO', 'ERROR', 'WARNING'],
+            default='DEBUG')
+        parser_client.add_argument('--log-format-shell', 
+            type = str, 
+            help = 'Log format shell',
+            metavar='',
+            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+        parser_client.add_argument('--log-format-file', 
+            type = str, 
+            help = 'Log format file',
+            metavar='',
+            default='%(levelname)s<%(asctime)s>: %(message)s')
+
+
+
+
         return parser_client
     
     def _createServerSubparser(self, subparsers,parent):
@@ -158,7 +173,32 @@ class ArgumentParser():
             add_help=False,
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
-        
+
+        parser_server.set_defaults(method='server')
+
+        parser_server.add_argument('--logger-name', 
+            type = str, 
+            help = 'Set logger name',
+            metavar='',
+            default='server')
+        parser_server.add_argument('--log-level', 
+            type = str, 
+            help = 'Log level',
+            metavar='',
+            choices=['DEBUG', 'INFO', 'ERROR', 'WARNING'],
+            default='DEBUG')
+        parser_server.add_argument('--log-format-shell', 
+            type = str, 
+            help = 'Log format shell',
+            metavar='',
+            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+        parser_server.add_argument('--log-format-file', 
+            type = str, 
+            help = 'Log format file',
+            metavar='',
+            default='%(levelname)s<%(asctime)s>: %(message)s')
+
+       
         self._addDefaultArgumentsToSolverParser(parser_server)
         self._addCustomSolversArgumentsToParser(parser_server)
 
@@ -173,6 +213,54 @@ class ArgumentParser():
             add_help=False,
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
+
+        parser_server_client.set_defaults(method='client-server')
+
+        parser_server_client.add_argument('--client-logger-name', 
+            type = str, 
+            help = 'Set logger name',
+            metavar='',
+            default='client')
+        parser_server_client.add_argument('--client-log-level', 
+            type = str, 
+            help = 'Log level',
+            metavar='',
+            choices=['DEBUG', 'INFO', 'ERROR', 'WARNING'],
+            default='DEBUG')
+        parser_server_client.add_argument('--client-log-format-shell', 
+            type = str, 
+            help = 'Log format shell',
+            metavar='',
+            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+        parser_server_client.add_argument('--client-log-format-file', 
+            type = str, 
+            help = 'Log format file',
+            metavar='',
+            default='%(levelname)s<%(asctime)s>: %(message)s')
+
+        parser_server_client.add_argument('--server-logger-name', 
+            type = str, 
+            help = 'Set logger name',
+            metavar='',
+            default='server')
+        parser_server_client.add_argument('--server-log-level', 
+            type = str, 
+            help = 'Log level',
+            metavar='',
+            choices=['DEBUG', 'INFO', 'ERROR', 'WARNING'],
+            default='DEBUG')
+        parser_server_client.add_argument('--server-log-format-shell', 
+            type = str, 
+            help = 'Log format shell',
+            metavar='',
+            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+        parser_server_client.add_argument('--server-log-format-file', 
+            type = str, 
+            help = 'Log format file',
+            metavar='',
+            default='%(levelname)s<%(asctime)s>: %(message)s')
+
+
         self._addDefaultArgumentsToSolverParser(parser_server_client)
         self._addCustomSolversArgumentsToParser(parser_server_client)
 
@@ -194,4 +282,5 @@ class ArgumentParser():
                 solver._registerOptions(group)
             if solver.__name__ == self.solver_name:
                 self.solver = solver
+
 

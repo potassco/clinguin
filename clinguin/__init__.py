@@ -18,10 +18,9 @@ from .client_helper import start as client_start
 
 def main():
 
-    # TODO should also handle start client or start server individual, perhaps using subcommands 
-
     parser = ArgumentParser()
     args = parser.parse()
+    args_dict = vars(args)
 
     config = configparser.ConfigParser(interpolation=None)
     config.read('setup.cfg')
@@ -29,44 +28,66 @@ def main():
     parsed_config = {}
     parsed_config['metadata'] = {}
 
+    timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
+
     for key in config['metadata']:
         parsed_config['metadata'][str(key)] = str(config['metadata'][key])
 
+    if args.process == 'server':
+        log_dict = {}
 
-    log_args = {
-        'timestamp':datetime.now().strftime("%Y-%m-%d::%H:%M:%S"),
-        'level':args.log_level,
-        'format_file':args.log_format_file,
-        'format_shell':args.log_format_shell
-    }
+        log_dict['name'] = args_dict['logger_name']
+        log_dict['level'] = args_dict['log_level']
+        log_dict['format_shell'] = args_dict['log_format_shell']
+        log_dict['format_file'] = args_dict['log_format_file']
+        log_dict['timestamp'] = timestamp
 
-    if args.process == 'server' or args.process == 'client-server':
         args_copy = copy.deepcopy(args)
-        args_copy.log_args= copy.deepcopy(log_args)
-        args_copy.log_args['name']='server'
-        print(args_copy)
+        args_copy.log_args= log_dict
+
         server = threading.Thread(target=server_start, args = [args_copy,parsed_config])
         server.start()
 
-    if args.process == 'client' or args.process == 'client-server':
+    if args.process == 'client':
+        log_dict = {}
+
+        log_dict['name'] = args_dict['logger_name']
+        log_dict['level'] = args_dict['log_level']
+        log_dict['format_shell'] = args_dict['log_format_shell']
+        log_dict['format_file'] = args_dict['log_format_file']
+        log_dict['timestamp'] = timestamp
+
         args_copy = copy.deepcopy(args)
-        args_copy.log_args= copy.deepcopy(log_args)
-        args_copy.log_args['name']='client'
+        args_copy.log_args= log_dict
+
         client_start(args_copy)
 
+    if args.process == 'client-server':
+        server_log_dict = {}
+
+        server_log_dict['name'] = args_dict['server_logger_name']
+        server_log_dict['level'] = args_dict['server_log_level']
+        server_log_dict['format_shell'] = args_dict['server_log_format_shell']
+        server_log_dict['format_file'] = args_dict['server_log_format_file']
+        server_log_dict['timestamp'] = timestamp
+
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args= server_log_dict
+
+        server = threading.Thread(target=server_start, args = [args_copy,parsed_config])
+        server.start()
 
 
+        client_log_dict = {}
 
-    # parser = ArgumentParser()
+        client_log_dict['name'] = args_dict['client_logger_name']
+        client_log_dict['level'] = args_dict['client_log_level']
+        client_log_dict['format_shell'] = args_dict['client_log_format_shell']
+        client_log_dict['format_file'] = args_dict['client_log_format_file']
+        client_log_dict['timestamp'] = timestamp
 
-    # (logic_programs, engines) = parser.parse()
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args= client_log_dict
 
-    # timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
-
-    # server = threading.Thread(target=server_start, args = [logic_programs, engines, timestamp])
-    # server.start()
-
-
-    # client_start(timestamp)
-
+        client_start(args_copy)
 

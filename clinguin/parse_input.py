@@ -7,8 +7,9 @@ import textwrap
 import inspect
 from typing import Sequence, Any
 
-from clinguin.server.application.clinguin_backend import ClinguinBackend
-from clinguin.server.application.standard_solver import ClingoBackend
+print(__name__)
+from .server.application.clinguin_backend import ClinguinBackend
+from .server.application.standard_solver import ClingoBackend
 
 import glob
 
@@ -154,7 +155,7 @@ class ArgumentParser():
             type = str, 
             help = 'Log format shell',
             metavar='',
-            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+            default='[C][%(levelname)s]<%(asctime)s>: %(message)s')
         parser_client.add_argument('--log-format-file', 
             type = str, 
             help = 'Log format file',
@@ -253,7 +254,7 @@ class ArgumentParser():
             type = str, 
             help = 'Log format shell',
             metavar='',
-            default='[S][%(levelname)s]<%(asctime)s>: %(message)s')
+            default='[C][%(levelname)s]<%(asctime)s>: %(message)s')
         parser_server_client.add_argument('--server-log-format-file', 
             type = str, 
             help = 'Log format file',

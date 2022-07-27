@@ -12,6 +12,7 @@ from clinguin.server.data.clinguin_model import ClinguinModel
 
 from clinguin.server.application.clinguin_backend import ClinguinBackend
 
+
 class ClingoBackend(ClinguinBackend):
 
     def __init__(self, args):
@@ -25,12 +26,12 @@ class ClingoBackend(ClinguinBackend):
         self._ctl.ground([("base", [])])
 
     @classmethod
-    def _registerOptions(cls, parser):
+    def registerOptions(cls, parser):
         parser.add_argument('source_files', nargs='+', help='Files')
 
     # becomes an endpoint option is the basic default one! instead of solve
     # just get
-    def _get(self):
+    def get(self):
         self._logger.debug("_get()")
 
         model = ClinguinModel(self._files, self._logger)

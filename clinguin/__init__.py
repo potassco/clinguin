@@ -1,4 +1,6 @@
-# This is a package
+"""
+Clinguin package - package entry point
+"""
 import copy
 from re import X
 from subprocess import Popen
@@ -7,7 +9,6 @@ import configparser
 import threading
 import sys
 from datetime import datetime
-from turtle import back
 
 from .parse_input import ArgumentParser
 
@@ -15,7 +16,26 @@ from .server_helper import start as server_start
 from .client_helper import start as client_start
 
 
+def argsToDictConvert(args_dict, timestamp, name_prefix=""):
+    """
+    Converts the ''external-logger-config'' representation into an internal one
+    """
+    log_dict = {}
+
+    log_dict['disabled'] = args_dict[name_prefix + 'log_disable']
+    log_dict['name'] = args_dict[name_prefix + 'logger_name']
+    log_dict['level'] = args_dict[name_prefix + 'log_level']
+    log_dict['format_shell'] = args_dict[name_prefix + 'log_format_shell']
+    log_dict['format_file'] = args_dict[name_prefix + 'log_format_file']
+    log_dict['timestamp'] = timestamp
+
+    return log_dict
+
+
 def main():
+    """
+    Main entry point into the project
+    """
 
     parser = ArgumentParser()
     args = parser.parse()
@@ -33,14 +53,7 @@ def main():
         parsed_config['metadata'][str(key)] = str(config['metadata'][key])
 
     if args.process == 'server':
-        log_dict = {}
-
-        log_dict['disabled'] = args_dict['log_disable']
-        log_dict['name'] = args_dict['logger_name']
-        log_dict['level'] = args_dict['log_level']
-        log_dict['format_shell'] = args_dict['log_format_shell']
-        log_dict['format_file'] = args_dict['log_format_file']
-        log_dict['timestamp'] = timestamp
+        log_dict = argsToDictConvert(args_dict, timestamp)
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = log_dict
@@ -51,14 +64,7 @@ def main():
         server.start()
 
     elif args.process == 'client':
-        log_dict = {}
-
-        log_dict['disabled'] = args_dict['log_disable']
-        log_dict['name'] = args_dict['logger_name']
-        log_dict['level'] = args_dict['log_level']
-        log_dict['format_shell'] = args_dict['log_format_shell']
-        log_dict['format_file'] = args_dict['log_format_file']
-        log_dict['timestamp'] = timestamp
+        log_dict = argsToDictConvert(args_dict, timestamp)
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = log_dict
@@ -66,14 +72,8 @@ def main():
         client_start(args_copy)
 
     elif args.process == 'client-server':
-        server_log_dict = {}
 
-        server_log_dict['disabled'] = args_dict['server_log_disable']
-        server_log_dict['name'] = args_dict['server_logger_name']
-        server_log_dict['level'] = args_dict['server_log_level']
-        server_log_dict['format_shell'] = args_dict['server_log_format_shell']
-        server_log_dict['format_file'] = args_dict['server_log_format_file']
-        server_log_dict['timestamp'] = timestamp
+        server_log_dict = argsToDictConvert(args_dict, timestamp, name_prefix="server_")
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = server_log_dict
@@ -83,14 +83,7 @@ def main():
                 args_copy, parsed_config])
         server.start()
 
-        client_log_dict = {}
-
-        client_log_dict['disabled'] = args_dict['client_log_disable']
-        client_log_dict['name'] = args_dict['client_logger_name']
-        client_log_dict['level'] = args_dict['client_log_level']
-        client_log_dict['format_shell'] = args_dict['client_log_format_shell']
-        client_log_dict['format_file'] = args_dict['client_log_format_file']
-        client_log_dict['timestamp'] = timestamp
+        client_log_dict = argsToDictConvert(args_dict, timestamp, name_prefix="client_")
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = client_log_dict

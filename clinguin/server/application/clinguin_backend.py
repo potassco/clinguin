@@ -10,8 +10,8 @@ class ClinguinBackend:
         self.args = args
 
     @classmethod
-    def _registerOptions(cls, parser):
+    def registerOptions(cls, parser):
         pass
 
-    def _get(self):
+    def get(self):
         pass

@@ -40,7 +40,7 @@ class Endpoints:
         }
 
     async def standardSolver(self):
-        return self._solver[0]._get()
+        return self._solver[0].get()
 
     async def solver(self, solver_call_string: SolverDto):
 

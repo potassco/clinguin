@@ -1,19 +1,20 @@
+"""
+Responsible for parsing the command line attributes
+"""
 import argparse
 import importlib
 import sys
 import os
 import inspect
 import textwrap
-import inspect
-from typing import Sequence, Any
+import glob
 
 from .server.application.clinguin_backend import ClinguinBackend
 
-import pkgutil
-import glob
-
-
 class ArgumentParser():
+    """
+    ArgumentParser-Class, Responsible for parsing the command line attributes
+    """
 
     default_solver_package = '.server.application.default_solvers'
     default_solver = 'ClingoBackend'
@@ -29,18 +30,21 @@ class ArgumentParser():
             'server': 'Start server process making endpoints available for a client.',
             'client-server': 'Start client and a server processes.'}
         self.solver_name = None
+        self.solver = None
 
     def parse(self):
+        """
+        After initialization of the ArgumentParser call this function to parse the arguments.
+        """
         self._parseCustomClasses()
 
-        return_dict = {}
         if len(sys.argv) > 1:
             process = sys.argv[1]
         else:
             process = sys.argv[0]
 
         general_options_parser = self._createGeneralOptionsParser()
-        parser = argparse.ArgumentParser(description=self.clinguin_description(
+        parser = argparse.ArgumentParser(description=self._clinguinDescription(
             process), add_help=True, formatter_class=argparse.RawTextHelpFormatter)
         subparsers = parser.add_subparsers(
             title="Process type",
@@ -94,7 +98,7 @@ class ArgumentParser():
 
             '''
 
-    def clinguin_description(self, process):
+    def _clinguinDescription(self, process):
         description = 'Clinguin is a GUI language extension for a logic program that uses Clingo.'
         if process not in ['server', 'client', 'client-server']:
             ascci = f"{self._clinguin_title}{description}"
@@ -109,13 +113,13 @@ class ArgumentParser():
                     './clinguin/server/application/default_solvers' + '/*.py'):
                 base = os.path.basename(name)
                 file_name = os.path.splitext(base)[0]
-                module = importlib.import_module(file_name)
+                importlib.import_module(file_name)
         else:
             sys.path.append(path)
             for name in glob.glob(path + '/*.py'):
                 base = os.path.basename(name)
                 file_name = os.path.splitext(base)[0]
-                module = importlib.import_module(file_name)
+                importlib.import_module(file_name)
 
     def _parseCustomClasses(self):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
@@ -143,7 +147,7 @@ class ArgumentParser():
         parser_client = subparsers.add_parser(
             'client',
             help=self.descriptions['client'],
-            description=self.clinguin_description('client'),
+            description=self._clinguinDescription('client'),
             add_help=False,
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
@@ -186,7 +190,7 @@ class ArgumentParser():
         parser_server = subparsers.add_parser(
             'server',
             help=self.descriptions['server'],
-            description=self.clinguin_description('server'),
+            description=self._clinguinDescription('server'),
             add_help=False,
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
@@ -231,9 +235,8 @@ class ArgumentParser():
     def _createClientServerSubparser(self, subparsers, parent):
         parser_server_client = subparsers.add_parser('client-server',
                                                      help=self.descriptions['client-server'],
-                                                     description=self.clinguin_description(
+                                                     description=self._clinguinDescription(
                                                          'client-server'),
-                                                     # help = "Starts a client and a server in different threads",
                                                      add_help=False,
                                                      parents=[parent],
                                                      formatter_class=argparse.RawTextHelpFormatter)
@@ -321,9 +324,9 @@ class ArgumentParser():
         for solver in solvers:
             if not self.solver_name and solver.__name__ == ArgumentParser.default_solver:
                 group = parser.add_argument_group(solver.__name__)
-                solver._registerOptions(group)
+                solver.registerOptions(group)
                 self.solver = solver
             elif solver.__name__ == self.solver_name:
                 group = parser.add_argument_group(solver.__name__)
-                solver._registerOptions(group)
+                solver.registerOptions(group)
                 self.solver = solver

@@ -8,11 +8,14 @@ import inspect
 from typing import Sequence, Any
 
 from .server.application.clinguin_backend import ClinguinBackend
-from .server.application.standard_solver import ClingoBackend
 
+import pkgutil
 import glob
 
 class ArgumentParser():
+
+    default_solver_package = '.server.application.default_solvers'
+    default_solver = 'ClingoBackend'
     
     def __init__(self) -> None:
         self.titles = {
@@ -56,10 +59,7 @@ class ArgumentParser():
         return args
 
     def _addSelectedSolver(self,args):
-        if 'solver' in args and args.solver != None:
-            args.solver=self.solver
-        else:
-            args.solver=ClingoBackend
+        args.solver=self.solver
 
 
     @property
@@ -104,12 +104,17 @@ class ArgumentParser():
 
     def _importClasses(self, path):
         if path is None:
-            return
-        sys.path.append(path)
-        for name in glob.glob(path + '/*.py'):
-            base = os.path.basename(name)
-            file_name = os.path.splitext(base)[0]
-            module = importlib.import_module(file_name)
+            sys.path.append('./clinguin/server/application/default_solvers')
+            for name in glob.glob('./clinguin/server/application/default_solvers' + '/*.py'):
+                base = os.path.basename(name)
+                file_name = os.path.splitext(base)[0]
+                module = importlib.import_module(file_name)
+        else: 
+            sys.path.append(path)
+            for name in glob.glob(path + '/*.py'):
+                base = os.path.basename(name)
+                file_name = os.path.splitext(base)[0]
+                module = importlib.import_module(file_name)
 
     
     def _parseCustomClasses(self):
@@ -287,11 +292,16 @@ class ArgumentParser():
 
     def _addCustomSolversArgumentsToParser(self, parser):
         solvers = ClinguinBackend.__subclasses__()
+
+        
         for solver in solvers:
-            if not self.solver_name or solver.__name__ == self.solver_name:
+            if not self.solver_name and solver.__name__ == ArgumentParser.default_solver:
                 group = parser.add_argument_group(solver.__name__)
                 solver._registerOptions(group)
-            if solver.__name__ == self.solver_name:
+                self.solver = solver
+            elif solver.__name__ == self.solver_name:
+                group = parser.add_argument_group(solver.__name__)
+                solver._registerOptions(group)
                 self.solver = solver
 
 

@@ -12,6 +12,8 @@ from clinguin.server.data.clinguin_model import ClinguinModel
 
 from clinguin.server.application.clinguin_backend import ClinguinBackend
 
+from clinguin.server.application.standard_2 import ClingoBackend2
+
 class ClingoBackend(ClinguinBackend):
 
     def __init__(self, args):

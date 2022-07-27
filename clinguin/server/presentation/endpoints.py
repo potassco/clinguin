@@ -14,9 +14,6 @@ from clinguin.server.presentation.solver_dto import SolverDto
 from clinguin.utils.logger import Logger
 from clinguin.utils.singleton_container import SingletonContainer
 
-from clinguin.server.application.standard_solver import ClingoBackend
-
-
 class Endpoints:
     def __init__(self, args, parsed_config) -> None:
         Logger.setupLogger(args.log_args)

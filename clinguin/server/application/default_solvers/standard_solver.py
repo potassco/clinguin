@@ -48,13 +48,13 @@ class ClingoBackend(ClinguinBackend):
         self._logger.debug("assume(" + str(predicate) + ")")
         if predicate not in self._assumptions:
             self._assumptions.add(predicate)
-        return self._get()
+        return self.get()
 
     # becomes an endpoint option
     def solve(self):
         self._logger.debug("solve()")
         self.model = None
-        return self._get()
+        return self.get()
 
     # becomes an endpoint option
     def remove(self, predicate):
@@ -63,4 +63,4 @@ class ClingoBackend(ClinguinBackend):
             self._assumptions.remove(predicate)
             self._assumptions.remove("assume(" + predicate + ")")
             self.model = None
-        return self._get()
+        return self.get()

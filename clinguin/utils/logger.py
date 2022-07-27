@@ -45,14 +45,14 @@ class Logger:
 
     @classmethod
     def setupLogger(ctl, log_arg_dict):
-        if log_arg_dict['disabled']:
-            return
 
         log_file_path = ctl._getLogFilePath(log_arg_dict)
 
         logger = logging.getLogger(log_arg_dict['name'])
-        ctl._addShellHandlerToLogger(logger, log_arg_dict)
-        ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
+        if not log_arg_dict['shell_disabled']:
+            ctl._addShellHandlerToLogger(logger, log_arg_dict)
+        if not log_arg_dict['file_disabled']:
+            ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
 
     @classmethod
     def setupUvicornLoggerOnStartup(ctl, log_arg_dict):
@@ -71,12 +71,13 @@ class Logger:
         for handler in logger.handlers:
             logger.removeHandler(handler)
 
-        if log_arg_dict['disabled']:
-            return
-
         # Add new handlers to top-level-uvicorn logger
         log_file_path = ctl._getLogFilePath(log_arg_dict)
 
         logger = logging.getLogger("uvicorn")
-        ctl._addShellHandlerToLogger(logger, log_arg_dict)
-        ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
+        if not log_arg_dict['shell_disabled']:
+            ctl._addShellHandlerToLogger(logger, log_arg_dict)
+        if not log_arg_dict['file_disabled']:
+            ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
+
+

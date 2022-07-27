@@ -152,9 +152,12 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
 
-        parser_client.add_argument('--log-disable',
+        parser_client.add_argument('--log-disable-shell',
                                    action='store_true',
-                                   help='Disable logging')
+                                   help='Disable shell logging')
+        parser_client.add_argument('--log-disable-file',
+                                   action='store_true',
+                                   help='Disable file logging')
         parser_client.add_argument('--logger-name',
                                    type=str,
                                    help='Set logger name',
@@ -195,9 +198,12 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
 
-        parser_server.add_argument('--log-disable',
+        parser_server.add_argument('--log-disable-shell',
                                    action='store_true',
-                                   help='Disable logging')
+                                   help='Disable shell logging')
+        parser_server.add_argument('--log-disable-file',
+                                   action='store_true',
+                                   help='Disable file logging')
         parser_server.add_argument('--logger-name',
                                    type=str,
                                    help='Set logger name',
@@ -241,9 +247,12 @@ class ArgumentParser():
                                                      parents=[parent],
                                                      formatter_class=argparse.RawTextHelpFormatter)
 
-        parser_server_client.add_argument('--client-log-disable',
-                                          action='store_true',
-                                          help='Disable logging')
+        parser_server_client.add_argument('--client-log-disable-shell',
+                                   action='store_true',
+                                   help='Disable shell logging for the client')
+        parser_server_client.add_argument('--client-log-disable-file',
+                                   action='store_true',
+                                   help='Disable file logging for the client')
         parser_server_client.add_argument('--client-logger-name',
                                           type=str,
                                           help='Set logger name',
@@ -273,9 +282,12 @@ class ArgumentParser():
             metavar='',
             default='%(levelname)s<%(asctime)s>: %(message)s')
 
-        parser_server_client.add_argument('--server-log-disable',
-                                          action='store_true',
-                                          help='Disable logging')
+        parser_server_client.add_argument('--server-log-disable-shell',
+                                   action='store_true',
+                                   help='Disable shell logging for the server')
+        parser_server_client.add_argument('--server-log-disable-file',
+                                   action='store_true',
+                                   help='Disable file logging for the server')
         parser_server_client.add_argument('--server-logger-name',
                                           type=str,
                                           help='Set logger name',

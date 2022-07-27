@@ -53,7 +53,7 @@ After the installation a package with the name `clinguin` should have been insta
 
 E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ clinguin client-server --custom-classes='./clinguin/server/application' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ clinguin client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server 
 
@@ -77,7 +77,7 @@ Even though it is not the most ellegant way (and it will throw errors at you, so
 
 E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server
 

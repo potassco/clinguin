@@ -1,17 +1,17 @@
 import logging
 
 # Like an interface
+
+
 class ClinguinBackend:
-    
-    def __init__(self, parsed_config):
-        self._logger = logging.getLogger(parsed_config['logger']['server']['name'])
-        self._parsed_config = parsed_config
+
+    def __init__(self, args):
+        self._logger = logging.getLogger(args.log_args['name'])
+        self.args = args
 
     @classmethod
-    def _registerOptions(cls, parser):
+    def registerOptions(cls, parser):
         pass
 
-    def _get(self):
+    def get(self):
         pass
-
-

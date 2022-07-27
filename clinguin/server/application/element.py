@@ -1,6 +1,7 @@
 import json
 from clorm import StringField
 
+
 class ElementDto:
 
     def __init__(self, id, type, parent):
@@ -13,7 +14,7 @@ class ElementDto:
 
     def setAttributes(self, attributes):
         self.attributes = attributes
-    
+
     def addAttribute(self, attribute):
         self.attributes.append(attribute)
 
@@ -22,21 +23,19 @@ class ElementDto:
 
     def addChild(self, child):
         self.children.append(child)
-    
-    def getChildPerIndex(self, index : int):
+
+    def getChildPerIndex(self, index: int):
         return self.children[0]
 
     def amountOfChildren(self) -> int:
         return len(self.children)
 
-
     def toJSON(self):
         return json.dumps(self, default=lambda o: str(o).__dict__)
 
-
     def clone(self):
         clone = ElementDto(self.id, self.type, self.parent)
-        
+
         cloned_attributes = []
         for attribute in self.attributes:
             cloned_attributes.append(attribute.clone())
@@ -53,7 +52,6 @@ class ElementDto:
         clone.children = cloned_children
 
         return clone
-
 
     def generateTable(self, table):
         table[str(self.id)] = self

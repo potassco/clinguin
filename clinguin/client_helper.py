@@ -1,11 +1,14 @@
+"""
+Helper for the client-startup-process
+"""
 from clinguin.client.application.client_base import ClientBase
 from clinguin.utils.logger import Logger
-from clinguin.utils.singleton_container import SingletonContainer
 
-def start(parsed_config):
-    Logger.setupLogger(parsed_config['logger']['client'])
-    
-    client = ClientBase(parsed_config)
+def start(args):
+    """
+    Helper for the client-startup-process
+    """
+    Logger.setupLogger(args.log_args)
+
+    client = ClientBase(args)
     client.startUp()
-
-

@@ -22,32 +22,77 @@ As the name suggests, this program is a prototype for Clinguin (an interactive-u
 pip install . -e
 ```
 
-
 ## Syntax
 
 See the `/syntax_discussion/20220714_alex_syntax.lp` file.
 
 ## Starting:
 
-### Whole-Application
+There are two start-possibilities:
+1. Package-Version
+2. Development-Version
 
-`$ clinguin start.py client-server [--solver=solver] logic-program [... logic-program] --solver solver-library`
+### Package-Version
 
-E.g. for the sudoku example: `$ clinguin examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+For the package version one must first install `clinguin`, then execute it.
 
-Or to specify the solver: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp --solver server.application.standard_solver.StandardSolver`
+#### Installation
 
-### Only Server
+- If `make` is installed, just hit `make`
+- Otherwise `python setup.py install`
+
+After the installation a package with the name `clinguin` should have been installed. One can test this by hitting `clinguin -h`, to see the help. 
+
+#### Deinstallation
+
+`pip uninstall clinguin`
+
+#### Standard-Start
+
+`$ clinguin client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
+
+- custom-classes: Specify the folder, where the solver(s) are located.
+- solver: Specify the solver, which must be in the folder where custom-classes points to.
+
+E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+
+Or to specify the solver: `$ clinguin client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+
+#### Only Server 
+
+`$ clinguin server [--solver=solver] logic-program [... logic-program]`
+
+E.g. for the sudoku example: `$ clinguin server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+
+#### Only Client
+
+`$ clinguin client`
+
+#### Shutting down
+
+Even though it is not the most ellegant way (and it will throw errors at you, so better hide), just close the GUI first and then hit `Ctr-C`.
+
+### Development-Version
+
+#### Standard-Start
+
+`$ python start.py client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
+
+E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+
+Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+
+#### Only Server
 
 `$ python start.py server [--solver=solver] logic-program [... logic-program]`
 
 E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-### Only Client
+#### Only Client
 
 `$ python start.py client`
 
-### Shutting down
+#### Shutting down
 
 Even though it is not the most ellegant way (and it will throw errors at you, so better hide), just `Ctr-C`.
 

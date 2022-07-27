@@ -7,26 +7,25 @@ from clinguin.client.api.call_dto import CallDto
 from clinguin.client.presentation.abstract_gui import AbstractGui
 from clinguin.client.presentation.tkinter.tkinter_gui import TkinterGui
 
+
 class ClientBase:
 
     endpoint_health = "health"
 
-    def __init__(self, parsed_config):
-        self._parsed_config = parsed_config
-        self._logger = logging.getLogger(parsed_config['logger']['client']['name'])
+    def __init__(self, args):
+        self._logger = logging.getLogger(args.log_args['name'])
 
-        self.api = Api(parsed_config)
+        self.api = Api(args)
         self.connected = False
 
         self.solve_dto = CallDto("solve")
 
         self.gui_generator = TkinterGui(self)
 
-
     def startUp(self):
         self.connect()
         self.draw()
- 
+
     def connect(self):
         while (self.connected == False):
             (status_code, json) = self.api.get(self.endpoint_health)
@@ -43,11 +42,11 @@ class ClientBase:
             self.baseEngine(response)
             self.gui_generator.draw(response['children'][0]['id'])
         else:
-            logging.getLogger("client").error("Connection error, status code: " + str(status_code))
+            logging.getLogger("client").error(
+                "Connection error, status code: " + str(status_code))
 
             self.connected = False
             self.connect()
-
 
     def baseEngine(self, response):
         children = response['children']
@@ -56,19 +55,20 @@ class ClientBase:
 
             if hasattr(self.gui_generator, child['type']):
                 method = getattr(self.gui_generator, child['type'])
-                
-                method(child['id'], child['parent'], child['attributes'], child['callbacks'])
 
+                method(
+                    child['id'],
+                    child['parent'],
+                    child['attributes'],
+                    child['callbacks'])
 
                 self.baseEngine(child)
             else:
-                logging.getLogger("client").error("Could not find element type: " + child['type'])
+                logging.getLogger("client").error(
+                    "Could not find element type: " + child['type'])
 
     def assume(self, click_policy):
         self.api.post("solver", CallDto(click_policy))
 
         time.sleep(1)
         self.draw()
-
-
-

@@ -1,5 +1,6 @@
 from clorm import Predicate, ConstantField, RawField, Raw, StringField
 
+
 class ElementDao(Predicate):
     id = RawField
     type = RawField
@@ -7,5 +8,3 @@ class ElementDao(Predicate):
 
     class Meta:
         name = "element"
-
-

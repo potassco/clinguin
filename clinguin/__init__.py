@@ -1,12 +1,14 @@
-# This is a package
-
+"""
+Clinguin package - package entry point
+"""
+import copy
 from re import X
 from subprocess import Popen
+import configparser
 
 import threading
 import sys
 from datetime import datetime
-from turtle import back
 
 from .parse_input import ArgumentParser
 
@@ -14,29 +16,76 @@ from .server_helper import start as server_start
 from .client_helper import start as client_start
 
 
+def argsToDictConvert(args_dict, timestamp, name_prefix=""):
+    """
+    Converts the ''external-logger-config'' representation into an internal one
+    """
+    log_dict = {}
+    log_dict['file_disabled'] = args_dict[name_prefix + 'log_disable_file']
+    log_dict['shell_disabled'] = args_dict[name_prefix + 'log_disable_shell']
+    log_dict['name'] = args_dict[name_prefix + 'logger_name']
+    log_dict['level'] = args_dict[name_prefix + 'log_level']
+    log_dict['format_shell'] = args_dict[name_prefix + 'log_format_shell']
+    log_dict['format_file'] = args_dict[name_prefix + 'log_format_file']
+    log_dict['timestamp'] = timestamp
+
+    return log_dict
+
 
 def main():
-
-    # TODO should also handle start client or start server individual, perhaps using subcommands 
+    """
+    Main entry point into the project
+    """
 
     parser = ArgumentParser()
-    # server command
-    # get all classes implementing clinguin back
-    # for name, obj in inspect.getmembers(sys.modules[__name__]):
-    #     if inspect.isclass(obj):
-    #         if issubclass(obj,Evaluator):
-    # for each class C 
-    #     GroupParser 
-    #     C._register_option(GroupParser)
+    args = parser.parse()
+    args_dict = vars(args)
 
-    (logic_programs, engines) = parser.parse()
+    config = configparser.ConfigParser(interpolation=None)
+    config.read('setup.cfg')
+
+    parsed_config = {}
+    parsed_config['metadata'] = {}
 
     timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
 
-    server = threading.Thread(target=server_start, args = [logic_programs, engines, timestamp])
-    server.start()
+    for key in config['metadata']:
+        parsed_config['metadata'][str(key)] = str(config['metadata'][key])
 
+    if args.process == 'server':
+        log_dict = argsToDictConvert(args_dict, timestamp)
 
-    client_start(timestamp)
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args = log_dict
 
+        server = threading.Thread(
+            target=server_start, args=[
+                args_copy, parsed_config])
+        server.start()
 
+    elif args.process == 'client':
+        log_dict = argsToDictConvert(args_dict, timestamp)
+
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args = log_dict
+
+        client_start(args_copy)
+
+    elif args.process == 'client-server':
+
+        server_log_dict = argsToDictConvert(args_dict, timestamp, name_prefix="server_")
+
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args = server_log_dict
+
+        server = threading.Thread(
+            target=server_start, args=[
+                args_copy, parsed_config])
+        server.start()
+
+        client_log_dict = argsToDictConvert(args_dict, timestamp, name_prefix="client_")
+
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args = client_log_dict
+
+        client_start(args_copy)

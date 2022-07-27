@@ -11,6 +11,8 @@ from clinguin.server.application.callback import CallbackDto
 """
 Generates a ClassHierarchy which can easily be serialized
 """
+
+
 class StandardJsonEncoder:
 
     def __init__(self):
@@ -21,7 +23,7 @@ class StandardJsonEncoder:
         elements_dict = {}
 
         root = ElementDto('root', 'root', 'root')
-        elements_dict[str(root.id)] = root    
+        elements_dict[str(root.id)] = root
 
         ctl._generateHierarchy(model, root, elements_dict)
 
@@ -31,11 +33,11 @@ class StandardJsonEncoder:
     def _generateHierarchy(ctl, wrapper, hierarchy_root, elements_dict):
 
         dependency = []
-        widgets_info = {}        
+        widgets_info = {}
 
         for w in wrapper.getElements():
-            widgets_info[w.id]={'parent':w.parent,'type':w.type}
-            dependency.append((w.id,w.parent))
+            widgets_info[w.id] = {'parent': w.parent, 'type': w.type}
+            dependency.append((w.id, w.parent))
 
         DG = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(DG))))
@@ -51,7 +53,6 @@ class StandardJsonEncoder:
                     attributes.append(AttributeDto(a.id, a.key, a.value))
                 element.setAttributes(attributes)
 
-
                 callbacks = []
                 for c in wrapper.getCallbacksForElementId(element_id):
                     callbacks.append(CallbackDto(c.id, c.action, c.policy))
@@ -59,7 +60,3 @@ class StandardJsonEncoder:
 
                 elements_dict[str(element_id)] = element
                 elements_dict[str(element.parent)].addChild(element)
-
-
-
-

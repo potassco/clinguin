@@ -7,11 +7,9 @@ def call_function(engines, name, args, kwargs):
             function = getattr(engine, name)
             found = True
             break
-            
-    if found == True:
+
+    if found:
         result = function(*args, **kwargs)
         return result
     else:
         print('[CRITICAL] - Could not find function ' + name + ' in solver')
-
-

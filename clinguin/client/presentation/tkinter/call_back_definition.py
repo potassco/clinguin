@@ -8,4 +8,3 @@ class CallBackDefinition:
 
     def __call__(self, *args):
         self._callback(self._id, self._parent, self._click_policy)
-

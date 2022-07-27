@@ -1,19 +1,21 @@
 import logging
 
 log_levels = {
-    "NOTSET" : logging.NOTSET,
-    "DEBUG" : logging.DEBUG,
-    "INFO" : logging.INFO,
-    "WARNING" : logging.WARNING,
-    "ERROR" : logging.ERROR,
-    "CRITICAL" : logging.CRITICAL
+    "NOTSET": logging.NOTSET,
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
+    "CRITICAL": logging.CRITICAL
 }
 
+
 class Logger:
-    
+
     @classmethod
     def _getLogFilePath(ctl, log_arg_dict):
-        log_file_path = "./logs/" + log_arg_dict['timestamp'] + "-" + log_arg_dict['name'] + ".log"
+        log_file_path = "./logs/" + \
+            log_arg_dict['timestamp'] + "-" + log_arg_dict['name'] + ".log"
         return log_file_path
 
     @classmethod
@@ -32,14 +34,14 @@ class Logger:
         file_formatter = logging.Formatter(log_arg_dict['format_file'])
 
         with open(log_file_path, "a+") as file_object:
-            file_object.write("<<<<<NEW-LOG-INSTANCE-" + log_arg_dict['name'] + ">>>>>\n\n")
+            file_object.write(
+                "<<<<<NEW-LOG-INSTANCE-" +
+                log_arg_dict['name'] +
+                ">>>>>\n\n")
 
         handler_f = logging.FileHandler(log_file_path)
         handler_f.setFormatter(file_formatter)
         logger.addHandler(handler_f)
-
-
-
 
     @classmethod
     def setupLogger(ctl, log_arg_dict):
@@ -78,7 +80,3 @@ class Logger:
         logger = logging.getLogger("uvicorn")
         ctl._addShellHandlerToLogger(logger, log_arg_dict)
         ctl._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
-
-
-        
-

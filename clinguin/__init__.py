@@ -14,6 +14,7 @@ from .parse_input import ArgumentParser
 from .server_helper import start as server_start
 from .client_helper import start as client_start
 
+
 def main():
 
     parser = ArgumentParser()
@@ -42,9 +43,11 @@ def main():
         log_dict['timestamp'] = timestamp
 
         args_copy = copy.deepcopy(args)
-        args_copy.log_args= log_dict
+        args_copy.log_args = log_dict
 
-        server = threading.Thread(target=server_start, args = [args_copy,parsed_config])
+        server = threading.Thread(
+            target=server_start, args=[
+                args_copy, parsed_config])
         server.start()
 
     elif args.process == 'client':
@@ -58,7 +61,7 @@ def main():
         log_dict['timestamp'] = timestamp
 
         args_copy = copy.deepcopy(args)
-        args_copy.log_args= log_dict
+        args_copy.log_args = log_dict
 
         client_start(args_copy)
 
@@ -73,11 +76,12 @@ def main():
         server_log_dict['timestamp'] = timestamp
 
         args_copy = copy.deepcopy(args)
-        args_copy.log_args= server_log_dict
+        args_copy.log_args = server_log_dict
 
-        server = threading.Thread(target=server_start, args = [args_copy,parsed_config])
+        server = threading.Thread(
+            target=server_start, args=[
+                args_copy, parsed_config])
         server.start()
-
 
         client_log_dict = {}
 
@@ -89,7 +93,6 @@ def main():
         client_log_dict['timestamp'] = timestamp
 
         args_copy = copy.deepcopy(args)
-        args_copy.log_args= client_log_dict
+        args_copy.log_args = client_log_dict
 
         client_start(args_copy)
-

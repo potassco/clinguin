@@ -1,5 +1,6 @@
 import json
 
+
 class CallbackDto:
     def __init__(self, id, action, policy):
         self.id = str(id)
@@ -11,7 +12,3 @@ class CallbackDto:
 
     def clone(self):
         return CallbackDto(self.id, self.action, self.policy)
-
-
-
-

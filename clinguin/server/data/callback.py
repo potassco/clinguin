@@ -1,5 +1,6 @@
 from clorm import Predicate, ConstantField, RawField, Raw
 
+
 class CallbackDao(Predicate):
     id = RawField
     action = RawField
@@ -7,6 +8,3 @@ class CallbackDao(Predicate):
 
     class Meta:
         name = "callback"
-
-
-

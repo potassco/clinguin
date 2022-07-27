@@ -12,8 +12,6 @@ from clinguin.server.data.clinguin_model import ClinguinModel
 
 from clinguin.server.application.clinguin_backend import ClinguinBackend
 
-from clinguin.server.application.standard_2 import ClingoBackend2
-
 class ClingoBackend(ClinguinBackend):
 
     def __init__(self, args):
@@ -25,18 +23,21 @@ class ClingoBackend(ClinguinBackend):
         for f in self._files:
             self._ctl.load(str(f))
         self._ctl.ground([("base", [])])
-   
+
     @classmethod
     def _registerOptions(cls, parser):
-        parser.add_argument('source_files', nargs = '+', help = 'Files')
+        parser.add_argument('source_files', nargs='+', help='Files')
 
-    # becomes an endpoint option is the basic default one! instead of solve just get
+    # becomes an endpoint option is the basic default one! instead of solve
+    # just get
     def _get(self):
         self._logger.debug("_get()")
-        
+
         model = ClinguinModel(self._files, self._logger)
         model.computeCautious(self._ctl, self._assumptions, lambda w: True)
-        model.computeBrave(self._ctl, self._assumptions, lambda w : str(w.type) == 'dropdownmenuitem')
+        model.computeBrave(
+            self._ctl, self._assumptions, lambda w: str(
+                w.type) == 'dropdownmenuitem')
 
         self._logger.debug("will encode")
         return StandardJsonEncoder.encode(model)
@@ -47,7 +48,7 @@ class ClingoBackend(ClinguinBackend):
         if predicate not in self._assumptions:
             self._assumptions.add(predicate)
         return self._get()
-    
+
     # becomes an endpoint option
     def solve(self):
         self._logger.debug("solve()")
@@ -60,6 +61,5 @@ class ClingoBackend(ClinguinBackend):
         if predicate in self._assumptions:
             self._assumptions.remove(predicate)
             self._assumptions.remove("assume(" + predicate + ")")
-            self.model=None
+            self.model = None
         return self._get()
-

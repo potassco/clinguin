@@ -49,7 +49,10 @@ After the installation a package with the name `clinguin` should have been insta
 
 #### Standard-Start
 
-`$ clinguin client-server [--solver=solver] logic-program [... logic-program] --solver solver-library`
+`$ clinguin client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
+
+- custom-classes: Specify the folder, where the solver(s) are located.
+- solver: Specify the solver, which must be in the folder where custom-classes points to.
 
 E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
@@ -73,7 +76,7 @@ Even though it is not the most ellegant way (and it will throw errors at you, so
 
 #### Standard-Start
 
-`$ python start.py client-server [--solver=solver] logic-program [... logic-program] --solver solver-library`
+`$ python start.py client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
 
 E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 

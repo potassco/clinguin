@@ -24,7 +24,15 @@ class ClientBase:
 
     def startUp(self):
         self.connect()
-        self.draw()
+        (status_code, response) = self.api.get("")
+        if status_code == 200:
+            self.draw(response)
+        else:
+            logging.getLogger("client").error(
+                "Connection error, status code: " + str(status_code))
+
+            self.connected = False
+            self.connect()
 
     def connect(self):
         while (self.connected == False):
@@ -36,17 +44,9 @@ class ClientBase:
                 logging.getLogger("client").info("Waiting for connection")
                 time.sleep(1)
 
-    def draw(self):
-        (status_code, response) = self.api.get("")
-        if status_code == 200:
-            self.baseEngine(response)
-            self.gui_generator.draw(response['children'][0]['id'])
-        else:
-            logging.getLogger("client").error(
-                "Connection error, status code: " + str(status_code))
-
-            self.connected = False
-            self.connect()
+    def draw(self, response):
+        self.baseEngine(response)
+        self.gui_generator.draw(response['children'][0]['id'])
 
     def baseEngine(self, response):
         children = response['children']
@@ -68,7 +68,14 @@ class ClientBase:
                     "Could not find element type: " + child['type'])
 
     def assume(self, click_policy):
-        self.api.post("solver", CallDto(click_policy))
+        (status_code, json) = self.api.post("solver", CallDto(click_policy))
+        if status_code == 200:
+            self.draw(json)
+        else:
+            logging.getLogger("client").error(
+                "Connection error, status code: " + str(status_code))
 
-        time.sleep(1)
-        self.draw()
+            self.connected = False
+            self.connect()
+
+

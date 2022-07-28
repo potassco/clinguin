@@ -7,6 +7,7 @@ w(500).
 attribute(window, height, X) :- h(X).
 attribute(window, width, X) :- w(X).
 attribute(window, backgroundcolor, black).
+attribute(window, resizablex, 0).
 
 amount(5).
 p(0..(R*R-1)) :- amount(R).

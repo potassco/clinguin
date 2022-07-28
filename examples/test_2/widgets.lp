@@ -9,9 +9,10 @@ attribute(w, backgroundcolor, black).
 element(m, dropdownmenu, w).
 attribute(m, height, 20).
 attribute(m, width, 50).
+attribute(m, selected, X) :- p(X).
 
 element(mi(X), dropdownmenuitem, m) :- p(X).
-%attribute(m, selected, mi(X)) :- p(X).
+attribute(mi(X), label, X) :- p(X).
 callback(mi(X), click, assume(p(X))) :- p(X).
 
 

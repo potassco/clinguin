@@ -98,23 +98,7 @@ Even though it is not the most ellegant way (and it will throw errors at you, so
 
 ## Dependencies:
 
-All dependencies can be installed via `pip install XYZ` 
-
-- Server:
-    - json
-    - pydantic
-    - typing
-    - clingo
-    - clorm
-    - networkx
-    - fastapi
-    - uvicorn
-- Client:
-    - time
-    - json
-    - tkinter
-    - httpx
-
+All dependencies can be installed via `python setup.py install` 
 
 
 ## Implementation of own Solver

@@ -4,7 +4,6 @@ Clinguin package - package entry point
 import copy
 from re import X
 from subprocess import Popen
-import configparser
 
 import threading
 import sys
@@ -41,16 +40,8 @@ def main():
     args = parser.parse()
     args_dict = vars(args)
 
-    config = configparser.ConfigParser(interpolation=None)
-    config.read('setup.cfg')
-
-    parsed_config = {}
-    parsed_config['metadata'] = {}
-
     timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
 
-    for key in config['metadata']:
-        parsed_config['metadata'][str(key)] = str(config['metadata'][key])
 
     if args.process == 'server':
         log_dict = argsToDictConvert(args_dict, timestamp)
@@ -59,8 +50,7 @@ def main():
         args_copy.log_args = log_dict
 
         server = threading.Thread(
-            target=server_start, args=[
-                args_copy, parsed_config])
+            target=server_start, args=[args_copy])
         server.start()
 
     elif args.process == 'client':
@@ -79,8 +69,7 @@ def main():
         args_copy.log_args = server_log_dict
 
         server = threading.Thread(
-            target=server_start, args=[
-                args_copy, parsed_config])
+            target=server_start, args=[args_copy])
         server.start()
 
         client_log_dict = argsToDictConvert(args_dict, timestamp, name_prefix="client_")

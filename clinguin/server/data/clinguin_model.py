@@ -46,7 +46,7 @@ class ClinguinModel:
         ctl.solve(
             on_model=self._save, assumptions=[
                 (clingo.parse_term(a), True) for a in list(assumptions)])
-        if self._model:
+        if hasattr(self, '_model'):
             tmp_factbase = clorm.unify(self.unifiers, self._model)
 
             for w in tmp_factbase.query(ElementDao).all():

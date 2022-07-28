@@ -1,4 +1,5 @@
 import tkinter as tk
+import logging
 
 from .window import Window
 from .container import Container
@@ -7,28 +8,21 @@ from .dropdownmenu_item import DropdownmenuItem
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
 
-
-class Attribute:
-    def __init__(self, id, key, value, action):
-        self.id = id
-        self.key = key
-        self.value = value
-        self.action = action
-
-
 class TkinterGui(AbstractGui):
 
-    def __init__(self, base_engine):
+    def __init__(self, base_engine, args):
+        self._logger = logging.getLogger(args.log_args['name'])
+        self._args = args
+
         self.elements = {}
         self._base_engine = base_engine
 
         self.first = True
 
     def window(self, id, parent, attributes, callbacks):
-        #print("WINDOW: " + str(id) + "::" + str(parent))
 
         if self.first:
-            window = Window(id, parent, attributes, callbacks, self._base_engine)
+            window = Window(self._args, id, parent, attributes, callbacks, self._base_engine)
             window.addComponent(self.elements)
         else:
             keys = list(self.elements.keys()).copy()
@@ -40,16 +34,16 @@ class TkinterGui(AbstractGui):
                 del self.elements[str(key)]
 
     def container(self, id, parent, attributes, callbacks):
-        container = Container(id, parent, attributes, callbacks, self._base_engine)
+        container = Container(self._args, id, parent, attributes, callbacks, self._base_engine)
         container.addComponent(self.elements)
 
 
     def dropdownmenu(self, id, parent, attributes, callbacks):
-        menu = Dropdownmenu(id, parent, attributes, callbacks, self._base_engine)
+        menu = Dropdownmenu(self._args, id, parent, attributes, callbacks, self._base_engine)
         menu.addComponent(self.elements)
 
     def dropdownmenuitem(self, id, parent, attributes, callbacks):
-        menu = DropdownmenuItem(id, parent, attributes, callbacks, self._base_engine)
+        menu = DropdownmenuItem(self._args, id, parent, attributes, callbacks, self._base_engine)
         menu.addComponent(self.elements)
 
     def draw(self, id):

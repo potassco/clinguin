@@ -16,6 +16,7 @@ class Window(RootCmp):
         standard_attributes["height"] = {"value":str(self._component.winfo_screenheight()), "exec":self._setDimensions}
         standard_attributes["resizablex"] = {"value":str(1), "exec":self._setResizable}
         standard_attributes["resizabley"] = {"value":str(1), "exec":self._setResizable}
+        standard_attributes["childorg"] = {"value":"grid", "exec":self._setChildOrg}
 
     def _backgroundColor(self, component, key, standard_attributes):
         component.configure(background=standard_attributes[key]["value"])
@@ -29,7 +30,10 @@ class Window(RootCmp):
     def _setResizable(self, component, key, standard_attributes):
         component.resizable(standard_attributes['resizablex']['value'],standard_attributes['resizabley']['value'])
 
-    def _callback(self, component, key, standard_attributes):
-        print("CALLBACK CALLED :-)")
+    def _setChildOrg(self, component, key, standard_attributes):
+        self._child_org = standard_attributes[key]["value"]
+
+    def _addComponentToElements(self, elements):
+        elements[str(self._id)] = (self._component, {"childorg":self._child_org})
 
 

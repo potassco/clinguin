@@ -20,7 +20,7 @@ class ClientBase:
 
         self.solve_dto = CallDto("solve")
 
-        self.gui_generator = TkinterGui(self)
+        self.gui_generator = TkinterGui(self, args)
 
     def startUp(self):
         self.connect()

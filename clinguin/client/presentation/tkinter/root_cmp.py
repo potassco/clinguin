@@ -1,7 +1,9 @@
+import logging
 
 class RootCmp:
 
-    def __init__(self, id, parent, attributes, callbacks, base_engine):
+    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
+        self._logger = logging.getLogger(args.log_args['name'])
         self._id = id
         self._parent = parent
         self._attributes = attributes
@@ -45,18 +47,12 @@ class RootCmp:
          for attribute in self._attributes:
             key = attribute['key']
             value = attribute['value']
-            if key in standard_attributes:
-                if "value" in standard_attributes[key]:
-                    standard_attributes[key]["value"] = value
-                else:
-                    standard_attributes[key] = value
-            elif key in special_attributes:
-                if "value" in special_attributes[key]:
-                    special_attributes[key]["value"] = value
-                else:
-                    special_attributes[key] = value
+            if key in standard_attributes and "value" in standard_attributes[key]:
+                standard_attributes[key]["value"] = value
+            elif key in special_attributes and "value" in special_attributes[key]:
+                special_attributes[key]["value"] = value
             else:
-                print('Undefined Command: ' + key)
+                self._logger.warn('Undefined Command: ' + key)
 
     def _execStandardAttributes(self, standard_attributes):
         for attribute in standard_attributes.keys():
@@ -64,10 +60,6 @@ class RootCmp:
                 
     def _execSpecialAttributes(self, elements, complex_attributes):
         pass
-
-    def _addComponentToElements(self, elements):
-        elements[str(self._id)] = (self._component, {})
-       
 
     def _defineActions(self, actions):
         pass 
@@ -79,15 +71,15 @@ class RootCmp:
             if key in actions and "policy" in actions[key]:
                 actions[key]["policy"] = value
             else:
-                print('Undefined Command: ' + key + ", or policy item missing in command.")
-
+                self._logger.warn('Undefined Command: ' + key + ", or policy item missing in command.")
 
     def _execActions(self, actions, standard_attributes, special_attributes, elements):
         for key in actions.keys():
             actions[key]["exec"](self._component, key, actions, standard_attributes, special_attributes, elements)
  
 
-
-
+    def _addComponentToElements(self, elements):
+        elements[str(self._id)] = (self._component, {})
+    
 
     

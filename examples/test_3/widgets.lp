@@ -43,18 +43,8 @@ attribute(m, onhoverforegroundcolor, black).
 
 element(mi(X), dropdownmenuitem, m) :- p(X).
 attribute(mi(X), label, X) :- p(X).
-attribute(m, selected, X) :- p(X).
 callback(mi(X), click, assume(p(X))) :- p(X).
-
-element(c2, container, w).
-attribute(c2, width, 100).
-attribute(c2, height, 50).
-attribute(c2, borderwidth, 20).
-attribute(c2, bordercolor, pink).
-attribute(c2, backgroundcolor, red).
-attribute(c2, posx, 40).
-attribute(c2, posy, 50).
-
+attribute(m, selected, X) :- p(X).
 
 element(c4, container, c).
 attribute(c4, width, 146).
@@ -63,8 +53,10 @@ attribute(c4, backgroundcolor, beige).
 attribute(c4, posx, 100).
 attribute(c4, posy, 0).
 attribute(c4, childorg, grid).
-attribute(c4, padx, 10).
-attribute(c4, pady, 10).
+
+% Not implemented due to tkinter
+%attribute(c4, padx, 10).
+%attribute(c4, pady, 10).
 
 t(1..3).
 r(1..3).
@@ -77,6 +69,43 @@ attribute(c(X,Y), gridx, X) :- pos(X,Y).
 attribute(c(X,Y), gridy, Y) :- pos(X,Y).
 attribute(c(X,Y), backgroundcolor, pink) :- pos(X,Y), (X + Y) \ 2 = 0.
 attribute(c(X,Y), backgroundcolor, red) :- pos(X,Y), (X + Y) \ 2 = 1.
+
+
+
+
+element(c2, container, w).
+attribute(c2, width, 100).
+attribute(c2, height, 50).
+attribute(c2, borderwidth, 1).
+attribute(c2, bordercolor, pink).
+attribute(c2, backgroundcolor, white).
+attribute(c2, posx, 40).
+attribute(c2, posy, 50).
+attribute(c2, onhover, true).
+attribute(c2, onhoverbackgroundcolor, gray).
+callback(c2, click, clear).
+
+
+element(l1, label, c2).
+attribute(l1, backgroundcolor, blue).
+attribute(l1, foregroundcolor, brown).
+attribute(l1, label, "Clear!").
+attribute(l1, onhover, true).
+attribute(l1, onhoverbackgroundcolor, gray).
+attribute(l1, onhoverforegroundcolor, beige).
+attribute(l1, fontsize, 15).
+callback(l1, click, clear).
+
+
+
+
+
+
+
+
+
+
+
 
 
 

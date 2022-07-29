@@ -52,7 +52,7 @@ class RootCmp:
             elif key in special_attributes and "value" in special_attributes[key]:
                 special_attributes[key]["value"] = value
             else:
-                self._logger.warn('Undefined Command: ' + key)
+                self._logger.warn('Undefined Command: ' + key + ' for element: ' + attribute['id'])
 
     def _execStandardAttributes(self, standard_attributes):
         for attribute in standard_attributes.keys():

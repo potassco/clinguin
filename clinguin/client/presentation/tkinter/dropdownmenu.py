@@ -19,8 +19,8 @@ class Dropdownmenu(RootCmp):
     def _defineSpecialAttributes(self, special_attributes):
         # Interactive-Attributes
         special_attributes["onhover"] = {"value":"false"}
-        special_attributes["onhoverbackgroundcolor"] = {"value":""}
-        special_attributes["onhoverforegroundcolor"] = {"value":""}
+        special_attributes["onhoverbackgroundcolor"] = {"value":"white"}
+        special_attributes["onhoverforegroundcolor"] = {"value":"black"}
         
         special_attributes["selected"] = {"value":""}
         
@@ -48,22 +48,6 @@ class Dropdownmenu(RootCmp):
         if on_hover == "true":
             self._component.config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
             self._component["menu"].config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
-
-            """
-            def enter(event):
-                if on_hover_background_color != "":
-                    self._setBackgroundColor(self._component, "onhoverbackgroundcolor", special_attributes)
-                if on_hover_foreground_color != "":
-                    self._setForegroundColor(self._component, "onhoverforegroundcolor", special_attributes)
-
-            def leave(event):
-                self._setBackgroundColor(self._component, "backgroundcolor", standard_attributes)
-                self._setForegroundColor(self._component, "foregroundcolor", standard_attributes)
-    
-            self._component.bind('<Enter>', enter)
-            self._component.bind('<Leave>', leave)
-            """
- 
 
     def _setSelected(self, elements, standard_attributes, special_attributes):
         if special_attributes["selected"]['value'] != "":

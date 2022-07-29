@@ -17,5 +17,8 @@ class AbstractGui:
     def dropdownmenuitem(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
 
+    def label(self, id, parent, attributes, callbacks):
+        print("LABEL: " + str(id) + "::" + str(parent))
+
     def draw(self):
         print("DRAW")

@@ -15,8 +15,26 @@ class Container(RootCmp):
         standard_attributes["childorg"] = {"value":"flex", "exec":self._setChildOrg}
         standard_attributes["borderwidth"] = {"value":str(0), "exec":self._setBorderWidth}
         standard_attributes["bordercolor"] = {"value":"black", "exec":self._setBorderBackgroundColor}
-       
 
+    def _defineSpecialAttributes(self, special_attributes):
+        # Layout-Control
+        special_attributes["gridx"] = {"value":str(0)}
+        special_attributes["gridy"] = {"value":str(0)}
+
+        special_attributes["posx"] = {"value":str(0)}
+        special_attributes["posy"] = {"value":str(0)}
+
+        # Interactive-Attributes
+        special_attributes["onhover"] = {"value":"false"}
+        special_attributes["onhoverbackgroundcolor"] = {"value":""}
+        special_attributes["onhoverbordercolor"] = {"value":""}
+
+    def _defineActions(self, actions):
+        actions["click"] = {"policy":None, "exec":self._defineClickEvent}
+
+    #----------------------------------------------------------------------------------------------
+    #-----Standard-Attributes----
+    #----------------------------------------------------------------------------------------------
     def _setBackgroundColor(self, component, key, standard_attributes):
         component.configure(background = standard_attributes[key]["value"])
 
@@ -26,7 +44,6 @@ class Container(RootCmp):
             component.configure(width = int(value))
         else:
             self._logger.warn("For element " + self._id + " ,setWidth for " + key + " is not a digit: " + value)
-
 
 
     def _setHeight(self, component, key, standard_attributes):
@@ -63,18 +80,10 @@ class Container(RootCmp):
         value = standard_attributes[key]["value"]
         component.configure(highlightbackground = value, highlightcolor = value)
 
-    def _defineSpecialAttributes(self, special_attributes):
-        # Layout-Control
-        special_attributes["gridx"] = {"value":str(0)}
-        special_attributes["gridy"] = {"value":str(0)}
 
-        special_attributes["posx"] = {"value":str(0)}
-        special_attributes["posy"] = {"value":str(0)}
-
-        # Interactive-Attributes
-        special_attributes["onhover"] = {"value":"false"}
-        special_attributes["onhoverbackgroundcolor"] = {"value":""}
-        special_attributes["onhoverbordercolor"] = {"value":""}
+    #----------------------------------------------------------------------------------------------
+    #-----Special-Attributes----
+    #----------------------------------------------------------------------------------------------
 
     def _execSpecialAttributes(self, elements, standard_attributes, special_attributes):
         self._setLayout(elements, standard_attributes, special_attributes)
@@ -133,7 +142,17 @@ class Container(RootCmp):
     
             self._component.bind('<Enter>', enter)
             self._component.bind('<Leave>', leave)
-        
+ 
+    #----------------------------------------------------------------------------------------------
+    #-----Actions----
+    #----------------------------------------------------------------------------------------------
+       
+    def _defineClickEvent(self, component, key, actions, standard_attributes, special_attributes, elements):
+        if actions[key] and actions[key]["policy"]:
+            def dropdownmenuitemClick(event):
+                self._base_engine.assume(actions[key]["policy"])
+
+            component.bind('<Button-1>', dropdownmenuitemClick)
 
     def _addComponentToElements(self, elements):
         elements[str(self._id)] = (self._component, {"childorg":self._child_org})

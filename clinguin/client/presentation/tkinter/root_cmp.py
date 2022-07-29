@@ -24,7 +24,7 @@ class RootCmp:
 
         self._execStandardAttributes(standard_attributes)
 
-        self._execSpecialAttributes(elements, special_attributes)
+        self._execSpecialAttributes(elements, standard_attributes, special_attributes)
 
 
         actions = {}
@@ -58,7 +58,7 @@ class RootCmp:
         for attribute in standard_attributes.keys():
             standard_attributes[attribute]["exec"](self._component, attribute, standard_attributes)
                 
-    def _execSpecialAttributes(self, elements, complex_attributes):
+    def _execSpecialAttributes(self, elements, standard_attributes, complex_attributes):
         pass
 
     def _defineActions(self, actions):

@@ -22,7 +22,7 @@ class Dropdownmenu(RootCmp):
         special_attributes["selected"] = {"value":""}
         
 
-    def _execSpecialAttributes(self, elements, special_attributes):
+    def _execSpecialAttributes(self, elements, standard_attributes, special_attributes):
         if special_attributes["selected"]['value'] != "":
             self._variable.set(special_attributes["selected"]['value'])
 

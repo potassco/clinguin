@@ -16,7 +16,7 @@ class Window(RootCmp):
         standard_attributes["height"] = {"value":str(self._component.winfo_screenheight()), "exec":self._setDimensions}
         standard_attributes["resizablex"] = {"value":str(1), "exec":self._setResizable}
         standard_attributes["resizabley"] = {"value":str(1), "exec":self._setResizable}
-        standard_attributes["childorg"] = {"value":"grid", "exec":self._setChildOrg}
+        standard_attributes["childorg"] = {"value":"flex", "exec":self._setChildOrg}
 
     def _backgroundColor(self, component, key, standard_attributes):
         component.configure(background=standard_attributes[key]["value"])

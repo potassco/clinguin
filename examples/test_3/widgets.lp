@@ -101,12 +101,26 @@ callback(l1, click, clear).
 
 
 
+element(c3, container, w).
+attribute(c3, width, 100).
+attribute(c3, height, 50).
+attribute(c3, borderwidth, 1).
+attribute(c3, bordercolor, pink).
+attribute(c3, backgroundcolor, white).
+attribute(c3, posx, 40).
+attribute(c3, posy, 80).
+attribute(c3, onhover, true).
+attribute(c3, onhoverbackgroundcolor, gray).
+callback(c3, click, clear).
 
-
-
-
-
-
-
+element(b, button, c3).
+attribute(b, backgroundcolor, blue).
+attribute(b, foregroundcolor, brown).
+attribute(b, label, "Clear!").
+attribute(b, onhover, true).
+attribute(b, onhoverbackgroundcolor, gray).
+attribute(b, onhoverforegroundcolor, beige).
+attribute(b, fontsize, 15).
+callback(b, click, clear).
 
 

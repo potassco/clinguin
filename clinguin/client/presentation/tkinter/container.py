@@ -15,18 +15,38 @@ class Container(RootCmp):
         standard_attributes["childorg"] = {"value":"flex", "exec":self._setChildOrg}
         standard_attributes["borderwidth"] = {"value":str(0), "exec":self._setBorderWidth}
         standard_attributes["bordercolor"] = {"value":"black", "exec":self._setBorderBackgroundColor}
+       
 
     def _setBackgroundColor(self, component, key, standard_attributes):
         component.configure(background = standard_attributes[key]["value"])
 
     def _setWidth(self, component, key, standard_attributes):
-        component.configure(width = int(standard_attributes[key]["value"]))
+        value = standard_attributes[key]["value"]
+        if value.isdigit():
+            component.configure(width = int(value))
+        else:
+            self._logger.warn("For element " + self._id + " ,setWidth for " + key + " is not a digit: " + value)
+
+
 
     def _setHeight(self, component, key, standard_attributes):
-        component.configure(height = int(standard_attributes[key]["value"]))
+        value = standard_attributes[key]["value"]
+        if value.isdigit():
+            component.configure(height = int(value))
+        else:
+            self._logger.warn("For element " + self._id + " ,setHeight for " + key + " is not a digit: " + value)
 
     def _setChildOrg(self, component, key, standard_attributes):
-        self._child_org = standard_attributes[key]["value"]
+        value = standard_attributes[key]["value"]
+        self._child_org = value
+
+        if value == "flex" or value == "relstatic" or value == "absstatic":
+            self._component.pack_propagate(0)
+        elif value == "grid":
+            self._component.grid_propagate(0)
+        else:
+            self._logger.warn("For element " + self._id + " ,for the children-organisation (arg:  " + key + "), the value " + value + " is not a valid option")
+        
 
     def _setBorderWidth(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
@@ -35,7 +55,8 @@ class Container(RootCmp):
                 # Not using borderwidth as one cannot set the color of the default border
                 component.configure(highlightthickness = int(value))
         else:
-            self._logger.warn("setBorderwidth for " + key + " is not a digit: " + value)
+            self._logger.warn("For element " + self._id + " ,setBorderwidth for " + key + " is not a digit: " + value)
+
 
     def _setBorderBackgroundColor(self, component, key, standard_attributes):
         # Not using borderwidth as one cannot set the color of the default border
@@ -43,9 +64,14 @@ class Container(RootCmp):
         component.configure(highlightbackground = value, highlightcolor = value)
 
     def _defineSpecialAttributes(self, special_attributes):
+        # Layout-Control
         special_attributes["gridx"] = {"value":str(0)}
         special_attributes["gridy"] = {"value":str(0)}
 
+        special_attributes["posx"] = {"value":str(0)}
+        special_attributes["posy"] = {"value":str(0)}
+
+        # Interactive-Attributes
         special_attributes["onhover"] = {"value":"false"}
         special_attributes["onhoverbackgroundcolor"] = {"value":""}
         special_attributes["onhoverbordercolor"] = {"value":""}
@@ -60,13 +86,34 @@ class Container(RootCmp):
 
         if parent_org == "flex":
             self._component.pack(expand=True)
-        elif parent_org == "grid" and int(special_attributes["gridx"]['value']) >= 0 and int(special_attributes["gridy"]['value']) >= 0:
-            self._component.grid(
-                column=int(special_attributes["gridx"]['value']), 
-                row=int(special_attributes["gridy"]['value']))
-        elif parent_org == "static":
-            print("STATIC")
+            self._component.pack_propagate(0)
+        elif parent_org == "grid":
+            if int(special_attributes["gridx"]['value']) >= 0 and int(special_attributes["gridy"]['value']) >= 0:
+                self._component.grid(
+                    column=int(special_attributes["gridx"]['value']), 
+                    row=int(special_attributes["gridy"]['value']))
+                self._component.grid_propagate(0)
+        elif parent_org == "absstatic" or parent_org =="relstatic":
+            x = special_attributes["posx"]["value"]
+            y = special_attributes["posy"]["value"]
 
+            if x.isdigit() and y.isdigit():
+                if int(x) >= 0 and int(y) >= 0:
+                    if parent_org == "absstatic":
+                        self._component.place(
+                            x=int(x), 
+                            y=int(y))
+                        self._component.pack_propagate(0)               
+                    elif parent_org == "relstatic":
+                        self._component.place(
+                            relx=int(x)/100, 
+                            rely=int(y)/100)
+                        self._component.pack_propagate(0)               
+                else:
+                    self._logger.warn("For element " + self._id + " ,either posx or posy are not non-negative-numbers.")
+                
+            else:
+                self._logger.warn("For element " + self._id + " ,either posx or posy are not numbers.")
 
     def _setOnHover(self, elements, standard_attributes, special_attributes): 
         on_hover = special_attributes["onhover"]["value"]
@@ -89,7 +136,6 @@ class Container(RootCmp):
         
 
     def _addComponentToElements(self, elements):
-        self._component.pack_propagate(0)
         elements[str(self._id)] = (self._component, {"childorg":self._child_org})
 
 

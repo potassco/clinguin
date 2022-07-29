@@ -10,8 +10,8 @@ class Container(RootCmp):
 
     def _defineStandardAttributes(self, standard_attributes):
         standard_attributes["backgroundcolor"] = {"value":"white", "exec":self._setBackgroundColor}
-        standard_attributes["width"] = {"value":str(50), "exec":self._setWidth}
-        standard_attributes["height"] = {"value":str(50), "exec":self._setHeight}
+        standard_attributes["width"] = {"value":str(-1), "exec":self._setWidth}
+        standard_attributes["height"] = {"value":str(-1), "exec":self._setHeight}
         standard_attributes["childorg"] = {"value":"flex", "exec":self._setChildOrg}
         standard_attributes["borderwidth"] = {"value":str(0), "exec":self._setBorderWidth}
         standard_attributes["bordercolor"] = {"value":"black", "exec":self._setBorderBackgroundColor}
@@ -40,16 +40,18 @@ class Container(RootCmp):
 
     def _setWidth(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
-        if value.isdigit():
-            component.configure(width = int(value))
+        if value.isdigit() and int(value) >= -1:
+            if int(value) >= 0:
+                component.configure(width = int(value))
         else:
             self._logger.warn("For element " + self._id + " ,setWidth for " + key + " is not a digit: " + value)
 
 
     def _setHeight(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
-        if value.isdigit():
-            component.configure(height = int(value))
+        if value.isdigit() and int(value) >= -1:
+            if int(value) >= 0:
+                component.configure(height = int(value))
         else:
             self._logger.warn("For element " + self._id + " ,setHeight for " + key + " is not a digit: " + value)
 
@@ -94,8 +96,8 @@ class Container(RootCmp):
         parent_org = elements[self._parent][1]["childorg"]
 
         if parent_org == "flex":
-            self._component.pack(expand=True)
-            self._component.pack_propagate(0)
+            self._component.pack(fill='both')
+            self._component.pack_propagate(0)               
         elif parent_org == "grid":
             if int(special_attributes["gridx"]['value']) >= 0 and int(special_attributes["gridy"]['value']) >= 0:
                 self._component.grid(

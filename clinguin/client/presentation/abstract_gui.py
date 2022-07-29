@@ -20,5 +20,9 @@ class AbstractGui:
     def label(self, id, parent, attributes, callbacks):
         print("LABEL: " + str(id) + "::" + str(parent))
 
+    def button(self, id, parent, attributes, callbacks):
+        print("BUTTON: " + str(id) + "::" + str(parent))
+
+
     def draw(self):
         print("DRAW")

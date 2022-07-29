@@ -6,6 +6,7 @@ from .container import Container
 from .dropdownmenu import Dropdownmenu
 from .dropdownmenu_item import DropdownmenuItem
 from .label import Label
+from .button import Button
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
 
@@ -51,7 +52,9 @@ class TkinterGui(AbstractGui):
         label = Label(self._args, id, parent, attributes, callbacks, self._base_engine)
         label.addComponent(self.elements)
 
-
+    def button(self, id, parent, attributes, callbacks):
+        button = Button(self._args, id, parent, attributes, callbacks, self._base_engine)
+        button.addComponent(self.elements)
 
     def draw(self, id):
         self.first = False

@@ -5,7 +5,7 @@ from .root_cmp import RootCmp
 class Container(RootCmp):
 
     def _defineComponent(self, elements):
-        container = tk.Frame(elements[str(self._parent)][0])
+        container = tk.Frame(elements[str(self._parent)].getWidget())
         return container
 
     def _defineStandardAttributes(self, standard_attributes):
@@ -65,6 +65,9 @@ class Container(RootCmp):
             self._component.grid_propagate(0)
         else:
             self._logger.warn("For element " + self._id + " ,for the children-organisation (arg:  " + key + "), the value " + value + " is not a valid option")
+    
+    def getChildOrg(self):
+        return self._child_org
         
 
     def _setBorderWidth(self, component, key, standard_attributes):
@@ -93,7 +96,12 @@ class Container(RootCmp):
         self._setOnHover(elements, standard_attributes, special_attributes)
    
     def _setLayout(self, elements, standard_attributes, special_attributes):
-        parent_org = elements[self._parent][1]["childorg"]
+        parent = elements[self._parent]
+        if hasattr(parent, "getChildOrg"):
+            parent_org = getattr(parent, "getChildOrg")()
+        else:
+            self._logger.warn("Could not find necessary attribute childOrg() in id: " + str(self._parent))
+            return
 
         if parent_org == "flex":
             self._component.pack(fill='both')
@@ -155,10 +163,6 @@ class Container(RootCmp):
                 self._base_engine.assume(actions[key]["policy"])
 
             component.bind('<Button-1>', dropdownmenuitemClick)
-
-    def _addComponentToElements(self, elements):
-        elements[str(self._id)] = (self._component, {"childorg":self._child_org})
-
 
 
 

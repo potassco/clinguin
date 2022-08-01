@@ -6,7 +6,7 @@ from .call_back_definition import CallBackDefinition
 class DropdownmenuItem(RootCmp):
 
     def _defineComponent(self, elements):
-        menu = elements[str(self._parent)][0]
+        menu = elements[str(self._parent)].getWidget()
         return menu
 
     def _defineStandardAttributes(self, standard_attributes):
@@ -30,14 +30,18 @@ class DropdownmenuItem(RootCmp):
                     elements,
                     self._dropdownmenuitemClick))
 
-    def _dropdownmenuitemClick(self, id, parent, click_policy, elements):
-        variable = elements[str(parent)][1]["variable"]
-        variable.set(id)
-        if (click_policy is not None):
-            self._base_engine.assume(click_policy)
+    def _dropdownmenuitemClick(self, id, parent_id, click_policy, elements):
+        parent = elements[str(parent_id)]
+        if hasattr(parent, "getVariable"):
+            variable = getattr(parent, "getVariable")()
+            variable.set(id)
+            if (click_policy is not None):
+                self._base_engine.assume(click_policy)
+        else:
+            self._logger.warn("Could not set variable for dropdownmenu. Item id: " + str(id) + ", dropdown-menu-id: " + str(parent_id))
 
-
-
+    def forgetChildren(self, elements):
+        pass
 
 
 

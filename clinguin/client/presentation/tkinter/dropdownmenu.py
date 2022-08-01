@@ -8,9 +8,12 @@ class Dropdownmenu(RootCmp):
     def _defineComponent(self, elements):
         self._variable = tk.StringVar()
         items = []
-        menu = tk.OptionMenu(elements[self._parent][0], self._variable, "", *items)
+        menu = tk.OptionMenu(elements[self._parent].getWidget(), self._variable, "", *items)
 
         return menu
+
+    def getVariable(self):
+        return self._variable
 
     def _defineStandardAttributes(self, standard_attributes):
         standard_attributes["backgroundcolor"] = {"value":"white", "exec":self._setBackgroundColor}
@@ -55,7 +58,7 @@ class Dropdownmenu(RootCmp):
 
     def _addComponentToElements(self, elements):
         self._component.pack(expand=True)
-        elements[str(self._id)] = (self._component, {"variable": self._variable})
+        elements[str(self._id)] = self
 
 
 

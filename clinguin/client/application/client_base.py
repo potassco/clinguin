@@ -27,6 +27,7 @@ class ClientBase:
         (status_code, response) = self.api.get("")
         if status_code == 200:
             self.draw(response)
+            self.gui_generator.draw(response['children'][0]['id'])
         else:
             logging.getLogger("client").error(
                 "Connection error, status code: " + str(status_code))
@@ -45,8 +46,10 @@ class ClientBase:
                 time.sleep(1)
 
     def draw(self, response):
+        start = time.time()
         self.baseEngine(response)
-        self.gui_generator.draw(response['children'][0]['id'])
+        end = time.time()
+        self._logger.debug("Generation of GUI needed about " + str(end - start) + " seconds.")
 
     def baseEngine(self, response):
         children = response['children']

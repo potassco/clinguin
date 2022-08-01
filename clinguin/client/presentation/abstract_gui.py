@@ -23,6 +23,15 @@ class AbstractGui:
     def button(self, id, parent, attributes, callbacks):
         print("BUTTON: " + str(id) + "::" + str(parent))
 
+    def menubar(self, id, parent, attributes, callbacks):
+        print("MENUBAR: " + str(id) + "::" + str(parent))
+
+    def menubarsection(self, id, parent, attributes, callbacks):
+        print("MENUBARSECTION: " + str(id) + "::" + str(parent))
+
+    def menubarsectionitem(self, id, parent, attributes, callbacks):
+        print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
+
 
     def draw(self):
         print("DRAW")

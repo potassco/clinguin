@@ -2,11 +2,12 @@ from tkinter import font
 import tkinter as tk
 
 from .root_cmp import RootCmp
+from .standard_text_processing import StandardTextProcessing
 
 class Label(RootCmp):
 
     def _defineComponent(self, elements):
-        label = tk.Label(elements[str(self._parent)][0])
+        label = tk.Label(elements[str(self._parent)].getWidget())
         return label
 
     def _defineStandardAttributes(self, standard_attributes):
@@ -35,11 +36,7 @@ class Label(RootCmp):
     #----------------------------------------------------------------------------------------------
 
     def _setLabelText(self, component, key, standard_attributes):
-        text = standard_attributes[key]["value"]
-        if text[0] == "\"":
-            text = text[1:]
-        if text[len(text)-1] == "\"":
-            text = text[:-1]
+        text = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
         component.configure(text = text)
 
     def _setBackgroundColor(self, component, key, standard_attributes):
@@ -110,7 +107,7 @@ class Label(RootCmp):
 
     def _addComponentToElements(self, elements):
         self._component.pack(expand=True)
-        elements[str(self._id)] = (self._component, {})
+        elements[str(self._id)] = self
 
 
 

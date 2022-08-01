@@ -11,6 +11,9 @@ class RootCmp:
         self._base_engine = base_engine
         self._component = None
 
+    def getWidget(self):
+        return self._component
+
     def addComponent(self, elements):
         self._component = self._defineComponent(elements)        
 
@@ -79,7 +82,21 @@ class RootCmp:
  
 
     def _addComponentToElements(self, elements):
-        elements[str(self._id)] = (self._component, {})
+        elements[str(self._id)] = self
     
+    def forgetChildren(self, elements):
+        if str(self._parent) in elements:
+            if hasattr(elements[self._parent], "getChildOrg"):
+                parent_org = getattr(elements[self._parent], "getChildOrg")()
+                if parent_org == "flex" or parent_org == "absstatic" or parent_org =="relstatic":
+                    self._component.pack_forget()
+                elif parent == "grid":
+                    self._component.grid_forget()
+                else:
+                    self._component.forget()
+            else:
+                self._component.forget()
+        else:
+            pass
 
     

@@ -33,7 +33,10 @@ class Window(RootCmp):
     def _setChildOrg(self, component, key, standard_attributes):
         self._child_org = standard_attributes[key]["value"]
 
+    def getChildOrg(self):
+        return self._child_org
+
     def _addComponentToElements(self, elements):
-        elements[str(self._id)] = (self._component, {"childorg":self._child_org})
+        elements[str(self._id)] = self
 
 

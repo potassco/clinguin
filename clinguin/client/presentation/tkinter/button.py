@@ -6,7 +6,7 @@ from .root_cmp import RootCmp
 class Button(RootCmp):
 
     def _defineComponent(self, elements):
-        button = tk.Button(elements[str(self._parent)][0])
+        button = tk.Button(elements[str(self._parent)].getWidget())
         return button
 
     def _defineStandardAttributes(self, standard_attributes):
@@ -109,7 +109,7 @@ class Button(RootCmp):
 
     def _addComponentToElements(self, elements):
         self._component.pack(expand=True)
-        elements[str(self._id)] = (self._component, {})
+        elements[str(self._id)] = self
 
 
 

@@ -8,6 +8,10 @@ from .dropdownmenu_item import DropdownmenuItem
 from .label import Label
 from .button import Button
 
+from .menu_bar import MenuBar
+from .menu_bar_section import MenuBarSection
+from .menu_bar_section_item import MenuBarSectionItem
+
 from clinguin.client.presentation.abstract_gui import AbstractGui
 
 class TkinterGui(AbstractGui):
@@ -31,9 +35,10 @@ class TkinterGui(AbstractGui):
             for key in keys:
                 if str(key) == str(id):
                     continue
-
-                self.elements[str(key)][0].pack_forget()
-                del self.elements[str(key)]
+                
+                if str(key) in self.elements:
+                    self.elements[str(key)].forgetChildren(self.elements)
+                    del self.elements[str(key)]
 
     def container(self, id, parent, attributes, callbacks):
         container = Container(self._args, id, parent, attributes, callbacks, self._base_engine)
@@ -56,6 +61,18 @@ class TkinterGui(AbstractGui):
         button = Button(self._args, id, parent, attributes, callbacks, self._base_engine)
         button.addComponent(self.elements)
 
+    def menubar(self, id, parent, attributes, callbacks):
+        menubar = MenuBar(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menubar.addComponent(self.elements)
+
+    def menubarsection(self, id, parent, attributes, callbacks):
+        menubar = MenuBarSection(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menubar.addComponent(self.elements)
+
+    def menubarsectionitem(self, id, parent, attributes, callbacks):
+        menubar = MenuBarSectionItem(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menubar.addComponent(self.elements)
+
     def draw(self, id):
         self.first = False
-        self.elements[id][0].mainloop()
+        self.elements[id].getWidget().mainloop()

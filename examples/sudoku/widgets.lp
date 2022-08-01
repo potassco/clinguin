@@ -32,8 +32,8 @@ attribute(uc, width, grid_width_value).
 c(X,Y) :- pos(X,Y).
 
 element(c(X,Y), container, uc) :- c(X,Y).
-attribute(c(X,Y), gridx, X-1) :- c(X,Y).
-attribute(c(X,Y), gridy, Y-1) :- c(X,Y).
+attribute(c(X,Y), gridcolumn, X-1) :- c(X,Y).
+attribute(c(X,Y), gridrow, Y-1) :- c(X,Y).
 % attribute(c(X,Y),backgroundcolor,blue):- c(X,Y).
 % attribute(c(X,Y),backgroundcolor,blue):- subgrid(X,Y,S).
 attribute(c(X,Y),backgroundcolor,grey):- subgrid(X,Y,S), S\2==0.

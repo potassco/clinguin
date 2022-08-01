@@ -13,6 +13,15 @@ attribute(window, resizablex, 0).
 attribute(window, resizabley, 0).
 attribute(window, childorg, absstatic).
 
+element(m, menubar, window).
+
+element(ms, menubarsection, m).
+attribute(ms, label, "Options").
+
+element(msi1, menubarsectionitem, ms).
+attribute(msi1, label, "Clear").
+callback(msi1, click, clear).
+
 element(uc, container, window).
 attribute(uc, childorg, grid).
 attribute(uc, posx, 50).

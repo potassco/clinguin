@@ -4,6 +4,20 @@ attribute(w, width, 500).
 attribute(w, backgroundcolor, white).
 attribute(w, childorg, relstatic).
 
+element(m, menubar, w).
+
+element(ms1, menubarsection, m).
+attribute(ms1, label, "File").
+
+element(ms1i1, menubarsectionitem, ms1).
+attribute(ms1i1, label, "Open").
+element(ms1i2, menubarsectionitem, ms1).
+attribute(ms1i2, label, "Close").
+callback(ms1i2, click, clear).
+
+element(ms2, menubarsection, m).
+element(ms2i2, menubarsectionitem, ms2).
+
 element(c, container, w).
 attribute(c, width, 250).
 attribute(c, height, 150).

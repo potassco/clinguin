@@ -65,8 +65,8 @@ pos(T,R) :- t(T), r(R).
 element(c(X,Y), container, c4) :- pos(X,Y).
 attribute(c(X,Y), width, 48) :- pos(X,Y).
 attribute(c(X,Y), height, 48) :- pos(X,Y).
-attribute(c(X,Y), gridx, X) :- pos(X,Y).
-attribute(c(X,Y), gridy, Y) :- pos(X,Y).
+attribute(c(X,Y), gridcolumn, X) :- pos(X,Y).
+attribute(c(X,Y), gridrow, Y) :- pos(X,Y).
 attribute(c(X,Y), backgroundcolor, pink) :- pos(X,Y), (X + Y) \ 2 = 0.
 attribute(c(X,Y), backgroundcolor, red) :- pos(X,Y), (X + Y) \ 2 = 1.
 

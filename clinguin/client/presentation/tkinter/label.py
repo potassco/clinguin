@@ -1,8 +1,8 @@
 from tkinter import font
 import tkinter as tk
 
-from .root_cmp import RootCmp
-from .standard_text_processing import StandardTextProcessing
+from clinguin.client.presentation.tkinter.root_cmp import RootCmp
+from clinguin.client.presentation.tkinter.standard_text_processing import StandardTextProcessing
 
 class Label(RootCmp):
 

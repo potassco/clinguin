@@ -1,8 +1,8 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-from .call_back_definition import CallBackDefinition
-from .standard_text_processing import StandardTextProcessing
+from clinguin.client.presentation.tkinter.root_cmp import RootCmp
+from clinguin.client.presentation.tkinter.call_back_definition import CallBackDefinition
+from clinguin.client.presentation.tkinter.standard_text_processing import StandardTextProcessing
 
 class MenuBarSectionItem(RootCmp):
 

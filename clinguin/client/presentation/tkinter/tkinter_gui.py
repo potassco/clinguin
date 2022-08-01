@@ -1,16 +1,16 @@
 import tkinter as tk
 import logging
 
-from .window import Window
-from .container import Container
-from .dropdownmenu import Dropdownmenu
-from .dropdownmenu_item import DropdownmenuItem
-from .label import Label
-from .button import Button
+from clinguin.client.presentation.tkinter.window import Window
+from clinguin.client.presentation.tkinter.container import Container
+from clinguin.client.presentation.tkinter.dropdownmenu import Dropdownmenu
+from clinguin.client.presentation.tkinter.dropdownmenu_item import DropdownmenuItem
+from clinguin.client.presentation.tkinter.label import Label
+from clinguin.client.presentation.tkinter.button import Button
 
-from .menu_bar import MenuBar
-from .menu_bar_section import MenuBarSection
-from .menu_bar_section_item import MenuBarSectionItem
+from clinguin.client.presentation.tkinter.menu_bar import MenuBar
+from clinguin.client.presentation.tkinter.menu_bar_section import MenuBarSection
+from clinguin.client.presentation.tkinter.menu_bar_section_item import MenuBarSectionItem
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
 

@@ -10,6 +10,8 @@ import textwrap
 import glob
 
 from .server.application.clinguin_backend import ClinguinBackend
+from .client.presentation.abstract_gui import AbstractGui
+#from .client.presentation.tkinter.tkinter_gui import TkinterGui
 
 class ArgumentParser():
     """
@@ -18,6 +20,7 @@ class ArgumentParser():
 
     default_solver_package = '.server.application.default_solvers'
     default_solver = 'ClingoBackend'
+    default_client = 'TkinterGui'
 
     def __init__(self) -> None:
         self.titles = {
@@ -63,6 +66,7 @@ class ArgumentParser():
 
     def _addSelectedSolver(self, args):
         args.solver = self.solver
+        args.client = self.client
 
     @property
     def _clinguin_title(self):
@@ -107,40 +111,47 @@ class ArgumentParser():
         return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _importClasses(self, path):
-        if path is None:
-            sys.path.append('./clinguin/server/application/default_solvers')
-            for name in glob.glob(
-                    './clinguin/server/application/default_solvers' + '/*.py'):
-                base = os.path.basename(name)
-                file_name = os.path.splitext(base)[0]
-                importlib.import_module(file_name)
-        else:
-            sys.path.append(path)
-            for name in glob.glob(path + '/*.py'):
-                base = os.path.basename(name)
-                file_name = os.path.splitext(base)[0]
-                importlib.import_module(file_name)
+        sys.path.append(path)
+        for name in glob.glob(path + '/*.py'):
+            base = os.path.basename(name)
+            file_name = os.path.splitext(base)[0]
+            importlib.import_module(file_name)
 
     def _parseCustomClasses(self):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
-        custom_imports_parser.add_argument('--custom-classes', type=str,
+        custom_imports_parser.add_argument('--custom-server-classes', type=str,
                                            help='Location of custom classes')
         self._addDefaultArgumentsToSolverParser(custom_imports_parser)
+        
+        custom_imports_parser.add_argument('--custom-client-classes', type=str,
+                                           help='Location of custom classes')
+        self._addDefaultArgumentsToClientParser(custom_imports_parser)
 
         args, _ = custom_imports_parser.parse_known_args()
-
+    
+        self.client_name = args.client
         self.solver_name = args.solver
-        self._importClasses(args.custom_classes)
+        if args.custom_server_classes:
+            self._importClasses(args.custom_server_classes)
+        else:
+            self._importClasses('./clinguin/server/application/default_solvers')
+
+        if args.custom_client_classes:
+            self._importClasses(args.custom_client_classes)
+        else:
+            self._importClasses('./clinguin/client/presentation/tkinter')
 
     def _createGeneralOptionsParser(self):
         general_options_parser = argparse.ArgumentParser(
             add_help=True, formatter_class=argparse.RawTextHelpFormatter)
         general_options_parser.add_argument(
-            '--custom-classes',
+            '--custom-server-classes',
             type=str,
             help='Path to custom classes',
             metavar='')
-
+        general_options_parser.add_argument('--custom-client-classes', type=str,
+                                           help='Location of custom classes')
+ 
         return general_options_parser
 
     def _addLogArguments(self, parser, abbrevation='', logger_name = '', display_name=''):
@@ -190,6 +201,10 @@ class ArgumentParser():
             parents=[parent],
             formatter_class=argparse.RawTextHelpFormatter)
         self._addLogArguments(parser_client, abbrevation='C', logger_name = 'client')       
+
+        self._addCustomClientsArgumentsToParser(parser_client)
+
+
         return parser_client
 
     def _createServerSubparser(self, subparsers, parent):
@@ -218,6 +233,8 @@ class ArgumentParser():
         self._addLogArguments(parser_server_client, abbrevation='C', logger_name = 'client', display_name= 'client-')       
         self._addLogArguments(parser_server_client, abbrevation='S', logger_name = 'server', display_name ='server-')       
 
+        self._addCustomClientsArgumentsToParser(parser_server_client)
+
         self._addDefaultArgumentsToSolverParser(parser_server_client)
         self._addCustomSolversArgumentsToParser(parser_server_client)
 
@@ -227,6 +244,14 @@ class ArgumentParser():
         parser.add_argument('--solver', type=str,
                             help=textwrap.dedent('''\
                 Optionally specify which solver to use using the class name.
+                See available custom solvers bellow:
+                '''),
+                            metavar='')
+
+    def _addDefaultArgumentsToClientParser(self, parser):
+        parser.add_argument('--client', type=str,
+                            help=textwrap.dedent('''\
+                Optionally specify which client to use using the class name.
                 See available custom solvers bellow:
                 '''),
                             metavar='')
@@ -243,3 +268,18 @@ class ArgumentParser():
                 group = parser.add_argument_group(solver.__name__)
                 solver.registerOptions(group)
                 self.solver = solver
+
+    def _addCustomClientsArgumentsToParser(self, parser):
+        solvers = AbstractGui.__subclasses__()
+
+        for solver in solvers:
+            if not self.client_name and solver.__name__ == ArgumentParser.default_client:
+                #group = parser.add_argument_group(solver.__name__)
+                #solver.registerOptions(group)
+                self.client = solver
+            elif solver.__name__ == self.client_name:
+                #group = parser.add_argument_group(solver.__name__)
+                #solver.registerOptions(group)
+                self.client = solver
+
+

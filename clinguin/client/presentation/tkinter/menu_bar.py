@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
+from clinguin.client.presentation.tkinter.root_cmp import RootCmp
 
 class MenuBar(RootCmp):
 

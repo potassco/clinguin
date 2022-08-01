@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-from .standard_text_processing import StandardTextProcessing
+from clinguin.client.presentation.tkinter.root_cmp import RootCmp
+from clinguin.client.presentation.tkinter.standard_text_processing import StandardTextProcessing
 
 class Container(RootCmp):
 
@@ -38,6 +38,7 @@ class Container(RootCmp):
     #----------------------------------------------------------------------------------------------
     #-----Standard-Attributes----
     #----------------------------------------------------------------------------------------------
+
     def _setBackgroundColor(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
         value = StandardTextProcessing.parseStringWithQuotes(value)
@@ -169,7 +170,7 @@ class Container(RootCmp):
             def leave(event):
                 self._setBackgroundColor(self._component, "backgroundcolor", standard_attributes)
                 self._setBorderBackgroundColor(self._component, "bordercolor", standard_attributes)
-    
+            
             self._component.bind('<Enter>', enter)
             self._component.bind('<Leave>', leave)
  

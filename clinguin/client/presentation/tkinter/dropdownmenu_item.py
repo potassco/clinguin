@@ -1,7 +1,7 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-from .call_back_definition import CallBackDefinition
+from clinguin.client.presentation.tkinter.root_cmp import RootCmp
+from clinguin.client.presentation.tkinter.call_back_definition import CallBackDefinition
 
 class DropdownmenuItem(RootCmp):
 

@@ -78,3 +78,6 @@ def main():
         args_copy.log_args = client_log_dict
 
         client_start(args_copy)
+
+
+

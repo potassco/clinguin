@@ -18,8 +18,10 @@ class Container(RootCmp):
 
     def _defineSpecialAttributes(self, special_attributes):
         # Layout-Control
-        special_attributes["gridx"] = {"value":str(0)}
-        special_attributes["gridy"] = {"value":str(0)}
+        special_attributes["gridcolumn"] = {"value":str(0)}
+        special_attributes["gridrow"] = {"value":str(0)}
+        special_attributes["gridcolumnspan"] = {"value":str(1)}
+        special_attributes["gridrowspan"] = {"value":str(1)}
 
         special_attributes["posx"] = {"value":str(0)}
         special_attributes["posy"] = {"value":str(0)}
@@ -106,12 +108,24 @@ class Container(RootCmp):
         if parent_org == "flex":
             self._component.pack(fill='both')
             self._component.pack_propagate(0)               
+
         elif parent_org == "grid":
-            if int(special_attributes["gridx"]['value']) >= 0 and int(special_attributes["gridy"]['value']) >= 0:
+            grid_pos_column = special_attributes["gridcolumn"]['value']
+            grid_pos_row = special_attributes["gridrow"]['value']
+
+            grid_span_column = special_attributes["gridcolumnspan"]['value']
+            grid_span_row = special_attributes["gridrowspan"]['value']
+
+            if int(grid_pos_column) >= 0 and int(grid_pos_row) >= 0 and int(grid_span_column) >= 1 and int(grid_span_row) >= 1:
                 self._component.grid(
-                    column=int(special_attributes["gridx"]['value']), 
-                    row=int(special_attributes["gridy"]['value']))
+                    column=int(grid_pos_column), 
+                    row=int(grid_pos_row),
+                    columnspan=int(grid_span_column),
+                    rowspan = int(grid_span_row))
                 self._component.grid_propagate(0)
+            else:
+                self._logger.warn("Could not set grid-layout due to illegal values for element: " + str(self._id)) 
+
         elif parent_org == "absstatic" or parent_org =="relstatic":
             x = special_attributes["posx"]["value"]
             y = special_attributes["posy"]["value"]

@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from .root_cmp import RootCmp
+from .standard_text_processing import StandardTextProcessing
 
 class Window(RootCmp):
 
@@ -19,7 +20,8 @@ class Window(RootCmp):
         standard_attributes["childorg"] = {"value":"flex", "exec":self._setChildOrg}
 
     def _backgroundColor(self, component, key, standard_attributes):
-        component.configure(background=standard_attributes[key]["value"])
+        value = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
+        component.configure(background = value)
 
     def _setDimensions(self, component, key, standard_attributes):
         component.geometry(standard_attributes['width']['value'] + 'x' +

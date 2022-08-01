@@ -2,6 +2,7 @@
 import tkinter as tk
 
 from .root_cmp import RootCmp
+from .standard_text_processing import StandardTextProcessing
 
 class Dropdownmenu(RootCmp):
 
@@ -29,12 +30,14 @@ class Dropdownmenu(RootCmp):
         
     def _setBackgroundColor(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
+        value = StandardTextProcessing.parseStringWithQuotes(value)
         
         component.config(bg= value, activebackground=value)
         component["menu"].config(bg=value, activebackground=value)
 
     def _setForegroundColor(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
+        value = StandardTextProcessing.parseStringWithQuotes(value)
 
         component.config(fg=value, activeforeground=value)
         component["menu"].config(fg=value, activeforeground=value)
@@ -45,8 +48,12 @@ class Dropdownmenu(RootCmp):
  
     def _setOnHover(self, elements, standard_attributes, special_attributes): 
         on_hover = special_attributes["onhover"]["value"]
+
         on_hover_background_color = special_attributes["onhoverbackgroundcolor"]["value"]
+        on_hover_background_color = StandardTextProcessing.parseStringWithQuotes(on_hover_background_color)
+
         on_hover_foreground_color = special_attributes["onhoverforegroundcolor"]["value"]
+        on_hover_foreground_color = StandardTextProcessing.parseStringWithQuotes(on_hover_foreground_color)
 
         if on_hover == "true":
             self._component.config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)

@@ -1,6 +1,7 @@
 import tkinter as tk
 
 from .root_cmp import RootCmp
+from .standard_text_processing import StandardTextProcessing
 
 class Container(RootCmp):
 
@@ -38,7 +39,9 @@ class Container(RootCmp):
     #-----Standard-Attributes----
     #----------------------------------------------------------------------------------------------
     def _setBackgroundColor(self, component, key, standard_attributes):
-        component.configure(background = standard_attributes[key]["value"])
+        value = standard_attributes[key]["value"]
+        value = StandardTextProcessing.parseStringWithQuotes(value)
+        component.configure(background = value)
 
     def _setWidth(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
@@ -85,6 +88,7 @@ class Container(RootCmp):
     def _setBorderBackgroundColor(self, component, key, standard_attributes):
         # Not using borderwidth as one cannot set the color of the default border
         value = standard_attributes[key]["value"]
+        value = StandardTextProcessing.parseStringWithQuotes(value)
         component.configure(highlightbackground = value, highlightcolor = value)
 
 
@@ -156,9 +160,11 @@ class Container(RootCmp):
         if on_hover == "true":
             def enter(event):
                 if on_hover_color != "":
-                    self._component.configure(background = on_hover_color)
+                    value = StandardTextProcessing.parseStringWithQuotes(on_hover_color)
+                    self._component.configure(background = value)
                 if on_hover_border_color != "":
-                    self._component.configure(highlightbackground = on_hover_border_color, highlightcolor = on_hover_color)
+                    value_border = StandardTextProcessing.parseStringWithQuotes(on_hover_border_color)
+                    self._component.configure(highlightbackground = value_border)
 
             def leave(event):
                 self._setBackgroundColor(self._component, "backgroundcolor", standard_attributes)

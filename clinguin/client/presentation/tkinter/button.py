@@ -2,6 +2,7 @@ from tkinter import font
 import tkinter as tk
 
 from .root_cmp import RootCmp
+from .standard_text_processing import StandardTextProcessing
 
 class Button(RootCmp):
 
@@ -42,10 +43,12 @@ class Button(RootCmp):
         component.configure(text = text)
 
     def _setBackgroundColor(self, component, key, standard_attributes):
-        component.configure(background = standard_attributes[key]["value"])
+        value = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
+        component.configure(background = value)
 
     def _setForegroundColor(self, component, key, standard_attributes):
-        component.configure(foreground = standard_attributes[key]["value"])
+        value = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
+        component.configure(foreground = value)
 
     def _setWidth(self, component, key, standard_attributes):
         value = standard_attributes[key]["value"]
@@ -72,7 +75,10 @@ class Button(RootCmp):
     def _setOnHover(self, elements, standard_attributes, special_attributes): 
         on_hover = special_attributes["onhover"]["value"]
         on_hover_background_color = special_attributes["onhoverbackgroundcolor"]["value"]
+        on_hover_background_color = StandardTextProcessing.parseStringWithQuotes(on_hover_background_color)
+
         on_hover_foreground_color = special_attributes["onhoverforegroundcolor"]["value"]
+        on_hover_foreground_color = StandardTextProcessing.parseStringWithQuotes(on_hover_foreground_color)
 
         if on_hover == "true":
             def enter(event):

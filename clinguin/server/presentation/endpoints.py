@@ -14,7 +14,6 @@ from clinguin.server.presentation.endpoints_helper import call_function
 from clinguin.server.presentation.solver_dto import SolverDto
 
 from clinguin.utils.logger import Logger
-from clinguin.utils.singleton_container import SingletonContainer
 
 
 class Endpoints:

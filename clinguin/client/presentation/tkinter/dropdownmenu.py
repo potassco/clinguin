@@ -4,9 +4,13 @@ import tkinter as tk
 from clinguin.client.presentation.tkinter.root_cmp import RootCmp
 from clinguin.client.presentation.tkinter.standard_text_processing import StandardTextProcessing
 
+from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
+from clinguin.client.presentation.tkinter.callback_names import CallbackNames
+
+
 class Dropdownmenu(RootCmp):
 
-    def _defineComponent(self, elements):
+    def _initWidget(self, elements):
         self._variable = tk.StringVar()
         items = []
         menu = tk.OptionMenu(elements[self._parent].getWidget(), self._variable, "", *items)
@@ -16,55 +20,54 @@ class Dropdownmenu(RootCmp):
     def getVariable(self):
         return self._variable
 
-    def _defineStandardAttributes(self, standard_attributes):
-        standard_attributes["backgroundcolor"] = {"value":"white", "exec":self._setBackgroundColor}
-        standard_attributes["foregroundcolor"] = {"value":"black", "exec":self._setForegroundColor}
+    @classmethod
+    def getAttributes(cls):
+        attributes = {}
 
-    def _defineSpecialAttributes(self, special_attributes):
+        attributes[AttributeNames.backgroundcolor] = {"value":"white"}
+        attributes[AttributeNames.foregroundcolor] = {"value":"black"}
         # Interactive-Attributes
-        special_attributes["onhover"] = {"value":"false"}
-        special_attributes["onhoverbackgroundcolor"] = {"value":"white"}
-        special_attributes["onhoverforegroundcolor"] = {"value":"black"}
+        attributes[AttributeNames.onhover] = {"value":"false"}
+        attributes[AttributeNames.onhover_background_color] = {"value":"white"}
+        attributes[AttributeNames.onhover_foreground_color] = {"value":"black"}
         
-        special_attributes["selected"] = {"value":""}
-        
-    def _setBackgroundColor(self, component, key, standard_attributes):
-        value = standard_attributes[key]["value"]
-        value = StandardTextProcessing.parseStringWithQuotes(value)
-        
-        component.config(bg= value, activebackground=value)
-        component["menu"].config(bg=value, activebackground=value)
-
-    def _setForegroundColor(self, component, key, standard_attributes):
-        value = standard_attributes[key]["value"]
-        value = StandardTextProcessing.parseStringWithQuotes(value)
-
-        component.config(fg=value, activeforeground=value)
-        component["menu"].config(fg=value, activeforeground=value)
-
-    def _execSpecialAttributes(self, elements, standard_attributes, special_attributes):
-        self._setSelected(elements, standard_attributes, special_attributes)
-        self._setOnHover(elements, standard_attributes, special_attributes)
+        attributes[AttributeNames.selected] = {"value":""}
  
-    def _setOnHover(self, elements, standard_attributes, special_attributes): 
-        on_hover = special_attributes["onhover"]["value"]
+        return attributes
 
-        on_hover_background_color = special_attributes["onhoverbackgroundcolor"]["value"]
+    def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
+        value = self._attributes[key]["value"]
+        value = StandardTextProcessing.parseStringWithQuotes(value)
+        
+        self._widget.config(bg= value, activebackground=value)
+        self._widget["menu"].config(bg=value, activebackground=value)
+
+    def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
+        value = self._attributes[key]["value"]
+        value = StandardTextProcessing.parseStringWithQuotes(value)
+
+        self._widget.config(fg=value, activeforeground=value)
+        self._widget["menu"].config(fg=value, activeforeground=value)
+
+    def _setOnHover(self, elements): 
+        on_hover = self._attributes[AttributeNames.onhover]["value"]
+
+        on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]
         on_hover_background_color = StandardTextProcessing.parseStringWithQuotes(on_hover_background_color)
 
-        on_hover_foreground_color = special_attributes["onhoverforegroundcolor"]["value"]
+        on_hover_foreground_color = self._attributes[AttributeNames.onhover_foreground_color]["value"]
         on_hover_foreground_color = StandardTextProcessing.parseStringWithQuotes(on_hover_foreground_color)
 
         if on_hover == "true":
-            self._component.config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
-            self._component["menu"].config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
+            self._widget.config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
+            self._widget["menu"].config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
 
-    def _setSelected(self, elements, standard_attributes, special_attributes):
-        if special_attributes["selected"]['value'] != "":
-            self._variable.set(special_attributes["selected"]['value'])
+    def _setSelected(self, elements):
+        if self._attributes[AttributeNames.selected]['value'] != "":
+            self._variable.set(self._attributes[AttributeNames.selected]['value'])
 
     def _addComponentToElements(self, elements):
-        self._component.pack(expand=True)
+        self._widget.pack(expand=True)
         elements[str(self._id)] = self
 
 

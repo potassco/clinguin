@@ -3,30 +3,39 @@ import tkinter as tk
 from clinguin.client.presentation.tkinter.root_cmp import RootCmp
 from clinguin.client.presentation.tkinter.call_back_definition import CallBackDefinition
 
+from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
+from clinguin.client.presentation.tkinter.callback_names import CallbackNames
+
 class DropdownmenuItem(RootCmp):
 
-    def _defineComponent(self, elements):
+    def _initWidget(self, elements):
         menu = elements[str(self._parent)].getWidget()
         return menu
 
-    def _defineStandardAttributes(self, standard_attributes):
-        standard_attributes["label"] = {"value":"", "exec":self._empty}
+    @classmethod
+    def getAttributes(cls):
+        attributes = {}
 
-    def _empty(self, component, key, standard_attributes):
-        pass
+        attributes[AttributeNames.label] = {"value":""}
 
-    def _defineActions(self, actions):
-        actions["click"] = {"policy":None, "exec":self._defineClickEvent}
+        return attributes
 
+    @classmethod
+    def getCallbacks(cls):
+        callbacks =  {}
 
-    def _defineClickEvent(self, component, key, actions, standard_attributes, special_attributes, elements):
-        if actions[key]:
-            component['menu'].add_command(
-                label=standard_attributes["label"]["value"],
+        callbacks[CallbackNames.click] = {"policy":None}
+
+        return callbacks
+
+    def _defineClickEvent(self, elements, key = CallbackNames.click):
+        if self._callbacks[key]:
+            self._widget['menu'].add_command(
+                label=self._attributes[AttributeNames.label]["value"],
                 command=CallBackDefinition(
                     self._id,
                     self._parent,
-                    actions[key]['policy'],
+                    self._callbacks[key]['policy'],
                     elements,
                     self._dropdownmenuitemClick))
 

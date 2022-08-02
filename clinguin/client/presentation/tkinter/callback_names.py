@@ -1,0 +1,6 @@
+
+class CallbackNames:
+
+    click = "click"
+
+

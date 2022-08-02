@@ -2,9 +2,12 @@ import tkinter as tk
 
 from clinguin.client.presentation.tkinter.root_cmp import RootCmp
 
+from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
+from clinguin.client.presentation.tkinter.callback_names import CallbackNames
+
 class MenuBar(RootCmp):
 
-    def _defineComponent(self, elements):
+    def _initWidget(self, elements):
         parent_widget = elements[self._parent].getWidget()
         menubar = tk.Menu(parent_widget)
         parent_widget.config(menu=menubar)

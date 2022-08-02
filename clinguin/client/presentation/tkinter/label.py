@@ -4,60 +4,70 @@ import tkinter as tk
 from clinguin.client.presentation.tkinter.root_cmp import RootCmp
 from clinguin.client.presentation.tkinter.standard_text_processing import StandardTextProcessing
 
+from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
+from clinguin.client.presentation.tkinter.callback_names import CallbackNames
+
 class Label(RootCmp):
 
-    def _defineComponent(self, elements):
+    def _initWidget(self, elements):
         label = tk.Label(elements[str(self._parent)].getWidget())
         return label
 
-    def _defineStandardAttributes(self, standard_attributes):
-        standard_attributes["label"] = {"value":"", "exec":self._setLabelText}
-        standard_attributes["backgroundcolor"] = {"value":"white", "exec":self._setBackgroundColor}
-        standard_attributes["foregroundcolor"] = {"value":"black", "exec":self._setForegroundColor}
-        standard_attributes["width"] = {"value":str(50), "exec":self._setWidth}
-        standard_attributes["height"] = {"value":str(50), "exec":self._setHeight}
-        # TODO -> Justify (left, right,...)
+    @classmethod
+    def getAttributes(cls):
+        attributes = {}
 
-    def _defineSpecialAttributes(self, special_attributes):
+        attributes[AttributeNames.label] = {"value":""}
+        attributes[AttributeNames.backgroundcolor] = {"value":"white"}
+        attributes[AttributeNames.foregroundcolor] = {"value":"black"}
+        attributes[AttributeNames.width] = {"value":str(50)}
+        attributes[AttributeNames.height] = {"value":str(50)}
         # Interactive-Attributes
-        special_attributes["onhover"] = {"value":"false"}
-        special_attributes["onhoverbackgroundcolor"] = {"value":"white"}
-        special_attributes["onhoverforegroundcolor"] = {"value":"black"}
+        attributes[AttributeNames.onhover] = {"value":"false"}
+        attributes[AttributeNames.onhover_background_color] = {"value":"white"}
+        attributes[AttributeNames.onhover_foreground_color] = {"value":"black"}
 
-        special_attributes["fontfamily"] = {"value":"Helvetica"}
-        special_attributes["fontsize"] = {"value":str(12)}
-        special_attributes["fontweight"] = {"value":"normal"}
+        attributes[AttributeNames.font_family] = {"value":"Helvetica"}
+        attributes[AttributeNames.font_size] = {"value":str(12)}
+        attributes[AttributeNames.font_weight] = {"value":"normal"}
 
-    def _defineActions(self, actions):
-        actions["click"] = {"policy":None, "exec":self._defineClickEvent}
+        return attributes
+
+    @classmethod
+    def getCallbacks(cls):
+        callbacks = {}
+
+        callbacks[CallbackNames.click] = {"policy":None}
+
+        return callbacks
 
     #----------------------------------------------------------------------------------------------
     #-----Standard-Attributes----
     #----------------------------------------------------------------------------------------------
 
-    def _setLabelText(self, component, key, standard_attributes):
-        text = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
-        component.configure(text = text)
+    def _setLabelText(self, elements, key = AttributeNames.label):
+        text = StandardTextProcessing.parseStringWithQuotes(self._attributes[key]["value"])
+        self._widget.configure(text = text)
 
-    def _setBackgroundColor(self, component, key, standard_attributes):
-        value = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
-        component.configure(background = value)
+    def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
+        value = StandardTextProcessing.parseStringWithQuotes(self._attributes[key]["value"])
+        self._widget.configure(background = value)
 
-    def _setForegroundColor(self, component, key, standard_attributes):
-        value = StandardTextProcessing.parseStringWithQuotes(standard_attributes[key]["value"])
-        component.configure(foreground = value)
+    def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
+        value = StandardTextProcessing.parseStringWithQuotes(self._attributes[key]["value"])
+        self._widget.configure(foreground = value)
 
-    def _setWidth(self, component, key, standard_attributes):
-        value = standard_attributes[key]["value"]
+    def _setWidth(self, elements, key = AttributeNames.width):
+        value = self._attributes[key]["value"]
         if value.isdigit():
-            component.configure(width = int(value))
+            self._widget.configure(width = int(value))
         else:
             self._logger.warn("For element " + self._id + " ,setWidth for " + key + " is not a digit: " + value)
 
-    def _setHeight(self, component, key, standard_attributes):
-        value = standard_attributes[key]["value"]
+    def _setHeight(self, elements, key = AttributeNames.height):
+        value = self._attributes[key]["value"]
         if value.isdigit():
-            component.configure(height = int(value))
+            self._widget.configure(height = int(value))
         else:
             self._logger.warn("For element " + self._id + " ,setHeight for " + key + " is not a digit: " + value)
 
@@ -65,37 +75,33 @@ class Label(RootCmp):
     #-----Special-Attributes----
     #----------------------------------------------------------------------------------------------
 
-    def _execSpecialAttributes(self, elements, standard_attributes, special_attributes):
-        self._setOnHover(elements, standard_attributes, special_attributes)
-        self._setFont(elements, standard_attributes, special_attributes)
-   
-    def _setOnHover(self, elements, standard_attributes, special_attributes): 
-        on_hover = special_attributes["onhover"]["value"]
-        on_hover_background_color = special_attributes["onhoverbackgroundcolor"]["value"]
+    def _setOnHover(self, elements): 
+        on_hover = self._attributes[AttributeNames.onhover]["value"]
+        on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]
         on_hover_foreground_color = StandardTextProcessing.parseStringWithQuotes(on_hover_background_color)
 
-        on_hover_foreground_color = special_attributes["onhoverforegroundcolor"]["value"]
+        on_hover_foreground_color = self._attributes[AttributeNames.onhover_foreground_color]["value"]
         on_hover_foreground_color = StandardTextProcessing.parseStringWithQuotes(on_hover_foreground_color)
 
         if on_hover == "true":
             def enter(event):
                 if on_hover_background_color != "":
-                    self._setBackgroundColor(self._component, "onhoverbackgroundcolor", special_attributes)
+                    self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)
                 if on_hover_foreground_color != "":
-                    self._setForegroundColor(self._component, "onhoverforegroundcolor", special_attributes)
+                    self._setForegroundColor(elements, key = AttributeNames.onhover_foreground_color)
 
             def leave(event):
-                self._setBackgroundColor(self._component, "backgroundcolor", standard_attributes)
-                self._setForegroundColor(self._component, "foregroundcolor", standard_attributes)
+                self._setBackgroundColor(elements, key = AttributeNames.backgroundcolor)
+                self._setForegroundColor(elements, key= AttributeNames.foregroundcolor)
     
-            self._component.bind('<Enter>', enter)
-            self._component.bind('<Leave>', leave)
+            self._widget.bind('<Enter>', enter)
+            self._widget.bind('<Leave>', leave)
 
-    def _setFont(self, elements, standard_attributes, special_attributes):
+    def _setFont(self, elements):
 
-        afont = font.Font(family=special_attributes["fontfamily"]["value"],
-            size = int(special_attributes["fontsize"]["value"]), weight = special_attributes["fontweight"]["value"])
-        self._component.configure(font=afont)
+        afont = font.Font(family=self._attributes[AttributeNames.font_family]["value"],
+            size = int(self._attributes[AttributeNames.font_size]["value"]), weight = self._attributes[AttributeNames.font_weight]["value"])
+        self._widget.configure(font=afont)
 
 
  
@@ -103,15 +109,16 @@ class Label(RootCmp):
     #-----Actions----
     #----------------------------------------------------------------------------------------------
        
-    def _defineClickEvent(self, component, key, actions, standard_attributes, special_attributes, elements):
-        if actions[key] and actions[key]["policy"]:
+    def _defineClickEvent(self, elements):
+        key = CallbackNames.click
+        if self._callbacks[key] and self._callbacks[key]["policy"]:
             def clickEvent(event):
-                self._base_engine.assume(actions[key]["policy"])
+                self._base_engine.assume(self._callbacks[key]["policy"])
 
-            component.bind('<Button-1>', clickEvent)
+            self._widget.bind('<Button-1>', clickEvent)
 
     def _addComponentToElements(self, elements):
-        self._component.pack(expand=True)
+        self._widget.pack(expand=True)
         elements[str(self._id)] = self
 
 

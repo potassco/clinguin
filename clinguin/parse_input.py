@@ -45,7 +45,6 @@ class ArgumentParser():
         else:
             process = sys.argv[0]
 
-        general_options_parser = self._createGeneralOptionsParser()
         parser = argparse.ArgumentParser(description=self._clinguinDescription(
             process), add_help=True, formatter_class=argparse.RawTextHelpFormatter)
         subparsers = parser.add_subparsers(
@@ -53,9 +52,9 @@ class ArgumentParser():
             description='The type of process to start: a client (UI) a server (Backend) or both',
             dest='process')
 
-        self._createClientSubparser(subparsers, general_options_parser)
-        self._createServerSubparser(subparsers, general_options_parser)
-        self._createClientServerSubparser(subparsers, general_options_parser)
+        self._createClientSubparser(subparsers)
+        self._createServerSubparser(subparsers)
+        self._createClientServerSubparser(subparsers)
 
         args = parser.parse_args()
 
@@ -140,29 +139,16 @@ class ArgumentParser():
         else:
             self._importClasses('./clinguin/client/presentation/tkinter')
 
-    def _createGeneralOptionsParser(self):
-        general_options_parser = argparse.ArgumentParser(
-            add_help=True, formatter_class=argparse.RawTextHelpFormatter)
-        general_options_parser.add_argument(
-            '--custom-server-classes',
-            type=str,
-            help='Path to custom solver classes',
-            metavar='')
-        general_options_parser.add_argument(
-            '--custom-client-classes',
-            type=str,
-            help='Path to custom client classes.',
-            metavar='')
- 
-        return general_options_parser
-    def _createClientSubparser(self, subparsers, parent):
+    def _createClientSubparser(self, subparsers):
         parser_client = subparsers.add_parser(
             'client',
             help=self.descriptions['client'],
             description=self._clinguinDescription('client'),
-            add_help=False,
-            parents=[parent],
+            add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
+
+        self._addCustomClientsArguments(parser_client)
+
         self._addLogArguments(parser_client, abbrevation='C', logger_name = 'client')       
 
         self._addDefaultArgumentsToClientParser(parser_client)
@@ -170,28 +156,32 @@ class ArgumentParser():
 
         return parser_client
 
-    def _createServerSubparser(self, subparsers, parent):
+    def _createServerSubparser(self, subparsers):
         parser_server = subparsers.add_parser(
             'server',
             help=self.descriptions['server'],
             description=self._clinguinDescription('server'),
-            add_help=False,
-            parents=[parent],
+            add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
+
+        self._addCustomSolversArguments(parser_server)
+
         self._addLogArguments(parser_server, abbrevation='S', logger_name = 'server')       
         self._addDefaultArgumentsToSolverParser(parser_server)
         self.solver = self._selectSubclassAndAddCustomArguments(parser_server, ClinguinBackend, self.solver_name, ArgumentParser.default_solver)
 
         return parser_server
 
-    def _createClientServerSubparser(self, subparsers, parent):
+    def _createClientServerSubparser(self, subparsers):
         parser_server_client = subparsers.add_parser('client-server',
                                                      help=self.descriptions['client-server'],
                                                      description=self._clinguinDescription(
                                                          'client-server'),
-                                                     add_help=False,
-                                                     parents=[parent],
+                                                     add_help=True,
                                                      formatter_class=argparse.RawTextHelpFormatter)
+
+        self._addCustomClientsArguments(parser_server_client)
+        self._addCustomSolversArguments(parser_server_client)
 
         self._addLogArguments(parser_server_client, abbrevation='C', logger_name = 'client', display_name= 'client-')       
         self._addLogArguments(parser_server_client, abbrevation='S', logger_name = 'server', display_name ='server-')       
@@ -257,6 +247,21 @@ class ArgumentParser():
             help='Log format file',
             metavar='',
             default='%(levelname)s<%(asctime)s>: %(message)s')
+
+    def _addCustomSolversArguments(self, parser):
+        parser.add_argument(
+            '--custom-server-classes',
+            type=str,
+            help='Path to custom solver classes',
+            metavar='')
+ 
+
+    def _addCustomClientsArguments(self, parser):
+       parser.add_argument(
+            '--custom-client-classes',
+            type=str,
+            help='Path to custom client classes.',
+            metavar='')
 
 
     def _selectSubclassAndAddCustomArguments(self, parser, parent, class_name, default_class):

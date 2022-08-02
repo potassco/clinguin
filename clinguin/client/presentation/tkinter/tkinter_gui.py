@@ -22,6 +22,10 @@ class TkinterGui(AbstractGui):
         self.elements = {}
         self.first = True
 
+    @classmethod
+    def registerOptions(cls, parser):
+        parser.description = 'Hello Python!'
+
     def window(self, id, parent, attributes, callbacks):
 
         if self.first:

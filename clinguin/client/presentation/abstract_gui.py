@@ -1,6 +1,6 @@
+from clinguin.utils.custom_args import CustomArgs
 
-
-class AbstractGui:
+class AbstractGui(CustomArgs):
 
     def __init__(self):
         print("Abstract Solver")

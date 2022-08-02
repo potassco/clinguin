@@ -15,7 +15,7 @@ class Container(RootCmp):
     @classmethod
     def getAttributes(cls):
         attributes = {}
-        attributes[AttributeNames.backgroundcolor] = {"value":"white"}
+        attributes[AttributeNames.backgroundcolor] = {"value":"white", "description": "CUSTOM-BACKGROUND-COLOR-DESCRIPTION <- Now normal:" + AttributeNames.descriptions[AttributeNames.backgroundcolor]}
         attributes[AttributeNames.width] = {"value":str(-1)}
         attributes[AttributeNames.height] = {"value":str(-1)}
         attributes[AttributeNames.child_org] = {"value":"flex"}

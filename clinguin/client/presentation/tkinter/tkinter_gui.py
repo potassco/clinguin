@@ -17,12 +17,9 @@ from clinguin.client.presentation.abstract_gui import AbstractGui
 class TkinterGui(AbstractGui):
 
     def __init__(self, base_engine, args):
-        self._logger = logging.getLogger(args.log_args['name'])
-        self._args = args
+        super().__init__(base_engine, args)
 
         self.elements = {}
-        self._base_engine = base_engine
-
         self.first = True
 
     def window(self, id, parent, attributes, callbacks):

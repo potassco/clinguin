@@ -5,8 +5,6 @@ from clinguin.client.api.api import Api
 from clinguin.client.api.call_dto import CallDto
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
-from clinguin.client.presentation.tkinter.tkinter_gui import TkinterGui
-
 
 class ClientBase:
 

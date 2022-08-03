@@ -1,4 +1,5 @@
 import logging
+import os
 
 log_levels = {
     "NOTSET": logging.NOTSET,
@@ -14,8 +15,8 @@ class Logger:
 
     @classmethod
     def _getLogFilePath(ctl, log_arg_dict):
-        log_file_path = "./logs/" + \
-            log_arg_dict['timestamp'] + "-" + log_arg_dict['name'] + ".log"
+        log_file_path = os.path.join("logs",
+            (log_arg_dict['timestamp'] + "-" + log_arg_dict['name'] + ".log"))
         return log_file_path
 
     @classmethod

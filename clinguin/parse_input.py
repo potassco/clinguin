@@ -17,6 +17,9 @@ class ArgumentParser():
     """
     ArgumentParser-Class, Responsible for parsing the command line attributes
     """
+    
+    default_solver_path = os.path.join('clinguin', 'server', 'application', 'default_solvers')
+    default_client_path = os.path.join('clinguin', 'client', 'presentation', 'tkinter')
 
     default_solver = 'ClingoBackend'
     default_client = 'TkinterGui'
@@ -109,11 +112,50 @@ class ArgumentParser():
         return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _importClasses(self, path):
+
+        sub_directories = ['']
+
         sys.path.append(path)
-        for name in glob.glob(path + '/*.py'):
-            base = os.path.basename(name)
+
+        tail = (os.path.split(path))[1]
+
+        self._recursiveImport(path, "", "")
+
+    def _recursiveImport(self, full_path, rec_path, module):
+        cur_path = os.path.join(full_path, rec_path)
+ 
+        folder_paths = []
+        file_paths = []
+
+        for entity in os.scandir(os.path.join(full_path, rec_path)):
+            if entity.is_dir():
+                folder_paths.append(entity.path)
+            elif entity.is_file():
+                file_paths.append(entity.path)
+
+        for file_path in file_paths:
+            base = os.path.basename(file_path)
             file_name = os.path.splitext(base)[0]
-            importlib.import_module(file_name)
+            ending = os.path.splitext(base)[1]
+
+            if ending == ".py":
+                if module != "":
+                    try:
+                        importlib.import_module(module + "." + file_name)       
+                    except:
+                        print("Could not import module: " + module + "." + file_name)
+                else: 
+                    importlib.import_module(file_name)       
+
+        for folder_path in folder_paths:
+            base = os.path.basename(folder_path)
+            new_module = module
+            if new_module != "":
+                new_module = new_module + "." + base
+            else:
+                new_module = base
+
+            self._recursiveImport(full_path, os.path.join(rec_path, base), new_module)
 
     def _parseCustomClasses(self):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
@@ -132,12 +174,12 @@ class ArgumentParser():
         if args.custom_server_classes:
             self._importClasses(args.custom_server_classes)
         else:
-            self._importClasses('./clinguin/server/application/default_solvers')
+            self._importClasses(ArgumentParser.default_solver_path)
 
         if args.custom_client_classes:
             self._importClasses(args.custom_client_classes)
         else:
-            self._importClasses('./clinguin/client/presentation/tkinter')
+            self._importClasses(ArgumentParser.default_client_path)
 
     def _createClientSubparser(self, subparsers):
         parser_client = subparsers.add_parser(

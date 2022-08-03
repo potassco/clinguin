@@ -1,11 +1,11 @@
 
 import tkinter as tk
 
-from clinguin.client.presentation.tkinter.root_cmp import RootCmp
-from clinguin.client.presentation.tkinter.standard_text_processing import StandardTextProcessing
+from .root_cmp import RootCmp
+from .standard_text_processing import StandardTextProcessing
 
-from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
-from clinguin.client.presentation.tkinter.callback_names import CallbackNames
+from .attribute_names import AttributeNames
+from .callback_names import CallbackNames
 
 
 class Dropdownmenu(RootCmp):

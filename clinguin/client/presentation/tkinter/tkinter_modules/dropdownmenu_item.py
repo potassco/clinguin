@@ -1,10 +1,10 @@
 import tkinter as tk
 
-from clinguin.client.presentation.tkinter.root_cmp import RootCmp
-from clinguin.client.presentation.tkinter.call_back_definition import CallBackDefinition
+from .root_cmp import RootCmp
+from .call_back_definition import CallBackDefinition
 
-from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
-from clinguin.client.presentation.tkinter.callback_names import CallbackNames
+from .attribute_names import AttributeNames
+from .callback_names import CallbackNames
 
 class DropdownmenuItem(RootCmp):
 

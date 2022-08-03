@@ -151,18 +151,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Ideas}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Timestamp: 04.-11.07.2022
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Project Summary}
+\section{Project Summary}
 
 \noindent The \textit{Clinguin} project can be seen as a language extension to a Logic-Program, which adds the functionality to create a User-Interface (UI). Capability wise the UI shall be capable of dynamic updates, i.e. not just a static display of a stable-model(s), but a program where one can interact with the logic program.\\
 An example for this is the Sudoku problem. Using the Clinguin one is able to generate a Sudoku playing-field, where the field is interactive in a sense, that if one selects one of the possible values a single field may have, the program automatically updates the not selected values and fills them in, if only one possibility exists. This is similar to forward checking for Constraint-Satisfactory-Problems (CSPs).\\
 
-\subsection{Prototype}
+\section{Prototype}
 
 \noindent Susana Hahn has written a prototype, which implements the Sudoku example from above. The used programming language is Python, further Clingo libraries (like the Clingo-Object-Relational-Mapper (CLORM)) are and the UI-framework tkinter (https://docs.python.org/3/library/tkinter.html) are used. Syntactically the prototype provides an extension by the following keywords (predicates which are used as keywords/tokens):
 
@@ -176,10 +173,10 @@ An example for this is the Sudoku problem. Using the Clinguin one is able to gen
 
 \noindent In general the program works like this: The program scans the logic-program for the syntactic elements above, and then creates the ui with the elements (function \textit{create\_layout()}, uses cautious reasoning). Then the dropdown-menus (i.e. the Sudoku cells) are filled, with the function \textit{update\_options()} (uses brave reasoning). Here for each such dropdown-menu a callback function is added, which when clicked adds an assumption, that a certain value must be used for the sudoku field. Then the process repeats itself.
 
-\subsection{Architecture Proposals}
+\section{Architecture Proposals}
 
 
-\subsubsection{Initial Thoughts}
+\subsection{Initial Thoughts}
 
 \noindent The architecture of Clinguin should be flexible in a sense, that it should be compatible with several UI-Libraries/-frameworks. Further it should be efficient (which is not handled at this point, but e.g. incremental updates can be made instead of full updates).\\
 The need for flexibility leads to the conclusion, that the program may not directly construct the \textit{tkinter} (or some other frameworks) window, but must create an internal representation first (See Figure \ref{fig:arch-overview}):
@@ -229,13 +226,13 @@ The need for flexibility leads to the conclusion, that the program may not direc
 \end{enumerate}
 
 
-\subsubsection{Monolithic Custom}
+\subsection{Monolithic Custom}
 
 \noindent \textbf{Hard-Coded-Monolith}: The idea is to think of an architecture, which is a monolith. The architecture should be designed in a way that fulfills most requirements. One requirement which would be hard to fulfill is the Json/Independability requirement, i.e. that the gui may be switched in the future.\\[1em]
 \noindent \textbf{Json-Monolith}: It is also possible to implement it with Json as intermediary representation, to achive a seperation between gui and the rest. This approach is essentially the same as the Client-Server approach (be sure to look at it first in Section \ref{subsubsec:client-server}), just that for the message passing no server is needed, but is instead done via function calls or events. With this approach one needs to implement a lot from the Client-Server part, just without setting up a server. The downside of this approach is, that one can only use gui-frameworks from the selected programming language (i.e. Python).\\[1em]
 I didn't explore on these ideas much further, but it should definitely be possible, if one drops the independability/modularization.
 
-\subsubsection{Monolithic Model-View-Controller (MVC)}
+\subsection{Monolithic Model-View-Controller (MVC)}
 
 \noindent As the MVC pattern is a widely spread Gui-Architectural pattern it makes sense to consider it. In Figure \ref{fig:mvc} the general idea of MVC is depicted, where normally there exists one such MVC-triad per GUI element, e.g. one for the top level gui element, which contains ''children'', like menu-bar, grid-controller, etc. (as depicted in Figure \ref{fig:mvc-hierarchy}).\\
 
@@ -277,7 +274,7 @@ On the other hand, when one uses Json as a means for the intermediate representa
 \end{itemize}
 
 
-\subsubsection{Version 0: Simple Message based approach (Client-Server)}
+\subsection{Version 0: Simple Message based approach (Client-Server)}
 \label{subsubsec:client-server}
 
 \noindent The next option to look at is the Client-Server approach. The main point for this architecture is the flexibility, that one can use the Json data as an intermediate representation and use whatever gui one finds suitable. Further the architecture is straightforward (also the callbacks).\\
@@ -317,7 +314,7 @@ One drawback with this approach is, that the development time might be higher th
 \end{itemize}
 
 \newpage
-\subsubsection{Version 1: Simple Message based approach (Client-Server)}
+\subsection{Version 1: Simple Message based approach (Client-Server)}
 
 \noindent Based on the \textit{Version 0} of the simple message based approach, the new approach (besides the flexibility granted by the intermediate Json format) addresses two other important tasks:
 
@@ -381,7 +378,7 @@ The first UML diagram depicts the use with the standard solver, the second one d
 % Timestamp 12. - 18.07.2022
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsubsection{Version 2: An update}
+\subsection{Version 2: An update}
 \noindent Is based on \textit{Version 1} of the Client-Server-Architecture, a result from the meeting on the 11.07.2022 and is the first version, that shall be implemented as a prototype. The basic idea, that one implements the functionality with a Client-Server based architecture stays the same. The main difference between version \textit{1} and \textit{2} lies in the following:
 
 \begin{itemize}
@@ -435,6 +432,107 @@ The first UML diagram depicts the use with the standard solver, the second one d
     \label{fig:pt-v2-class-diag}
     \end{center}
 \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Timestamp 18.07. - 03.08.2022
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection{Version 3 - Adaption and Improvement}
+
+\noindent Version 3 features various improvements on version 2, especially in terms of the user perspective. The major new/improved features are:
+
+\begin{itemize}
+    \item Startup:
+    \begin{itemize}
+        \item The application can be installed as a python package by \textit{python setup.py install} and can then be accessed via \textit{clinguin ...}.
+        \item One starts the server or the client via command-line-arguments (\textit{clinguin client}, \textit{clinguin server ...}, \textit{clinguin client-server}).
+        \item The client help section now features the actual syntax definition (\textit{clinguin client -h})
+        \item The server help section now features the actual possible arguments of the accessible solver (\textit{clinguin server -h}).
+        \item One can specify which client to use (\textit{--custom-client-classes} and \textit{--client}).
+        \item The way how one specifies the server class has been refactored as well (\textit{--custom-solver-classes} and \textit{--solver}).
+    \end{itemize}
+    \item Features:
+    \begin{itemize}
+        \item Button-Element
+        \item Label-Element
+        \item Menubar-Element
+        \item Layout-Options for container and window
+        \item Various other attributes, like \textit{onHover}, \textit{text-font},...
+    \end{itemize}
+    \item Architecture:
+    \begin{itemize}
+        \item For the user it is now easier to specify a new solver.
+        \item For the user it is now easier to specify a new client.
+    \end{itemize}
+    \item Code-Style/Refactorings:
+    \begin{itemize}
+        \item Added a style-guide (in prototype-V4 the code shall be refactored accordingly)
+        \item OS-Independent default paths  
+        \item Many smaller refactorments...
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Architecture}
+
+\noindent Architecture wise is the program in principle the same as in pt-V2 (so layered architectures both in client and server). But the details changed, so abstractly speaking one can think of the program in three parts:
+
+\begin{enumerate}
+    \item ProgramBase
+    \begin{itemize}
+        \item Contains the startup code
+        \item Contains the parse code
+        \item Contains the communication code for both client and server
+    \end{itemize}
+    \item CoreModule, aka. Solver, aka. Backend
+    \begin{itemize}
+        \item Part of the server, which responsibilities include handling the callbacks, providing access to clingo, etc.
+        \item Can be user defined, several options possible (when the program is in a later stage of development, in this prototype just one, the \textit{ClingoBackend})
+        \item Can be specified via (\textit{--custom-solver-classes} and \textit{--solver})
+    \end{itemize}
+    \item ClientGui, aka. Client
+    \begin{itemize}
+        \item Part of the client, which sole responsibility is to draw the gui from a provided Json.
+        \item Can be user defined, several options possible (at the moment just tkinter).
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+
+\noindent \textbf{Class Diagram - ProgramBase}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.9\textwidth]{imgs/pt-v3-class-diag-program-base.png}
+    \caption{Class Diagram of the ProgramBase}
+    \label{fig:pt-v3-class-diag-program-base}
+    \end{center}
+\end{figure}
+
+\newpage
+
+\noindent \textbf{Class Diagram - ClientGui (Tkinter)}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.9\textwidth]{imgs/pt-v3-class-diag-tkinter-client.png}
+    \caption{Class Diagram of the ClientGui (Tkinter)}
+    \label{fig:pt-v3-class-diag-tkinter}
+    \end{center}
+\end{figure}
+
+
+\newpage
+
+\noindent \textbf{Class Diagram - CoreModule (ClingoBackend)}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.9\textwidth]{imgs/pt-v3-class-diag-core-module.png}
+    \caption{Class Diagram of the Core-Module}
+    \label{fig:pt-v3-class-diag-core-module}
+    \end{center}
+\end{figure}
+
 
 
 

@@ -112,12 +112,16 @@ class ArgumentParser():
         return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _importClasses(self, path):
-
         sub_directories = ['']
 
         sys.path.append(path)
 
-        tail = (os.path.split(path))[1]
+        # Cant this be done like this instead? is simpler
+        # for name in glob.glob(path + '/*.py'):
+        #     print(name)
+        #     base = os.path.basename(name)
+        #     file_name = os.path.splitext(base)[0]
+        #     module = importlib.import_module(file_name)
 
         self._recursiveImport(path, "", "")
 
@@ -137,7 +141,7 @@ class ArgumentParser():
             base = os.path.basename(file_path)
             file_name = os.path.splitext(base)[0]
             ending = os.path.splitext(base)[1]
-
+            print(file_path)
             if ending == ".py":
                 if module != "":
                     try:
@@ -311,14 +315,20 @@ class ArgumentParser():
         selected_class = None
 
         for sub_class in sub_classes:
-            if not class_name and sub_class.__name__ == default_class:
-                group = parser.add_argument_group(sub_class.__name__)
-                sub_class.registerOptions(group)
-                selected_class = sub_class
-            elif sub_class.__name__ == class_name:
-                group = parser.add_argument_group(sub_class.__name__)
-                sub_class.registerOptions(group)
-                selected_class = sub_class
+            group = parser.add_argument_group(sub_class.__name__)
+            sub_class.registerOptions(group)
+            selected_class = sub_class
+            # We want to see the available options before having to say which solver we are using.
+
+
+            # if not class_name and sub_class.__name__ == default_class:
+            #     group = parser.add_argument_group(sub_class.__name__)
+            #     sub_class.registerOptions(group)
+            #     selected_class = sub_class
+            # elif sub_class.__name__ == class_name:
+            #     group = parser.add_argument_group(sub_class.__name__)
+            #     sub_class.registerOptions(group)
+            #     selected_class = sub_class
 
         return selected_class
 

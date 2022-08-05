@@ -23,7 +23,7 @@ class ClientBase:
     def startUp(self):
         self.connect()
         (status_code, response) = self.api.get("")
-        self._logger.debug(response)
+        # self._logger.debug(response)
         if status_code == 200:
             self.draw(response)
             self.gui_generator.draw(response['children'][0]['id'])
@@ -70,6 +70,7 @@ class ClientBase:
                     "Could not find element type: " + child['type'])
 
     def assume(self, click_policy):
+        # What is this for?
         (status_code, json) = self.api.post("solver", CallDto(click_policy))
         if status_code == 200:
             self.draw(json)

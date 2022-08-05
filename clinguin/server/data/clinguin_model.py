@@ -84,6 +84,12 @@ class ClinguinModel:
     def getAttributes(self):
         return self._factbase.query(AttributeDao).all()
 
+    def getAttributesGrouped(self):
+        return self._factbase.query(AttributeDao).group_by(AttributeDao.id).all()
+
+    def getCallbacksGrouped(self):
+        return self._factbase.query(CallbackDao).group_by(CallbackDao.id).all()
+
     def getCallbacks(self):
         return self._factbase.query(CallbackDao).all()
 

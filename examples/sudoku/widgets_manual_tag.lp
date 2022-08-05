@@ -1,7 +1,3 @@
-
-_brave_element_type(dropdownmenuitem).
-
-
 element(window, window, root).
 
 #const height_value= 550.
@@ -46,10 +42,10 @@ attribute(c(X,Y), height, grid_height_value/(dim*dim)) :- c(X,Y).
 attribute(c(X,Y), width, grid_width_value/(dim*dim)) :- c(X,Y).
 
 element(m(X,Y), dropdownmenu, c(X,Y)) :- c(X,Y).
-element(mi(X,Y,V), dropdownmenuitem, m(X,Y)) :- sudoku(X,Y,V).
+_brave(element(mi(X,Y,V), dropdownmenuitem, m(X,Y))) :- sudoku(X,Y,V).
 
-callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- sudoku(X,Y,V).
-attribute(mi(X,Y,V), label, V) :- sudoku(X,Y,V).
+_brave(callback(mi(X,Y,V), click, assume(sudoku(X,Y,V)))) :- sudoku(X,Y,V).
+_brave(attribute(mi(X,Y,V), label, V)) :- sudoku(X,Y,V).
 
 attribute(m(X,Y), selected, V) :- sudoku(X,Y,V).
 
@@ -68,20 +64,3 @@ attribute(ll, onhoverforegroundcolor, white).
 callback(ll, click, clear). 
 
 
-% #script (python)
-% from clingo import parse_term
-% def main(ctl):
-
-%     ctl.ground([("base", [])])
-%     ctl.assign_external(parse_term('show_brave'),True)
-%     with ctl.solve(
-%             yield_=True) as result:
-%         model_symbols = None
-%         for m in result:
-%             model_symbols = m.symbols(shown=True)
-    
-%     print([str(s) for s in model_symbols])
-%     return None
-
-
-% #end.

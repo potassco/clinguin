@@ -117,13 +117,12 @@ class ArgumentParser():
         sys.path.append(path)
 
         # Cant this be done like this instead? is simpler
-        # for name in glob.glob(path + '/*.py'):
-        #     print(name)
-        #     base = os.path.basename(name)
-        #     file_name = os.path.splitext(base)[0]
-        #     module = importlib.import_module(file_name)
+        for name in glob.glob(path + '/*.py'):
+            base = os.path.basename(name)
+            file_name = os.path.splitext(base)[0]
+            module = importlib.import_module(file_name)
 
-        self._recursiveImport(path, "", "")
+        # self._recursiveImport(path, "", "")
 
     def _recursiveImport(self, full_path, rec_path, module):
         cur_path = os.path.join(full_path, rec_path)
@@ -141,7 +140,6 @@ class ArgumentParser():
             base = os.path.basename(file_path)
             file_name = os.path.splitext(base)[0]
             ending = os.path.splitext(base)[1]
-            print(file_path)
             if ending == ".py":
                 if module != "":
                     try:

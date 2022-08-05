@@ -3,7 +3,7 @@ from typing import Sequence, Any
 
 import logging
 import clingo
-from clingo import Control
+from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
 
 from clinguin.server.application.standard_json_encoder import StandardJsonEncoder
@@ -12,6 +12,7 @@ from clinguin.server.data.clinguin_model import ClinguinModel
 
 from clinguin.server.application.clinguin_backend import ClinguinBackend
 
+from clinguin.server.application.default_solvers.brave_cautious_helper import *
 
 class ClingoBackend(ClinguinBackend):
 
@@ -23,7 +24,11 @@ class ClingoBackend(ClinguinBackend):
         self._ctl = Control()
         for f in self._files:
             self._ctl.load(str(f))
+        self._ctl.add("base",[],brave_cautious_externals)
         self._ctl.ground([("base", [])])
+
+        self._ctl.assign_external(parse_term('show_untagged'),True)
+
 
     @classmethod
     def registerOptions(cls, parser):
@@ -34,14 +39,19 @@ class ClingoBackend(ClinguinBackend):
     def get(self):
         self._logger.debug("_get()")
 
-        model = ClinguinModel(self._files, self._logger)
-        model.computeCautious(self._ctl, self._assumptions, lambda w: True)
-        model.computeBrave(
-            self._ctl, self._assumptions, lambda w: str(
-                w.type) == 'dropdownmenuitem')
+        model = ClinguinModel.fromBCExtendedFile(self._ctl,self._assumptions)
+        
+        # Your old approach would now be this:
+        # brave_model = ClinguinModel.fromBraveModel(self._ctl,self._assumptions)
+        # brave_model.filterElements(lambda w: str(w.type) == 'dropdownmenuitem')
+        # cautious_model = ClinguinModel.fromCautiousModel(self._ctl,self._assumptions)
+        # model=ClinguinModel.combine(brave_model,cautious_model)
+
 
         self._logger.debug("will encode")
-        return StandardJsonEncoder.encode(model)
+        j =  StandardJsonEncoder.encode(model)
+        self._logger.debug("encoded")
+        return j
 
     # becomes an endpoint option
     def assume(self, predicate):

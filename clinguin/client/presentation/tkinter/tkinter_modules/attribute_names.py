@@ -1,6 +1,11 @@
 
 class AttributeNames:
 
+    
+    title = "title"
+    message = "message"
+    type = "type"
+    
     label = "label"
     backgroundcolor = "backgroundcolor"
     foregroundcolor = "foregroundcolor"

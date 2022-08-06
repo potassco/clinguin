@@ -13,6 +13,7 @@ from tkinter_modules.button import Button
 from tkinter_modules.menu_bar import MenuBar
 from tkinter_modules.menu_bar_section import MenuBarSection
 from tkinter_modules.menu_bar_section_item import MenuBarSectionItem
+from tkinter_modules.message import Message
 
 from tkinter_modules.attribute_names import AttributeNames
 from tkinter_modules.callback_names import CallbackNames
@@ -115,6 +116,10 @@ class TkinterGui(AbstractGui):
     def menubarsectionitem(self, id, parent, attributes, callbacks):
         menubar = MenuBarSectionItem(self._args, id, parent, attributes, callbacks, self._base_engine)
         menubar.addComponent(self.elements)
+
+    def message(self, id, parent, attributes, callbacks):
+        message = Message(self._args, id, parent, attributes, callbacks, self._base_engine)
+        message.addComponent(self.elements)
 
     def draw(self, id):
         self.first = False

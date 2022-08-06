@@ -41,6 +41,7 @@ class Endpoints:
         }
 
     async def standardSolver(self):
+        # TODO Change name of function
         return self._solver[0].get()
 
     async def solver(self, solver_call_string: SolverDto):

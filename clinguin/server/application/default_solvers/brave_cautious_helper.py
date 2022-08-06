@@ -3,6 +3,7 @@ brave_cautious_externals = """
 #external show_brave.
 #external show_cautious.
 #external show_untagged.
+#external show_all.
 
 #show element(ID,TYPE,PARENT): _brave(element(ID,TYPE,PARENT)), show_brave.
 #show attribute(ID,NAME,VALUE): _brave(attribute(ID,NAME,VALUE)), show_brave.
@@ -12,11 +13,13 @@ brave_cautious_externals = """
 #show attribute(ID,NAME,VALUE): _cautious(attribute(ID,NAME,VALUE)), show_cautious.
 #show callback(ID,ACTION,FUNCT): _cautious(callback(ID,ACTION,FUNCT)), show_cautious.
 
-#show element(ID,TYPE,PARENT): element(ID,TYPE,PARENT),
+#show element(ID,TYPE,PARENT): 
+    element(ID,TYPE,PARENT),
     not _brave(element(ID,TYPE,PARENT)), 
     not _cautious(element(ID,TYPE,PARENT)), 
     show_untagged.
-#show attribute(ID,NAME,VALUE): attribute(ID,NAME,VALUE),
+#show attribute(ID,NAME,VALUE): 
+    attribute(ID,NAME,VALUE),
     not _brave(attribute(ID,NAME,VALUE)), 
     not _cautious(attribute(ID,NAME,VALUE)), 
     show_untagged.
@@ -28,6 +31,19 @@ brave_cautious_externals = """
 
 #show .
 
+
+#show element(ID,TYPE,PARENT): 
+    element(ID,TYPE,PARENT),
+    show_all.
+#show attribute(ID,NAME,VALUE): 
+    attribute(ID,NAME,VALUE),
+    show_all.
+#show callback(ID,ACTION,FUNCT): 
+    callback(ID,ACTION,FUNCT),
+    show_all.
+
+#defined _cautious_element_type/1.
+#defined _brave_element_type/1.
 
 _brave(element(ID, TYPE, PARENT)):-
     _brave_element_type(TYPE),

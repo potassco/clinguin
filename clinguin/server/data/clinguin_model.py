@@ -38,7 +38,7 @@ class ClinguinModel:
     @classmethod
     def fromBCExtendedFile(cls, ctl,assumptions):
         model = cls()
-        ctl.assign_external(parse_term('show_untagged'),False)
+        ctl.assign_external(parse_term('show_all'),False)
         ctl.assign_external(parse_term('show_cautious'),False)
         ctl.assign_external(parse_term('show_brave'),True)
         brave_model = cls.fromBraveModel(ctl,assumptions)
@@ -46,6 +46,9 @@ class ClinguinModel:
         ctl.assign_external(parse_term('show_brave'),False)
         ctl.assign_external(parse_term('show_untagged'),True)
         cautious_model = cls.fromCautiousModel(ctl,assumptions)
+        ctl.assign_external(parse_term('show_untagged'),False)
+        ctl.assign_external(parse_term('show_all'),True)
+
         return cls.combine(brave_model,cautious_model)
     
 
@@ -53,6 +56,11 @@ class ClinguinModel:
     def combine(cls, cgmodel1, cgmodel2):
         return cls(cgmodel1._factbase.union(cgmodel2._factbase))
 
+    @classmethod
+    def fromClingoModel(cls, m):
+        model = cls()
+        model._setFbSymbols(m.symbols(shown=True))
+        return model
 
     @classmethod
     def fromBraveModel(cls, ctl, assumptions):
@@ -67,6 +75,28 @@ class ClinguinModel:
         cautious_model = model.computeCautious(ctl, assumptions)
         model._setFbSymbols(cautious_model)
         return model
+
+    def addElement(self, id, t, parent):
+        if type(id)==str:
+            id = Function(id,[])
+        if type(t)==str:
+            t = Function(t,[])
+        if type(parent)==str:
+            parent = Function(parent,[])
+        self._factbase.add(ElementDao(Raw(id),Raw(t),Raw(parent)))
+
+    def addAttribute(self, id, key, value):
+        if type(id)==str:
+            id = Function(id,[])
+        if type(key)==str:
+            key = Function(key,[])
+        if type(value)==str:
+            value = String(value)
+        if type(value)==int:
+            value = Number(value)
+        self._factbase.add(AttributeDao(Raw(id),Raw(key),Raw(value)))
+
+
 
     def filterElements(self, condition):
         elements = self.getElements()
@@ -106,7 +136,7 @@ class ClinguinModel:
 
     def _compute(self,ctl, assumptions):
         symbols = []
-        with ctl.solve(assumptions=[(parse_term(a),True) for a in assumptions],
+        with ctl.solve(assumptions=[(a,True) for a in assumptions],
                 yield_=True) as result:
             model_symbols = None
             for m in result:

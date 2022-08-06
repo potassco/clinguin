@@ -29,7 +29,10 @@ class Api:
                                str(endpoint) +
                                " with content:" +
                                str(body.function))
-            r = httpx.post(self.base_url + endpoint, data=body.toJSON(), timeout=10000)
+            
+            data = body.toJSON()
+            r = httpx.post(self.base_url + endpoint, data=data, timeout=10000)
+            #TODO HANDLE other errors here... 500 Internal Server Error
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")

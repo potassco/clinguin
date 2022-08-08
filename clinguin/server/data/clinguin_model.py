@@ -37,7 +37,6 @@ class ClinguinModel:
 
     @classmethod
     def fromBCExtendedFile(cls, ctl,assumptions):
-        model = cls()
         ctl.assign_external(parse_term('show_all'),False)
         ctl.assign_external(parse_term('show_cautious'),False)
         ctl.assign_external(parse_term('show_brave'),True)

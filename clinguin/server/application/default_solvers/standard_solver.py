@@ -111,9 +111,9 @@ class ClingoBackend(ClinguinBackend):
 
             # This idea is crashing on mac for some reason, only when I get the post,
             # Try to uncomment and see if it works for you
-            # self._model.addElement("message","message","window")
-            # self._model.addAttribute("message","title","Aviso")
-            # self._model.addAttribute("message","message","No hay mas soluciones")
+            self._model.addElement("message","message","window")
+            self._model.addAttribute("message","title","Aviso")
+            self._model.addAttribute("message","message","No hay mas soluciones")
         
 
         return self.get()

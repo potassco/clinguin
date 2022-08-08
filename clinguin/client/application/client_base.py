@@ -64,8 +64,7 @@ class ClientBase:
                 logging.getLogger("client").error(
                     "Could not find element type: " + child['type'])
 
-    def assume(self, click_policy):
-        # What is this for? Should have another name not assume
+    def postWithPolicy(self, click_policy):
         (status_code, json) = self.api.post("solver", CallDto(click_policy))
         if status_code == 200:
             self.draw(json)

@@ -112,7 +112,7 @@ class Button(RootCmp):
         key = CallbackNames.click
         if self._callbacks[key] and self._callbacks[key]["policy"]:
             def clickEvent(event):
-                self._base_engine.assume(self._callbacks[key]["policy"])
+                self._base_engine.postWithPolicy(self._callbacks[key]["policy"])
 
             self._widget.bind('<Button-1>', clickEvent)
 

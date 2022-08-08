@@ -31,6 +31,7 @@ class ClingoBackend(ClinguinBackend):
         self._ctl.add("base",[],brave_cautious_externals)
         self._ctl.ground([("base", [])])
         self._ctl.assign_external(parse_term('show_all'),True)
+
         self._model=None
         self._handler=None
         self._iterator=None
@@ -46,6 +47,7 @@ class ClingoBackend(ClinguinBackend):
         if self._handler:
             self._handler.cancel()
             self._handler = None
+            self._ctl.assign_external(parse_term('no_more_solutions'),False)
         self._iterator = None
 
     def _updateModelWithOptions(self):
@@ -109,11 +111,7 @@ class ClingoBackend(ClinguinBackend):
             self._logger.debug("No more solutions")
             self._handler.cancel()
 
-            # This idea is crashing on mac for some reason, only when I get the post,
-            # Try to uncomment and see if it works for you
-            self._model.addElement("message","message","window")
-            self._model.addAttribute("message","title","Aviso")
-            self._model.addAttribute("message","message","No hay mas soluciones")
-        
+            self._ctl.assign_external(parse_term('no_more_solutions'),True)
+            self._updateModelWithOptions()
 
         return self.get()

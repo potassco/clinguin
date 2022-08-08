@@ -98,9 +98,9 @@ attribute(ln,height,3).
 attribute(ln, width,20).
 
 % TODO adding this crashes after selecting an option on the grid?
-% element(message, message, window).
-% attribute(message, title, "Holi").
-% attribute(message, message, "ayuda").
+element(message, message, window) :- no_more_solutions.
+attribute(message, title, "Holi") :- no_more_solutions.
+attribute(message, message, "ayuda") :- no_more_solutions.
 
 % % #script (python)
 % % from clingo import parse_term

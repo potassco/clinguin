@@ -4,6 +4,7 @@ brave_cautious_externals = """
 #external show_cautious.
 #external show_untagged.
 #external show_all.
+#external no_more_solutions.
 
 #show element(ID,TYPE,PARENT): _brave(element(ID,TYPE,PARENT)), show_brave.
 #show attribute(ID,NAME,VALUE): _brave(attribute(ID,NAME,VALUE)), show_brave.

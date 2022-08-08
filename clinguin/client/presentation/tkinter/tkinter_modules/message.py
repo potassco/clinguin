@@ -13,7 +13,7 @@ class Message(RootCmp):
 
 
     def _initWidget(self, elements):
-        message = tk.Message()
+        message = tk.Message(elements[str(self._parent)].getWidget())
         return message
 
     @classmethod
@@ -26,11 +26,13 @@ class Message(RootCmp):
         return attributes
 
     def _setValues(self, elements):
-        tk.messagebox.showinfo(title=self._attributes["title"], message=self._attributes["message"])
 
-    def addComponent(self, elements):
-        self._attributes = self.__class__.getAttributes()
-        self._fillAttributes()
-        self._execAttributes(elements)
+        title = self._attributes[AttributeNames.title]["value"]
+        title = StandardTextProcessing.parseStringWithQuotes(title)
+
+        message = self._attributes[AttributeNames.message]["value"]
+        message = StandardTextProcessing.parseStringWithQuotes(message)
+
+        tk.messagebox.showinfo(title=title, message=message)
 
 

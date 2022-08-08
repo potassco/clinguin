@@ -64,3 +64,10 @@ class ClingoBackend(ClinguinBackend):
             self._assumptions.remove("assume(" + predicate + ")")
             self.model = None
         return self.get()
+
+    def clear(self):
+        self._logger.debug("clear()")
+        self._assumptions.clear()
+        return self.get()
+
+

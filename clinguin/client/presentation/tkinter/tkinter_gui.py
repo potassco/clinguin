@@ -1,215 +1,121 @@
 import tkinter as tk
+import logging
+
+from clinguin.client.presentation.tkinter.window import Window
+from clinguin.client.presentation.tkinter.container import Container
+from clinguin.client.presentation.tkinter.dropdownmenu import Dropdownmenu
+from clinguin.client.presentation.tkinter.dropdownmenu_item import DropdownmenuItem
+from clinguin.client.presentation.tkinter.label import Label
+from clinguin.client.presentation.tkinter.button import Button
+
+from clinguin.client.presentation.tkinter.menu_bar import MenuBar
+from clinguin.client.presentation.tkinter.menu_bar_section import MenuBarSection
+from clinguin.client.presentation.tkinter.menu_bar_section_item import MenuBarSectionItem
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
-from clinguin.client.presentation.tkinter.call_back_definition import CallBackDefinition
 
-
-class Attribute:
-    def __init__(self, id, key, value, action):
-        self.id = id
-        self.key = key
-        self.value = value
-        self.action = action
-
+from clinguin.client.presentation.tkinter.attribute_names import AttributeNames
+from clinguin.client.presentation.tkinter.callback_names import CallbackNames
 
 class TkinterGui(AbstractGui):
 
-    def __init__(self, baseEngine):
-        self.elements = {}
-        self.baseEngine = baseEngine
+    def __init__(self, base_engine, args):
+        super().__init__(base_engine, args)
 
+        self.elements = {}
         self.first = True
 
+    @classmethod
+    def registerOptions(cls, parser):   
+        def appendDict(description, _dict):
+            for key in _dict.keys():
+                description = description + "    |- " + key
+                if "description" in _dict[key]:
+                    # Specific has higher priority
+                    description = description + ": " + _dict[key]["description"]
+                elif key in AttributeNames.descriptions:
+                    # General lesser priority
+                    description = description + ": " + AttributeNames.descriptions[key]
+                elif key in CallbackNames.descriptions:
+                    description = description + ": " + CallbackNames.descriptions[key]
+                description = description + "\n"
+
+            return description
+
+        description = "Here one finds the supported attributes and callbacks of the TkinterGui and further a definition of the syntax:\n" +\
+            "There are three syntax elements:\n\n" +\
+            "element(<ID>, <TYPE>, <PARENT>) : To define an element\n" +\
+            "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the corresponding element)\n" +\
+            "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the corresponding element)\n\n" +\
+            "The following list shows for each <TYPE> the possible attributes and callbacks:\n" 
+
+        class_list = [Window, Container, Label, Button, Dropdownmenu, DropdownmenuItem, MenuBar, MenuBarSection, MenuBarSectionItem]
+
+        description = description + "|--------------------------------\n"
+        for c in class_list:
+            description = description + "|- " + c.__name__ + "\n"
+            
+            attributes = c.getAttributes()
+            if len(attributes.keys()) > 0:
+                description = description + "  |- attributes\n"
+                description = appendDict(description, attributes)
+            
+            callbacks = c.getCallbacks()
+            if len(callbacks.keys()) > 0:               
+                description = description + "  |- callbacks\n"
+                description = appendDict(description, callbacks)
+            description = description + "|--------------------------------\n"
+
+        parser.description = description
+
     def window(self, id, parent, attributes, callbacks):
-        #print("WINDOW: " + str(id) + "::" + str(parent))
 
         if self.first:
-            self._window_startup(id, parent, attributes, callbacks)
+            window = Window(self._args, id, parent, attributes, callbacks, self._base_engine)
+            window.addComponent(self.elements)
         else:
             keys = list(self.elements.keys()).copy()
             for key in keys:
                 if str(key) == str(id):
                     continue
-
-                self.elements[str(key)][0].pack_forget()
-                del self.elements[str(key)]
-
-    def _window_startup(self, id, parent, attributes, callbacks):
-        root = tk.Tk()
-
-        root.title("Clinguin")
-
-        tka = {
-            "width": Attribute(
-                id,
-                "width",
-                root.winfo_screenwidth(),
-                "geometry(tka['width'].value + 'x' + tka['height'].value + '+' + str(int(root.winfo_screenwidth()/2 - int(tka['width'].value)/2)) + '+' + str(int(root.winfo_screenheight()/2 - int(tka['height'].value)/2)))"),
-            "height": Attribute(
-                id,
-                "height",
-                root.winfo_screenheight(),
-                "geometry(tka['width'].value + 'x' + tka['height'].value + '+' + str(int(root.winfo_screenwidth()/2 - int(tka['width'].value)/2)) + '+' + str(int(root.winfo_screenheight()/2 - int(tka['height'].value)/2)))"),
-            "backgroundcolor": Attribute(
-                id,
-                "background",
-                "white",
-                "configure(background = tka['backgroundcolor'].value)"),
-            "resizablex": Attribute(
-                id,
-                "resizablex",
-                1,
-                "resizable(tka['resizablex'].value,tka['resizabley'].value)"),
-            "resizabley": Attribute(
-                id,
-                "resizabley",
-                1,
-                "resizable(tka['resizablex'].value,tka['resizabley'].value)"),
-        }
-
-        for attribute in attributes:
-            if attribute['key'] in tka:
-                tka[attribute['key']].value = attribute['value']
-            else:
-                print('Undefined Command: ' + attribute['key'])
-
-        for attribute_key in tka:
-            exec_string = tka[attribute_key].action
-            if exec_string is not None:
-                exec_string = 'root.' + exec_string
-                exec(exec_string)
-
-        self.elements[str(id)] = (root, {})
-
-    def dropdownmenu(self, id, parent, attributes, callbacks):
-
-        tka = {
-            "width": Attribute(
-                id,
-                "width",
-                50,
-                None),
-            "backgroundcolor": Attribute(
-                id,
-                "background",
-                "white",
-                "configure(background = tka['backgroundcolor'].value)"),
-            "selected": Attribute(
-                id,
-                "variable",
-                "",
-                None),
-            "initially_selected": Attribute(
-                id,
-                "variable",
-                "",
-                None),
-        }
-
-        for attribute in attributes:
-            if attribute['key'] in tka:
-                tka[attribute['key']].value = attribute['value']
-            else:
-                print('Undefined Command: ' + attribute['key'])
-
-        variable = tk.StringVar()
-        if tka["initially_selected"].value != "" and tka["selected"].value == "":
-            variable.set(tka["initially_selected"].value)
-        elif tka["selected"].value != "":
-            variable.set(tka["selected"].value)
-
-        items = []
-        menu = tk.OptionMenu(self.elements[parent][0], variable, "", *items)
-
-        for attribute_key in tka:
-            exec_string = tka[attribute_key].action
-            if exec_string is not None:
-                exec_string = 'menu.' + exec_string
-                exec(exec_string)
-
-        menu.pack(expand=True)
-
-        self.elements[str(id)] = (menu, {"variable": variable})
-
-    def dropdownmenuitem(self, id, parent, attributes, callbacks):
-
-        tka = {
-            "label": Attribute(id, "label", id, None),
-        }
-
-        for attribute in attributes:
-            if attribute['key'] in tka:
-                tka[attribute['key']].value = attribute['value']
-            else:
-                print('Undefined Command: ' + attribute['key'])
-
-        click_policy = None
-        for callback in callbacks:
-            if callback['action'] == 'click':
-                click_policy = callback['policy']
-
-        menu = self.elements[str(parent)][0]
-
-        menu['menu'].add_command(
-            label=tka["label"].value,
-            command=CallBackDefinition(
-                id,
-                parent,
-                click_policy,
-                self.dropdownmenuitemClick))
-
-        for attribute_key in tka:
-            exec_string = tka[attribute_key].action
-            if exec_string is not None:
-                exec_string = "menu['menu']." + exec_string
-                exec(exec_string)
+                
+                if str(key) in self.elements:
+                    self.elements[str(key)].forgetChildren(self.elements)
+                    del self.elements[str(key)]
 
     def container(self, id, parent, attributes, callbacks):
+        container = Container(self._args, id, parent, attributes, callbacks, self._base_engine)
+        container.addComponent(self.elements)
 
-        tka = {
-            "gridx": Attribute(id, "gridx", -1, None),
-            "gridy": Attribute(id, "gridy", -1, None),
-            "backgroundcolor": Attribute(id, "background", "white", "configure(background = tka['backgroundcolor'].value)"),
-            "width": Attribute(id, "width", 50, "configure(width = int(tka['width'].value))"),
-            "height": Attribute(id, "height", 50, "configure(height = int(tka['height'].value))"),
-        }
 
-        for attribute in attributes:
-            if attribute['key'] in tka:
-                tka[attribute['key']].value = attribute['value']
-            else:
-                print('Undefined Command: ' + attribute['key'])
+    def dropdownmenu(self, id, parent, attributes, callbacks):
+        menu = Dropdownmenu(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menu.addComponent(self.elements)
 
-        click_policy = None
-        for callback in callbacks:
-            if callback['action'] == 'click':
-                click_policy = callback['policy']
+    def dropdownmenuitem(self, id, parent, attributes, callbacks):
+        menu = DropdownmenuItem(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menu.addComponent(self.elements)
 
-        container = tk.Frame(self.elements[str(parent)][0])
+    def label(self, id, parent, attributes, callbacks):
+        label = Label(self._args, id, parent, attributes, callbacks, self._base_engine)
+        label.addComponent(self.elements)
 
-        for attribute_key in tka:
-            exec_string = tka[attribute_key].action
-            if exec_string is not None:
-                exec_string = "container." + exec_string
-                exec(exec_string)
+    def button(self, id, parent, attributes, callbacks):
+        button = Button(self._args, id, parent, attributes, callbacks, self._base_engine)
+        button.addComponent(self.elements)
 
-        if int(tka["gridx"].value) >= 0 and int(tka["gridy"].value) >= 0:
-            container.grid(
-                column=int(
-                    tka["gridx"].value), row=int(
-                    tka["gridy"].value))
+    def menubar(self, id, parent, attributes, callbacks):
+        menubar = MenuBar(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menubar.addComponent(self.elements)
 
-        container.pack_propagate(0)
+    def menubarsection(self, id, parent, attributes, callbacks):
+        menubar = MenuBarSection(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menubar.addComponent(self.elements)
 
-        self.elements[str(id)] = (container, {})
-
-    def dropdownmenuitemClick(self, id, parent, click_policy):
-        variable = self.elements[str(parent)][1]["variable"]
-        variable.set(id)
-        # print(str(id) + "::" + str(parent) + "::" + str(click_policy))
-        if (click_policy is not None):
-            self.baseEngine.assume(click_policy)
+    def menubarsectionitem(self, id, parent, attributes, callbacks):
+        menubar = MenuBarSectionItem(self._args, id, parent, attributes, callbacks, self._base_engine)
+        menubar.addComponent(self.elements)
 
     def draw(self, id):
         self.first = False
-        self.elements[id][0].mainloop()
+        self.elements[id].getWidget().mainloop()

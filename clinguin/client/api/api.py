@@ -17,7 +17,7 @@ class Api:
         try:
             self._logger.debug("Sending GET to " +
                                str(self.base_url) + str(endpoint))
-            r = httpx.get(self.base_url + endpoint, timeout=100)
+            r = httpx.get(self.base_url + endpoint, timeout=10000)
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")
@@ -29,7 +29,7 @@ class Api:
                                str(endpoint) +
                                " with content:" +
                                str(body.function))
-            r = httpx.post(self.base_url + endpoint, data=body.toJSON())
+            r = httpx.post(self.base_url + endpoint, data=body.toJSON(), timeout=10000)
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")

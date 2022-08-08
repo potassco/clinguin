@@ -5,8 +5,6 @@ from clinguin.client.api.api import Api
 from clinguin.client.api.call_dto import CallDto
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
-from clinguin.client.presentation.tkinter.tkinter_gui import TkinterGui
-
 
 class ClientBase:
 
@@ -20,11 +18,20 @@ class ClientBase:
 
         self.solve_dto = CallDto("solve")
 
-        self.gui_generator = TkinterGui(self)
+        self.gui_generator = args.client(self, args)
 
     def startUp(self):
         self.connect()
-        self.draw()
+        (status_code, response) = self.api.get("")
+        if status_code == 200:
+            self.draw(response)
+            self.gui_generator.draw(response['children'][0]['id'])
+        else:
+            logging.getLogger("client").error(
+                "Connection error, status code: " + str(status_code))
+
+            self.connected = False
+            self.connect()
 
     def connect(self):
         while (self.connected == False):
@@ -36,17 +43,11 @@ class ClientBase:
                 logging.getLogger("client").info("Waiting for connection")
                 time.sleep(1)
 
-    def draw(self):
-        (status_code, response) = self.api.get("")
-        if status_code == 200:
-            self.baseEngine(response)
-            self.gui_generator.draw(response['children'][0]['id'])
-        else:
-            logging.getLogger("client").error(
-                "Connection error, status code: " + str(status_code))
-
-            self.connected = False
-            self.connect()
+    def draw(self, response):
+        start = time.time()
+        self.baseEngine(response)
+        end = time.time()
+        self._logger.debug("Generation of GUI needed about " + str(end - start) + " seconds.")
 
     def baseEngine(self, response):
         children = response['children']
@@ -68,7 +69,14 @@ class ClientBase:
                     "Could not find element type: " + child['type'])
 
     def assume(self, click_policy):
-        self.api.post("solver", CallDto(click_policy))
+        (status_code, json) = self.api.post("solver", CallDto(click_policy))
+        if status_code == 200:
+            self.draw(json)
+        else:
+            logging.getLogger("client").error(
+                "Connection error, status code: " + str(status_code))
 
-        time.sleep(1)
-        self.draw()
+            self.connected = False
+            self.connect()
+
+

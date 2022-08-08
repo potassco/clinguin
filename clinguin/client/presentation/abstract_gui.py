@@ -1,8 +1,14 @@
+import logging
 
+from clinguin.utils.custom_args import CustomArgs
 
-class AbstractGui:
+class AbstractGui(CustomArgs):
 
-    def __init__(self):
+    def __init__(self, base_engine, args):
+        self._args = args
+        self._logger = logging.getLogger(args.log_args['name'])
+        self._base_engine = base_engine
+
         print("Abstract Solver")
 
     def window(self, id, parent, attributes, callbacks):
@@ -17,5 +23,21 @@ class AbstractGui:
     def dropdownmenuitem(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
 
-    def draw(self):
+    def label(self, id, parent, attributes, callbacks):
+        print("LABEL: " + str(id) + "::" + str(parent))
+
+    def button(self, id, parent, attributes, callbacks):
+        print("BUTTON: " + str(id) + "::" + str(parent))
+
+    def menubar(self, id, parent, attributes, callbacks):
+        print("MENUBAR: " + str(id) + "::" + str(parent))
+
+    def menubarsection(self, id, parent, attributes, callbacks):
+        print("MENUBARSECTION: " + str(id) + "::" + str(parent))
+
+    def menubarsectionitem(self, id, parent, attributes, callbacks):
+        print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
+
+
+    def draw(self, id):
         print("DRAW")

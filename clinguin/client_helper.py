@@ -1,8 +1,8 @@
 """
 Helper for the client-startup-process
 """
-from clinguin.client.application.client_base import ClientBase
-from clinguin.utils.logger import Logger
+from clinguin.client import ClientBase
+from clinguin.utils import Logger
 
 def start(args):
     """

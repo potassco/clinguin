@@ -10,11 +10,10 @@ from typing import Sequence, Any
 from importlib.metadata import metadata
 
 # Self Defined
-from clinguin.server.presentation.endpoints_helper import callFunction
-from clinguin.server.presentation.backend_policy_dto import BackendPolicyDto
+from .endpoints_helper import callFunction
+from .backend_policy_dto import BackendPolicyDto
 
-from clinguin.utils.logger import Logger
-
+from clinguin.utils import Logger
 
 class Endpoints:
     def __init__(self, args) -> None:

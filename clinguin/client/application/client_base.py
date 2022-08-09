@@ -1,10 +1,10 @@
 import time
 import logging
 
-from clinguin.client.api.api import Api
-from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
+from clinguin.client import Api
+from clinguin.client import FrontendPolicyDto
 
-from clinguin.client.presentation.abstract_gui import AbstractGui
+from clinguin.client import AbstractGui
 
 class ClientBase:
 

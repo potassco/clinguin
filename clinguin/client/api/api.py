@@ -3,8 +3,7 @@ import httpx
 import logging
 import traceback
 
-from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
-
+from .frontend_policy_dto import FrontendPolicyDto
 
 class Api:
 

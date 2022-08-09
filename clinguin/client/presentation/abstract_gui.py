@@ -1,6 +1,6 @@
 import logging
 
-from clinguin.utils.custom_args import CustomArgs
+from clinguin.utils import CustomArgs
 
 class AbstractGui(CustomArgs):
 

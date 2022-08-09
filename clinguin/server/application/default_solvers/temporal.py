@@ -6,17 +6,11 @@ import clingo
 from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
 
-from clinguin.server.application.standard_json_encoder import StandardJsonEncoder
+from clinguin.server import StandardJsonEncoder
+from clinguin.server import ClinguinModel
+from clinguin.server import ClinguinBackend
 
-from clinguin.server.data.clinguin_model import ClinguinModel
-
-from clinguin.server.application.clinguin_backend import ClinguinBackend
-
-from clinguin.server.application.default_solvers.brave_cautious_helper import *
-
-from clinguin.server.data.element import ElementDao
-from clinguin.server.data.attribute import AttributeDao
-from clinguin.server.data.callback import CallbackDao
+from standard_utils.brave_cautious_helper import *
 
 class Temporal(ClinguinBackend):
 

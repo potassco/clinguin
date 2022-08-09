@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI, APIRouter
 
-from clinguin.utils.logger import Logger
-from clinguin.server.presentation.endpoints import Endpoints
+from clinguin.utils import Logger
+from clinguin.server import Endpoints
 
 
 def start(args):

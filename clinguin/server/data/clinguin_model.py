@@ -6,10 +6,9 @@ from clorm import Predicate, ConstantField, RawField, Raw
 from clingo import Control,parse_term
 from clingo.symbol import Function, Number, String
 
-from clinguin.server.data.element import ElementDao
-from clinguin.server.data.attribute import AttributeDao
-from clinguin.server.data.callback import CallbackDao
-
+from .element import ElementDao
+from .attribute import AttributeDao
+from .callback import CallbackDao
 
 class ClinguinModel:
 

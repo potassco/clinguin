@@ -4,15 +4,13 @@ import networkx as nx
 
 from typing import Sequence, Any
 
-from clinguin.server.application.element import ElementDto
-from clinguin.server.application.attribute import AttributeDto
-from clinguin.server.application.callback import CallbackDto
+from .element import ElementDto
+from .attribute import AttributeDto
+from .callback import CallbackDto
 
 """
 Generates a ClassHierarchy which can easily be serialized
 """
-
-
 class StandardJsonEncoder:
 
     def __init__(self):

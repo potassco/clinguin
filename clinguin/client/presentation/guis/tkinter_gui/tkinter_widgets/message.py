@@ -4,9 +4,7 @@ import tkinter.messagebox
 
 from .root_cmp import RootCmp
 
-from tkinter_gui.tkinter_utils.standard_text_processing import StandardTextProcessing
-from tkinter_gui.tkinter_utils.attribute_names import AttributeNames
-from tkinter_gui.tkinter_utils.callback_names import CallbackNames
+from tkinter_gui.tkinter_utils import *
 
 class Message(RootCmp):
 

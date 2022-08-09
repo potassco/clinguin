@@ -2,9 +2,7 @@ import tkinter as tk
 
 from .root_cmp import RootCmp
 
-from tkinter_gui.tkinter_utils.call_back_definition import CallBackDefinition
-from tkinter_gui.tkinter_utils.attribute_names import AttributeNames
-from tkinter_gui.tkinter_utils.callback_names import CallbackNames
+from tkinter_gui.tkinter_utils import *
 
 class DropdownmenuItem(RootCmp):
 

@@ -10,9 +10,8 @@ import textwrap
 import glob
 import traceback
 
-from .server.application.clinguin_backend import ClinguinBackend
-from .client.presentation.abstract_gui import AbstractGui
-#from .client.presentation.tkinter.tkinter_gui import TkinterGui
+from .server import ClinguinBackend
+from .client import AbstractGui
 
 class ArgumentParser():
     """

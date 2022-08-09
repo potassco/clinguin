@@ -1,22 +1,10 @@
 import tkinter as tk
 import logging
 
-from clinguin.client.presentation.abstract_gui import AbstractGui
+from clinguin.client import AbstractGui
 
-from tkinter_gui.tkinter_widgets.window import Window
-from tkinter_gui.tkinter_widgets.container import Container
-from tkinter_gui.tkinter_widgets.dropdownmenu import Dropdownmenu
-from tkinter_gui.tkinter_widgets.dropdownmenu_item import DropdownmenuItem
-from tkinter_gui.tkinter_widgets.label import Label
-from tkinter_gui.tkinter_widgets.button import Button
-
-from tkinter_gui.tkinter_widgets.menu_bar import MenuBar
-from tkinter_gui.tkinter_widgets.menu_bar_section import MenuBarSection
-from tkinter_gui.tkinter_widgets.menu_bar_section_item import MenuBarSectionItem
-from tkinter_gui.tkinter_widgets.message import Message
-
-from tkinter_gui.tkinter_utils.attribute_names import AttributeNames
-from tkinter_gui.tkinter_utils.callback_names import CallbackNames
+from tkinter_gui.tkinter_widgets import *
+from tkinter_gui.tkinter_utils import *
 
 class TkinterGui(AbstractGui):
 

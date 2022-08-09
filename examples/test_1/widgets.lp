@@ -1,18 +1,20 @@
+_brave_element_type(dropdownmenuitem).
+
 p(1) :- not p(2).
 p(2) :- not p(1).
 
 element(w, window, root).
 attribute(w, height, 500).
 attribute(w, width, 500).
-attribute(w, backgroundcolor, white).
+attribute(w, background_color, white).
 
 element(c, container, w).
 attribute(c, width, 100).
 attribute(c, height, 50).
-attribute(c, borderwidth, 2).
-attribute(c, onhover, true).
-attribute(c, onhoverbackgroundcolor, blue).
-attribute(c, onhoverbordercolor, red).
+attribute(c, border_width, 2).
+attribute(c, on_hover, true).
+attribute(c, on_hover_background_color, blue).
+attribute(c, on_hover_border_color, red).
 
 element(m, dropdownmenu, c).
 
@@ -24,9 +26,9 @@ callback(mi(X), click, assume(p(X))) :- p(X).
 element(c2, container, w).
 attribute(c2, width, 100).
 attribute(c2, height, 50).
-attribute(c2, borderwidth, 20).
-attribute(c2, bordercolor, pink).
-attribute(c2, backgroundcolor, red).
+attribute(c2, border_width, 20).
+attribute(c2, border_color, pink).
+attribute(c2, background_color, red).
 
 
 

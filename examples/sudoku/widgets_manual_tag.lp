@@ -8,10 +8,10 @@ element(window, window, root).
 
 attribute(window, height, height_value).
 attribute(window, width, width_value).
-attribute(window, backgroundcolor, white).
-attribute(window, resizablex, 0).
-attribute(window, resizabley, 0).
-attribute(window, childorg, absstatic).
+attribute(window, background_color, white).
+attribute(window, resizable_x, 0).
+attribute(window, resizable_y, 0).
+attribute(window, child_layout, absstatic).
 
 element(m, menubar, window).
 
@@ -23,21 +23,21 @@ attribute(msi1, label, "Clear").
 callback(msi1, click, clear).
 
 element(uc, container, window).
-attribute(uc, childorg, grid).
-attribute(uc, posx, 50).
-attribute(uc, posy, 15).
+attribute(uc, child_layout, grid).
+attribute(uc, pos_x, 50).
+attribute(uc, pos_y, 15).
 attribute(uc, height, grid_height_value).
 attribute(uc, width, grid_width_value).
 
 c(X,Y) :- pos(X,Y).
 
 element(c(X,Y), container, uc) :- c(X,Y).
-attribute(c(X,Y), gridcolumn, X-1) :- c(X,Y).
-attribute(c(X,Y), gridrow, Y-1) :- c(X,Y).
-% attribute(c(X,Y),backgroundcolor,blue):- c(X,Y).
-% attribute(c(X,Y),backgroundcolor,blue):- subgrid(X,Y,S).
-attribute(c(X,Y),backgroundcolor,grey):- subgrid(X,Y,S), S\2==0.
-attribute(c(X,Y),backgroundcolor,white):- subgrid(X,Y,S), S\2!=0.
+attribute(c(X,Y), grid_column, X-1) :- c(X,Y).
+attribute(c(X,Y), grid_row, Y-1) :- c(X,Y).
+% attribute(c(X,Y),background_color,blue):- c(X,Y).
+% attribute(c(X,Y),background_color,blue):- subgrid(X,Y,S).
+attribute(c(X,Y),background_color,grey):- subgrid(X,Y,S), S\2==0.
+attribute(c(X,Y),background_color,white):- subgrid(X,Y,S), S\2!=0.
 attribute(c(X,Y), height, grid_height_value/(dim*dim)) :- c(X,Y).
 attribute(c(X,Y), width, grid_width_value/(dim*dim)) :- c(X,Y).
 
@@ -52,15 +52,15 @@ attribute(m(X,Y), selected, V) :- sudoku(X,Y,V).
 element(lc, container, window).
 attribute(lc, height, 70).
 attribute(lc, width, 250).
-attribute(lc, posx, 150).
-attribute(lc, posy, 475).
+attribute(lc, pos_x, 150).
+attribute(lc, pos_y, 475).
 
 element(ll, label, lc).
 attribute(ll, label, "Clear assumptions").
-attribute(ll, backgroundcolor, red).
-attribute(ll, onhover, true).
-attribute(ll, onhoverbackgroundcolor, blue).
-attribute(ll, onhoverforegroundcolor, white). 
+attribute(ll, background_color, red).
+attribute(ll, on_hover, true).
+attribute(ll, on_hover_background_color, blue).
+attribute(ll, on_hover_foreground_color, white). 
 callback(ll, click, clear). 
 
 

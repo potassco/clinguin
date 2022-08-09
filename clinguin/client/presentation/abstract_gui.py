@@ -38,6 +38,9 @@ class AbstractGui(CustomArgs):
     def menubarsectionitem(self, id, parent, attributes, callbacks):
         print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
 
+    def message(self, id, parent, attributes, callbacks):
+        print("MESSAGE: " + str(id) + "::" + str(parent))
+
 
     def draw(self, id):
         print("DRAW")

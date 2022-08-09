@@ -36,6 +36,7 @@ class ArgumentParser():
             'client-server': 'Start client and a server processes.'}
         self.solver_name = None
         self.solver = None
+        self._provide_help = False
 
     def parse(self):
         """
@@ -54,11 +55,10 @@ class ArgumentParser():
             title="Process type",
             description='The type of process to start: a client (UI) a server (Backend) or both',
             dest='process')
-
         self._createClientSubparser(subparsers)
         self._createServerSubparser(subparsers)
         self._createClientServerSubparser(subparsers)
-
+ 
         args = parser.parse_args()
 
         self._addSelectedSolver(args)
@@ -112,12 +112,18 @@ class ArgumentParser():
         return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _importClasses(self, path):
-
         sub_directories = ['']
 
         sys.path.append(path)
 
-        tail = (os.path.split(path))[1]
+        """
+        # Cant this be done like this instead? is simpler
+        for name in glob.glob(path + '/*.py'):
+            base = os.path.basename(name)
+            file_name = os.path.splitext(base)[0]
+            print(file_name)
+            module = importlib.import_module(file_name)
+        """
 
         self._recursiveImport(path, "", "")
 
@@ -137,7 +143,6 @@ class ArgumentParser():
             base = os.path.basename(file_path)
             file_name = os.path.splitext(base)[0]
             ending = os.path.splitext(base)[1]
-
             if ending == ".py":
                 if module != "":
                     try:
@@ -167,7 +172,7 @@ class ArgumentParser():
                                            help='Location of custom classes')
         self._addDefaultArgumentsToClientParser(custom_imports_parser)
 
-        args, _ = custom_imports_parser.parse_known_args()
+        args, unknown = custom_imports_parser.parse_known_args()
     
         self.client_name = args.client
         self.solver_name = args.solver
@@ -180,6 +185,9 @@ class ArgumentParser():
             self._importClasses(args.custom_client_classes)
         else:
             self._importClasses(ArgumentParser.default_client_path)
+
+        if '-h' in unknown or '--help' in unknown:
+            self._provide_help = True
 
     def _createClientSubparser(self, subparsers):
         parser_client = subparsers.add_parser(
@@ -311,14 +319,13 @@ class ArgumentParser():
         selected_class = None
 
         for sub_class in sub_classes:
-            if not class_name and sub_class.__name__ == default_class:
+            
+            select_this_class_as_solver = (not class_name and sub_class.__name__ == default_class) or (sub_class.__name__ == class_name)
+        
+            if select_this_class_as_solver or self._provide_help == True:
+                selected_class = sub_class
                 group = parser.add_argument_group(sub_class.__name__)
                 sub_class.registerOptions(group)
-                selected_class = sub_class
-            elif sub_class.__name__ == class_name:
-                group = parser.add_argument_group(sub_class.__name__)
-                sub_class.registerOptions(group)
-                selected_class = sub_class
 
         return selected_class
 

@@ -89,7 +89,7 @@ class RootCmp:
                 parent_org = getattr(elements[self._parent], "getChildOrg")()
                 if parent_org == "flex" or parent_org == "absstatic" or parent_org =="relstatic":
                     self._widget.pack_forget()
-                elif parent == "grid":
+                elif parent_org == "grid":
                     self._widget.grid_forget()
                 else:
                     self._widget.forget()

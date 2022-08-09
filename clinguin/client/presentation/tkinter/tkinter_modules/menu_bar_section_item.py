@@ -53,7 +53,7 @@ class MenuBarSectionItem(RootCmp):
 
     def _menubarItemClick(self, id, parent, click_policy, elements):
         if (click_policy is not None):
-            self._base_engine.assume(click_policy)
+            self._base_engine.postWithPolicy(click_policy)
  
     def _addComponentToElements(self, elements):
         elements[str(self._id)] = self

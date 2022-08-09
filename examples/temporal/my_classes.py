@@ -4,5 +4,5 @@ class TemporalBackend(ClinguinBackend):
     
     
     @classmethod
-    def _registerOptions(cls, parser):
+    def registerOptions(cls, parser):
         parser.add_argument('temporal_horizon', type=int)

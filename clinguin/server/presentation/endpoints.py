@@ -41,15 +41,17 @@ class Endpoints:
         }
 
     async def standardSolver(self):
+        # TODO Change name of function
         return self._solver[0].get()
 
     async def solver(self, solver_call_string: SolverDto):
-
+        self._logger.debug("Got endpoint")
         symbol = clingo.parse_term(solver_call_string.function)
         function_name = symbol.name
         function_arguments = (
             list(map(lambda symb: str(symb), symbol.arguments)))
 
+        self._logger.debug("Will call")
         result = call_function(
             self._solver,
             function_name,

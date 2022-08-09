@@ -2,8 +2,8 @@ import tkinter as tk
 
 from .root_cmp import RootCmp
 
-from .attribute_names import AttributeNames
-from .callback_names import CallbackNames
+from tkinter_gui.tkinter_utils.attribute_names import AttributeNames
+from tkinter_gui.tkinter_utils.callback_names import CallbackNames
 
 class MenuBar(RootCmp):
 

@@ -1,11 +1,11 @@
 import tkinter as tk
 
 from .root_cmp import RootCmp
-from .call_back_definition import CallBackDefinition
-from .standard_text_processing import StandardTextProcessing
 
-from .attribute_names import AttributeNames
-from .callback_names import CallbackNames
+from tkinter_gui.tkinter_utils.call_back_definition import CallBackDefinition
+from tkinter_gui.tkinter_utils.standard_text_processing import StandardTextProcessing
+from tkinter_gui.tkinter_utils.attribute_names import AttributeNames
+from tkinter_gui.tkinter_utils.callback_names import CallbackNames
 
 
 class MenuBarSectionItem(RootCmp):

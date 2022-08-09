@@ -3,20 +3,20 @@ import logging
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
 
-from tkinter_modules.window import Window
-from tkinter_modules.container import Container
-from tkinter_modules.dropdownmenu import Dropdownmenu
-from tkinter_modules.dropdownmenu_item import DropdownmenuItem
-from tkinter_modules.label import Label
-from tkinter_modules.button import Button
+from tkinter_gui.tkinter_widgets.window import Window
+from tkinter_gui.tkinter_widgets.container import Container
+from tkinter_gui.tkinter_widgets.dropdownmenu import Dropdownmenu
+from tkinter_gui.tkinter_widgets.dropdownmenu_item import DropdownmenuItem
+from tkinter_gui.tkinter_widgets.label import Label
+from tkinter_gui.tkinter_widgets.button import Button
 
-from tkinter_modules.menu_bar import MenuBar
-from tkinter_modules.menu_bar_section import MenuBarSection
-from tkinter_modules.menu_bar_section_item import MenuBarSectionItem
-from tkinter_modules.message import Message
+from tkinter_gui.tkinter_widgets.menu_bar import MenuBar
+from tkinter_gui.tkinter_widgets.menu_bar_section import MenuBarSection
+from tkinter_gui.tkinter_widgets.menu_bar_section_item import MenuBarSectionItem
+from tkinter_gui.tkinter_widgets.message import Message
 
-from tkinter_modules.attribute_names import AttributeNames
-from tkinter_modules.callback_names import CallbackNames
+from tkinter_gui.tkinter_utils.attribute_names import AttributeNames
+from tkinter_gui.tkinter_utils.callback_names import CallbackNames
 
 class TkinterGui(AbstractGui):
 

@@ -8,6 +8,7 @@ import os
 import inspect
 import textwrap
 import glob
+import traceback
 
 from .server.application.clinguin_backend import ClinguinBackend
 from .client.presentation.abstract_gui import AbstractGui
@@ -19,10 +20,10 @@ class ArgumentParser():
     """
     
     default_solver_path = os.path.join('clinguin', 'server', 'application', 'default_solvers')
-    default_client_path = os.path.join('clinguin', 'client', 'presentation', 'tkinter')
+    default_client_path = os.path.join('clinguin', 'client', 'presentation', 'guis')
 
-    default_solver = 'ClingoBackend'
-    default_client = 'TkinterGui'
+    default_solver = 'standard_solver.ClingoBackend'
+    default_client = 'tkinter_gui.tkinter_gui.TkinterGui'
 
     def __init__(self) -> None:
         self.titles = {
@@ -132,12 +133,20 @@ class ArgumentParser():
  
         folder_paths = []
         file_paths = []
-
-        for entity in os.scandir(os.path.join(full_path, rec_path)):
-            if entity.is_dir():
-                folder_paths.append(entity.path)
-            elif entity.is_file():
-                file_paths.append(entity.path)
+        
+        try:
+            for entity in os.scandir(os.path.join(full_path, rec_path)):
+                if entity.is_dir():
+                    folder_paths.append(entity.path)
+                elif entity.is_file():
+                    file_paths.append(entity.path)
+        except:
+            print("Could not find path for importing libraries: " + os.path.join(full_path, rec_path) + ". Therefore program is terminating now (full stacktrace is printed below).")
+            print("<<<BEGIN-STACK-TRACE>>>")
+            traceback.print_exc()
+            print("<<<END-STACK-TRACE>>>")
+            sys.exit()
+            
 
         for file_path in file_paths:
             base = os.path.basename(file_path)
@@ -149,6 +158,9 @@ class ArgumentParser():
                         importlib.import_module(module + "." + file_name)       
                     except:
                         print("Could not import module: " + module + "." + file_name)
+                        print("<<<BEGIN-STACK-TRACE>>>")
+                        traceback.print_exc()
+                        print("<<<END-STACK-TRACE>>>")
                 else: 
                     importlib.import_module(file_name)       
 
@@ -319,12 +331,13 @@ class ArgumentParser():
         selected_class = None
 
         for sub_class in sub_classes:
+            full_class_name = sub_class.__module__ + "." + sub_class.__name__
             
-            select_this_class_as_solver = (not class_name and sub_class.__name__ == default_class) or (sub_class.__name__ == class_name)
+            select_this_class_as_solver = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
         
             if select_this_class_as_solver or self._provide_help == True:
                 selected_class = sub_class
-                group = parser.add_argument_group(sub_class.__name__)
+                group = parser.add_argument_group(full_class_name)
                 sub_class.registerOptions(group)
 
         return selected_class

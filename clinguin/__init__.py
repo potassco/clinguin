@@ -14,7 +14,6 @@ from .parse_input import ArgumentParser
 from .server_helper import start as server_start
 from .client_helper import start as client_start
 
-
 def argsToDictConvert(args_dict, timestamp, name_prefix=""):
     """
     Converts the ''external-logger-config'' representation into an internal one

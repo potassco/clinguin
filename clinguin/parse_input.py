@@ -38,6 +38,7 @@ class ArgumentParser():
         self.solver_name = None
         self.solver = None
         self._provide_help = False
+        self._show_gui_syntax = False
 
     def parse(self):
         """
@@ -176,13 +177,12 @@ class ArgumentParser():
 
     def _parseCustomClasses(self):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
-        custom_imports_parser.add_argument('--custom-server-classes', type=str,
-                                           help='Location of custom classes')
+
         self._addDefaultArgumentsToSolverParser(custom_imports_parser)
-        
-        custom_imports_parser.add_argument('--custom-client-classes', type=str,
-                                           help='Location of custom classes')
+        self._addCustomSolversArguments(custom_imports_parser)
+
         self._addDefaultArgumentsToClientParser(custom_imports_parser)
+        self._addCustomClientsArguments(custom_imports_parser) 
 
         args, unknown = custom_imports_parser.parse_known_args()
     
@@ -198,8 +198,10 @@ class ArgumentParser():
         else:
             self._importClasses(ArgumentParser.default_client_path)
 
-        if '-h' in unknown or '--help' in unknown:
+        if '-h' in unknown or '--help' in unknown or '--h' in unknown or '--he' in unknown or '--hel' in unknown:
             self._provide_help = True
+        if args.gui_syntax:
+            self._show_gui_syntax = True
 
     def _createClientSubparser(self, subparsers):
         parser_client = subparsers.add_parser(
@@ -271,7 +273,6 @@ class ArgumentParser():
                 See available custom clients bellow:
                 '''),
                             metavar='')
-
     def _addLogArguments(self, parser, abbrevation='', logger_name = '', display_name=''):
 
         group = parser.add_argument_group(display_name + 'logger')
@@ -319,11 +320,14 @@ class ArgumentParser():
  
 
     def _addCustomClientsArguments(self, parser):
-       parser.add_argument(
+        parser.add_argument(
             '--custom-client-classes',
             type=str,
             help='Path to custom client classes.',
             metavar='')
+        parser.add_argument('--gui-syntax', '--available-gui-elements', 
+                action='store_true',
+                help='Show all available commands for the GUI.')
 
 
     def _selectSubclassAndAddCustomArguments(self, parser, parent, class_name, default_class):
@@ -336,9 +340,14 @@ class ArgumentParser():
             select_this_class_as_solver = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
         
             if select_this_class_as_solver or self._provide_help == True:
+                if not self._show_gui_syntax:
+                    group = parser.add_argument_group(full_class_name)
+                    sub_class.registerOptions(group)
+                elif hasattr(sub_class, 'availableSyntax'):
+                    print(sub_class.availableSyntax())
+                    sys.exit()
+
                 selected_class = sub_class
-                group = parser.add_argument_group(full_class_name)
-                sub_class.registerOptions(group)
 
         return selected_class
 

@@ -28,6 +28,11 @@ class TkinterGui(AbstractGui):
 
     @classmethod
     def registerOptions(cls, parser):   
+        parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter widgets."
+        return 
+
+    @classmethod
+    def availableSyntax(cls):
         def appendDict(description, _dict):
             for key in _dict.keys():
                 description = description + "    |- " + key
@@ -67,7 +72,8 @@ class TkinterGui(AbstractGui):
                 description = appendDict(description, callbacks)
             description = description + "|--------------------------------\n"
 
-        parser.description = description
+        return description
+
 
     def window(self, id, parent, attributes, callbacks):
 

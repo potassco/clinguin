@@ -11,6 +11,10 @@ class AbstractGui(CustomArgs):
 
         print("Abstract Solver")
 
+    @classmethod
+    def availableSyntax(cls):
+        return ""
+
     def window(self, id, parent, attributes, callbacks):
         print("WINDOW: " + str(id) + "::" + str(parent))
 

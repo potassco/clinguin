@@ -6,6 +6,10 @@ class IPythonGui(AbstractGui):
         super().__init__(base_engine, args)
         print("IPython - __init__")
 
+    @classmethod
+    def registerOptions(cls, parser):
+        parser.description = "This GUI is based on the ipython library."
+
     def window(self, id, parent, attributes, callbacks):
         print("IPython - WINDOW: " + str(id) + "::" + str(parent))
 

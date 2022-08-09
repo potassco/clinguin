@@ -1,8 +1,9 @@
 import json
 import httpx
 import logging
+import traceback
 
-from clinguin.client.api.call_dto import CallDto
+from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
 
 
 class Api:
@@ -21,8 +22,16 @@ class Api:
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")
+        except:
+            self._logger.error("Some other connection-error occured.")
+            self._logger.error("<<<BEGIN-STACKTRACE>>>")
+            traceback.print_exc()
+            self._logger.error("<<<END-STACKTRACE>>>")
+            return (-2, "")
 
-    def post(self, endpoint, body: CallDto):
+
+
+    def post(self, endpoint, body: FrontendPolicyDto):
         try:
             self._logger.debug("Sending POST to " +
                                str(self.base_url) +
@@ -32,7 +41,16 @@ class Api:
             
             data = body.toJSON()
             r = httpx.post(self.base_url + endpoint, data=data, timeout=10000)
-            #TODO HANDLE other errors here... 500 Internal Server Error
             return (r.status_code, r.json())
         except httpx.ConnectError:
+            self._logger.warning("Https-connect-error occured.")
             return (-1, "")
+        except:
+            self._logger.error("Some other connection-error occured.")
+            self._logger.error("<<<BEGIN-STACKTRACE>>>")
+            traceback.print_exc()
+            self._logger.error("<<<END-STACKTRACE>>>")
+            return (-2, "")
+
+
+            

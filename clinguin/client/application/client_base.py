@@ -2,7 +2,7 @@ import time
 import logging
 
 from clinguin.client.api.api import Api
-from clinguin.client.api.call_dto import CallDto
+from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
 
 from clinguin.client.presentation.abstract_gui import AbstractGui
 
@@ -16,7 +16,7 @@ class ClientBase:
         self.api = Api(args)
         self.connected = False
 
-        self.solve_dto = CallDto("solve")
+        self.solve_dto = FrontendPolicyDto("solve")
 
         self.gui_generator = args.client(self, args)
 
@@ -65,7 +65,7 @@ class ClientBase:
                     "Could not find element type: " + child['type'])
 
     def postWithPolicy(self, click_policy):
-        (status_code, json) = self.api.post("solver", CallDto(click_policy))
+        (status_code, json) = self.api.post("solver", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)
         else:

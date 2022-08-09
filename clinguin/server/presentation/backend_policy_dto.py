@@ -2,5 +2,5 @@ from pydantic import BaseModel
 from typing import Sequence, Any
 
 
-class SolverDto(BaseModel):
+class BackendPolicyDto(BaseModel):
     function: str

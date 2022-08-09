@@ -1,7 +1,6 @@
 import json
 
-
-class CallDto:
+class FrontendPolicyDto:
 
     def __init__(self, function):
         self.function = function

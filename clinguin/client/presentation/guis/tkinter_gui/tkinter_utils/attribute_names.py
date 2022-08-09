@@ -38,6 +38,7 @@ class AttributeNames:
 
 
     descriptions = {
-        backgroundcolor : "Define the background color of the container, simple colors can be set by a string-specifying the color (like white), complex ones can be set by \"#RRRGGGBBB\", where each R, G and B is a Hex number (e.g. black: \"#000000000\", red: \"#fff000000\", green: \"#000fff000\", blue: \"#000000fff\")."
+        backgroundcolor : "Define the background color of the container, simple colors can be set by a string-specifying the color (like white), complex ones can be set by \"#RRRGGGBBB\", where each R, G and B is a Hex number (e.g. black: \"#000000000\", red: \"#fff000000\", green: \"#000fff000\", blue: \"#000000fff\").",
+        child_org : "Four possibilities exist: 'grid', 'flex', 'absstatic' and 'relstatic'."
         }
 

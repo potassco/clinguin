@@ -13,12 +13,12 @@ attribute(window, resizable_x, 0).
 attribute(window, resizable_y, 0).
 attribute(window, child_layout, absstatic).
 
-element(m, menubar, window).
+element(m, menu_bar, window).
 
-element(ms, menubarsection, m).
+element(ms, menu_bar_section, m).
 attribute(ms, label, "Options").
 
-element(msi1, menubarsectionitem, ms).
+element(msi1, menu_bar_section_item, ms).
 attribute(msi1, label, "Clear").
 callback(msi1, click, clear).
 
@@ -41,8 +41,8 @@ attribute(c(X,Y),background_color,white):- subgrid(X,Y,S), S\2!=0.
 attribute(c(X,Y), height, grid_height_value/(dim*dim)) :- c(X,Y).
 attribute(c(X,Y), width, grid_width_value/(dim*dim)) :- c(X,Y).
 
-element(m(X,Y), dropdownmenu, c(X,Y)) :- c(X,Y).
-element(mi(X,Y,V), dropdownmenuitem, m(X,Y)) :- sudoku(X,Y,V).
+element(m(X,Y), dropdown_menu, c(X,Y)) :- c(X,Y).
+element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- sudoku(X,Y,V).
 
 callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- sudoku(X,Y,V).
 

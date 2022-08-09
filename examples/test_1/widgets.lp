@@ -1,4 +1,4 @@
-_brave_element_type(dropdownmenuitem).
+_brave_element_type(dropdown_menu_item).
 
 p(1) :- not p(2).
 p(2) :- not p(1).
@@ -16,9 +16,9 @@ attribute(c, on_hover, true).
 attribute(c, on_hover_background_color, blue).
 attribute(c, on_hover_border_color, red).
 
-element(m, dropdownmenu, c).
+element(m, dropdown_menu, c).
 
-element(mi(X), dropdownmenuitem, m) :- p(X).
+element(mi(X), dropdown_menu_item, m) :- p(X).
 attribute(mi(X), label, X) :- p(X).
 attribute(m, selected, mi(X)) :- p(X).
 callback(mi(X), click, assume(p(X))) :- p(X).

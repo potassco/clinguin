@@ -4,19 +4,19 @@ attribute(w, width, 500).
 attribute(w, background_color, white).
 attribute(w, child_layout, relstatic).
 
-element(m, menubar, w).
+element(m, menu_bar, w).
 
-element(ms1, menubarsection, m).
+element(ms1, menu_bar_section, m).
 attribute(ms1, label, "File").
 
-element(ms1i1, menubarsectionitem, ms1).
+element(ms1i1, menu_bar_section_item, ms1).
 attribute(ms1i1, label, "Open").
-element(ms1i2, menubarsectionitem, ms1).
+element(ms1i2, menu_bar_section_item, ms1).
 attribute(ms1i2, label, "Close").
 callback(ms1i2, click, clear).
 
-element(ms2, menubarsection, m).
-element(ms2i2, menubarsectionitem, ms2).
+element(ms2, menu_bar_section, m).
+element(ms2i2, menu_bar_section_item, ms2).
 
 element(c, container, w).
 attribute(c, width, 250).

@@ -21,10 +21,10 @@ class AbstractGui(CustomArgs):
     def container(self, id, parent, attributes, callbacks):
         print("CONTAINER: " + str(id) + "::" + str(parent))
 
-    def dropdownmenu(self, id, parent, attributes, callbacks):
+    def dropdown_menu(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENU: " + str(id) + "::" + str(parent))
 
-    def dropdownmenuitem(self, id, parent, attributes, callbacks):
+    def dropdown_menu_item(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
 
     def label(self, id, parent, attributes, callbacks):
@@ -33,13 +33,13 @@ class AbstractGui(CustomArgs):
     def button(self, id, parent, attributes, callbacks):
         print("BUTTON: " + str(id) + "::" + str(parent))
 
-    def menubar(self, id, parent, attributes, callbacks):
+    def menu_bar(self, id, parent, attributes, callbacks):
         print("MENUBAR: " + str(id) + "::" + str(parent))
 
-    def menubarsection(self, id, parent, attributes, callbacks):
+    def menu_bar_section(self, id, parent, attributes, callbacks):
         print("MENUBARSECTION: " + str(id) + "::" + str(parent))
 
-    def menubarsectionitem(self, id, parent, attributes, callbacks):
+    def menu_bar_section_item(self, id, parent, attributes, callbacks):
         print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
 
     def message(self, id, parent, attributes, callbacks):

@@ -1,5 +1,5 @@
 
-_brave_element_type(dropdownmenuitem).
+_brave_element_type(dropdown_menu_item).
 
 element(window, window, root).
 #const height_value= 550.
@@ -48,10 +48,10 @@ attribute(l(X,Y), font_size, 16) :- initial(X,Y,V).
 
 % Option Menu
 menu(X,Y):-pos(X,Y), not initial(X,Y,_).
-element(m(X,Y), dropdownmenu, c(X,Y)) :- menu(X,Y).
+element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
 attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
 attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
-element(mi(X,Y,V), dropdownmenuitem, m(X,Y)) :- menu(X,Y), sudoku(X,Y,V).
+element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), sudoku(X,Y,V).
 attribute(mi(X,Y,V), label, V) :- menu(X,Y), sudoku(X,Y,V).
 callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- menu(X,Y), sudoku(X,Y,V).
 
@@ -59,13 +59,13 @@ callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- menu(X,Y), sudoku(X,Y,V).
 % Menu Bar
 %---------------------------------------------------------------------------------------
 
-element(m, menubar, window).
-element(ms, menubarsection, m).
+element(m, menu_bar, window).
+element(ms, menu_bar_section, m).
 attribute(ms, label, "Options").
-element(ms_clear, menubarsectionitem, ms).
+element(ms_clear, menu_bar_section_item, ms).
 attribute(ms_clear, label, "Clear").
 callback(ms_clear, click, clear).
-element(ms_next, menubarsectionitem, ms).
+element(ms_next, menu_bar_section_item, ms).
 attribute(ms_next, label, "Next").
 callback(ms_next, click, nextSolution).
 

@@ -39,8 +39,8 @@ class LayoutFollower(ExtensionClass):
 
             if int(grid_pos_column) >= 0 and int(grid_pos_row) >= 0 and int(grid_span_column) >= 1 and int(grid_span_row) >= 1:
                 self._widget.grid(
-                    column=int(grid_pos_column), 
-                    row=int(grid_pos_row),
+                    column=grid_pos_column, 
+                    row=grid_pos_row,
                     columnspan=int(grid_span_column),
                     rowspan = int(grid_span_row))
                 self._widget.grid_propagate(0)

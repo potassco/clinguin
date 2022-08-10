@@ -5,9 +5,8 @@ from .root_cmp import *
 
 class Button(RootCmp):
 
-
     def _initWidget(self, elements):
-        button = tk.Button(elements[str(self._parent)].getWidget())
+        button = tk.Button(elements[str(self._parent)].getWidget(), height = 100, width = 100)
         return button
 
     @classmethod
@@ -20,9 +19,6 @@ class Button(RootCmp):
         # Color
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.foregroundcolor] = {"value":"black", "value_type" : ColorType}
-        # Geom
-        attributes[AttributeNames.width] = {"value":50, "value_type" : IntegerType}
-        attributes[AttributeNames.height] = {"value":50, "value_type" : IntegerType}
         # Interactive-Attributes
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
@@ -35,8 +31,9 @@ class Button(RootCmp):
         return attributes
 
     @classmethod
-    def getCallbacks(cls):
-        callbacks = {}
+    def _getCallbacks(cls, callbacks = None):
+        if callbacks == None:
+            callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
 
@@ -58,14 +55,6 @@ class Button(RootCmp):
         value = self._attributes[key]["value"]
         self._widget.configure(foreground = value)
 
-    def _setWidth(self, elements):
-        value = self._attributes[AttributeNames.width]["value"]
-        self._widget.configure(width = int(value))
-
-    def _setHeight(self, elements):
-        value = self._attributes[AttributeNames.height]["value"]
-        self._widget.configure(height = int(value))
-  
     def _setOnHover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
         on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]
@@ -105,7 +94,7 @@ class Button(RootCmp):
             self._widget.bind('<Button-1>', clickEvent)
 
     def _addComponentToElements(self, elements):
-        self._widget.pack(expand=True)
+        self._widget.pack(expand=True, fill='both')
         elements[str(self._id)] = self
 
 

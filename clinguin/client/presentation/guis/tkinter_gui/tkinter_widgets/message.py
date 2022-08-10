@@ -12,8 +12,10 @@ class Message(RootCmp):
         return message
 
     @classmethod
-    def getAttributes(cls):
-        attributes = {}
+    def _getAttributes(cls, attributes = None):
+        if attributes == None:
+            attributes = {}
+
         attributes[AttributeNames.type] = {"value":"", "value_type" : StringType}
         attributes[AttributeNames.title] = {"value":"", "value_type" : StringType}
         attributes[AttributeNames.message] = {"value":"", "value_type" : StringType}

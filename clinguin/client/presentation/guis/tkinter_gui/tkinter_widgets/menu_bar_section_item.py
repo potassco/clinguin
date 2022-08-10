@@ -10,8 +10,9 @@ class MenuBarSectionItem(RootCmp):
         return menubar_section
 
     @classmethod
-    def getAttributes(cls):
-        attributes = {}
+    def _getAttributes(cls, attributes = None):
+        if attributes == None:
+            attributes = {}
 
         attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
 

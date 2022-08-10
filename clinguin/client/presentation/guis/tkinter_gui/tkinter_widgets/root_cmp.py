@@ -15,11 +15,32 @@ class RootCmp:
 
     @classmethod
     def getAttributes(cls):
+
+        attributes = {} 
+        for base in cls.__bases__:
+            if issubclass(base, ExtensionClass):
+                base.getAttributes(attributes)
+        
+        return cls._getAttributes(attributes)
+
+    @classmethod
+    def _getAttributes(cls, attributes = None):
         return {}
+
 
     @classmethod
     def getCallbacks(cls):
+        callbacks = {} 
+        for base in cls.__bases__:
+            if issubclass(base, ExtensionClass):
+                base.getCallbacks(callbacks)
+        
+        return cls._getCallbacks(callbacks)
+    
+    @classmethod
+    def _getCallbacks(cls, callbacks = None):
         return {}
+
 
     def getWidget(self):
         return self._widget

@@ -2,7 +2,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
-class Window(RootCmp):
+class Window(RootCmp, LayoutController):
 
     def _initWidget(self, elements):
         window = tk.Tk()
@@ -11,15 +11,15 @@ class Window(RootCmp):
         return window
 
     @classmethod
-    def getAttributes(cls):
-        attributes = {}
+    def _getAttributes(cls, attributes = None):
+        if attributes == None:
+            attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.width] = {"value":250, "value_type" : IntegerType}
         attributes[AttributeNames.height] = {"value":250, "value_type" : IntegerType}
         attributes[AttributeNames.resizable_x] = {"value":1, "value_type" : IntegerType}
         attributes[AttributeNames.resizable_y] = {"value":1, "value_type" : IntegerType}
-        attributes[AttributeNames.child_layout] = {"value": ChildLayoutType.FLEX, "value_type" : ChildLayoutType}
 
         return attributes
 
@@ -35,13 +35,6 @@ class Window(RootCmp):
 
     def _setResizable(self, elements):
         self._widget.resizable(self._attributes[AttributeNames.resizable_x]['value'],self._attributes[AttributeNames.resizable_y]['value'])
-
-    def _setChildOrg(self, elements):
-        self._child_layout = self._attributes[AttributeNames.child_layout]["value"]
-
-    def getChildOrg(self):
-        return self._child_layout
-
     def _addComponentToElements(self, elements):
         elements[str(self._id)] = self
 

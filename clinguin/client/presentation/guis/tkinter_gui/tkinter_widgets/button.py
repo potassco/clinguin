@@ -11,8 +11,10 @@ class Button(RootCmp):
         return button
 
     @classmethod
-    def getAttributes(cls):
-        attributes = {}
+    def _getAttributes(cls, attributes = None):
+        if attributes == None:
+            attributes = {}
+
         # Label/Text
         attributes[AttributeNames.label] = {"value":"", "value_type" : StringType}
         # Color

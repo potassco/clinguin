@@ -16,8 +16,9 @@ class Dropdownmenu(RootCmp):
         return self._variable
 
     @classmethod
-    def getAttributes(cls):
-        attributes = {}
+    def _getAttributes(cls, attributes = None):
+        if attributes == None:
+            attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.foregroundcolor] = {"value":"black", "value_type" : ColorType}

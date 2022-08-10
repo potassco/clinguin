@@ -9,8 +9,9 @@ class DropdownmenuItem(RootCmp):
         return menu
 
     @classmethod
-    def getAttributes(cls):
-        attributes = {}
+    def _getAttributes(cls, attributes = None):
+        if attributes == None:
+            attributes = {}
 
         attributes[AttributeNames.label] = {"value":"", "value_type":StringType}
 

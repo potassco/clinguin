@@ -1,8 +1,6 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-
-from tkinter_gui.tkinter_utils import *
+from .root_cmp import *
 
 class DropdownmenuItem(RootCmp):
 
@@ -14,7 +12,7 @@ class DropdownmenuItem(RootCmp):
     def getAttributes(cls):
         attributes = {}
 
-        attributes[AttributeNames.label] = {"value":""}
+        attributes[AttributeNames.label] = {"value":"", "value_type":StringType}
 
         return attributes
 

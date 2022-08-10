@@ -1,8 +1,6 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-
-from tkinter_gui.tkinter_utils import *
+from .root_cmp import *
 
 class MenuBarSectionItem(RootCmp):
 
@@ -15,7 +13,7 @@ class MenuBarSectionItem(RootCmp):
     def getAttributes(cls):
         attributes = {}
 
-        attributes[AttributeNames.label] = {"value":"standard_label"}
+        attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
 
         return attributes
 
@@ -30,8 +28,7 @@ class MenuBarSectionItem(RootCmp):
 
     def _defineClickEvent(self, elements):
         key = CallbackNames.click
-        value = self._attributes[AttributeNames.label]["value"]
-        text = StandardTextProcessing.parseStringWithQuotes(value)
+        text = self._attributes[AttributeNames.label]["value"]
 
         if self._callbacks[key] and self._callbacks[key]["policy"]:
             self._widget.add_command(

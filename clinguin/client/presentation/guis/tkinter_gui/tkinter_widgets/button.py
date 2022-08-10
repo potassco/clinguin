@@ -1,9 +1,7 @@
 from tkinter import font
 import tkinter as tk
 
-from .root_cmp import RootCmp
-
-from tkinter_gui.tkinter_utils import *
+from .root_cmp import *
 
 class Button(RootCmp):
 
@@ -16,21 +14,21 @@ class Button(RootCmp):
     def getAttributes(cls):
         attributes = {}
         # Label/Text
-        attributes[AttributeNames.label] = {"value":""}
+        attributes[AttributeNames.label] = {"value":"", "value_type" : StringType}
         # Color
-        attributes[AttributeNames.backgroundcolor] = {"value":"white"}
-        attributes[AttributeNames.foregroundcolor] = {"value":"black"}
+        attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
+        attributes[AttributeNames.foregroundcolor] = {"value":"black", "value_type" : ColorType}
         # Geom
-        attributes[AttributeNames.width] = {"value":str(50)}
-        attributes[AttributeNames.height] = {"value":str(50)}
+        attributes[AttributeNames.width] = {"value":50, "value_type" : IntegerType}
+        attributes[AttributeNames.height] = {"value":50, "value_type" : IntegerType}
         # Interactive-Attributes
-        attributes[AttributeNames.onhover] = {"value":"false"}
-        attributes[AttributeNames.onhover_background_color] = {"value":"white"}
-        attributes[AttributeNames.onhover_foreground_color] = {"value":"black"}
+        attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
+        attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
+        attributes[AttributeNames.onhover_foreground_color] = {"value":"black", "value_type" : ColorType}
         # Font
-        attributes[AttributeNames.font_family] = {"value":"Helvetica"}
-        attributes[AttributeNames.font_size] = {"value":str(12)}
-        attributes[AttributeNames.font_weight] = {"value":"normal"}
+        attributes[AttributeNames.font_family] = {"value":"Helvetica", "value_type" : StringType}
+        attributes[AttributeNames.font_size] = {"value":12, "value_type" : IntegerType}
+        attributes[AttributeNames.font_weight] = {"value":"normal", "value_type" : StringType}
 
         return attributes
 
@@ -48,40 +46,31 @@ class Button(RootCmp):
 
     def _setLabelText(self, elements):
         text = self._attributes[AttributeNames.label]["value"]
-        text = StandardTextProcessing.parseStringWithQuotes(text)
         self._widget.configure(text = text)
 
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
-        value = StandardTextProcessing.parseStringWithQuotes(self._attributes[key]["value"])
+        value = self._attributes[key]["value"]
         self._widget.configure(background = value)
 
     def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
-        value = StandardTextProcessing.parseStringWithQuotes(self._attributes[key]["value"])
+        value = self._attributes[key]["value"]
         self._widget.configure(foreground = value)
 
     def _setWidth(self, elements):
         value = self._attributes[AttributeNames.width]["value"]
-        if value.isdigit():
-            self._widget.configure(width = int(value))
-        else:
-            self._logger.warn("For element " + self._id + " ,setWidth for width is not a digit: " + value)
+        self._widget.configure(width = int(value))
 
     def _setHeight(self, elements):
         value = self._attributes[AttributeNames.height]["value"]
-        if value.isdigit():
-            self._widget.configure(height = int(value))
-        else:
-            self._logger.warn("For element " + self._id + " ,setHeight for height  is not a digit: " + value)
+        self._widget.configure(height = int(value))
   
     def _setOnHover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
         on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]
-        on_hover_background_color = StandardTextProcessing.parseStringWithQuotes(on_hover_background_color)
 
         on_hover_foreground_color = self._attributes[AttributeNames.onhover_foreground_color]["value"]
-        on_hover_foreground_color = StandardTextProcessing.parseStringWithQuotes(on_hover_foreground_color)
 
-        if on_hover == "true":
+        if on_hover == True:
             def enter(event):
                 if on_hover_background_color != "":
                     self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)

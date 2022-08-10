@@ -1,8 +1,6 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-
-from tkinter_gui.tkinter_utils import *
+from .root_cmp import *
 
 class MenuBarSection(RootCmp):
 
@@ -17,15 +15,13 @@ class MenuBarSection(RootCmp):
     def getAttributes(cls):
         attributes = {}
 
-        attributes[AttributeNames.label] = {"value":"default_label"}
+        attributes[AttributeNames.label] = {"value":"default_label", "value_type" : StringType}
 
         return attributes
 
 
     def _setSubMenu(self, elements):
-        value = self._attributes[AttributeNames.label]["value"]
-
-        text = StandardTextProcessing.parseStringWithQuotes(value)
+        text = self._attributes[AttributeNames.label]["value"]
 
         menubar_widget = elements[self._parent].getWidget()
         menubar_widget.add_cascade(label=text, menu=self._widget)

@@ -141,11 +141,10 @@ class ArgumentParser():
                 elif entity.is_file():
                     file_paths.append(entity.path)
         except:
-            print("Could not find path for importing libraries: " + os.path.join(full_path, rec_path) + ". Therefore program is terminating now (full stacktrace is printed below).")
             print("<<<BEGIN-STACK-TRACE>>>")
             traceback.print_exc()
             print("<<<END-STACK-TRACE>>>")
-            sys.exit()
+            raise Exception("Could not find path for importing libraries: " + os.path.join(full_path, rec_path) + ". Therefore program is terminating now (full stacktrace is printed below).")
             
 
         for file_path in file_paths:

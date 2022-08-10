@@ -1,8 +1,6 @@
 import tkinter as tk
 
-from .root_cmp import RootCmp
-
-from tkinter_gui.tkinter_utils import *
+from .root_cmp import *
 
 class MenuBar(RootCmp):
 

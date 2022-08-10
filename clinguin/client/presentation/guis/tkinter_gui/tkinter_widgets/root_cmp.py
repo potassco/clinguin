@@ -1,4 +1,6 @@
 import logging
+from tkinter_gui.tkinter_utils import *
+from clinguin.utils.attribute_types import *
 
 class RootCmp:
 
@@ -43,9 +45,13 @@ class RootCmp:
          for attribute in self._json_attributes:
             key = attribute['key']
             value = attribute['value']
+            if key in self._attributes and 'value_type' in self._attributes[key]:
+                value_type = self._attributes[key]['value_type']
+            else:
+                value_type = StringType
 
             if key in self._attributes and "value" in self._attributes[key]:
-                self._attributes[key]["value"] = value
+                self._attributes[key]["value"] = value_type.parse(value, self._logger)
             else:
                 self._logger.warn('Undefined Command: ' + key + ' for element: ' + attribute['id'])
 
@@ -53,9 +59,13 @@ class RootCmp:
         for callback in self._json_callbacks:
             key = callback['action']
             value = callback['policy']
+            if key in self._callbacks and 'policy_type' in self._callbacks[key]:
+                value_type = self._callbacks[key]['policy_type']
+            else:
+                value_type = SymbolType
 
             if key in self._callbacks and "policy" in self._callbacks[key]:
-                self._callbacks[key]["policy"] = value
+                self._callbacks[key]["policy"] = value_type.parse(value, self._logger)
             else:
                 self._logger.warn('Undefined Command: ' + key + ", or policy item missing in command.")
 

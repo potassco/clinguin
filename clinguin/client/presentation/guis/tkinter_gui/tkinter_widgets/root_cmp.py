@@ -118,9 +118,9 @@ class RootCmp:
         if str(self._parent) in elements:
             if hasattr(elements[self._parent], "getChildOrg"):
                 parent_org = getattr(elements[self._parent], "getChildOrg")()
-                if parent_org == "flex" or parent_org == "absstatic" or parent_org =="relstatic":
+                if parent_org == ChildLayoutType.FLEX or parent_org == ChildLayoutType.RELSTATIC or parent_org == ChildLayoutType.ABSSTATIC:
                     self._widget.pack_forget()
-                elif parent_org == "grid":
+                elif parent_org == ChildLayoutType.GRID:
                     self._widget.grid_forget()
                 else:
                     self._widget.forget()

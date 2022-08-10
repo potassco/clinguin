@@ -17,8 +17,6 @@ class Label(RootCmp):
         attributes[AttributeNames.label] = {"value":"", "value_type" : StringType}
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.foregroundcolor] = {"value":"black", "value_type" : ColorType}
-        attributes[AttributeNames.width] = {"value":50, "value_type" : IntegerType}
-        attributes[AttributeNames.height] = {"value":50, "value_type" : IntegerType}
         # Interactive-Attributes
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
@@ -53,14 +51,6 @@ class Label(RootCmp):
     def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
         value = self._attributes[key]["value"]
         self._widget.configure(foreground = value)
-
-    def _setWidth(self, elements, key = AttributeNames.width):
-        value = self._attributes[key]["value"]
-        self._widget.configure(width = int(value))
-
-    def _setHeight(self, elements, key = AttributeNames.height):
-        value = self._attributes[key]["value"]
-        self._widget.configure(height = int(value))
 
     #----------------------------------------------------------------------------------------------
     #-----Special-Attributes----
@@ -107,7 +97,7 @@ class Label(RootCmp):
             self._widget.bind('<Button-1>', clickEvent)
 
     def _addComponentToElements(self, elements):
-        self._widget.pack(expand=True)
+        self._widget.pack(expand=True, fill='both')
         elements[str(self._id)] = self
 
 

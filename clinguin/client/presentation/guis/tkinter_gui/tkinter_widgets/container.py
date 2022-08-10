@@ -27,8 +27,9 @@ class Container(RootCmp, LayoutFollower, LayoutController):
         return attributes
 
     @classmethod
-    def getCallbacks(cls):
-        callbacks = {}
+    def _getCallbacks(cls, callbacks = None):
+        if callbacks == None:
+            callbacks = {}
 
         callbacks["click"] = {"policy":None, "policy_type" : SymbolType}
 

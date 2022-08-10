@@ -29,8 +29,9 @@ class Label(RootCmp):
         return attributes
 
     @classmethod
-    def getCallbacks(cls):
-        callbacks = {}
+    def _getCallbacks(cls, callbacks = None):
+        if callbacks == None:
+            callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type": SymbolType}
 

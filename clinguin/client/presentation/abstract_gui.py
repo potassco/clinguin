@@ -21,10 +21,10 @@ class AbstractGui(CustomArgs):
     def container(self, id, parent, attributes, callbacks):
         print("CONTAINER: " + str(id) + "::" + str(parent))
 
-    def dropdown_menu(self, id, parent, attributes, callbacks):
+    def dropdownMenu(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENU: " + str(id) + "::" + str(parent))
 
-    def dropdown_menu_item(self, id, parent, attributes, callbacks):
+    def dropdownMenuItem(self, id, parent, attributes, callbacks):
         print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
 
     def label(self, id, parent, attributes, callbacks):
@@ -33,18 +33,17 @@ class AbstractGui(CustomArgs):
     def button(self, id, parent, attributes, callbacks):
         print("BUTTON: " + str(id) + "::" + str(parent))
 
-    def menu_bar(self, id, parent, attributes, callbacks):
+    def menuBar(self, id, parent, attributes, callbacks):
         print("MENUBAR: " + str(id) + "::" + str(parent))
 
-    def menu_bar_section(self, id, parent, attributes, callbacks):
+    def menuBarSection(self, id, parent, attributes, callbacks):
         print("MENUBARSECTION: " + str(id) + "::" + str(parent))
 
-    def menu_bar_section_item(self, id, parent, attributes, callbacks):
+    def menuBarSectionItem(self, id, parent, attributes, callbacks):
         print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
 
     def message(self, id, parent, attributes, callbacks):
         print("MESSAGE: " + str(id) + "::" + str(parent))
-
 
     def draw(self, id):
         print("DRAW")

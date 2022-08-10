@@ -16,10 +16,10 @@ class IPythonGui(AbstractGui):
     def container(self, id, parent, attributes, callbacks):
         print("IPython - CONTAINER: " + str(id) + "::" + str(parent))
 
-    def dropdow_nmenu(self, id, parent, attributes, callbacks):
+    def dropdownMenu(self, id, parent, attributes, callbacks):
         print("IPython - DROPDOWNMENU: " + str(id) + "::" + str(parent))
 
-    def dropdown_menu_item(self, id, parent, attributes, callbacks):
+    def dropdownMenuItem(self, id, parent, attributes, callbacks):
         print("IPython - DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
 
     def label(self, id, parent, attributes, callbacks):
@@ -28,13 +28,13 @@ class IPythonGui(AbstractGui):
     def button(self, id, parent, attributes, callbacks):
         print("IPython - BUTTON: " + str(id) + "::" + str(parent))
 
-    def menu_bar(self, id, parent, attributes, callbacks):
+    def menuBar(self, id, parent, attributes, callbacks):
         print("IPython - MENUBAR: " + str(id) + "::" + str(parent))
 
-    def menu_bar_section(self, id, parent, attributes, callbacks):
+    def menuBarSection(self, id, parent, attributes, callbacks):
         print("IPython - MENUBARSECTION: " + str(id) + "::" + str(parent))
 
-    def menu_bar_sectionitem(self, id, parent, attributes, callbacks):
+    def menuBarSectionItem(self, id, parent, attributes, callbacks):
         print("IPython - MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
 
     def draw(self, id):

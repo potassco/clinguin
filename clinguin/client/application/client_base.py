@@ -1,10 +1,9 @@
 import time
 import logging
 
-from clinguin.client import Api
-from clinguin.client import FrontendPolicyDto
+from clinguin.utils import CaseConverter
 
-from clinguin.client import AbstractGui
+from clinguin.client import *
 
 class ClientBase:
 
@@ -51,9 +50,17 @@ class ClientBase:
         children = response['children']
 
         for child in children:
-            if hasattr(self.gui_generator, child['type']):
-                method = getattr(self.gui_generator, child['type'])
+            snake_case_name = child['type']
+            camel_case_name = CaseConverter.snakeCaseToCamelCase(snake_case_name)
 
+            method = None
+
+            if hasattr(self.gui_generator, camel_case_name):
+                method = getattr(self.gui_generator, camel_case_name)
+            elif hasattr(self.gui_generator, snake_case_name):
+                method = getattr(self.gui_generator, snake_case_name)
+
+            if method and callable(method):
                 method(
                     child['id'],
                     child['parent'],

@@ -83,11 +83,11 @@ class TkinterGui(AbstractGui):
         container.addComponent(self.elements)
 
 
-    def dropdown_menu(self, id, parent, attributes, callbacks):
+    def dropdownMenu(self, id, parent, attributes, callbacks):
         menu = Dropdownmenu(self._args, id, parent, attributes, callbacks, self._base_engine)
         menu.addComponent(self.elements)
 
-    def dropdown_menu_item(self, id, parent, attributes, callbacks):
+    def dropdownMenuItem(self, id, parent, attributes, callbacks):
         menu = DropdownmenuItem(self._args, id, parent, attributes, callbacks, self._base_engine)
         menu.addComponent(self.elements)
 
@@ -99,15 +99,15 @@ class TkinterGui(AbstractGui):
         button = Button(self._args, id, parent, attributes, callbacks, self._base_engine)
         button.addComponent(self.elements)
 
-    def menu_bar(self, id, parent, attributes, callbacks):
+    def menuBar(self, id, parent, attributes, callbacks):
         menubar = MenuBar(self._args, id, parent, attributes, callbacks, self._base_engine)
         menubar.addComponent(self.elements)
 
-    def menu_bar_section(self, id, parent, attributes, callbacks):
+    def menuBarSection(self, id, parent, attributes, callbacks):
         menubar = MenuBarSection(self._args, id, parent, attributes, callbacks, self._base_engine)
         menubar.addComponent(self.elements)
 
-    def menu_bar_section_item(self, id, parent, attributes, callbacks):
+    def menuBarSectionItem(self, id, parent, attributes, callbacks):
         menubar = MenuBarSectionItem(self._args, id, parent, attributes, callbacks, self._base_engine)
         menubar.addComponent(self.elements)
 

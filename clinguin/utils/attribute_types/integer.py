@@ -15,6 +15,8 @@ class IntegerType(Type):
             logger.error("Could not parse string to int: " + parsed_string)
             raise Exception("Could not parse string to int: " + parsed_string)
 
-
+    @classmethod
+    def description(cls):
+        return "Specification as an integer, can be either specified as a symbol or a string."
 
         

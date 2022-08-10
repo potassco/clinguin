@@ -15,3 +15,6 @@ class FloatType(Type):
             logger.error("Could not parse string to float: " + parsed_string)
             raise Exception("Could not parse string to float: " + parsed_string)
 
+    @classmethod
+    def description(cls):
+        return "Is a float type. A float must be specified as a string (e.g. \"5.98\")."

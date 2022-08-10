@@ -10,6 +10,10 @@ import textwrap
 import glob
 import traceback
 
+from enum import Enum, auto
+
+from .show_gui_syntax_enum import ShowGuiSyntaxEnum
+
 from .server import ClinguinBackend
 from .client import AbstractGui
 
@@ -37,7 +41,7 @@ class ArgumentParser():
         self.solver_name = None
         self.solver = None
         self._provide_help = False
-        self._show_gui_syntax = False
+        self._show_gui_syntax = ShowGuiSyntaxEnum.NONE
 
     def parse(self):
         """
@@ -198,8 +202,12 @@ class ArgumentParser():
 
         if '-h' in unknown or '--help' in unknown or '--h' in unknown or '--he' in unknown or '--hel' in unknown:
             self._provide_help = True
-        if args.gui_syntax:
-            self._show_gui_syntax = True
+
+        if args.gui_syntax and not args.gui_syntax_full:
+            self._show_gui_syntax = ShowGuiSyntaxEnum.SHOW
+        elif args.gui_syntax_full:
+            self._show_gui_syntax = ShowGuiSyntaxEnum.FULL
+        
 
     def _createClientSubparser(self, subparsers):
         parser_client = subparsers.add_parser(
@@ -323,9 +331,12 @@ class ArgumentParser():
             type=str,
             help='Path to custom client classes.',
             metavar='')
-        parser.add_argument('--gui-syntax', '--available-gui-elements', 
+        parser.add_argument('--gui-syntax', 
                 action='store_true',
-                help='Show all available commands for the GUI.')
+                help='Show available commands for the GUI.')
+        parser.add_argument('--gui-syntax-full', 
+                action='store_true',
+                help='Show available commands for the GUI and shows available value-types.')
 
 
     def _selectSubclassAndAddCustomArguments(self, parser, parent, class_name, default_class):
@@ -338,11 +349,11 @@ class ArgumentParser():
             select_this_class_as_solver = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
         
             if select_this_class_as_solver or self._provide_help == True:
-                if not self._show_gui_syntax:
+                if self._show_gui_syntax == ShowGuiSyntaxEnum.NONE:
                     group = parser.add_argument_group(full_class_name)
                     sub_class.registerOptions(group)
                 elif hasattr(sub_class, 'availableSyntax'):
-                    print(sub_class.availableSyntax())
+                    print(sub_class.availableSyntax(self._show_gui_syntax))
                     sys.exit()
 
                 selected_class = sub_class

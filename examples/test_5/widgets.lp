@@ -1,7 +1,7 @@
 element(w, window, root).
 attribute(w, height, 500).
 attribute(w, width, 500).
-attribute(w, background_color, white).
+attribute(w, background_color, pink).
 attribute(w, child_layout, relstatic).
 
 element(c, container, w).

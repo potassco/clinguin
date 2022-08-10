@@ -1,10 +1,12 @@
 import tkinter as tk
 import logging
 
+from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
 from clinguin.client import AbstractGui
 
 from tkinter_gui.tkinter_widgets import *
 from tkinter_gui.tkinter_utils import *
+
 
 class TkinterGui(AbstractGui):
 
@@ -20,19 +22,30 @@ class TkinterGui(AbstractGui):
         return 
 
     @classmethod
-    def availableSyntax(cls):
-        def appendDict(description, _dict):
+    def availableSyntax(cls, show_lvl):
+        def appendDict(description, _dict, type_name):
+
             for key in _dict.keys():
-                description = description + "    |- " + key
-                if "description" in _dict[key]:
-                    # Specific has higher priority
-                    description = description + ": " + _dict[key]["description"]
-                elif key in AttributeNames.descriptions:
-                    # General lesser priority
-                    description = description + ": " + AttributeNames.descriptions[key]
-                elif key in CallbackNames.descriptions:
-                    description = description + ": " + CallbackNames.descriptions[key]
-                description = description + "\n"
+                description = description + "    |- " + key + "\n"
+                if show_lvl == ShowGuiSyntaxEnum.FULL:
+                    if "description" in _dict[key]:
+                        # Specific has higher priority
+                        description = description + "      |- Description: "
+                        description = description + ": " + _dict[key]["description"]
+                        description = description + "\n"
+                    elif key in AttributeNames.descriptions:
+                        # General lesser priority
+                        description = description + "      |- Description: "
+                        description = description + ": " + AttributeNames.descriptions[key]
+                        description = description + "\n"
+                    elif key in CallbackNames.descriptions:
+                        description = description + "      |- Description: "
+                        description = description + ": " + CallbackNames.descriptions[key]
+                        description = description + "\n"
+
+                    if type_name in _dict[key]:
+                        description = description + "      |- Possible-Values: "
+                        description = description + _dict[key][type_name].description() + "\n"
 
             return description
 
@@ -52,12 +65,12 @@ class TkinterGui(AbstractGui):
             attributes = c.getAttributes()
             if len(attributes.keys()) > 0:
                 description = description + "  |- attributes\n"
-                description = appendDict(description, attributes)
+                description = appendDict(description, attributes, "value_type")
             
             callbacks = c.getCallbacks()
             if len(callbacks.keys()) > 0:               
                 description = description + "  |- callbacks\n"
-                description = appendDict(description, callbacks)
+                description = appendDict(description, callbacks, "policy_type")
             description = description + "|--------------------------------\n"
 
         return description

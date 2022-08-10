@@ -23,7 +23,7 @@ class AttributeNames:
 
     resizable_x = "resizable_x"
     resizable_y = "resizable_y"
-    child_org = "child_layout"
+    child_layout = "child_layout"
     grid_column = "grid_column"
     grid_row = "grid_row"
     grid_column_span = "grid_column_span"
@@ -38,7 +38,7 @@ class AttributeNames:
 
 
     descriptions = {
-        backgroundcolor : "Define the background color of the container, simple colors can be set by a string-specifying the color (like white), complex ones can be set by \"#RRRGGGBBB\", where each R, G and B is a Hex number (e.g. black: \"#000000000\", red: \"#fff000000\", green: \"#000fff000\", blue: \"#000000fff\").",
-        child_org : "Four possibilities exist: 'grid', 'flex', 'absstatic' and 'relstatic'."
+        backgroundcolor : "With this attribute one can define the background-color of the widget.",
+        child_layout : "With this attribute one can define the layout of the children, i.e. how they are positioned."
         }
 

@@ -14,7 +14,7 @@ class Container(RootCmp):
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType, "description": "CUSTOM-BACKGROUND-COLOR-DESCRIPTION <- Now normal:" + AttributeNames.descriptions[AttributeNames.backgroundcolor]}
         attributes[AttributeNames.width] = {"value":-1, "value_type" : IntegerType}
         attributes[AttributeNames.height] = {"value":-1, "value_type" : IntegerType}
-        attributes[AttributeNames.child_org] = {"value":ChildLayoutType.FLEX, "value_type" : ChildLayoutType}
+        attributes[AttributeNames.child_layout] = {"value":ChildLayoutType.FLEX, "value_type" : ChildLayoutType}
         attributes[AttributeNames.border_width] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.border_color] = {"value":"black", "value_type" : ColorType}
 
@@ -38,7 +38,7 @@ class Container(RootCmp):
     def getCallbacks(cls):
         callbacks = {}
 
-        callbacks["click"] = {"policy":None}
+        callbacks["click"] = {"policy":None, "policy_type" : SymbolType}
 
         return callbacks
 
@@ -58,9 +58,9 @@ class Container(RootCmp):
         value = self._attributes[key]["value"]
         self._widget.configure(height = int(value))
 
-    def _setChildOrg(self, elements, key = AttributeNames.child_org):
+    def _setChildOrg(self, elements, key = AttributeNames.child_layout):
         value = self._attributes[key]["value"]
-        self._child_org = value
+        self._child_layout = value
 
         if value == ChildLayoutType.FLEX or value == ChildLayoutType.RELSTATIC or value == ChildLayoutType.ABSSTATIC:
             self._widget.pack_propagate(0)
@@ -70,7 +70,7 @@ class Container(RootCmp):
             self._logger.warn("For element " + self._id + " ,for the children-organisation (arg:  " + key + "), the value " + value + " is not a valid option")
     
     def getChildOrg(self):
-        return self._child_org
+        return self._child_layout
         
 
     def _setBorderWidth(self, elements, key = AttributeNames.border_width):

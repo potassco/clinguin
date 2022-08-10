@@ -19,4 +19,6 @@ class BooleanType(Type):
             
 
 
-        
+    @classmethod
+    def description(cls):
+        return "For the boolean type, either true or false are allowed - either as string or as a clingo-symbol. If one provides it as a string, it is case-insensitive."     

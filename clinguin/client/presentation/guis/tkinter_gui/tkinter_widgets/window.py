@@ -19,7 +19,7 @@ class Window(RootCmp):
         attributes[AttributeNames.height] = {"value":250, "value_type" : IntegerType}
         attributes[AttributeNames.resizable_x] = {"value":1, "value_type" : IntegerType}
         attributes[AttributeNames.resizable_y] = {"value":1, "value_type" : IntegerType}
-        attributes[AttributeNames.child_org] = {"value": ChildLayoutType.FLEX, "value_type" : ChildLayoutType}
+        attributes[AttributeNames.child_layout] = {"value": ChildLayoutType.FLEX, "value_type" : ChildLayoutType}
 
         return attributes
 
@@ -37,7 +37,7 @@ class Window(RootCmp):
         self._widget.resizable(self._attributes[AttributeNames.resizable_x]['value'],self._attributes[AttributeNames.resizable_y]['value'])
 
     def _setChildOrg(self, elements):
-        self._child_layout = self._attributes[AttributeNames.child_org]["value"]
+        self._child_layout = self._attributes[AttributeNames.child_layout]["value"]
 
     def getChildOrg(self):
         return self._child_layout

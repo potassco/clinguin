@@ -1,6 +1,7 @@
 import logging
 
 from clinguin.utils import CustomArgs
+from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
 
 class AbstractGui(CustomArgs):
 
@@ -12,7 +13,7 @@ class AbstractGui(CustomArgs):
         print("Abstract Solver")
 
     @classmethod
-    def availableSyntax(cls):
+    def availableSyntax(cls, show_level):
         return ""
 
     def window(self, id, parent, attributes, callbacks):

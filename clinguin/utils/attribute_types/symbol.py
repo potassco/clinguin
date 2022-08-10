@@ -22,4 +22,6 @@ class SymbolType(Type):
             raise Exception("The string " + parsed_string + " is not a clingo symbol!")
             
 
-
+    @classmethod
+    def description(cls):
+        return "Corresponds to a clingo-symbol, e.g. p(4)"

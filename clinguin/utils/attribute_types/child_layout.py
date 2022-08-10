@@ -13,19 +13,21 @@ class ChildLayoutType(EnumType):
 
     @classmethod
     def parse(cls, input: str, logger):
-        parsed_string = StandardTextProcessing.parseStringWithQuotes(input)
+        parsed_string = (StandardTextProcessing.parseStringWithQuotes(input)).lower()
 
-        if input == cls.FLEX.name.lower():
+        if parsed_string == cls.FLEX.name.lower():
             return cls.FLEX
-        elif input == cls.GRID.name.lower():
+        elif parsed_string == cls.GRID.name.lower():
             return cls.GRID
-        elif input == cls.ABSSTATIC.name.lower():
+        elif parsed_string == cls.ABSSTATIC.name.lower():
             return cls.ABSSTATIC
-        elif input == cls.RELSTATIC.name.lower():
+        elif parsed_string == cls.RELSTATIC.name.lower():
             return cls.RELSTATIC
         else:
             logger.error("Could not parse " + parsed_string + " to child_layout type.")
             raise Exception("Could not parse " + parsed_string + " to child_layout type.")
         
 
-
+    @classmethod
+    def description(cls):
+        return "For the child-layout four different options exists: flex (default, tries to do it automatically), grid (grid-like-specification), absstatic (if one wants to specify the position with absolute-pixel coordinates) and relstatic (if one wants to specify the position with relative-pixel coordinates (from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)). They can either be specified via a clingo symbol or via a string (string is case-insensitive)."

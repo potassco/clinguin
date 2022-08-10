@@ -22,7 +22,7 @@ class MenuBarSectionItem(RootCmp):
     def getCallbacks(cls):
         callbacks = {}
 
-        callbacks[CallbackNames.click] = {"policy":None}
+        callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
 
         return callbacks
 

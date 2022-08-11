@@ -128,6 +128,10 @@ class TkinterGui(AbstractGui):
         message = Message(self._args, id, parent, attributes, callbacks, self._base_engine)
         message.addComponent(self.elements)
 
+    def canvas(self, id, parent, attributes, callbacks):
+        canvas = Canvas(self._args, id, parent, attributes, callbacks, self._base_engine)
+        canvas.addComponent(self.elements)
+
     def draw(self, id):
         self.first = False
         self.elements[id].getWidget().mainloop()

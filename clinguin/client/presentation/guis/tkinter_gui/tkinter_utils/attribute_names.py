@@ -37,6 +37,8 @@ class AttributeNames:
     selected = "selected"
     fit_children_size = "fit"
 
+    image = "image"
+
 
     descriptions = {
         backgroundcolor : "With this attribute one can define the background-color of the widget.",

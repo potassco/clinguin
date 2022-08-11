@@ -13,7 +13,8 @@ from clinguin.utils import NoModelError
 
 class ClinguinModel:
 
-    def __init__(self, factbase=None):
+    def __init__(self, logger, factbase=None):
+        self._logger = logger
 
         self.unifiers = [ElementDao, AttributeDao, CallbackDao]
 
@@ -36,42 +37,42 @@ class ClinguinModel:
     #     return model
 
     @classmethod
-    def fromBCExtendedFile(cls, ctl,assumptions):
+    def fromBCExtendedFile(cls, ctl,assumptions, logger):
         ctl.assign_external(parse_term('show_all'),False)
         ctl.assign_external(parse_term('show_cautious'),False)
         ctl.assign_external(parse_term('show_untagged'),False)
         ctl.assign_external(parse_term('show_brave'),True)
-        brave_model = cls.fromBraveModel(ctl,assumptions)
+        brave_model = cls.fromBraveModel(ctl,assumptions, logger)
         # Here we could see if the user wants none tagged as cautious by default
         ctl.assign_external(parse_term('show_brave'),False)
         ctl.assign_external(parse_term('show_untagged'),True)
-        cautious_model = cls.fromCautiousModel(ctl,assumptions)
+        cautious_model = cls.fromCautiousModel(ctl,assumptions, logger)
         ctl.assign_external(parse_term('show_untagged'),False)
         ctl.assign_external(parse_term('show_all'),True)
 
-        return cls.combine(brave_model,cautious_model)
+        return cls.combine(brave_model,cautious_model, logger)
     
 
     @classmethod
-    def combine(cls, cgmodel1, cgmodel2):
-        return cls(cgmodel1._factbase.union(cgmodel2._factbase))
+    def combine(cls, cgmodel1, cgmodel2, logger):
+        return cls(logger, cgmodel1._factbase.union(cgmodel2._factbase))
 
     @classmethod
-    def fromClingoModel(cls, m):
-        model = cls()
+    def fromClingoModel(cls, m, logger):
+        model = cls(logger)
         model._setFbSymbols(m.symbols(shown=True))
         return model
 
     @classmethod
-    def fromBraveModel(cls, ctl, assumptions):
-        model = cls()
+    def fromBraveModel(cls, ctl, assumptions, logger):
+        model = cls(logger)
         brave_model = model.computeBrave(ctl, assumptions)
         model._setFbSymbols(brave_model)
         return model
 
     @classmethod
-    def fromCautiousModel(cls, ctl, assumptions):
-        model = cls()
+    def fromCautiousModel(cls, ctl, assumptions, logger):
+        model = cls(logger)
         cautious_model = model.computeCautious(ctl, assumptions)
         model._setFbSymbols(cautious_model)
         return model
@@ -158,8 +159,6 @@ class ClinguinModel:
             value = Number(value)
         self._factbase.add(AttributeDao(Raw(id),Raw(key),Raw(value)))
 
-
-
     def filterElements(self, condition):
         elements = self.getElements()
         kept_elements = [e for e in elements if condition(e)]
@@ -219,4 +218,6 @@ class ClinguinModel:
         return self._compute(ctl, assumptions)
 
 
+    def getFactbase(self):
+        return self._factbase
 

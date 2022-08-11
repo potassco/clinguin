@@ -46,5 +46,8 @@ class AbstractGui(CustomArgs):
     def message(self, id, parent, attributes, callbacks):
         print("MESSAGE: " + str(id) + "::" + str(parent))
 
+    def canvas(self, id, parent, attributes, callbacks):
+        print("CANVAS: " + str(id) + "::" + str(parent))
+
     def draw(self, id):
         print("DRAW")

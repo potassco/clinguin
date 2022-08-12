@@ -56,7 +56,7 @@ class TkinterGui(AbstractGui):
             "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the corresponding element)\n\n" +\
             "The following list shows for each <TYPE> the possible attributes and callbacks:\n" 
 
-        class_list = [Window, Container, Label, Button, Dropdownmenu, DropdownmenuItem, MenuBar, MenuBarSection, MenuBarSectionItem]
+        class_list = RootCmp.__subclasses__()
 
         description = description + "|--------------------------------\n"
         for c in class_list:

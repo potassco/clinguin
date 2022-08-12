@@ -36,6 +36,7 @@ class ClingoBackend(ClinguinBackend):
         self._handler=None
         self._iterator=None
 
+        self._modelClass = ClinguinModel
         self._updateModelWithOptions()
 
 
@@ -68,7 +69,7 @@ class ClingoBackend(ClinguinBackend):
 
     def _updateModelWithOptions(self):
         try:
-            self._model = ClinguinModel.fromBCExtendedFile(self._ctl,self._assumptions)
+            self._model = self._modelClass.fromBCExtendedFile(self._ctl,self._assumptions)
         except NoModelError:
             self._model.addElement("message","message","window")
             self._model.addAttribute("message","title","Error")
@@ -159,7 +160,7 @@ class ClingoBackend(ClinguinBackend):
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
-            self._model = ClinguinModel.fromClingoModel(model)
+            self._model = self._modelClass.fromClingoModel(model, self._logger)
         except StopIteration:
             self._logger.debug("No more solutions")
             self._handler.cancel()

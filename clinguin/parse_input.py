@@ -338,9 +338,18 @@ class ArgumentParser():
                 action='store_true',
                 help='Show available commands for the GUI and shows available value-types.')
 
+    def _getSubClasses(self, cur_class):
+        sub_classes = cur_class.__subclasses__()
+        recursive = []
+        for sub_class in sub_classes:
+            recursive.extend(self._getSubClasses(sub_class))
+
+        return sub_classes + recursive
+
 
     def _selectSubclassAndAddCustomArguments(self, parser, parent, class_name, default_class):
-        sub_classes = parent.__subclasses__()
+        sub_classes = self._getSubClasses(parent)
+        
         selected_class = None
 
         for sub_class in sub_classes:

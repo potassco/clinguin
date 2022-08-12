@@ -20,20 +20,30 @@ class ClingoBackend(ClinguinBackend):
     def __init__(self, args):
         super().__init__(args)
         self._assumptions = set()
+        self._atoms = set()
         self._files = args.source_files
 
-        self._ctl = Control(['0'])
-        for f in self._files:
-            self._ctl.load(str(f))
-        self._ctl.add("base",[],brave_cautious_externals)
-        self._ctl.ground([("base", [])])
-        self._ctl.assign_external(parse_term('show_all'),True)
+        self.initClingo()
+
+        self.initClingo2()
+
 
         self._model=None
         self._handler=None
         self._iterator=None
 
         self._updateModelWithOptions()
+
+
+    def initClingo(self):
+        self._ctl = Control(['0'])
+        for f in self._files:
+            self._ctl.load(str(f))
+        self._ctl.add("base",[],brave_cautious_externals)
+    
+    def initClingo2(self):
+        self._ctl.ground([("base", [])])
+        self._ctl.assign_external(parse_term('show_all'),True)
 
 
     @classmethod
@@ -83,6 +93,42 @@ class ClingoBackend(ClinguinBackend):
             self._endBrowsing()
             self._updateModelWithOptions()
         return self.get()
+    
+    def addAtom(self, predicate):
+        self._logger.debug("addAtom(" + str(predicate) + ")")
+        predicate_symbol = parse_term(predicate)
+        if predicate_symbol not in self._atoms:
+            self._atoms.add(predicate_symbol)
+
+            self.initClingo()
+            for atom in self._atoms:
+                self._ctl.add("base",[],str(atom) + ".")
+            self.initClingo2()
+
+            self._endBrowsing()
+            self._updateModelWithOptions()
+        return self.get()
+
+    def removeAtom(self,predicate):
+        self._logger.debug("remove(" + str(predicate) + ")")
+        predicate_symbol = parse_term(predicate)
+        if predicate_symbol in self._atoms:
+            self._atoms.remove(predicate_symbol)
+
+            self.initClingo()
+            for atom in self._atoms:
+                self._ctl.add("base",[],str(atom) + ".")
+            self.initClingo2()
+
+            self._endBrowsing()
+            self._updateModelWithOptions()
+        return self.get()
+        
+            
+
+    def removeAssume(self, predicate_remove, predicate_assume):
+        self.remove(predicate_remove)
+        return self.assume(predicate_assume)
 
     def clear(self):
         self._logger.debug("clear()")

@@ -69,4 +69,31 @@ _cautious(attribute(ID,NAME,VAL)):-
     element(ID, TYPE, PARENT),
     _cautious_element_type(TYPE),
     attribute(ID,NAME,VAL).
+
+#defined _cautious_element/1.
+#defined _brave_element/1.
+
+_brave(element(ID, TYPE, PARENT)):-
+    _brave_element(ID),
+    element(ID, TYPE, PARENT).
+_brave(callback(ID,ACTION,FUNCT)):-
+    element(ID, TYPE, PARENT),
+    _brave_element(ID),
+    callback(ID,ACTION,FUNCT).
+_brave(attribute(ID,NAME,VAL)):-
+    element(ID, TYPE, PARENT),
+    _brave_element(ID),
+    attribute(ID,NAME,VAL).
+
+_cautious(element(ID, TYPE, PARENT)):-
+    _cautious_element(ID),
+    element(ID, TYPE, PARENT).
+_cautious(callback(ID,ACTION,FUNCT)):-
+    element(ID, TYPE, PARENT),
+    _cautious_element(ID),
+    callback(ID,ACTION,FUNCT).
+_cautious(attribute(ID,NAME,VAL)):-
+    element(ID, TYPE, PARENT),
+    _cautious_element(ID),
+    attribute(ID,NAME,VAL).
 """

@@ -9,6 +9,7 @@ from clingo.symbol import Function, Number, String
 from .element import ElementDao
 from .attribute import AttributeDao
 from .callback import CallbackDao
+from clinguin.utils import NoModelError
 
 class ClinguinModel:
 
@@ -38,6 +39,7 @@ class ClinguinModel:
     def fromBCExtendedFile(cls, ctl,assumptions):
         ctl.assign_external(parse_term('show_all'),False)
         ctl.assign_external(parse_term('show_cautious'),False)
+        ctl.assign_external(parse_term('show_untagged'),False)
         ctl.assign_external(parse_term('show_brave'),True)
         brave_model = cls.fromBraveModel(ctl,assumptions)
         # Here we could see if the user wants none tagged as cautious by default
@@ -139,6 +141,8 @@ class ClinguinModel:
             model_symbols = None
             for m in result:
                 model_symbols = m.symbols(shown=True,atoms=False)
+        if model_symbols is None:
+            raise NoModelError
         return list(model_symbols)
 
     def computeBrave(self, ctl, assumptions):

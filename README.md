@@ -71,7 +71,7 @@ See `$ clinguin client-server -h`
 
 E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/default_solvers' --solver=standard_solver.ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server 
 
@@ -148,6 +148,13 @@ For this one needs to implement a class which is a subtype of the `AbstractGui` 
 
 The next thing to do is to invoke the GUI, by changing a line in the class `client.application.client_base.ClientBase`. This line is the creation of the `TkinterGui()` object, so the line: `self.gui_generator = TkinterGui(self)`, with ones own fancy gui, like `self.gui_generator = FancyGui()`.
 
+## Other examples:
+
+### Elevator:
+
+Is located in: `examples/elevator` - can be executed by:
+
+`$ clinguin client-server --custom-server-classes='./examples/elevator' --solver=TemporalBackend --source-files=examples/elevator/encoding.lp --widget-files=examples/elevator/widgets.lp`
 
 
 

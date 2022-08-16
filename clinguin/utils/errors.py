@@ -1,0 +1,2 @@
+class NoModelError(Exception):
+    pass

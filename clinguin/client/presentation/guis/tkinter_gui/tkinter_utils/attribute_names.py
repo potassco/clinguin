@@ -35,6 +35,7 @@ class AttributeNames:
     border_color = "border_color"
 
     selected = "selected"
+    fit_children_size = "fit"
 
 
     descriptions = {

@@ -1,5 +1,6 @@
 from clinguin.utils.errors import NoModelError
 import networkx as nx
+import sys
 from typing import Sequence, Any
 
 import logging
@@ -41,7 +42,12 @@ class ClingoBackend(ClinguinBackend):
     def initClingo(self):
         self._ctl = Control(['0'])
         for f in self._files:
-            self._ctl.load(str(f))
+            try:
+                self._ctl.load(str(f))
+            except Exception as e:
+                self._logger.fatal(str(e))
+                self._logger.fatal("Failed to load modules (there is likely a syntax error in your logic program), now exiting - see previous stack trace for more information.")
+                sys.exit()
         self._ctl.add("base",[],brave_cautious_externals)
     
     def _ground(self):
@@ -72,7 +78,7 @@ class ClingoBackend(ClinguinBackend):
         self._logger.info("assumptions:")
         self._logger.info(self._assumptions)
         self._logger.debug("_get()")
-        j=  StandardJsonEncoder.encode(self._model)
+        j=  StandardJsonEncoder.encode(self._model, self._logger)
         return j
 
     def assume(self, predicate):

@@ -2,7 +2,9 @@
 #const height_names= 250.
 #const width_value= 400.
 #const color_considered = "#C1E5AE".
+#const color_considered_on_hover = "#6cc13e".
 #const color_not_considered = "#E5C2AE".
+#const color_not_considered_on_hover = "#c16e3e".
 
 % Window
 element(window, window, root).
@@ -12,6 +14,7 @@ attribute(window, background_color, white).
 attribute(window, resizable_x, 1).
 attribute(window, resizable_y, 1).
 attribute(window, child_layout, absstatic).
+attribute(window, fit, false).
 
 % Menu bar
 element(m, menu_bar, window).
@@ -26,6 +29,7 @@ callback(ms_next, click, nextSolution).
 
 % Top container
 element(upper_container, container, window).
+attribute(upper_container, fit, false).
 attribute(upper_container, height, height_names).
 attribute(upper_container, width, width_value).
 attribute(upper_container, child_layout, grid).
@@ -34,12 +38,15 @@ attribute(upper_container, child_layout, grid).
 in_house_column_label(add_person_container,"People not considered";
                 remove_person_container,"People considered").
 in_house_column(C):-in_house_column_label(C,_).
+
 element((C,c), container, upper_container):-in_house_column(C).
+attribute((C,c), fit, false) :- in_house_column(C).
 attribute((C,c), grid_row, 0):-in_house_column(C).
 attribute((C,c), height, 20):-in_house_column(C).
 attribute((C,c), width, width_value/2):-in_house_column(C).
 attribute((remove_person_container,c), grid_column, 1).
 attribute((add_person_container,c), grid_column, 0).
+
 element((C,title), label, (C,c)):-in_house_column(C).
 attribute((C,title), label, L):-in_house_column_label(C,L).
 attribute((C,title), font_size, 18):-in_house_column(C).
@@ -47,7 +54,8 @@ attribute((remove_person_container,title), background_color, color_considered ).
 attribute((add_person_container,title), background_color, color_not_considered ).
 
 % Add and remove comulmns
-element(C, container, upper_container):-in_house_column(C).
+element(C, container, upper_container):- in_house_column(C) .
+attribute(C, fit, false) :- in_house_column(C).
 attribute(C, grid_row, 1):-in_house_column(C).
 attribute(C, height, height_names-20):-in_house_column(C).
 attribute(C, width, width_value/2):-in_house_column(C).
@@ -62,6 +70,8 @@ attribute(person_add(P), label, P) :- can_add(P).
 attribute(person_add(P), background_color, color_not_considered) :- can_add(P).
 callback(person_add(P), click,assume(in_house(P))):-can_add(P).
 _brave_element(person_add(P)):- person(P).
+attribute(person_add(P), on_hover, true) :- can_add(P).
+attribute(person_add(P), on_hover_background_color, color_not_considered_on_hover) :- can_add(P).
 
 % People to remove from the house
 can_remove(P):- in_house(P).
@@ -69,9 +79,12 @@ element(person_remove(P), label, remove_person_container):- can_remove(P).
 attribute(person_remove(P), label, P) :- can_remove(P).
 attribute(person_remove(P), background_color, color_considered) :- can_remove(P).
 callback(person_remove(P), click,remove(in_house(P))):-can_remove(P).
+attribute(person_remove(P), on_hover, true) :- can_remove(P).
+attribute(person_remove(P), on_hover_background_color, color_considered_on_hover) :- can_remove(P).
 
 % Rooms container
 element(rooms_main_container, container, window).
+attribute(rooms_main_container, fit, false).
 attribute(rooms_main_container, height, height_value - height_names).
 attribute(rooms_main_container, width, width_value).
 attribute(rooms_main_container, pos_x, 0).
@@ -80,6 +93,7 @@ attribute(rooms_main_container, child_layout, grid).
 
 % Room container
 element(room(I), container, rooms_main_container) :- room(I,_).
+attribute(room(I), fit, false) :- room(I,_).
 attribute(room(I), height, 200) :- room(I,_).
 attribute(room(I), width, 200) :- room(I,_).
 attribute(room(I), grid_column, (I-1)\2) :- room(I,_).
@@ -88,6 +102,7 @@ attribute(room(I), child_layout, absstatic) :- room(I,_).
 
 % Room title
 element(room_title(I), container, room(I)) :- room(I,_).
+attribute(room_title(I), fit, false) :- room(I,_).
 attribute(room_title(I), height, 20) :- room(I,_).
 attribute(room_title(I), width, 190) :- room(I,_).
 element(room_title_t(I), label, room_title(I)) :- room(I,_).
@@ -95,6 +110,7 @@ attribute(room_title_t(I), label, T) :- room(I,T).
 
 % Room beds dropdowns
 element(room_bed(B,I), container, room(I)) :- bed(B,I).
+attribute(room_bed(B,I), fit, false) :- bed(B,I).
 attribute(room_bed(B,I), height, 40) :- bed(B,I).
 attribute(room_bed(B,I), width, 100) :- bed(B,I).
 attribute(room_bed(B,I), pos_y, B*40):- bed(B,I).

@@ -10,6 +10,7 @@ attribute(w, background_color, white).
 attribute(w, child_layout, relstatic).
 
 element(c, container, w).
+attribute(c, fit, false).
 attribute(c, width, 250).
 attribute(c, height, 150).
 attribute(c, border_width, 2).
@@ -29,6 +30,7 @@ attribute(cc, pos_x, 0).
 attribute(cc, pos_y, 0).
 
 element(ccc, container, c).
+attribute(ccc, fit, false).
 attribute(ccc, width, 100).
 attribute(ccc, height, 50).
 attribute(ccc, background_color, yellow).
@@ -49,6 +51,7 @@ callback(mi(X), click, assume(p(X))) :- p(X).
 attribute(m, selected, X) :- p(X).
 
 element(c4, container, c).
+attribute(c4, fit, false).
 attribute(c4, width, 146).
 attribute(c4, height, 146).
 attribute(c4, background_color, beige).
@@ -80,6 +83,7 @@ attribute(c2, border_color, pink).
 attribute(c2, background_color, white).
 attribute(c2, pos_x, 40).
 attribute(c2, pos_y, 50).
+attribute(c2, fit, false).
 attribute(c2, on_hover, true).
 attribute(c2, on_hover_background_color, gray).
 callback(c2, click, clear).
@@ -98,6 +102,7 @@ callback(l1, click, clear).
 element(c3, container, w).
 attribute(c3, width, 100).
 attribute(c3, height, 50).
+attribute(c3, fit, false).
 attribute(c3, border_width, 1).
 attribute(c3, border_color, pink).
 attribute(c3, background_color, white).

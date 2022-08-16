@@ -16,8 +16,8 @@ class Window(RootCmp, LayoutController):
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
-        attributes[AttributeNames.width] = {"value":250, "value_type" : IntegerType}
-        attributes[AttributeNames.height] = {"value":250, "value_type" : IntegerType}
+        attributes[AttributeNames.width] = {"value":0, "value_type" : IntegerType}
+        attributes[AttributeNames.height] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.resizable_x] = {"value":1, "value_type" : IntegerType}
         attributes[AttributeNames.resizable_y] = {"value":1, "value_type" : IntegerType}
 
@@ -28,10 +28,22 @@ class Window(RootCmp, LayoutController):
         self._widget.configure(background = value)
 
     def _setDimensions(self, elements):
-        self._widget.geometry(str(self._attributes[AttributeNames.width]['value']) + 'x' +
-            str(self._attributes[AttributeNames.height]['value']) + '+' +
-            str(int(self._widget.winfo_screenwidth()/2 - int(self._attributes[AttributeNames.width]['value'])/2)) + '+' +
-            str(int(self._widget.winfo_screenheight()/2 - int(self._attributes[AttributeNames.height]['value'])/2)))
+        width = self._attributes[AttributeNames.width]["value"]
+        height = self._attributes[AttributeNames.height]["value"]
+
+        # From LayoutController inheritance
+        fit_children_size = self._attributes[AttributeNames.fit_children_size]["value"]
+
+        if width > 0 and height > 0:
+            # not self._fit_children_size
+            self._widget.geometry(str(width) + 'x' +
+                str(height) + '+' +
+                str(int(self._widget.winfo_screenwidth()/2 - int(width)/2)) + '+' +
+                str(int(self._widget.winfo_screenheight()/2 - int(height)/2)))
+        elif fit_children_size:
+            pass
+        else:
+            self._logger.warning("Provided illegal width and height values for window.")
 
     def _setResizable(self, elements):
         self._widget.resizable(self._attributes[AttributeNames.resizable_x]['value'],self._attributes[AttributeNames.resizable_y]['value'])

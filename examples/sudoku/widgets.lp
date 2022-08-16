@@ -17,6 +17,7 @@ attribute(window, background_color, white).
 attribute(window, resizable_x, 0).
 attribute(window, resizable_y, 0).
 attribute(window, child_layout, grid).
+attribute(window, fit, false).
 
 %---------------------------------------------------------------------------------------
 % Sudoku-Grid
@@ -28,11 +29,13 @@ attribute(uc, grid_row, 0).
 attribute(uc, height, grid_height_value).
 attribute(uc, width, grid_width_value).
 attribute(uc, child_layout, grid).
+attribute(uc, fit, false).
 
 % Grid cells
 cell_color(X,Y,gray):-subgrid(X,Y,S), S\2==0.
 cell_color(X,Y,white):-subgrid(X,Y,S), S\2!=0.
 element(c(X,Y), container, uc) :- pos(X,Y).
+attribute(c(X,Y), fit, false) :- pos(X,Y).
 attribute(c(X,Y), grid_column, X-1) :- pos(X,Y).
 attribute(c(X,Y), grid_row, Y-1) :- pos(X,Y).
 attribute(c(X,Y),background_color,COLOR):- cell_color(X,Y,COLOR).
@@ -74,6 +77,7 @@ callback(ms_next, click, nextSolution).
 %---------------------------------------------------------------------------------------
 
 element(buttonsc_c, container, window).
+attribute(buttonsc_c, fit, false).
 attribute(buttonsc_c, grid_column, 0).
 attribute(buttonsc_c, grid_row, 1).
 attribute(buttonsc_c, height, height_value - grid_height_value).
@@ -82,6 +86,7 @@ attribute(buttonsc_c, background_color, white).
 attribute(buttonsc_c, child_layout, absstatic).
 
 element(buttonsc, container, buttonsc_c).
+attribute(buttonsc, fit, false).
 attribute(buttonsc, pos_x, 200).
 attribute(buttonsc, pos_y, 5).
 attribute(buttonsc, height, 300).
@@ -90,6 +95,7 @@ attribute(buttonsc, background_color, white).
 attribute(buttonsc, child_layout, grid).
 
 element(clear_container, container, buttonsc).
+attribute(clear_container, fit, false).
 attribute(clear_container, background_color, red).
 attribute(clear_container, height,45).
 attribute(clear_container, width,150).
@@ -108,6 +114,7 @@ callback(clear_label, click, clear).
 % attribute(ll, grid_row, 0).
 
 element(ln, container, buttonsc).
+attribute(ln, fit, false).
 attribute(ln, background_color, blue).
 attribute(ln, grid_column, 0).
 attribute(ln, grid_row, 1).

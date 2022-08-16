@@ -1,4 +1,5 @@
 import json
+import sys
 
 import networkx as nx
 
@@ -17,18 +18,18 @@ class StandardJsonEncoder:
         pass
 
     @classmethod
-    def encode(cls, model):
+    def encode(cls, model, logger):
         elements_dict = {}
 
         root = ElementDto('root', 'root', 'root')
         elements_dict[str(root.id)] = root
 
-        cls._generateHierarchy(model, root, elements_dict)
+        cls._generateHierarchy(model, root, elements_dict, logger)
 
         return root
 
     @classmethod
-    def _generateHierarchy(cls, model, hierarchy_root, elements_dict):
+    def _generateHierarchy(cls, model, hierarchy_root, elements_dict, logger):
 
         dependency = []
         widgets_info = {}
@@ -48,6 +49,11 @@ class StandardJsonEncoder:
         for element_id in order:
             if str(element_id) == 'root':
                 continue
+
+            if not element_id in widgets_info:
+                logger.fatal("The provided element id (ID : " + str(element_id) + ") could not be found!")
+                raise Exception("The provided element id (ID : " + str(element_id) + ") could not be found!")
+
             type = widgets_info[element_id]['type']
             parent = widgets_info[element_id]['parent']
             element = ElementDto(element_id, type, parent)

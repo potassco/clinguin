@@ -100,7 +100,7 @@ class TemporalBackend(ClinguinBackend):
     # -------- Endpoints 
     
     def get(self):
-        j=  StandardJsonEncoder.encode(self._model)
+        j=  StandardJsonEncoder.encode(self._model, self._logger)
         return j
 
     def assume(self, predicate):

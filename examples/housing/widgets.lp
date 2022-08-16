@@ -1,4 +1,3 @@
-element(window, window, root).
 #const height_value= 800.
 #const height_names= 250.
 #const width_value= 400.
@@ -6,11 +5,12 @@ element(window, window, root).
 #const color_not_considered = "#E5C2AE".
 
 % Window
+element(window, window, root).
 attribute(window, height, height_value).
 attribute(window, width, width_value).
 attribute(window, background_color, white).
-attribute(window, resizable_x, 0).
-attribute(window, resizable_y, 0).
+attribute(window, resizable_x, 1).
+attribute(window, resizable_y, 1).
 attribute(window, child_layout, absstatic).
 
 % Menu bar

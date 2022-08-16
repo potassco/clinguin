@@ -76,6 +76,68 @@ class ClinguinModel:
         model._setFbSymbols(cautious_model)
         return model
 
+    @classmethod
+    def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
+        model = cls()
+
+        cautious_model = model.computeCautious(ctl, assumptions)
+        brave_model = model.computeBrave(ctl, assumptions)
+        # c_prg = self.tag_cautious_prg(cautious_model)
+        c_prg = model.symbols_to_prg(cautious_model)
+        b_prg = model.tag_brave_prg(brave_model)
+        wctl = cls.wid_control(widgets_files, c_prg+b_prg)
+
+        with wctl.solve(yield_=True) as result:
+            for m in result:
+                model_symbols = m.symbols(shown=True)
+                break
+
+        model._setFbSymbols(model_symbols)
+        return model
+
+    @classmethod
+    def fromCtl(cls, ctl):
+        model = cls()
+        with ctl.solve(yield_=True) as result:
+            for m in result:
+                model_symbols = m.symbols(shown=True)
+                break
+
+        model._setFbSymbols(model_symbols)
+        return model
+
+
+    @classmethod
+    def wid_control(cls, widgets_files, extra_prg=""):
+        wctl = Control(['0','--warn=none'])
+        for f in widgets_files:
+            wctl.load(str(f))
+        
+        wctl.add("base",[],extra_prg)
+        wctl.add("base",[],"#show element/3. #show attribute/3. #show callback/3.")
+        wctl.ground([("base",[])])
+
+        return wctl
+
+
+    def tag(self, model, tag):
+        tagged = []
+        for s in model:
+            tagged.append(Function(tag,[s]))
+        return tagged
+
+    def symbols_to_prg(self,symbols):
+        return "\n".join([str(s)+"." for s in symbols])
+
+    def tag_brave_prg(self, model):
+        tagged = self.tag(model,'_b')
+        return self.symbols_to_prg(tagged)
+    
+    def tag_cautious_prg(self, model):
+        tagged = self.tag(model,'_c')
+        return self.symbols_to_prg(tagged)
+
+
     def addElement(self, id, t, parent):
         if type(id)==str:
             id = Function(id,[])
@@ -135,7 +197,6 @@ class ClinguinModel:
         self._factbase = clorm.unify(self.unifiers, symbols)
 
     def _compute(self,ctl, assumptions):
-        symbols = []
         with ctl.solve(assumptions=[(a,True) for a in assumptions],
                 yield_=True) as result:
             model_symbols = None

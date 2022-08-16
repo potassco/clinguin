@@ -21,12 +21,12 @@ class ArgumentParser():
     """
     ArgumentParser-Class, Responsible for parsing the command line attributes
     """
-    
-    default_solver_path = os.path.join('clinguin', 'server', 'application', 'default_solvers')
-    default_client_path = os.path.join('clinguin', 'client', 'presentation', 'guis')
 
-    default_solver = 'standard_solver.ClingoBackend'
-    default_client = 'tkinter_gui.tkinter_gui.TkinterGui'
+    default_solver_exec_string = "from .server.application.default_solvers import *"    
+    default_client_exec_string = "from .client.presentation.guis import *"
+
+    default_solver = 'ClingoBackend'
+    default_client = 'TkinterGui'
 
     def __init__(self) -> None:
         self.titles = {
@@ -193,12 +193,12 @@ class ArgumentParser():
         if args.custom_server_classes:
             self._importClasses(args.custom_server_classes)
         else:
-            self._importClasses(ArgumentParser.default_solver_path)
+            exec(ArgumentParser.default_solver_exec_string)
 
         if args.custom_client_classes:
             self._importClasses(args.custom_client_classes)
         else:
-            self._importClasses(ArgumentParser.default_client_path)
+            exec(ArgumentParser.default_client_exec_string)
 
         if '-h' in unknown or '--help' in unknown or '--h' in unknown or '--he' in unknown or '--hel' in unknown:
             self._provide_help = True
@@ -344,7 +344,7 @@ class ArgumentParser():
         selected_class = None
 
         for sub_class in sub_classes:
-            full_class_name = sub_class.__module__ + "." + sub_class.__name__
+            full_class_name = sub_class.__name__
             
             select_this_class_as_solver = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
         

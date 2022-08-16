@@ -4,8 +4,8 @@ import logging
 from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
 from clinguin.client import AbstractGui
 
-from tkinter_gui.tkinter_widgets import *
-from tkinter_gui.tkinter_utils import *
+from .tkinter_widgets import *
+from .tkinter_utils import *
 
 
 class TkinterGui(AbstractGui):

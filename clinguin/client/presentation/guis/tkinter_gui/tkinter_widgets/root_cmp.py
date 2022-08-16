@@ -1,5 +1,5 @@
 import logging
-from tkinter_gui.tkinter_utils import *
+from ..tkinter_utils import *
 from clinguin.utils.attribute_types import *
 
 class RootCmp:

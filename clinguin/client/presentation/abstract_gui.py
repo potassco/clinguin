@@ -10,7 +10,6 @@ class AbstractGui(CustomArgs):
         self._logger = logging.getLogger(args.log_args['name'])
         self._base_engine = base_engine
 
-        print("Abstract Solver")
 
     @classmethod
     def availableSyntax(cls, show_level):

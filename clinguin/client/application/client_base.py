@@ -72,7 +72,7 @@ class ClientBase:
                     "Could not find element type: " + child['type'])
 
     def postWithPolicy(self, click_policy):
-        (status_code, json) = self.api.post("solver", FrontendPolicyDto(click_policy))
+        (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)
         else:

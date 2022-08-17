@@ -57,7 +57,8 @@ class TemporalBackend(ClinguinBackend):
         self._model = ClinguinModel.fromWidgetsFile(
                 self._ctl,
                 self._wfiles, 
-                self._assumptions)
+                self._assumptions,
+                self._logger)
 
 
 
@@ -126,6 +127,6 @@ class TemporalBackend(ClinguinBackend):
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
         wctl = ClinguinModel.wid_control(self._wfiles,symbols)
 
-        self._model = ClinguinModel.fromCtl(wctl)
+        self._model = ClinguinModel.fromCtl(wctl, self._logger)
        
         return self.get()

@@ -22,10 +22,10 @@ class ArgumentParser():
     ArgumentParser-Class, Responsible for parsing the command line attributes
     """
 
-    default_solver_exec_string = "from .server.application.default_solvers import *"    
+    default_backend_exec_string = "from .server.application.default_backends import *"    
     default_client_exec_string = "from .client.presentation.guis import *"
 
-    default_solver = 'ClingoBackend'
+    default_backend = 'ClingoBackend'
     default_client = 'TkinterGui'
 
     def __init__(self) -> None:
@@ -38,8 +38,8 @@ class ArgumentParser():
             'client': 'Start a client process that will render a UI.',
             'server': 'Start server process making endpoints available for a client.',
             'client-server': 'Start client and a server processes.'}
-        self.solver_name = None
-        self.solver = None
+        self.backend_name = None
+        self.backend = None
         self._provide_help = False
         self._show_gui_syntax = ShowGuiSyntaxEnum.NONE
 
@@ -66,12 +66,12 @@ class ArgumentParser():
  
         args = parser.parse_args()
 
-        self._addSelectedSolver(args)
+        self._addSelectedBackend(args)
 
         return args
 
-    def _addSelectedSolver(self, args):
-        args.solver = self.solver
+    def _addSelectedBackend(self, args):
+        args.backend = self.backend
         args.client = self.client
 
     @property
@@ -180,8 +180,8 @@ class ArgumentParser():
     def _parseCustomClasses(self):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
 
-        self._addDefaultArgumentsToSolverParser(custom_imports_parser)
-        self._addCustomSolversArguments(custom_imports_parser)
+        self._addDefaultArgumentsToBackendParser(custom_imports_parser)
+        self._addCustomBackendsArguments(custom_imports_parser)
 
         self._addDefaultArgumentsToClientParser(custom_imports_parser)
         self._addCustomClientsArguments(custom_imports_parser) 
@@ -189,11 +189,11 @@ class ArgumentParser():
         args, unknown = custom_imports_parser.parse_known_args()
     
         self.client_name = args.client
-        self.solver_name = args.solver
+        self.backend_name = args.backend
         if args.custom_server_classes:
             self._importClasses(args.custom_server_classes)
         else:
-            exec(ArgumentParser.default_solver_exec_string)
+            exec(ArgumentParser.default_backend_exec_string)
 
         if args.custom_client_classes:
             self._importClasses(args.custom_client_classes)
@@ -234,11 +234,11 @@ class ArgumentParser():
             add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
 
-        self._addCustomSolversArguments(parser_server)
+        self._addCustomBackendsArguments(parser_server)
 
         self._addLogArguments(parser_server, abbrevation='S', logger_name = 'server')       
-        self._addDefaultArgumentsToSolverParser(parser_server)
-        self.solver = self._selectSubclassAndAddCustomArguments(parser_server, ClinguinBackend, self.solver_name, ArgumentParser.default_solver)
+        self._addDefaultArgumentsToBackendParser(parser_server)
+        self.backend = self._selectSubclassAndAddCustomArguments(parser_server, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
 
         return parser_server
 
@@ -251,7 +251,7 @@ class ArgumentParser():
                                                      formatter_class=argparse.RawTextHelpFormatter)
 
         self._addCustomClientsArguments(parser_server_client)
-        self._addCustomSolversArguments(parser_server_client)
+        self._addCustomBackendsArguments(parser_server_client)
 
         self._addLogArguments(parser_server_client, abbrevation='C', logger_name = 'client', display_name= 'client-')       
         self._addLogArguments(parser_server_client, abbrevation='S', logger_name = 'server', display_name ='server-')       
@@ -259,16 +259,16 @@ class ArgumentParser():
         self._addDefaultArgumentsToClientParser(parser_server_client)
         self.client = self._selectSubclassAndAddCustomArguments(parser_server_client, AbstractGui, self.client_name, ArgumentParser.default_client)
 
-        self._addDefaultArgumentsToSolverParser(parser_server_client)
-        self.solver = self._selectSubclassAndAddCustomArguments(parser_server_client, ClinguinBackend, self.solver_name, ArgumentParser.default_solver)
+        self._addDefaultArgumentsToBackendParser(parser_server_client)
+        self.backend = self._selectSubclassAndAddCustomArguments(parser_server_client, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
 
         return parser_server_client
 
-    def _addDefaultArgumentsToSolverParser(self, parser):
-        parser.add_argument('--solver', type=str,
+    def _addDefaultArgumentsToBackendParser(self, parser):
+        parser.add_argument('--backend', type=str,
                             help=textwrap.dedent('''\
-                Optionally specify which solver to use using the class name.
-                See available custom solvers bellow:
+                Optionally specify which backend to use using the class name.
+                See available custom backends bellow:
                 '''),
                             metavar='')
 
@@ -317,11 +317,11 @@ class ArgumentParser():
             metavar='',
             default='%(levelname)s<%(asctime)s>: %(message)s')
 
-    def _addCustomSolversArguments(self, parser):
+    def _addCustomBackendsArguments(self, parser):
         parser.add_argument(
             '--custom-server-classes',
             type=str,
-            help='Path to custom solver classes',
+            help='Path to custom backend classes',
             metavar='')
  
 
@@ -355,9 +355,9 @@ class ArgumentParser():
         for sub_class in sub_classes:
             full_class_name = sub_class.__name__
             
-            select_this_class_as_solver = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
+            select_this_class_as_backend = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
         
-            if select_this_class_as_solver or self._provide_help == True:
+            if select_this_class_as_backend or self._provide_help == True:
                 if self._show_gui_syntax == ShowGuiSyntaxEnum.NONE:
                     group = parser.add_argument_group(full_class_name)
                     sub_class.registerOptions(group)

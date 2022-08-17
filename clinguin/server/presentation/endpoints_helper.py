@@ -12,4 +12,4 @@ def callFunction(engines, name, args, kwargs):
         result = function(*args, **kwargs)
         return result
     else:
-        print('[CRITICAL] - Could not find function ' + name + ' in solver')
+        print('[CRITICAL] - Could not find function ' + name + ' in backend')

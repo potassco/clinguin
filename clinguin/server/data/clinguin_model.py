@@ -78,8 +78,8 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
-        model = cls()
+    def fromWidgetsFile(cls, ctl, widgets_files, assumptions, logger):
+        model = cls(logger)
 
         cautious_model = model.computeCautious(ctl, assumptions)
         brave_model = model.computeBrave(ctl, assumptions)
@@ -97,8 +97,8 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def fromCtl(cls, ctl):
-        model = cls()
+    def fromCtl(cls, ctl, logger):
+        model = cls(logger)
         with ctl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True)

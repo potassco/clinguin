@@ -17,7 +17,7 @@ from clinguin.server import ClinguinModel
 
 from clinguin.server import ClinguinBackend
 
-from clinguin.server.application.default_solvers.standard_utils.brave_cautious_helper import *
+from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import *
 
 class ClingoBackend(ClinguinBackend):
 

@@ -12,20 +12,16 @@ from clinguin.server import StandardJsonEncoder
 from clinguin.server.data.clingraph_model import ClingraphModel
 
 from clinguin.server import ClinguinBackend
-from clinguin.server.application.default_solvers.standard_solver import ClingoBackend
+from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
 
-from clinguin.server.application.default_solvers.standard_utils.brave_cautious_helper import brave_cautious_externals
-from clinguin.server.application.default_solvers.clingraph_helper import clingraph_helper
+from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import brave_cautious_externals
+from clinguin.server.application.default_backends.clingraph_helper import clingraph_helper
 
 class ClingraphBackend(ClingoBackend):
 
     def __init__(self, args):
         super(ClingoBackend, self).__init__(args)
-        self._assumptions = set()
-        self._images = set()
-
-        self._files = args.source_files
-
+        self._files = args._clingraph_files
         self._ctl = Control(['0'])
         for f in self._files:
             self._ctl.load(str(f))

@@ -53,7 +53,8 @@ class Canvas(RootCmp):
 
                 # DO NOT DELETE THIS SEEMINGLY UNECESSARY LINE
                 self._image = tkinter_image
-            except:
+            except Exception as e:
+                self._logger.error(e)
                 self._logger.debug("Could not render image (likely Base64 encoding is wrong).")
 
     def _addComponentToElements(self, elements):

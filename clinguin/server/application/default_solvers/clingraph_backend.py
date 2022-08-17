@@ -12,10 +12,10 @@ from clinguin.server import StandardJsonEncoder
 from clinguin.server.data.clingraph_model import ClingraphModel
 
 from clinguin.server import ClinguinBackend
-from standard_solver import ClingoBackend
+from clinguin.server.application.default_solvers.standard_solver import ClingoBackend
 
-from standard_utils.brave_cautious_helper import brave_cautious_externals
-from clingraph_helper import clingraph_helper
+from clinguin.server.application.default_solvers.standard_utils.brave_cautious_helper import brave_cautious_externals
+from clinguin.server.application.default_solvers.clingraph_helper import clingraph_helper
 
 class ClingraphBackend(ClingoBackend):
 

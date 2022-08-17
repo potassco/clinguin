@@ -17,7 +17,7 @@ from clinguin.server import ClinguinModel
 
 from clinguin.server import ClinguinBackend
 
-from .standard_utils.brave_cautious_helper import *
+from clinguin.server.application.default_solvers.standard_utils.brave_cautious_helper import *
 
 class ClingoBackend(ClinguinBackend):
 
@@ -69,7 +69,7 @@ class ClingoBackend(ClinguinBackend):
 
     def _updateModelWithOptions(self):
         try:
-            self._model = self._modelClass.fromBCExtendedFile(self._ctl,self._assumptions)
+            self._model = self._modelClass.fromBCExtendedFile(self._ctl,self._assumptions, self._logger)
         except NoModelError:
             self._model.addElement("message","message","window")
             self._model.addAttribute("message","title","Error")

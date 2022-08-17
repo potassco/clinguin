@@ -120,6 +120,10 @@ class ClinguinModel:
 
         return wctl
 
+    def addMessage(self,title,message):
+        self.addElement("message","message","window")
+        self.addAttribute("message","title",title)
+        self.addAttribute("message","message",message)
 
     def tag(self, model, tag):
         tagged = []

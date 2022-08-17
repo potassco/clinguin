@@ -18,6 +18,8 @@ class Api:
             self._logger.debug("Sending GET to " +
                                str(self.base_url) + str(endpoint))
             r = httpx.get(self.base_url + endpoint, timeout=10000)
+            j = r.json()
+            self._logger.debug(json.dumps(j, indent=4, sort_keys=True))
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")

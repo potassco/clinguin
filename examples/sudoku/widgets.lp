@@ -1,6 +1,4 @@
 
-_brave_element_type(dropdown_menu_item).
-
 element(window, window, root).
 #const height_value= 550.
 #const width_value= 550.
@@ -54,9 +52,9 @@ menu(X,Y):-pos(X,Y), not initial(X,Y,_).
 element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
 attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
 attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
-element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), sudoku(X,Y,V).
-attribute(mi(X,Y,V), label, V) :- menu(X,Y), sudoku(X,Y,V).
-callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- menu(X,Y), sudoku(X,Y,V).
+element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
+attribute(mi(X,Y,V), label, V) :- menu(X,Y), _b(sudoku(X,Y,V)).
+callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
 
 %---------------------------------------------------------------------------------------
 % Menu Bar

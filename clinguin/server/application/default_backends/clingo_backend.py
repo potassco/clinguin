@@ -40,8 +40,8 @@ class ClingoBackend(ClinguinBackend):
 
     @classmethod
     def registerOptions(cls, parser):
-        parser.add_argument('--source-files', nargs='+', help='Files')
-        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation')
+        parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
+        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation',metavar='')
 
     def _restart(self):
         self._endBrowsing()

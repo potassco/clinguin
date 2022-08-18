@@ -17,9 +17,10 @@ attribute(frame, pos_x, 0).
 attribute(frame, pos_y, 25).
 
 element(canv, canvas, frame).
-attribute(canv, image, clingraph).
+attribute(canv, image, "./out/toms_family.png").
 attribute(canv, width, 250).
 attribute(canv, height, 250).
+attribute(canv, resize, false).
 
 element(bf, container, window).
 attribute(bf, height, 75).

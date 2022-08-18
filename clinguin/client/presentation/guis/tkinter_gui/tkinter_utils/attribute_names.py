@@ -38,6 +38,7 @@ class AttributeNames:
     fit_children_size = "fit"
 
     image = "image"
+    resize = "resize"
 
 
     descriptions = {

@@ -63,7 +63,8 @@ def main():
     elif args.process == 'client-server':
 
         server_log_dict = argsToDictConvert(args_dict, timestamp, name_prefix="server_")
-
+        print("args:")
+        print(args)
         args_copy = copy.deepcopy(args)
         args_copy.log_args = server_log_dict
 

@@ -78,7 +78,7 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def fromWidgetsFile(cls, ctl, widgets_files, assumptions, logger):
+    def getCautiosBrave(cls, ctl, assumptions, logger):
         model = cls(logger)
 
         cautious_model = model.computeCautious(ctl, assumptions)
@@ -86,7 +86,13 @@ class ClinguinModel:
         # c_prg = self.tag_cautious_prg(cautious_model)
         c_prg = model.symbols_to_prg(cautious_model)
         b_prg = model.tag_brave_prg(brave_model)
-        wctl = cls.wid_control(widgets_files, c_prg+b_prg)
+        return c_prg+b_prg
+
+    @classmethod
+    def fromWidgetsFileAndProgram(cls, ctl, widgets_files, prg, logger):
+        model = cls(logger)
+
+        wctl = cls.wid_control(widgets_files, prg)
 
         with wctl.solve(yield_=True) as result:
             for m in result:
@@ -95,6 +101,13 @@ class ClinguinModel:
 
         model._setFbSymbols(model_symbols)
         return model
+
+
+    @classmethod
+    def fromWidgetsFile(cls, ctl, widgets_files, assumptions, logger):
+        model = cls(logger)
+        prg = cls.getCautiosBrave(ctl,assumptions,logger)
+        return cls.fromWidgetsFileAndProgram(ctl,widgets_files,prg,logger)
 
     @classmethod
     def fromCtl(cls, ctl, logger):

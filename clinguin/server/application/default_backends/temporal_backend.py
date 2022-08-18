@@ -28,11 +28,6 @@ class TemporalBackend(ClingoBackend):
         self._full_plan=None
         super().__init__(args)
         
-    @classmethod
-    def registerOptions(cls, parser):
-        # TODO I cant reuse the CLingoBAckend reguster Options because they colide 
-        parser.add_argument('--source-files', nargs='+', help='Files')
-        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation')
 
     def _initCtl(self):
         self._step= 1

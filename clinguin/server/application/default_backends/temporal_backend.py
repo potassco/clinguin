@@ -15,7 +15,8 @@ from clinguin.server import StandardJsonEncoder
 
 from clinguin.server import ClinguinModel
 
-from clinguin.server import ClingoBackend
+from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
+
 
 from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import *
 
@@ -24,16 +25,19 @@ class TemporalBackend(ClingoBackend):
     def __init__(self, args):
         self._step = 1
         self._last_grounded_step = 0
+        self._full_plan=None
         super().__init__(args)
         
+    @classmethod
     def registerOptions(cls, parser):
         # TODO I cant reuse the CLingoBAckend reguster Options because they colide 
-        parser.add_argument('--tsource-files', nargs='+', help='Files')
-        parser.add_argument('--twidget-files', nargs='+', help='Files for the widget generation')
+        parser.add_argument('--source-files', nargs='+', help='Files')
+        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation')
 
     def _initCtl(self):
         self._step= 1
         self._last_grounded_step= 0
+        self._full_plan=None
         super()._initCtl()
 
     def _ground(self):
@@ -89,7 +93,7 @@ class TemporalBackend(ClingoBackend):
             self._findIncrementally()
 
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
-        wctl = ClinguinModel.wid_control(self._wfiles,symbols)
+        wctl = ClinguinModel.wid_control(self._widget_files,symbols)
         self._model = ClinguinModel.fromCtl(wctl, self._logger)
         return self.get()
 

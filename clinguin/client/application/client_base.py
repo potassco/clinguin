@@ -73,6 +73,7 @@ class ClientBase:
 
     def postWithPolicy(self, click_policy):
         (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
+        #TODO Server should respond another status code if the function is not found
         if status_code == 200:
             self.draw(json)
         else:

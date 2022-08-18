@@ -1,6 +1,6 @@
 import networkx as nx
 from typing import Sequence, Any
-
+import argparse
 import logging
 import clingo
 from clingo import Control, parse_term
@@ -40,10 +40,13 @@ class ClingraphBackend(ClingoBackend):
         self._graph_index = 0
         self._updateModelWithOptions()
 
-    def registerOptions(cls, parser):
+    @classmethod
+    def registerOptions(cls, parser):        
         # TODO I cant reuse the CLingoBAckend reguster Options because they colide 
-        parser.add_argument('--csource-files', nargs='+', help='Files')
-        parser.add_argument('--cwidget-files', nargs='+', help='Files for the widget generation')
+        parser.add_argument('--source-files', nargs='+', help='Files')
+        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation')
+
+        parser.print_help()
 
     def _endBrowsing(self):
         if self._handler:

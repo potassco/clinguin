@@ -179,26 +179,19 @@ class ArgumentParser():
 
     def _parseCustomClasses(self):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
-
         self._addDefaultArgumentsToBackendParser(custom_imports_parser)
-        self._addCustomBackendsArguments(custom_imports_parser)
-
         self._addDefaultArgumentsToClientParser(custom_imports_parser)
-        self._addCustomClientsArguments(custom_imports_parser) 
 
         args, unknown = custom_imports_parser.parse_known_args()
     
         self.client_name = args.client
         self.backend_name = args.backend
-        if args.custom_server_classes:
-            self._importClasses(args.custom_server_classes)
-        else:
-            exec(ArgumentParser.default_backend_exec_string)
+        if args.custom_classes:
+            self._importClasses(args.custom_classes)
 
-        if args.custom_client_classes:
-            self._importClasses(args.custom_client_classes)
-        else:
-            exec(ArgumentParser.default_client_exec_string)
+        exec(ArgumentParser.default_backend_exec_string)
+        exec(ArgumentParser.default_client_exec_string)
+
 
         if '-h' in unknown or '--help' in unknown or '--h' in unknown or '--he' in unknown or '--hel' in unknown:
             self._provide_help = True
@@ -217,8 +210,6 @@ class ArgumentParser():
             add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
 
-        self._addCustomClientsArguments(parser_client)
-
         self._addLogArguments(parser_client, abbrevation='C', logger_name = 'client')       
 
         self._addDefaultArgumentsToClientParser(parser_client)
@@ -234,8 +225,6 @@ class ArgumentParser():
             add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
 
-        self._addCustomBackendsArguments(parser_server)
-
         self._addLogArguments(parser_server, abbrevation='S', logger_name = 'server')       
         self._addDefaultArgumentsToBackendParser(parser_server)
         self.backend = self._selectSubclassAndAddCustomArguments(parser_server, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
@@ -250,8 +239,6 @@ class ArgumentParser():
                                                      add_help=True,
                                                      formatter_class=argparse.RawTextHelpFormatter)
 
-        self._addCustomClientsArguments(parser_server_client)
-        self._addCustomBackendsArguments(parser_server_client)
 
         self._addLogArguments(parser_server_client, abbrevation='C', logger_name = 'client', display_name= 'client-')       
         self._addLogArguments(parser_server_client, abbrevation='S', logger_name = 'server', display_name ='server-')       
@@ -265,20 +252,39 @@ class ArgumentParser():
         return parser_server_client
 
     def _addDefaultArgumentsToBackendParser(self, parser):
+        sub_classes = self._getSubClasses(ClinguinBackend)
+        sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
+        sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
         parser.add_argument('--backend', type=str,
-                            help=textwrap.dedent('''\
+                            help=textwrap.dedent(f'''\
                 Optionally specify which backend to use using the class name.
-                See available custom backends bellow:
+                {sub_classes_str}
                 '''),
                             metavar='')
+        parser.add_argument(
+            '--custom-classes',
+            type=str,
+            help='Path to custom classes.',
+            metavar='')
 
     def _addDefaultArgumentsToClientParser(self, parser):
+        sub_classes = self._getSubClasses(AbstractGui)
+        sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
+        sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
         parser.add_argument('--client', type=str,
-                            help=textwrap.dedent('''\
+                            help=textwrap.dedent(f'''\
                 Optionally specify which client to use using the class name.
-                See available custom clients bellow:
+                {sub_classes_str}
                 '''),
                             metavar='')
+        parser.add_argument('--gui-syntax', 
+                action='store_true',
+                help='Show available commands for the GUI.')
+        parser.add_argument('--gui-syntax-full', 
+                action='store_true',
+                help='Show available commands for the GUI and shows available value-types.')
+        
+
     def _addLogArguments(self, parser, abbrevation='', logger_name = '', display_name=''):
 
         group = parser.add_argument_group(display_name + 'logger')
@@ -317,27 +323,7 @@ class ArgumentParser():
             metavar='',
             default='%(levelname)s<%(asctime)s>: %(message)s')
 
-    def _addCustomBackendsArguments(self, parser):
-        parser.add_argument(
-            '--custom-server-classes',
-            type=str,
-            help='Path to custom backend classes',
-            metavar='')
- 
-
-    def _addCustomClientsArguments(self, parser):
-        parser.add_argument(
-            '--custom-client-classes',
-            type=str,
-            help='Path to custom client classes.',
-            metavar='')
-        parser.add_argument('--gui-syntax', 
-                action='store_true',
-                help='Show available commands for the GUI.')
-        parser.add_argument('--gui-syntax-full', 
-                action='store_true',
-                help='Show available commands for the GUI and shows available value-types.')
-
+  
     def _getSubClasses(self, cur_class):
         sub_classes = cur_class.__subclasses__()
         recursive = []
@@ -354,18 +340,16 @@ class ArgumentParser():
 
         for sub_class in sub_classes:
             full_class_name = sub_class.__name__
-            
-            select_this_class_as_backend = (not class_name and full_class_name == default_class) or (full_class_name == class_name)
-        
-            if select_this_class_as_backend or self._provide_help == True:
-                if self._show_gui_syntax == ShowGuiSyntaxEnum.NONE:
-                    group = parser.add_argument_group(full_class_name)
-                    sub_class.registerOptions(group)
-                elif hasattr(sub_class, 'availableSyntax'):
+            selected_by_default = not class_name and full_class_name == default_class
+            selected =  full_class_name == class_name
+            if selected_by_default or selected:
+                group = parser.add_argument_group(full_class_name)
+                sub_class.registerOptions(group)
+                if self._show_gui_syntax  == ShowGuiSyntaxEnum.SHOW and hasattr(sub_class, 'availableSyntax'):
                     print(sub_class.availableSyntax(self._show_gui_syntax))
-                    sys.exit()
+                    # TODO why was this  here?
+                    # sys.exit()
 
                 selected_class = sub_class
-
         return selected_class
 

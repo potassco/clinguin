@@ -46,6 +46,7 @@ class ClingoBackend(ClinguinBackend):
     def _restart(self):
         self._endBrowsing()
         self._assumptions = set()
+        self._externals = {"true":set(),"false":set(),"released":set()}
         self._atoms = set()
         self._initCtl()
         self._ground()
@@ -149,6 +150,29 @@ class ClingoBackend(ClinguinBackend):
             self._ground()
             self._endBrowsing()
             self._updateModel()
+        return self.get()
+
+    def external(self, predicate, value):
+        self._logger.debug("external(" + str(predicate) + ")")
+        symbol = parse_term(predicate)
+        name = value.name
+        if name == "release":
+            self._ctl.release_external(parse_term(predicate))
+            self._externals["released"].add(symbol)
+            self._externals["true"].remove(symbol)
+            self._externals["false"].remove(symbol)
+        elif name == "true":
+            self._ctl.assign_external(parse_term(predicate),True)
+            self._externals["true"].add(symbol)
+            self._externals["false"].remove(symbol)
+        elif name == "false":
+            self._ctl.assign_external(parse_term(predicate),True)
+            self._externals["false"].add(symbol)
+            self._externals["true"].remove(symbol)
+        else:
+            raise ValueError(f"Invalid external value {name}. Must be true, false or relase")
+
+        self._updateModel()
         return self.get()
 
     def nextSolution(self):

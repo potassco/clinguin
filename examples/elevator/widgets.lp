@@ -114,4 +114,4 @@ callback(elevator_occ_mi(F,A), click, assumeAndStep(occ(A,T))):-
 attribute(elevator_call(F), background_color, color_request):- floor(F), call_floor(F,T).
 element(elevator_call_b(F), button, elevator_call(F)):-floor(F),not call_floor(F,_).
 attribute(elevator_call_b(F), label, "⬆︎⬇︎"):-floor(F),not call_floor(F,_).
-callback(elevator_call_b(F), click, externalTrue(call(F,T-1))):-query(T),floor(F),not call_floor(F,_).
+callback(elevator_call_b(F), click, external(call(F,T-1),true)):-query(T),floor(F),not call_floor(F,_).

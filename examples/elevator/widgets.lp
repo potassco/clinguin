@@ -6,22 +6,19 @@ element(window, window, root).
 attribute(window, height, height_value).
 attribute(window, width, width_value).
 attribute(window, child_layout, absstatic).
+% TODO fit not working
 attribute(window, fit, false).
 
 % Info section
 element(info, container, window).
-attribute(info, height, N*70 ):-n_floors(N).
-attribute(info, width, 200 ).
 attribute(info, pos_x, 140 ).
 attribute(info, pos_y, 0 ).
 attribute(info, child_layout, grid).
-attribute(info, fit, false).
+attribute(info, fit, true).
 
 element(info_find, container, info).
-attribute(info_find, height, 70 ).
-attribute(info_find, width, 120 ).
 attribute(info_find, grid_row, 0).
-attribute(info_find, fit, false).
+attribute(info_find, fit, true).
 
 element(info_find_goal, label, info_find).
 attribute(info_find_goal, font_size, 20).
@@ -33,7 +30,7 @@ element(info_next, container, info).
 attribute(info_next, height, 70 ).
 attribute(info_next, width, 120 ).
 attribute(info_next, grid_row, 1).
-% attribute(info_next, grid_column, 1).
+% TODO fit not working
 attribute(info_next, fit, false).
 
 element(info_find_l, button, info_next):-not goal(T),query(T).
@@ -41,10 +38,8 @@ attribute(info_find_l, label, "Find plan"):-not goal(T),query(T).
 callback(info_find_l, click, findPlan):-not goal(T),query(T).
 
 element(info_steps, container, info).
-attribute(info_steps, height, 70 ).
-attribute(info_steps, width, 200 ).
 attribute(info_steps, grid_row, 4).
-attribute(info_steps, fit, false).
+attribute(info_steps, fit, true).
 
 element(info_steps_l, label, info_steps).
 attribute(info_steps_l, label, "History:").
@@ -63,15 +58,11 @@ attribute(info_step(T),label,A):-occ(A,T).
 
 % Elevator section
 element(elevator, container, window).
-attribute(elevator, fit, false).
-attribute(elevator, height, N*70 ):-n_floors(N).
-attribute(elevator, width, 140 ):-n_floors(N).
+attribute(elevator, fit, true).
 attribute(elevator, child_layout, grid).
 
 element(elevator_row(F), container, elevator):-floor(F).
-attribute(elevator_row(F), fit, false) :- floor(F).
-attribute(elevator_row(F), height, 70):-floor(F).
-attribute(elevator_row(F), width, 140):-floor(F).
+attribute(elevator_row(F), fit, true) :- floor(F).
 attribute(elevator_row(F), grid_column, 0):-floor(F).
 attribute(elevator_row(F), grid_row, N-(F-1)):-floor(F),n_floors(N).
 attribute(elevator_row(F), child_layout, grid):-floor(F).

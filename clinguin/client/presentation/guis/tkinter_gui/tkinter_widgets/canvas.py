@@ -35,7 +35,6 @@ class Canvas(RootCmp):
     def _setValues(self, elements):
 
         image_file = self._attributes[AttributeNames.image]["value"]
-        print(self._attributes[AttributeNames.image]["value"])
 
         if image_file != "": 
             try:

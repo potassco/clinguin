@@ -94,7 +94,6 @@ class ClingoBackend(ClinguinBackend):
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
-        self._logger.debug("_get()")
         j=  StandardJsonEncoder.encode(self._model, self._logger)
 
         return j
@@ -106,7 +105,6 @@ class ClingoBackend(ClinguinBackend):
 
     def assume(self, predicate):
         # Iconf
-        self._logger.debug("assume(" + str(predicate) + ")")
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
             self._assumptions.add(predicate_symbol)
@@ -116,7 +114,6 @@ class ClingoBackend(ClinguinBackend):
 
     def removeAssume(self, predicate):
         # Iconf
-        self._logger.debug("remove(" + str(predicate) + ")")
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
             self._assumptions.remove(predicate_symbol)
@@ -130,7 +127,6 @@ class ClingoBackend(ClinguinBackend):
     # def setExternal
 
     def addAtom(self, predicate):
-        self._logger.debug("addAtom(" + str(predicate) + ")")
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
@@ -142,7 +138,6 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def removeAtom(self,predicate):
-        self._logger.debug("remove(" + str(predicate) + ")")
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._atoms:
             self._atoms.remove(predicate_symbol)
@@ -153,7 +148,6 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def external(self, predicate, value):
-        self._logger.debug("external(" + str(predicate) + ")")
         symbol = parse_term(predicate)
         name = value.name
         if name == "release":
@@ -176,7 +170,6 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def nextSolution(self):
-        self._logger.debug("nextSolution()")
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
             # Only if option
@@ -189,7 +182,7 @@ class ClingoBackend(ClinguinBackend):
             model = next(self._iterator)
             self._model = self._modelClass.fromClingoModel(model, self._logger)
         except StopIteration:
-            self._logger.debug("No more solutions")
+            self._logger.info("No more solutions")
             self._handler.cancel()
             self._updateModel()
             self._model.addMessage("Browsing Information","No more solutions")

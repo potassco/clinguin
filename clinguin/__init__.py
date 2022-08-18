@@ -13,6 +13,7 @@ from .parse_input import ArgumentParser
 
 from .server_helper import start as server_start
 from .client_helper import start as client_start
+from clinguin.utils import Logger
 
 def argsToDictConvert(args_dict, timestamp, name_prefix=""):
     """
@@ -40,14 +41,13 @@ def main():
     args_dict = vars(args)
 
     timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
-
+    
 
     if args.process == 'server':
         log_dict = argsToDictConvert(args_dict, timestamp)
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = log_dict
-
         server = threading.Thread(
             target=server_start, args=[args_copy])
         server.start()

@@ -31,7 +31,7 @@ class Endpoints:
         self._backend.append(args.backend(args))
 
     async def health(self):
-
+        self._logger.info(f"--> Health")
         cuin = metadata('clinguin')
         return {
             "name": cuin["name"],
@@ -40,6 +40,7 @@ class Endpoints:
         }
 
     async def standardExecutor(self):
+        self._logger.info(f"--> {self._backend[0].__class__.__name__}:   get()")
         return self._backend[0].get()
 
     async def policyExecutor(self, backend_call_string: BackendPolicyDto):
@@ -49,7 +50,9 @@ class Endpoints:
         function_arguments = (
             list(map(lambda symb: str(symb), symbol.arguments)))
 
-        self._logger.debug("Will call")
+        call_args = ",".join(function_arguments)
+        self._logger.info(f"--> {self._backend[0].__class__.__name__}:   {function_name}({call_args})")
+
         result = callFunction(
             self._backend,
             function_name,

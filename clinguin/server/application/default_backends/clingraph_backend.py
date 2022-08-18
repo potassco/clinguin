@@ -145,6 +145,7 @@ class ClingraphBackend(ClingoBackend):
                 engine=self._engine,
                 view=False,
                 **write_arguments)
+        self._logger.debug("Clingraph saved images:")
         self._logger.debug(paths)
         
         

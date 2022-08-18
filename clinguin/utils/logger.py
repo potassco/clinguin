@@ -1,5 +1,6 @@
 import logging
 import os
+BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
 
 log_levels = {
     "NOTSET": logging.NOTSET,
@@ -11,6 +12,38 @@ log_levels = {
 }
 
 
+RESET_SEQ = "\033[0m"
+COLOR_SEQ = "\033[1;%dm"
+BOLD_SEQ = "\033[1m"
+
+def formatter_message(message, use_color = True):
+    if use_color:
+        message = message.replace("$RESET", RESET_SEQ).replace("$BOLD", BOLD_SEQ)
+    else:
+        message = message.replace("$RESET", "").replace("$BOLD", "")
+    return message
+
+COLORS = {
+    'WARNING': YELLOW,
+    'INFO': GREEN,
+    'DEBUG': BLUE,
+    'CRITICAL': RED,
+    'ERROR': RED
+}
+
+class ColoredFormatter(logging.Formatter):
+    def __init__(self, msg, use_color = True):
+        logging.Formatter.__init__(self, msg)
+        self.use_color = use_color
+
+    def format(self, record):
+        levelname = record.levelname
+        if self.use_color and levelname in COLORS:
+            color =  COLOR_SEQ % (30 + COLORS[levelname])
+            levelname_color = color + levelname[0:4] + RESET_SEQ
+            record.levelname = levelname_color
+        return logging.Formatter.format(self, record)
+
 class Logger:
 
     @classmethod
@@ -21,7 +54,7 @@ class Logger:
 
     @classmethod
     def _addShellHandlerToLogger(ctl, logger, log_arg_dict):
-        shell_formatter = logging.Formatter(log_arg_dict['format_shell'])
+        shell_formatter = ColoredFormatter(log_arg_dict['format_shell'])
 
         logger.setLevel(log_levels[log_arg_dict['level']])
 
@@ -32,7 +65,7 @@ class Logger:
 
     @classmethod
     def _addFileHandlerToLogger(ctl, logger, log_arg_dict, log_file_path):
-        file_formatter = logging.Formatter(log_arg_dict['format_file'])
+        file_formatter = ColoredFormatter(log_arg_dict['format_file'])
 
         with open(log_file_path, "a+") as file_object:
             file_object.write(
@@ -59,7 +92,6 @@ class Logger:
     def setupUvicornLoggerOnStartup(ctl, log_arg_dict):
         # ----------------------------------------------------------
         # Remove handlers from uvicorn loggers
-
         logger = logging.getLogger("uvicorn.access")
         for handler in logger.handlers:
             logger.removeHandler(handler)

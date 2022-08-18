@@ -315,13 +315,13 @@ class ArgumentParser():
             type=str,
             help='Log format shell',
             metavar='',
-            default='['+str(abbrevation)+'][%(levelname)s]<%(asctime)s>: %(message)s')
+            default='['+str(abbrevation)+'] %(levelname)s: %(message)s')
         group.add_argument(
             '--' + display_name + 'log-format-file',
             type=str,
             help='Log format file',
             metavar='',
-            default='%(levelname)s<%(asctime)s>: %(message)s')
+            default='%(levelname)s: %(message)s')
 
   
     def _getSubClasses(self, cur_class):

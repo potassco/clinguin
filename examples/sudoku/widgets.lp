@@ -4,6 +4,7 @@ element(window, window, root).
 #const width_value= 550.
 #const grid_height_value = 450.
 #const grid_width_value = 450.
+#const dim = 3.
 
 %---------------------------------------------------------------------------------------
 % Window

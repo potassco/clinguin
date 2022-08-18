@@ -107,7 +107,7 @@ attribute(elevator_occ_mi(F,A), label, A):-
     on_floor(F,T),
     _b(occ(A,T)).
 
-callback(elevator_occ_mi(F,A), click, assume(occ(A,T))):-
+callback(elevator_occ_mi(F,A), click, assumeAndStep(occ(A,T))):-
     on_floor(F,T),
     _b(occ(A,T)).
 

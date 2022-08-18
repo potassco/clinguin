@@ -23,7 +23,7 @@ class ClingoBackend(ClinguinBackend):
 
     def __init__(self, args):
         super().__init__(args)
-        self._souce_files = args.source_files
+        self._source_files = args.source_files
         self._widget_files = args.widget_files
         
         # For browising
@@ -38,13 +38,10 @@ class ClingoBackend(ClinguinBackend):
         self._updateModel()
 
 
-
-
     @classmethod
     def registerOptions(cls, parser):
-        parser.add_argument('source_files', nargs='+', help='Files')
-        parser.add_argument('widget_files', nargs='+', help='Files')
-
+        parser.add_argument('--source-files', nargs='+', help='Files')
+        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation')
 
     def _restart(self):
         self._endBrowsing()
@@ -55,7 +52,7 @@ class ClingoBackend(ClinguinBackend):
 
     def _initCtl(self):
         self._ctl = Control(['0'])
-        for f in self._souce_files:
+        for f in self._source_files:
             try:
                 self._ctl.load(str(f))
             except Exception as e:
@@ -102,10 +99,7 @@ class ClingoBackend(ClinguinBackend):
         return j
 
     def clear(self):
-        self._logger.debug("clear()")
-        self._assumptions.clear()
-        self._atoms.clear()
-        self._endBrowsing()
+        self._restart()
         self._updateModel()
         return self.get()
 

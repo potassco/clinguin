@@ -207,7 +207,7 @@ class ArgumentParser():
             add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
 
-        self._addLogArguments(parser_client, abbrevation='C', logger_name = 'client')       
+        self._addLogArguments(parser_client, abbrevation='C', logger_name = 'clinguin_client')       
 
         self._addDefaultArgumentsToClientParser(parser_client)
         self.client = self._selectSubclassAndAddCustomArguments(parser_client, AbstractGui, self.client_name, ArgumentParser.default_client)
@@ -222,7 +222,7 @@ class ArgumentParser():
             add_help=True,
             formatter_class=argparse.RawTextHelpFormatter)
 
-        self._addLogArguments(parser_server, abbrevation='S', logger_name = 'server')       
+        self._addLogArguments(parser_server, abbrevation='S', logger_name = 'clinguin_server')       
         self._addDefaultArgumentsToBackendParser(parser_server)
         self.backend = self._selectSubclassAndAddCustomArguments(parser_server, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
 
@@ -237,8 +237,8 @@ class ArgumentParser():
                                                      formatter_class=argparse.RawTextHelpFormatter)
 
 
-        self._addLogArguments(parser_server_client, abbrevation='C', logger_name = 'client', display_name= 'client-')       
-        self._addLogArguments(parser_server_client, abbrevation='S', logger_name = 'server', display_name ='server-')       
+        self._addLogArguments(parser_server_client, abbrevation='C', logger_name = 'clinguin_client', display_name= 'client-')       
+        self._addLogArguments(parser_server_client, abbrevation='S', logger_name = 'clinguin_server', display_name ='server-')       
 
         self._addDefaultArgumentsToClientParser(parser_server_client)
         self.client = self._selectSubclassAndAddCustomArguments(parser_server_client, AbstractGui, self.client_name, ArgumentParser.default_client)

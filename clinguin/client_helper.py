@@ -8,7 +8,7 @@ def start(args):
     """
     Helper for the client-startup-process
     """
-    Logger.setupLogger(args.log_args)
+    Logger.setupLogger(args.log_args, process = "client")
 
     client = ClientBase(args)
     client.startUp()

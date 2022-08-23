@@ -65,20 +65,15 @@ class ClingoBackend(ClinguinBackend):
             self._ctl.add("base",[],str(atom) + ".")
         
         
-        # Only if an option is active
-        # self._ctl.add("base",[],brave_cautious_externals)
     
     def _ground(self):
         self._ctl.ground([("base", [])])
 
-        # Only if an option is active
-        # self._ctl.assign_external(parse_term('show_all'),True
     
     def _endBrowsing(self):
         if self._handler:
             self._handler.cancel()
             self._handler = None
-            # self._ctl.assign_external(parse_term('no_more_solutions'),False)
         self._iterator = None
 
     def _updateModel(self):
@@ -86,17 +81,14 @@ class ClingoBackend(ClinguinBackend):
             self._model = ClinguinModel.fromWidgetsFile(
                 self._ctl,
                 self._widget_files, 
-                self._assumptions,
-                self._logger)
-            # If option is active
-            # self._model = self._modelClass.fromBCExtendedFile(self._ctl,self._assumptions, self._logger)
+                self._assumptions)
         except NoModelError:
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
-        j=  StandardJsonEncoder.encode(self._model, self._logger)
+        json_structure =  StandardJsonEncoder.encode(self._model)
 
-        return j
+        return json_structure
 
     def clearAssumptions(self):
         self._restart()
@@ -121,10 +113,6 @@ class ClingoBackend(ClinguinBackend):
             self._updateModel()
         return self.get()
     
-    # def removeAll(self, predicate):
-        # Iconf
-
-    # def setExternal
 
     def addAtom(self, predicate):
         predicate_symbol = parse_term(predicate)
@@ -172,15 +160,13 @@ class ClingoBackend(ClinguinBackend):
     def nextSolution(self):
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
-            # Only if option
-            # self._ctl.assign_external(parse_term('show_all'),True)
             self._handler = self._ctl.solve(
                 assumptions=[(a,True) for a in self._assumptions],
                 yield_=True)
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
-            self._model = self._modelClass.fromClingoModel(model, self._logger)
+            self._model = self._modelClass.fromClingoModel(model)
         except StopIteration:
             self._logger.info("No more solutions")
             self._handler.cancel()

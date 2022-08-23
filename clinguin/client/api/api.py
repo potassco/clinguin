@@ -3,13 +3,15 @@ import httpx
 import logging
 import traceback
 
+from clinguin.utils import Logger
+
 from .frontend_policy_dto import FrontendPolicyDto
 
 class Api:
 
     def __init__(self, args, base_url="http://127.0.0.1:8000/"):
 
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(Logger.client_logger_name)
 
         self.base_url = base_url
 

@@ -1,6 +1,12 @@
+import logging
+from clinguin.utils import Logger
+
 from .extension_class import *
 
 class LayoutFollower(ExtensionClass):
+
+    def __init__(self):
+        self._logger = logging.getLogger(Logger.client_logger_name)
 
     @classmethod
     def getAttributes(cls, attributes = None):

@@ -1,13 +1,13 @@
 import logging
 
-from clinguin.utils import CustomArgs
+from clinguin.utils import CustomArgs, Logger
 from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
 
 class AbstractGui(CustomArgs):
 
     def __init__(self, base_engine, args):
         self._args = args
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(Logger.client_logger_name)
         self._base_engine = base_engine
 
 

@@ -17,7 +17,7 @@ from clinguin.utils import Logger
 
 class Endpoints:
     def __init__(self, args) -> None:
-        Logger.setupLogger(args.log_args)
+        Logger.setupLogger(args.log_args, process = "server")
         self._logger = logging.getLogger(args.log_args['name'])
 
         self.router = APIRouter()

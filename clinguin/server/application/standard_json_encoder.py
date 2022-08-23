@@ -9,6 +9,9 @@ from .element import ElementDto
 from .attribute import AttributeDto
 from .callback import CallbackDto
 
+import logging
+from clinguin.utils import Logger
+
 """
 Generates a ClassHierarchy which can easily be serialized
 """
@@ -18,18 +21,20 @@ class StandardJsonEncoder:
         pass
 
     @classmethod
-    def encode(cls, model, logger):
+    def encode(cls, model):
+        logger = logging.getLogger(Logger.server_logger_name)
         elements_dict = {}
 
         root = ElementDto('root', 'root', 'root')
         elements_dict[str(root.id)] = root
 
-        cls._generateHierarchy(model, root, elements_dict, logger)
+        cls._generateHierarchy(model, root, elements_dict)
 
         return root
 
     @classmethod
-    def _generateHierarchy(cls, model, hierarchy_root, elements_dict, logger):
+    def _generateHierarchy(cls, model, hierarchy_root, elements_dict):
+        logger = logging.getLogger(Logger.server_logger_name)
 
         dependency = []
         widgets_info = {}

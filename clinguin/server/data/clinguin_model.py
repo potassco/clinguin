@@ -9,12 +9,12 @@ from clingo.symbol import Function, Number, String
 from .element import ElementDao
 from .attribute import AttributeDao
 from .callback import CallbackDao
-from clinguin.utils import NoModelError
+from clinguin.utils import NoModelError, Logger
 
 class ClinguinModel:
 
-    def __init__(self, logger, factbase=None):
-        self._logger = logger
+    def __init__(self, factbase=None):
+        self._logger = logging.getLogger(Logger.server_logger_name)
 
         self.unifiers = [ElementDao, AttributeDao, CallbackDao]
 
@@ -37,7 +37,9 @@ class ClinguinModel:
     #     return model
 
     @classmethod
-    def fromBCExtendedFile(cls, ctl,assumptions, logger):
+    def fromBCExtendedFile(cls, ctl,assumptions):
+        logger = logging.getLogger(Logger.server_logger_name)
+
         ctl.assign_external(parse_term('show_all'),False)
         ctl.assign_external(parse_term('show_cautious'),False)
         ctl.assign_external(parse_term('show_untagged'),False)
@@ -54,32 +56,32 @@ class ClinguinModel:
     
 
     @classmethod
-    def combine(cls, cgmodel1, cgmodel2, logger):
-        return cls(logger, cgmodel1._factbase.union(cgmodel2._factbase))
+    def combine(cls, cgmodel1, cgmodel2):
+        return cls(cgmodel1._factbase.union(cgmodel2._factbase))
 
     @classmethod
-    def fromClingoModel(cls, m, logger):
-        model = cls(logger)
+    def fromClingoModel(cls, m):
+        model = cls()
         model._setFbSymbols(m.symbols(shown=True))
         return model
 
     @classmethod
-    def fromBraveModel(cls, ctl, assumptions, logger):
-        model = cls(logger)
+    def fromBraveModel(cls, ctl, assumptions):
+        model = cls()
         brave_model = model.computeBrave(ctl, assumptions)
         model._setFbSymbols(brave_model)
         return model
 
     @classmethod
-    def fromCautiousModel(cls, ctl, assumptions, logger):
-        model = cls(logger)
+    def fromCautiousModel(cls, ctl, assumptions):
+        model = cls()
         cautious_model = model.computeCautious(ctl, assumptions)
         model._setFbSymbols(cautious_model)
         return model
 
     @classmethod
-    def getCautiosBrave(cls, ctl, assumptions, logger):
-        model = cls(logger)
+    def getCautiosBrave(cls, ctl, assumptions):
+        model = cls()
 
         cautious_model = model.computeCautious(ctl, assumptions)
         brave_model = model.computeBrave(ctl, assumptions)
@@ -89,8 +91,8 @@ class ClinguinModel:
         return c_prg+b_prg
 
     @classmethod
-    def fromWidgetsFileAndProgram(cls, ctl, widgets_files, prg, logger):
-        model = cls(logger)
+    def fromWidgetsFileAndProgram(cls, ctl, widgets_files, prg):
+        model = cls()
 
         wctl = cls.wid_control(widgets_files, prg)
 
@@ -104,14 +106,14 @@ class ClinguinModel:
 
 
     @classmethod
-    def fromWidgetsFile(cls, ctl, widgets_files, assumptions, logger):
-        model = cls(logger)
-        prg = cls.getCautiosBrave(ctl,assumptions,logger)
-        return cls.fromWidgetsFileAndProgram(ctl,widgets_files,prg,logger)
+    def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
+        model = cls()
+        prg = cls.getCautiosBrave(ctl,assumptions)
+        return cls.fromWidgetsFileAndProgram(ctl,widgets_files,prg)
 
     @classmethod
-    def fromCtl(cls, ctl, logger):
-        model = cls(logger)
+    def fromCtl(cls, ctl):
+        model = cls()
         with ctl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True)

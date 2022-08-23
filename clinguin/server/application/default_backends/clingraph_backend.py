@@ -198,7 +198,7 @@ class ClingraphBackend(ClingoBackend):
             else:
                 filled_attributes.append(attribute)
 
-        return ClinguinModel(self._logger, clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
+        return ClinguinModel(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
 
 
     def _createImageFromGraph(self, graphs, position = None, key = None):
@@ -232,8 +232,8 @@ class ClingraphBackend(ClingoBackend):
     def _updateModel(self):
         super()._updateModel()
         try:
-            prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions,self._logger)
-            self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg,self._logger)
+            prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)
+            self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
 
             graphs = self._computeClingraphGraphs(prg)
 
@@ -245,7 +245,7 @@ class ClingraphBackend(ClingoBackend):
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
-        json_structure = StandardJsonEncoder.encode(self._filled_model, self._logger)
+        json_structure = StandardJsonEncoder.encode(self._filled_model)
         return json_structure
 
 

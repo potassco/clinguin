@@ -14,7 +14,7 @@ element(ms1i1, menu_bar_section_item, ms1).
 attribute(ms1i1, label, "Open").
 element(ms1i2, menu_bar_section_item, ms1).
 attribute(ms1i2, label, "Close").
-callback(ms1i2, click, clear).
+callback(ms1i2, click, clear_assumptions).
 
 element(ms2, menu_bar_section, m).
 element(ms2i2, menu_bar_section_item, ms2).
@@ -39,7 +39,7 @@ attribute(b, on_hover, true).
 attribute(b, on_hover_background_color, gray).
 attribute(b, on_hover_foreground_color, beige).
 attribute(b, font_size, 15).
-callback(b, click, clear).
+callback(b, click, clear_assumptions).
 
 element(c2, container, w).
 attribute(c2, fit, false).

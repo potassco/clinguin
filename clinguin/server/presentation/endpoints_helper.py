@@ -1,15 +1,26 @@
+from clinguin.utils import CaseConverter
 
-def callFunction(engines, name, args, kwargs):
-    found = False
-    function = None
-    for engine in engines:
-        if hasattr(engine, name):
-            function = getattr(engine, name)
+class EndpointsHelper:
+
+    @classmethod
+    def callFunction(cls, backend, name, args, kwargs):
+        found = False
+        function = None
+
+        snake_case_name = name
+        camel_case_name = CaseConverter.snakeCaseToCamelCase(snake_case_name)
+
+
+        if hasattr(backend, snake_case_name):
+            function = getattr(backend, snake_case_name)
             found = True
-            break
+        elif hasattr(backend, camel_case_name):
+            function = getattr(backend, camel_case_name)
+            found = True
 
-    if found:
-        result = function(*args, **kwargs)
-        return result
-    else:
-        print('[CRITICAL] - Could not find function ' + name + ' in backend')
+        if found:
+            result = function(*args, **kwargs)
+            return result
+        else:
+            print('[CRITICAL] - Could not find function ' + name + ' in backend')
+

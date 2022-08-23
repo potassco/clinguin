@@ -37,6 +37,7 @@ def main():
     """
 
     parser = ArgumentParser()
+
     args = parser.parse()
     args_dict = vars(args)
 

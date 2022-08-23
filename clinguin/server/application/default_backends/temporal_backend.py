@@ -101,7 +101,7 @@ class TemporalBackend(ClingoBackend):
         self._updateModel()
         return self.get()
 
-    def removeAssume(self, predicate):
+    def removeAssumption(self, predicate):
         raise NotImplementedError()
 
     def addAtom(self, predicate):

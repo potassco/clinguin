@@ -10,7 +10,7 @@ from typing import Sequence, Any
 from importlib.metadata import metadata
 
 # Self Defined
-from .endpoints_helper import callFunction
+from .endpoints_helper import EndpointsHelper
 from .backend_policy_dto import BackendPolicyDto
 
 from clinguin.utils import Logger
@@ -27,8 +27,7 @@ class Endpoints:
         self.router.add_api_route("/", self.standardExecutor, methods=["GET"])
         self.router.add_api_route("/backend", self.policyExecutor, methods=["POST"])
 
-        self._backend = []
-        self._backend.append(args.backend(args))
+        self._backend = args.backend(args)
 
     async def health(self):
         self._logger.info(f"--> Health")
@@ -40,8 +39,8 @@ class Endpoints:
         }
 
     async def standardExecutor(self):
-        self._logger.info(f"--> {self._backend[0].__class__.__name__}:   get()")
-        return self._backend[0].get()
+        self._logger.info(f"--> {self._backend.__class__.__name__}:   get()")
+        return self._backend.get()
 
     async def policyExecutor(self, backend_call_string: BackendPolicyDto):
         self._logger.debug("Got endpoint")
@@ -51,9 +50,9 @@ class Endpoints:
             list(map(lambda symb: str(symb), symbol.arguments)))
 
         call_args = ",".join(function_arguments)
-        self._logger.info(f"--> {self._backend[0].__class__.__name__}:   {function_name}({call_args})")
+        self._logger.info(f"--> {self._backend.__class__.__name__}:   {function_name}({call_args})")
 
-        result = callFunction(
+        result = EndpointsHelper.callFunction(
             self._backend,
             function_name,
             function_arguments,

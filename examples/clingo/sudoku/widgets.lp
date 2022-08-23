@@ -55,7 +55,7 @@ attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
 attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
 element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
 attribute(mi(X,Y,V), label, V) :- menu(X,Y), _b(sudoku(X,Y,V)).
-callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
+callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
 
 %---------------------------------------------------------------------------------------
 % Menu Bar
@@ -66,7 +66,7 @@ element(ms, menu_bar_section, m).
 attribute(ms, label, "Options").
 element(ms_clear, menu_bar_section_item, ms).
 attribute(ms_clear, label, "Clear").
-callback(ms_clear, click, clear).
+callback(ms_clear, click, clear_assumptions).
 element(ms_next, menu_bar_section_item, ms).
 attribute(ms_next, label, "Next").
 callback(ms_next, click, nextSolution).
@@ -107,7 +107,7 @@ attribute(clear_label, background_color, "#ff4e4e").
 attribute(clear_label, on_hover, true).
 attribute(clear_label, on_hover_background_color, "#a00000").
 attribute(clear_label, on_hover_foreground_color, "#111111"). 
-callback(clear_label, click, clear). 
+callback(clear_label, click, clear_assumptions). 
 
 % attribute(ll, grid_column, 0).
 % attribute(ll, grid_row, 0).

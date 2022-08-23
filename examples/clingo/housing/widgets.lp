@@ -22,7 +22,7 @@ element(ms, menu_bar_section, m).
 attribute(ms, label, "Options").
 element(ms_clear, menu_bar_section_item, ms).
 attribute(ms_clear, label, "Clear").
-callback(ms_clear, click, clear).
+callback(ms_clear, click, clear_assumptions).
 element(ms_next, menu_bar_section_item, ms).
 attribute(ms_next, label, "Next").
 callback(ms_next, click, nextSolution).
@@ -68,7 +68,7 @@ can_add(P):-person(P), not in_house(P).
 element(person_add(P), label, add_person_container):- can_add(P).
 attribute(person_add(P), label, P) :- can_add(P).
 attribute(person_add(P), background_color, color_not_considered) :- can_add(P).
-callback(person_add(P), click,assume(in_house(P))):-can_add(P).
+callback(person_add(P), click,add_assumption(in_house(P))):-can_add(P).
 _brave_element(person_add(P)):- person(P).
 attribute(person_add(P), on_hover, true) :- can_add(P).
 attribute(person_add(P), on_hover_background_color, color_not_considered_on_hover) :- can_add(P).
@@ -78,7 +78,7 @@ can_remove(P):- in_house(P).
 element(person_remove(P), label, remove_person_container):- can_remove(P).
 attribute(person_remove(P), label, P) :- can_remove(P).
 attribute(person_remove(P), background_color, color_considered) :- can_remove(P).
-callback(person_remove(P), click,remove(in_house(P))):-can_remove(P).
+callback(person_remove(P), click, remove_assumption(in_house(P))):-can_remove(P).
 attribute(person_remove(P), on_hover, true) :- can_remove(P).
 attribute(person_remove(P), on_hover_background_color, color_considered_on_hover) :- can_remove(P).
 
@@ -124,5 +124,5 @@ attribute(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P).
 
 element(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- assign(bed(B,I),P).
 attribute(mi(B,I,P), label, P) :- assign(bed(B,I),P).
-callback(mi(B,I,P), click, assume(assign(bed(B,I),P))) :- assign(bed(B,I),P).
+callback(mi(B,I,P), click, add_assumption(assign(bed(B,I),P))) :- assign(bed(B,I),P).
 _brave_element(mi(B,I,P)) :- bed(B,I), person(P).

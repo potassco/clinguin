@@ -20,7 +20,7 @@ attribute(ms, label, "Options").
 
 element(msi1, menu_bar_section_item, ms).
 attribute(msi1, label, "Clear").
-callback(msi1, click, clear).
+callback(msi1, click, clear_assumptions).
 
 element(uc, container, window).
 attribute(uc, child_layout, grid).
@@ -44,7 +44,7 @@ attribute(c(X,Y), width, grid_width_value/(dim*dim)) :- c(X,Y).
 element(m(X,Y), dropdown_menu, c(X,Y)) :- c(X,Y).
 element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- sudoku(X,Y,V).
 
-callback(mi(X,Y,V), click, assume(sudoku(X,Y,V))) :- sudoku(X,Y,V).
+callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- sudoku(X,Y,V).
 
 attribute(m(X,Y), selected, V) :- sudoku(X,Y,V).
 attribute(mi(X,Y,V), label, V) :- sudoku(X,Y,V).
@@ -61,6 +61,6 @@ attribute(ll, background_color, red).
 attribute(ll, on_hover, true).
 attribute(ll, on_hover_background_color, blue).
 attribute(ll, on_hover_foreground_color, white). 
-callback(ll, click, clear). 
+callback(ll, click, clear_assumptions). 
 
 

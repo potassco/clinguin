@@ -47,4 +47,4 @@ attribute(dm(N), selected, C):-assign(N,C).
 
 element(dmi(N,C), dropdown_menu_item, dm(N)):-_b(assign(N,C)).
 attribute(dmi(N,C), label, C):-_b(assign(N,C)).
-callback(dmi(N,C), click, assume(assign(N,C))):-_b(assign(N,C)).
+callback(dmi(N,C), click, add_assumption(assign(N,C))):-_b(assign(N,C)).

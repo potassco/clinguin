@@ -98,12 +98,12 @@ class ClingoBackend(ClinguinBackend):
 
         return j
 
-    def clear(self):
+    def clearAssumptions(self):
         self._restart()
         self._updateModel()
         return self.get()
 
-    def assume(self, predicate):
+    def addAssumption(self, predicate):
         # Iconf
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
@@ -112,7 +112,7 @@ class ClingoBackend(ClinguinBackend):
             self._updateModel()
         return self.get()
 
-    def removeAssume(self, predicate):
+    def removeAssumption(self, predicate):
         # Iconf
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
@@ -147,7 +147,7 @@ class ClingoBackend(ClinguinBackend):
             self._updateModel()
         return self.get()
 
-    def external(self, predicate, value):
+    def setExternal(self, predicate, value):
         symbol = parse_term(predicate)
         name = value.name
         if name == "release":

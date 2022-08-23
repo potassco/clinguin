@@ -40,7 +40,6 @@ class ArgumentParser():
             'client-server': 'Start client and a server processes.'}
         self.backend_name = None
         self.backend = None
-        self._provide_help = False
         self._show_gui_syntax = ShowGuiSyntaxEnum.NONE
 
     def parse(self):
@@ -113,8 +112,9 @@ class ArgumentParser():
         if process not in ['server', 'client', 'client-server']:
             ascci = f"{self._clinguin_title}{description}"
             return f"{inspect.cleandoc(ascci)}\n\n{description}"
-        ascci = f"{self._clinguin_title}{self.titles[process]}"
-        return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
+        else:
+            ascci = f"{self._clinguin_title}{self.titles[process]}"
+            return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _importClasses(self, path):
         sub_directories = ['']
@@ -192,9 +192,6 @@ class ArgumentParser():
         exec(ArgumentParser.default_backend_exec_string)
         exec(ArgumentParser.default_client_exec_string)
 
-
-        if '-h' in unknown or '--help' in unknown or '--h' in unknown or '--he' in unknown or '--hel' in unknown:
-            self._provide_help = True
 
         if args.gui_syntax and not args.gui_syntax_full:
             self._show_gui_syntax = ShowGuiSyntaxEnum.SHOW
@@ -345,10 +342,11 @@ class ArgumentParser():
             if selected_by_default or selected:
                 group = parser.add_argument_group(full_class_name)
                 sub_class.registerOptions(group)
-                if self._show_gui_syntax  == ShowGuiSyntaxEnum.SHOW and hasattr(sub_class, 'availableSyntax'):
+        
+                should_show_gui_syntax = self._show_gui_syntax == ShowGuiSyntaxEnum.SHOW or self._show_gui_syntax  == ShowGuiSyntaxEnum.FULL
+                if should_show_gui_syntax and hasattr(sub_class, 'availableSyntax'):
                     print(sub_class.availableSyntax(self._show_gui_syntax))
-                    # TODO why was this  here?
-                    # sys.exit()
+                    sys.exit()
 
                 selected_class = sub_class
         return selected_class

@@ -9,7 +9,7 @@ attribute(canvas_c, fit, true).
 attribute(canvas_c, background_color, green).
 
 element(canv, canvas, canvas_c).
-attribute(canv, image, "./out/default.png").
+attribute(canv, image, clingraph__default).
 attribute(canv, width, 250).
 attribute(canv, height, 250).
 attribute(canv, resize, true).

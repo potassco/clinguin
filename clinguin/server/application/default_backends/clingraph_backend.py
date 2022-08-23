@@ -5,8 +5,20 @@ import argparse
 import logging
 import clingo
 import textwrap
+
 from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
+
+
+import clorm
+import copy
+import base64
+from clorm import Raw
+
+from clinguin.utils import StandardTextProcessing
+from clinguin.server.data.attribute import AttributeDao
+
+
 
 # Self defined
 from clinguin.server import StandardJsonEncoder
@@ -19,7 +31,15 @@ from clinguin.utils import NoModelError
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
 
+
+
 class ClingraphBackend(ClingoBackend):
+
+    _intermediate_format = 'png'
+    _encoding = 'utf-8'
+    _attribute_image_key = 'image'
+    _attribute_image_value = 'clingraph'
+    _attribute_image_value_seperator = '__'
 
     def __init__(self, args):
         self._clingraph_files = args.clingraph_files
@@ -120,9 +140,7 @@ class ClingraphBackend(ClingoBackend):
                         type=str,
                         metavar="")
 
-
-
-    def _compute_clingraph_graphs(self,prg):
+    def _computeClingraphGraphs(self,prg):
         fbs = []
         ctl = Control([])
         for f in self._clingraph_files:
@@ -137,6 +155,10 @@ class ClingraphBackend(ClingoBackend):
             fbs = [f if i in self._select_model else None
                         for i, f in enumerate(fbs) ]
         graphs = compute_graphs(fbs, graphviz_type=self._type)
+
+        return graphs
+
+    def _saveClingraphGraphsToFile(self,graphs):
         if self._select_graph is not None:
             graphs = [{g_name:g for g_name, g in graph.items() if g_name in self._select_graph} for graph in graphs]
         write_arguments = {"directory":self._dir, "name_format":self._name_format}
@@ -147,13 +169,85 @@ class ClingraphBackend(ClingoBackend):
                 **write_arguments)
         self._logger.debug("Clingraph saved images:")
         self._logger.debug(paths)
-        
+
+    
+    def _getModelFilledWithBase64ImagesFromGraphs(self,graphs):
+        model = self._model
+        cls = self.__class__
+
+        kept_symbols = list(model.getElements()) + list(model.getCallbacks())
+
+        filled_attributes = []
+    
+        # TODO - Improve efficiency of filling attributes
+        for attribute in model.getAttributes():
+            if str(attribute.key) == cls._attribute_image_key:
+                attribute_value = StandardTextProcessing.parseStringWithQuotes(str(attribute.value))
+
+                if attribute_value.startswith(cls._attribute_image_value) and attribute_value != "clingraph":
+                    splits = attribute_value.split(cls._attribute_image_value_seperator)
+                    splits.pop(0)
+                    rest = ""   
+                    for split in splits:
+                        rest = rest + split
+
+                    base64_key_image = self._createImageFromGraph(graphs, key = rest)
+                    filled_attributes.append(AttributeDao(Raw(Function(str(attribute.id),[])), Raw(Function(str(attribute.key),[])), Raw(String(str(base64_key_image)))))
+                else:
+                    filled_attributes.append(attribute)
+            else:
+                filled_attributes.append(attribute)
+
+        return ClinguinModel(self._logger, clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
+
+
+    def _createImageFromGraph(self, graphs, position = None, key = None):
+        cls = self.__class__
+        graphs = graphs[0]
+
+        if position != None: 
+            if (len(graphs)-1) >= position:
+                graph = graphs[list(graphs.keys())[position]]
+            else:
+                self._logger.error("Attempted to access not valid position")
+                raise Exception("Attempted to access not valid position")
+        elif key != None:
+            if key in graphs:
+                graph = graphs[key]
+            else:
+                self._logger.error("Key not found in graphs: " + str(key))
+                raise Exception("Key not found in graphs: " + str(key))
+        else:
+            self._logger.error("Must either specify position or key!")
+            raise Exception("Must either specify position or key!")
+
+        graph.format = cls._intermediate_format
+        img = graph.pipe(engine=self._engine)
+
+        encoded = base64.b64encode(img)
+        decoded = encoded.decode(cls._encoding)
+
+        return decoded        
         
     def _updateModel(self):
         super()._updateModel()
         try:
             prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions,self._logger)
             self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg,self._logger)
-            self._compute_clingraph_graphs(prg)
+
+            graphs = self._computeClingraphGraphs(prg)
+
+            self._saveClingraphGraphsToFile(graphs)
+
+            self._filled_model = self._getModelFilledWithBase64ImagesFromGraphs(graphs)
+
         except NoModelError:
             self._model.addMessage("Error","This operation can't be performed")
+
+    def get(self):
+        json_structure = StandardJsonEncoder.encode(self._filled_model, self._logger)
+        return json_structure
+
+
+
+

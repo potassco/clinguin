@@ -38,6 +38,7 @@ class AttributeNames:
     fit_children_size = "fit"
 
     image = "image"
+    image_path = "image_path"
     resize = "resize"
 
 

@@ -3,11 +3,11 @@
 #const color_elevator = "#C1E5AE".
 #const color_request = "#E5C2AE".
 element(window, window, root).
-attribute(window, height, height_value).
-attribute(window, width, width_value).
+%attribute(window, height, height_value).
+%attribute(window, width, width_value).
 attribute(window, child_layout, absstatic).
 % TODO fit not working
-attribute(window, fit, false).
+attribute(window, fit, true).
 
 % Info section
 element(info, container, window).

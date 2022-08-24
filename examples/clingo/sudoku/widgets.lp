@@ -69,7 +69,7 @@ attribute(ms_clear, label, "Clear").
 callback(ms_clear, click, clear_assumptions).
 element(ms_next, menu_bar_section_item, ms).
 attribute(ms_next, label, "Next").
-callback(ms_next, click, nextSolution).
+callback(ms_next, click, next_solution).
 
 %---------------------------------------------------------------------------------------
 % Footer Buttons

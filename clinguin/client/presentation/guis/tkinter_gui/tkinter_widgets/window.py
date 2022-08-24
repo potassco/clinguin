@@ -31,19 +31,20 @@ class Window(RootCmp, LayoutController):
         width = self._attributes[AttributeNames.width]["value"]
         height = self._attributes[AttributeNames.height]["value"]
 
-        # From LayoutController inheritance
-        fit_children_size = self._attributes[AttributeNames.fit_children_size]["value"]
+        if height > 0 and width > 0:
+            child_layout_value = self._attributes[AttributeNames.child_layout]["value"]
 
-        if width > 0 and height > 0:
-            # not self._fit_children_size
+            if child_layout_value == ChildLayoutType.FLEX or child_layout_value == ChildLayoutType.RELSTATIC or child_layout_value == ChildLayoutType.ABSSTATIC:
+                self._widget.pack_propagate(0)
+            elif child_layout_value == ChildLayoutType.GRID:
+                self._widget.grid_propagate(0)
+
             self._widget.geometry(str(width) + 'x' +
                 str(height) + '+' +
                 str(int(self._widget.winfo_screenwidth()/2 - int(width)/2)) + '+' +
                 str(int(self._widget.winfo_screenheight()/2 - int(height)/2)))
-        elif fit_children_size:
-            pass
-        else:
-            self._logger.warning("Provided illegal width and height values for window.")
+        elif (height > 0 and width <= 0) or (height <= 0 and width > 0):
+            self._logger.warning("For the tkinter window one must set both height and width to positive values (not just one).")
 
     def _setResizable(self, elements):
         self._widget.resizable(self._attributes[AttributeNames.resizable_x]['value'],self._attributes[AttributeNames.resizable_y]['value'])

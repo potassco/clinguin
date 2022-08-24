@@ -127,7 +127,12 @@ class ClinguinModel:
     def wid_control(cls, widgets_files, extra_prg=""):
         wctl = Control(['0','--warn=none'])
         for f in widgets_files:
-            wctl.load(str(f))
+            try:
+                wctl.load(str(f))
+            except Exception e:
+                logger = logging.getLogger(Logger.server_logger_name)
+                logger.critical("File " + str(f) + " could not be loaded - likely not existant or syntax error in file!")
+                raise e
         
         wctl.add("base",[],extra_prg)
         wctl.add("base",[],"#show element/3. #show attribute/3. #show callback/3.")

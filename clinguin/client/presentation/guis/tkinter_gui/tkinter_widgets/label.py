@@ -3,11 +3,14 @@ import tkinter as tk
 
 from .root_cmp import *
 
-class Label(RootCmp):
+class Label(RootCmp, LayoutFollower, ConfigureSize):
 
     def _initWidget(self, elements):
-        label = tk.Label(elements[str(self._parent)].getWidget())
-        return label
+        label_frame = tk.Frame(elements[str(self._parent)].getWidget())
+
+        self._label = tk.Label(label_frame)
+
+        return label_frame
 
     @classmethod
     def _getAttributes(cls, attributes = None):
@@ -43,15 +46,15 @@ class Label(RootCmp):
 
     def _setLabelText(self, elements, key = AttributeNames.label):
         text = self._attributes[key]["value"]
-        self._widget.configure(text = text)
+        self._label.configure(text = text)
 
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
-        self._widget.configure(background = value)
+        self._label.configure(background = value)
 
     def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
         value = self._attributes[key]["value"]
-        self._widget.configure(foreground = value)
+        self._label.configure(foreground = value)
 
     #----------------------------------------------------------------------------------------------
     #-----Special-Attributes----
@@ -74,14 +77,14 @@ class Label(RootCmp):
                 self._setBackgroundColor(elements, key = AttributeNames.backgroundcolor)
                 self._setForegroundColor(elements, key= AttributeNames.foregroundcolor)
     
-            self._widget.bind('<Enter>', enter)
-            self._widget.bind('<Leave>', leave)
+            self._label.bind('<Enter>', enter)
+            self._label.bind('<Leave>', leave)
 
     def _setFont(self, elements):
 
         afont = font.Font(family=self._attributes[AttributeNames.font_family]["value"],
             size = int(self._attributes[AttributeNames.font_size]["value"]), weight = self._attributes[AttributeNames.font_weight]["value"])
-        self._widget.configure(font=afont)
+        self._label.configure(font=afont)
 
 
  
@@ -95,10 +98,11 @@ class Label(RootCmp):
             def clickEvent(event):
                 self._base_engine.postWithPolicy(self._callbacks[key]["policy"])
 
-            self._widget.bind('<Button-1>', clickEvent)
+            self._label.bind('<Button-1>', clickEvent)
 
     def _addComponentToElements(self, elements):
-        self._widget.pack(expand=True, fill='both')
+        self._label.pack(expand=True, fill='both')
+
         elements[str(self._id)] = self
 
 

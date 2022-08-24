@@ -12,6 +12,7 @@ class LayoutFollower(ExtensionClass):
     def getAttributes(cls, attributes = None):
         if attributes == None:
             attributes = {}
+
         # Layout-Control
         attributes[AttributeNames.grid_column] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.grid_row] = {"value":0, "value_type" : IntegerType}
@@ -29,7 +30,7 @@ class LayoutFollower(ExtensionClass):
         if hasattr(parent, "getChildOrg"):
             parent_org = getattr(parent, "getChildOrg")()
         else:
-            self._logger.warn("Could not find necessary attribute childOrg() in id: " + str(self._parent))
+            self._logger.warning("Could not find necessary attribute childOrg() in id: " + str(self._parent))
             return
 
         if parent_org == ChildLayoutType.FLEX:
@@ -49,7 +50,7 @@ class LayoutFollower(ExtensionClass):
                     columnspan=int(grid_span_column),
                     rowspan = int(grid_span_row))
             else:
-                self._logger.warn("Could not set grid-layout due to illegal values for element: " + str(self._id)) 
+                self._logger.warning("Could not set grid-layout due to illegal values for element: " + str(self._id)) 
 
         elif parent_org == ChildLayoutType.ABSSTATIC or parent_org == ChildLayoutType.RELSTATIC:
             self._widget.pack(expand=True, fill='both')
@@ -70,7 +71,7 @@ class LayoutFollower(ExtensionClass):
                     self._logger.error("For element " + self._id + " an unknown error while positioning has occured!")
                     raise Exception("For element " + self._id + " an unknown error while positioning has occured!")
             else:
-                self._logger.warn("For element " + self._id + " ,either posx or posy are not non-negative-numbers.")
+                self._logger.warning("For element " + self._id + " ,either posx or posy are not non-negative-numbers.")
         else:
-            self._logger.warn("For element " + self._id + " no child layout was defined!")
+            self._logger.warning("For element " + self._id + " no child layout was defined!")
 

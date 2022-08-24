@@ -3,8 +3,8 @@ attribute(w, height, 500).
 attribute(w, width, 500).
 attribute(w, background_color, white).
 attribute(w, child_layout, relstatic).
-attribute(w, fit, false).
 
+% ---------------- MENU BAR -----------------------------
 element(m, menu_bar, w).
 
 element(ms1, menu_bar_section, m).
@@ -19,19 +19,9 @@ callback(ms1i2, click, clear_assumptions).
 element(ms2, menu_bar_section, m).
 element(ms2i2, menu_bar_section_item, ms2).
 
-element(c, container, w).
-attribute(c, fit, false).
-attribute(c, width, 250).
-attribute(c, height, 150).
-attribute(c, border_width, 2).
-attribute(c, on_hover, true).
-attribute(c, on_hover_background_color, blue).
-attribute(c, on_hover_border_color, red).
-attribute(c, pos_x, 25).
-attribute(c, pos_y, 0).
-attribute(c, child_layout, absstatic).
+% ------------------- TOP ELEMENT(S) ----------------------------------
 
-element(b, button, c).
+element(b, button, w).
 attribute(b, background_color, blue).
 attribute(b, foreground_color, brown).
 attribute(b, label, "Clear!").
@@ -39,10 +29,20 @@ attribute(b, on_hover, true).
 attribute(b, on_hover_background_color, gray).
 attribute(b, on_hover_foreground_color, beige).
 attribute(b, font_size, 15).
+
+attribute(b, pos_x, 25).
+attribute(b, pos_y, 0).
+%attribute(b, width, 250).
+%attribute(b, height, 150).
+
+attribute(c, border_width, 2).
+
+
 callback(b, click, clear_assumptions).
 
+% --------------------- BELOW ELEMENT(S) --------------------------------------
+
 element(c2, container, w).
-attribute(c2, fit, false).
 attribute(c2, width, 180).
 attribute(c2, height, 180).
 attribute(c2, border_width, 2).

@@ -2,7 +2,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
-class Container(RootCmp, LayoutFollower, LayoutController):
+class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize):
 
     def _initWidget(self, elements):
         container = tk.Frame(elements[str(self._parent)].getWidget())
@@ -14,8 +14,6 @@ class Container(RootCmp, LayoutFollower, LayoutController):
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType, "description": "CUSTOM-BACKGROUND-COLOR-DESCRIPTION <- Now normal:" + AttributeNames.descriptions[AttributeNames.backgroundcolor]}
-        attributes[AttributeNames.width] = {"value":0, "value_type" : IntegerType}
-        attributes[AttributeNames.height] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.border_width] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.border_color] = {"value":"black", "value_type" : ColorType}
 
@@ -42,30 +40,6 @@ class Container(RootCmp, LayoutFollower, LayoutController):
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         self._widget.configure(background = value)
-
-    def _setWidth(self, elements, key = AttributeNames.width):
-        value = self._attributes[key]["value"]
-
-        # form LayoutController inheritance
-        fit_children_size = self._attributes[AttributeNames.fit_children_size]["value"]
-
-        if value > 0:
-            self._widget.configure(width = int(value))
-        elif value == 0:
-            pass
-        else:
-            self._logger.warn("Width of " + self._id + " has illegal value (" + str(value) + ")")
-
-    def _setHeight(self, elements, key = AttributeNames.height):
-        value = self._attributes[key]["value"]
-
-        if value > 0:
-            self._widget.configure(height = int(value))
-        elif value == 0:
-            pass
-        else:
-            self._logger.warn("Width of " + self._id + " has illegal value (" + str(value) + ")")
-
     def _setBorderWidth(self, elements, key = AttributeNames.border_width):
         value = self._attributes[key]["value"]
         if value > 0:

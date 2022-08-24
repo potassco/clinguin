@@ -3,11 +3,15 @@ import tkinter as tk
 
 from .root_cmp import *
 
-class Button(RootCmp):
+class Button(RootCmp, LayoutFollower, ConfigureSize):
 
     def _initWidget(self, elements):
-        button = tk.Button(elements[str(self._parent)].getWidget(), height = 100, width = 100)
-        return button
+
+        button_frame = tk.Frame(elements[str(self._parent)].getWidget())
+        
+        self._button = tk.Button(button_frame)
+
+        return button_frame
 
     @classmethod
     def _getAttributes(cls, attributes = None):
@@ -45,15 +49,15 @@ class Button(RootCmp):
 
     def _setLabelText(self, elements):
         text = self._attributes[AttributeNames.label]["value"]
-        self._widget.configure(text = text)
+        self._button.configure(text = text)
 
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
-        self._widget.configure(background = value)
+        self._button.configure(background = value)
 
     def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
         value = self._attributes[key]["value"]
-        self._widget.configure(foreground = value)
+        self._button.configure(foreground = value)
 
     def _setOnHover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
@@ -72,14 +76,14 @@ class Button(RootCmp):
                 self._setBackgroundColor(elements)
                 self._setForegroundColor(elements)
     
-            self._widget.bind('<Enter>', enter)
-            self._widget.bind('<Leave>', leave)
+            self._button.bind('<Enter>', enter)
+            self._button.bind('<Leave>', leave)
 
     def _setFont(self, elements):
 
         afont = font.Font(family=self._attributes[AttributeNames.font_family]["value"],
             size = int(self._attributes[AttributeNames.font_size]["value"]), weight = self._attributes[AttributeNames.font_weight]["value"])
-        self._widget.configure(font=afont)
+        self._button.configure(font=afont)
  
     #----------------------------------------------------------------------------------------------
     #-----Actions----
@@ -91,10 +95,11 @@ class Button(RootCmp):
             def clickEvent(event):
                 self._base_engine.postWithPolicy(self._callbacks[key]["policy"])
 
-            self._widget.bind('<Button-1>', clickEvent)
+            self._button.bind('<Button-1>', clickEvent)
 
     def _addComponentToElements(self, elements):
-        self._widget.pack(expand=True, fill='both')
+        self._button.pack(expand=True, fill='both')
+
         elements[str(self._id)] = self
 
 

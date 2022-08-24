@@ -129,7 +129,7 @@ class ClinguinModel:
         for f in widgets_files:
             try:
                 wctl.load(str(f))
-            except Exception e:
+            except Exception as e:
                 logger = logging.getLogger(Logger.server_logger_name)
                 logger.critical("File " + str(f) + " could not be loaded - likely not existant or syntax error in file!")
                 raise e

@@ -38,6 +38,7 @@ class Window(RootCmp, LayoutController):
                 self._widget.pack_propagate(0)
             elif child_layout_value == ChildLayoutType.GRID:
                 self._widget.grid_propagate(0)
+            
 
             self._widget.geometry(str(width) + 'x' +
                 str(height) + '+' +

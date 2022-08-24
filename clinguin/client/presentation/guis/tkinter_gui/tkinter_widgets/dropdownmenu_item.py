@@ -5,8 +5,14 @@ from .root_cmp import *
 class DropdownmenuItem(RootCmp):
 
     def _initWidget(self, elements):
-        menu = elements[str(self._parent)].getWidget()
-        return menu
+        parent = elements[str(self._parent)]
+        if hasattr(parent, "getMenu"):
+            menu = parent.getMenu()
+            return menu
+        else:
+            error_string = "Parent of dropdown menu item " + self._id + " is not a dropdown menu."
+            self._logger.error(error_string)
+            raise Exception(error_string)
 
     @classmethod
     def _getAttributes(cls, attributes = None):

@@ -1,7 +1,6 @@
 element(w, window, root).
 attribute(w, background_color, pink).
 attribute(w, child_layout, relstatic).
-attribute(w, fit, true).
 
 element(c2, container, w).
 attribute(c2, border_width, 3).

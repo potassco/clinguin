@@ -2,7 +2,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
-class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize):
+class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize, ConfigureBorder):
 
     def _initWidget(self, elements):
         container = tk.Frame(elements[str(self._parent)].getWidget())
@@ -14,9 +14,6 @@ class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize):
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType, "description": "CUSTOM-BACKGROUND-COLOR-DESCRIPTION <- Now normal:" + AttributeNames.descriptions[AttributeNames.backgroundcolor]}
-        attributes[AttributeNames.border_width] = {"value":0, "value_type" : IntegerType}
-        attributes[AttributeNames.border_color] = {"value":"black", "value_type" : ColorType}
-
         # Interactive-Attributes
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"", "value_type" : ColorType}
@@ -40,22 +37,6 @@ class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize):
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         self._widget.configure(background = value)
-    def _setBorderWidth(self, elements, key = AttributeNames.border_width):
-        value = self._attributes[key]["value"]
-        if value > 0:
-            # Not using borderwidth as one cannot set the color of the default border
-            self._widget.configure(highlightthickness = int(value))
-        elif value == 0:
-            # Zero is perfectly fine, but it shouldn't be configured then
-            pass
-        else:
-            self._logger.warn("For element " + self._id + " ,setBorderwidth for " + key + " is lesser than 0: " + str(value))
-
-    def _setBorderBackgroundColor(self, elements, key = AttributeNames.border_color):
-        # Not using borderwidth as one cannot set the color of the default border
-        value = self._attributes[key]["value"]
-        self._widget.configure(highlightbackground = value, highlightcolor = value)
-
     def _setOnHover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
         on_hover_color = self._attributes[AttributeNames.onhover_background_color]["value"]

@@ -16,7 +16,6 @@ attribute(window, background_color, white).
 attribute(window, resizable_x, 0).
 attribute(window, resizable_y, 0).
 attribute(window, child_layout, grid).
-attribute(window, fit, false).
 
 %---------------------------------------------------------------------------------------
 % Sudoku-Grid
@@ -28,32 +27,32 @@ attribute(uc, grid_row, 0).
 attribute(uc, height, grid_height_value).
 attribute(uc, width, grid_width_value).
 attribute(uc, child_layout, grid).
-attribute(uc, fit, false).
 
 % Grid cells
 cell_color(X,Y,gray):-subgrid(X,Y,S), S\2==0.
 cell_color(X,Y,white):-subgrid(X,Y,S), S\2!=0.
-element(c(X,Y), container, uc) :- pos(X,Y).
-attribute(c(X,Y), fit, false) :- pos(X,Y).
+
+menu(X,Y):-pos(X,Y), not initial(X,Y,_).
+
+element(c(X,Y), label, uc) :- initial(X,Y,V).
+element(c(X,Y), dropdown_menu, uc) :- menu(X,Y).
+
 attribute(c(X,Y), grid_column, X-1) :- pos(X,Y).
 attribute(c(X,Y), grid_row, Y-1) :- pos(X,Y).
 attribute(c(X,Y),background_color,COLOR):- cell_color(X,Y,COLOR).
-attribute(c(X,Y),border_color,black):- pos(X,Y).
-% attribute(c(X,Y),border_width,"0.5"):- pos(X,Y).
 attribute(c(X,Y), height, grid_height_value/(dim*dim)) :- pos(X,Y).
 attribute(c(X,Y), width, grid_width_value/(dim*dim)) :- pos(X,Y).
 
-element(l(X,Y), label, c(X,Y)) :- initial(X,Y,V).
-attribute(l(X,Y), background_color, COLOR) :- initial(X,Y,V), cell_color(X,Y,COLOR).
-attribute(l(X,Y), label, V) :- initial(X,Y,V).
-attribute(l(X,Y), font_size, 16) :- initial(X,Y,V).
+attribute(c(X,Y), background_color, COLOR) :- initial(X,Y,V), cell_color(X,Y,COLOR).
+attribute(c(X,Y), label, V) :- initial(X,Y,V).
+attribute(c(X,Y), font_size, 16) :- initial(X,Y,V).
 
 % Option Menu
-menu(X,Y):-pos(X,Y), not initial(X,Y,_).
-element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
-attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
-attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
-element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
+attribute(c(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
+attribute(c(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
+
+% Option menu Item
+element(mi(X,Y,V), dropdown_menu_item, c(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
 attribute(mi(X,Y,V), label, V) :- menu(X,Y), _b(sudoku(X,Y,V)).
 callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
 
@@ -76,7 +75,6 @@ callback(ms_next, click, next_solution).
 %---------------------------------------------------------------------------------------
 
 element(buttonsc_c, container, window).
-attribute(buttonsc_c, fit, false).
 attribute(buttonsc_c, grid_column, 0).
 attribute(buttonsc_c, grid_row, 1).
 attribute(buttonsc_c, height, height_value - grid_height_value).
@@ -85,7 +83,6 @@ attribute(buttonsc_c, background_color, white).
 attribute(buttonsc_c, child_layout, absstatic).
 
 element(buttonsc, container, buttonsc_c).
-attribute(buttonsc, fit, false).
 attribute(buttonsc, pos_x, 200).
 attribute(buttonsc, pos_y, 5).
 attribute(buttonsc, height, 300).
@@ -93,15 +90,11 @@ attribute(buttonsc, width, 150).
 attribute(buttonsc, background_color, white).
 attribute(buttonsc, child_layout, grid).
 
-element(clear_container, container, buttonsc).
-attribute(clear_container, fit, false).
-attribute(clear_container, background_color, red).
-attribute(clear_container, height,45).
-attribute(clear_container, width,150).
-attribute(clear_container, grid_column, 0).
-attribute(clear_container, grid_row, 0).
-
-element(clear_label, label, clear_container).
+element(clear_label, label, buttonsc).
+attribute(clear_label, height,45).
+attribute(clear_label, width,150).
+attribute(clear_label, grid_column, 0).
+attribute(clear_label, grid_row, 0).
 attribute(clear_label, label, "Clear").
 attribute(clear_label, background_color, "#ff4e4e").
 attribute(clear_label, on_hover, true).
@@ -109,25 +102,21 @@ attribute(clear_label, on_hover_background_color, "#a00000").
 attribute(clear_label, on_hover_foreground_color, "#111111"). 
 callback(clear_label, click, clear_assumptions). 
 
-% attribute(ll, grid_column, 0).
-% attribute(ll, grid_row, 0).
-
-element(ln, container, buttonsc).
-attribute(ln, fit, false).
-attribute(ln, background_color, blue).
-attribute(ln, grid_column, 0).
-attribute(ln, grid_row, 1).
-attribute(ln, height,45).
-attribute(ln, width,150).
-callback(ln, click, nextSolution). 
-
-element(next_label, label, ln).
+element(next_label, label, buttonsc).
+attribute(next_label, grid_column, 0).
+attribute(next_label, grid_row, 1).
+attribute(next_label, height,45).
+attribute(next_label, width,150).
 attribute(next_label, label, "Next Solution").
 attribute(next_label, background_color, "#4eff4e").
 attribute(next_label, on_hover, true).
 attribute(next_label, on_hover_background_color, "#00a000").
 attribute(next_label, on_hover_foreground_color, "#111111"). 
 callback(next_label, click, nextSolution). 
+
+%---------------------------------------------------------------------------------------
+% Messages
+%---------------------------------------------------------------------------------------
 
 element(message, message, window) :- no_more_solutions.
 attribute(message, title, "Finished") :- no_more_solutions.

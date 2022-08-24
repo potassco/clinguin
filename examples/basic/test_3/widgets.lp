@@ -23,15 +23,11 @@ attribute(cc, border_width, 2).
 attribute(cc, pos_x, 0).
 attribute(cc, pos_y, 0).
 
-element(ccc, container, c).
-attribute(ccc, width, 100).
-attribute(ccc, height, 50).
-attribute(ccc, background_color, yellow).
-attribute(ccc, border_width, 2).
-attribute(ccc, pos_x, 0).
-attribute(ccc, pos_y, 50).
-
-element(m, dropdown_menu, ccc).
+element(m, dropdown_menu, c).
+attribute(m, width, 100).
+attribute(m, height, 50).
+attribute(m, pos_x, 0).
+attribute(m, pos_y, 50).
 attribute(m, background_color, black).
 attribute(m, foreground_color, white).
 attribute(m, on_hover, true).
@@ -50,10 +46,6 @@ attribute(c4, background_color, beige).
 attribute(c4, pos_x, 100).
 attribute(c4, pos_y, 0).
 attribute(c4, child_layout, grid).
-
-% Not implemented due to tkinter
-%attribute(c4, padx, 10).
-%attribute(c4, pady, 10).
 
 element(c(X,Y), container, c4) :- pos(X,Y).
 attribute(c(X,Y), width, 48) :- pos(X,Y).

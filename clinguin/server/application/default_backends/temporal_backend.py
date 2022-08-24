@@ -89,7 +89,7 @@ class TemporalBackend(ClingoBackend):
 
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
         wctl = ClinguinModel.wid_control(self._widget_files,symbols)
-        self._model = ClinguinModel.fromCtl(wctl, self._logger)
+        self._model = ClinguinModel.fromCtl(wctl)
         return self.get()
 
     def assumeAndStep(self, predicate):
@@ -104,13 +104,14 @@ class TemporalBackend(ClingoBackend):
     def removeAssumption(self, predicate):
         raise NotImplementedError()
 
+    """
     def addAtom(self, predicate):
         raise NotImplementedError()
 
 
     def removeAtom(self,predicate):
         raise NotImplementedError()
-
+    """
 
     def nextSolution(self):
         raise NotImplementedError()

@@ -1,9 +1,13 @@
-from clinguin.utils import CaseConverter
+import logging
+
+from clinguin.utils import CaseConverter, Logger
 
 class EndpointsHelper:
 
     @classmethod
     def callFunction(cls, backend, name, args, kwargs):
+        logger = logging.getLogger(Logger.server_logger_name)
+
         found = False
         function = None
 
@@ -22,5 +26,7 @@ class EndpointsHelper:
             result = function(*args, **kwargs)
             return result
         else:
-            print('[CRITICAL] - Could not find function ' + name + ' in backend')
+            error_string = "Could not find function: " + name + " :in backend"
+            logger.error(error_string)
+            raise Exception(error_string)
 

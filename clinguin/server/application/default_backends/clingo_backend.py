@@ -57,8 +57,8 @@ class ClingoBackend(ClinguinBackend):
             try:
                 self._ctl.load(str(f))
             except Exception as e:
-                self._logger.fatal(str(e))
-                self._logger.fatal("Failed to load modules (there is likely a syntax error in your logic program), now exiting - see previous stack trace for more information.")
+                self._logger.critical(str(e))
+                self._logger.critical("Failed to load modules (there is likely a syntax error in your logic program), now exiting - see previous stack trace for more information.")
                 sys.exit()
         
         for atom in self._atoms:
@@ -137,20 +137,32 @@ class ClingoBackend(ClinguinBackend):
 
     def setExternal(self, predicate, value):
         symbol = parse_term(predicate)
-        name = value.name
+        name = value
+
         if name == "release":
             self._ctl.release_external(parse_term(predicate))
             self._externals["released"].add(symbol)
-            self._externals["true"].remove(symbol)
-            self._externals["false"].remove(symbol)
+
+            if symbol in self._externals["true"]:
+                self._externals["true"].remove(symbol)
+    
+            if symbol in self._externals["false"]:
+                self._externals["false"].remove(symbol)
+
         elif name == "true":
             self._ctl.assign_external(parse_term(predicate),True)
             self._externals["true"].add(symbol)
-            self._externals["false"].remove(symbol)
+
+            if symbol in self._externals["false"]:
+                self._externals["false"].remove(symbol)
+
         elif name == "false":
             self._ctl.assign_external(parse_term(predicate),True)
             self._externals["false"].add(symbol)
-            self._externals["true"].remove(symbol)
+
+            if symbol in self._externals["true"]:
+                self._externals["true"].remove(symbol)
+
         else:
             raise ValueError(f"Invalid external value {name}. Must be true, false or relase")
 

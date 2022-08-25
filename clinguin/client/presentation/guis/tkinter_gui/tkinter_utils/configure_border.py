@@ -21,7 +21,7 @@ class ConfigureBorder(ExtensionClass):
             # Zero is perfectly fine, but it shouldn't be configured then
             pass
         else:
-            self._logger.warn("For element " + self._id + " ,setBorderwidth for " + key + " is lesser than 0: " + str(value))
+            self._logger.warning("For element " + self._id + " ,setBorderwidth for " + key + " is lesser than 0: " + str(value))
 
     def _setBorderBackgroundColor(self, elements, key = AttributeNames.border_color):
         # Not using borderwidth as one cannot set the color of the default border

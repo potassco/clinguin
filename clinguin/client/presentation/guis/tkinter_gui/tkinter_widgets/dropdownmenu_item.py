@@ -51,7 +51,7 @@ class DropdownmenuItem(RootCmp):
             if (click_policy is not None):
                 self._base_engine.postWithPolicy(click_policy)
         else:
-            self._logger.warn("Could not set variable for dropdownmenu. Item id: " + str(id) + ", dropdown-menu-id: " + str(parent_id))
+            self._logger.warning("Could not set variable for dropdownmenu. Item id: " + str(id) + ", dropdown-menu-id: " + str(parent_id))
 
     def forgetChildren(self, elements):
         pass

@@ -74,7 +74,7 @@ class RootCmp:
             if key in self._attributes and "value" in self._attributes[key]:
                 self._attributes[key]["value"] = value_type.parse(value, self._logger)
             else:
-                self._logger.warn('Undefined Command: ' + key + ' for element: ' + attribute['id'])
+                self._logger.warning('Undefined Command: ' + key + ' for element: ' + attribute['id'])
 
     def _fillCallbacks(self):
         for callback in self._json_callbacks:
@@ -88,7 +88,7 @@ class RootCmp:
             if key in self._callbacks and "policy" in self._callbacks[key]:
                 self._callbacks[key]["policy"] = value_type.parse(value, self._logger)
             else:
-                self._logger.warn('Undefined Command: ' + key + ", or policy item missing in command.")
+                self._logger.warning('Undefined Command: ' + key + ", or policy item missing in command.")
 
     def _getMethods(self, start_string):
 

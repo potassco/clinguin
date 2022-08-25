@@ -56,7 +56,7 @@ class StandardJsonEncoder:
                 continue
 
             if not element_id in widgets_info:
-                logger.fatal("The provided element id (ID : " + str(element_id) + ") could not be found!")
+                logger.critical("The provided element id (ID : " + str(element_id) + ") could not be found!")
                 raise Exception("The provided element id (ID : " + str(element_id) + ") could not be found!")
 
             type = widgets_info[element_id]['type']

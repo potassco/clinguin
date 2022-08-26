@@ -91,7 +91,11 @@ class ClingoBackend(ClinguinBackend):
         return json_structure
 
     def clearAssumptions(self):
-        self._restart()
+        self._endBrowsing()
+        self._assumptions = set()
+        self._initCtl()
+        self._ground()
+
         self._updateModel()
         return self.get()
 
@@ -112,7 +116,16 @@ class ClingoBackend(ClinguinBackend):
             self._endBrowsing()
             self._updateModel()
         return self.get()
-    
+   
+    def clearAtoms(self):
+        #self._restart()
+        self._endBrowsing()
+        self._atoms = set()
+        self._initCtl()
+        self._ground()
+
+        self._updateModel()
+        return self.get()
 
     def addAtom(self, predicate):
         predicate_symbol = parse_term(predicate)

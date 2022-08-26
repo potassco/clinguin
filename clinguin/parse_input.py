@@ -119,7 +119,6 @@ class ArgumentParser():
     def _importClasses(self, path):
         sub_directories = ['']
 
-        sys.path.append(path)
 
         """
         # Cant this be done like this instead? is simpler
@@ -129,8 +128,30 @@ class ArgumentParser():
             print(file_name)
             module = importlib.import_module(file_name)
         """
+        
+        if os.path.isfile(path):
+            sys.path.append(os.path.dirname(path))
+            self._importFilesFromPathArray([path])
+        else: 
+            sys.path.append(path)
+            self._recursiveImport(path, "", "")
 
-        self._recursiveImport(path, "", "")
+    def _importFilesFromPathArray(self,file_paths, module = ""):
+        for file_path in file_paths:
+            base = os.path.basename(file_path)
+            file_name = os.path.splitext(base)[0]
+            ending = os.path.splitext(base)[1]
+            if ending == ".py":
+                if module != "":
+                    try:
+                        importlib.import_module(module + "." + file_name)       
+                    except:
+                        print("Could not import module: " + module + "." + file_name)
+                        print("<<<BEGIN-STACK-TRACE>>>")
+                        traceback.print_exc()
+                        print("<<<END-STACK-TRACE>>>")
+                else: 
+                    importlib.import_module(file_name)       
 
     def _recursiveImport(self, full_path, rec_path, module):
         cur_path = os.path.join(full_path, rec_path)
@@ -150,22 +171,7 @@ class ArgumentParser():
             print("<<<END-STACK-TRACE>>>")
             raise Exception("Could not find path for importing libraries: " + os.path.join(full_path, rec_path) + ". Therefore program is terminating now (full stacktrace is printed below).")
             
-
-        for file_path in file_paths:
-            base = os.path.basename(file_path)
-            file_name = os.path.splitext(base)[0]
-            ending = os.path.splitext(base)[1]
-            if ending == ".py":
-                if module != "":
-                    try:
-                        importlib.import_module(module + "." + file_name)       
-                    except:
-                        print("Could not import module: " + module + "." + file_name)
-                        print("<<<BEGIN-STACK-TRACE>>>")
-                        traceback.print_exc()
-                        print("<<<END-STACK-TRACE>>>")
-                else: 
-                    importlib.import_module(file_name)       
+        self._importFilesFromPathArray(file_paths)
 
         for folder_path in folder_paths:
             base = os.path.basename(folder_path)

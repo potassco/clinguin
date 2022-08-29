@@ -12,7 +12,7 @@ class Window(RootCmp, LayoutController):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}
@@ -39,7 +39,7 @@ class Window(RootCmp, LayoutController):
         if height > 0 and width > 0:
             child_layout_value = self._attributes[AttributeNames.child_layout]["value"]
 
-            if child_layout_value == ChildLayoutType.FLEX or child_layout_value == ChildLayoutType.RELSTATIC or child_layout_value == ChildLayoutType.ABSSTATIC:
+            if child_layout_value in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
                 self._widget.pack_propagate(0)
             elif child_layout_value == ChildLayoutType.GRID:
                 self._widget.grid_propagate(0)

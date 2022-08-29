@@ -1,9 +1,15 @@
+"""
+This module contains the button class.
+"""
 from tkinter import font
 import tkinter as tk
 
 from .root_cmp import *
 
 class Button(RootCmp, LayoutFollower, ConfigureSize):
+    """
+    A button is a widget, which is generally regarded as an active element, so actions are executed. In our case, one has to look into the syntax definition what actions are available. This button can be used inside a grid, etc., further it's size can be altered.
+    """
 
     def _initWidget(self, elements):
 
@@ -15,7 +21,7 @@ class Button(RootCmp, LayoutFollower, ConfigureSize):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         # Label/Text
@@ -36,7 +42,7 @@ class Button(RootCmp, LayoutFollower, ConfigureSize):
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
@@ -65,7 +71,7 @@ class Button(RootCmp, LayoutFollower, ConfigureSize):
 
         on_hover_foreground_color = self._attributes[AttributeNames.onhover_foreground_color]["value"]
 
-        if on_hover == True:
+        if on_hover:
             def enter(event):
                 if on_hover_background_color != "":
                     self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)

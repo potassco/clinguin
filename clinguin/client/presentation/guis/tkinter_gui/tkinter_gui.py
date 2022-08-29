@@ -1,3 +1,6 @@
+"""
+Contains the tkinter-gui class.
+"""
 import tkinter as tk
 import logging
 
@@ -9,6 +12,9 @@ from .tkinter_utils import *
 
 
 class TkinterGui(AbstractGui):
+    """
+    Class that inherits from AbstractGui and is therefore a dynamically loaded class, if it shall be used to render the Gui. It defines what to do for each widget.
+    """
 
     def __init__(self, base_engine, args):
         super().__init__(base_engine, args)
@@ -22,12 +28,12 @@ class TkinterGui(AbstractGui):
         return 
 
     @classmethod
-    def availableSyntax(cls, show_lvl):
+    def availableSyntax(cls, show_level):
         def appendDict(description, _dict, type_name):
 
             for key in _dict.keys():
                 description = description + "    |- " + key + "\n"
-                if show_lvl == ShowGuiSyntaxEnum.FULL:
+                if show_level == ShowGuiSyntaxEnum.FULL:
                     if "description" in _dict[key]:
                         # Specific has higher priority
                         description = description + "      |- Description: "

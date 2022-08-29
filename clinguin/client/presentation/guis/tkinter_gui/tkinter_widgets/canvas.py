@@ -1,16 +1,22 @@
+"""
+Contains the canvas class.
+"""
 import io
 import base64
 
 import tkinter as tk
 from tkinter import font
 
-from PIL import ImageTk, Image
+from PIL import ImageTk
 import PIL.Image as TImage
 
 
 from .root_cmp import *
 
 class Canvas(RootCmp, LayoutFollower, ConfigureSize):
+    """
+    The canvas class resembles a widget, which is generally regarded as an ''empty sheet of paper'', so there is an area, where one can display images, draw something or does something similar. One can look up what actual options are available through the syntax-definition.
+    """
 
     def _initWidget(self, elements):
         canvas_frame = tk.Frame(elements[str(self._parent)].getWidget())
@@ -21,7 +27,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.image] = {"value":"", "value_type" : ImageType}
@@ -77,7 +83,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
                 # DO NOT DELETE THIS SEEMINGLY UNECESSARY LINE
                 self._image = tkinter_image
-            except:
+            except Exception:
                 self._logger.error("Could not render image (likely Base64 encoding is wrong).")
             
 

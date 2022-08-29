@@ -14,7 +14,7 @@ class Label(RootCmp, LayoutFollower, ConfigureSize):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"", "value_type" : StringType}
@@ -33,7 +33,7 @@ class Label(RootCmp, LayoutFollower, ConfigureSize):
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type": SymbolType}
@@ -66,7 +66,7 @@ class Label(RootCmp, LayoutFollower, ConfigureSize):
 
         on_hover_foreground_color = self._attributes[AttributeNames.onhover_foreground_color]["value"]
 
-        if on_hover == True:
+        if on_hover:
             def enter(event):
                 if on_hover_background_color != "":
                     self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)

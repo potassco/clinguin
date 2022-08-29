@@ -22,7 +22,7 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType}

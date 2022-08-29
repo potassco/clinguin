@@ -1,5 +1,5 @@
-from tkinter import font
 import tkinter as tk
+# This import is used implicitely
 import tkinter.messagebox
 
 from .root_cmp import *
@@ -13,7 +13,7 @@ class Message(RootCmp):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.type] = {"value":"", "value_type" : StringType}

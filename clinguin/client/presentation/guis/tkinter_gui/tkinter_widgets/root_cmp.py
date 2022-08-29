@@ -1,6 +1,6 @@
 import logging
-from ..tkinter_utils import *
 from clinguin.utils.attribute_types import *
+from ..tkinter_utils import *
 
 class RootCmp:
 
@@ -63,7 +63,7 @@ class RootCmp:
         return None
 
     def _fillAttributes(self):
-         for attribute in self._json_attributes:
+        for attribute in self._json_attributes:
             key = attribute['key']
             value = attribute['value']
             if key in self._attributes and 'value_type' in self._attributes[key]:
@@ -118,7 +118,7 @@ class RootCmp:
         if str(self._parent) in elements:
             if hasattr(elements[self._parent], "getChildOrg"):
                 parent_org = getattr(elements[self._parent], "getChildOrg")()
-                if parent_org == ChildLayoutType.FLEX or parent_org == ChildLayoutType.RELSTATIC or parent_org == ChildLayoutType.ABSSTATIC:
+                if parent_org in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
                     self._widget.pack_forget()
                 elif parent_org == ChildLayoutType.GRID:
                     self._widget.grid_forget()

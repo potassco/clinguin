@@ -7,10 +7,7 @@ import sys
 import os
 import inspect
 import textwrap
-import glob
 import traceback
-
-from enum import Enum, auto
 
 from .show_gui_syntax_enum import ShowGuiSyntaxEnum
 
@@ -29,6 +26,11 @@ class ArgumentParser():
     default_client = 'TkinterGui'
 
     def __init__(self) -> None:
+
+        self.client_name = None
+        self.client = None
+
+
         self.titles = {
             'client': self._client_title,
             'server': self._server_title,
@@ -117,18 +119,7 @@ class ArgumentParser():
             return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _importClasses(self, path):
-        sub_directories = ['']
 
-
-        """
-        # Cant this be done like this instead? is simpler
-        for name in glob.glob(path + '/*.py'):
-            base = os.path.basename(name)
-            file_name = os.path.splitext(base)[0]
-            print(file_name)
-            module = importlib.import_module(file_name)
-        """
-        
         if os.path.isfile(path):
             sys.path.append(os.path.dirname(path))
             self._importFilesFromPathArray([path])
@@ -145,7 +136,7 @@ class ArgumentParser():
                 if module != "":
                     try:
                         importlib.import_module(module + "." + file_name)       
-                    except:
+                    except Exception:
                         print("Could not import module: " + module + "." + file_name)
                         print("<<<BEGIN-STACK-TRACE>>>")
                         traceback.print_exc()
@@ -154,8 +145,6 @@ class ArgumentParser():
                     importlib.import_module(file_name)       
 
     def _recursiveImport(self, full_path, rec_path, module):
-        cur_path = os.path.join(full_path, rec_path)
- 
         folder_paths = []
         file_paths = []
         
@@ -165,7 +154,7 @@ class ArgumentParser():
                     folder_paths.append(entity.path)
                 elif entity.is_file():
                     file_paths.append(entity.path)
-        except:
+        except Exception:
             print("<<<BEGIN-STACK-TRACE>>>")
             traceback.print_exc()
             print("<<<END-STACK-TRACE>>>")
@@ -188,7 +177,7 @@ class ArgumentParser():
         self._addDefaultArgumentsToBackendParser(custom_imports_parser)
         self._addDefaultArgumentsToClientParser(custom_imports_parser)
 
-        args, unknown = custom_imports_parser.parse_known_args()
+        args, _ = custom_imports_parser.parse_known_args()
     
         self.client_name = args.client
         self.backend_name = args.backend
@@ -357,3 +346,4 @@ class ArgumentParser():
                 selected_class = sub_class
         return selected_class
 
+# W0703,R0201,W0707,W0122

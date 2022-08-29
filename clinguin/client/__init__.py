@@ -1,4 +1,6 @@
-
+"""
+Program base of client.
+"""
 from .api.api import Api
 from .api.frontend_policy_dto import FrontendPolicyDto
 from .presentation.abstract_gui import AbstractGui

@@ -10,7 +10,7 @@ class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize, Config
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType, "description": "CUSTOM-BACKGROUND-COLOR-DESCRIPTION <- Now normal:" + AttributeNames.descriptions[AttributeNames.backgroundcolor]}
@@ -23,7 +23,7 @@ class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize, Config
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks["click"] = {"policy":None, "policy_type" : SymbolType}
@@ -42,7 +42,7 @@ class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize, Config
         on_hover_color = self._attributes[AttributeNames.onhover_background_color]["value"]
         on_hover_border_color = self._attributes[AttributeNames.onhover_border_color]["value"]
 
-        if on_hover == True:
+        if on_hover:
             def enter(event):
                 if on_hover_color != "":
                     self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)

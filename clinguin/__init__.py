@@ -9,11 +9,12 @@ import threading
 import sys
 from datetime import datetime
 
+from clinguin.utils import Logger
+
 from .parse_input import ArgumentParser
 
 from .server_helper import start as server_start
 from .client_helper import start as client_start
-from clinguin.utils import Logger
 
 def argsToDictConvert(args_dict, timestamp, name_prefix=""):
     """

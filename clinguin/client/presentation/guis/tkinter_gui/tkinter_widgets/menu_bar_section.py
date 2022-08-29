@@ -13,7 +13,7 @@ class MenuBarSection(RootCmp):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"default_label", "value_type" : StringType}

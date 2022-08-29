@@ -1,5 +1,3 @@
-import tkinter as tk
-
 from .root_cmp import *
 
 class MenuBarSectionItem(RootCmp):
@@ -11,7 +9,7 @@ class MenuBarSectionItem(RootCmp):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
@@ -21,7 +19,7 @@ class MenuBarSectionItem(RootCmp):
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}

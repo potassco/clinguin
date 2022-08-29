@@ -80,21 +80,21 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def getCautiosBrave(cls, ctl, assumptions):
+    def getCautiousBrave(cls, ctl, assumptions):
         model = cls()
 
         cautious_model = model.computeCautious(ctl, assumptions)
         brave_model = model.computeBrave(ctl, assumptions)
-        # c_prg = self.tag_cautious_prg(cautious_model)
-        c_prg = model.symbols_to_prg(cautious_model)
-        b_prg = model.tag_brave_prg(brave_model)
+        # c_prg = self.tagCautiousPrg(cautious_model)
+        c_prg = model.symbolsToPrg(cautious_model)
+        b_prg = model.tagBravePrg(brave_model)
         return c_prg+b_prg
 
     @classmethod
     def fromWidgetsFileAndProgram(cls, ctl, widgets_files, prg):
         model = cls()
 
-        wctl = cls.wid_control(widgets_files, prg)
+        wctl = cls.widControl(widgets_files, prg)
 
         with wctl.solve(yield_=True) as result:
             for m in result:
@@ -108,7 +108,7 @@ class ClinguinModel:
     @classmethod
     def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
         model = cls()
-        prg = cls.getCautiosBrave(ctl,assumptions)
+        prg = cls.getCautiousBrave(ctl,assumptions)
         return cls.fromWidgetsFileAndProgram(ctl,widgets_files,prg)
 
     @classmethod
@@ -124,7 +124,7 @@ class ClinguinModel:
 
 
     @classmethod
-    def wid_control(cls, widgets_files, extra_prg=""):
+    def widControl(cls, widgets_files, extra_prg=""):
         wctl = Control(['0','--warn=none'])
         for f in widgets_files:
             try:
@@ -151,16 +151,16 @@ class ClinguinModel:
             tagged.append(Function(tag,[s]))
         return tagged
 
-    def symbols_to_prg(self,symbols):
+    def symbolsToPrg(self,symbols):
         return "\n".join([str(s)+"." for s in symbols])
 
-    def tag_brave_prg(self, model):
+    def tagBravePrg(self, model):
         tagged = self.tag(model,'_b')
-        return self.symbols_to_prg(tagged)
+        return self.symbolsToPrg(tagged)
     
-    def tag_cautious_prg(self, model):
+    def tagCautiousPrg(self, model):
         tagged = self.tag(model,'_c')
-        return self.symbols_to_prg(tagged)
+        return self.symbolsToPrg(tagged)
 
 
     def addElement(self, id, t, parent):

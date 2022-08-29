@@ -236,7 +236,7 @@ class ClingraphBackend(ClingoBackend):
     def _updateModel(self):
         super()._updateModel()
         try:
-            prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)
+            prg = ClinguinModel.getCautiousBrave(self._ctl,self._assumptions)
             self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
 
             graphs = self._computeClingraphGraphs(prg)

@@ -64,13 +64,13 @@ class TspBackend(ClingraphBackend):
             brave_model = model.computeBrave(ctl, assumptions)
             brave_cautious_difference = self.doSetDifference(brave_model, cautious_model)
             # c_prg = self.tag_cautious_prg(cautious_model)
-            c_prg = model.symbols_to_prg(cautious_model)
-            b_prg = model.tag_brave_prg(brave_model)
+            c_prg = model.symbolsToPrg(cautious_model)
+            b_prg = model.tagBravePrg(brave_model)
             bcd_prg = model.tag(brave_cautious_difference, "_bcd")
-            bcd_prg = model.symbols_to_prg(bcd_prg)
+            bcd_prg = model.symbolsToPrg(bcd_prg)
 
             atom_prg = model.tag(self._atoms, "_atom")
-            atom_prg = model.symbols_to_prg(atom_prg)
+            atom_prg = model.symbolsToPrg(atom_prg)
 
 
             #prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)

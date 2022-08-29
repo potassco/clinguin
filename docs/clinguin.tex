@@ -534,7 +534,96 @@ The first UML diagram depicts the use with the standard solver, the second one d
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Timestamp 03.08. - 02.09.2022
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection{Version 4 - Features and polishing}
 
+This stage of development saw various refactorings, some improvements and some code cleanup. In terms of refactoring the part of the backend (we agreed on the term backend instead of solver) was de facto rewritten two times, to get a more general, widely applicable and extensible backend.\\
+The following points summarize the changes:\\[1em]
+New features:
+\begin{itemize}
+    \item Backend features/examples
+    \begin{itemize}
+        \item Housing example
+        \item Temporal clingo backend and elevator example
+        \item Clingraph backend and coloring example
+        \item TSP backend and tsp example
+    \end{itemize}
+    \item GUI features
+    \begin{itemize}
+        \item Canvas widget for images
+        \item Message widget for popup messages
+        \item Layouting options for label, button and dropdown menu
+        \item Auto fit for containers, label, button and dropdown menu
+        \item Manual positioning of the window
+    \end{itemize}
+    \item Syntax can now be shown dynamically, with the acceptd types
+    \item Logs are now shown in colors
+    \item Various other improvements
+\end{itemize}
+
+\noindent Refactorings, fixes, etc.
+\begin{itemize}
+    \item Backend, the behavior how one specifies which elements shall be rendered bravely or acutiously for the default backend are now customizable
+    \item Frontend, the layouting for containers was fixed
+    \item The argument parser was refactored, so that one can now add multiple backends with the same arguments, small further improvements
+\end{itemize}
+
+\noindent
+The general idea and the general architecture didn't change in this revision, therefore most of the things previously defined still hold. Regarding the available syntax, one can take a look at the recent examples. The intermediate Json format didn't change since the first implementation. Regarding the endpoints, there actually was a revision. Now there are three endpoints:
+\begin{itemize}
+    \item \textit{''/''} with GET - This is the ''default'' backend, where one gets the GUI one gets on startup. This endpoint calls the \textit{get} method in the corresponding backend, which each backend \textbf{must} provide (a \textit{''get(self):''} method).
+    \item \textit{''/backend''} with POST - This is the endpoint, where one can send a Json with a single key \textit{function}, where the value of function determines which backend function will be called with what arguments. E.g. the json \textit{''function'':''addAtom(p(1))''} tries to call the method ''addAtom'' with the argument ''p(1)''.
+    \item \textit{''/health''} with GET - Get version and status of program.
+\end{itemize}
+
+\subsubsection{Architecture}
+
+\noindent As described in the previous section (Prototype Version 3), one could divide the program into three parts: ProgramBase, Backends and Guis.
+
+\textbf{ProgramBase}: The ProgramBase contains basically the code that is necessary to start the whole application. In addition to the code from PT-V3 it also contains more util-features, like parsing types, and other functionalities. In this definition also the part of the Client is included, that handles API requests (but to stress out one thing: The client mustn't be started, therefore one can develop the whole client by oneself, but it still makes more sense to see the part of the client that handles the API as a part of the ProgramBase for this prototype).\\[1em]
+\textbf{Backend}: The backend code is code that can be dynamically loaded on application startup that interacts with Clingo. Therefore several backends exist, like the ClingoBackend, ClingraphBackend or TemporalBackend. Which backend is loaded can be specified via command line arguments during startup.\\[1em]
+\textbf{Gui}: The gui is, like the backend, dynamically loaded. The core of the Gui is part of the ProgramBase, therefore just the ''displaying'' functions are part of this Gui. These include the files for the tkinter-widgets or in the future the files for the IPython widgets.\\[1em]
+Even though the principal working is de facto the same as before, in the following the updated-overview-UML-class diagrams are shown:
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{imgs/pt-V4-class-diag-program-base.png}
+    \caption{UML-Program-base}
+    \label{fig:pt-v4-uml-program-base}
+    \end{center}
+\end{figure}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{imgs/pt-V4-class-diag-clingo-backend.png}
+    \caption{UML-clingo-backend}
+    \label{fig:pt-V4-uml-clingo-backend}
+    \end{center}
+\end{figure}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.6\textwidth]{imgs/pt-V4-class-diag-tkinter-gui.png}
+    \caption{UML-tkinter-gui}
+    \label{fig:pt-V4-uml-tkinter-gui}
+    \end{center}
+\end{figure}
+
+
+
+
+
+
+% 3.) Code documentation
+%   a.) Major classes
+%       1.) Backend: clingo-backend, clinguin-backend, endpoints, clinguinModel, (other backends?)
+%       2.) GUI: api, gui center, abstrat-gui, tkinter-gui, major tkinter widgets
+%       3.) Other: argParse, logger, types,...
+%
+%
 
 
 

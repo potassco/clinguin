@@ -35,7 +35,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
         image_file = self._attributes[AttributeNames.image_path]["value"]
 
         if image_base64 != "" and image_file != "":
-            self._logger.error("One cannot set both attributes " + AttributeNames.image + " and " + AttributeNames.image_path + " for the same type with id " + str(self._id))
+            self._logger.error("One cannot set both attributes " + AttributeNames.image + " and " + AttributeNames.image_path + " for the same canvas with id " + str(self._id))
 
         elif image_base64 == "" and image_file != "":
             try:
@@ -78,7 +78,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
                 # DO NOT DELETE THIS SEEMINGLY UNECESSARY LINE
                 self._image = tkinter_image
             except:
-                self._logger.debug("Could not render image (likely Base64 encoding is wrong).")
+                self._logger.error("Could not render image (likely Base64 encoding is wrong).")
             
 
     def _addComponentToElements(self, elements):

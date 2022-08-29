@@ -142,11 +142,12 @@ class ClingraphBackend(ClingoBackend):
 
     def _computeClingraphGraphs(self,prg):
         fbs = []
-        ctl = Control([])
+        ctl = Control("0")
         for f in self._clingraph_files:
             ctl.load(f)
         ctl.add("base",[],prg)
         ctl.ground([("base",[])],ClingraphContext())
+
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))
         if self._select_model is not None:
             for m in self._select_model:
@@ -154,6 +155,9 @@ class ClingraphBackend(ClingoBackend):
                     raise ValueError(f"Invalid model number selected {m}")
             fbs = [f if i in self._select_model else None
                         for i, f in enumerate(fbs) ]
+
+        
+
         graphs = compute_graphs(fbs, graphviz_type=self._type)
 
         return graphs

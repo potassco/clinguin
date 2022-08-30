@@ -1,6 +1,13 @@
+"""
+This module contains the ConfigureBorder class.
+"""
+
 from .extension_class import *
 
 class ConfigureBorder(ExtensionClass):
+    """
+    If a widget shall have a border (e.g. container), it must be a subtype of this class.
+    """
 
     @classmethod
     def getAttributes(cls, attributes = None):

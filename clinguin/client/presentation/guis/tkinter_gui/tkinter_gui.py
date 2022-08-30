@@ -1,9 +1,6 @@
 """
 Contains the tkinter-gui class.
 """
-import tkinter as tk
-import logging
-
 from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
 from clinguin.client import AbstractGui
 
@@ -25,7 +22,6 @@ class TkinterGui(AbstractGui):
     @classmethod
     def registerOptions(cls, parser):   
         parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter widgets."
-        return 
 
     @classmethod
     def availableSyntax(cls, show_level):

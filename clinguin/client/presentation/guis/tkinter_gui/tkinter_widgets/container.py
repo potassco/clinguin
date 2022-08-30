@@ -1,8 +1,14 @@
+"""
+Module contains the Container class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
 class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize, ConfigureBorder):
+    """
+    The container is a generic widget which can be used for layouting, hovering effects or even callbacks. Generally it is recommended to use it as a ''container'' for multiple other widgets, e.g. labels, buttons, etc.
+    """
 
     def _initWidget(self, elements):
         container = tk.Frame(elements[str(self._parent)].getWidget())

@@ -1,3 +1,6 @@
+"""
+This package contains all tkinter_widgets that are provided in clinguin.
+"""
 from .root_cmp import RootCmp
 from .window import Window
 from .container import Container

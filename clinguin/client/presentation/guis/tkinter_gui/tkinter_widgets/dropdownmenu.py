@@ -1,9 +1,20 @@
-
+"""
+This module contains the Dropdownmenu class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
 class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
+    """
+    The dropdownmenu is the master component for a dropdownmenu, i.e. dropdownmenu-items must be children of it. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Label and Button - to make it work for layouting, the actual dropdownmenu is hidden and the widget is actually a tkinter frame (therefore self._widget is a frame, whereas self._menu is the dropdownmenu).
+    """
+    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
+        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+        
+        self._menu = None
+        self._variable = None
+
 
     def _initWidget(self, elements):
 

@@ -5,18 +5,22 @@ import io
 import base64
 
 import tkinter as tk
-from tkinter import font
-
 from PIL import ImageTk
 import PIL.Image as TImage
-
 
 from .root_cmp import *
 
 class Canvas(RootCmp, LayoutFollower, ConfigureSize):
     """
-    The canvas class resembles a widget, which is generally regarded as an ''empty sheet of paper'', so there is an area, where one can display images, draw something or does something similar. One can look up what actual options are available through the syntax-definition.
+    The canvas class resembles a widget, which is generally regarded as an ''empty sheet of paper'', so there is an area, where one can display images, draw something or does something similar. One can look up what actual options are available through the syntax-definition. Implementation wise it is similarly implemented to the label, button and dropdownmenu.
     """
+
+    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
+        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+
+        self._canvas = None
+        self._image = None
+        
 
     def _initWidget(self, elements):
         canvas_frame = tk.Frame(elements[str(self._parent)].getWidget())
@@ -41,12 +45,12 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
         image_file = self._attributes[AttributeNames.image_path]["value"]
 
         if image_base64 != "" and image_file != "":
-            self._logger.error("One cannot set both attributes " + AttributeNames.image + " and " + AttributeNames.image_path + " for the same canvas with id " + str(self._id))
+            self._logger.error("One cannot set both attributes %s and %s for the same canvas with id %s", AttributeNames.image, AttributeNames.image_path, str(self._id))
 
         elif image_base64 == "" and image_file != "":
             try:
                 
-                image_open = Image.open(image_file)
+                image_open = TImage.open(image_file)
 
                 height = self._attributes[AttributeNames.height]["value"]
                 width = self._attributes[AttributeNames.width]["value"]
@@ -65,7 +69,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
                 self._image = tkinter_image
             except Exception as e:
                 self._logger.error(e)
-                self._logger.error("Could not render image (likely the provided file " + image_file + " is not a valid image).")
+                self._logger.error("Could not render image (likely the provided file <%s>is not a valid image).", image_file)
 
         elif image_base64 != "" and image_file == "":
             try:

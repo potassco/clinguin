@@ -1,6 +1,12 @@
+"""
+This module contains the ConfigureSize class.
+"""
 from .extension_class import *
 
 class ConfigureSize(ExtensionClass):
+    """
+    If a widget is a subtype of the configure-size class the size of the widget can be adjusted.
+    """
 
     @classmethod
     def getAttributes(cls, attributes = None):

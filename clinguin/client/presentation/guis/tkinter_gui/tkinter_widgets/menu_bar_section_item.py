@@ -1,6 +1,12 @@
+"""
+Contains the menu bar section item class.
+"""
 from .root_cmp import *
 
 class MenuBarSectionItem(RootCmp):
+    """
+    The menu bar section is a section of a menu bar (e.g. in the menu |main|contact|, where if one clicks on |contact| further the options |location|team| appear, a menu-bar-section would be |contact|, whereas |location| and |team| would be menu-bar-section-items.
+    """
 
     def _initWidget(self, elements):
         menubar_section = elements[self._parent].getWidget()
@@ -45,7 +51,7 @@ class MenuBarSectionItem(RootCmp):
 
 
     def _menubarItemClick(self, id, parent, click_policy, elements):
-        if (click_policy is not None):
+        if click_policy is not None:
             self._base_engine.postWithPolicy(click_policy)
  
     def _addComponentToElements(self, elements):

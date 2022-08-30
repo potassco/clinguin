@@ -1,8 +1,14 @@
+"""
+Contains the DropdownmenuItem class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
 class DropdownmenuItem(RootCmp):
+    """
+    Is an item of a dropdown, e.g. for the dropdownmenu |countries|, |germany| would be a dropdownmenu-item.
+    """
 
     def _initWidget(self, elements):
         parent = elements[str(self._parent)]
@@ -48,10 +54,10 @@ class DropdownmenuItem(RootCmp):
         if hasattr(parent, "getVariable"):
             variable = getattr(parent, "getVariable")()
             variable.set(id)
-            if (click_policy is not None):
+            if click_policy is not None:
                 self._base_engine.postWithPolicy(click_policy)
         else:
-            self._logger.warning("Could not set variable for dropdownmenu. Item id: " + str(id) + ", dropdown-menu-id: " + str(parent_id))
+            self._logger.warning("Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s", str(id), str(parent_id))
 
     def forgetChildren(self, elements):
         pass

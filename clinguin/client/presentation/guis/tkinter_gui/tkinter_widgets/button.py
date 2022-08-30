@@ -8,8 +8,12 @@ from .root_cmp import *
 
 class Button(RootCmp, LayoutFollower, ConfigureSize):
     """
-    A button is a widget, which is generally regarded as an active element, so actions are executed. In our case, one has to look into the syntax definition what actions are available. This button can be used inside a grid, etc., further it's size can be altered.
+    A button is a widget, which is generally regarded as an active element, so actions are executed. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Label and Dropdownmenu - to make it work for layouting, the actual button is hidden the the widget is actually a tkinter frame (therefore self._widget is a frame, whereas self._button is the button).
     """
+    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
+        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+        
+        self._button = None
 
     def _initWidget(self, elements):
 

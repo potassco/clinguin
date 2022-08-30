@@ -1,3 +1,6 @@
+"""
+Contains the Message class.
+"""
 import tkinter as tk
 # This import is used implicitely
 import tkinter.messagebox
@@ -5,6 +8,9 @@ import tkinter.messagebox
 from .root_cmp import *
 
 class Message(RootCmp):
+    """
+    A message is a pop up, which has a type a title and a message.
+    """
 
 
     def _initWidget(self, elements):

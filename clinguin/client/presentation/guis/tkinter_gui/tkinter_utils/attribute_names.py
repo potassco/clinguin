@@ -1,5 +1,11 @@
+"""
+Module that contains the AttributeNames class.
+"""
 
 class AttributeNames:
+    """
+    This class contains all the names for all the attributes that are used for the Gui and also contains some standard descriptions of the attributes.
+    """
 
     
     title = "title"
@@ -23,7 +29,9 @@ class AttributeNames:
 
     resizable_x = "resizable_x"
     resizable_y = "resizable_y"
+
     child_layout = "child_layout"
+
     grid_column = "grid_column"
     grid_row = "grid_row"
     grid_column_span = "grid_column_span"
@@ -43,7 +51,36 @@ class AttributeNames:
 
 
     descriptions = {
+        title : "With this attribute one can set the title of a pop-up.",
+        message : "With this attribute one can set the message of a pop-up.",
+        type : "With this attribute one can set the look and feel of the pop-up.",
+        label : "With this attribute one can set the label-text of the widget.",
         backgroundcolor : "With this attribute one can define the background-color of the widget.",
-        child_layout : "With this attribute one can define the layout of the children, i.e. how they are positioned."
+        foregroundcolor : "With this attribute one can set the foreground-color of the widget.",
+        width : "With this attribute one can set the width in pixels of the widget.",
+        height : "With this attribute one can set the height in pixels of the widget.",
+        onhover : "With this attribute one can enable or disable on-hover features for the widget.",
+        onhover_background_color : "With this attribute one can set the background color the widget shall have, when on_hover is enabled.",
+        onhover_foreground_color : "With this attribute one can set the forground color the widget shall have, when on_hover is eneabled.",
+        onhover_border_color : "With this attribute one can set the color the border of the widget shall have, when on_hover is enabled.",
+        font_family : "With this attribute one can set the font-family of the widget.",
+        font_size : "With this attribute one can set the font size in pixels.",
+        font_weight : "With this attribute one can set the font weight.",
+        resizable_x : "With this attribute one can define if the widget shall be resizable in x direction.",
+        resizable_y : "With this attribute one can define if the widget shall be resizable in y direction.",
+        child_layout : "With this attribute one can define the layout of the children, i.e. how they are positioned.",
+        grid_column : "With this attribute one can define in which column the widget shall be positioned.",
+        grid_row : "With this attribute one can define in which row the widget shall be positioned.",
+        grid_column_span : "With this attribute one can define, that the widgets stretches over several columns.",
+        grid_row_span : "With this attribute one can define, that the widgets stretches over several rows.",
+        pos_x : "With this attribute one sets the x-position of the widget - it depends on the parent-child-layout how this is defined (either pixels, relative as a percentage, ...).",
+        pos_y : "With this attribute one sets the y-position of the widget - it depends on the parent-child-layout how this is defined (either pixels, relative as a percentage, ...).",
+        border_width : "With this attribute one defines the width of the border in pixels.",
+        border_color : "With this attribute one may set the border color.",
+        selected : "With this attribute one may define the text that shall be displayed if something is selected.",
+        fit_children_size : "[DEPRECATED] - With this attribute one can define that the widget fits the children.",
+        image : "Some backends define special values one can use, that e.g. a graph is shown (see corresponding backend description).",
+        image_path : "Include an image from a path.",
+        resize : "With this attribute one can define if an image shall be resized."
         }
 

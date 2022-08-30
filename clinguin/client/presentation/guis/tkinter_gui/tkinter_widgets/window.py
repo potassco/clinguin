@@ -1,8 +1,14 @@
+"""
+Contains the window class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
 class Window(RootCmp, LayoutController):
+    """
+    The window class is the top-lvl. component, therefore it MUST be used in every clinguin application! For available attributes see syntax definition.
+    """
 
     def _initWidget(self, elements):
         window = tk.Tk()

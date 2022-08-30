@@ -1,9 +1,15 @@
+"""
+This module contains the LayoutFollower class.
+"""
 import logging
 from clinguin.utils import Logger
 
 from .extension_class import *
 
 class LayoutFollower(ExtensionClass):
+    """
+    If a widget is a subtype of this class then one can be sure, that one can use it in layouts.
+    """
 
     def __init__(self):
         self._logger = logging.getLogger(Logger.client_logger_name)

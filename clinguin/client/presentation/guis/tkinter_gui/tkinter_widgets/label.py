@@ -1,9 +1,19 @@
+"""
+This module contains the Label class.
+"""
 from tkinter import font
 import tkinter as tk
 
 from .root_cmp import *
 
 class Label(RootCmp, LayoutFollower, ConfigureSize):
+    """
+    The label can be used for positiion text. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Dropdowmenu and Button - to make it work for layouting, the actual label is hidden and the widget is actually a tkinter frame (therefore self._widget is a frame, whereas self._label is the label).
+    """
+    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
+        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+        
+        self._label = None
 
     def _initWidget(self, elements):
         label_frame = tk.Frame(elements[str(self._parent)].getWidget())

@@ -22,7 +22,7 @@ class Message(RootCmp):
         if attributes is None:
             attributes = {}
 
-        attributes[AttributeNames.type] = {"value":"", "value_type" : StringType}
+        attributes[AttributeNames.type] = {"value":PopupTypesType.INFO, "value_type" : PopupTypesType}
         attributes[AttributeNames.title] = {"value":"", "value_type" : StringType}
         attributes[AttributeNames.message] = {"value":"", "value_type" : StringType}
 
@@ -30,10 +30,17 @@ class Message(RootCmp):
 
     def _setValues(self, elements):
 
+        type = self._attributes[AttributeNames.type]["value"]
         title = self._attributes[AttributeNames.title]["value"]
-
         message = self._attributes[AttributeNames.message]["value"]
 
-        tk.messagebox.showinfo(title=title, message=message)
-
+        print(type)
+        if PopupTypesType.INFO == type:
+            tk.messagebox.showinfo(title=title, message=message)
+        elif PopupTypesType.WARNING == type:
+            tk.messagebox.showwarning(title=title, message=message)
+        elif PopupTypesType.ERROR == type:
+            tk.messagebox.showerror(title=title, message=message)
+        else:
+            self._logger.warning("Cannot display popup-type %s", type)
 

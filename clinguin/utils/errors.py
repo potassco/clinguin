@@ -1,2 +1,8 @@
+"""
+This module provides different errors for clinguin.
+"""
+
 class NoModelError(Exception):
-    pass
+    """
+    The NoModelError is raised, if the provided logic program is unsatisfiable.
+    """

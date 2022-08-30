@@ -10,7 +10,7 @@ class LayoutController(ExtensionClass):
 
     @classmethod
     def getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.child_layout] = {"value": ChildLayoutType.FLEX, "value_type" : ChildLayoutType}

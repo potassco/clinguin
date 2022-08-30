@@ -1,42 +1,45 @@
-from clinguin.utils.errors import NoModelError
-import networkx as nx
+"""
+Module that contains the ClingoBackend.
+"""
 import sys
-from typing import Sequence, Any
 
-import logging
-import clingo
 from clingo import Control, parse_term
 from clingo.script import enable_python
-enable_python()
-from clingo.symbol import Function, Number, String
-
 # Self defined
+from clinguin.utils.errors import NoModelError
 from clinguin.server import StandardJsonEncoder
-
 from clinguin.server import ClinguinModel
-
 from clinguin.server import ClinguinBackend
-
 from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import *
 
+
+enable_python()
+
 class ClingoBackend(ClinguinBackend):
+    """
+    TODO -> Write Documentation!
+    """
 
     def __init__(self, args):
         super().__init__(args)
+
         self._source_files = args.source_files
         self._widget_files = args.widget_files
         
         # For browising
         self._handler=None
         self._iterator=None
+
+        # To make static linters happy
+        self._assumptions = None
+        self._atoms = None
+        self._ctl = None
         
         self._restart()
         
         # I think we should remove this and only have one ClinguinModel
         self._modelClass = ClinguinModel
         self._model=None
-        self._updateModel()
-
 
     @classmethod
     def registerOptions(cls, parser):
@@ -86,6 +89,9 @@ class ClingoBackend(ClinguinBackend):
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
+        if not self._model:
+            self._updateModel()
+
         json_structure =  StandardJsonEncoder.encode(self._model)
 
         return json_structure
@@ -118,7 +124,6 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
    
     def clearAtoms(self):
-        #self._restart()
         self._endBrowsing()
         self._atoms = set()
         self._initCtl()

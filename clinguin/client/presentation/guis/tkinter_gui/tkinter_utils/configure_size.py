@@ -10,7 +10,7 @@ class ConfigureSize(ExtensionClass):
 
     @classmethod
     def getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.height] = {"value":0, "value_type" : IntegerType}
@@ -27,7 +27,7 @@ class ConfigureSize(ExtensionClass):
             if AttributeNames.child_layout in self._attributes:
                 child_layout_value = self._attributes[AttributeNames.child_layout]["value"]
 
-                if child_layout_value == ChildLayoutType.FLEX or child_layout_value == ChildLayoutType.RELSTATIC or child_layout_value == ChildLayoutType.ABSSTATIC:
+                if child_layout_value in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
                     self._widget.pack_propagate(0)
                 elif child_layout_value == ChildLayoutType.GRID:
                     self._widget.grid_propagate(0)

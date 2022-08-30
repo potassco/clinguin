@@ -1,21 +1,28 @@
-# Standard Python
-from fastapi import FastAPI, APIRouter
-
+"""
+Module for the Endpoints class.
+"""
 import logging
-import clingo
-
-from pydantic import BaseModel
-from typing import Sequence, Any
-
 from importlib.metadata import metadata
 
+from fastapi import APIRouter
+
+import clingo
+
+from clinguin.utils import Logger
 # Self Defined
 from .endpoints_helper import EndpointsHelper
 from .backend_policy_dto import BackendPolicyDto
 
-from clinguin.utils import Logger
 
 class Endpoints:
+    """
+    The endpoints class define the available endpoints the backend (this time backend refers to the general concept of backend, like a server backend) has. These are defined in the ''__init__'', and correspond to the three methods:
+
+    Methods:
+        health -> Json : Returns name, version and description of clinguin.
+        standardExecutor -> Json : Returns the default GUI representation as Json that the Backend provides.
+        policyExecutor -> Json : Executes a policy defined by the Json passed with the Post request.
+    """
     def __init__(self, args) -> None:
         Logger.setupLogger(args.log_args, process = "server")
         self._logger = logging.getLogger(args.log_args['name'])
@@ -30,7 +37,7 @@ class Endpoints:
         self._backend = args.backend(args)
 
     async def health(self):
-        self._logger.info(f"--> Health")
+        self._logger.info("--> Health")
         cuin = metadata('clinguin')
         return {
             "name": cuin["name"],
@@ -39,7 +46,7 @@ class Endpoints:
         }
 
     async def standardExecutor(self):
-        self._logger.info(f"--> {self._backend.__class__.__name__}:   get()")
+        self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
         return self._backend.get()
 
     async def policyExecutor(self, backend_call_string: BackendPolicyDto):
@@ -47,10 +54,10 @@ class Endpoints:
         symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name
         function_arguments = (
-            list(map(lambda symb: str(symb), symbol.arguments)))
+            list(map(str, symbol.arguments)))
 
         call_args = ",".join(function_arguments)
-        self._logger.info(f"--> {self._backend.__class__.__name__}:   {function_name}({call_args})")
+        self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
 
         result = EndpointsHelper.callFunction(
             self._backend,

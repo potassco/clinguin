@@ -156,8 +156,9 @@ Is located in: `examples/elevator` - can be executed by:
 
 `$ clinguin client-server --custom-server-classes='./examples/elevator' --solver=TemporalBackend --source-files=examples/elevator/encoding.lp --widget-files=examples/elevator/widgets.lp`
 
+# Linting:
 
-
+`<PATH>/clinguin$ pylint --disable=C0301,C0303,C0305,R1705,W0703,R0201,W0707,W0122,C0116,W0622,C0103,R0903,W0401,W0614 clinguin`
 
 
 

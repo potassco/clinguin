@@ -1,9 +1,14 @@
-import sys
+"""
+This module contains the StringType class.
+"""
 
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
 class StringType(Type):
+    """
+    The StringType shall be used, when the attribute value is string like.
+    """
 
     @classmethod
     def parse(cls, input: str, logger):

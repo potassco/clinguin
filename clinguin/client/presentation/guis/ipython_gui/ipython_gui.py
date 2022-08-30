@@ -1,6 +1,12 @@
+"""
+Module that contains the IPythonGuiClass
+"""
 from clinguin.client.presentation.abstract_gui import AbstractGui
 
 class IPythonGui(AbstractGui):
+    """
+    Not yet implemented!
+    """
 
     def __init__(self, base_engine, args):
         super().__init__(base_engine, args)

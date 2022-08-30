@@ -1,4 +1,6 @@
-
+"""
+This module contains one string (brave_cautious_externals) that is helpful for the brave-cautious implementation.
+"""
 brave_cautious_externals = """
 #external show_brave.
 #external show_cautious.

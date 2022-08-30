@@ -1,3 +1,6 @@
+"""
+Module which contains all possible attribute- and callback-types.
+"""
 from .type import Type
 from .boolean import BooleanType
 from .integer import IntegerType

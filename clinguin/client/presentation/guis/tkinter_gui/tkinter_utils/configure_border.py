@@ -11,7 +11,7 @@ class ConfigureBorder(ExtensionClass):
 
     @classmethod
     def getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.border_width] = {"value":0, "value_type" : IntegerType}

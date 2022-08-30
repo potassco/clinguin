@@ -1,26 +1,22 @@
-from clinguin.utils.errors import NoModelError
-import networkx as nx
-import sys
-from typing import Sequence, Any
+"""
+Module that contains the Temporal Backend.
+"""
 
-import logging
-import clingo
-from clingo import Control, parse_term
+from clingo.symbol import Function, Number
+from clingo import parse_term
 from clingo.script import enable_python
-enable_python()
-from clingo.symbol import Function, Number, String
 
 # Self defined
-from clinguin.server import StandardJsonEncoder
-
 from clinguin.server import ClinguinModel
-
 from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
-
-
 from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import *
 
+enable_python()
+
 class TemporalBackend(ClingoBackend):
+    """
+    TODO -> Add documentation!
+    """
 
     def __init__(self, args):
         self._step = 1
@@ -52,7 +48,7 @@ class TemporalBackend(ClingoBackend):
         self._ctl.assign_external(Function('check',[Number(self._step)]),True)
         plan = self._findPlan()
         
-        while plan == None or self._step>100:
+        while plan is None or self._step>100:
             self._step +=1
             self._ground()
             if self._step>1:
@@ -60,8 +56,8 @@ class TemporalBackend(ClingoBackend):
             self._ctl.assign_external(Function('check',[Number(self._step)]),True)
             plan = self._findPlan()
 
-        if self._full_plan == None:
-            raise RuntimeError(f"No plan found before 100 steps")
+        if self._full_plan is None:
+            raise RuntimeError("No plan found before 100 steps")
 
 
         return self._full_plan

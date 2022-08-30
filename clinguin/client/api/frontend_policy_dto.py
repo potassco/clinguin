@@ -1,6 +1,12 @@
+"""
+Module contains the FrontendPolicyDto class
+"""
 import json
 
 class FrontendPolicyDto:
+    """
+    Dto class for encapsulating the json that shall be sent to the backend that handles the callbacks.
+    """
 
     def __init__(self, function):
         self.function = function

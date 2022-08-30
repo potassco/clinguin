@@ -1,47 +1,40 @@
-from clinguin.server.data.clinguin_model import ClinguinModel
-import networkx as nx
-from typing import Sequence, Any
-import argparse
-import logging
-import clingo
-import textwrap
-
-from clingo import Control, parse_term
-from clingo.symbol import Function, Number, String
-
-
-import clorm
+"""
+Module that contains the ClingraphBackend.
+"""
 import copy
 import base64
+
+import textwrap
+
+from clingo import Control
+from clingo.symbol import Function, String
+
+import clorm
 from clorm import Raw
-
-from clinguin.utils import StandardTextProcessing
-from clinguin.server.data.attribute import AttributeDao
-
-
-
-# Self defined
-from clinguin.server import StandardJsonEncoder
-
-from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
-
-from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import brave_cautious_externals
-from clinguin.utils import NoModelError
 
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
 
 
+# Self defined
+from clinguin.utils import StandardTextProcessing
+from clinguin.server.data.attribute import AttributeDao
+
+from clinguin.server.data.clinguin_model import ClinguinModel
+from clinguin.server import StandardJsonEncoder
+
+from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
+
+from clinguin.utils import NoModelError
 
 class ClingraphBackend(ClingoBackend):
-
-    _intermediate_format = 'png'
-    _encoding = 'utf-8'
-    _attribute_image_key = 'image'
-    _attribute_image_value = 'clingraph'
-    _attribute_image_value_seperator = '__'
+    """
+    TODO -> Write documentation!
+    """
 
     def __init__(self, args):
+        super().__init__(args)
+
         self._clingraph_files = args.clingraph_files
         self._select_model = args.select_model
         self._type = args.type
@@ -49,9 +42,15 @@ class ClingraphBackend(ClingoBackend):
         self._dir = args.dir
         self._name_format = args.name_format
         self._engine = args.engine
-        super().__init__(args)
 
-        
+        self._intermediate_format = 'png'
+        self._encoding = 'utf-8'
+        self._attribute_image_key = 'image'
+        self._attribute_image_value = 'clingraph'
+        self._attribute_image_value_seperator = '__'
+
+        self._filled_model = None
+
 
     @classmethod
     def registerOptions(cls, parser):     
@@ -177,7 +176,6 @@ class ClingraphBackend(ClingoBackend):
     
     def _getModelFilledWithBase64ImagesFromGraphs(self,graphs):
         model = self._model
-        cls = self.__class__
 
         kept_symbols = list(model.getElements()) + list(model.getCallbacks())
 
@@ -185,11 +183,11 @@ class ClingraphBackend(ClingoBackend):
     
         # TODO - Improve efficiency of filling attributes
         for attribute in model.getAttributes():
-            if str(attribute.key) == cls._attribute_image_key:
+            if str(attribute.key) == self._attribute_image_key:
                 attribute_value = StandardTextProcessing.parseStringWithQuotes(str(attribute.value))
 
-                if attribute_value.startswith(cls._attribute_image_value) and attribute_value != "clingraph":
-                    splits = attribute_value.split(cls._attribute_image_value_seperator)
+                if attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph":
+                    splits = attribute_value.split(self._attribute_image_value_seperator)
                     splits.pop(0)
                     rest = ""   
                     for split in splits:
@@ -206,30 +204,29 @@ class ClingraphBackend(ClingoBackend):
 
 
     def _createImageFromGraph(self, graphs, position = None, key = None):
-        cls = self.__class__
         graphs = graphs[0]
 
-        if position != None: 
+        if position is not None: 
             if (len(graphs)-1) >= position:
                 graph = graphs[list(graphs.keys())[position]]
             else:
                 self._logger.error("Attempted to access not valid position")
                 raise Exception("Attempted to access not valid position")
-        elif key != None:
+        elif key is not None:
             if key in graphs:
                 graph = graphs[key]
             else:
-                self._logger.error("Key not found in graphs: " + str(key))
+                self._logger.error("Key not found in graphs: %s", str(key))
                 raise Exception("Key not found in graphs: " + str(key))
         else:
             self._logger.error("Must either specify position or key!")
             raise Exception("Must either specify position or key!")
 
-        graph.format = cls._intermediate_format
+        graph.format = self._intermediate_format
         img = graph.pipe(engine=self._engine)
 
         encoded = base64.b64encode(img)
-        decoded = encoded.decode(cls._encoding)
+        decoded = encoded.decode(self._encoding)
 
         return decoded        
         
@@ -249,6 +246,9 @@ class ClingraphBackend(ClingoBackend):
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
+        if not self._filled_model:
+            self._updateModel()
+            
         json_structure = StandardJsonEncoder.encode(self._filled_model)
         return json_structure
 

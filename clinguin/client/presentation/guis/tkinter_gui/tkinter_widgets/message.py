@@ -2,7 +2,7 @@
 Contains the Message class.
 """
 import tkinter as tk
-# This import is used implicitely
+# This import is used implicitly
 import tkinter.messagebox
 
 from .root_cmp import *

@@ -1,3 +1,6 @@
+"""
+Module that contains the default backends ClingoBackend, ClingraphBackend and TemporalBackend.
+"""
 from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
 from clinguin.server.application.default_backends.clingraph_backend import ClingraphBackend
 from clinguin.server.application.default_backends.temporal_backend import TemporalBackend

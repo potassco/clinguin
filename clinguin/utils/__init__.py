@@ -1,3 +1,6 @@
+"""
+The utils module of clinguin - contains some useful tools for clinguin.
+"""
 from .logger import Logger
 from .errors import NoModelError
 from .custom_args import CustomArgs

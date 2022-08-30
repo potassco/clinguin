@@ -1,4 +1,6 @@
-import sys
+"""
+This module contains the SymbolType class.
+"""
 
 import clingo
 
@@ -18,8 +20,9 @@ class SymbolType(Type):
             clingo.parse_term(parsed_string)
             return parsed_string
         except:
-            logger.error("The string " + parsed_string + " is not a clingo symbol!")
-            raise Exception("The string " + parsed_string + " is not a clingo symbol!")
+            error_string = "The string " + parsed_string + " is not a clingo symbol!"
+            logger.error(error_string)
+            raise Exception(error_string)
             
 
     @classmethod

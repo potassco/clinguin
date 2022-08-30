@@ -1,17 +1,23 @@
-import clorm
-import clingo
+"""
+Module that contains the ClinguinModel class.
+"""
 import logging
+import clorm
 
-from clorm import Predicate, ConstantField, RawField, Raw
+from clorm import Raw
 from clingo import Control,parse_term
 from clingo.symbol import Function, Number, String
+
+from clinguin.utils import NoModelError, Logger
 
 from .element import ElementDao
 from .attribute import AttributeDao
 from .callback import CallbackDao
-from clinguin.utils import NoModelError, Logger
 
 class ClinguinModel:
+    """
+    The ClinguinModel is the low-level-access-class for handling clorm and clingo, regarding brave-cautious and other default things. This class provides functionality to create a factbase with brave-cautious extended files, functionality to query important things for clinguin, etc.
+    """
 
     def __init__(self, factbase=None):
         self._logger = logging.getLogger(Logger.server_logger_name)
@@ -25,16 +31,6 @@ class ClinguinModel:
 
     def __str__(self):
         return self._factbase.asp_str()
-
-    # @classmethod
-    # def fromBraveTaggedFile(cls, ctl, assumptions):
-    #     model = cls()
-    #     brave_model = model.computeBrave(ctl, assumptions)
-    #     brave_symbols = [b.arguments[0] for b in brave_model if b.match('_brave',1)]
-    #     cautious_symbols = model.computeCautious(ctl, assumptions)
-    #     print(cautious_symbols)
-    #     model._setFbSymbols(brave_symbols + cautious_symbols)
-    #     return model
 
     @classmethod
     def fromBCExtendedFile(cls, ctl,assumptions):
@@ -107,7 +103,6 @@ class ClinguinModel:
 
     @classmethod
     def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
-        model = cls()
         prg = cls.getCautiousBrave(ctl,assumptions)
         return cls.fromWidgetsFileAndProgram(ctl,widgets_files,prg)
 
@@ -131,7 +126,7 @@ class ClinguinModel:
                 wctl.load(str(f))
             except Exception as e:
                 logger = logging.getLogger(Logger.server_logger_name)
-                logger.critical("File " + str(f) + " could not be loaded - likely not existant or syntax error in file!")
+                logger.critical("File %s  could not be loaded - likely not existant or syntax error in file!", str(f))
                 raise e
         
         wctl.add("base",[],extra_prg)

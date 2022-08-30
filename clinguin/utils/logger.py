@@ -1,21 +1,33 @@
+"""
+Module that takes care of the custom logging config, so it contains the Logger-class.
+"""
+
 import logging
 import os
 
-
-class ColoredFormatter(logging.Formatter):
-    def __init__(self, msg, use_color = True):
-        logging.Formatter.__init__(self, msg)
-        self.use_color = use_color
-
-    def format(self, record):
-        levelname = record.levelname
-        if self.use_color and levelname in Logger.COLORS:
-            color =  Logger.COLOR_SEQ % (30 + Logger.COLORS[levelname])
-            levelname_color = color + levelname[0:4] + Logger.RESET_SEQ
-            record.levelname = levelname_color
-        return logging.Formatter.format(self, record)
-
 class Logger:
+    """
+    Provides methods to set the logging config appropriatly. In principle two loggers exists - one for the client (default name: clinguin_client) and one for the server (default name: clinguin_server).
+    """
+
+    class ColoredFormatter(logging.Formatter):
+        """
+        For colored logs.
+        """
+
+        def __init__(self, msg, use_color = True):
+            logging.Formatter.__init__(self, msg)
+            self.use_color = use_color
+
+        def format(self, record):
+            levelname = record.levelname
+            if self.use_color and levelname in Logger.COLORS:
+                color =  Logger.COLOR_SEQ % (30 + Logger.COLORS[levelname])
+                levelname_color = color + levelname[0:4] + Logger.RESET_SEQ
+                record.levelname = levelname_color
+            return logging.Formatter.format(self, record)
+
+
 
     client_logger_name = "clinguin_client"
     server_logger_name = "clinguin_server"
@@ -58,7 +70,7 @@ class Logger:
 
     @classmethod
     def _addShellHandlerToLogger(cls, logger, log_arg_dict):
-        shell_formatter = ColoredFormatter(log_arg_dict['format_shell'])
+        shell_formatter = Logger.ColoredFormatter(log_arg_dict['format_shell'])
 
         logger.setLevel(cls.log_levels[log_arg_dict['level']])
 
@@ -69,7 +81,7 @@ class Logger:
 
     @classmethod
     def _addFileHandlerToLogger(cls, logger, log_arg_dict, log_file_path):
-        file_formatter = ColoredFormatter(log_arg_dict['format_file'])
+        file_formatter = Logger.ColoredFormatter(log_arg_dict['format_file'])
 
         with open(log_file_path, "a+") as file_object:
             file_object.write(

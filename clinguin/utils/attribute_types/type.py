@@ -9,8 +9,14 @@ class Type:
 
     @classmethod
     def parse(cls, input : str, logger):
+        """
+        Every type must override this method. This method parses/checks the given value.
+        """
         return None
     
     @classmethod
     def description(cls):
+        """
+        Every type must override this method. One provides a textual description of available values in the return string.
+        """
         return ""

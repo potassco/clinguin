@@ -21,7 +21,7 @@ def argsToDictConvert(args_dict, timestamp, name_prefix=""):
     Converts the ''external-logger-config'' representation into an internal one
     """
     log_dict = {}
-    log_dict['file_disabled'] = args_dict[name_prefix + 'log_disable_file']
+    log_dict['file_enabled'] = args_dict[name_prefix + 'log_enable_file']
     log_dict['shell_disabled'] = args_dict[name_prefix + 'log_disable_shell']
     log_dict['name'] = args_dict[name_prefix + 'logger_name']
     log_dict['level'] = args_dict[name_prefix + 'log_level']

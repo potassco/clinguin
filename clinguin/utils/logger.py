@@ -105,7 +105,7 @@ class Logger:
         logger = logging.getLogger(log_arg_dict['name'])
         if not log_arg_dict['shell_disabled']:
             cls._addShellHandlerToLogger(logger, log_arg_dict)
-        if not log_arg_dict['file_disabled']:
+        if log_arg_dict['file_enabled']:
             cls._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
 
     @classmethod
@@ -130,7 +130,7 @@ class Logger:
         logger = logging.getLogger("uvicorn")
         if not log_arg_dict['shell_disabled']:
             cls._addShellHandlerToLogger(logger, log_arg_dict)
-        if not log_arg_dict['file_disabled']:
+        if log_arg_dict['file_enabled']:
             cls._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
 
 

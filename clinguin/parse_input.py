@@ -283,7 +283,7 @@ class ArgumentParser():
         group.add_argument('--' + display_name + 'log-disable-shell',
                                    action='store_true',
                                    help='Disable shell logging')
-        group.add_argument('--' + display_name + 'log-disable-file',
+        group.add_argument('--' + display_name + 'log-enable-file',
                                    action='store_true',
                                    help='Disable file logging')
         group.add_argument('--' + display_name + 'logger-name',

@@ -7,7 +7,7 @@ from .root_cmp import *
 
 class DropdownmenuItem(RootCmp):
     """
-    Is an item of a dropdown, e.g. for the dropdownmenu |countries|, |germany| would be a dropdownmenu-item.
+    Is an item of a dropdown, e.g. for the dropdownmenu countries, germany would be a dropdownmenu-item.
     """
 
     def _initWidget(self, elements):

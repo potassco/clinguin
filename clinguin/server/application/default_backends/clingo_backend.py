@@ -17,7 +17,7 @@ enable_python()
 
 class ClingoBackend(ClinguinBackend):
     """
-    TODO -> Write Documentation!
+    The ClingoBackend class is the backend that is selected by default. It provides basic functionality to argue bravely and cautiously. Further it provides several policies for assumptions, atoms and externals.
     """
 
     def __init__(self, args):
@@ -89,6 +89,9 @@ class ClingoBackend(ClinguinBackend):
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
+        """
+        Overwritten default method to get the gui as a Json structure.
+        """
         if not self._model:
             self._updateModel()
 
@@ -97,6 +100,9 @@ class ClingoBackend(ClinguinBackend):
         return json_structure
 
     def clearAssumptions(self):
+        """
+        Policy: clearAssumptions removes all assumptions, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
+        """
         self._endBrowsing()
         self._assumptions = set()
         self._initCtl()
@@ -106,7 +112,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def addAssumption(self, predicate):
-        # Iconf
+        """
+        Policy: Adds an assumption and returns the udpated Json structure.
+        """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
             self._assumptions.add(predicate_symbol)
@@ -115,6 +123,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def removeAssumption(self, predicate):
+        """
+        Policy: Removes an assumption and returns the udpated Json structure.
+        """
         # Iconf
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
@@ -124,6 +135,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
    
     def clearAtoms(self):
+        """
+        Policy: clearAtoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
+        """
         self._endBrowsing()
         self._atoms = set()
         self._initCtl()
@@ -133,6 +147,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def addAtom(self, predicate):
+        """
+        Policy: Adds an assumption and basically resets the rest of the application (reground) - finally it returns the udpated Json structure.
+        """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
@@ -144,6 +161,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def removeAtom(self,predicate):
+        """
+        Policy: Removes an assumption and basically resets the rest of the application (reground) - finally it returns the udpated Json structure.
+        """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._atoms:
             self._atoms.remove(predicate_symbol)
@@ -154,6 +174,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def setExternal(self, predicate, value):
+        """
+        Policy: Sets the value of an external.
+        """
         symbol = parse_term(predicate)
         name = value
 

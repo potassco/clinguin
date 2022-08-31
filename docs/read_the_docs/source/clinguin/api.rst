@@ -20,8 +20,6 @@ Client Guis
 
 Client Tkinter Gui
 ^^^^^^^^^^^^^^^^^^
-.. autoclass:: clinguin.client.presentation.guis.tkinter_gui.tkinter_gui.TkinterGui
-    :members:
 
 .. automodule:: clinguin.client.presentation.guis.tkinter_gui.tkinter_widgets
     :members:

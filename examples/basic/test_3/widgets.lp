@@ -63,6 +63,7 @@ attribute(l1, on_hover, true).
 attribute(l1, on_hover_background_color, gray).
 attribute(l1, on_hover_foreground_color, beige).
 attribute(l1, font_size, 15).
+attribute(l1, font_weight, "i").
 attribute(l1, width, 100).
 attribute(l1, height, 50).
 attribute(l1, pos_x, 40).
@@ -76,7 +77,8 @@ attribute(b, label, "Clear!").
 attribute(b, on_hover, true).
 attribute(b, on_hover_background_color, gray).
 attribute(b, on_hover_foreground_color, beige).
-attribute(b, font_size, 15).
+attribute(b, font_size, 18).
+attribute(b, font_weight, "bi").
 attribute(b, width, 100).
 attribute(b, height, 50).
 attribute(b, pos_x, 40).

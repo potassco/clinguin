@@ -1,5 +1,5 @@
 """
-Module that contains the ChildLayoutType.
+Module that contains the PopupTypesType.
 """
 from enum import auto
 
@@ -8,7 +8,7 @@ from .enum import EnumType
 
 class PopupTypesType(EnumType):
     """
-    The PopupType is an Enum Type, which can be used to specify the layout of the children.
+    The PopupType is an Enum Type, which can be used to specify look and feel of the message box.
     """
 
     INFO = auto()
@@ -26,7 +26,7 @@ class PopupTypesType(EnumType):
         elif parsed_string == cls.ERROR.name.lower():
             return cls.ERROR
         else:
-            error_string = "Could not parse " + parsed_string + " to child_layout type."
+            error_string = "Could not parse " + parsed_string + " to PopupTypesType."
             logger.error(error_string)
             raise Exception(error_string)
 

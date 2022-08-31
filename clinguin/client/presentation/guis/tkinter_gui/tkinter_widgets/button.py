@@ -1,12 +1,11 @@
 """
 This module contains the button class.
 """
-from tkinter import font
 import tkinter as tk
 
 from .root_cmp import *
 
-class Button(RootCmp, LayoutFollower, ConfigureSize):
+class Button(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
     """
     A button is a widget, which is generally regarded as an active element, so actions are executed. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Label and Dropdownmenu - to make it work for layouting, the actual button is hidden the the widget is actually a tkinter frame (therefore self._widget is a frame, whereas self._button is the button).
     """
@@ -20,6 +19,7 @@ class Button(RootCmp, LayoutFollower, ConfigureSize):
         button_frame = tk.Frame(elements[str(self._parent)].getWidget())
         
         self._button = tk.Button(button_frame)
+        self._configure_font_widget = self._button
 
         return button_frame
 
@@ -37,10 +37,6 @@ class Button(RootCmp, LayoutFollower, ConfigureSize):
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.onhover_foreground_color] = {"value":"black", "value_type" : ColorType}
-        # Font
-        attributes[AttributeNames.font_family] = {"value":"Helvetica", "value_type" : StringType}
-        attributes[AttributeNames.font_size] = {"value":12, "value_type" : IntegerType}
-        attributes[AttributeNames.font_weight] = {"value":"normal", "value_type" : StringType}
 
         return attributes
 
@@ -89,12 +85,6 @@ class Button(RootCmp, LayoutFollower, ConfigureSize):
             self._button.bind('<Enter>', enter)
             self._button.bind('<Leave>', leave)
 
-    def _setFont(self, elements):
-
-        afont = font.Font(family=self._attributes[AttributeNames.font_family]["value"],
-            size = int(self._attributes[AttributeNames.font_size]["value"]), weight = self._attributes[AttributeNames.font_weight]["value"])
-        self._button.configure(font=afont)
- 
     #----------------------------------------------------------------------------------------------
     #-----Actions----
     #----------------------------------------------------------------------------------------------

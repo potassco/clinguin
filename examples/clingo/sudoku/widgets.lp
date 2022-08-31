@@ -112,6 +112,9 @@ attribute(next_label, background_color, "#4eff4e").
 attribute(next_label, on_hover, true).
 attribute(next_label, on_hover_background_color, "#00a000").
 attribute(next_label, on_hover_foreground_color, "#111111"). 
+attribute(next_label, font_family, "Helvetica").
+attribute(next_label, font_weight, "bold").
+attribute(next_label, font_size, 16).
 callback(next_label, click, nextSolution). 
 
 %---------------------------------------------------------------------------------------

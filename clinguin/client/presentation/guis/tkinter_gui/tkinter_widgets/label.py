@@ -1,24 +1,24 @@
 """
 This module contains the Label class.
 """
-from tkinter import font
 import tkinter as tk
 
 from .root_cmp import *
 
-class Label(RootCmp, LayoutFollower, ConfigureSize):
+class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
     """
     The label can be used for positiion text. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Dropdowmenu and Button - to make it work for layouting, the actual label is hidden and the widget is actually a tkinter frame (therefore self._widget is a frame, whereas self._label is the label).
     """
     def __init__(self, args, id, parent, attributes, callbacks, base_engine):
         super().__init__(args, id, parent, attributes, callbacks, base_engine)
-        
+        self._configure_font_widget = None
         self._label = None
 
     def _initWidget(self, elements):
         label_frame = tk.Frame(elements[str(self._parent)].getWidget())
 
         self._label = tk.Label(label_frame)
+        self._configure_font_widget = self._label
 
         return label_frame
 
@@ -34,11 +34,6 @@ class Label(RootCmp, LayoutFollower, ConfigureSize):
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.onhover_foreground_color] = {"value":"black", "value_type" : ColorType}
-
-        attributes[AttributeNames.font_family] = {"value":"Helvetica", "value_type" : StringType}
-        attributes[AttributeNames.font_size] = {"value":12, "value_type" : IntegerType}
-        attributes[AttributeNames.font_weight] = {"value":"normal", "value_type" : StringType}
-
         return attributes
 
     @classmethod
@@ -89,13 +84,6 @@ class Label(RootCmp, LayoutFollower, ConfigureSize):
     
             self._label.bind('<Enter>', enter)
             self._label.bind('<Leave>', leave)
-
-    def _setFont(self, elements):
-
-        afont = font.Font(family=self._attributes[AttributeNames.font_family]["value"],
-            size = int(self._attributes[AttributeNames.font_size]["value"]), weight = self._attributes[AttributeNames.font_weight]["value"])
-        self._label.configure(font=afont)
-
 
  
     #----------------------------------------------------------------------------------------------

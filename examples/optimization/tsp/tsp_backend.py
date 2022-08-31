@@ -72,9 +72,15 @@ class TspBackend(ClingraphBackend):
             atom_prg = model.tag(self._atoms, "_atom")
             atom_prg = model.symbolsToPrg(atom_prg)
 
+            assumption_prg = model.tag(self._assumptions, "_assumption")
+            assumption_prg = model.symbolsToPrg(assumption_prg)
+
+            print("assumptions:")
+            print(assumption_prg)
+
 
             #prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)
-            prg = c_prg + b_prg + bcd_prg + atom_prg
+            prg = c_prg + b_prg + bcd_prg + atom_prg + assumption_prg
 
             self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
 
@@ -91,7 +97,6 @@ class TspBackend(ClingraphBackend):
         self._best = m.symbols(shown=True, atoms=False)
 
     def addBestToAtoms(self, cautious, best):
-        
         for b in best:
             if str(b.name) == "selected":
                 v0 = b.arguments[0]
@@ -106,9 +111,9 @@ class TspBackend(ClingraphBackend):
                             found = True
                             break
 
+                # If b in best but not in cautious, then add:
                 if not found:
-                    self._atoms.add(b) 
-                
+                    self._assumptions.add(b) 
 
     def findMinimum(self):
 

@@ -30,7 +30,7 @@ attribute(dma, grid_column, 1).
 
 element(dma(V0,V1), dropdown_menu_item, dma) :- _bcd(selected(V0,V1)).
 attribute(dma(V0,V1), label, e(V0,V1)) :- _bcd(selected(V0,V1)).
-callback(dma(V0,V1), click, add_atom(selected(V0,V1))) :- _bcd(selected(V0,V1)).
+callback(dma(V0,V1), click, add_assumption(selected(V0,V1))) :- _bcd(selected(V0,V1)).
 
 element(dmd_c, container, c_r_u).
 attribute(dmd_c, grid_row, 1).
@@ -44,9 +44,9 @@ attribute(dmd_l, label, "Remove").
 element(dmd, dropdown_menu, dmd_c).
 attribute(dmd, grid_column, 1).
 
-element(dmd(V0,V1), dropdown_menu_item, dmd) :- _atom(selected(V0,V1)).
-attribute(dmd(V0,V1), label, e(V0,V1)) :- _atom(selected(V0,V1)).
-callback(dmd(V0,V1), click, remove_atom(selected(V0,V1))) :- _atom(selected(V0,V1)).
+element(dmd(V0,V1), dropdown_menu_item, dmd) :- _assumption(selected(V0,V1)).
+attribute(dmd(V0,V1), label, e(V0,V1)) :- _assumption(selected(V0,V1)).
+callback(dmd(V0,V1), click, remove_assumption(selected(V0,V1))) :- _assumption(selected(V0,V1)).
 
 element(c2, container, window).
 attribute(c2, grid_row, 1).

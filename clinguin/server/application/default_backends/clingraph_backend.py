@@ -42,6 +42,7 @@ class ClingraphBackend(ClingoBackend):
         self._dir = args.dir
         self._name_format = args.name_format
         self._engine = args.engine
+        self._disable_saved_to_file = args.disable_saved_to_file
 
         self._intermediate_format = 'png'
         self._encoding = 'utf-8'
@@ -139,6 +140,11 @@ class ClingraphBackend(ClingoBackend):
                         type=str,
                         metavar="")
 
+        parser.add_argument('--disable-saved-to-file',
+                    action='store_true',
+                    help='Disable image saved to file')
+ 
+
     def _computeClingraphGraphs(self,prg):
         fbs = []
         ctl = Control("0")
@@ -193,7 +199,10 @@ class ClingraphBackend(ClingoBackend):
                     for split in splits:
                         rest = rest + split
 
-                    base64_key_image = self._createImageFromGraph(graphs, key = rest)
+                    key_image = self._createImageFromGraph(graphs, key = rest)
+
+                    base64_key_image = self._convertImageToBase64String(key_image)
+
                     filled_attributes.append(AttributeDao(Raw(Function(str(attribute.id),[])), Raw(Function(str(attribute.key),[])), Raw(String(str(base64_key_image)))))
                 else:
                     filled_attributes.append(attribute)
@@ -225,20 +234,24 @@ class ClingraphBackend(ClingoBackend):
         graph.format = self._intermediate_format
         img = graph.pipe(engine=self._engine)
 
-        encoded = base64.b64encode(img)
-        decoded = encoded.decode(self._encoding)
+        return img
 
-        return decoded        
-        
+    def _convertImageToBase64String(self, img):
+        encoded = base64.b64encode(img)
+        decoded = encoded.decode(self._encoding)    
+        return decoded
+
+       
     def _updateModel(self):
-        super()._updateModel()
         try:
             prg = ClinguinModel.getCautiousBrave(self._ctl,self._assumptions)
             self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
 
             graphs = self._computeClingraphGraphs(prg)
 
-            self._saveClingraphGraphsToFile(graphs)
+            if not self._disable_saved_to_file:
+                print(self._disable_saved_to_file)
+                self._saveClingraphGraphsToFile(graphs)
 
             self._filled_model = self._getModelFilledWithBase64ImagesFromGraphs(graphs)
 

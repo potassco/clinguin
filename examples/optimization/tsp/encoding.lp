@@ -6,7 +6,6 @@ r(V0) :- selected(V0, V1), r(V1).
 
 :- node(V), not r(V).
 
-cost(CC) :- CC = #sum{C,V0,V1 : selected(V0,V1), weight(V0,V1,C)}.
 
 %#minimize{C:cost(C)}.
 

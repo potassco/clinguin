@@ -4,12 +4,16 @@ attribute(window, height, 500) :- h(X).
 attribute(window, width, 500) :- w(X).
 attribute(window, child_layout, grid).
 
+% ----------------------------------------------------------------------
+% ------------------- DISPLAY GRAPH ------------------------------------
 element(canv, canvas, window).
 attribute(canv, image, clingraph__default).
 attribute(canv, width, 250).
 attribute(canv, height, 250).
 attribute(canv, resize, true).
 
+% ----------------------------------------------------------------------
+% ------------------- DROPDOWN SECTION ---------------------------------
 element(c_r_u, container, window).
 attribute(c_r_u, grid_column, 1).
 attribute(c_r_u, width, 250).
@@ -48,6 +52,8 @@ element(dmd(V0,V1), dropdown_menu_item, dmd) :- _assumption(selected(V0,V1)).
 attribute(dmd(V0,V1), label, e(V0,V1)) :- _assumption(selected(V0,V1)).
 callback(dmd(V0,V1), click, remove_assumption(selected(V0,V1))) :- _assumption(selected(V0,V1)).
 
+% ----------------------------------------------------------------------
+% ------------------- LOWER SECTION ------------------------------------
 element(c2, container, window).
 attribute(c2, grid_row, 1).
 attribute(c2, width, 500).
@@ -56,12 +62,14 @@ attribute(c2, background_color, black).
 attribute(c2, grid_column_span, 2).
 attribute(c2, child_layout, grid).
 
+% ------------------- CLEAR BUTTON ---------------------------------
 element(clear, button, c2).
 attribute(clear, label, "Clear").
 attribute(clear, height, 125).
 attribute(clear, width, 150).
-callback(clear, click, clear_atoms).
+callback(clear, click, clear_assumptions).
 
+% ------------------- FIND MIN ---------------------------------
 element(find_min, button, c2).
 attribute(find_min, label, "Find Min.").
 attribute(find_min, height, 125).
@@ -70,6 +78,7 @@ callback(find_min, click, find_minimum).
 attribute(find_min, grid_row, 1).
 
 
+% ------------------- COST 1 LABEL ---------------------------------
 element(cur_cost_l, label, c2).
 attribute(cur_cost_l, label, "Current Cost:").
 attribute(cur_cost_l, height, 120).
@@ -77,8 +86,15 @@ attribute(cur_cost_l, width, 350).
 attribute(cur_cost_l, grid_row, 0).
 attribute(cur_cost_l, grid_column, 1).
 
+
+% ------------------- COST 2 LABEL AND COST CALCULATION ---------------------------------
+cost(CC) :- CC = #sum{C,V0,V1 : selected(V0,V1), weight(V0,V1,C)}.
+attribute(cur_cost_b, label, C) :- cost(C).
+
+% Showcase, that one can also argue on a meta level in the backend:
+%attribute(cur_cost_b, label, C) :- _cautious_cost(C).
+
 element(cur_cost_b, label, c2).
-attribute(cur_cost_b, label, C) :- _cautious_cost(C).
 attribute(cur_cost_b, height, 120).
 attribute(cur_cost_b, width, 350).
 attribute(cur_cost_b, grid_column, 1).

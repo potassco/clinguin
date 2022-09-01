@@ -34,7 +34,6 @@ class Message(RootCmp):
         title = self._attributes[AttributeNames.title]["value"]
         message = self._attributes[AttributeNames.message]["value"]
 
-        print(type)
         if PopupTypesType.INFO == type:
             tk.messagebox.showinfo(title=title, message=message)
         elif PopupTypesType.WARNING == type:

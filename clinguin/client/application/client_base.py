@@ -1,22 +1,27 @@
+"""
+Module that contains the ClientBase class
+"""
 import time
 import logging
 
+from clinguin.utils import CaseConverter, Logger
 from clinguin.client.api.api import Api
-from clinguin.client.api.call_dto import CallDto
+from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
 
-from clinguin.client.presentation.abstract_gui import AbstractGui
-
-class ClientBase:
+class ClientBase:   
+    """
+    ClientBase is the ''base'' of the client. It contains the logic which is responsible for connecting to the server, what to do in case of errors, forward the Json to the correct GUI, etc.
+    """
 
     endpoint_health = "health"
 
     def __init__(self, args):
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(Logger.client_logger_name)
 
-        self.api = Api(args)
+        self.api = Api()
         self.connected = False
 
-        self.solve_dto = CallDto("solve")
+        self.solve_dto = FrontendPolicyDto("solve")
 
         self.gui_generator = args.client(self, args)
 
@@ -27,54 +32,64 @@ class ClientBase:
             self.draw(response)
             self.gui_generator.draw(response['children'][0]['id'])
         else:
-            logging.getLogger("client").error(
-                "Connection error, status code: " + str(status_code))
+            self._logger.error(
+                "Connection error, status code: %s", str(status_code))
 
             self.connected = False
             self.connect()
 
     def connect(self):
-        while (self.connected == False):
-            (status_code, json) = self.api.get(self.endpoint_health)
+        while not self.connected:
+            (status_code, _) = self.api.get(self.endpoint_health)
 
             if status_code == 200:
                 self.connected = True
             else:
-                logging.getLogger("client").info("Waiting for connection")
+                self._logger.info("Waiting for connection")
                 time.sleep(1)
 
     def draw(self, response):
-        start = time.time()
         self.baseEngine(response)
-        end = time.time()
-        self._logger.debug("Generation of GUI needed about " + str(end - start) + " seconds.")
 
     def baseEngine(self, response):
+        """
+        Handles the response of the server to draw the GUI. For this it iterates through the received Json/Dict in a top-down preorder fashion.
+
+        Parameters:
+            response (dict): Json from which one can draw the GUI.
+        """
+
         children = response['children']
 
         for child in children:
+            snake_case_name = child['type']
+            camel_case_name = CaseConverter.snakeCaseToCamelCase(snake_case_name)
 
-            if hasattr(self.gui_generator, child['type']):
-                method = getattr(self.gui_generator, child['type'])
+            method = None
 
+            if hasattr(self.gui_generator, camel_case_name):
+                method = getattr(self.gui_generator, camel_case_name)
+            elif hasattr(self.gui_generator, snake_case_name):
+                method = getattr(self.gui_generator, snake_case_name)
+
+            if method and callable(method):
                 method(
                     child['id'],
                     child['parent'],
                     child['attributes'],
                     child['callbacks'])
-
                 self.baseEngine(child)
             else:
-                logging.getLogger("client").error(
-                    "Could not find element type: " + child['type'])
+                self._logger.error(
+                    "Could not find element type: %s", child['type'])
 
-    def assume(self, click_policy):
-        (status_code, json) = self.api.post("solver", CallDto(click_policy))
+    def postWithPolicy(self, click_policy):
+        (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)
         else:
-            logging.getLogger("client").error(
-                "Connection error, status code: " + str(status_code))
+            self._logger.error(
+                "Connection error, status code: %s", str(status_code))
 
             self.connected = False
             self.connect()

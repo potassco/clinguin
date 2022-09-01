@@ -1,8 +1,12 @@
+"""
+Module that contains the ElementDto class.
+"""
 import json
-from clorm import StringField
-
 
 class ElementDto:
+    """
+    The class that represents elements that are Json convertible, i.e. these components are the heart of the Json convertible hierarchy.
+    """
 
     def __init__(self, id, type, parent):
         self.id = str(id)

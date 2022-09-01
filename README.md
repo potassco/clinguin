@@ -1,34 +1,46 @@
 # Clinguin :penguin: 
 
-Simple-Client-Server-Prototype
-
-As the name suggests, this program is a prototype for Clinguin (an interactive-user-interface for Clingo). The program basically works as follows (for a full description see the corresponding development diary (`/project-document`): 
-
-- Server:
-    - Architecture wise, the server has a pretty standard layered-architecture
-        - Presentation: Here the endpoints are located 
-        - Application: Here the solver(s) is/are located
-        - Data: Just the Data-Access-Objetcs (DAOs) for ClingoORM (CLORM)
-    - Presentation: The server is basically a REST-server with two endpoints:
-        - /health (GET) -> To check if the server is up and running
-        - / (POST) -> Is a ''solver-function-caller'', e.g. if there exists a function ''f:X->Y'', then one may call it with argument ''1'' by passing a json string: `{ ''function'' : ''f(1)'' }`.
+Clinguin is a graphical-user-interface for Clingo, where one can specify the user-interface entirely in a logic-program. One might wonder how one can do this by him-/herself - for this see the descriptions below and have fun :-)
 
 ## Install
 
+Preliminaries:
 - Python (version 3.8, 3.9, or 3.10)
 
+Now clone the repository, and move to the repository. In the repo you should see a `setup.py` file. Now execute the following command:
 
 ```
-pip install . -e
+python setup.py install
 ```
 
-## Syntax
+Now `STAY` in this directory, as currently (see issue #61 on GitHub) there is a bug, where one can only execute clinguin from this location.
 
-See the `/syntax_discussion/20220714_alex_syntax.lp` file.
+## The first example
 
-## Starting:
+After the installation, executing the first example is quite straightforward, just copy-paste the following command into your commandprompt:
 
-There are two start-possibilities:
+`clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+
+After you hit enter, a Sudoku-game should open, which you can play - have fun :-)
+
+## Next Steps
+
+Next steps - now it is time for you to try out some stuff yourself. In the folder(s) `exapmles` you find some smaller and some bigger example programs, which you can take as a first stepping stone for building your own Clingo-Gui.
+
+### Syntax
+
+For the development it is useful to know which elements, attribute-keys and -values are available. For this you can hit: `clinguin client --gui-syntax` for an overview and `clinguin client --gui-syntax-full` for a detailed list and description of the available widgets.
+
+### Help
+
+Clinguin is divided into three different sub-programs: Client, Server and Client-Server. One can access the help section of each one of those individually, i.e.:
+- `clinguin client -h`
+- `clinguin server -h`
+- `clinguin client-server -h`
+
+## Starting/Installation-2:
+
+The following section provides more details about installation and execution, in general there are two start-possibilities:
 1. Package-Version
 2. Development-Version
 
@@ -49,24 +61,33 @@ After the installation a package with the name `clinguin` should have been insta
 
 #### Standard-Start
 
-`$ clinguin client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
+See `$ clinguin client-server -h`
 
-- custom-classes: Specify the folder, where the solver(s) are located.
-- solver: Specify the solver, which must be in the folder where custom-classes points to.
+`$ clinguin client-server [--custom-server-classes=folder-path] [--custom-client-classes=folder-path] [--solver=solver] [--client=client] logic-program [... logic-program]`
+
+- custom-client/server-classes: Specify the folder, where the solver(s) are located.
+- solver/client: Specify the solver/client, which must be in the folder (or subfolder) where custom-classes points to - Pro-Tip: See which solvers/clients are available by typing: `clinguin client-server -h`
+- 
 
 E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ clinguin client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/default_backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server 
 
-`$ clinguin server [--solver=solver] logic-program [... logic-program]`
+See `$ clinguin server -h`
+
+`$ clinguin server  [--custom-server-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
+
 
 E.g. for the sudoku example: `$ clinguin server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Client
 
-`$ clinguin client`
+See `$ clinguin client -h`
+
+`$ clinguin client [--custom-client-classes=folder-path] [--client=client] `
+
 
 #### Shutting down
 
@@ -76,13 +97,17 @@ Even though it is not the most ellegant way (and it will throw errors at you, so
 
 #### Standard-Start
 
+See `$ python start.py client-server -h`
+
 `$ python start.py client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
 
 E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server
+
+See `$ python start.py server -h`
 
 `$ python start.py server [--solver=solver] logic-program [... logic-program]`
 
@@ -90,29 +115,30 @@ E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.
 
 #### Only Client
 
+See `$ python start.py client -h`
+
 `$ python start.py client`
 
 #### Shutting down
 
-Even though it is not the most ellegant way (and it will throw errors at you, so better hide), just `Ctr-C`.
+Do the following for:
+- `client` and `client-server`: Close at FIRST the GUI-Window and then press `Ctrl-C`
+- `server`: Just press `Ctrl-C`
 
 ## Dependencies:
 
 All dependencies can be installed via `python setup.py install` 
 
-
 ## Implementation of own Solver
 
 Preliminary 1: This section will be expanded in the future.
 
-Preliminary 2: Standard behavior: The standard behavior is to load the solver in the package `server.application.standard_solver.StandardSolver`. This solver will get instanciated by default, therefore when one wants to specify another solver, one needs to add the `--solver` argument-option and then specify the package where the solver is located.
+Preliminary 2: Standard/Default behavior: The standard behavior is to load the solver in the package `server.application.clingo_backend.StandardSolver`. This solver will get instanciated by default, therefore when one wants to specify another solver, one needs to add the `--solver` argument-option and then specify the package where the solver is located.
 
 Implementation: For the implementation of one's own solver, one basically has free hands in terms of syntactic definitions of the class, except two (or three) things:
-1. The `__init__()` method takes an argument `logic_programs` which is a list of string-paths to the logic programs (the existance of the files has been checked by now, but not the content).
+1. The `__init__()` method takes an argument `args` which are the command-line arguments (see `clinguin/server/application/default_backends/clingo_backend.py`) 
 2. When a method needs to return something to the client/User-Interface (UI) the method must return a **Json-convertible-class-hierarchy**. If one uses the standard-UI it is highly recommended to use the `ElementDto`, `AttributeDto` and `CallbackDto` classes to save the class hierarchy, otherwise one needs to at least implement the functionality of the `ElementDto` class and further provide a `root` element (initialized with the default `ElementDto` by `ElementDto('root', 'root', 'root')`). 
-3. If one uses the **standard-UI** then one needs to provide a `solve()` method in the solver. This method takes no argument and returns a json-convertible class hierarchy. This is needed, as the solve() method is initially invoked by the UI.
-
-
+3. One needs to provide a `get()` method in the solver. This method takes no argument and returns a json-convertible class hierarchy. This is needed, as this method is initially invoked by the UI.
 
 ## Implementation of own Client/User-Inteface (UI)
 
@@ -122,9 +148,17 @@ For this one needs to implement a class which is a subtype of the `AbstractGui` 
 
 The next thing to do is to invoke the GUI, by changing a line in the class `client.application.client_base.ClientBase`. This line is the creation of the `TkinterGui()` object, so the line: `self.gui_generator = TkinterGui(self)`, with ones own fancy gui, like `self.gui_generator = FancyGui()`.
 
+## Other examples:
 
+### Elevator:
 
+Is located in: `examples/elevator` - can be executed by:
 
+`$ clinguin client-server --custom-server-classes='./examples/elevator' --solver=TemporalBackend --source-files=examples/elevator/encoding.lp --widget-files=examples/elevator/widgets.lp`
+
+# Linting:
+
+`<PATH>/clinguin$ pylint --disable=C0301,C0303,C0305,R1705,W0703,R0201,W0707,W0122,C0116,W0622,C0103,R0903,W0401,W0614 clinguin`
 
 
 

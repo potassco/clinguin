@@ -1,16 +1,22 @@
+"""
+Responsible for starting the server
+"""
 import uvicorn
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI
 
-from clinguin.utils.logger import Logger
-from clinguin.server.presentation.endpoints import Endpoints
+from clinguin.utils import Logger
+from clinguin.server import Endpoints
 
 
 def start(args):
+    """
+    Function that starts the uvicorn server.
+    """
 
     app = FastAPI()
 
     @app.on_event("startup")
-    async def startup_event():
+    async def startupEvent():
         Logger.setupUvicornLoggerOnStartup(args.log_args)
 
     endpoints = Endpoints(args)

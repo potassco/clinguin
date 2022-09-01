@@ -1,38 +1,43 @@
-# Standard Python
-from fastapi import FastAPI, APIRouter
-
+"""
+Module for the Endpoints class.
+"""
 import logging
-import clingo
-
-from pydantic import BaseModel
-from typing import Sequence, Any
-
 from importlib.metadata import metadata
 
-# Self Defined
-from clinguin.server.presentation.endpoints_helper import call_function
-from clinguin.server.presentation.solver_dto import SolverDto
+from fastapi import APIRouter
 
-from clinguin.utils.logger import Logger
+import clingo
+
+from clinguin.utils import Logger
+# Self Defined
+from .endpoints_helper import EndpointsHelper
+from .backend_policy_dto import BackendPolicyDto
 
 
 class Endpoints:
+    """
+    The endpoints class define the available endpoints the backend (this time backend refers to the general concept of backend, like a server backend) has. These are defined in the ''__init__'', and correspond to the three methods:
+
+    Methods:
+        health -> Json : Returns name, version and description of clinguin.
+        standardExecutor -> Json : Returns the default GUI representation as Json that the Backend provides.
+        policyExecutor -> Json : Executes a policy defined by the Json passed with the Post request.
+    """
     def __init__(self, args) -> None:
-        Logger.setupLogger(args.log_args)
+        Logger.setupLogger(args.log_args, process = "server")
         self._logger = logging.getLogger(args.log_args['name'])
 
         self.router = APIRouter()
 
         # Definition of endpoints
         self.router.add_api_route("/health", self.health, methods=["GET"])
-        self.router.add_api_route("/", self.standardSolver, methods=["GET"])
-        self.router.add_api_route("/solver", self.solver, methods=["POST"])
+        self.router.add_api_route("/", self.standardExecutor, methods=["GET"])
+        self.router.add_api_route("/backend", self.policyExecutor, methods=["POST"])
 
-        self._solver = []
-        self._solver.append(args.solver(args))
+        self._backend = args.backend(args)
 
     async def health(self):
-
+        self._logger.info("--> Health")
         cuin = metadata('clinguin')
         return {
             "name": cuin["name"],
@@ -40,18 +45,22 @@ class Endpoints:
             "description": cuin["summary"]
         }
 
-    async def standardSolver(self):
-        return self._solver[0].get()
+    async def standardExecutor(self):
+        self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
+        return self._backend.get()
 
-    async def solver(self, solver_call_string: SolverDto):
-
-        symbol = clingo.parse_term(solver_call_string.function)
+    async def policyExecutor(self, backend_call_string: BackendPolicyDto):
+        self._logger.debug("Got endpoint")
+        symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name
         function_arguments = (
-            list(map(lambda symb: str(symb), symbol.arguments)))
+            list(map(str, symbol.arguments)))
 
-        result = call_function(
-            self._solver,
+        call_args = ",".join(function_arguments)
+        self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
+
+        result = EndpointsHelper.callFunction(
+            self._backend,
             function_name,
             function_arguments,
             {})

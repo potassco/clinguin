@@ -1,4 +1,6 @@
-# This is a package
+"""
+Server module, contains core-program classes.
+"""
 from .presentation.endpoints import Endpoints
 from .application.standard_json_encoder import StandardJsonEncoder
 from .application.clinguin_backend import ClinguinBackend

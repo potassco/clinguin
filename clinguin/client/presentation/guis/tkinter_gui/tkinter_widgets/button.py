@@ -1,17 +1,31 @@
-from tkinter import font
+"""
+This module contains the button class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
-class Button(RootCmp):
+class Button(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
+    """
+    A button is a widget, which is generally regarded as an active element, so actions are executed. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Label and Dropdownmenu - to make it work for layouting, the actual button is hidden the the widget is actually a tkinter frame (therefore self._widget is a frame, whereas self._button is the button).
+    """
+    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
+        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+        
+        self._button = None
 
     def _initWidget(self, elements):
-        button = tk.Button(elements[str(self._parent)].getWidget(), height = 100, width = 100)
-        return button
+
+        button_frame = tk.Frame(elements[str(self._parent)].getWidget())
+        
+        self._button = tk.Button(button_frame)
+        self._configure_font_widget = self._button
+
+        return button_frame
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         # Label/Text
@@ -23,16 +37,12 @@ class Button(RootCmp):
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.onhover_foreground_color] = {"value":"black", "value_type" : ColorType}
-        # Font
-        attributes[AttributeNames.font_family] = {"value":"Helvetica", "value_type" : StringType}
-        attributes[AttributeNames.font_size] = {"value":12, "value_type" : IntegerType}
-        attributes[AttributeNames.font_weight] = {"value":"normal", "value_type" : StringType}
 
         return attributes
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
@@ -45,15 +55,15 @@ class Button(RootCmp):
 
     def _setLabelText(self, elements):
         text = self._attributes[AttributeNames.label]["value"]
-        self._widget.configure(text = text)
+        self._button.configure(text = text)
 
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
-        self._widget.configure(background = value)
+        self._button.configure(background = value)
 
     def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
         value = self._attributes[key]["value"]
-        self._widget.configure(foreground = value)
+        self._button.configure(foreground = value)
 
     def _setOnHover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
@@ -61,7 +71,7 @@ class Button(RootCmp):
 
         on_hover_foreground_color = self._attributes[AttributeNames.onhover_foreground_color]["value"]
 
-        if on_hover == True:
+        if on_hover:
             def enter(event):
                 if on_hover_background_color != "":
                     self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)
@@ -72,15 +82,9 @@ class Button(RootCmp):
                 self._setBackgroundColor(elements)
                 self._setForegroundColor(elements)
     
-            self._widget.bind('<Enter>', enter)
-            self._widget.bind('<Leave>', leave)
+            self._button.bind('<Enter>', enter)
+            self._button.bind('<Leave>', leave)
 
-    def _setFont(self, elements):
-
-        afont = font.Font(family=self._attributes[AttributeNames.font_family]["value"],
-            size = int(self._attributes[AttributeNames.font_size]["value"]), weight = self._attributes[AttributeNames.font_weight]["value"])
-        self._widget.configure(font=afont)
- 
     #----------------------------------------------------------------------------------------------
     #-----Actions----
     #----------------------------------------------------------------------------------------------
@@ -91,10 +95,11 @@ class Button(RootCmp):
             def clickEvent(event):
                 self._base_engine.postWithPolicy(self._callbacks[key]["policy"])
 
-            self._widget.bind('<Button-1>', clickEvent)
+            self._button.bind('<Button-1>', clickEvent)
 
     def _addComponentToElements(self, elements):
-        self._widget.pack(expand=True, fill='both')
+        self._button.pack(expand=True, fill='both')
+
         elements[str(self._id)] = self
 
 

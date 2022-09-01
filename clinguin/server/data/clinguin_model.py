@@ -1,19 +1,26 @@
-import clorm
-import clingo
+"""
+Module that contains the ClinguinModel class.
+"""
 import logging
+import clorm
 
-from clorm import Predicate, ConstantField, RawField, Raw
+from clorm import Raw
 from clingo import Control,parse_term
 from clingo.symbol import Function, Number, String
+
+from clinguin.utils import NoModelError, Logger
 
 from .element import ElementDao
 from .attribute import AttributeDao
 from .callback import CallbackDao
-from clinguin.utils import NoModelError
 
 class ClinguinModel:
+    """
+    The ClinguinModel is the low-level-access-class for handling clorm and clingo, regarding brave-cautious and other default things. This class provides functionality to create a factbase with brave-cautious extended files, functionality to query important things for clinguin, etc.
+    """
 
     def __init__(self, factbase=None):
+        self._logger = logging.getLogger(Logger.server_logger_name)
 
         self.unifiers = [ElementDao, AttributeDao, CallbackDao]
 
@@ -25,31 +32,23 @@ class ClinguinModel:
     def __str__(self):
         return self._factbase.asp_str()
 
-    # @classmethod
-    # def fromBraveTaggedFile(cls, ctl, assumptions):
-    #     model = cls()
-    #     brave_model = model.computeBrave(ctl, assumptions)
-    #     brave_symbols = [b.arguments[0] for b in brave_model if b.match('_brave',1)]
-    #     cautious_symbols = model.computeCautious(ctl, assumptions)
-    #     print(cautious_symbols)
-    #     model._setFbSymbols(brave_symbols + cautious_symbols)
-    #     return model
-
     @classmethod
     def fromBCExtendedFile(cls, ctl,assumptions):
+        logger = logging.getLogger(Logger.server_logger_name)
+
         ctl.assign_external(parse_term('show_all'),False)
         ctl.assign_external(parse_term('show_cautious'),False)
         ctl.assign_external(parse_term('show_untagged'),False)
         ctl.assign_external(parse_term('show_brave'),True)
-        brave_model = cls.fromBraveModel(ctl,assumptions)
+        brave_model = cls.fromBraveModel(ctl,assumptions, logger)
         # Here we could see if the user wants none tagged as cautious by default
         ctl.assign_external(parse_term('show_brave'),False)
         ctl.assign_external(parse_term('show_untagged'),True)
-        cautious_model = cls.fromCautiousModel(ctl,assumptions)
+        cautious_model = cls.fromCautiousModel(ctl,assumptions, logger)
         ctl.assign_external(parse_term('show_untagged'),False)
         ctl.assign_external(parse_term('show_all'),True)
 
-        return cls.combine(brave_model,cautious_model)
+        return cls.combine(brave_model,cautious_model, logger)
     
 
     @classmethod
@@ -77,15 +76,21 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
+    def getCautiousBrave(cls, ctl, assumptions):
         model = cls()
 
         cautious_model = model.computeCautious(ctl, assumptions)
         brave_model = model.computeBrave(ctl, assumptions)
-        # c_prg = self.tag_cautious_prg(cautious_model)
-        c_prg = model.symbols_to_prg(cautious_model)
-        b_prg = model.tag_brave_prg(brave_model)
-        wctl = cls.wid_control(widgets_files, c_prg+b_prg)
+        # c_prg = self.tagCautiousPrg(cautious_model)
+        c_prg = model.symbolsToPrg(cautious_model)
+        b_prg = model.tagBravePrg(brave_model)
+        return c_prg+b_prg
+
+    @classmethod
+    def fromWidgetsFileAndProgram(cls, ctl, widgets_files, prg):
+        model = cls()
+
+        wctl = cls.widControl(widgets_files, prg)
 
         with wctl.solve(yield_=True) as result:
             for m in result:
@@ -94,6 +99,12 @@ class ClinguinModel:
 
         model._setFbSymbols(model_symbols)
         return model
+
+
+    @classmethod
+    def fromWidgetsFile(cls, ctl, widgets_files, assumptions):
+        prg = cls.getCautiousBrave(ctl,assumptions)
+        return cls.fromWidgetsFileAndProgram(ctl,widgets_files,prg)
 
     @classmethod
     def fromCtl(cls, ctl):
@@ -108,10 +119,15 @@ class ClinguinModel:
 
 
     @classmethod
-    def wid_control(cls, widgets_files, extra_prg=""):
+    def widControl(cls, widgets_files, extra_prg=""):
         wctl = Control(['0','--warn=none'])
         for f in widgets_files:
-            wctl.load(str(f))
+            try:
+                wctl.load(str(f))
+            except Exception as e:
+                logger = logging.getLogger(Logger.server_logger_name)
+                logger.critical("File %s  could not be loaded - likely not existant or syntax error in file!", str(f))
+                raise e
         
         wctl.add("base",[],extra_prg)
         wctl.add("base",[],"#show element/3. #show attribute/3. #show callback/3.")
@@ -119,6 +135,10 @@ class ClinguinModel:
 
         return wctl
 
+    def addMessage(self,title,message):
+        self.addElement("message","message","window")
+        self.addAttribute("message","title",title)
+        self.addAttribute("message","message",message)
 
     def tag(self, model, tag):
         tagged = []
@@ -126,16 +146,16 @@ class ClinguinModel:
             tagged.append(Function(tag,[s]))
         return tagged
 
-    def symbols_to_prg(self,symbols):
+    def symbolsToPrg(self,symbols):
         return "\n".join([str(s)+"." for s in symbols])
 
-    def tag_brave_prg(self, model):
+    def tagBravePrg(self, model):
         tagged = self.tag(model,'_b')
-        return self.symbols_to_prg(tagged)
+        return self.symbolsToPrg(tagged)
     
-    def tag_cautious_prg(self, model):
+    def tagCautiousPrg(self, model):
         tagged = self.tag(model,'_c')
-        return self.symbols_to_prg(tagged)
+        return self.symbolsToPrg(tagged)
 
 
     def addElement(self, id, t, parent):
@@ -157,8 +177,6 @@ class ClinguinModel:
         if type(value)==int:
             value = Number(value)
         self._factbase.add(AttributeDao(Raw(id),Raw(key),Raw(value)))
-
-
 
     def filterElements(self, condition):
         elements = self.getElements()
@@ -219,4 +237,6 @@ class ClinguinModel:
         return self._compute(ctl, assumptions)
 
 
+    def getFactbase(self):
+        return self._factbase
 

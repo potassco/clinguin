@@ -1,8 +1,14 @@
+"""
+Module contains the Container class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
-class Container(RootCmp, LayoutFollower, LayoutController):
+class Container(RootCmp, LayoutFollower, LayoutController, ConfigureSize, ConfigureBorder):
+    """
+    The container is a generic widget which can be used for layouting, hovering effects or even callbacks. Generally it is recommended to use it as a ''container'' for multiple other widgets, e.g. labels, buttons, etc.
+    """
 
     def _initWidget(self, elements):
         container = tk.Frame(elements[str(self._parent)].getWidget())
@@ -10,15 +16,10 @@ class Container(RootCmp, LayoutFollower, LayoutController):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.backgroundcolor] = {"value":"white", "value_type" : ColorType, "description": "CUSTOM-BACKGROUND-COLOR-DESCRIPTION <- Now normal:" + AttributeNames.descriptions[AttributeNames.backgroundcolor]}
-        attributes[AttributeNames.width] = {"value":0, "value_type" : IntegerType}
-        attributes[AttributeNames.height] = {"value":0, "value_type" : IntegerType}
-        attributes[AttributeNames.border_width] = {"value":0, "value_type" : IntegerType}
-        attributes[AttributeNames.border_color] = {"value":"black", "value_type" : ColorType}
-
         # Interactive-Attributes
         attributes[AttributeNames.onhover] = {"value":False, "value_type" : BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"", "value_type" : ColorType}
@@ -28,7 +29,7 @@ class Container(RootCmp, LayoutFollower, LayoutController):
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks["click"] = {"policy":None, "policy_type" : SymbolType}
@@ -42,52 +43,12 @@ class Container(RootCmp, LayoutFollower, LayoutController):
     def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         self._widget.configure(background = value)
-
-    def _setWidth(self, elements, key = AttributeNames.width):
-        value = self._attributes[key]["value"]
-
-        # form LayoutController inheritance
-        fit_children_size = self._attributes[AttributeNames.fit_children_size]["value"]
-
-        if value > 0:
-            self._widget.configure(width = int(value))
-        elif value == 0:
-            pass
-        else:
-            self._logger.warn("Width of " + self._id + " has illegal value (" + str(value) + ")")
-
-    def _setHeight(self, elements, key = AttributeNames.height):
-        value = self._attributes[key]["value"]
-
-        if value > 0:
-            self._widget.configure(height = int(value))
-        elif value == 0:
-            pass
-        else:
-            self._logger.warn("Width of " + self._id + " has illegal value (" + str(value) + ")")
-
-    def _setBorderWidth(self, elements, key = AttributeNames.border_width):
-        value = self._attributes[key]["value"]
-        if value > 0:
-            # Not using borderwidth as one cannot set the color of the default border
-            self._widget.configure(highlightthickness = int(value))
-        elif value == 0:
-            # Zero is perfectly fine, but it shouldn't be configured then
-            pass
-        else:
-            self._logger.warn("For element " + self._id + " ,setBorderwidth for " + key + " is lesser than 0: " + str(value))
-
-    def _setBorderBackgroundColor(self, elements, key = AttributeNames.border_color):
-        # Not using borderwidth as one cannot set the color of the default border
-        value = self._attributes[key]["value"]
-        self._widget.configure(highlightbackground = value, highlightcolor = value)
-
     def _setOnHover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
         on_hover_color = self._attributes[AttributeNames.onhover_background_color]["value"]
         on_hover_border_color = self._attributes[AttributeNames.onhover_border_color]["value"]
 
-        if on_hover == True:
+        if on_hover:
             def enter(event):
                 if on_hover_color != "":
                     self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)

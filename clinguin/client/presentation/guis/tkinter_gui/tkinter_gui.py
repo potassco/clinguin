@@ -1,6 +1,6 @@
-import tkinter as tk
-import logging
-
+"""
+Contains the tkinter-gui class.
+"""
 from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
 from clinguin.client import AbstractGui
 
@@ -9,6 +9,9 @@ from .tkinter_utils import *
 
 
 class TkinterGui(AbstractGui):
+    """
+    Class that inherits from AbstractGui and is therefore a dynamically loaded class, if it shall be used to render the Gui. It defines what to do for each widget.
+    """
 
     def __init__(self, base_engine, args):
         super().__init__(base_engine, args)
@@ -19,15 +22,14 @@ class TkinterGui(AbstractGui):
     @classmethod
     def registerOptions(cls, parser):   
         parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter widgets."
-        return 
 
     @classmethod
-    def availableSyntax(cls, show_lvl):
+    def availableSyntax(cls, show_level):
         def appendDict(description, _dict, type_name):
 
             for key in _dict.keys():
                 description = description + "    |- " + key + "\n"
-                if show_lvl == ShowGuiSyntaxEnum.FULL:
+                if show_level == ShowGuiSyntaxEnum.FULL:
                     if "description" in _dict[key]:
                         # Specific has higher priority
                         description = description + "      |- Description: "
@@ -56,7 +58,7 @@ class TkinterGui(AbstractGui):
             "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the corresponding element)\n\n" +\
             "The following list shows for each <TYPE> the possible attributes and callbacks:\n" 
 
-        class_list = [Window, Container, Label, Button, Dropdownmenu, DropdownmenuItem, MenuBar, MenuBarSection, MenuBarSectionItem]
+        class_list = RootCmp.__subclasses__()
 
         description = description + "|--------------------------------\n"
         for c in class_list:
@@ -127,6 +129,10 @@ class TkinterGui(AbstractGui):
     def message(self, id, parent, attributes, callbacks):
         message = Message(self._args, id, parent, attributes, callbacks, self._base_engine)
         message.addComponent(self.elements)
+
+    def canvas(self, id, parent, attributes, callbacks):
+        canvas = Canvas(self._args, id, parent, attributes, callbacks, self._base_engine)
+        canvas.addComponent(self.elements)
 
     def draw(self, id):
         self.first = False

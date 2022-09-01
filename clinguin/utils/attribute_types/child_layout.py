@@ -1,4 +1,6 @@
-import sys
+"""
+Module that contains the ChildLayoutType.
+"""
 from enum import auto
 
 from .utils.standard_text_processing import StandardTextProcessing
@@ -6,6 +8,10 @@ from .enum import EnumType
 
 
 class ChildLayoutType(EnumType):
+    """
+    The ChildLayoutType is an Enum Type, which can be used to specify the layout of the children.
+    """
+
     FLEX = auto()
     GRID = auto()
     ABSSTATIC = auto()

@@ -1,16 +1,28 @@
+"""
+Contains the DropdownmenuItem class.
+"""
 import tkinter as tk
 
 from .root_cmp import *
 
 class DropdownmenuItem(RootCmp):
+    """
+    Is an item of a dropdown, e.g. for the dropdownmenu countries, germany would be a dropdownmenu-item.
+    """
 
     def _initWidget(self, elements):
-        menu = elements[str(self._parent)].getWidget()
-        return menu
+        parent = elements[str(self._parent)]
+        if hasattr(parent, "getMenu"):
+            menu = parent.getMenu()
+            return menu
+        else:
+            error_string = "Parent of dropdown menu item " + self._id + " is not a dropdown menu."
+            self._logger.error(error_string)
+            raise Exception(error_string)
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"", "value_type":StringType}
@@ -19,7 +31,7 @@ class DropdownmenuItem(RootCmp):
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks =  {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
@@ -42,10 +54,10 @@ class DropdownmenuItem(RootCmp):
         if hasattr(parent, "getVariable"):
             variable = getattr(parent, "getVariable")()
             variable.set(id)
-            if (click_policy is not None):
+            if click_policy is not None:
                 self._base_engine.postWithPolicy(click_policy)
         else:
-            self._logger.warn("Could not set variable for dropdownmenu. Item id: " + str(id) + ", dropdown-menu-id: " + str(parent_id))
+            self._logger.warning("Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s", str(id), str(parent_id))
 
     def forgetChildren(self, elements):
         pass

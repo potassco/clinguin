@@ -1,8 +1,18 @@
+"""
+Contains the RootCmp class.
+"""
 import logging
-from ..tkinter_utils import *
 from clinguin.utils.attribute_types import *
+from ..tkinter_utils import *
 
 class RootCmp:
+    """
+    Every tkinter widget must be a subtype of the RootCmp. It further features standard implementations of various methods, therefore one must just implement a handful of methods if one implements a new widget, these are (see e.g. the button.py for a sample implementation):
+    - _getAttributes(attributes = None)
+    - _getCallbacks(callbacks = None)
+    - Every method, which name starts with ''_set'' will be executed and are designed to be used for setting the attributes.
+    - Every method, which name starts with ''_define'' will be executed and are designet to specify callbacks.
+    """
 
     def __init__(self, args, id, parent, attributes, callbacks, base_engine):
         self._logger = logging.getLogger(args.log_args['name'])
@@ -12,6 +22,9 @@ class RootCmp:
         self._json_callbacks = callbacks
         self._base_engine = base_engine
         self._widget = None
+
+        self._attributes = None
+        self._callbacks = None
 
     @classmethod
     def getAttributes(cls):
@@ -63,7 +76,7 @@ class RootCmp:
         return None
 
     def _fillAttributes(self):
-         for attribute in self._json_attributes:
+        for attribute in self._json_attributes:
             key = attribute['key']
             value = attribute['value']
             if key in self._attributes and 'value_type' in self._attributes[key]:
@@ -74,7 +87,7 @@ class RootCmp:
             if key in self._attributes and "value" in self._attributes[key]:
                 self._attributes[key]["value"] = value_type.parse(value, self._logger)
             else:
-                self._logger.warn('Undefined Command: ' + key + ' for element: ' + attribute['id'])
+                self._logger.warning('Undefined Command: ' + key + ' for element: ' + attribute['id'])
 
     def _fillCallbacks(self):
         for callback in self._json_callbacks:
@@ -88,7 +101,7 @@ class RootCmp:
             if key in self._callbacks and "policy" in self._callbacks[key]:
                 self._callbacks[key]["policy"] = value_type.parse(value, self._logger)
             else:
-                self._logger.warn('Undefined Command: ' + key + ", or policy item missing in command.")
+                self._logger.warning('Undefined Command: %s, or policy item missing in command.', key)
 
     def _getMethods(self, start_string):
 
@@ -118,7 +131,7 @@ class RootCmp:
         if str(self._parent) in elements:
             if hasattr(elements[self._parent], "getChildOrg"):
                 parent_org = getattr(elements[self._parent], "getChildOrg")()
-                if parent_org == ChildLayoutType.FLEX or parent_org == ChildLayoutType.RELSTATIC or parent_org == ChildLayoutType.ABSSTATIC:
+                if parent_org in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
                     self._widget.pack_forget()
                 elif parent_org == ChildLayoutType.GRID:
                     self._widget.grid_forget()

@@ -11,9 +11,6 @@ clean:
 	pip uninstall $(APPLICATION_NAME) -y
 
 format:
-	autopep8 start.py
-	autopep8 clinguin
-	pylint start.py
 	pylint clinguin
 
 

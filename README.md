@@ -71,7 +71,7 @@ See `$ clinguin client-server -h`
 
 E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/default_backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server 
 
@@ -103,7 +103,7 @@ See `$ python start.py client-server -h`
 
 E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
-Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_solvers' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
 
 #### Only Server
 
@@ -133,10 +133,10 @@ All dependencies can be installed via `python setup.py install`
 
 Preliminary 1: This section will be expanded in the future.
 
-Preliminary 2: Standard/Default behavior: The standard behavior is to load the solver in the package `server.application.standard_solver.StandardSolver`. This solver will get instanciated by default, therefore when one wants to specify another solver, one needs to add the `--solver` argument-option and then specify the package where the solver is located.
+Preliminary 2: Standard/Default behavior: The standard behavior is to load the solver in the package `server.application.clingo_backend.StandardSolver`. This solver will get instanciated by default, therefore when one wants to specify another solver, one needs to add the `--solver` argument-option and then specify the package where the solver is located.
 
 Implementation: For the implementation of one's own solver, one basically has free hands in terms of syntactic definitions of the class, except two (or three) things:
-1. The `__init__()` method takes an argument `args` which are the command-line arguments (see `clinguin/server/application/default_solvers/standard_solver.py`) 
+1. The `__init__()` method takes an argument `args` which are the command-line arguments (see `clinguin/server/application/default_backends/clingo_backend.py`) 
 2. When a method needs to return something to the client/User-Interface (UI) the method must return a **Json-convertible-class-hierarchy**. If one uses the standard-UI it is highly recommended to use the `ElementDto`, `AttributeDto` and `CallbackDto` classes to save the class hierarchy, otherwise one needs to at least implement the functionality of the `ElementDto` class and further provide a `root` element (initialized with the default `ElementDto` by `ElementDto('root', 'root', 'root')`). 
 3. One needs to provide a `get()` method in the solver. This method takes no argument and returns a json-convertible class hierarchy. This is needed, as this method is initially invoked by the UI.
 
@@ -156,8 +156,9 @@ Is located in: `examples/elevator` - can be executed by:
 
 `$ clinguin client-server --custom-server-classes='./examples/elevator' --solver=TemporalBackend --source-files=examples/elevator/encoding.lp --widget-files=examples/elevator/widgets.lp`
 
+# Linting:
 
-
+`<PATH>/clinguin$ pylint --disable=C0301,C0303,C0305,R1705,W0703,R0201,W0707,W0122,C0116,W0622,C0103,R0903,W0401,W0614 clinguin`
 
 
 

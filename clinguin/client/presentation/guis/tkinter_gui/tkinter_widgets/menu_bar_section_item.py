@@ -1,8 +1,12 @@
-import tkinter as tk
-
+"""
+Contains the menu bar section item class.
+"""
 from .root_cmp import *
 
 class MenuBarSectionItem(RootCmp):
+    """
+    The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
+    """
 
     def _initWidget(self, elements):
         menubar_section = elements[self._parent].getWidget()
@@ -11,7 +15,7 @@ class MenuBarSectionItem(RootCmp):
 
     @classmethod
     def _getAttributes(cls, attributes = None):
-        if attributes == None:
+        if attributes is None:
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
@@ -21,7 +25,7 @@ class MenuBarSectionItem(RootCmp):
 
     @classmethod
     def _getCallbacks(cls, callbacks = None):
-        if callbacks == None:
+        if callbacks is None:
             callbacks = {}
 
         callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
@@ -47,7 +51,7 @@ class MenuBarSectionItem(RootCmp):
 
 
     def _menubarItemClick(self, id, parent, click_policy, elements):
-        if (click_policy is not None):
+        if click_policy is not None:
             self._base_engine.postWithPolicy(click_policy)
  
     def _addComponentToElements(self, elements):

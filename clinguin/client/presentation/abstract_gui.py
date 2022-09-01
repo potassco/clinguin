@@ -1,50 +1,58 @@
+"""
+Module that contains the class AbstractGui.
+"""
 import logging
 
-from clinguin.utils import CustomArgs
-from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
+from clinguin.utils import CustomArgs, Logger
 
 class AbstractGui(CustomArgs):
+    """
+    Superclass from where every specialized gui class inherits from (e.g. TkinterGui). Defines the available widgets.
+    """
 
     def __init__(self, base_engine, args):
         self._args = args
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(Logger.client_logger_name)
         self._base_engine = base_engine
 
-        print("Abstract Solver")
 
     @classmethod
     def availableSyntax(cls, show_level):
+        print(show_level)
         return ""
 
     def window(self, id, parent, attributes, callbacks):
-        print("WINDOW: " + str(id) + "::" + str(parent))
+        print("WINDOW: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def container(self, id, parent, attributes, callbacks):
-        print("CONTAINER: " + str(id) + "::" + str(parent))
+        print("CONTAINER: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def dropdownMenu(self, id, parent, attributes, callbacks):
-        print("DROPDOWNMENU: " + str(id) + "::" + str(parent))
+        print("DROPDOWNMENU: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def dropdownMenuItem(self, id, parent, attributes, callbacks):
-        print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent))
+        print("DROPDOWNMENUITEM: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def label(self, id, parent, attributes, callbacks):
-        print("LABEL: " + str(id) + "::" + str(parent))
+        print("LABEL: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def button(self, id, parent, attributes, callbacks):
-        print("BUTTON: " + str(id) + "::" + str(parent))
+        print("BUTTON: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def menuBar(self, id, parent, attributes, callbacks):
-        print("MENUBAR: " + str(id) + "::" + str(parent))
+        print("MENUBAR: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def menuBarSection(self, id, parent, attributes, callbacks):
-        print("MENUBARSECTION: " + str(id) + "::" + str(parent))
+        print("MENUBARSECTION: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def menuBarSectionItem(self, id, parent, attributes, callbacks):
-        print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent))
+        print("MENUBARSECTIONITEM: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def message(self, id, parent, attributes, callbacks):
-        print("MESSAGE: " + str(id) + "::" + str(parent))
+        print("MESSAGE: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
+
+    def canvas(self, id, parent, attributes, callbacks):
+        print("CANVAS: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
     def draw(self, id):
-        print("DRAW")
+        print("DRAW" + "::" + str(id))

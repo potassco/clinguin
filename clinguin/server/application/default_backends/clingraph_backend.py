@@ -29,7 +29,8 @@ from clinguin.utils import NoModelError
 
 class ClingraphBackend(ClingoBackend):
     """
-    TODO -> Write documentation!
+    Extends ClingoBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin. This can be done by both saving them to a file and by sending them to the client.
+    The process of sending them to the client includes the conversion to a Base64 encoding (so the binary images are encoded as a UTF-8 String) that is then send to the client.
     """
 
     def __init__(self, args):
@@ -55,6 +56,9 @@ class ClingraphBackend(ClingoBackend):
 
     @classmethod
     def registerOptions(cls, parser):     
+        """
+        Registers command line options for ClingraphBackend.
+        """
         ClingoBackend.registerOptions(parser)
 
         parser.add_argument('--clingraph-files',
@@ -259,6 +263,9 @@ class ClingraphBackend(ClingoBackend):
             self._model.addMessage("Error","This operation can't be performed")
 
     def get(self):
+        """
+        Overwritten from ClingoBackend. Difference: Converts the _filled_model to Json instead of the _model, as the _filled_model contains the Base64 encoded images.
+        """
         if not self._filled_model:
             self._updateModel()
             

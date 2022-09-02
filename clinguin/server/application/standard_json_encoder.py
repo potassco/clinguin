@@ -14,10 +14,6 @@ from .callback import CallbackDto
 class StandardJsonEncoder:
     """
     The standrd json encoder is responsible for converting a ClinguinModel into a json hierarchy.
-
-    Methods:
-        endocde (model : ClinguinModel) -> ElementDto 
-        _generateHierarchy (model : ClinguinModel, hierarchy_root : ElementDto, elements_dict : Dict) -> ElementDto
     """
 
     def __init__(self):
@@ -26,7 +22,7 @@ class StandardJsonEncoder:
     @classmethod
     def encode(cls, model):
         """
-        Public easy to access wrapper for the _generateHieraryh method.
+        Public easy to access wrapper for the _generateHierarchy method.
 
         Arguments:
             model : ClinguinModel

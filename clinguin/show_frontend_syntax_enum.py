@@ -3,7 +3,7 @@ Defines the possibilities how to show the syntax.
 """
 from enum import Enum, auto
 
-class ShowGuiSyntaxEnum(Enum):
+class ShowFrontendSyntaxEnum(Enum):
     """
     Defines the possibilities how to show the syntax.
     """

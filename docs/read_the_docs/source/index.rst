@@ -11,8 +11,8 @@ Welcome to clinguin's documentation!
    :caption: Contents:
 
    clinguin/installation
-   clinguin/user_guide
-   clinguin/customize_guide
+   clinguin/user_frontendde
+   clinguin/customize_frontendde
    clinguin/api
 
 

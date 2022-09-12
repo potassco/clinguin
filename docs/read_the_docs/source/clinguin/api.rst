@@ -13,18 +13,18 @@ Client
 .. automodule:: clinguin.client
     :members:
 
-Client Guis
+Client Frontends
 -----------
-.. automodule:: clinguin.client.presentation.guis
+.. automodule:: clinguin.client.presentation.frontends
     :members:
 
-Client Tkinter Gui
+Client Tkinter Frontend
 ^^^^^^^^^^^^^^^^^^
 
-.. automodule:: clinguin.client.presentation.guis.tkinter_gui.tkinter_widgets
+.. automodule:: clinguin.client.presentation.frontends.tkinter_frontend.tkinter_widgets
     :members:
 
-.. automodule:: clinguin.client.presentation.guis.tkinter_gui.tkinter_utils
+.. automodule:: clinguin.client.presentation.frontends.tkinter_frontend.tkinter_utils
     :members:
 
 

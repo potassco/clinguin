@@ -23,14 +23,14 @@ class ClientBase:
 
         self.solve_dto = FrontendPolicyDto("solve")
 
-        self.gui_generator = args.client(self, args)
+        self.frontend_generator = args.frontend(self, args)
 
     def start_up(self):
         self.connect()
         (status_code, response) = self.api.get("")
         if status_code == 200:
             self.draw(response)
-            self.gui_generator.draw(response['children'][0]['id'])
+            self.frontend_generator.draw(response['children'][0]['id'])
         else:
             self._logger.error(
                 "Connection error, status code: %s", str(status_code))
@@ -67,10 +67,10 @@ class ClientBase:
 
             method = None
 
-            if hasattr(self.gui_generator, camel_case_name):
-                method = getattr(self.gui_generator, camel_case_name)
-            elif hasattr(self.gui_generator, snake_case_name):
-                method = getattr(self.gui_generator, snake_case_name)
+            if hasattr(self.frontend_generator, camel_case_name):
+                method = getattr(self.frontend_generator, camel_case_name)
+            elif hasattr(self.frontend_generator, snake_case_name):
+                method = getattr(self.frontend_generator, snake_case_name)
 
             if method and callable(method):
                 method(

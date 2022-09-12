@@ -1,9 +1,9 @@
 """
-Module that contains the IPythonGuiClass
+Module that contains the IPythonFrontendClass
 """
-from clinguin.client.presentation.abstract_gui import AbstractGui
+from clinguin.client.presentation.abstract_frontend import AbstractFrontend
 
-class IPythonGui(AbstractGui):
+class IPythonFrontend(AbstractFrontend):
     """
     Not yet implemented!
     """

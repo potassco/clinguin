@@ -25,7 +25,7 @@ After you hit enter, a Sudoku-game should open, which you can play - have fun :-
 
 ## Next Steps
 
-Next steps - now it is time for you to try out some stuff yourself. In the folder(s) `exapmles` you find some smaller and some bigger example programs, which you can take as a first stepping stone for building your own Clingo-Gui.
+Next steps - now it is time for you to try out some stuff yourself. In the folder(s) `exapmles` you find some smaller and some bigger example programs, which you can take as a first stepping stone for building your own Clingo-Frontend.
 
 ### Syntax
 
@@ -144,9 +144,9 @@ Implementation: For the implementation of one's own solver, one basically has fr
 
 ### Extending the Python-UI
 
-For this one needs to implement a class which is a subtype of the `AbstractGui` (`client.presentation.abstract_gui.AbstractGui`) class. It is recommended to do this in a folder next to the `tkinter` folder/package (`client.presentation.tkinter`). E.g. the class `client.presentation.custom_gui.fancy_gui.FancyGui`. For the implementation one needs to implement the behavior of the syntax specification (`20220714_alex_syntax.lp`).
+For this one needs to implement a class which is a subtype of the `AbstractFrontend` (`client.presentation.abstract_frontend.AbstractFrontend`) class. It is recommended to do this in a folder next to the `tkinter` folder/package (`client.presentation.tkinter`). E.g. the class `client.presentation.custom_frontend.fancy_frontend.FancyFrontend`. For the implementation one needs to implement the behavior of the syntax specification (`20220714_alex_syntax.lp`).
 
-The next thing to do is to invoke the GUI, by changing a line in the class `client.application.client_base.ClientBase`. This line is the creation of the `TkinterGui()` object, so the line: `self.gui_generator = TkinterGui(self)`, with ones own fancy gui, like `self.gui_generator = FancyGui()`.
+The next thing to do is to invoke the GUI, by changing a line in the class `client.application.client_base.ClientBase`. This line is the creation of the `TkinterFrontend()` object, so the line: `self.frontend_generator = TkinterFrontend(self)`, with ones own fancy gui, like `self.frontend_generator = FancyFrontend()`.
 
 ## Other examples:
 

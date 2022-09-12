@@ -265,7 +265,7 @@ The next method searches through all attributes and looks up all the places, whe
 
         return ClinguinModel(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
 
-The next-to-last thing to do is to edit our `updateModel` method, as we need to call the methods above to provide the functionality. We need to add a `_filed_model` to distinguish between the models that are filled with the base64 string and those who are not (if we don't do this, we run into a mess with policies):
+The next-to-last thing to do is to edit our `updateModel` method, as we need to call the methods above to provide the functionality. We need to add a `_filed_model` to distinfrontendsh between the models that are filled with the base64 string and those who are not (if we don't do this, we run into a mess with policies):
 
 .. code-block:: python
 

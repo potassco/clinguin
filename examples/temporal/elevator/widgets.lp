@@ -18,8 +18,9 @@ element(info_find_goal, label, info).
 attribute(info_find_goal, grid_row, 0).
 attribute(info_find_goal, font_size, 20).
 attribute(info_find_goal, label, "✓"):- goal(T),query(T).
+attribute(info_find_goal, foreground_color,green):-goal(T),query(T).
 attribute(info_find_goal, label, "✕"):- not goal(T),query(T).
-attribute(info_find_goal, foreground_color,green).
+attribute(info_find_goal, foreground_color,red):-not goal(T),query(T).
 
 element(info_find_l, button, info):-not goal(T),query(T).
 attribute(info_find_l, height, 70 ):-not goal(T),query(T).
@@ -71,15 +72,16 @@ callback(elevator_occ_mi(F,A), click, assume_and_step(occ(A,T))):-
     _b(occ(A,T)).
 
 
-element(elevator_call(F), button, elevator_row(F)):-floor(F).
+element(elevator_call(F), label, elevator_row(F)):-floor(F).
 attribute(elevator_call(F), height, 70):-floor(F).
 attribute(elevator_call(F), width, 70):-floor(F).
 attribute(elevator_call(F), grid_column, 1):-floor(F).
 attribute(elevator_call(F), grid_row, 0):-floor(F).
 
-attribute(elevator_call(F), background_color, red):- floor(F), call_floor(F,T).
+attribute(elevator_call(F), background_color, color_request):- floor(F), call_floor(F,T).
+attribute(elevator_call(F), foreground_color, red):- floor(F), call_floor(F,T).
 
-attribute(elevator_call(F), label, "--"):-floor(F),not call_floor(F,_).
+attribute(elevator_call(F), label, "⬆︎⬇︎"):-floor(F).
 
 % TODO - Wasn't able to get it working with externals
 callback(elevator_call(F), click, add_atom(holds(called(F),T-1))):-query(T),floor(F),not call_floor(F,_).

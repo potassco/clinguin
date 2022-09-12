@@ -1,16 +1,16 @@
 """
 Contains the tkinter-gui class.
 """
-from clinguin.show_gui_syntax_enum import ShowGuiSyntaxEnum
-from clinguin.client import AbstractGui
+from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
+from clinguin.client import AbstractFrontend
 
 from .tkinter_widgets import *
 from .tkinter_utils import *
 
 
-class TkinterGui(AbstractGui):
+class TkinterFrontend(AbstractFrontend):
     """
-    Class that inherits from AbstractGui and is therefore a dynamically loaded class, if it shall be used to render the Gui. It defines what to do for each widget.
+    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class, if it shall be used to render the Frontend. It defines what to do for each widget.
     """
 
     def __init__(self, base_engine, args):
@@ -29,7 +29,7 @@ class TkinterGui(AbstractGui):
 
             for key in _dict.keys():
                 description = description + "    |- " + key + "\n"
-                if show_level == ShowGuiSyntaxEnum.FULL:
+                if show_level == ShowFrontendSyntaxEnum.FULL:
                     if "description" in _dict[key]:
                         # Specific has higher priority
                         description = description + "      |- Description: "
@@ -51,7 +51,7 @@ class TkinterGui(AbstractGui):
 
             return description
 
-        description = "Here one finds the supported attributes and callbacks of the TkinterGui and further a definition of the syntax:\n" +\
+        description = "Here one finds the supported attributes and callbacks of the TkinterFrontend and further a definition of the syntax:\n" +\
             "There are three syntax elements:\n\n" +\
             "element(<ID>, <TYPE>, <PARENT>) : To define an element\n" +\
             "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the corresponding element)\n" +\

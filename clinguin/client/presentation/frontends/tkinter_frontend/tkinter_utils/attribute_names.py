@@ -4,7 +4,7 @@ Module that contains the AttributeNames class.
 
 class AttributeNames:
     """
-    This class contains all the names for all the attributes that are used for the Gui and also contains some standard descriptions of the attributes.
+    This class contains all the names for all the attributes that are used for the Frontend and also contains some standard descriptions of the attributes.
     """
 
     

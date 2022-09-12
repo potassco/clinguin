@@ -9,10 +9,10 @@ import inspect
 import textwrap
 import traceback
 
-from .show_gui_syntax_enum import ShowGuiSyntaxEnum
+from .show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 
 from .server import ClinguinBackend
-from .client import AbstractGui
+from .client import AbstractFrontend
 
 class ArgumentParser():
     """
@@ -20,15 +20,15 @@ class ArgumentParser():
     """
 
     default_backend_exec_string = "from .server.application.default_backends import *"    
-    default_client_exec_string = "from .client.presentation.guis import *"
+    default_frontend_exec_string = "from .client.presentation.frontends import *"
 
     default_backend = 'ClingoBackend'
-    default_client = 'TkinterGui'
+    default_frontend = 'TkinterFrontend'
 
     def __init__(self) -> None:
 
-        self.client_name = None
-        self.client = None
+        self.frontend_name = None
+        self.frontend = None
 
 
         self.titles = {
@@ -42,7 +42,7 @@ class ArgumentParser():
             'client-server': 'Start client and a server processes.'}
         self.backend_name = None
         self.backend = None
-        self._show_gui_syntax = ShowGuiSyntaxEnum.NONE
+        self._show_frontend_syntax = ShowFrontendSyntaxEnum.NONE
 
     def parse(self):
         """
@@ -73,7 +73,7 @@ class ArgumentParser():
 
     def _add_selected_backend(self, args):
         args.backend = self.backend
-        args.client = self.client
+        args.frontend = self.frontend
 
     @property
     def _clinguin_title(self):
@@ -179,19 +179,19 @@ class ArgumentParser():
 
         args, _ = custom_imports_parser.parse_known_args()
     
-        self.client_name = args.client
+        self.frontend_name = args.frontend
         self.backend_name = args.backend
         if args.custom_classes:
             self._import_classes(args.custom_classes)
 
         exec(ArgumentParser.default_backend_exec_string)
-        exec(ArgumentParser.default_client_exec_string)
+        exec(ArgumentParser.default_frontend_exec_string)
 
 
-        if args.gui_syntax and not args.gui_syntax_full:
-            self._show_gui_syntax = ShowGuiSyntaxEnum.SHOW
-        elif args.gui_syntax_full:
-            self._show_gui_syntax = ShowGuiSyntaxEnum.FULL
+        if args.frontend_syntax and not args.frontend_syntax_full:
+            self._show_frontend_syntax = ShowFrontendSyntaxEnum.SHOW
+        elif args.frontend_syntax_full:
+            self._show_frontend_syntax = ShowFrontendSyntaxEnum.FULL
         
 
     def _create_client_subparser(self, subparsers):
@@ -205,7 +205,7 @@ class ArgumentParser():
         self._add_log_arguments(parser_client, abbrevation='C', logger_name = 'clinguin_client')       
 
         self._add_default_arguments_to_client_parser(parser_client)
-        self.client = self._select_subclass_and_add_custom_arguments(parser_client, AbstractGui, self.client_name, ArgumentParser.default_client)
+        self.frontend = self._select_subclass_and_add_custom_arguments(parser_client, AbstractFrontend, self.frontend_name, ArgumentParser.default_frontend)
 
         return parser_client
 
@@ -236,7 +236,7 @@ class ArgumentParser():
         self._add_log_arguments(parser_server_client, abbrevation='S', logger_name = 'clinguin_server', display_name ='server-')       
 
         self._add_default_arguments_to_client_parser(parser_server_client)
-        self.client = self._select_subclass_and_add_custom_arguments(parser_server_client, AbstractGui, self.client_name, ArgumentParser.default_client)
+        self.frontend = self._select_subclass_and_add_custom_arguments(parser_server_client, AbstractFrontend, self.frontend_name, ArgumentParser.default_frontend)
 
         self._add_default_arguments_to_backend_parser(parser_server_client)
         self.backend = self._select_subclass_and_add_custom_arguments(parser_server_client, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
@@ -260,19 +260,19 @@ class ArgumentParser():
             metavar='')
 
     def _add_default_arguments_to_client_parser(self, parser):
-        sub_classes = self._get_sub_classes(AbstractGui)
+        sub_classes = self._get_sub_classes(AbstractFrontend)
         sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
         sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
-        parser.add_argument('--client', type=str,
+        parser.add_argument('--frontend', type=str,
                             help=textwrap.dedent(f'''\
-                Optionally specify which client to use using the class name.
+                Optionally specify which frontend to use using the class name.
                 {sub_classes_str}
                 '''),
                             metavar='')
-        parser.add_argument('--gui-syntax', 
+        parser.add_argument('--frontend-syntax', 
                 action='store_true',
                 help='Show available commands for the GUI.')
-        parser.add_argument('--gui-syntax-full', 
+        parser.add_argument('--frontend-syntax-full', 
                 action='store_true',
                 help='Show available commands for the GUI and shows available value-types.')
         
@@ -338,9 +338,9 @@ class ArgumentParser():
                 group = parser.add_argument_group(full_class_name)
                 sub_class.register_options(group)
         
-                should_show_gui_syntax = self._show_gui_syntax == ShowGuiSyntaxEnum.SHOW or self._show_gui_syntax  == ShowGuiSyntaxEnum.FULL
-                if should_show_gui_syntax and hasattr(sub_class, 'available_syntax'):
-                    print(sub_class.available_syntax(self._show_gui_syntax))
+                should_show_frontend_syntax = self._show_frontend_syntax == ShowFrontendSyntaxEnum.SHOW or self._show_frontend_syntax  == ShowFrontendSyntaxEnum.FULL
+                if should_show_frontend_syntax and hasattr(sub_class, 'available_syntax'):
+                    print(sub_class.available_syntax(self._show_frontend_syntax))
                     sys.exit()
 
                 selected_class = sub_class

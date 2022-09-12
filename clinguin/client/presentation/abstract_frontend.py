@@ -1,13 +1,13 @@
 """
-Module that contains the class AbstractGui.
+Module that contains the class AbstractFrontend.
 """
 import logging
 
 from clinguin.utils import CustomArgs, Logger
 
-class AbstractGui(CustomArgs):
+class AbstractFrontend(CustomArgs):
     """
-    Superclass from where every specialized gui class inherits from (e.g. TkinterGui). Defines the available widgets.
+    Superclass from where every specialized gui class inherits from (e.g. TkinterFrontend). Defines the available widgets.
     """
 
     def __init__(self, base_engine, args):

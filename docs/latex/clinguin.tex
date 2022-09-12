@@ -234,7 +234,7 @@ I didn't explore on these ideas much further, but it should definitely be possib
 
 \subsection{Monolithic Model-View-Controller (MVC)}
 
-\noindent As the MVC pattern is a widely spread Gui-Architectural pattern it makes sense to consider it. In Figure \ref{fig:mvc} the general idea of MVC is depicted, where normally there exists one such MVC-triad per GUI element, e.g. one for the top level gui element, which contains ''children'', like menu-bar, grid-controller, etc. (as depicted in Figure \ref{fig:mvc-hierarchy}).\\
+\noindent As the MVC pattern is a widely spread Frontend-Architectural pattern it makes sense to consider it. In Figure \ref{fig:mvc} the general idea of MVC is depicted, where normally there exists one such MVC-triad per GUI element, e.g. one for the top level gui element, which contains ''children'', like menu-bar, grid-controller, etc. (as depicted in Figure \ref{fig:mvc-hierarchy}).\\
 
 
 \begin{figure}[ht]
@@ -489,7 +489,7 @@ The first UML diagram depicts the use with the standard solver, the second one d
         \item Can be user defined, several options possible (when the program is in a later stage of development, in this prototype just one, the \textit{ClingoBackend})
         \item Can be specified via (\textit{--custom-solver-classes} and \textit{--solver})
     \end{itemize}
-    \item ClientGui, aka. Client
+    \item ClientFrontend, aka. Client
     \begin{itemize}
         \item Part of the client, which sole responsibility is to draw the gui from a provided Json.
         \item Can be user defined, several options possible (at the moment just tkinter).
@@ -510,12 +510,12 @@ The first UML diagram depicts the use with the standard solver, the second one d
 
 \newpage
 
-\noindent \textbf{Class Diagram - ClientGui (Tkinter)}
+\noindent \textbf{Class Diagram - ClientFrontend (Tkinter)}
 
 \begin{figure}[ht]
     \begin{center}
     \includegraphics[width=0.9\textwidth]{imgs/pt-v3-class-diag-tkinter-client.png}
-    \caption{Class Diagram of the ClientGui (Tkinter)}
+    \caption{Class Diagram of the ClientFrontend (Tkinter)}
     \label{fig:pt-v3-class-diag-tkinter}
     \end{center}
 \end{figure}
@@ -581,11 +581,11 @@ The general idea and the general architecture didn't change in this revision, th
 
 \subsubsection{Architecture}
 
-\noindent As described in the previous section (Prototype Version 3), one could divide the program into three parts: ProgramBase, Backends and Guis.
+\noindent As described in the previous section (Prototype Version 3), one could divide the program into three parts: ProgramBase, Backends and Frontends.
 
 \textbf{ProgramBase}: The ProgramBase contains basically the code that is necessary to start the whole application. In addition to the code from PT-V3 it also contains more util-features, like parsing types, and other functionalities. In this definition also the part of the Client is included, that handles API requests (but to stress out one thing: The client mustn't be started, therefore one can develop the whole client by oneself, but it still makes more sense to see the part of the client that handles the API as a part of the ProgramBase for this prototype).\\[1em]
 \textbf{Backend}: The backend code is code that can be dynamically loaded on application startup that interacts with Clingo. Therefore several backends exist, like the ClingoBackend, ClingraphBackend or TemporalBackend. Which backend is loaded can be specified via command line arguments during startup.\\[1em]
-\textbf{Gui}: The gui is, like the backend, dynamically loaded. The core of the Gui is part of the ProgramBase, therefore just the ''displaying'' functions are part of this Gui. These include the files for the tkinter-widgets or in the future the files for the IPython widgets.\\[1em]
+\textbf{Frontend}: The gui is, like the backend, dynamically loaded. The core of the Frontend is part of the ProgramBase, therefore just the ''displaying'' functions are part of this Frontend. These include the files for the tkinter-widgets or in the future the files for the IPython widgets.\\[1em]
 Even though the principal working is de facto the same as before, in the following the updated-overview-UML-class diagrams are shown:
 
 \begin{figure}[ht]

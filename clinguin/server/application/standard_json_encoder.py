@@ -22,7 +22,7 @@ class StandardJsonEncoder:
     @classmethod
     def encode(cls, model):
         """
-        Public easy to access wrapper for the _generateHierarchy method.
+        Public easy to access wrapper for the _generate_hierarchy method.
 
         Arguments:
             model : ClinguinModel
@@ -32,12 +32,12 @@ class StandardJsonEncoder:
         root = ElementDto('root', 'root', 'root')
         elements_dict[str(root.id)] = root
 
-        cls._generateHierarchy(model, root, elements_dict)
+        cls._generate_hierarchy(model, root, elements_dict)
 
         return root
 
     @classmethod
-    def _generateHierarchy(cls, model, hierarchy_root, elements_dict):
+    def _generate_hierarchy(cls, model, hierarchy_root, elements_dict):
         """
         Converts the ClinguinModel into an Json Hierarchy (which is represented by an ElementDto). Therefore it first gets all dependencies, then orders the elements according to the dependencies and then adds for each element its attributes, callbacks and children.
 
@@ -51,16 +51,16 @@ class StandardJsonEncoder:
         dependency = []
         widgets_info = {}
 
-        for w in model.getElements():
+        for w in model.get_elements():
             widgets_info[w.id] = {'parent': w.parent, 'type': w.type}
             dependency.append((w.id, w.parent))
 
         DG = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(DG))))
 
-        attrs = model.getAttributesGrouped()
+        attrs = model.get_attributesGrouped()
         attrs = {a[0]:list(a[1]) for a in attrs}
-        cbs = model.getCallbacksGrouped()
+        cbs = model.get_callbacksGrouped()
         cbs = {a[0]:list(a[1]) for a in cbs}
 
         for element_id in order:
@@ -77,10 +77,10 @@ class StandardJsonEncoder:
 
             if element_id in attrs:
                 elem_attributes = [AttributeDto(a.id, a.key, a.value) for a in attrs[element_id]]
-                element.setAttributes(elem_attributes)
+                element.set_attributes(elem_attributes)
             if element_id in cbs:
                 elem_callbacks = [CallbackDto(a.id, a.action, a.policy) for a in cbs[element_id]]
-                element.setCallbacks(elem_callbacks)
+                element.set_callbacks(elem_callbacks)
 
             elements_dict[str(element_id)] = element
-            elements_dict[str(element.parent)].addChild(element)
+            elements_dict[str(element.parent)].add_child(element)

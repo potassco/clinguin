@@ -8,13 +8,13 @@ class MenuBarSectionItem(RootCmp):
     The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
     """
 
-    def _initWidget(self, elements):
-        menubar_section = elements[self._parent].getWidget()
+    def _init_widget(self, elements):
+        menubar_section = elements[self._parent].get_widget()
 
         return menubar_section
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -24,7 +24,7 @@ class MenuBarSectionItem(RootCmp):
 
 
     @classmethod
-    def _getCallbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks = None):
         if callbacks is None:
             callbacks = {}
 
@@ -32,7 +32,7 @@ class MenuBarSectionItem(RootCmp):
 
         return callbacks
 
-    def _defineClickEvent(self, elements):
+    def _define_click_event(self, elements):
         key = CallbackNames.click
         text = self._attributes[AttributeNames.label]["value"]
 
@@ -44,20 +44,20 @@ class MenuBarSectionItem(RootCmp):
                     self._parent,
                     self._callbacks[key]["policy"],
                     elements,
-                    self._menubarItemClick))
+                    self._menubar_item_click))
         else:
             self._widget.add_command(
                 label=text)
 
 
-    def _menubarItemClick(self, id, parent, click_policy, elements):
+    def _menubar_item_click(self, id, parent, click_policy, elements):
         if click_policy is not None:
-            self._base_engine.postWithPolicy(click_policy)
+            self._base_engine.post_with_policy(click_policy)
  
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
 
-    def forgetChildren(self, elements):
+    def forget_children(self, elements):
         pass
 
 

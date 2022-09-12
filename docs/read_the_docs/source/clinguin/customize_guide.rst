@@ -57,13 +57,13 @@ Extending the Class with command line arguments:
 
 A logical next step is to ask yourself what functionalities your extension should have and what kind of files/command line arguments you need for this. Therefore you can define custom command line options, that will get passed to your backend in the `__init__` method.
 
-You can add additional cmd-arguments by overwriting the `registerOptions` method. As we want to keep the `ClingoBackend` arguments and just want to add your own arguments you can do the following:
+You can add additional cmd-arguments by overwriting the `register_options` method. As we want to keep the `ClingoBackend` arguments and just want to add your own arguments you can do the following:
 
 .. code-block:: python 
 
     @classmethod
-    def registerOptions(cls, parser):
-        ClingoBackend.registerOptions(parser)
+    def register_options(cls, parser):
+        ClingoBackend.register_options(parser)
 
         # YOUR ARGUMENTS
         # parser is a argparse object (see https://docs.python.org/3/library/argparse.html)
@@ -100,8 +100,8 @@ To implement a very basic version of the ClingraphBackend you can copy-paste the
         self._filled_model = None
 
     @classmethod
-    def registerOptions(cls, parser):
-        ClingoBackend.registerOptions(parser)
+    def register_options(cls, parser):
+        ClingoBackend.register_options(parser)
 
         parser.add_argument('--clingraph-files',
                         nargs='+',
@@ -132,19 +132,19 @@ In order to program additional functionality, one must understand some basics of
 
 Step 1. is different for each policy, but steps 2. and 3. are basically the same for all (or most) policies. Step 2. says that it updates the *model*, where the model corresponds to an instance of the `ClinguinModel` (see also the corresponding API documentation) class, which is basically a low-level tool, which directly accesses clingo-models (one can think of it as a Clingo and CLORM (Clingo ORM) wrapper). This wrapper provides some functionality that is useful for various default Clinguin things, like computing the cautious/brave sets, etc.
 
-So step 2. updates the ClinguinModel and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_updateModel` method (see below). Step 3. takes than this updatd model and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
+So step 2. updates the ClinguinModel and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_update_model` method (see below). Step 3. takes than this updatd model and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
 
-For now step 2. is important, more specifically the `_updateModel` method: So back to our idea of extending Clinguin with Clingraph. As in the `_updateModel` method one computes the model which is then converted and sent back to the client, it makes sense to **overwrite/extend this method to provide further functionality**. In the normal ClingoBackend we call a ClinguinModel method which is called `fromWidgetsFile`, which is inturn just a wrapper for two other methods: `getCautiousBrave` and `fromWidgetsFileAndProgram`. As we need the return value of `getCautiousBrave` we cannot just call the wrapper, therefore as a first step, we overwrite the `_updateModel` with the following:
+For now step 2. is important, more specifically the `_update_model` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_model` method one computes the model which is then converted and sent back to the client, it makes sense to **overwrite/extend this method to provide further functionality**. In the normal ClingoBackend we call a ClinguinModel method which is called `from_widgets_file`, which is inturn just a wrapper for two other methods: `get_cautious_brave` and `from_widgets_file_and_program`. As we need the return value of `get_cautious_brave` we cannot just call the wrapper, therefore as a first step, we overwrite the `_update_model` with the following:
 
 .. code-block:: python
 
-    def _updateModel(self):
+    def _update_model(self):
         try:
-            prg = ClinguinModel.getCautiousBrave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
+            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
+            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
         except NoModelError:
             # Notifies the user by a popup, that this is not possible.
-            self._model.addMessage("Error","This operation can't be performed")
+            self._model.add_message("Error","This operation can't be performed")
 
 
 This would work the same as the default implementation, therefore now we can actually extend it: We are not going into the details of the individual methods here, so we just describe them a bit and you can copy paste them (don't forget to use the `updateModel` from below).
@@ -153,7 +153,7 @@ The method `computeClingraphGraphs` is called by `updateModel` and it takes use 
 
 .. code-block:: python
 
-    def _computeClingraphGraphs(self,prg):
+    def _compute_clingraph_graphs(self,prg):
         fbs = []
         ctl = Control("0")
         for f in self._clingraph_files:
@@ -179,7 +179,7 @@ There is the possibility to save a graph to a file (only makes sense if you are 
 
 .. code-block:: python
  
-    def _saveClingraphGraphsToFile(self,graphs):
+    def _save_clingraph_graphs_to_file(self,graphs):
         if self._select_graph is not None:
             graphs = [{g_name:g for g_name, g in graph.items() if g_name in self._select_graph} for graph in graphs]
         write_arguments = {"directory":self._dir, "name_format":self._name_format}
@@ -195,7 +195,7 @@ The next method creates a binary image from a graph and returns it:
 
 .. code-block:: python
 
-    def _createImageFromGraph(self, graphs, position = None, key = None):
+    def _create_image_from_graph(self, graphs, position = None, key = None):
         graphs = graphs[0]
 
         if position is not None:
@@ -234,17 +234,17 @@ The next method searches through all attributes and looks up all the places, whe
 
 .. code-block:: python
 
-    def _getModelFilledWithBase64ImagesFromGraphs(self,graphs):
+    def _get_mode_filled_with_base_64_images_from_graphs(self,graphs):
         model = self._model
 
-        kept_symbols = list(model.getElements()) + list(model.getCallbacks())
+        kept_symbols = list(model.get_elements()) + list(model.get_callbacks())
 
         filled_attributes = []
 
         # TODO - Improve efficiency of filling attributes
-        for attribute in model.getAttributes():
+        for attribute in model.get_attributes():
             if str(attribute.key) == self._attribute_image_key:
-                attribute_value = StandardTextProcessing.parseStringWithQuotes(str(attribute.value))
+                attribute_value = StandardTextProcessing.parse_string_with_quotes(str(attribute.value))
 
                 if attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph":
                     splits = attribute_value.split(self._attribute_image_value_seperator)
@@ -253,7 +253,7 @@ The next method searches through all attributes and looks up all the places, whe
                     for split in splits:
                         rest = rest + split
 
-                    key_image = self._createImageFromGraph(graphs, key = rest)
+                    key_image = self._create_image_from_graph(graphs, key = rest)
 
                     base64_key_image = self._convertImageToBase64String(key_image)
 
@@ -269,20 +269,20 @@ The next-to-last thing to do is to edit our `updateModel` method, as we need to 
 
 .. code-block:: python
 
-    def _updateModel(self):
+    def _update_model(self):
         try:
-            prg = ClinguinModel.getCautiousBrave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
+            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
+            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
 
-            graphs = self._computeClingraphGraphs(prg)
+            graphs = self._compute_clingraph_graphs(prg)
 
             if not self._disable_saved_to_file:
-                self._saveClingraphGraphsToFile(graphs)
+                self._save_clingraph_graphs_to_file(graphs)
 
-            self._filled_model = self._getModelFilledWithBase64ImagesFromGraphs(graphs)
+            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
 
         except NoModelError:
-            self._model.addMessage("Error","This operation can't be performed")
+            self._model.add_message("Error","This operation can't be performed")
 
 The last step is now to tell backend, that we actually want to send the `filled_model` back and not the `model`. This can be done by editing the `get` method:
 
@@ -290,7 +290,7 @@ The last step is now to tell backend, that we actually want to send the `filled_
 
     def get(self):
         if not self._filled_model:
-            self._updateModel()
+            self._update_model()
 
         json_structure = StandardJsonEncoder.encode(self._filled_model)
         return json_structure
@@ -348,8 +348,8 @@ Full Example:
             self._filled_model = None
 
         @classmethod
-        def registerOptions(cls, parser):
-            ClingoBackend.registerOptions(parser)
+        def register_options(cls, parser):
+            ClingoBackend.register_options(parser)
 
             parser.add_argument('--clingraph-files',
                             nargs='+',
@@ -357,29 +357,29 @@ Full Example:
 
         def get(self):
             if not self._filled_model:
-                self._updateModel()
+                self._update_model()
 
             json_structure = StandardJsonEncoder.encode(self._filled_model)
             return json_structure
 
-        def _updateModel(self):
+        def _update_model(self):
             try:
-                prg = ClinguinModel.getCautiousBrave(self._ctl,self._assumptions)
-                self._model = ClinguinModel.fromWidgetsFileAndProgram(self._ctl,self._widget_files,prg)
+                prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
+                self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
 
-                graphs = self._computeClingraphGraphs(prg)
+                graphs = self._compute_clingraph_graphs(prg)
 
                 if not self._disable_saved_to_file:
-                    self._saveClingraphGraphsToFile(graphs)
+                    self._save_clingraph_graphs_to_file(graphs)
 
-                self._filled_model = self._getModelFilledWithBase64ImagesFromGraphs(graphs)
+                self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
 
             except NoModelError:
-                self._model.addMessage("Error","This operation can't be performed")
+                self._model.add_message("Error","This operation can't be performed")
 
 
 
-        def _computeClingraphGraphs(self,prg):
+        def _compute_clingraph_graphs(self,prg):
             fbs = []
             ctl = Control("0")
             for f in self._clingraph_files:
@@ -401,7 +401,7 @@ Full Example:
 
             return graphs
 
-        def _saveClingraphGraphsToFile(self,graphs):
+        def _save_clingraph_graphs_to_file(self,graphs):
             if self._select_graph is not None:
                 graphs = [{g_name:g for g_name, g in graph.items() if g_name in self._select_graph} for graph in graphs]
             write_arguments = {"directory":self._dir, "name_format":self._name_format}
@@ -413,7 +413,7 @@ Full Example:
             self._logger.debug("Clingraph saved images:")
             self._logger.debug(paths)
 
-        def _createImageFromGraph(self, graphs, position = None, key = None):
+        def _create_image_from_graph(self, graphs, position = None, key = None):
             graphs = graphs[0]
 
             if position is not None:
@@ -443,17 +443,17 @@ Full Example:
             decoded = encoded.decode(self._encoding)
 
             return decoded
-        def _getModelFilledWithBase64ImagesFromGraphs(self,graphs):
+        def _get_mode_filled_with_base_64_images_from_graphs(self,graphs):
             model = self._model
 
-            kept_symbols = list(model.getElements()) + list(model.getCallbacks())
+            kept_symbols = list(model.get_elements()) + list(model.get_callbacks())
 
             filled_attributes = []
 
             # TODO - Improve efficiency of filling attributes
-            for attribute in model.getAttributes():
+            for attribute in model.get_attributes():
                 if str(attribute.key) == self._attribute_image_key:
-                    attribute_value = StandardTextProcessing.parseStringWithQuotes(str(attribute.value))
+                    attribute_value = StandardTextProcessing.parse_string_with_quotes(str(attribute.value))
 
                     if attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph":
                         splits = attribute_value.split(self._attribute_image_value_seperator)
@@ -462,7 +462,7 @@ Full Example:
                         for split in splits:
                             rest = rest + split
 
-                        key_image = self._createImageFromGraph(graphs, key = rest)
+                        key_image = self._create_image_from_graph(graphs, key = rest)
 
                         base64_key_image = self._convertImageToBase64String(key_image)
 

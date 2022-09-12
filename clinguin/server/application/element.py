@@ -16,25 +16,25 @@ class ElementDto:
         self.callbacks = []
         self.children = []
 
-    def setAttributes(self, attributes):
+    def set_attributes(self, attributes):
         self.attributes = attributes
 
-    def addAttribute(self, attribute):
+    def add_attribute(self, attribute):
         self.attributes.append(attribute)
 
-    def setCallbacks(self, callbacks):
+    def set_callbacks(self, callbacks):
         self.callbacks = callbacks
 
-    def addChild(self, child):
+    def add_child(self, child):
         self.children.append(child)
 
-    def getChildPerIndex(self, index: int):
+    def get_child_per_index(self, index: int):
         return self.children[0]
 
-    def amountOfChildren(self) -> int:
+    def amount_of_children(self) -> int:
         return len(self.children)
 
-    def toJSON(self):
+    def to_JSON(self):
         return json.dumps(self, default=lambda o: str(o).__dict__)
 
     def clone(self):
@@ -43,12 +43,12 @@ class ElementDto:
         cloned_attributes = []
         for attribute in self.attributes:
             cloned_attributes.append(attribute.clone())
-        clone.setAttributes(cloned_attributes)
+        clone.set_attributes(cloned_attributes)
 
         cloned_callbacks = []
         for callback in self.callbacks:
             cloned_callbacks.append(callback.clone())
-        clone.setCallbacks(cloned_callbacks)
+        clone.set_callbacks(cloned_callbacks)
 
         cloned_children = []
         for child in self.children:
@@ -57,10 +57,10 @@ class ElementDto:
 
         return clone
 
-    def generateTable(self, table):
+    def generate_table(self, table):
         table[str(self.id)] = self
 
         for child in self.children:
-            child.generateTable(table)
+            child.generate_table(table)
 
         return table

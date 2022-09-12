@@ -9,7 +9,7 @@ class LayoutController(ExtensionClass):
     """
 
     @classmethod
-    def getAttributes(cls, attributes = None):
+    def get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -17,14 +17,14 @@ class LayoutController(ExtensionClass):
 
         return attributes
  
-    def _setChildOrg(self, elements):
+    def _set_child_org(self, elements):
         value = self._attributes[AttributeNames.child_layout]["value"]
         self._child_layout = value
 
-    def getChildOrg(self):
+    def get_child_org(self):
         return self._child_layout
 
-    def getFitChildrenSize(self):
+    def get_fit_children_size(self):
         return self._fit_children_size
 
 

@@ -10,15 +10,15 @@ class MenuBarSection(RootCmp):
     The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
     """
 
-    def _initWidget(self, elements):
-        menubar_widget = elements[self._parent].getWidget()
+    def _init_widget(self, elements):
+        menubar_widget = elements[self._parent].get_widget()
 
         menubar_section = tk.Menu(menubar_widget)
         
         return menubar_section
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -27,13 +27,13 @@ class MenuBarSection(RootCmp):
         return attributes
 
 
-    def _setSubMenu(self, elements):
+    def _set_sub_menu(self, elements):
         text = self._attributes[AttributeNames.label]["value"]
 
-        menubar_widget = elements[self._parent].getWidget()
+        menubar_widget = elements[self._parent].get_widget()
         menubar_widget.add_cascade(label=text, menu=self._widget)
         
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
        
         elements[str(self._id)] = self
 

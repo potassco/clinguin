@@ -575,7 +575,7 @@ New features:
 The general idea and the general architecture didn't change in this revision, therefore most of the things previously defined still hold. Regarding the available syntax, one can take a look at the recent examples. The intermediate Json format didn't change since the first implementation. Regarding the endpoints, there actually was a revision. Now there are three endpoints:
 \begin{itemize}
     \item \textit{''/''} with GET - This is the ''default'' backend, where one gets the GUI one gets on startup. This endpoint calls the \textit{get} method in the corresponding backend, which each backend \textbf{must} provide (a \textit{''get(self):''} method).
-    \item \textit{''/backend''} with POST - This is the endpoint, where one can send a Json with a single key \textit{function}, where the value of function determines which backend function will be called with what arguments. E.g. the json \textit{''function'':''addAtom(p(1))''} tries to call the method ''addAtom'' with the argument ''p(1)''.
+    \item \textit{''/backend''} with POST - This is the endpoint, where one can send a Json with a single key \textit{function}, where the value of function determines which backend function will be called with what arguments. E.g. the json \textit{''function'':''add_atom(p(1))''} tries to call the method ''add_atom'' with the argument ''p(1)''.
     \item \textit{''/health''} with GET - Get version and status of program.
 \end{itemize}
 

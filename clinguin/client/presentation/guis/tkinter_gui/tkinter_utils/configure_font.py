@@ -13,7 +13,7 @@ class ConfigureFont(ExtensionClass):
         self._configure_font_widget = None
 
     @classmethod
-    def getAttributes(cls, attributes = None):
+    def get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -23,7 +23,7 @@ class ConfigureFont(ExtensionClass):
 
         return attributes
 
-    def _setFont(self, elements):
+    def _set_font(self, elements):
     
         family = family=self._attributes[AttributeNames.font_family]["value"]
         size = int(self._attributes[AttributeNames.font_size]["value"])

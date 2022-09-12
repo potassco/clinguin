@@ -4,11 +4,11 @@ This module contains the StandardTextProcessing class.
 
 class StandardTextProcessing:
     """
-    The sole method parseStringWithQuotes removes unecessary quotes at the beginning and the end of a string.
+    The sole method parse_string_with_quotes removes unecessary quotes at the beginning and the end of a string.
     """
 
     @classmethod
-    def parseStringWithQuotes(cls, text):
+    def parse_string_with_quotes(cls, text):
         if len(text) > 0:
             if text[0] == "\"":
                 text = text[1:]

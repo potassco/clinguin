@@ -12,7 +12,7 @@ class ColorType(Type):
 
     @classmethod
     def parse(cls, input: str, logger):
-        parsed_string = (StandardTextProcessing.parseStringWithQuotes(input)).lower()
+        parsed_string = (StandardTextProcessing.parse_string_with_quotes(input)).lower()
 
         return parsed_string
 

@@ -22,15 +22,15 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
         self._image = None
         
 
-    def _initWidget(self, elements):
-        canvas_frame = tk.Frame(elements[str(self._parent)].getWidget())
+    def _init_widget(self, elements):
+        canvas_frame = tk.Frame(elements[str(self._parent)].get_widget())
 
         self._canvas = tk.Canvas(canvas_frame)
 
         return canvas_frame
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -39,7 +39,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
         attributes[AttributeNames.resize] = {"value": True, "value_type" : BooleanType}
         return attributes
 
-    def _setImage(self, elements):
+    def _set_image(self, elements):
 
         image_base64 = self._attributes[AttributeNames.image]["value"]
         image_file = self._attributes[AttributeNames.image_path]["value"]
@@ -91,7 +91,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
                 self._logger.error("Could not render image (likely Base64 encoding is wrong).")
             
 
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
         self._canvas.pack(expand=True, fill='both')
 
         elements[str(self._id)] = self

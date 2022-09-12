@@ -26,7 +26,7 @@ attribute(info_find_l, height, 70 ):-not goal(T),query(T).
 attribute(info_find_l, width, 120 ):-not goal(T),query(T).
 attribute(info_find_l, grid_row, 1):-not goal(T),query(T).
 attribute(info_find_l, label, "Find plan"):-not goal(T),query(T).
-callback(info_find_l, click, findPlan):-not goal(T),query(T).
+callback(info_find_l, click, find_plan):-not goal(T),query(T).
 
 element(info_steps_l, label, info).
 attribute(info_steps_l, grid_row, 4).
@@ -66,7 +66,7 @@ element(elevator_occ_mi(F,A), dropdown_menu_item, elevator_floor(F)):-
 attribute(elevator_occ_mi(F,A), label, A):-
     on_floor(F,T),
     _b(occ(A,T)).
-callback(elevator_occ_mi(F,A), click, assumeAndStep(occ(A,T))):-
+callback(elevator_occ_mi(F,A), click, assume_and_step(occ(A,T))):-
     on_floor(F,T),
     _b(occ(A,T)).
 
@@ -77,7 +77,7 @@ attribute(elevator_call(F), width, 70):-floor(F).
 attribute(elevator_call(F), grid_column, 1):-floor(F).
 attribute(elevator_call(F), grid_row, 0):-floor(F).
 
-attribute(elevator_call(F), background_color, color_request):- floor(F), call_floor(F,T).
+attribute(elevator_call(F), background_color, red):- floor(F), call_floor(F,T).
 
 attribute(elevator_call(F), label, "--"):-floor(F),not call_floor(F,_).
 

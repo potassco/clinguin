@@ -10,10 +10,10 @@ class DropdownmenuItem(RootCmp):
     Is an item of a dropdown, e.g. for the dropdownmenu countries, germany would be a dropdownmenu-item.
     """
 
-    def _initWidget(self, elements):
+    def _init_widget(self, elements):
         parent = elements[str(self._parent)]
-        if hasattr(parent, "getMenu"):
-            menu = parent.getMenu()
+        if hasattr(parent, "get_menu"):
+            menu = parent.get_menu()
             return menu
         else:
             error_string = "Parent of dropdown menu item " + self._id + " is not a dropdown menu."
@@ -21,7 +21,7 @@ class DropdownmenuItem(RootCmp):
             raise Exception(error_string)
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -30,7 +30,7 @@ class DropdownmenuItem(RootCmp):
         return attributes
 
     @classmethod
-    def _getCallbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks = None):
         if callbacks is None:
             callbacks =  {}
 
@@ -38,7 +38,7 @@ class DropdownmenuItem(RootCmp):
 
         return callbacks
 
-    def _defineClickEvent(self, elements, key = CallbackNames.click):
+    def _define_click_event(self, elements, key = CallbackNames.click):
         if self._callbacks[key]:
             self._widget['menu'].add_command(
                 label=self._attributes[AttributeNames.label]["value"],
@@ -47,19 +47,19 @@ class DropdownmenuItem(RootCmp):
                     self._parent,
                     self._callbacks[key]['policy'],
                     elements,
-                    self._dropdownmenuitemClick))
+                    self._dropdownmenuitem_click))
 
-    def _dropdownmenuitemClick(self, id, parent_id, click_policy, elements):
+    def _dropdownmenuitem_click(self, id, parent_id, click_policy, elements):
         parent = elements[str(parent_id)]
-        if hasattr(parent, "getVariable"):
-            variable = getattr(parent, "getVariable")()
+        if hasattr(parent, "get_variable"):
+            variable = getattr(parent, "get_variable")()
             variable.set(id)
             if click_policy is not None:
-                self._base_engine.postWithPolicy(click_policy)
+                self._base_engine.post_with_policy(click_policy)
         else:
             self._logger.warning("Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s", str(id), str(parent_id))
 
-    def forgetChildren(self, elements):
+    def forget_children(self, elements):
         pass
 
 

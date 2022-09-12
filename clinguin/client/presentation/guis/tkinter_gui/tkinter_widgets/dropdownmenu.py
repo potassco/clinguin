@@ -16,9 +16,9 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         self._variable = None
 
 
-    def _initWidget(self, elements):
+    def _init_widget(self, elements):
 
-        option_menu_frame = tk.Frame(elements[str(self._parent)].getWidget())
+        option_menu_frame = tk.Frame(elements[str(self._parent)].get_widget())
 
         self._variable = tk.StringVar()
         items = []
@@ -28,11 +28,11 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
 
         return option_menu_frame
 
-    def getVariable(self):
+    def get_variable(self):
         return self._variable
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -47,19 +47,19 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
  
         return attributes
 
-    def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
+    def _set_background_color(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         
         self._menu.config(bg= value, activebackground=value)
         self._menu["menu"].config(bg=value, activebackground=value)
 
-    def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
+    def _set_foreground_color(self, elements, key = AttributeNames.foregroundcolor):
         value = self._attributes[key]["value"]
 
         self._menu.config(fg=value, activeforeground=value)
         self._menu["menu"].config(fg=value, activeforeground=value)
 
-    def _setOnHover(self, elements): 
+    def _set_on_hover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
 
         on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]
@@ -70,14 +70,14 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
             self._menu.config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
             self._menu["menu"].config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
 
-    def _setSelected(self, elements):
+    def _set_selected(self, elements):
         if self._attributes[AttributeNames.selected]['value'] != "":
             self._variable.set(self._attributes[AttributeNames.selected]['value'])
 
-    def getMenu(self):
+    def get_menu(self):
         return self._menu
 
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
         self._menu.pack(expand=True, fill='both')
 
         elements[str(self._id)] = self

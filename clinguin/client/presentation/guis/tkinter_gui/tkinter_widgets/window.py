@@ -10,14 +10,14 @@ class Window(RootCmp, LayoutController):
     The window class is the top-lvl. component, therefore it MUST be used in every clinguin application! For available attributes see syntax definition.
     """
 
-    def _initWidget(self, elements):
+    def _init_widget(self, elements):
         window = tk.Tk()
         window.title("Clinguin")
 
         return window
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -31,11 +31,11 @@ class Window(RootCmp, LayoutController):
 
         return attributes
 
-    def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
+    def _set_background_color(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         self._widget.configure(background = value)
 
-    def _setDimensions(self, elements):
+    def _set_dimensions(self, elements):
         width = self._attributes[AttributeNames.width]["value"]
         height = self._attributes[AttributeNames.height]["value"]
 
@@ -63,9 +63,10 @@ class Window(RootCmp, LayoutController):
         elif (height > 0 and width <= 0) or (height <= 0 and width > 0):
             self._logger.warning("For the tkinter window one must set both height and width to positive values (not just one).")
 
-    def _setResizable(self, elements):
+    def _set_resizable(self, elements):
         self._widget.resizable(self._attributes[AttributeNames.resizable_x]['value'],self._attributes[AttributeNames.resizable_y]['value'])
-    def _addComponentToElements(self, elements):
+        
+    def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
 
 

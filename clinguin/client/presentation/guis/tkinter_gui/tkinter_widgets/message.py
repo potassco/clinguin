@@ -13,12 +13,12 @@ class Message(RootCmp):
     """
 
 
-    def _initWidget(self, elements):
-        message = tk.Message(elements[str(self._parent)].getWidget())
+    def _init_widget(self, elements):
+        message = tk.Message(elements[str(self._parent)].get_widget())
         return message
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -28,7 +28,7 @@ class Message(RootCmp):
 
         return attributes
 
-    def _setValues(self, elements):
+    def _set_values(self, elements):
 
         type = self._attributes[AttributeNames.type]["value"]
         title = self._attributes[AttributeNames.title]["value"]

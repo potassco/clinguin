@@ -14,8 +14,8 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
         self._configure_font_widget = None
         self._label = None
 
-    def _initWidget(self, elements):
-        label_frame = tk.Frame(elements[str(self._parent)].getWidget())
+    def _init_widget(self, elements):
+        label_frame = tk.Frame(elements[str(self._parent)].get_widget())
 
         self._label = tk.Label(label_frame)
         self._configure_font_widget = self._label
@@ -23,7 +23,7 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
         return label_frame
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -37,7 +37,7 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
         return attributes
 
     @classmethod
-    def _getCallbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks = None):
         if callbacks is None:
             callbacks = {}
 
@@ -49,15 +49,15 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
     #-----Standard-Attributes----
     #----------------------------------------------------------------------------------------------
 
-    def _setLabelText(self, elements, key = AttributeNames.label):
+    def _set_label_text(self, elements, key = AttributeNames.label):
         text = self._attributes[key]["value"]
         self._label.configure(text = text)
 
-    def _setBackgroundColor(self, elements, key = AttributeNames.backgroundcolor):
+    def _set_background_color(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         self._label.configure(background = value)
 
-    def _setForegroundColor(self, elements, key = AttributeNames.foregroundcolor):
+    def _set_foreground_color(self, elements, key = AttributeNames.foregroundcolor):
         value = self._attributes[key]["value"]
         self._label.configure(foreground = value)
 
@@ -65,7 +65,7 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
     #-----Special-Attributes----
     #----------------------------------------------------------------------------------------------
 
-    def _setOnHover(self, elements): 
+    def _set_on_hover(self, elements): 
         on_hover = self._attributes[AttributeNames.onhover]["value"]
         on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]
 
@@ -74,13 +74,13 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
         if on_hover:
             def enter(event):
                 if on_hover_background_color != "":
-                    self._setBackgroundColor(elements, key = AttributeNames.onhover_background_color)
+                    self._set_background_color(elements, key = AttributeNames.onhover_background_color)
                 if on_hover_foreground_color != "":
-                    self._setForegroundColor(elements, key = AttributeNames.onhover_foreground_color)
+                    self._set_foreground_color(elements, key = AttributeNames.onhover_foreground_color)
 
             def leave(event):
-                self._setBackgroundColor(elements, key = AttributeNames.backgroundcolor)
-                self._setForegroundColor(elements, key= AttributeNames.foregroundcolor)
+                self._set_background_color(elements, key = AttributeNames.backgroundcolor)
+                self._set_foreground_color(elements, key= AttributeNames.foregroundcolor)
     
             self._label.bind('<Enter>', enter)
             self._label.bind('<Leave>', leave)
@@ -90,15 +90,15 @@ class Label(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
     #-----Actions----
     #----------------------------------------------------------------------------------------------
        
-    def _defineClickEvent(self, elements):
+    def _define_click_event(self, elements):
         key = CallbackNames.click
         if self._callbacks[key] and self._callbacks[key]["policy"]:
-            def clickEvent(event):
-                self._base_engine.postWithPolicy(self._callbacks[key]["policy"])
+            def click_event(event):
+                self._base_engine.post_with_policy(self._callbacks[key]["policy"])
 
-            self._label.bind('<Button-1>', clickEvent)
+            self._label.bind('<Button-1>', click_event)
 
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
         self._label.pack(expand=True, fill='both')
 
         elements[str(self._id)] = self

@@ -42,19 +42,19 @@ class ClingoBackend(ClinguinBackend):
         self._model=None
 
     @classmethod
-    def registerOptions(cls, parser):
+    def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation',metavar='')
 
     def _restart(self):
-        self._endBrowsing()
+        self._end_browsing()
         self._assumptions = set()
         self._externals = {"true":set(),"false":set(),"released":set()}
         self._atoms = set()
-        self._initCtl()
+        self._init_ctl()
         self._ground()
 
-    def _initCtl(self):
+    def _init_ctl(self):
         self._ctl = Control(['0'])
         for f in self._source_files:
             try:
@@ -73,56 +73,56 @@ class ClingoBackend(ClinguinBackend):
         self._ctl.ground([("base", [])])
 
     
-    def _endBrowsing(self):
+    def _end_browsing(self):
         if self._handler:
             self._handler.cancel()
             self._handler = None
         self._iterator = None
 
-    def _updateModel(self):
+    def _update_model(self):
         try:
-            self._model = ClinguinModel.fromWidgetsFile(
+            self._model = ClinguinModel.from_widgets_file(
                 self._ctl,
                 self._widget_files, 
                 self._assumptions)
         except NoModelError:
-            self._model.addMessage("Error","This operation can't be performed")
+            self._model.add_message("Error","This operation can't be performed")
 
     def get(self):
         """
         Overwritten default method to get the gui as a Json structure.
         """
         if not self._model:
-            self._updateModel()
+            self._update_model()
 
         json_structure =  StandardJsonEncoder.encode(self._model)
 
         return json_structure
 
-    def clearAssumptions(self):
+    def clear_assumptions(self):
         """
-        Policy: clearAssumptions removes all assumptions, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
+        Policy: clear_assumptions removes all assumptions, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
         """
-        self._endBrowsing()
+        self._end_browsing()
         self._assumptions = set()
-        self._initCtl()
+        self._init_ctl()
         self._ground()
 
-        self._updateModel()
+        self._update_model()
         return self.get()
 
-    def addAssumption(self, predicate):
+    def add_assumption(self, predicate):
         """
         Policy: Adds an assumption and returns the udpated Json structure.
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
             self._assumptions.add(predicate_symbol)
-            self._endBrowsing()
-            self._updateModel()
+            self._end_browsing()
+            self._update_model()
         return self.get()
 
-    def removeAssumption(self, predicate):
+    def remove_assumption(self, predicate):
         """
         Policy: Removes an assumption and returns the udpated Json structure.
         """
@@ -130,23 +130,23 @@ class ClingoBackend(ClinguinBackend):
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
             self._assumptions.remove(predicate_symbol)
-            self._endBrowsing()
-            self._updateModel()
+            self._end_browsing()
+            self._update_model()
         return self.get()
    
-    def clearAtoms(self):
+    def clear_atoms(self):
         """
-        Policy: clearAtoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
+        Policy: clear_atoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
         """
-        self._endBrowsing()
+        self._end_browsing()
         self._atoms = set()
-        self._initCtl()
+        self._init_ctl()
         self._ground()
 
-        self._updateModel()
+        self._update_model()
         return self.get()
 
-    def addAtom(self, predicate):
+    def add_atom(self, predicate):
         """
         Policy: Adds an assumption and basically resets the rest of the application (reground) - finally it returns the udpated Json structure.
         """
@@ -154,26 +154,26 @@ class ClingoBackend(ClinguinBackend):
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
             # Maybe best to do using the callback tuple?
-            self._initCtl()
+            self._init_ctl()
             self._ground()
-            self._endBrowsing()
-            self._updateModel()
+            self._end_browsing()
+            self._update_model()
         return self.get()
 
-    def removeAtom(self,predicate):
+    def remove_atom(self,predicate):
         """
         Policy: Removes an assumption and basically resets the rest of the application (reground) - finally it returns the udpated Json structure.
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._atoms:
             self._atoms.remove(predicate_symbol)
-            self._initCtl()
+            self._init_ctl()
             self._ground()
-            self._endBrowsing()
-            self._updateModel()
+            self._end_browsing()
+            self._update_model()
         return self.get()
 
-    def setExternal(self, predicate, value):
+    def set_external(self, predicate, value):
         """
         Policy: Sets the value of an external.
         """
@@ -207,10 +207,10 @@ class ClingoBackend(ClinguinBackend):
         else:
             raise ValueError(f"Invalid external value {name}. Must be true, false or relase")
 
-        self._updateModel()
+        self._update_model()
         return self.get()
 
-    def nextSolution(self):
+    def next_solution(self):
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
             self._handler = self._ctl.solve(
@@ -219,11 +219,11 @@ class ClingoBackend(ClinguinBackend):
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
-            self._model = self._modelClass.fromClingoModel(model)
+            self._model = self._modelClass.from_clingo_model(model)
         except StopIteration:
             self._logger.info("No more solutions")
             self._handler.cancel()
-            self._updateModel()
-            self._model.addMessage("Browsing Information","No more solutions")
+            self._update_model()
+            self._model.add_message("Browsing Information","No more solutions")
 
         return self.get()

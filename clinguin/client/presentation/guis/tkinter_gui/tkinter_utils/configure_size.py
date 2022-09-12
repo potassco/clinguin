@@ -9,7 +9,7 @@ class ConfigureSize(ExtensionClass):
     """
 
     @classmethod
-    def getAttributes(cls, attributes = None):
+    def get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -18,7 +18,7 @@ class ConfigureSize(ExtensionClass):
 
         return attributes
 
-    def _setSize(self, elements):
+    def _set_size(self, elements):
         height = self._attributes[AttributeNames.height]["value"]
         width = self._attributes[AttributeNames.width]["value"]
 

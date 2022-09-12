@@ -43,8 +43,9 @@ class Api:
         try:
             self._logger.info("<-- POST to %s%s   %s", str(self.base_url), str(endpoint), str(body.function))
             
-            data = body.toJSON()
+            data = body.to_JSON()
             r = httpx.post(self.base_url + endpoint, data=data, timeout=10000)
+            self._logger.debug(r.json())
             return (r.status_code, r.json())
         except httpx.ConnectError:
             self._logger.warning("Https-connect-error occured.")

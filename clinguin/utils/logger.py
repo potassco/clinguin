@@ -63,13 +63,13 @@ class Logger:
     }
 
     @classmethod
-    def _getLogFilePath(cls, log_arg_dict):
+    def _get_log_file_path(cls, log_arg_dict):
         log_file_path = os.path.join("logs",
             (log_arg_dict['timestamp'] + "-" + log_arg_dict['name'] + ".log"))
         return log_file_path
 
     @classmethod
-    def _addShellHandlerToLogger(cls, logger, log_arg_dict):
+    def _add_shell_handler_to_logger(cls, logger, log_arg_dict):
         shell_formatter = Logger.ColoredFormatter(log_arg_dict['format_shell'])
 
         logger.setLevel(cls.log_levels[log_arg_dict['level']])
@@ -80,7 +80,7 @@ class Logger:
         logger.addHandler(handler_sh)
 
     @classmethod
-    def _addFileHandlerToLogger(cls, logger, log_arg_dict, log_file_path):
+    def _add_file_handler_to_logger(cls, logger, log_arg_dict, log_file_path):
         file_formatter = Logger.ColoredFormatter(log_arg_dict['format_file'])
 
         with open(log_file_path, "a+") as file_object:
@@ -94,22 +94,22 @@ class Logger:
         logger.addHandler(handler_f)
 
     @classmethod
-    def setupLogger(cls, log_arg_dict, process = None):
+    def setup_logger(cls, log_arg_dict, process = None):
         if process and process == "client": 
             cls.client_logger_name = log_arg_dict['name']
         elif process and process == "server":
             cls.server_logger_name = log_arg_dict['name']
 
-        log_file_path = cls._getLogFilePath(log_arg_dict)
+        log_file_path = cls._get_log_file_path(log_arg_dict)
 
         logger = logging.getLogger(log_arg_dict['name'])
         if not log_arg_dict['shell_disabled']:
-            cls._addShellHandlerToLogger(logger, log_arg_dict)
+            cls._add_shell_handler_to_logger(logger, log_arg_dict)
         if log_arg_dict['file_enabled']:
-            cls._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
+            cls._add_file_handler_to_logger(logger, log_arg_dict, log_file_path)
 
     @classmethod
-    def setupUvicornLoggerOnStartup(cls, log_arg_dict):
+    def setup_uvicorn_logger_on_startup(cls, log_arg_dict):
         # ----------------------------------------------------------
         # Remove handlers from uvicorn loggers
         logger = logging.getLogger("uvicorn.access")
@@ -125,12 +125,12 @@ class Logger:
             logger.removeHandler(handler)
 
         # Add new handlers to top-level-uvicorn logger
-        log_file_path = cls._getLogFilePath(log_arg_dict)
+        log_file_path = cls._get_log_file_path(log_arg_dict)
 
         logger = logging.getLogger("uvicorn")
         if not log_arg_dict['shell_disabled']:
-            cls._addShellHandlerToLogger(logger, log_arg_dict)
+            cls._add_shell_handler_to_logger(logger, log_arg_dict)
         if log_arg_dict['file_enabled']:
-            cls._addFileHandlerToLogger(logger, log_arg_dict, log_file_path)
+            cls._add_file_handler_to_logger(logger, log_arg_dict, log_file_path)
 
 

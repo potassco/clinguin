@@ -15,7 +15,7 @@ class LayoutFollower(ExtensionClass):
         self._logger = logging.getLogger(Logger.client_logger_name)
 
     @classmethod
-    def getAttributes(cls, attributes = None):
+    def get_attributes(cls, attributes = None):
         if attributes is None:
             attributes = {}
 
@@ -31,10 +31,10 @@ class LayoutFollower(ExtensionClass):
         return attributes
 
 
-    def _setLayout(self, elements):
+    def _set_layout(self, elements):
         parent = elements[self._parent]
-        if hasattr(parent, "getChildOrg"):
-            parent_org = getattr(parent, "getChildOrg")()
+        if hasattr(parent, "get_child_org"):
+            parent_org = getattr(parent, "get_child_org")()
         else:
             self._logger.warning("Could not find necessary attribute childOrg() in id: %s", str(self._parent))
             return

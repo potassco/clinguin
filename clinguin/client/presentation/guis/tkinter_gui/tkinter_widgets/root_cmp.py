@@ -8,8 +8,8 @@ from ..tkinter_utils import *
 class RootCmp:
     """
     Every tkinter widget must be a subtype of the RootCmp. It further features standard implementations of various methods, therefore one must just implement a handful of methods if one implements a new widget, these are (see e.g. the button.py for a sample implementation):
-    - _getAttributes(attributes = None)
-    - _getCallbacks(callbacks = None)
+    - _get_attributes(attributes = None)
+    - _get_callbacks(callbacks = None)
     - Every method, which name starts with ''_set'' will be executed and are designed to be used for setting the attributes.
     - Every method, which name starts with ''_define'' will be executed and are designet to specify callbacks.
     """
@@ -27,55 +27,55 @@ class RootCmp:
         self._callbacks = None
 
     @classmethod
-    def getAttributes(cls):
+    def get_attributes(cls):
 
         attributes = {} 
         for base in cls.__bases__:
             if issubclass(base, ExtensionClass):
-                base.getAttributes(attributes)
+                base.get_attributes(attributes)
         
-        return cls._getAttributes(attributes)
+        return cls._get_attributes(attributes)
 
     @classmethod
-    def _getAttributes(cls, attributes = None):
+    def _get_attributes(cls, attributes = None):
         return {}
 
 
     @classmethod
-    def getCallbacks(cls):
+    def get_callbacks(cls):
         callbacks = {} 
         for base in cls.__bases__:
             if issubclass(base, ExtensionClass):
-                base.getCallbacks(callbacks)
+                base.get_callbacks(callbacks)
         
-        return cls._getCallbacks(callbacks)
+        return cls._get_callbacks(callbacks)
     
     @classmethod
-    def _getCallbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks = None):
         return {}
 
 
-    def getWidget(self):
+    def get_widget(self):
         return self._widget
 
-    def addComponent(self, elements):
-        self._widget = self._initWidget(elements)        
+    def add_component(self, elements):
+        self._widget = self._init_widget(elements)        
 
-        self._attributes = self.__class__.getAttributes()
-        self._callbacks = self.__class__.getCallbacks()
+        self._attributes = self.__class__.get_attributes()
+        self._callbacks = self.__class__.get_callbacks()
 
-        self._fillAttributes()
-        self._fillCallbacks()
+        self._fill_attributes()
+        self._fill_callbacks()
 
-        self._execAttributes(elements)
-        self._execActions(elements)
+        self._exec_attributes(elements)
+        self._exec_actions(elements)
 
-        self._addComponentToElements(elements)
+        self._add_component_to_elements(elements)
     
-    def _initWidget(self, elements):
+    def _init_widget(self, elements):
         return None
 
-    def _fillAttributes(self):
+    def _fill_attributes(self):
         for attribute in self._json_attributes:
             key = attribute['key']
             value = attribute['value']
@@ -89,7 +89,7 @@ class RootCmp:
             else:
                 self._logger.warning('Undefined Command: ' + key + ' for element: ' + attribute['id'])
 
-    def _fillCallbacks(self):
+    def _fill_callbacks(self):
         for callback in self._json_callbacks:
             key = callback['action']
             value = callback['policy']
@@ -103,7 +103,7 @@ class RootCmp:
             else:
                 self._logger.warning('Undefined Command: %s, or policy item missing in command.', key)
 
-    def _getMethods(self, start_string):
+    def _get_methods(self, start_string):
 
         object_methods = []
         for method_name in dir(self):
@@ -113,24 +113,24 @@ class RootCmp:
 
         return object_methods
 
-    def _execAttributes(self, elements):
-        attribute_methods = self._getMethods("_set")
+    def _exec_attributes(self, elements):
+        attribute_methods = self._get_methods("_set")
 
         for set_attribute_method in attribute_methods:
             set_attribute_method(elements)
 
-    def _execActions(self, elements):
-        callback_methods = self._getMethods("_define")
+    def _exec_actions(self, elements):
+        callback_methods = self._get_methods("_define")
         for define_callback_method in callback_methods:
             define_callback_method(elements)
 
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
     
-    def forgetChildren(self, elements):
+    def forget_children(self, elements):
         if str(self._parent) in elements:
-            if hasattr(elements[self._parent], "getChildOrg"):
-                parent_org = getattr(elements[self._parent], "getChildOrg")()
+            if hasattr(elements[self._parent], "get_child_org"):
+                parent_org = getattr(elements[self._parent], "get_child_org")()
                 if parent_org in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
                     self._widget.pack_forget()
                 elif parent_org == ChildLayoutType.GRID:

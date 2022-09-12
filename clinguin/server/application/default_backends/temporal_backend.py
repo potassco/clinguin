@@ -25,11 +25,11 @@ class TemporalBackend(ClingoBackend):
         super().__init__(args)
         
 
-    def _initCtl(self):
+    def _init_ctl(self):
         self._step= 1
         self._last_grounded_step= 0
         self._full_plan=None
-        super()._initCtl()
+        super()._init_ctl()
 
     def _ground(self):
         if not self._last_grounded_step:
@@ -42,11 +42,11 @@ class TemporalBackend(ClingoBackend):
         self._ctl.assign_external(Function('query',[Number(self._step)]),True)
 
 
-    def _findIncrementally(self):
+    def _find_incrementally(self):
         if self._step>1:
             self._ctl.assign_external(Function('check',[Number(self._step-1)]),False)
         self._ctl.assign_external(Function('check',[Number(self._step)]),True)
-        plan = self._findPlan()
+        plan = self._find_plan()
         
         while plan is None or self._step>100:
             self._step +=1
@@ -54,7 +54,7 @@ class TemporalBackend(ClingoBackend):
             if self._step>1:
                 self._ctl.assign_external(Function('check',[Number(self._step-1)]),False)
             self._ctl.assign_external(Function('check',[Number(self._step)]),True)
-            plan = self._findPlan()
+            plan = self._find_plan()
 
         if self._full_plan is None:
             raise RuntimeError("No plan found before 100 steps")
@@ -62,7 +62,7 @@ class TemporalBackend(ClingoBackend):
 
         return self._full_plan
 
-    def _findPlan(self):
+    def _find_plan(self):
         self._ctl.configuration.solve.enum_mode = 'auto'
         hdn = self._ctl.solve(
             assumptions=[(a,True) for a in self._assumptions],
@@ -79,27 +79,27 @@ class TemporalBackend(ClingoBackend):
         return self._full_plan
 
 
-    def findPlan(self):
+    def find_plan(self):
         if not self._full_plan:
-            self._findIncrementally()
+            self._find_incrementally()
 
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
-        wctl = ClinguinModel.widControl(self._widget_files,symbols)
-        self._model = ClinguinModel.fromCtl(wctl)
+        wctl = ClinguinModel.wid_control(self._widget_files,symbols)
+        self._model = ClinguinModel.from_ctl(wctl)
         return self.get()
 
-    def assumeAndStep(self, predicate):
+    def assume_and_step(self, predicate):
         predicate_symbol = parse_term(predicate)
         self._assumptions.add(predicate_symbol)
         self._step +=1
         self._ground()
-        self._endBrowsing()
-        self._updateModel()
+        self._end_browsing()
+        self._update_model()
         return self.get()
 
-    def removeAssumption(self, predicate):
+    def remove_assumption(self, predicate):
         raise NotImplementedError()
 
 
-    def nextSolution(self):
+    def next_solution(self):
         raise NotImplementedError()

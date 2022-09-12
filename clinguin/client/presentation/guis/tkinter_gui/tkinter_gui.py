@@ -20,12 +20,12 @@ class TkinterGui(AbstractGui):
         self.first = True
 
     @classmethod
-    def registerOptions(cls, parser):   
+    def register_options(cls, parser):   
         parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter widgets."
 
     @classmethod
-    def availableSyntax(cls, show_level):
-        def appendDict(description, _dict, type_name):
+    def available_syntax(cls, show_level):
+        def append_dict(description, _dict, type_name):
 
             for key in _dict.keys():
                 description = description + "    |- " + key + "\n"
@@ -64,15 +64,15 @@ class TkinterGui(AbstractGui):
         for c in class_list:
             description = description + "|- " + c.__name__ + "\n"
             
-            attributes = c.getAttributes()
+            attributes = c.get_attributes()
             if len(attributes.keys()) > 0:
                 description = description + "  |- attributes\n"
-                description = appendDict(description, attributes, "value_type")
+                description = append_dict(description, attributes, "value_type")
             
-            callbacks = c.getCallbacks()
+            callbacks = c.get_callbacks()
             if len(callbacks.keys()) > 0:               
                 description = description + "  |- callbacks\n"
-                description = appendDict(description, callbacks, "policy_type")
+                description = append_dict(description, callbacks, "policy_type")
             description = description + "|--------------------------------\n"
 
         return description
@@ -82,7 +82,7 @@ class TkinterGui(AbstractGui):
 
         if self.first:
             window = Window(self._args, id, parent, attributes, callbacks, self._base_engine)
-            window.addComponent(self.elements)
+            window.add_component(self.elements)
         else:
             keys = list(self.elements.keys()).copy()
             for key in keys:
@@ -90,50 +90,50 @@ class TkinterGui(AbstractGui):
                     continue
                 
                 if str(key) in self.elements:
-                    self.elements[str(key)].forgetChildren(self.elements)
+                    self.elements[str(key)].forget_children(self.elements)
                     del self.elements[str(key)]
 
     def container(self, id, parent, attributes, callbacks):
         container = Container(self._args, id, parent, attributes, callbacks, self._base_engine)
-        container.addComponent(self.elements)
+        container.add_component(self.elements)
 
 
-    def dropdownMenu(self, id, parent, attributes, callbacks):
+    def dropdown_menu(self, id, parent, attributes, callbacks):
         menu = Dropdownmenu(self._args, id, parent, attributes, callbacks, self._base_engine)
-        menu.addComponent(self.elements)
+        menu.add_component(self.elements)
 
-    def dropdownMenuItem(self, id, parent, attributes, callbacks):
+    def dropdown_menu_item(self, id, parent, attributes, callbacks):
         menu = DropdownmenuItem(self._args, id, parent, attributes, callbacks, self._base_engine)
-        menu.addComponent(self.elements)
+        menu.add_component(self.elements)
 
     def label(self, id, parent, attributes, callbacks):
         label = Label(self._args, id, parent, attributes, callbacks, self._base_engine)
-        label.addComponent(self.elements)
+        label.add_component(self.elements)
 
     def button(self, id, parent, attributes, callbacks):
         button = Button(self._args, id, parent, attributes, callbacks, self._base_engine)
-        button.addComponent(self.elements)
+        button.add_component(self.elements)
 
-    def menuBar(self, id, parent, attributes, callbacks):
+    def menu_bar(self, id, parent, attributes, callbacks):
         menubar = MenuBar(self._args, id, parent, attributes, callbacks, self._base_engine)
-        menubar.addComponent(self.elements)
+        menubar.add_component(self.elements)
 
-    def menuBarSection(self, id, parent, attributes, callbacks):
+    def menu_bar_section(self, id, parent, attributes, callbacks):
         menubar = MenuBarSection(self._args, id, parent, attributes, callbacks, self._base_engine)
-        menubar.addComponent(self.elements)
+        menubar.add_component(self.elements)
 
-    def menuBarSectionItem(self, id, parent, attributes, callbacks):
+    def menu_bar_section_item(self, id, parent, attributes, callbacks):
         menubar = MenuBarSectionItem(self._args, id, parent, attributes, callbacks, self._base_engine)
-        menubar.addComponent(self.elements)
+        menubar.add_component(self.elements)
 
     def message(self, id, parent, attributes, callbacks):
         message = Message(self._args, id, parent, attributes, callbacks, self._base_engine)
-        message.addComponent(self.elements)
+        message.add_component(self.elements)
 
     def canvas(self, id, parent, attributes, callbacks):
         canvas = Canvas(self._args, id, parent, attributes, callbacks, self._base_engine)
-        canvas.addComponent(self.elements)
+        canvas.add_component(self.elements)
 
     def draw(self, id):
         self.first = False
-        self.elements[id].getWidget().mainloop()
+        self.elements[id].get_widget().mainloop()

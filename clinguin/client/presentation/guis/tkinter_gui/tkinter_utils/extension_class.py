@@ -11,10 +11,10 @@ class ExtensionClass:
     """
 
     @classmethod
-    def getAttributes(cls, attributes = None):
+    def get_attributes(cls, attributes = None):
         return {}
 
     @classmethod
-    def getCallbacks(cls, attributes = None):
+    def get_callbacks(cls, attributes = None):
         return {}
 

@@ -10,14 +10,14 @@ class MenuBar(RootCmp):
     The MenuBar is the class which resembles the menu-bar in tkinter. There must only be one in a clinguin ui file.
     """
 
-    def _initWidget(self, elements):
-        parent_widget = elements[self._parent].getWidget()
+    def _init_widget(self, elements):
+        parent_widget = elements[self._parent].get_widget()
         menubar = tk.Menu(parent_widget)
         parent_widget.config(menu=menubar)
 
         return menubar
 
-    def _addComponentToElements(self, elements):
+    def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
 
 

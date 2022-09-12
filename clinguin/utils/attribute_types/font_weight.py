@@ -20,7 +20,7 @@ class FontWeightType(EnumType):
 
     @classmethod
     def parse(cls, input: str, logger):
-        parsed_string = (StandardTextProcessing.parseStringWithQuotes(input)).lower()
+        parsed_string = (StandardTextProcessing.parse_string_with_quotes(input)).lower()
 
         normals = ["n", "normal"]
         bolds = ["b", "bold"]

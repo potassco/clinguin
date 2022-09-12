@@ -219,7 +219,7 @@ class ClingoBackend(ClinguinBackend):
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
-            self._model = self._modelClass.from_clingo_model(model)
+            self._model = self._modelClass.from_clingo_model(model, self._widget_files)
         except StopIteration:
             self._logger.info("No more solutions")
             self._handler.cancel()

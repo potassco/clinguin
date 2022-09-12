@@ -108,13 +108,11 @@ attribute(next_label, grid_row, 1).
 attribute(next_label, height,45).
 attribute(next_label, width,150).
 attribute(next_label, label, "Next Solution").
-attribute(next_label, background_color, "#4eff4e").
+attribute(next_label, background_color, "#C1E5AE").
 attribute(next_label, on_hover, true).
-attribute(next_label, on_hover_background_color, "#00a000").
+attribute(next_label, on_hover_background_color, "#9DC28A").
 attribute(next_label, on_hover_foreground_color, "#111111"). 
 attribute(next_label, font_family, "Helvetica").
-attribute(next_label, font_weight, "bold").
-attribute(next_label, font_size, 16).
 callback(next_label, click, next_solution). 
 
 %---------------------------------------------------------------------------------------

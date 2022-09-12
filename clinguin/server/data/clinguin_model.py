@@ -110,12 +110,22 @@ class ClinguinModel:
         return cls(cgmodel1._factbase.union(cgmodel2._factbase))
 
     @classmethod
-    def from_clingo_model(cls, m):
+    def from_clingo_model(cls, m, widgets_files):
         """ 
         Creates a ClinguinModel from a clingo model.
         """
         model = cls()
-        model._set_fb_symbols(m.symbols(shown=True))
+        symbols = list(m.symbols(shown=True))
+        prg = model.symbols_to_prg(symbols)
+        wctl = ClinguinModel.wid_control(widgets_files,prg)
+
+        model_symbols = None
+        with wctl.solve(yield_=True) as result:
+            for m in result:
+                model_symbols = m.symbols(shown=True)
+                break
+
+        model._set_fb_symbols(model_symbols)
         return model
 
     @classmethod

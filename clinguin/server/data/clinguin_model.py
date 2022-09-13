@@ -253,8 +253,8 @@ class ClinguinModel:
             model_symbols = None
             for m in result:
                 model_symbols = m.symbols(shown=True,atoms=False)
-        if model_symbols is None:
-            raise NoModelError
+            if model_symbols is None:
+                raise NoModelError(core=result.core())
         return list(model_symbols)
 
     def compute_brave(self, ctl, assumptions):

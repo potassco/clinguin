@@ -134,6 +134,31 @@ class ClingoBackend(ClinguinBackend):
             self._update_model()
         return self.get()
    
+    def remove_assumption_signature(self, predicate, arity):
+        """
+        Policy: removes predicates with the predicate name of predicate and the given arity
+        """
+        predicate_symbol = parse_term(predicate)
+        to_remove = []
+        for s in self._assumptions:
+            if s.match(predicate_symbol.name, int(arity)):
+                for i,a in enumerate(predicate_symbol.arguments):
+                    if str(a)!='any' or s.arguments[i] != a:
+                        break
+                else:
+                    continue
+                
+                to_remove.append(s)
+        for s in to_remove:
+            self._assumptions.remove(s)
+        if len(to_remove)>0:
+            self._end_browsing()
+            self._update_model()
+        return self.get()
+
+
+
+
     def clear_atoms(self):
         """
         Policy: clear_atoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.

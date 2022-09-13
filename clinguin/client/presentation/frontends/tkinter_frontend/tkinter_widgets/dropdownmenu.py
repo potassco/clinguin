@@ -47,6 +47,38 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
  
         return attributes
 
+    @classmethod
+    def _get_callbacks(cls, callbacks = None):
+        if callbacks is None:
+            callbacks =  {}
+
+        callbacks[CallbackNames.clear] = {"policy":"remove_assumption_signature", "policy_type" : SymbolType}
+
+        return callbacks
+
+    def _clear_select(self, id, parent_id, click_policy, elements):
+        parent = elements[str(parent_id)]
+        if hasattr(parent, "get_variable"):
+            variable = getattr(parent, "get_variable")()
+            variable.set(id)
+            if click_policy is not None:
+                self._base_engine.post_with_policy(click_policy)
+        else:
+            self._logger.warning("Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s", str(id), str(parent_id))
+
+    def _dropdown_clear(self, click_policy):
+        variable = self.get_variable()
+        variable.set("")
+        self._base_engine.post_with_policy(click_policy)
+
+    def _define_clear_event(self, elements, key = CallbackNames.clear):
+        def change(*args):
+            if self._variable.get()=="":
+                self._logger.info("Will remove previous selections")
+                self._dropdown_clear(self._callbacks[key]['policy'])
+        self._variable.trace("w", change)
+
+        
     def _set_background_color(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
         
@@ -71,8 +103,7 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
             self._menu["menu"].config(activebackground=on_hover_background_color, activeforeground=on_hover_foreground_color)
 
     def _set_selected(self, elements):
-        if self._attributes[AttributeNames.selected]['value'] != "":
-            self._variable.set(self._attributes[AttributeNames.selected]['value'])
+        self._variable.set(self._attributes[AttributeNames.selected]['value'])
 
     def get_menu(self):
         return self._menu

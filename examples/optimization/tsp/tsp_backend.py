@@ -1,4 +1,4 @@
-from clinguin.server.application.default_backends.clingraph_backend import *
+from clinguin.server.application.backends.clingraph_backend import *
 from clingo import Symbol, Number
 
 class TspBackend(ClingraphBackend):

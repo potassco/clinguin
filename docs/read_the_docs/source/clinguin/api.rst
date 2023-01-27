@@ -14,12 +14,12 @@ Client
     :members:
 
 Client Frontends
------------
+----------------
 .. automodule:: clinguin.client.presentation.frontends
     :members:
 
 Client Tkinter Frontend
-^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: clinguin.client.presentation.frontends.tkinter_frontend.tkinter_widgets
     :members:
@@ -34,9 +34,9 @@ Server
 .. automodule:: clinguin.server
     :members:
 
-Server Default Backends
------------------------
-.. automodule:: clinguin.server.application.default_backends
+Server Backends
+---------------
+.. automodule:: clinguin.server.application.backends
     :members:
 
 Utils

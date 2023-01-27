@@ -15,22 +15,25 @@ The `clinguin` system uses a Client-Server Architecture, thus it is separated in
 
 To allow flexibility, further separation is done to have interchangeable Backends and Frontends.
 
-* **Backend**: Will define the control and functionality that is available. The backend will start the clingo solving process and manage the encoding and the ui. The user can create their own Backend to increase functionality (See the :ref:`customize_guide` for more information). We provide the following `Backends <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/default_backends>`_ with the system:
+* **Backend**: Will define the control and functionality (policies) that is available. The backend will start the clingo solving process and manage the encoding and the ui. The user can create their own Backend to increase functionality (See the :ref:`Customize Guide` for more information). We provide the following `Backends <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends>`_ with the system:
 
     * *ClingoBackend*: Basic clingo functionality
     * *ClingraphBackend*: Basic clingo functionality with the option to render clingraph images on the side
     * *TemporalBackend*: Basic temporal functionalities
     * *ExplanationBackend*: Basic explanation functionalities
 
-* **Frontend**: Will generate the layout based on a JSON and display the UI. The user can create their own Frontend to have a different view (See the :ref:`customize_guide` for more information).  the following Frontends with the system:
+* **Frontend**: Will generate the layout based on a JSON and display the UI. The user can create their own Frontend to have a different view (See the :ref:`Customize Guide` for more information).  the following `Frontends <https://github.com/krr-up/clinguin/tree/master/clinguin/client/presentation/frontends>`_ with the system:
 
     * *Tkinter*: UI using the well known tkinter interface
+
+
+.. figure:: ../client-server.png
 
 
 Basic Usage
 ===========
 
-We can run a first example: **Sudoku**. 
+We will use **Sudoku** as an example. 
 All files used can be find `here <https://github.com/krr-up/clinguin/tree/master/examples/clingo/sudoku>`_.
 
 Client-Server
@@ -58,7 +61,7 @@ Server
 
 The source and gui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the encoding/problem one is working on, and after that create a ui for the problem, to showcase, debug, etc. 
 
-When running the server one can further specify the *Backend* that should be used. See the :ref:`customize_guide` for more information.
+When running the server one can further specify the *Backend* that should be used. See the :ref:`Customize Guide` for more information.
 
 Client
 ++++++
@@ -69,7 +72,7 @@ Client
 
 The client does not need any files as input since it will ask the server for the information.
 
-When running the client one can further specify the *Frontend* that should be used. See the :ref:`customize_guide` for more information. See the :ref:`customize_guide` for more information.
+When running the client one can further specify the *Frontend* that should be used. See the :ref:`Customize Guide` for more information. See the :ref:`Customize Guide` for more information.
 
 Basic example
 =============
@@ -82,7 +85,7 @@ After the startup of your first `clinguin` example, it is now time to understand
 To define a UI, `clinguin` uses three different predicates:
 
 * ``element(ID,TYPE,PARENT)``:  Corresponds to an element in the Gui (button, frame, etc).
-* ``attribute(ID_OF_ELEMENT,KEY,VALUE)``: used to set various attributes of an element, (background-color, font, etc). 
+* ``attribute(ID_OF_ELEMENT,KEY,VALUE)``: Used to set various attributes of an element, (background-color, font, etc). 
 * ``callback(ID_OF_ELEMENT,ACTION,POLICY)``: Used to define how an element behaves (how = policy) on certain actions.
 
 .. note::
@@ -111,46 +114,94 @@ The next task is to execute this program and show actually the window. This can 
 Syntax
 ======
 
-As now one can imagine, `clinguin` features a bunch of pre-defined element types:
-
-* window
-* container
-* button
-* label
-* dropdown_menu
-
-    * dropdown_menu_item
-
-* message
-* menu_bar
-
-    * menu_bar_section
-
-        * menu_bar_section_item
-
-* canvas
-
-For each of these element types there exists a bunch of available attributes. One can look the up by typing:
+One can look the up the available elements, with the corresponding attributes and callback actions using:
 
 .. code-block:: bash
     
-    $ clinguin client-server --gui-syntax
+    $ clinguin client-server --frontend-syntax
 
 If one is  also interested in what values one might set, one can also look at the full syntax:
 
 .. code-block:: bash
     
-    $ clinguin client-server --gui-syntax-full
+    $ clinguin client-server --frontend-syntax-full
 
 
-Our next example captures a bit more how one structures the gui. For this we take a simple logic program as our source-file (e.g. `source.lp`), which has two models: `p(1)` and `p(2)`:
+``element(ID,TYPE,PARENT)``
++++++++++++++++++++++++++++
+
+**ID**
+
+Identifies the element for further references.
+
+**TYPE**
+
+* ``window``
+* ``container``
+* ``button``
+* ``label``
+* ``dropdown_menu``
+
+    * ``dropdown_menu_item``
+
+* ``message``
+* ``menu_bar``
+
+    * ``menu_bar_section``
+
+        * ``menu_bar_section_item``
+
+* ``canvas``
+
+**PARENT**
+
+The id of the parent element. The ``root`` identifier is used as the root element of the UI. 
+
+``attribute(ID_OF_ELEMENT,KEY,VALUE)``
+++++++++++++++++++++++++++++++++++++++
+
+For each of these element types there exists a bunch of available attributes to set how the element will look like. 
+
+**ID_OF_ELEMENT**
+
+Identifier of the element setting the attribute to
+
+**KEY**
+
+The name of the attribute 
+
+**Value**
+
+The value of the attribute 
+
+
+``callback(ID_OF_ELEMENT,ACTION,POLICY)``
++++++++++++++++++++++++++++++++++++++++++
+
+**ID_OF_ELEMENT**
+
+Identifier of the element to which the action is performed
+
+**ACTION**
+
+The action performed (click, hover, etc). Each element allows different actions.
+
+**POLICY**
+
+The functionality from the Backend that will be called when the action is performed on the element
+The available policies can be looked up in the API documentation under the section `Server`/`Server Backends`/`ClingoBackend` (class `ClingoBackend`).
+
+.. rubric:: *Example*
+    :name: example-window
+
+This example captures a bit more how one structures the frontend. For this we take a simple logic program as our source-file (e.g. `source.lp`), which has two models: `p(1)` and `p(2)`:
 
 .. code-block::
 
     1{p(1);p(2)}1.
 
 
-Now we create a Gui (e.g. `ui.lp`), where we assume either `p(1)` or `p(2)` and provide a functionality to reset it:
+Now we create a UI (e.g. `ui.lp`), where we assume either `p(1)` or `p(2)` and provide a functionality to reset it:
 
 .. code-block::
 
@@ -180,33 +231,28 @@ With this done, we can start our application:
 
     $ clinguin client-server --source-files source.lp --widget-files ui.lp
 
-
 We have four different elements:
 
-1. window 
+1. ``window`` 
 
     * As in the previous example it just defines the size of the window.
 
-2. dpm (dropdown_menu) 
+2. ``dpm`` (dropdown_menu) 
 
-    * It's parent is the `window` which means, that it is directly shown below the window. 
-    * The attribute `selected` can be used to show the text in the ''selected'' field of the dropdown.
+    * It's parent is the ``window`` which means, that it is directly shown below the window. 
+    * The attribute ``selected`` can be used to show the text in the ''selected'' field of the dropdown.
 
-3. dpm(V) (dropdown_menu_item) 
+3. ``dpm(V)`` (dropdown_menu_item) 
 
     * A dropdown_menu_item can only be the child of a dropdown_menu (and no other element type)
-    * We want to have one item for each model, therefore we have the `_b(p(V))` in the body. The enclosing `_b` of a symbol means, that we reason bravely (so basically the union of all models), therefore we have here both `p(1)` and `p(2)`.
-    * We add two attributes: One to define the text (attribute key `label`) and what shall happen on a click (then we want to add the assumption, that either `p(1)` or `p(2)` exist).
+    * We want to have one item for each model, therefore we have the ``_b(p(V))`` in the body. The enclosing ``_b`` of a symbol means, that we reason bravely (so basically the union of all models), therefore we have here both ``p(1)`` and ``p(2)``.
+    * We add two attributes: One to define the text (attribute key ``label``) and what shall happen on a click (then we want to add the assumption, that either ``p(1)`` or ``p(2)`` exist).
 
 4. b (label)
 
     * We use this label to display the text `Clear assumptions` and further create an action, that when one clicks on it, all assumptions are cleared.
     * All other attributes are only there for the look and feel of the label (on hover, etc.)
 
-Available policies:
--------------------
-
-Above we have seen two different policies: `add_assumption` and `clear_assumptions`. Therefore one might wonder what kinds of policies are actually available? - It is pointed out here, that this can currently onle be looked up in the API documentation under the section `Server`/`Server Default Backends`/`ClingoBackend` (class `ClingoBackend`).
 
 
 

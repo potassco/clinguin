@@ -8,8 +8,8 @@ from clingo import parse_term
 from clingo.script import enable_python
 
 from clinguin.server import ClinguinModel
-from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
-from clinguin.server.application.default_backends.standard_utils.brave_cautious_helper import *
+from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
 from clinguin.utils import NoModelError
 
 enable_python()

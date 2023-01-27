@@ -19,7 +19,7 @@ class ArgumentParser():
     ArgumentParser-Class, Responsible for parsing the command line attributes
     """
 
-    default_backend_exec_string = "from .server.application.default_backends import *"    
+    default_backend_exec_string = "from .server.application.backends import *"    
     default_frontend_exec_string = "from .client.presentation.frontends import *"
 
     default_backend = 'ClingoBackend'

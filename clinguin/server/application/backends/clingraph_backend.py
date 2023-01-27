@@ -20,7 +20,7 @@ from clinguin.utils import StandardTextProcessing
 from clinguin.server.data.attribute import AttributeDao
 from clinguin.server.data.clinguin_model import ClinguinModel
 from clinguin.server import StandardJsonEncoder
-from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.clingo_backend import ClingoBackend
 from clinguin.utils import NoModelError
 
 class ClingraphBackend(ClingoBackend):

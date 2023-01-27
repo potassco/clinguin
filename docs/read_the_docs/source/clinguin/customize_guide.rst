@@ -17,7 +17,7 @@ The first step is to create a new folder any directory, **with one noteable exce
 
 Then one creates inside this `test` folder another folder, which is now assumed to be named `backends` and then inside this folder one has to create a file. The name of the file can be chosen as you want (we will assume `your_clingraph_backend.py` from here on).
  
-The next step is to open the file, to import the `ClingoBackend` and create a class that inherits from this class. One can import `ClingoBackend` by specifying `from clinguin.server.application.default_backends import ClingoBackend` at the beginning of the file (in the default_solvers ClingraphBackend we imported it with `from clinguin.server.application.default_backends.clingo_backend import ClingoBackend`, as the ClingraphBackend is also included in `default_backends` and we wanted to avoid cyclic imports).
+The next step is to open the file, to import the `ClingoBackend` and create a class that inherits from this class. One can import `ClingoBackend` by specifying `from clinguin.server.application.backends import ClingoBackend` at the beginning of the file (in the default_solvers ClingraphBackend we imported it with `from clinguin.server.application.backends.clingo_backend import ClingoBackend`, as the ClingraphBackend is also included in `backends` and we wanted to avoid cyclic imports).
 
 The next step is to write our new backend, where we can e.g. start with:
 
@@ -48,7 +48,7 @@ For this we now assume that you copied the whole `/examples` folder into your cu
 
 .. code-block:: bash
 
-    $ clinguin client-server --custom-classes "./backends" --backend YourClingraphBackend --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/widgets.lp
+    $ clinguin client-server --custom-classes "./backends" --backend YourClingraphBackend --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/ui.lp
 
 Now Sudoku should open and it should work as expected. If not and you tripple checked that you did everything as specified above, create a GitHub issue with the *EXACT* things you did, your system, etc.
 
@@ -312,7 +312,7 @@ Full Example:
     from clinguin.server.data.clinguin_model import ClinguinModel
     from clinguin.server import StandardJsonEncoder
 
-    from clinguin.server.application.default_backends import ClingoBackend
+    from clinguin.server.application.backends import ClingoBackend
 
     from clinguin.utils import NoModelError
 

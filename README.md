@@ -19,7 +19,7 @@ Now `STAY` in this directory, as currently (see issue #61 on GitHub) there is a 
 
 After the installation, executing the first example is quite straightforward, just copy-paste the following command into your commandprompt:
 
-`clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+`clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
 After you hit enter, a Sudoku-game should open, which you can play - have fun :-)
 
@@ -29,7 +29,7 @@ Next steps - now it is time for you to try out some stuff yourself. In the folde
 
 ### Syntax
 
-For the development it is useful to know which elements, attribute-keys and -values are available. For this you can hit: `clinguin client --gui-syntax` for an overview and `clinguin client --gui-syntax-full` for a detailed list and description of the available widgets.
+For the development it is useful to know which elements, attribute-keys and -values are available. For this you can hit: `clinguin client --gui-syntax` for an overview and `clinguin client --gui-syntax-full` for a detailed list and description of the available ui.
 
 ### Help
 
@@ -69,9 +69,9 @@ See `$ clinguin client-server -h`
 - solver/client: Specify the solver/client, which must be in the folder (or subfolder) where custom-classes points to - Pro-Tip: See which solvers/clients are available by typing: `clinguin client-server -h`
 - 
 
-E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ clinguin client-server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
-Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/default_backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ clinguin client-server --custom-server-classes='./clinguin/server/application/backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
 #### Only Server 
 
@@ -80,7 +80,7 @@ See `$ clinguin server -h`
 `$ clinguin server  [--custom-server-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
 
 
-E.g. for the sudoku example: `$ clinguin server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ clinguin server examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
 #### Only Client
 
@@ -101,9 +101,9 @@ See `$ python start.py client-server -h`
 
 `$ python start.py client-server [--custom-classes=folder-path] [--solver=solver] logic-program [... logic-program]`
 
-E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ python start.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
-Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/default_backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+Or to specify the solver: `$ python start.py client-server --custom-classes='./clinguin/server/application/backends' --solver=ClingoBackend examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
 #### Only Server
 
@@ -111,7 +111,7 @@ See `$ python start.py server -h`
 
 `$ python start.py server [--solver=solver] logic-program [... logic-program]`
 
-E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/widgets.lp`
+E.g. for the sudoku example: `$ python start_server.py examples/sudoku/instance.lp examples/sudoku/encoding.lp examples/sudoku/ui.lp`
 
 #### Only Client
 
@@ -136,7 +136,7 @@ Preliminary 1: This section will be expanded in the future.
 Preliminary 2: Standard/Default behavior: The standard behavior is to load the solver in the package `server.application.clingo_backend.StandardSolver`. This solver will get instanciated by default, therefore when one wants to specify another solver, one needs to add the `--solver` argument-option and then specify the package where the solver is located.
 
 Implementation: For the implementation of one's own solver, one basically has free hands in terms of syntactic definitions of the class, except two (or three) things:
-1. The `__init__()` method takes an argument `args` which are the command-line arguments (see `clinguin/server/application/default_backends/clingo_backend.py`) 
+1. The `__init__()` method takes an argument `args` which are the command-line arguments (see `clinguin/server/application/backends/clingo_backend.py`) 
 2. When a method needs to return something to the client/User-Interface (UI) the method must return a **Json-convertible-class-hierarchy**. If one uses the standard-UI it is highly recommended to use the `ElementDto`, `AttributeDto` and `CallbackDto` classes to save the class hierarchy, otherwise one needs to at least implement the functionality of the `ElementDto` class and further provide a `root` element (initialized with the default `ElementDto` by `ElementDto('root', 'root', 'root')`). 
 3. One needs to provide a `get()` method in the solver. This method takes no argument and returns a json-convertible class hierarchy. This is needed, as this method is initially invoked by the UI.
 
@@ -154,7 +154,7 @@ The next thing to do is to invoke the GUI, by changing a line in the class `clie
 
 Is located in: `examples/elevator` - can be executed by:
 
-`$ clinguin client-server --custom-server-classes='./examples/elevator' --solver=TemporalBackend --source-files=examples/elevator/encoding.lp --widget-files=examples/elevator/widgets.lp`
+`$ clinguin client-server --custom-server-classes='./examples/elevator' --solver=TemporalBackend --source-files=examples/elevator/encoding.lp --widget-files=examples/elevator/ui.lp`
 
 # Linting:
 

@@ -41,10 +41,29 @@ class ClingoBackend(ClinguinBackend):
         self._modelClass = ClinguinModel
         self._model=None
 
+
+    # ---------------------------------------------
+    # Required methods
+    # ---------------------------------------------
+
+    def get(self):
+        """
+        Overwritten default method to get the gui as a Json structure.
+        """
+        if not self._model:
+            self._update_model()
+
+        json_structure =  StandardJsonEncoder.encode(self._model)
+        return json_structure
+
     @classmethod
     def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation',metavar='')
+    
+    # ---------------------------------------------
+    # Private methods
+    # ---------------------------------------------
 
     def _restart(self):
         self._end_browsing()
@@ -66,8 +85,6 @@ class ClingoBackend(ClinguinBackend):
         
         for atom in self._atoms:
             self._ctl.add("base",[],str(atom) + ".")
-        
-        
     
     def _ground(self):
         self._ctl.ground([("base", [])])
@@ -88,16 +105,9 @@ class ClingoBackend(ClinguinBackend):
         except NoModelError:
             self._model.add_message("Error","This operation can't be performed")
 
-    def get(self):
-        """
-        Overwritten default method to get the gui as a Json structure.
-        """
-        if not self._model:
-            self._update_model()
-
-        json_structure =  StandardJsonEncoder.encode(self._model)
-
-        return json_structure
+    # ---------------------------------------------
+    # Policies
+    # ---------------------------------------------
 
     def clear_assumptions(self):
         """
@@ -134,29 +144,27 @@ class ClingoBackend(ClinguinBackend):
             self._update_model()
         return self.get()
    
-    def remove_assumption_signature(self, predicate, arity):
+    def remove_assumption_signature(self, predicate):
         """
         Policy: removes predicates with the predicate name of predicate and the given arity
         """
         predicate_symbol = parse_term(predicate)
+        arity = len(predicate_symbol.arguments)
         to_remove = []
         for s in self._assumptions:
-            if s.match(predicate_symbol.name, int(arity)):
+            if s.match(predicate_symbol.name,arity):
                 for i,a in enumerate(predicate_symbol.arguments):
-                    if str(a)!='any' or s.arguments[i] != a:
+                    if str(a)!='any' and s.arguments[i] != a:
                         break
                 else:
+                    to_remove.append(s)
                     continue
-                
-                to_remove.append(s)
         for s in to_remove:
             self._assumptions.remove(s)
         if len(to_remove)>0:
             self._end_browsing()
             self._update_model()
         return self.get()
-
-
 
 
     def clear_atoms(self):
@@ -236,6 +244,9 @@ class ClingoBackend(ClinguinBackend):
         return self.get()
 
     def next_solution(self):
+        """
+        Policy: Obtains the next solution
+        """
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
             self._handler = self._ctl.solve(

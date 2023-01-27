@@ -33,22 +33,22 @@ class ClinguinModel:
         return self._factbase.asp_str()
 
     @classmethod
-    def from_widgets_file(cls, ctl, widgets_files, assumptions):
+    def from_widgets_file(cls, ctl, widgets_files, assumptions=None):
         """
         Creates a ClinguinModel from paths of widget files and assumptions.
         """
         prg = cls.get_cautious_brave(ctl,assumptions)
-        return cls.from_widgets_file_and_program(ctl,widgets_files,prg)
+        return cls.from_widgets_file_and_program(ctl,widgets_files,prg,assumptions)
 
     @classmethod
-    def from_widgets_file_and_program(cls, ctl, widgets_files, prg):
+    def from_widgets_file_and_program(cls, ctl, widgets_files, prg,assumptions=None):
         """
         Creates a ClinguinModel from a Clingo control object, paths of the widget-files and a logic program provided as a string (prg is a string which contains a logic program)
         """
 
         model = cls()
 
-        wctl = cls.wid_control(widgets_files, prg)
+        wctl = cls.wid_control(widgets_files, prg, assumptions)
 
         with wctl.solve(yield_=True) as result:
             for m in result:
@@ -59,7 +59,7 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def wid_control(cls, widgets_files, extra_prg=""):
+    def wid_control(cls, widgets_files, extra_prg="", assumptions =None):
         """
         Generates a ClingoControl Object from paths of widget files and extra parts of a logic program given by a string.
         """
@@ -71,7 +71,10 @@ class ClinguinModel:
                 logger = logging.getLogger(Logger.server_logger_name)
                 logger.critical("File %s  could not be loaded - likely not existant or syntax error in file!", str(f))
                 raise e
-        
+
+        if assumptions:
+            for a in assumptions:
+                wctl.add("base",[],f"_assume({str(a)}).")
         wctl.add("base",[],extra_prg)
         wctl.add("base",[],"#show element/3. #show attribute/3. #show callback/3.")
         wctl.ground([("base",[])])

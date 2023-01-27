@@ -1,42 +1,98 @@
 User Guide
 ##########
 
-This guide is for the people, who want to get to know how clinguin works.
+This guide is for the people, who want to get to know how `clinguin` works.
+It assumes `clinguin` has already been installed es described in :ref:`Installation`
 
-The first example
-=================
+Mechanics
+=========
 
-Before understanding how clinguin works, we can run a first example: Sudoku. For this one must first install clinguin and can the execute the following command:
+The `clinguin` system uses a Client-Server Architecture, thus it is separated into two processes. 
+
+* **Server**: Will run a clingo process in the background and generate a UI specification based on a UI encoding and a domain specific encoding. It will then wait for notifications by the client to interact with the clingo process trough the *Backend*.
+
+* **Client**: Will ask the server for the information to render the UI with the selected *Frontend*. Then send the information corresponding to the user selection back to the server.
+
+To allow flexibility, further separation is done to have interchangeable Backends and Frontends.
+
+* **Backend**: Will define the control and functionality that is available. The backend will start the clingo solving process and manage the encoding and the ui. The user can create their own Backend to increase functionality (See the :ref:`customize_guide` for more information). We provide the following `Backends <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/default_backends>`_ with the system:
+
+    * *ClingoBackend*: Basic clingo functionality
+    * *ClingraphBackend*: Basic clingo functionality with the option to render clingraph images on the side
+    * *TemporalBackend*: Basic temporal functionalities
+    * *ExplanationBackend*: Basic explanation functionalities
+
+* **Frontend**: Will generate the layout based on a JSON and display the UI. The user can create their own Frontend to have a different view (See the :ref:`customize_guide` for more information).  the following Frontends with the system:
+
+    * *Tkinter*: UI using the well known tkinter interface
+
+
+Basic Usage
+===========
+
+We can run a first example: **Sudoku**. 
+All files used can be find `here <https://github.com/krr-up/clinguin/tree/master/examples/clingo/sudoku>`_.
+
+Client-Server
++++++++++++++
+
+To run `clinguin` one can the execute the following command:
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/widgets.lp
+    $ clinguin client-server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/ui.lp
 
 
-After execution a Sudoku window should open, where one can play a round of Sudoku. The `client-server` specified, that both client and server shall be started at the same time, so it has the look and feel of a single program. If one wants to seperate `client` and `server`, one could start them in two shells:
+After execution a Sudoku window should open, where one can play a round of Sudoku. The look of the window will vary depending on the OS.
 
+.. figure:: ../../../../examples/clingo/sudoku/sudoku.png
+
+
+The `client-server` option provided in the command line, states that both client and server shall be started at the same time, so it has the look and feel of a single program. If one wants to seperate `client` and `server`, one could start them in two shells
+
+Server
+++++++
 .. code-block:: bash
 
-    $ clinguin server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/widgets.lp
+    $ clinguin server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/ui.lp
 
-The source and gui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: `instance.lp`, `encoding.lp` and `widgets.lp`. This is a common seperation for clinguin, therefore one can at first expiremnt with the encoding/problem one is working on, and after that create a ui for the problem, to showcase, debug, etc., etc.
+The source and gui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the encoding/problem one is working on, and after that create a ui for the problem, to showcase, debug, etc. 
+
+When running the server one can further specify the *Backend* that should be used. See the :ref:`customize_guide` for more information.
+
+Client
+++++++
 
 .. code-block:: bash
 
     $ clinguin client 
 
-Principles - The first SeLf-wRiTtEn example
-===========================================
+The client does not need any files as input since it will ask the server for the information.
 
-After the startup of your first clinguin example, it is now time to understand the basic techniques how to write your own program. For this you must create two files: An empty file `empty.lp` and a ui-file `ui.lp`.
+When running the client one can further specify the *Frontend* that should be used. See the :ref:`customize_guide` for more information. See the :ref:`customize_guide` for more information.
 
-In general in clinguin we have three different symbols, whith whom one create the whole gui:
+Basic example
+=============
 
-* **element**: Is a clingo symbol with three arguments: `element(<ID>,<TYPE>,<PARENT>)` and corresponds to an element in the Gui. The `root` parent is pre-defined and is used as the parent of the window (see below).
-* **attribute**: Is a clingo symbol with three arguments: `attribute(<ID-OF-ELEMENT>,<KEY>,<VALUE>)`, with which one can set various attributes of an element, like background-color, etc. 
-* **callback**: Is a clingo symbol with three arguments: `callback(<ID-OF-ELEMENT>,<ACTION>,<POLICY>)`, with which one can define how an element behaves (how = policy) on certain actions.
+After the startup of your first `clinguin` example, it is now time to understand the basic techniques how to write your own UI encoding. For this you must create two files:
 
-Each clinguin `ui.lp` file must contain exactly one element of type `window`. For example, the following code generates a window with the dimensions 400x400 and with the background color pink:
+* ``empty.lp`` An empty file which will be used instead of a domain specific encoding.
+* ``ui.lp`` A ui-file that will define the look and interactivity of your interface.
+
+To define a UI, `clinguin` uses three different predicates:
+
+* ``element(ID,TYPE,PARENT)``:  Corresponds to an element in the Gui (button, frame, etc).
+* ``attribute(ID_OF_ELEMENT,KEY,VALUE)``: used to set various attributes of an element, (background-color, font, etc). 
+* ``callback(ID_OF_ELEMENT,ACTION,POLICY)``: Used to define how an element behaves (how = policy) on certain actions.
+
+.. note::
+    
+    Each `clinguin` ``ui.lp`` file must contain exactly one element of type ``window``. 
+
+.. rubric:: *Example*
+    :name: example-window
+
+For example, the following code generates a window with the dimensions 400x400 and with the background color pink:
 
 .. code-block::
 
@@ -52,10 +108,10 @@ The next task is to execute this program and show actually the window. This can 
     $ clinguin client-server --source-files empty.lp --widget-files ui.lp
 
 
-Available Syntax - The second self-written example
-==================================================
+Syntax
+======
 
-As now one can imagine, clinguin features a bunch of pre-defined element types:
+As now one can imagine, `clinguin` features a bunch of pre-defined element types:
 
 * window
 * container

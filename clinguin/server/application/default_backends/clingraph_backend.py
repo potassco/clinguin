@@ -15,16 +15,12 @@ from clorm import Raw
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
 
-
 # Self defined
 from clinguin.utils import StandardTextProcessing
 from clinguin.server.data.attribute import AttributeDao
-
 from clinguin.server.data.clinguin_model import ClinguinModel
 from clinguin.server import StandardJsonEncoder
-
 from clinguin.server.application.default_backends.clingo_backend import ClingoBackend
-
 from clinguin.utils import NoModelError
 
 class ClingraphBackend(ClingoBackend):
@@ -52,6 +48,36 @@ class ClingraphBackend(ClingoBackend):
         self._attribute_image_value_seperator = '__'
 
         self._filled_model = None
+
+    # ---------------------------------------------
+    # Overwrite
+    # ---------------------------------------------
+
+    def _update_model(self):
+        try:
+            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
+            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg,self._assumptions)
+
+            graphs = self._compute_clingraph_graphs(prg)
+
+            if not self._disable_saved_to_file:
+                self._save_clingraph_graphs_to_file(graphs)
+
+            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
+
+        except NoModelError:
+            self._model.add_message("Error","This operation can't be performed")
+
+    def get(self):
+        """
+        Overwritten from ClingoBackend. Difference: Converts the _filled_model to Json instead of the _model, as the _filled_model contains the Base64 encoded images.
+        """
+        if not self._filled_model:
+            self._update_model()
+            
+        json_structure = StandardJsonEncoder.encode(self._filled_model)
+        return json_structure
+
 
 
     @classmethod
@@ -149,6 +175,10 @@ class ClingraphBackend(ClingoBackend):
                     help='Disable image saved to file')
  
 
+    # ---------------------------------------------
+    # Private methods
+    # ---------------------------------------------
+
     def _compute_clingraph_graphs(self,prg):
         fbs = []
         ctl = Control("0")
@@ -244,33 +274,6 @@ class ClingraphBackend(ClingoBackend):
         encoded = base64.b64encode(img)
         decoded = encoded.decode(self._encoding)    
         return decoded
-
-       
-    def _update_model(self):
-        try:
-            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
-
-            graphs = self._compute_clingraph_graphs(prg)
-
-            if not self._disable_saved_to_file:
-                print(self._disable_saved_to_file)
-                self._save_clingraph_graphs_to_file(graphs)
-
-            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
-
-        except NoModelError:
-            self._model.add_message("Error","This operation can't be performed")
-
-    def get(self):
-        """
-        Overwritten from ClingoBackend. Difference: Converts the _filled_model to Json instead of the _model, as the _filled_model contains the Base64 encoded images.
-        """
-        if not self._filled_model:
-            self._update_model()
-            
-        json_structure = StandardJsonEncoder.encode(self._filled_model)
-        return json_structure
 
 
 

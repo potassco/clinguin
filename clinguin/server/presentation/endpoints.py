@@ -20,19 +20,19 @@ class Endpoints:
 
     Methods:
         health -> Json : Returns name, version and description of clinguin.
-        standardExecutor -> Json : Returns the default GUI representation as Json that the Backend provides.
-        policyExecutor -> Json : Executes a policy defined by the Json passed with the Post request.
+        standard_executor -> Json : Returns the default GUI representation as Json that the Backend provides.
+        policy_executor -> Json : Executes a policy defined by the Json passed with the Post request.
     """
     def __init__(self, args) -> None:
-        Logger.setupLogger(args.log_args, process = "server")
+        Logger.setup_logger(args.log_args, process = "server")
         self._logger = logging.getLogger(args.log_args['name'])
 
         self.router = APIRouter()
 
         # Definition of endpoints
         self.router.add_api_route("/health", self.health, methods=["GET"])
-        self.router.add_api_route("/", self.standardExecutor, methods=["GET"])
-        self.router.add_api_route("/backend", self.policyExecutor, methods=["POST"])
+        self.router.add_api_route("/", self.standard_executor, methods=["GET"])
+        self.router.add_api_route("/backend", self.policy_executor, methods=["POST"])
 
         self._backend = args.backend(args)
 
@@ -45,11 +45,11 @@ class Endpoints:
             "description": cuin["summary"]
         }
 
-    async def standardExecutor(self):
+    async def standard_executor(self):
         self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
         return self._backend.get()
 
-    async def policyExecutor(self, backend_call_string: BackendPolicyDto):
+    async def policy_executor(self, backend_call_string: BackendPolicyDto):
         self._logger.debug("Got endpoint")
         symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name
@@ -59,9 +59,10 @@ class Endpoints:
         call_args = ",".join(function_arguments)
         self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
 
-        result = EndpointsHelper.callFunction(
+        result = EndpointsHelper.call_function(
             self._backend,
             function_name,
             function_arguments,
             {})
+        
         return result

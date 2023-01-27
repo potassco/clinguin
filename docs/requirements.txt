@@ -1,0 +1,10 @@
+clingo>=5.5.0
+clorm>=1.3.6
+tk
+httpx
+fastapi
+typing
+pydantic
+networkx
+uvicorn
+Pillow

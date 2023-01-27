@@ -17,7 +17,7 @@ def start(args):
 
     @app.on_event("startup")
     async def startupEvent():
-        Logger.setupUvicornLoggerOnStartup(args.log_args)
+        Logger.setup_uvicorn_logger_on_startup(args.log_args)
 
     endpoints = Endpoints(args)
     app.include_router(endpoints.router)

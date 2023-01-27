@@ -14,7 +14,7 @@ class SymbolType(Type):
 
     @classmethod
     def parse(cls, input: str, logger) -> str:
-        parsed_string = StandardTextProcessing.parseStringWithQuotes(input)
+        parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
     
         try:
             clingo.parse_term(parsed_string)

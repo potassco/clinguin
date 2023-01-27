@@ -13,7 +13,7 @@ class CallbackDto:
         self.action = str(action)
         self.policy = str(policy)
 
-    def toJSON(self):
+    def to_JSON(self):
         return json.dumps(self, default=lambda o: o.__dict__)
 
     def clone(self):

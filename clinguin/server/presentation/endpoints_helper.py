@@ -11,14 +11,14 @@ class EndpointsHelper:
     """
 
     @classmethod
-    def callFunction(cls, backend, name, args, kwargs):
+    def call_function(cls, backend, name, args, kwargs):
         logger = logging.getLogger(Logger.server_logger_name)
 
         found = False
         function = None
 
         snake_case_name = name
-        camel_case_name = CaseConverter.snakeCaseToCamelCase(snake_case_name)
+        camel_case_name = CaseConverter.snake_case_to_camel_case(snake_case_name)
 
 
         if hasattr(backend, snake_case_name):

@@ -48,7 +48,7 @@ For this we now assume that you copied the whole `/examples` folder into your cu
 
 .. code-block:: bash
 
-    $ clinguin client-server --custom-classes "./backends" --backend YourClingraphBackend --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/ui.lp
+    $ clinguin client-server --custom-classes "./backends" --backend YourClingraphBackend --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
 
 Now Sudoku should open and it should work as expected. If not and you tripple checked that you did everything as specified above, create a GitHub issue with the *EXACT* things you did, your system, etc.
 
@@ -117,7 +117,7 @@ As after every step you can now validate, if you did it right: Go into the direc
 Again the help should show and now there should be a section at the bottom `YourClingraphBackend` where there are three arguments listed:
 
 1. `--source-files` - From ClingoBackend
-2. `--widget-files` - From ClingoBackend
+2. `--ui-files` - From ClingoBackend
 3. `--clingraph-files` - You just added this one, congrats
 
 
@@ -141,7 +141,7 @@ For now step 2. is important, more specifically the `_update_model` method: So b
     def _update_model(self):
         try:
             prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
+            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._ui_files,prg)
         except NoModelError:
             # Notifies the user by a popup, that this is not possible.
             self._model.add_message("Error","This operation can't be performed")
@@ -272,7 +272,7 @@ The next-to-last thing to do is to edit our `updateModel` method, as we need to 
     def _update_model(self):
         try:
             prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
+            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._ui_files,prg)
 
             graphs = self._compute_clingraph_graphs(prg)
 
@@ -300,7 +300,7 @@ The full example is shown at the end of the file, with this you can execute the 
 
 .. code-block:: bash
     
-    $ clinguin client-server --custom-classes "./backends/" --backend YourClingraphBackend --source-files examples/clingraph/coloring/encoding.lp --widget-files examples/clingraph/coloring/ui.lp --clingraph-files examples/clingraph/coloring/viz.lp
+    $ clinguin client-server --custom-classes "./backends/" --backend YourClingraphBackend --source-files examples/clingraph/coloring/encoding.lp --ui-files examples/clingraph/coloring/ui.lp --clingraph-files examples/clingraph/coloring/viz.lp
 
 Full Example:
 -------------
@@ -365,7 +365,7 @@ Full Example:
         def _update_model(self):
             try:
                 prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-                self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg)
+                self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._ui_files,prg)
 
                 graphs = self._compute_clingraph_graphs(prg)
 

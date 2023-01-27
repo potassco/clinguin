@@ -27,8 +27,8 @@ To allow flexibility, further separation is done to have interchangeable Backend
     * *Tkinter*: UI using the well known tkinter interface
 
 
-.. figure:: ../client-server.png
 
+.. figure:: ../client-server.png
 
 Basic Usage
 ===========
@@ -43,7 +43,7 @@ To run `clinguin` one can the execute the following command:
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/ui.lp
+    $ clinguin client-server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
 
 
 After execution a Sudoku window should open, where one can play a round of Sudoku. The look of the window will vary depending on the OS.
@@ -57,7 +57,7 @@ Server
 ++++++
 .. code-block:: bash
 
-    $ clinguin server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --widget-files examples/clingo/sudoku/ui.lp
+    $ clinguin server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
 
 The source and gui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the encoding/problem one is working on, and after that create a ui for the problem, to showcase, debug, etc. 
 
@@ -108,7 +108,55 @@ The next task is to execute this program and show actually the window. This can 
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files empty.lp --widget-files ui.lp
+    $ clinguin client-server --source-files empty.lp --ui-files ui.lp
+
+
+Reasoning modes
+===============
+
+When creating a UI one usually needs to reason with what is still *possibly* part of the solution and what is *necessarily* in the solution.
+We use this information to know all the available options that should appear in the UI. 
+In ASP terms, we use the following types of reasoning.
+
+* *Brave reasoning*: What is in part of any stable models. (Union)
+* *Cautious reasoning*: What is in part of all the stable models. (Intersection)
+
+To access this information when creating a UI, the atoms in the input which were concluded *bravely*, are enclosed in the predicate ``_b``, all other atoms are left in their usual form.
+
+We usually employ brave consequences to create elements where we can select different options like dropdown menus (shown in the example below).
+Then, the cautious consequences can be used to set the selected element.
+
+
+Consider the following encoding, where either  ``p(1)`` or ``p(2)`` can be selected.
+
+.. code-block::
+
+    1{p(1);p(2)}1.
+
+We have two stable models: `{p(1)}` and `{p(2)}`.
+The brave consequences (union) are `{p(1), p(2)}` while the cautions consequences (intersection) are `{}`.
+Therefore the input to generate our UI would be:
+
+.. code-block::
+
+    _b(p(1)).
+    _b(p(2)).
+
+If we include an integrity constraint (similarly if we add an assumption) to our encoding:
+
+.. code-block::
+
+    1{p(1);p(2)}1.
+    :-(p2).
+
+We have one stable model `{p(1)}`.
+Then the brave and cautious consequences are `{p(1)}`.
+Therefore the input to generate our UI would be:
+
+.. code-block::
+
+    _b(p(1)).
+    p(1).
 
 
 Syntax
@@ -130,69 +178,37 @@ If one is  also interested in what values one might set, one can also look at th
 ``element(ID,TYPE,PARENT)``
 +++++++++++++++++++++++++++
 
-**ID**
+* ``ID`` Identifies the element for further references.
 
-Identifies the element for further references.
+* ``TYPE`` The type of element (``window``, ``container``, ``button`` etc)
 
-**TYPE**
-
-* ``window``
-* ``container``
-* ``button``
-* ``label``
-* ``dropdown_menu``
-
-    * ``dropdown_menu_item``
-
-* ``message``
-* ``menu_bar``
-
-    * ``menu_bar_section``
-
-        * ``menu_bar_section_item``
-
-* ``canvas``
-
-**PARENT**
-
-The id of the parent element. The ``root`` identifier is used as the root element of the UI. 
+* ``PARENT`` The id of the parent element. The ``root`` identifier is used as the root element of the UI. 
 
 ``attribute(ID_OF_ELEMENT,KEY,VALUE)``
 ++++++++++++++++++++++++++++++++++++++
 
 For each of these element types there exists a bunch of available attributes to set how the element will look like. 
 
-**ID_OF_ELEMENT**
+* ``ID_OF_ELEMENT`` Identifier of the element setting the attribute to
 
-Identifier of the element setting the attribute to
+* ``KEY`` The name of the attribute 
 
-**KEY**
-
-The name of the attribute 
-
-**Value**
-
-The value of the attribute 
+* ``Value`` The value of the attribute 
 
 
 ``callback(ID_OF_ELEMENT,ACTION,POLICY)``
 +++++++++++++++++++++++++++++++++++++++++
 
-**ID_OF_ELEMENT**
+* ``ID_OF_ELEMENT`` Identifier of the element to which the action is performed
 
-Identifier of the element to which the action is performed
+* ``ACTION`` The action performed (``click``, ``hover``, etc). Each element allows different actions.
 
-**ACTION**
+* ``POLICY`` The functionality from the Backend that will be called when the action is performed on the element. The available policies can be looked up in the API documentation under the section `Server`/`Server Backends`/`ClingoBackend` (class `ClingoBackend`).
 
-The action performed (click, hover, etc). Each element allows different actions.
 
-**POLICY**
+Elaborated example
+++++++++++++++++++
 
-The functionality from the Backend that will be called when the action is performed on the element
-The available policies can be looked up in the API documentation under the section `Server`/`Server Backends`/`ClingoBackend` (class `ClingoBackend`).
-
-.. rubric:: *Example*
-    :name: example-window
 
 This example captures a bit more how one structures the frontend. For this we take a simple logic program as our source-file (e.g. `source.lp`), which has two models: `p(1)` and `p(2)`:
 
@@ -201,7 +217,7 @@ This example captures a bit more how one structures the frontend. For this we ta
     1{p(1);p(2)}1.
 
 
-Now we create a UI (e.g. `ui.lp`), where we assume either `p(1)` or `p(2)` and provide a functionality to reset it:
+Now we create a UI (e.g. ``ui.lp``), where we assume either ``p(1)`` or ``p(2)`` and provide a functionality to reset it:
 
 .. code-block::
 
@@ -229,11 +245,14 @@ With this done, we can start our application:
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files source.lp --widget-files ui.lp
+    $ clinguin client-server --source-files source.lp --ui-files ui.lp
+
+.. figure:: ../basic-ui.png
+
 
 We have four different elements:
 
-1. ``window`` 
+1. ``window`` (window)
 
     * As in the previous example it just defines the size of the window.
 
@@ -245,17 +264,14 @@ We have four different elements:
 3. ``dpm(V)`` (dropdown_menu_item) 
 
     * A dropdown_menu_item can only be the child of a dropdown_menu (and no other element type)
-    * We want to have one item for each model, therefore we have the ``_b(p(V))`` in the body. The enclosing ``_b`` of a symbol means, that we reason bravely (so basically the union of all models), therefore we have here both ``p(1)`` and ``p(2)``.
-    * We add two attributes: One to define the text (attribute key ``label``) and what shall happen on a click (then we want to add the assumption, that either ``p(1)`` or ``p(2)`` exist).
+    * We want to have one item for each model, therefore we have the ``_b(p(V))`` in the body. The atom preceded by an underscore: ``_b`` means, that we reason bravely (so basically the union of all models), therefore we have here both ``p(1)`` and ``p(2)``.
+    * We add an attribute to define the text (attribute key ``label``)
+    * We add a callback to define what shall happen on a click. In this case the policy ``add_assumption`` is called with the parameter ``p(V)``. Doing so, we add the assumption, that either ``p(1)`` or ``p(2)`` exist.
 
-4. b (label)
+4. ``l`` (label)
 
     * We use this label to display the text `Clear assumptions` and further create an action, that when one clicks on it, all assumptions are cleared.
     * All other attributes are only there for the look and feel of the label (on hover, etc.)
-
-
-
-
 
 
 

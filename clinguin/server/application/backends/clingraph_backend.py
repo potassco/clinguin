@@ -56,7 +56,7 @@ class ClingraphBackend(ClingoBackend):
     def _update_model(self):
         try:
             prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg,self._assumptions)
+            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
 
             graphs = self._compute_clingraph_graphs(prg)
 

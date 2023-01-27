@@ -10,7 +10,7 @@ class CallbackNames:
     clear = "clear"
 
     descriptions = {
-        click : "The click action, is the action that is executed if one clicks with the left-mouse button on a widget.",
+        click : "The click action, is the action that is executed if one clicks with the left-mouse button on a element.",
         clear : "The clearlick action, is the action that is executed when the empty option of a dropdown menu is selected."
     }
 

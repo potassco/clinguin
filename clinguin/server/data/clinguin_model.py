@@ -33,22 +33,22 @@ class ClinguinModel:
         return self._factbase.asp_str()
 
     @classmethod
-    def from_widgets_file(cls, ctl, widgets_files, assumptions=None):
+    def from_ui_file(cls, ctl, ui_files, assumptions=None):
         """
-        Creates a ClinguinModel from paths of widget files and assumptions.
+        Creates a ClinguinModel from paths of ui files and assumptions.
         """
         prg = cls.get_cautious_brave(ctl,assumptions)
-        return cls.from_widgets_file_and_program(ctl,widgets_files,prg,assumptions)
+        return cls.from_ui_file_and_program(ctl,ui_files,prg,assumptions)
 
     @classmethod
-    def from_widgets_file_and_program(cls, ctl, widgets_files, prg,assumptions=None):
+    def from_ui_file_and_program(cls, ctl, ui_files, prg,assumptions=None):
         """
-        Creates a ClinguinModel from a Clingo control object, paths of the widget-files and a logic program provided as a string (prg is a string which contains a logic program)
+        Creates a ClinguinModel from a Clingo control object, paths of the ui-files and a logic program provided as a string (prg is a string which contains a logic program)
         """
 
         model = cls()
 
-        wctl = cls.wid_control(widgets_files, prg, assumptions)
+        wctl = cls.wid_control(ui_files, prg, assumptions)
 
         with wctl.solve(yield_=True) as result:
             for m in result:
@@ -59,12 +59,12 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def wid_control(cls, widgets_files, extra_prg="", assumptions =None):
+    def wid_control(cls, ui_files, extra_prg="", assumptions =None):
         """
-        Generates a ClingoControl Object from paths of widget files and extra parts of a logic program given by a string.
+        Generates a ClingoControl Object from paths of ui files and extra parts of a logic program given by a string.
         """
         wctl = Control(['0','--warn=none'])
-        for f in widgets_files:
+        for f in ui_files:
             try:
                 wctl.load(str(f))
             except Exception as e:
@@ -113,14 +113,14 @@ class ClinguinModel:
         return cls(cgmodel1._factbase.union(cgmodel2._factbase))
 
     @classmethod
-    def from_clingo_model(cls, m, widgets_files):
+    def from_clingo_model(cls, m, ui_files):
         """ 
         Creates a ClinguinModel from a clingo model.
         """
         model = cls()
         symbols = list(m.symbols(shown=True))
         prg = model.symbols_to_prg(symbols)
-        wctl = ClinguinModel.wid_control(widgets_files,prg)
+        wctl = ClinguinModel.wid_control(ui_files,prg)
 
         model_symbols = None
         with wctl.solve(yield_=True) as result:

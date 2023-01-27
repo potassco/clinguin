@@ -24,7 +24,7 @@ class ClingoBackend(ClinguinBackend):
         super().__init__(args)
 
         self._source_files = args.source_files
-        self._widget_files = args.widget_files
+        self._ui_files = args.ui_files
         
         # For browising
         self._handler=None
@@ -59,7 +59,7 @@ class ClingoBackend(ClinguinBackend):
     @classmethod
     def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
-        parser.add_argument('--widget-files', nargs='+', help='Files for the widget generation',metavar='')
+        parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
     
     # ---------------------------------------------
     # Private methods
@@ -98,9 +98,9 @@ class ClingoBackend(ClinguinBackend):
 
     def _update_model(self):
         try:
-            self._model = ClinguinModel.from_widgets_file(
+            self._model = ClinguinModel.from_ui_file(
                 self._ctl,
-                self._widget_files, 
+                self._ui_files, 
                 self._assumptions)
         except NoModelError:
             self._model.add_message("Error","This operation can't be performed")
@@ -255,7 +255,7 @@ class ClingoBackend(ClinguinBackend):
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
-            self._model = self._modelClass.from_clingo_model(model, self._widget_files)
+            self._model = self._modelClass.from_clingo_model(model, self._ui_files)
         except StopIteration:
             self._logger.info("No more solutions")
             self._handler.cancel()

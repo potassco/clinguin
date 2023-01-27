@@ -5,7 +5,7 @@ from .extension_class import *
 
 class ConfigureSize(ExtensionClass):
     """
-    If a widget is a subtype of the configure-size class the size of the widget can be adjusted.
+    If a element is a subtype of the configure-size class the size of the element can be adjusted.
     """
 
     @classmethod
@@ -28,17 +28,17 @@ class ConfigureSize(ExtensionClass):
                 child_layout_value = self._attributes[AttributeNames.child_layout]["value"]
 
                 if child_layout_value in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
-                    self._widget.pack_propagate(0)
+                    self._element.pack_propagate(0)
                 elif child_layout_value == ChildLayoutType.GRID:
-                    self._widget.grid_propagate(0)
+                    self._element.grid_propagate(0)
             else:
-                self._widget.pack_propagate(0)
+                self._element.pack_propagate(0)
 
         if height > 0:
-            self._widget.configure(height = int(height))
+            self._element.configure(height = int(height))
 
         if width > 0:
-            self._widget.configure(width = int(width))
+            self._element.configure(width = int(width))
     
         if height < 0:
             self._logger.warning("Height of " + self._id + " has illegal value (" + str(height) + ")")

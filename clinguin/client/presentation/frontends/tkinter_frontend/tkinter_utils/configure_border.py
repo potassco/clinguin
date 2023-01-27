@@ -6,7 +6,7 @@ from .extension_class import *
 
 class ConfigureBorder(ExtensionClass):
     """
-    If a widget shall have a border (e.g. container), it must be a subtype of this class.
+    If a element shall have a border (e.g. container), it must be a subtype of this class.
     """
 
     @classmethod
@@ -23,7 +23,7 @@ class ConfigureBorder(ExtensionClass):
         value = self._attributes[key]["value"]
         if value > 0:
             # Not using borderwidth as one cannot set the color of the default border
-            self._widget.configure(highlightthickness = int(value))
+            self._element.configure(highlightthickness = int(value))
         elif value == 0:
             # Zero is perfectly fine, but it shouldn't be configured then
             pass
@@ -33,7 +33,7 @@ class ConfigureBorder(ExtensionClass):
     def _set_border_background_color(self, elements, key = AttributeNames.border_color):
         # Not using borderwidth as one cannot set the color of the default border
         value = self._attributes[key]["value"]
-        self._widget.configure(highlightbackground = value, highlightcolor = value)
+        self._element.configure(highlightbackground = value, highlightcolor = value)
 
 
 

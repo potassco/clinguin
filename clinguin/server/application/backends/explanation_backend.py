@@ -75,7 +75,7 @@ class ExplanationBackend(ClingoBackend):
     def _update_model(self):
         try:
             self._last_prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,self._last_prg,self._assumptions)
+            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,self._last_prg,self._assumptions)
 
         except NoModelError as e:
             self._logger.info("UNSAT Answer, will add explanation")
@@ -85,7 +85,7 @@ class ExplanationBackend(ClingoBackend):
             prg = self._last_prg
             for s in muc_core:
                 prg = prg + f"_muc({str(s)})."
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg,self._assumptions)
+            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
 
     
 

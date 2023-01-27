@@ -6,11 +6,11 @@ from tkinter import font
 
 class ConfigureFont(ExtensionClass):
     """
-    If a widget is a subtype of the configure-size class the size of the widget can be adjusted.
+    If a element is a subtype of the configure-size class the size of the element can be adjusted.
     """
 
     def __init__(self):
-        self._configure_font_widget = None
+        self._configure_font_element = None
 
     @classmethod
     def get_attributes(cls, attributes = None):
@@ -42,5 +42,5 @@ class ConfigureFont(ExtensionClass):
         
         if family != "" or size != "" or weight != FontWeightType.NORMAL:
             afont = font.Font(**kwargs)
-            self._configure_font_widget.configure(font=afont)
+            self._configure_font_element.configure(font=afont)
 

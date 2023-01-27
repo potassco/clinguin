@@ -5,7 +5,7 @@ from .extension_class import *
 
 class LayoutController(ExtensionClass):
     """
-    If a widget is a subtype of this class, then it can steer the layouting behavior of children.
+    If a element is a subtype of this class, then it can steer the layouting behavior of children.
     """
 
     @classmethod

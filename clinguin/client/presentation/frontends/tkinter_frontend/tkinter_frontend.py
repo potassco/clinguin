@@ -4,13 +4,13 @@ Contains the tkinter-gui class.
 from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.client import AbstractFrontend
 
-from .tkinter_widgets import *
+from .tkinter_elements import *
 from .tkinter_utils import *
 
 
 class TkinterFrontend(AbstractFrontend):
     """
-    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class, if it shall be used to render the Frontend. It defines what to do for each widget.
+    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class, if it shall be used to render the Frontend. It defines what to do for each element.
     """
 
     def __init__(self, base_engine, args):
@@ -21,7 +21,7 @@ class TkinterFrontend(AbstractFrontend):
 
     @classmethod
     def register_options(cls, parser):   
-        parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter widgets."
+        parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter elements."
 
     @classmethod
     def available_syntax(cls, show_level):
@@ -136,4 +136,4 @@ class TkinterFrontend(AbstractFrontend):
 
     def draw(self, id):
         self.first = False
-        self.elements[id].get_widget().mainloop()
+        self.elements[id].get_element().mainloop()

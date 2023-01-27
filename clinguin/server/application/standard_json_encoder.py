@@ -49,10 +49,10 @@ class StandardJsonEncoder:
         logger = logging.getLogger(Logger.server_logger_name)
 
         dependency = []
-        widgets_info = {}
+        elements_info = {}
 
         for w in model.get_elements():
-            widgets_info[w.id] = {'parent': w.parent, 'type': w.type}
+            elements_info[w.id] = {'parent': w.parent, 'type': w.type}
             dependency.append((w.id, w.parent))
 
         DG = nx.DiGraph(dependency)
@@ -67,12 +67,12 @@ class StandardJsonEncoder:
             if str(element_id) == str(hierarchy_root.id):
                 continue
 
-            if not element_id in widgets_info:
+            if not element_id in elements_info:
                 logger.critical("The provided element id (ID : %s) could not be found!", str(element_id))
                 raise Exception("The provided element id (ID : " + str(element_id) + ") could not be found!")
 
-            type = widgets_info[element_id]['type']
-            parent = widgets_info[element_id]['parent']
+            type = elements_info[element_id]['type']
+            parent = elements_info[element_id]['parent']
             element = ElementDto(element_id, type, parent)
 
             if element_id in attrs:

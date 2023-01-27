@@ -80,7 +80,7 @@ class TspBackend(ClingraphBackend):
             #prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)
             prg = c_prg + b_prg + bcd_prg + atom_prg + assumption_prg
 
-            self._model = ClinguinModel.from_widgets_file_and_program(self._ctl,self._widget_files,prg,self._assumptions)
+            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
 
             graphs = self._compute_clingraph_graphs(prg)
 

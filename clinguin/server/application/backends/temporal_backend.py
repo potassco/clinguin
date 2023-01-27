@@ -84,7 +84,7 @@ class TemporalBackend(ClingoBackend):
             self._find_incrementally()
 
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
-        wctl = ClinguinModel.wid_control(self._widget_files,symbols)
+        wctl = ClinguinModel.wid_control(self._ui_files,symbols)
         self._model = ClinguinModel.from_ctl(wctl)
         return self.get()
 

@@ -1,5 +1,5 @@
 """
-This module contains various utils for tkinter-widgets, which reduce code size, etc.
+This module contains various utils for tkinter-elements, which reduce code size, etc.
 """
 from .attribute_names import AttributeNames
 from .callback_names import CallbackNames

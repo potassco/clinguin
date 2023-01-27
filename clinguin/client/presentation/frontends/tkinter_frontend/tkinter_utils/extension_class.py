@@ -7,7 +7,7 @@ from .callback_names import CallbackNames
 
 class ExtensionClass:
     """
-    If a class is a subtype of the ExtensionClass it resembles a set of attributes/callbacks that can be applied to widgets.
+    If a class is a subtype of the ExtensionClass it resembles a set of attributes/callbacks that can be applied to elements.
     """
 
     @classmethod

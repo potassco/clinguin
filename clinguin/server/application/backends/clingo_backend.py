@@ -52,7 +52,6 @@ class ClingoBackend(ClinguinBackend):
         """
         if not self._model:
             self._update_model()
-
         json_structure =  StandardJsonEncoder.encode(self._model)
         return json_structure
 

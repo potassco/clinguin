@@ -1,3 +1,8 @@
+#script(python)
+from clingo.symbol import String
+def concat(*args):
+    return String(''.join([str(x).strip('"') for x in args]))
+#end.
 #const height_value = 450.
 #const width_value = 450.
 #const dim = 3.
@@ -44,7 +49,7 @@ callback(m(X,Y), clear, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,
 
 % Option menu Item
 element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
-attribute(mi(X,Y,V), label, V) :- menu(X,Y), _b(sudoku(X,Y,V)).
+attribute(mi(X,Y,V), label, @concat("S",V)) :- menu(X,Y), _b(sudoku(X,Y,V)).
 callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
 
 %---------------------------------------------------------------------------------------

@@ -262,15 +262,24 @@ class ClinguinModel:
 
     def compute_brave(self, ctl, assumptions):
         ctl.configuration.solve.enum_mode = 'brave'
-        return self._compute(ctl, assumptions)
+        l = self._compute(ctl, assumptions)
+        self._logger.debug("BRAVE CONSEQUENCES:")
+        self._logger.debug([str(s) for s in l])
+        return l
     
     def compute_cautious(self, ctl, assumptions):
         ctl.configuration.solve.enum_mode = 'cautious'
-        return self._compute(ctl, assumptions)
+        l = self._compute(ctl, assumptions)
+        self._logger.debug("CAUTIOUS CONSEQUENCES:")
+        self._logger.debug([str(s) for s in l])
+        return l
 
     def compute_auto(self, ctl, assumptions):
         ctl.configuration.solve.enum_mode = 'auto'
-        return self._compute(ctl, assumptions)
+        l = self._compute(ctl, assumptions)
+        self._logger.debug("STABLE MODEL")
+        self._logger.debug([str(s) for s in l])
+        return l
 
 
     def get_factbase(self):

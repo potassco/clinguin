@@ -48,7 +48,7 @@ To run `clinguin` one can the execute the following command:
 
 After execution a Sudoku window should open, where one can play a round of Sudoku. The look of the window will vary depending on the OS.
 
-.. figure:: ../../../examples/clingo/sudoku/sudoku.png
+.. figure:: ../../examples/clingo/sudoku/sudoku.png
 
 
 The `client-server` option provided in the command line, states that both client and server shall be started at the same time, so it has the look and feel of a single program. If one wants to seperate `client` and `server`, one could start them in two shells

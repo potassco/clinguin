@@ -4,6 +4,7 @@ tk
 httpx
 fastapi
 typing
+nbsphinx
 pydantic
 networkx
 uvicorn

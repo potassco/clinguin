@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../source'))
 # sys.path.append(os.path.join(os.path.abspath(os.pardir)))
 autodoc_mock_imports = ["clingo","tkinter","clingraph","clinguin","tk","httpx","fastapi","typing","pydantic","networkx","uvicorn","Pillow"]
 

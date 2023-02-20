@@ -27,6 +27,7 @@ class Api:
         try:
             self._logger.info("<-- GET to %s%s", str(self.base_url), str(endpoint))
             r = httpx.get(self.base_url + endpoint, timeout=10000)
+            self._logger.debug(r.json())
             return (r.status_code, r.json())
         except httpx.ConnectError:
             return (-1, "")

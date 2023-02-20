@@ -25,7 +25,6 @@ class ClingoBackend(ClinguinBackend):
 
         self._source_files = args.source_files
         self._ui_files = args.ui_files
-        self._optimize = args.optimize
         
         # For browising
         self._handler=None
@@ -60,7 +59,6 @@ class ClingoBackend(ClinguinBackend):
     def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
-        parser.add_argument('--optimize', action='store_true', help='When flag is passed the solution browsing will consider only models with optimality proved')
     
     # ---------------------------------------------
     # Private methods

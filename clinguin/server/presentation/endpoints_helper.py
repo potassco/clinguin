@@ -2,8 +2,15 @@
 Module that contains the EndpointsHelper class.
 """
 import logging
+import traceback
+from ...utils import CaseConverter, Logger, SERVER_ERROR_ALERT
 
-from clinguin.utils import CaseConverter, Logger
+# def sever_error_json(e):
+#     model = ClinguinModel()
+#     model.add_message("Error","Server error")
+#     json_structure =  StandardJsonEncoder.encode(model)
+#     return json_structure
+
 
 class EndpointsHelper:
     """
@@ -29,8 +36,15 @@ class EndpointsHelper:
             found = True
 
         if found:
-            result = function(*args, **kwargs)
-            return result
+            try:
+                result = function(*args, **kwargs)
+                return result
+            except Exception as e:
+                logger.error(e)
+                logger.error(traceback.format_exc())
+                return SERVER_ERROR_ALERT
+                
+                # return sever_error_json(e)
         else:
             error_string = "Could not find function: " + name + " :in backend"
             logger.error(error_string)

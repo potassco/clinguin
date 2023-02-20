@@ -3,6 +3,25 @@ Contains the menu bar section item class.
 """
 from .root_cmp import *
 
+map = {
+    "Ctrl":"Control",
+    "Opt":"Option",
+    "Cmd":"Command",
+    "Control":"Control",
+    "Option":"Option",
+    "Command":"Command",
+    "Shift":"Shift"
+}
+def accelerator_to_bind(a):
+    args = a.split("+")
+    formatted = []
+    for e in args:
+        if e in map:
+            formatted.append(map[e])
+        else:
+            formatted.append(e.lower())
+    return "<"+"-".join(formatted)+">"
+
 class MenuBarSectionItem(RootCmp):
     """
     The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
@@ -19,6 +38,7 @@ class MenuBarSectionItem(RootCmp):
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
+        attributes[AttributeNames.accelerator] = {"value":None, "value_type" : StringType}
 
         return attributes
 
@@ -35,16 +55,22 @@ class MenuBarSectionItem(RootCmp):
     def _define_click_event(self, elements):
         key = CallbackNames.click
         text = self._attributes[AttributeNames.label]["value"]
-
+        accelerator = self._attributes[AttributeNames.accelerator]["value"]
         if self._callbacks[key] and self._callbacks[key]["policy"]:
-            self._element.add_command(
-                label=text,
-                command=CallBackDefinition(
+            cb = CallBackDefinition(
                     self._id,
                     self._parent,
                     self._callbacks[key]["policy"],
                     elements,
-                    self._menubar_item_click))
+                    self._menubar_item_click)
+            self._element.add_command(
+                label=text,
+                command=cb, accelerator=accelerator)
+            menu = elements[self._parent]
+            window = elements[menu._parent]
+            root = elements[window._parent]
+            if accelerator:
+                root.get_element().bind(accelerator_to_bind(accelerator), cb)
         else:
             self._element.add_command(
                 label=text)

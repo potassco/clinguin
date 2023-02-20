@@ -245,7 +245,9 @@ class ClingoBackend(ClinguinBackend):
 
     def next_solution(self, opt_mode='ignore'):
         """
-        Policy: Obtains the next solution
+        Policy: Obtains the next solution 
+        Arguments:
+            opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """
         if self._ctl.configuration.solve.opt_mode != opt_mode:
             self._logger.debug("Ended browsing since opt mode changed")

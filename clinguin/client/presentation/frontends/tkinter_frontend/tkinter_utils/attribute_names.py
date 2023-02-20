@@ -49,7 +49,7 @@ class AttributeNames:
     image_path = "image_path"
     resize = "resize"
 
-
+    accelerator = "accelerator"
     descriptions = {
         title : "With this attribute one can set the title of a pop-up.",
         message : "With this attribute one can set the message of a pop-up.",
@@ -81,6 +81,7 @@ class AttributeNames:
         fit_children_size : "[DEPRECATED] - With this attribute one can define that the element fits the children.",
         image : "Some backends define special values one can use, that e.g. a graph is shown (see corresponding backend description).",
         image_path : "Include an image from a path.",
-        resize : "With this attribute one can define if an image shall be resized."
+        resize : "With this attribute one can define if an image shall be resized.",
+        accelerator: "The key binding for the menu option"
         }
 

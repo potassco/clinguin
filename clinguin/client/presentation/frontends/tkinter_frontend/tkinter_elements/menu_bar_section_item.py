@@ -19,6 +19,7 @@ class MenuBarSectionItem(RootCmp):
             attributes = {}
 
         attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
+        attributes[AttributeNames.accelerator] = {"value":None, "value_type" : StringType}
 
         return attributes
 
@@ -35,7 +36,7 @@ class MenuBarSectionItem(RootCmp):
     def _define_click_event(self, elements):
         key = CallbackNames.click
         text = self._attributes[AttributeNames.label]["value"]
-
+        accelerator = self._attributes[AttributeNames.accelerator]["value"]
         if self._callbacks[key] and self._callbacks[key]["policy"]:
             self._element.add_command(
                 label=text,
@@ -44,7 +45,15 @@ class MenuBarSectionItem(RootCmp):
                     self._parent,
                     self._callbacks[key]["policy"],
                     elements,
-                    self._menubar_item_click))
+                    self._menubar_item_click), accelerator=accelerator)
+            menu = elements[self._parent]
+            window = elements[menu._parent]
+            root = elements[window._parent]
+            print("Accel")
+            print(accelerator)
+            print(self._callbacks[key]["policy"])
+            if accelerator:
+                root.get_element().bind("<Control-c>", self._callbacks[key]["policy"])
         else:
             self._element.add_command(
                 label=text)

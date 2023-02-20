@@ -27,6 +27,7 @@ attribute(ms_next, label, "Next").
 callback(ms_next, click, next_solution).
 element(ms_next_opt, menu_bar_section_item, ms).
 attribute(ms_next_opt, label, "Next Optimal").
+attribute(ms_next_opt, accelerator, "Ctrl+N").
 callback(ms_next_opt, click, next_solution(optN)).
 
 % Rooms container

@@ -25,6 +25,7 @@ class ClingoBackend(ClinguinBackend):
 
         self._source_files = args.source_files
         self._ui_files = args.ui_files
+        self._optimize = args.optimize
         
         # For browising
         self._handler=None
@@ -59,6 +60,7 @@ class ClingoBackend(ClinguinBackend):
     def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
+        parser.add_argument('--optimize', action='store_true', help='When flag is passed the solution browsing will consider only models with optimality proved')
     
     # ---------------------------------------------
     # Private methods
@@ -242,22 +244,31 @@ class ClingoBackend(ClinguinBackend):
         self._update_model()
         return self.get()
 
-    def next_solution(self):
+
+    def next_solution(self, opt_mode='ignore'):
         """
         Policy: Obtains the next solution
         """
+        if self._ctl.configuration.solve.opt_mode != opt_mode:
+            self._logger.debug("Ended browsing since opt mode changed")
+            self._end_browsing()
+        optimizing = opt_mode in ['optN','opt']
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
+            self._ctl.configuration.solve.opt_mode = opt_mode
             self._handler = self._ctl.solve(
                 assumptions=[(a,True) for a in self._assumptions],
                 yield_=True)
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
+            while optimizing and not model.optimality_proven:
+                self._logger.info("Skipping non-optimal model")
+                model = next(self._iterator)
             self._model = self._modelClass.from_clingo_model(model, self._ui_files)
         except StopIteration:
             self._logger.info("No more solutions")
-            self._handler.cancel()
+            self._end_browsing()
             self._update_model()
             self._model.add_message("Browsing Information","No more solutions")
 

@@ -261,6 +261,7 @@ class ClinguinModel:
         return list(model_symbols)
 
     def compute_brave(self, ctl, assumptions):
+        ctl.configuration.solve.opt_mode = 'ignore' 
         ctl.configuration.solve.enum_mode = 'brave'
         l = self._compute(ctl, assumptions)
         self._logger.debug("BRAVE CONSEQUENCES:")
@@ -268,6 +269,7 @@ class ClinguinModel:
         return l
     
     def compute_cautious(self, ctl, assumptions):
+        ctl.configuration.solve.opt_mode = 'ignore' 
         ctl.configuration.solve.enum_mode = 'cautious'
         l = self._compute(ctl, assumptions)
         self._logger.debug("CAUTIOUS CONSEQUENCES:")

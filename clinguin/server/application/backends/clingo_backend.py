@@ -242,22 +242,33 @@ class ClingoBackend(ClinguinBackend):
         self._update_model()
         return self.get()
 
-    def next_solution(self):
+
+    def next_solution(self, opt_mode='ignore'):
         """
-        Policy: Obtains the next solution
+        Policy: Obtains the next solution 
+        Arguments:
+            opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """
+        if self._ctl.configuration.solve.opt_mode != opt_mode:
+            self._logger.debug("Ended browsing since opt mode changed")
+            self._end_browsing()
+        optimizing = opt_mode in ['optN','opt']
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
+            self._ctl.configuration.solve.opt_mode = opt_mode
             self._handler = self._ctl.solve(
                 assumptions=[(a,True) for a in self._assumptions],
                 yield_=True)
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
+            while optimizing and not model.optimality_proven:
+                self._logger.info("Skipping non-optimal model")
+                model = next(self._iterator)
             self._model = self._modelClass.from_clingo_model(model, self._ui_files)
         except StopIteration:
             self._logger.info("No more solutions")
-            self._handler.cancel()
+            self._end_browsing()
             self._update_model()
             self._model.add_message("Browsing Information","No more solutions")
 

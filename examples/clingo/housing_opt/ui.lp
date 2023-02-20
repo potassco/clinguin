@@ -21,13 +21,15 @@ element(ms, menu_bar_section, m).
 attribute(ms, label, "Options").
 element(ms_clear, menu_bar_section_item, ms).
 attribute(ms_clear, label, "Clear").
+attribute(ms_clear, accelerator, "Cmd+C").
 callback(ms_clear, click, clear_assumptions).
 element(ms_next, menu_bar_section_item, ms).
 attribute(ms_next, label, "Next").
+attribute(ms_next, accelerator, "Cmd+N").
 callback(ms_next, click, next_solution).
 element(ms_next_opt, menu_bar_section_item, ms).
 attribute(ms_next_opt, label, "Next Optimal").
-attribute(ms_next_opt, accelerator, "Ctrl+N").
+attribute(ms_next_opt, accelerator, "Cmd+O").
 callback(ms_next_opt, click, next_solution(optN)).
 
 % Rooms container

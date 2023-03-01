@@ -1,0 +1,9 @@
+name: clinguin-course-scheduling
+channels:
+  - conda-forge
+  - potassco
+dependencies:
+  - python=3.9
+  - clingo
+  - pip:
+    - git+https://github.com/potassco/clinguin.git

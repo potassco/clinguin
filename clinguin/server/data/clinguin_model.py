@@ -103,7 +103,7 @@ class ClinguinModel:
         ctl.assign_external(parse_term('show_all'),True)
 
         return cls.combine(brave_model,cautious_model, logger)
-    
+
 
     @classmethod
     def combine(cls, cgmodel1, cgmodel2):
@@ -114,7 +114,7 @@ class ClinguinModel:
 
     @classmethod
     def from_clingo_model(cls, m, ui_files):
-        """ 
+        """
         Creates a ClinguinModel from a clingo model.
         """
         model = cls()
@@ -188,7 +188,7 @@ class ClinguinModel:
     def tag_brave_prg(self, model):
         tagged = self.tag(model,'_b')
         return self.symbols_to_prg(tagged)
-    
+
     def tag_cautious_prg(self, model):
         tagged = self.tag(model,'_c')
         return self.symbols_to_prg(tagged)
@@ -226,7 +226,7 @@ class ClinguinModel:
 
     def get_elements(self):
         return self._factbase.query(ElementDao).all()
-    
+
     def get_attributes(self):
         return self._factbase.query(AttributeDao).all()
 
@@ -246,7 +246,7 @@ class ClinguinModel:
     def get_callbacksForElementId(self, element_id):
         return self._factbase.query(CallbackDao).where(
             CallbackDao.id == element_id).all()
-    
+
     def _set_fb_symbols(self, symbols):
         self._factbase = clorm.unify(self.unifiers, symbols)
 
@@ -257,19 +257,21 @@ class ClinguinModel:
             for m in result:
                 model_symbols = m.symbols(shown=True,atoms=False)
             if model_symbols is None:
+                self._logger.error("Got an UNSAT result with the given encoding.")
+                self._logger.error("The operation can't be performed")
                 raise NoModelError(core=result.core())
         return list(model_symbols)
 
     def compute_brave(self, ctl, assumptions):
-        ctl.configuration.solve.opt_mode = 'ignore' 
+        ctl.configuration.solve.opt_mode = 'ignore'
         ctl.configuration.solve.enum_mode = 'brave'
         l = self._compute(ctl, assumptions)
         self._logger.debug("BRAVE CONSEQUENCES:")
         self._logger.debug([str(s) for s in l])
         return l
-    
+
     def compute_cautious(self, ctl, assumptions):
-        ctl.configuration.solve.opt_mode = 'ignore' 
+        ctl.configuration.solve.opt_mode = 'ignore'
         ctl.configuration.solve.enum_mode = 'cautious'
         l = self._compute(ctl, assumptions)
         self._logger.debug("CAUTIOUS CONSEQUENCES:")

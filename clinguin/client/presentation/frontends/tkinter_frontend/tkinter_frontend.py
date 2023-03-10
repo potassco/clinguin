@@ -20,7 +20,7 @@ class TkinterFrontend(AbstractFrontend):
         self.first = True
 
     @classmethod
-    def register_options(cls, parser):   
+    def register_options(cls, parser):
         parser.description = "This GUI is based on the Python-Tkinter package and uses tkinter elements."
 
     @classmethod
@@ -56,21 +56,21 @@ class TkinterFrontend(AbstractFrontend):
             "element(<ID>, <TYPE>, <PARENT>) : To define an element\n" +\
             "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the corresponding element)\n" +\
             "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the corresponding element)\n\n" +\
-            "The following list shows for each <TYPE> the possible attributes and callbacks:\n" 
+            "The following list shows for each <TYPE> the possible attributes and callbacks:\n"
 
         class_list = RootCmp.__subclasses__()
 
         description = description + "|--------------------------------\n"
         for c in class_list:
             description = description + "|- " + c.__name__ + "\n"
-            
+
             attributes = c.get_attributes()
             if len(attributes.keys()) > 0:
                 description = description + "  |- attributes\n"
                 description = append_dict(description, attributes, "value_type")
-            
+
             callbacks = c.get_callbacks()
-            if len(callbacks.keys()) > 0:               
+            if len(callbacks.keys()) > 0:
                 description = description + "  |- callbacks\n"
                 description = append_dict(description, callbacks, "policy_type")
             description = description + "|--------------------------------\n"
@@ -88,7 +88,7 @@ class TkinterFrontend(AbstractFrontend):
             for key in keys:
                 if str(key) == str(id):
                     continue
-                
+
                 if str(key) in self.elements:
                     self.elements[str(key)].forget_children(self.elements)
                     del self.elements[str(key)]

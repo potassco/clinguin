@@ -44,12 +44,14 @@ attribute(l(X,Y), background_color, COLOR) :- initial(X,Y,V),cell_color(X,Y,COLO
 menu(X,Y):-pos(X,Y), not initial(X,Y,_).
 element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
 attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
+
+
 attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
 callback(m(X,Y), clear, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,Y).
 
 % Option menu Item
 element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
-attribute(mi(X,Y,V), label, @concat("S",V)) :- menu(X,Y), _b(sudoku(X,Y,V)).
+attribute(mi(X,Y,V), label, V) :- menu(X,Y), _b(sudoku(X,Y,V)).
 callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
 
 %---------------------------------------------------------------------------------------

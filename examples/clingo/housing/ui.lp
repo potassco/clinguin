@@ -65,7 +65,7 @@ can_add(P):-person(P), not in_house(P).
 element(person_add(P), label, add_person_container):- can_add(P).
 attribute(person_add(P), label, P) :- can_add(P).
 attribute(person_add(P), background_color, color_not_considered) :- can_add(P).
-callback(person_add(P), click,add_assumption(in_house(P))):- can_add(P).
+callback(person_add(P), click,set_external(in_house(P),true)):- can_add(P), not setting_rooms.
 attribute(person_add(P), on_hover, true) :- can_add(P).
 attribute(person_add(P), on_hover_background_color, color_not_considered_on_hover) :- can_add(P).
 
@@ -74,20 +74,31 @@ can_remove(P):- in_house(P).
 element(person_remove(P), label, remove_person_container):- can_remove(P).
 attribute(person_remove(P), label, P) :- can_remove(P).
 attribute(person_remove(P), background_color, color_considered) :- can_remove(P).
-callback(person_remove(P), click, remove_assumption(in_house(P))):-can_remove(P).
+callback(person_remove(P), click, set_external(in_house(P),false)):-can_remove(P), not setting_rooms.
 attribute(person_remove(P), on_hover, true) :- can_remove(P).
 attribute(person_remove(P), on_hover_background_color, color_considered_on_hover) :- can_remove(P).
 
+% Next
+
+element(button_next, button, window).
+attribute(button_next, height, 40).
+attribute(button_next, width, width_value).
+attribute(button_next, pos_x, 0).
+attribute(button_next, pos_y, height_names).
+attribute(button_next, label, "Set rooms").
+callback(button_next, click, set_external(setting_rooms,true)).
+
+
 % Rooms container
-element(rooms_main_container, container, window).
-attribute(rooms_main_container, height, height_value - height_names).
+element(rooms_main_container, container, window):-setting_rooms.
+attribute(rooms_main_container, height, height_value - height_names - 40).
 attribute(rooms_main_container, width, width_value).
 attribute(rooms_main_container, pos_x, 0).
-attribute(rooms_main_container, pos_y, height_names).
+attribute(rooms_main_container, pos_y, height_names+40).
 attribute(rooms_main_container, child_layout, grid).
 
 % Room container
-element(room(I), container, rooms_main_container) :- room(I,_).
+element(room(I), container, rooms_main_container) :- room(I,_),setting_rooms.
 attribute(room(I), height, 200) :- room(I,_).
 attribute(room(I), width, 200) :- room(I,_).
 attribute(room(I), grid_column, (I-1)\2) :- room(I,_).
@@ -95,19 +106,19 @@ attribute(room(I), grid_row, (I-1)/2) :- room(I,_).
 attribute(room(I), child_layout, absstatic) :- room(I,_).
 
 % Room title
-element(room_title(I), label, room(I)) :- room(I,_).
+element(room_title(I), label, room(I)) :- room(I,_),setting_rooms.
 attribute(room_title(I), height, 20) :- room(I,_).
 attribute(room_title(I), width, 190) :- room(I,_).
 attribute(room_title(I), label, T) :- room(I,T).
 
 % Room beds dropdowns
-element(room_dropdown(B,I), dropdown_menu, room(I)) :- bed(B,I).
+element(room_dropdown(B,I), dropdown_menu, room(I)) :- bed(B,I),setting_rooms.
 attribute(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P).
 attribute(room_dropdown(B,I), height, 50) :- bed(B,I).
 attribute(room_dropdown(B,I), width, 100) :- bed(B,I).
 attribute(room_dropdown(B,I), pos_y, B*40):- bed(B,I).
 
-element(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _b(assign(bed(B,I),P)).
+element(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _b(assign(bed(B,I),P)),setting_rooms.
 attribute(mi(B,I,P), label, P) :- _b(assign(bed(B,I),P)).
 callback(mi(B,I,P), click, add_assumption(assign(bed(B,I),P))) :- _b(assign(bed(B,I),P)).
 %mi(B,I,P) :- _b(bed(B,I)), _b(person(P)).

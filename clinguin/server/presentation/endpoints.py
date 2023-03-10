@@ -64,5 +64,4 @@ class Endpoints:
             function_name,
             function_arguments,
             {})
-        
         return result

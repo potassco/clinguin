@@ -37,7 +37,7 @@ class ClinguinModel:
         """
         Creates a ClinguinModel from paths of ui files and assumptions.
         """
-        prg = cls.get_cautious_brave(ctl,assumptions)
+        prg = cls.get_all_consequences(ctl,assumptions)
         return cls.from_ui_file_and_program(ctl,ui_files,prg,assumptions)
 
     @classmethod
@@ -146,14 +146,17 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def get_cautious_brave(cls, ctl, assumptions):
+    def get_all_consequences(cls, ctl, assumptions):
         model = cls()
 
         cautious_model = model.compute_cautious(ctl, assumptions)
         brave_model = model.compute_brave(ctl, assumptions)
+        # stable_model = model.compute_auto(ctl, assumptions)
         # c_prg = self.tag_cautious_prg(cautious_model)
-        c_prg = model.symbols_to_prg(cautious_model)
+        c_prg = model.tag_cautious_prg(cautious_model)
         b_prg = model.tag_brave_prg(brave_model)
+        # m_prg = model.symbols_to_prg(stable_model)
+        # return c_prg+b_prg+m+prg
         return c_prg+b_prg
 
     @classmethod
@@ -168,15 +171,18 @@ class ClinguinModel:
         return model
 
 
-    def add_message(self,title,message):
+    def add_message(self,title,message,type="info"):
         """
         Adds a ''Message'' (aka. Notification/Pop-Up) for the user with a certain title and message.
         """
         self.add_element("message","message","window")
         self.add_attribute("message","title",title)
         self.add_attribute("message","message",message)
+        self.add_attribute("message","type",type)
 
     def tag(self, model, tag):
+        if tag is None:
+            return model
         tagged = []
         for s in model:
             tagged.append(Function(tag,[s]))
@@ -190,9 +196,13 @@ class ClinguinModel:
         return self.symbols_to_prg(tagged)
 
     def tag_cautious_prg(self, model):
-        tagged = self.tag(model,'_c')
+        tagged = self.tag(model,None)
+        # tagged = self.tag(model,'_c')
         return self.symbols_to_prg(tagged)
 
+    def tag_model_prg(self, model):
+        tagged = self.tag(model,'_m')
+        return self.symbols_to_prg(tagged)
 
     def add_element(self, id, t, parent):
         if type(id)==str:
@@ -266,7 +276,7 @@ class ClinguinModel:
         ctl.configuration.solve.opt_mode = 'ignore'
         ctl.configuration.solve.enum_mode = 'brave'
         l = self._compute(ctl, assumptions)
-        self._logger.debug("BRAVE CONSEQUENCES:")
+        self._logger.debug("BRAVE CONSEQUENCES: _b")
         self._logger.debug([str(s) for s in l])
         return l
 
@@ -274,14 +284,14 @@ class ClinguinModel:
         ctl.configuration.solve.opt_mode = 'ignore'
         ctl.configuration.solve.enum_mode = 'cautious'
         l = self._compute(ctl, assumptions)
-        self._logger.debug("CAUTIOUS CONSEQUENCES:")
+        self._logger.debug("CAUTIOUS CONSEQUENCES: _c")
         self._logger.debug([str(s) for s in l])
         return l
 
     def compute_auto(self, ctl, assumptions):
         ctl.configuration.solve.enum_mode = 'auto'
         l = self._compute(ctl, assumptions)
-        self._logger.debug("STABLE MODEL")
+        self._logger.debug("STABLE MODEL: _m")
         self._logger.debug([str(s) for s in l])
         return l
 

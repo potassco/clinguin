@@ -8,7 +8,7 @@ from clinguin.utils import CaseConverter, Logger
 from clinguin.client.api.api import Api
 from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
 
-class ClientBase:   
+class ClientBase:
     """
     ClientBase is the ''base'' of the client. It contains the logic which is responsible for connecting to the server, what to do in case of errors, forward the Json to the correct GUI, etc.
     """
@@ -58,7 +58,6 @@ class ClientBase:
         Parameters:
             response (dict): Json from which one can draw the GUI.
         """
-
         children = response['children']
 
         for child in children:
@@ -69,8 +68,10 @@ class ClientBase:
 
             if hasattr(self.frontend_generator, camel_case_name):
                 method = getattr(self.frontend_generator, camel_case_name)
+
             elif hasattr(self.frontend_generator, snake_case_name):
                 method = getattr(self.frontend_generator, snake_case_name)
+
 
             if method and callable(method):
                 method(
@@ -93,5 +94,6 @@ class ClientBase:
 
             self.connected = False
             self.connect()
+
 
 

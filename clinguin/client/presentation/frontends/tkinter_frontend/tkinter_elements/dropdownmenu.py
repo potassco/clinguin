@@ -11,7 +11,7 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
     """
     def __init__(self, args, id, parent, attributes, callbacks, base_engine):
         super().__init__(args, id, parent, attributes, callbacks, base_engine)
-        
+
         self._menu = None
         self._variable = None
 
@@ -42,9 +42,9 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         attributes[AttributeNames.onhover] = {"value":False, "value_type": BooleanType}
         attributes[AttributeNames.onhover_background_color] = {"value":"white", "value_type" : ColorType}
         attributes[AttributeNames.onhover_foreground_color] = {"value":"black", "value_type" : ColorType}
-        
+
         attributes[AttributeNames.selected] = {"value":"", "value_type" : StringType}
- 
+
         return attributes
 
     @classmethod
@@ -52,7 +52,7 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         if callbacks is None:
             callbacks =  {}
 
-        callbacks[CallbackNames.clear] = {"policy":"remove_assumption_signature", "policy_type" : SymbolType}
+        callbacks[CallbackNames.clear] = {"policy":None, "policy_type" : SymbolType}
 
         return callbacks
 
@@ -72,16 +72,18 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         self._base_engine.post_with_policy(click_policy)
 
     def _define_clear_event(self, elements, key = CallbackNames.clear):
+        if self._callbacks[key]['policy'] is None:
+            return
         def change(*args):
             if self._variable.get()=="":
                 self._logger.info("Will remove previous selections")
                 self._dropdown_clear(self._callbacks[key]['policy'])
         self._variable.trace("w", change)
 
-        
+
     def _set_background_color(self, elements, key = AttributeNames.backgroundcolor):
         value = self._attributes[key]["value"]
-        
+
         self._menu.config(bg= value, activebackground=value)
         self._menu["menu"].config(bg=value, activebackground=value)
 
@@ -91,7 +93,7 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         self._menu.config(fg=value, activeforeground=value)
         self._menu["menu"].config(fg=value, activeforeground=value)
 
-    def _set_on_hover(self, elements): 
+    def _set_on_hover(self, elements):
         on_hover = self._attributes[AttributeNames.onhover]["value"]
 
         on_hover_background_color = self._attributes[AttributeNames.onhover_background_color]["value"]

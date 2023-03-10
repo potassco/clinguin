@@ -29,11 +29,11 @@ class RootCmp:
     @classmethod
     def get_attributes(cls):
 
-        attributes = {} 
+        attributes = {}
         for base in cls.__bases__:
             if issubclass(base, ExtensionClass):
                 base.get_attributes(attributes)
-        
+
         return cls._get_attributes(attributes)
 
     @classmethod
@@ -43,13 +43,13 @@ class RootCmp:
 
     @classmethod
     def get_callbacks(cls):
-        callbacks = {} 
+        callbacks = {}
         for base in cls.__bases__:
             if issubclass(base, ExtensionClass):
                 base.get_callbacks(callbacks)
-        
+
         return cls._get_callbacks(callbacks)
-    
+
     @classmethod
     def _get_callbacks(cls, callbacks = None):
         return {}
@@ -59,8 +59,7 @@ class RootCmp:
         return self._element
 
     def add_component(self, elements):
-        self._element = self._init_element(elements)        
-
+        self._element = self._init_element(elements)
         self._attributes = self.__class__.get_attributes()
         self._callbacks = self.__class__.get_callbacks()
 
@@ -71,7 +70,7 @@ class RootCmp:
         self._exec_actions(elements)
 
         self._add_component_to_elements(elements)
-    
+
     def _init_element(self, elements):
         return None
 
@@ -115,7 +114,6 @@ class RootCmp:
 
     def _exec_attributes(self, elements):
         attribute_methods = self._get_methods("_set")
-
         for set_attribute_method in attribute_methods:
             set_attribute_method(elements)
 
@@ -126,7 +124,7 @@ class RootCmp:
 
     def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
-    
+
     def forget_children(self, elements):
         if str(self._parent) in elements:
             if hasattr(elements[self._parent], "get_child_org"):
@@ -142,4 +140,4 @@ class RootCmp:
         else:
             pass
 
-    
+

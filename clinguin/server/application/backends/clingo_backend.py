@@ -25,7 +25,7 @@ class ClingoBackend(ClinguinBackend):
 
         self._source_files = args.source_files
         self._ui_files = args.ui_files
-        
+
         # For browising
         self._handler=None
         self._iterator=None
@@ -34,9 +34,9 @@ class ClingoBackend(ClinguinBackend):
         self._assumptions = None
         self._atoms = None
         self._ctl = None
-        
+
         self._restart()
-        
+
         # I think we should remove this and only have one ClinguinModel
         self._modelClass = ClinguinModel
         self._model=None
@@ -59,7 +59,7 @@ class ClingoBackend(ClinguinBackend):
     def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
-    
+
     # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
@@ -81,14 +81,14 @@ class ClingoBackend(ClinguinBackend):
                 self._logger.critical(str(e))
                 self._logger.critical("Failed to load modules (there is likely a syntax error in your logic program), now exiting - see previous stack trace for more information.")
                 sys.exit()
-        
+
         for atom in self._atoms:
             self._ctl.add("base",[],str(atom) + ".")
-    
+
     def _ground(self):
         self._ctl.ground([("base", [])])
 
-    
+
     def _end_browsing(self):
         if self._handler:
             self._handler.cancel()
@@ -99,10 +99,11 @@ class ClingoBackend(ClinguinBackend):
         try:
             self._model = ClinguinModel.from_ui_file(
                 self._ctl,
-                self._ui_files, 
+                self._ui_files,
                 self._assumptions)
         except NoModelError:
-            self._model.add_message("Error","This operation can't be performed")
+            self._model.add_message("Error","This operation can't be performed. UNSAT output.",type="error")
+
 
     # ---------------------------------------------
     # Policies
@@ -142,7 +143,7 @@ class ClingoBackend(ClinguinBackend):
             self._end_browsing()
             self._update_model()
         return self.get()
-   
+
     def remove_assumption_signature(self, predicate):
         """
         Policy: removes predicates with the predicate name of predicate and the given arity
@@ -218,7 +219,7 @@ class ClingoBackend(ClinguinBackend):
 
             if symbol in self._externals["true"]:
                 self._externals["true"].remove(symbol)
-    
+
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
@@ -230,7 +231,7 @@ class ClingoBackend(ClinguinBackend):
                 self._externals["false"].remove(symbol)
 
         elif name == "false":
-            self._ctl.assign_external(parse_term(predicate),True)
+            self._ctl.assign_external(parse_term(predicate),False)
             self._externals["false"].add(symbol)
 
             if symbol in self._externals["true"]:
@@ -245,7 +246,7 @@ class ClingoBackend(ClinguinBackend):
 
     def next_solution(self, opt_mode='ignore'):
         """
-        Policy: Obtains the next solution 
+        Policy: Obtains the next solution
         Arguments:
             opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """

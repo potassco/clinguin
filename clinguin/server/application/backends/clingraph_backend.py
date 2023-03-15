@@ -18,7 +18,7 @@ from clingraph.clingo_utils import ClingraphContext
 # Self defined
 from clinguin.utils import StandardTextProcessing
 from clinguin.server.data.attribute import AttributeDao
-from clinguin.server.data.clinguin_model import ClinguinModel
+from clinguin.server.data.uifb import UIFB
 from clinguin.server import StandardJsonEncoder
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
 from clinguin.utils import NoModelError
@@ -47,41 +47,28 @@ class ClingraphBackend(ClingoBackend):
         self._attribute_image_value = 'clingraph'
         self._attribute_image_value_seperator = '__'
 
-        self._filled_model = None
 
     # ---------------------------------------------
     # Overwrite
     # ---------------------------------------------
 
-    def _update_model(self):
+    def _update_uifb(self, clear=True):
         try:
-            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
+            self._uifb.update_all_consequences(self._ctl,self._assumptions,clear)
+            graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
 
-            graphs = self._compute_clingraph_graphs(prg)
+            self._uifb.update_factbase(self._ctl,self._assumptions,False)
 
             if not self._disable_saved_to_file:
                 self._save_clingraph_graphs_to_file(graphs)
 
-            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
+            self._replace_uifb_with_b64_images(graphs)
 
         except NoModelError:
-            self._model.add_message("Error","This operation can't be performed")
-
-    def get(self):
-        """
-        Overwritten from ClingoBackend. Difference: Converts the _filled_model to Json instead of the _model, as the _filled_model contains the Base64 encoded images.
-        """
-        if not self._filled_model:
-            self._update_model()
-            
-        json_structure = StandardJsonEncoder.encode(self._filled_model)
-        return json_structure
-
-
+            self._uifb.add_message("Error","This operation can't be performed")
 
     @classmethod
-    def register_options(cls, parser):     
+    def register_options(cls, parser):
         """
         Registers command line options for ClingraphBackend.
         """
@@ -173,7 +160,7 @@ class ClingraphBackend(ClingoBackend):
         parser.add_argument('--disable-saved-to-file',
                     action='store_true',
                     help='Disable image saved to file')
- 
+
 
     # ---------------------------------------------
     # Private methods
@@ -195,7 +182,7 @@ class ClingraphBackend(ClingoBackend):
             fbs = [f if i in self._select_model else None
                         for i, f in enumerate(fbs) ]
 
-        
+
 
         graphs = compute_graphs(fbs, graphviz_type=self._type)
 
@@ -213,23 +200,21 @@ class ClingraphBackend(ClingoBackend):
         self._logger.debug("Clingraph saved images:")
         self._logger.debug(paths)
 
-    
-    def _get_mode_filled_with_base_64_images_from_graphs(self,graphs):
-        model = self._model
 
-        kept_symbols = list(model.get_elements()) + list(model.get_callbacks())
+    def _replace_uifb_with_b64_images(self,graphs):
+        kept_symbols = list(self._uifb.get_elements()) + list(self._uifb.get_callbacks())
 
         filled_attributes = []
-    
+
         # TODO - Improve efficiency of filling attributes
-        for attribute in model.get_attributes():
+        for attribute in self._uifb.get_attributes():
             if str(attribute.key) == self._attribute_image_key:
                 attribute_value = StandardTextProcessing.parse_string_with_quotes(str(attribute.value))
 
                 if attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph":
                     splits = attribute_value.split(self._attribute_image_value_seperator)
                     splits.pop(0)
-                    rest = ""   
+                    rest = ""
                     for split in splits:
                         rest = rest + split
 
@@ -243,13 +228,14 @@ class ClingraphBackend(ClingoBackend):
             else:
                 filled_attributes.append(attribute)
 
-        return ClinguinModel(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
+        symbols = kept_symbols + filled_attributes
+        self._uifb._set_fb_symbols([s.symbol for s in symbols])
 
 
     def _create_image_from_graph(self, graphs, position = None, key = None):
         graphs = graphs[0]
 
-        if position is not None: 
+        if position is not None:
             if (len(graphs)-1) >= position:
                 graph = graphs[list(graphs.keys())[position]]
             else:
@@ -272,7 +258,7 @@ class ClingraphBackend(ClingoBackend):
 
     def _convertImageToBase64String(self, img):
         encoded = base64.b64encode(img)
-        decoded = encoded.decode(self._encoding)    
+        decoded = encoded.decode(self._encoding)
         return decoded
 
 

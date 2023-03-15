@@ -11,12 +11,12 @@ The idea regarding the extensibility of clinguin is, that one can tailor the pro
 Example: Extending ClingoBackend with Clingraph
 ================================================
 
-Now one wants to display graphs inside Clinguin. In general there exists the package Clingraph, where one can reason about graphs. Now the idea is to extend the ClingoBackend with some further functionality to get the ClingraphBackend. As the ClingraphBackend is already included in the `default_solvers` we show you the necessary steps that are required to implement the same functionality by yourself. 
+Now one wants to display graphs inside Clinguin. In general there exists the package Clingraph, where one can reason about graphs. Now the idea is to extend the ClingoBackend with some further functionality to get the ClingraphBackend. As the ClingraphBackend is already included in the `default_solvers` we show you the necessary steps that are required to implement the same functionality by yourself.
 
-The first step is to create a new folder any directory, **with one noteable exception**: If you downloaded the source of Clinguin **DO NOT** create the file inside any subfolder of `/clinguin` (where `/` is the root of the root of the source) and do not create the file in any parent of `/clinguin` (e.g. if you have the source located in `/home/test/my_prgs/clinguin/`, do not create the file in `/home`, `/home/test` or `/home/test/my_prgs` - but as an example something like `/home/my_backends/` would be perfectly fine). E.g. one could name this folder `test`. 
+The first step is to create a new folder any directory, **with one noteable exception**: If you downloaded the source of Clinguin **DO NOT** create the file inside any subfolder of `/clinguin` (where `/` is the root of the root of the source) and do not create the file in any parent of `/clinguin` (e.g. if you have the source located in `/home/test/my_prgs/clinguin/`, do not create the file in `/home`, `/home/test` or `/home/test/my_prgs` - but as an example something like `/home/my_backends/` would be perfectly fine). E.g. one could name this folder `test`.
 
 Then one creates inside this `test` folder another folder, which is now assumed to be named `backends` and then inside this folder one has to create a file. The name of the file can be chosen as you want (we will assume `your_clingraph_backend.py` from here on).
- 
+
 The next step is to open the file, to import the `ClingoBackend` and create a class that inherits from this class. One can import `ClingoBackend` by specifying `from clinguin.server.application.backends import ClingoBackend` at the beginning of the file (in the default_solvers ClingraphBackend we imported it with `from clinguin.server.application.backends.clingo_backend import ClingoBackend`, as the ClingraphBackend is also included in `backends` and we wanted to avoid cyclic imports).
 
 The next step is to write our new backend, where we can e.g. start with:
@@ -59,7 +59,7 @@ A logical next step is to ask yourself what functionalities your extension shoul
 
 You can add additional cmd-arguments by overwriting the `register_options` method. As we want to keep the `ClingoBackend` arguments and just want to add your own arguments you can do the following:
 
-.. code-block:: python 
+.. code-block:: python
 
     @classmethod
     def register_options(cls, parser):
@@ -130,18 +130,18 @@ In order to program additional functionality, one must understand some basics of
 2. Update the *model* (see below)
 3. Generate the Json hierarchy (see below)
 
-Step 1. is different for each policy, but steps 2. and 3. are basically the same for all (or most) policies. Step 2. says that it updates the *model*, where the model corresponds to an instance of the `ClinguinModel` (see also the corresponding API documentation) class, which is basically a low-level tool, which directly accesses clingo-models (one can think of it as a Clingo and CLORM (Clingo ORM) wrapper). This wrapper provides some functionality that is useful for various default Clinguin things, like computing the cautious/brave sets, etc.
+Step 1. is different for each policy, but steps 2. and 3. are basically the same for all (or most) policies. Step 2. says that it updates the *model*, where the model corresponds to an instance of the `UIFB` (see also the corresponding API documentation) class, which is basically a low-level tool, which directly accesses clingo-models (one can think of it as a Clingo and CLORM (Clingo ORM) wrapper). This wrapper provides some functionality that is useful for various default Clinguin things, like computing the cautious/brave sets, etc.
 
-So step 2. updates the ClinguinModel and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_update_model` method (see below). Step 3. takes than this updatd model and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
+So step 2. updates the UIFB and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_update_model` method (see below). Step 3. takes than this updatd model and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
 
-For now step 2. is important, more specifically the `_update_model` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_model` method one computes the model which is then converted and sent back to the client, it makes sense to **overwrite/extend this method to provide further functionality**. In the normal ClingoBackend we call a ClinguinModel method which is called `from_ui_file`, which is inturn just a wrapper for two other methods: `get_cautious_brave` and `from_ui_file_and_program`. As we need the return value of `get_cautious_brave` we cannot just call the wrapper, therefore as a first step, we overwrite the `_update_model` with the following:
+For now step 2. is important, more specifically the `_update_model` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_model` method one computes the model which is then converted and sent back to the client, it makes sense to **overwrite/extend this method to provide further functionality**. In the normal ClingoBackend we call a UIFB method which is called `from_ui_file`, which is inturn just a wrapper for two other methods: `get_cautious_brave` and `from_ui_file_and_program`. As we need the return value of `get_cautious_brave` we cannot just call the wrapper, therefore as a first step, we overwrite the `_update_model` with the following:
 
 .. code-block:: python
 
     def _update_model(self):
         try:
-            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg)
+            prg = UIFB.get_cautious_brave(self._ctl,self._assumptions)
+            self._model = UIFB.from_ui_file_and_program(self._ctl,self._ui_files,prg)
         except NoModelError:
             # Notifies the user by a popup, that this is not possible.
             self._model.add_message("Error","This operation can't be performed")
@@ -178,7 +178,7 @@ The method `computeClingraphGraphs` is called by `updateModel` and it takes use 
 There is the possibility to save a graph to a file (only makes sense if you are in control of the Clinguin-Server), which is handled by the `saveClingraphGraphsToFile` method:
 
 .. code-block:: python
- 
+
     def _save_clingraph_graphs_to_file(self,graphs):
         if self._select_graph is not None:
             graphs = [{g_name:g for g_name, g in graph.items() if g_name in self._select_graph} for graph in graphs]
@@ -219,14 +219,14 @@ The next method creates a binary image from a graph and returns it:
 
         return img
 
-The next method might also interest you for other backends: It converts an image into a Base64 string encoding (which is basically just a String Encoded image, which can be send to the client, which you can use for other Graphics/Images). Note: One needs both `base64.b64encode` and `encoded.decode(self._encoding)` (where `self._encoding = utf-8`). 
+The next method might also interest you for other backends: It converts an image into a Base64 string encoding (which is basically just a String Encoded image, which can be send to the client, which you can use for other Graphics/Images). Note: One needs both `base64.b64encode` and `encoded.decode(self._encoding)` (where `self._encoding = utf-8`).
 
 .. code-block:: python
 
     def _convertImageToBase64String(self, img):
 
         encoded = base64.b64encode(img)
-        decoded = encoded.decode(self._encoding)    
+        decoded = encoded.decode(self._encoding)
 
         return decoded
 
@@ -263,7 +263,7 @@ The next method searches through all attributes and looks up all the places, whe
             else:
                 filled_attributes.append(attribute)
 
-        return ClinguinModel(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
+        return UIFB(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
 
 The next-to-last thing to do is to edit our `updateModel` method, as we need to call the methods above to provide the functionality. We need to add a `_filed_model` to distinfrontendsh between the models that are filled with the base64 string and those who are not (if we don't do this, we run into a mess with policies):
 
@@ -271,8 +271,8 @@ The next-to-last thing to do is to edit our `updateModel` method, as we need to 
 
     def _update_model(self):
         try:
-            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg)
+            prg = UIFB.get_cautious_brave(self._ctl,self._assumptions)
+            self._model = UIFB.from_ui_file_and_program(self._ctl,self._ui_files,prg)
 
             graphs = self._compute_clingraph_graphs(prg)
 
@@ -299,7 +299,7 @@ The last step is now to tell backend, that we actually want to send the `filled_
 The full example is shown at the end of the file, with this you can execute the coloring example by typing:
 
 .. code-block:: bash
-    
+
     $ clinguin client-server --custom-classes "./backends/" --backend YourClingraphBackend --source-files examples/clingraph/coloring/encoding.lp --ui-files examples/clingraph/coloring/ui.lp --clingraph-files examples/clingraph/coloring/viz.lp
 
 Full Example:
@@ -309,7 +309,7 @@ Full Example:
 
     from clinguin.server.data.attribute import AttributeDao
 
-    from clinguin.server.data.clinguin_model import ClinguinModel
+    from clinguin.server.data.uifb import UIFB
     from clinguin.server import StandardJsonEncoder
 
     from clinguin.server.application.backends import ClingoBackend
@@ -364,8 +364,8 @@ Full Example:
 
         def _update_model(self):
             try:
-                prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-                self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg)
+                prg = UIFB.get_cautious_brave(self._ctl,self._assumptions)
+                self._model = UIFB.from_ui_file_and_program(self._ctl,self._ui_files,prg)
 
                 graphs = self._compute_clingraph_graphs(prg)
 
@@ -472,6 +472,6 @@ Full Example:
                 else:
                     filled_attributes.append(attribute)
 
-            return ClinguinModel(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
+            return UIFB(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
 
 

@@ -1,4 +1,6 @@
-Start with: 
+# Sudoku
+
+Notice that the menu bar is created automatically and it can be disabled via the command line.
 
 
 ```shell

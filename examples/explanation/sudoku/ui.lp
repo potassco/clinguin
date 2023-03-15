@@ -50,6 +50,7 @@ element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
 attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
 attribute(m(X,Y), selected, V) :- menu(X,Y), _assume(sudoku(X,Y,V)).
 attribute(m(X,Y), selected, V) :- menu(X,Y), _muc(sudoku(X,Y,V)).
+attribute(m(X,Y), selected, V) :- sudoku(X,Y,V), clinguin_browsing.
 callback(m(X,Y), clear, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,Y).
 
 % Option menu Item
@@ -57,20 +58,6 @@ element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), val(V).
 attribute(mi(X,Y,V), label, @concat(V,"  ✕")) :- menu(X,Y), val(V), not _b(sudoku(X,Y,V)).
 attribute(mi(X,Y,V), label, V) :- menu(X,Y), val(V), _b(sudoku(X,Y,V)).
 callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), val(V).
-
-%---------------------------------------------------------------------------------------
-% Menu Bar
-%---------------------------------------------------------------------------------------
-
-element(m, menu_bar, window).
-element(ms, menu_bar_section, m).
-attribute(ms, label, "Options").
-element(ms_clear, menu_bar_section_item, ms).
-attribute(ms_clear, label, "Clear").
-callback(ms_clear, click, clear_assumptions).
-element(ms_next, menu_bar_section_item, ms).
-attribute(ms_next, label, "Next").
-callback(ms_next, click, next_solution).
 
 
 #script(python)

@@ -1,6 +1,6 @@
 room(1,"Bedroom 1").
-room(2,"Livingroom").
-room(3,"Bedroom 2").
+room(2,"Bedroom 2").
+room(3,"Bedroom 3").
 bed(1,1).
 bed(2,1).
 bed(1,2).

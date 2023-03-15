@@ -37,7 +37,8 @@ attribute(m, on_hover_foreground_color, black).
 element(mi(X), dropdown_menu_item, m) :- _b(p(X)).
 attribute(mi(X), label, X) :- _b(p(X)).
 callback(mi(X), click, add_assumption(p(X))) :- _b(p(X)).
-attribute(m, selected, X) :- p(X).
+attribute(m, selected, X) :- _c(p(X)).
+attribute(m, selected, X) :- p(X), clinguin_browsing.
 
 element(c4, container, c).
 attribute(c4, width, 146).

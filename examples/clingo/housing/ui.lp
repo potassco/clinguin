@@ -15,16 +15,13 @@ attribute(window, resizable_x, 1).
 attribute(window, resizable_y, 1).
 attribute(window, child_layout, absstatic).
 
-% Menu bar
-element(m, menu_bar, window).
-element(ms, menu_bar_section, m).
-attribute(ms, label, "Options").
-element(ms_clear, menu_bar_section_item, ms).
-attribute(ms_clear, label, "Clear").
-callback(ms_clear, click, clear_assumptions).
-element(ms_next, menu_bar_section_item, ms).
-attribute(ms_next, label, "Next").
-callback(ms_next, click, next_solution).
+% Menu bar is defined automatically called menu_options
+% These lines only add an extra option
+element(menu_options_next_opt, menu_bar_section_item, menu_options).
+attribute(menu_options_next_opt, label, "Next Optimal").
+attribute(menu_options_next_opt, accelerator, "Cmd+O").
+callback(menu_options_next_opt, click, next_solution(optN)).
+
 
 % Top container
 element(upper_container, container, window).
@@ -85,7 +82,7 @@ attribute(button_next, height, 40).
 attribute(button_next, width, width_value).
 attribute(button_next, pos_x, 0).
 attribute(button_next, pos_y, height_names).
-attribute(button_next, label, "Set rooms").
+attribute(button_next, label, "Define rooms").
 callback(button_next, click, set_external(setting_rooms,true)).
 
 
@@ -113,14 +110,15 @@ attribute(room_title(I), label, T) :- room(I,T).
 
 % Room beds dropdowns
 element(room_dropdown(B,I), dropdown_menu, room(I)) :- bed(B,I),setting_rooms.
-attribute(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P).
+attribute(room_dropdown(B,I), selected, P) :- _c(assign(bed(B,I),P)).
+attribute(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P), clinguin_browsing.
 attribute(room_dropdown(B,I), height, 50) :- bed(B,I).
 attribute(room_dropdown(B,I), width, 100) :- bed(B,I).
 attribute(room_dropdown(B,I), pos_y, B*40):- bed(B,I).
+callback(room_dropdown(B,I), clear, remove_assumption_signature(assign(bed(B,I),any))) :- bed(B,I).
 
 element(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _b(assign(bed(B,I),P)),setting_rooms.
 attribute(mi(B,I,P), label, P) :- _b(assign(bed(B,I),P)).
 callback(mi(B,I,P), click, add_assumption(assign(bed(B,I),P))) :- _b(assign(bed(B,I),P)).
-%mi(B,I,P) :- _b(bed(B,I)), _b(person(P)).
 
 

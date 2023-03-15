@@ -43,7 +43,9 @@ attribute(l(X,Y), background_color, COLOR) :- initial(X,Y,V),cell_color(X,Y,COLO
 % Option Menu
 menu(X,Y):-pos(X,Y), not initial(X,Y,_).
 element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
-attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
+attribute(m(X,Y), selected, @concat("S",V)) :- menu(X,Y), _c(sudoku(X,Y,V)).
+attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V), clinguin_browsing, not _c(sudoku(X,Y,V)).
+% attribute(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V).
 
 
 attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
@@ -70,5 +72,9 @@ element(ms_next, menu_bar_section_item, ms).
 attribute(ms_next, label, "Next").
 attribute(ms_next, accelerator, "Cmd+N").
 callback(ms_next, click, next_solution).
+element(ms_select, menu_bar_section_item, ms).
+attribute(ms_select, label, "Select").
+attribute(ms_select, accelerator, "Cmd+S").
+callback(ms_select, click, select).
 
 

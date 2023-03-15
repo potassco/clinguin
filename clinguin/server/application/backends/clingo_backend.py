@@ -50,7 +50,6 @@ class ClingoBackend(ClinguinBackend):
         """
         if self._uifb.is_empty:
             self._update_uifb()
-        self._logger.debug("Here!!!!!")
         self._logger.debug(self._uifb)
         json_structure =  StandardJsonEncoder.encode(self._uifb)
         return json_structure
@@ -88,8 +87,6 @@ class ClingoBackend(ClinguinBackend):
         for atom in self._atoms:
             self._ctl.add("base",[],str(atom) + ".")
 
-        self._ctl.add("base",[],"#external clinguin_browsing.")
-
 
     def _ground(self):
         self._ctl.ground([("base", [])])
@@ -100,13 +97,26 @@ class ClingoBackend(ClinguinBackend):
             self._handler.cancel()
             self._handler = None
         self._iterator = None
-        if self._ctl:
-            self._ctl.assign_external(parse_term("clinguin_browsing"),False)
 
+    @property
+    def _is_browsing(self):
+        return self._iterator is not None
+
+    @property
+    def _state_ui_prg(self):
+        """
+        Additional program to pass to the UI computation refering to the state of the backend
+        """
+        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. "
+        if self._is_browsing:
+            state_prg+="_clinguin_browsing."
+        for a in self._assumptions:
+            state_prg+=(f"_clinguin_assume({str(a)}).")
+        return state_prg
 
     def _update_uifb(self, clear=True):
         try:
-            self._uifb.update(self._ctl, self._assumptions, clear)
+            self._uifb.update(self._ctl, self._assumptions, clear, self._state_ui_prg)
         except NoModelError:
             self._uifb.add_message("Error","This operation can't be performed. UNSAT output.",type="error")
 
@@ -264,7 +274,6 @@ class ClingoBackend(ClinguinBackend):
             self._end_browsing()
         optimizing = opt_mode in ['optN','opt']
         if not self._iterator:
-            self._ctl.assign_external(parse_term("clinguin_browsing"),True)
             self._ctl.configuration.solve.enum_mode = 'auto'
             self._ctl.configuration.solve.opt_mode = opt_mode
             self._handler = self._ctl.solve(
@@ -292,7 +301,6 @@ class ClingoBackend(ClinguinBackend):
         """
         self._end_browsing()
         last_model_symbols = self._uifb._conseq["auto"]
-        symbols_to_ignore = set([parse_term("clinguin_browsing")])
         symbols_to_ignore.union(self._externals["true"])
         symbols_to_ignore.union(self._externals["false"])
         for s in last_model_symbols:

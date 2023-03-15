@@ -48,9 +48,9 @@ attribute(l(X,Y), background_color, COLOR) :- initial(X,Y,V), cell_color(X,Y,COL
 % Option Menu
 element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
 attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
-attribute(m(X,Y), selected, V) :- menu(X,Y), _assume(sudoku(X,Y,V)).
+attribute(m(X,Y), selected, V) :- menu(X,Y), _clinguin_assume(sudoku(X,Y,V)).
 attribute(m(X,Y), selected, V) :- menu(X,Y), _muc(sudoku(X,Y,V)).
-attribute(m(X,Y), selected, V) :- sudoku(X,Y,V), clinguin_browsing.
+attribute(m(X,Y), selected, V) :- sudoku(X,Y,V), _clinguin_browsing.
 callback(m(X,Y), clear, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,Y).
 
 % Option menu Item

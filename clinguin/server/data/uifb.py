@@ -100,7 +100,7 @@ class UIFB:
     def _set_fb_symbols(self, symbols):
         self._factbase = clorm.unify(self.unifiers, symbols)
 
-    def ui_control(self, assumptions =None, extra_prg=""):
+    def ui_control(self, extra_ui_prg=""):
         """
         Generates a ClingoControl Object from paths of ui files and extra parts of a logic program given by a string.
         """
@@ -114,11 +114,7 @@ class UIFB:
         if self._include_menu_bar:
             uictl.add("base",[],MENU_BAR)
 
-        if assumptions:
-            for a in assumptions:
-                uictl.add("base",[],f"_assume({str(a)}).")
-
-        uictl.add("base",[],extra_prg)
+        uictl.add("base",[],extra_ui_prg)
         uictl.add("base",[],self.conseq_facts)
         uictl.add("base",[],"#show element/3. #show attribute/3. #show callback/3.")
         uictl.ground([("base",[])])
@@ -137,8 +133,8 @@ class UIFB:
         for c_type in c_types:
             self.update_cosequence(c_type, ctl, assumptions)
 
-    def update_uifb(self, assumptions=None, extra_prg=""):
-        uictl = self.ui_control(assumptions, extra_prg)
+    def update_uifb(self, extra_ui_prg=""):
+        uictl = self.ui_control(extra_ui_prg)
 
         with uictl.solve(yield_=True) as result:
             for m in result:
@@ -147,9 +143,9 @@ class UIFB:
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
 
-    def update(self, ctl, assumptions=None, clear=True, extra_prg=""):
+    def update(self, ctl, assumptions=None, clear=True, extra_ui_prg=""):
         self.update_all_consequences(ctl, assumptions, clear)
-        self.update_uifb(assumptions, extra_prg)
+        self.update_uifb(extra_ui_prg)
 
     def _compute_consequences(self,ctl, assumptions):
         with ctl.solve(assumptions=[(a,True) for a in assumptions],

@@ -81,22 +81,16 @@ class ExplanationBackend(ClingoBackend):
 
     def _update_uifb(self, clear=True):
         try:
-            self._uifb.update(self._ctl, self._assumptions, clear)
+            self._uifb.update(self._ctl, self._assumptions, clear, self._state_ui_prg)
         except NoModelError as e:
             self._logger.info("UNSAT Answer, will add explanation")
             clingo_core = e.core
             clingo_core_symbols = [self._lit2symbol[s] for s in clingo_core if s!=-1]
-            # clingo_core_symbols = []
-            # for s in clingo_core:
-            #     #TODO why is this needed
-            #     if s==-1:
-            #         continue
-            #     clingo_core_symbols.append(self._lit2symbol[s])
             muc_core = self._get_minimum_uc(clingo_core_symbols)
-            prg = ""
+            prg = self._state_ui_prg
             for s in muc_core:
                 prg = prg + f"_muc({str(s)})."
-            self._uifb.update_uifb(self._assumptions, prg)
+            self._uifb.update_uifb(prg)
 
 
     def _add_assumption(self, predicate_symbol):

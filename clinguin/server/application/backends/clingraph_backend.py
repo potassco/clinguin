@@ -54,14 +54,13 @@ class ClingraphBackend(ClingoBackend):
 
     def _update_uifb(self, clear=True):
         try:
-            self._uifb.update_all_consequences(self._ctl,self._assumptions,clear)
+            self._uifb.update(self._ctl,self._assumptions,clear,self._state_ui_prg)
             graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
-
-            self._uifb.update_factbase(self._ctl,self._assumptions,False)
 
             if not self._disable_saved_to_file:
                 self._save_clingraph_graphs_to_file(graphs)
 
+            print("Replace!--------")
             self._replace_uifb_with_b64_images(graphs)
 
         except NoModelError:
@@ -172,6 +171,7 @@ class ClingraphBackend(ClingoBackend):
         for f in self._clingraph_files:
             ctl.load(f)
         ctl.add("base",[],prg)
+        ctl.add("base",[],self._state_ui_prg)
         ctl.ground([("base",[])],ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))
@@ -202,34 +202,23 @@ class ClingraphBackend(ClingoBackend):
 
 
     def _replace_uifb_with_b64_images(self,graphs):
-        kept_symbols = list(self._uifb.get_elements()) + list(self._uifb.get_callbacks())
-
-        filled_attributes = []
-
-        # TODO - Improve efficiency of filling attributes
-        for attribute in self._uifb.get_attributes():
-            if str(attribute.key) == self._attribute_image_key:
-                attribute_value = StandardTextProcessing.parse_string_with_quotes(str(attribute.value))
-
-                if attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph":
-                    splits = attribute_value.split(self._attribute_image_value_seperator)
-                    splits.pop(0)
-                    rest = ""
-                    for split in splits:
-                        rest = rest + split
-
-                    key_image = self._create_image_from_graph(graphs, key = rest)
-
-                    base64_key_image = self._convertImageToBase64String(key_image)
-
-                    filled_attributes.append(AttributeDao(Raw(Function(str(attribute.id),[])), Raw(Function(str(attribute.key),[])), Raw(String(str(base64_key_image)))))
-                else:
-                    filled_attributes.append(attribute)
-            else:
-                filled_attributes.append(attribute)
-
-        symbols = kept_symbols + filled_attributes
-        self._uifb._set_fb_symbols([s.symbol for s in symbols])
+        attributes = list(self._uifb.get_attributes())
+        for attribute in attributes:
+            if str(attribute.key) != self._attribute_image_key:
+                continue
+            attribute_value = StandardTextProcessing.parse_string_with_quotes(str(attribute.value))
+            is_cg_image = attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph"
+            if not is_cg_image:
+                continue
+            splits = attribute_value.split(self._attribute_image_value_seperator,1)
+            if len(splits)<2:
+                raise ValueError(f"The images for clingraph should have format {self._attribute_image_value}{self._attribute_image_value_seperator}name")
+            graph_name = splits[1]
+            key_image = self._create_image_from_graph(graphs, key = graph_name)
+            base64_key_image = self._image_to_b64(key_image)
+            new_attribute = AttributeDao(Raw(Function(str(attribute.id),[])), Raw(Function(str(attribute.key),[])), Raw(String(str(base64_key_image))))
+            self._uifb._factbase.remove(attribute)
+            self._uifb._factbase.add(new_attribute)
 
 
     def _create_image_from_graph(self, graphs, position = None, key = None):
@@ -256,7 +245,7 @@ class ClingraphBackend(ClingoBackend):
 
         return img
 
-    def _convertImageToBase64String(self, img):
+    def _image_to_b64(self, img):
         encoded = base64.b64encode(img)
         decoded = encoded.decode(self._encoding)
         return decoded

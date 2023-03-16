@@ -301,7 +301,7 @@ class ClingoBackend(ClinguinBackend):
         """
         self._end_browsing()
         last_model_symbols = self._uifb._conseq["auto"]
-        symbols_to_ignore.union(self._externals["true"])
+        symbols_to_ignore = self._externals["true"]
         symbols_to_ignore.union(self._externals["false"])
         for s in last_model_symbols:
             if s not in symbols_to_ignore:

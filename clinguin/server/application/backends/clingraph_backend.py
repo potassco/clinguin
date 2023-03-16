@@ -60,7 +60,6 @@ class ClingraphBackend(ClingoBackend):
             if not self._disable_saved_to_file:
                 self._save_clingraph_graphs_to_file(graphs)
 
-            print("Replace!--------")
             self._replace_uifb_with_b64_images(graphs)
 
         except NoModelError:

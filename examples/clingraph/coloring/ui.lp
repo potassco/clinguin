@@ -35,7 +35,7 @@ element(dmc(N), dropdown_menu, node(N)):-node(N).
 attribute(dmc(N), grid_column, 1):-node(N).
 attribute(dmc(N), width, 100):-node(N).
 attribute(dmc(N), height, 30):-node(N).
-attribute(dmc(N), selected, C):-assign(N,C), clinguin_browsing.
+attribute(dmc(N), selected, C):-assign(N,C), _clinguin_browsing.
 attribute(dmc(N), selected, C):-_c(assign(N,C)).
 callback(dmc(N), clear, remove_assumption_signature(assign(N,any))) :- node(N).
 

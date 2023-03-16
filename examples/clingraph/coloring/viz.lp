@@ -1,5 +1,6 @@
 attr(node, N, style, filled):- node(N).
-attr(node, N, fillcolor, white):- node(N), not _c(assign(N,_)).
+attr(node, N, fillcolor, white):- node(N), not _c(assign(N,_)), not _clinguin_browsing.
+attr(node, N, fillcolor, white):- node(N), not assign(N,_), _clinguin_browsing.
 opacity(N,""):-_clinguin_assume(assign(N, _)).
 opacity(N,"30"):- node(N), not _clinguin_assume(assign(N, _)).
 color_hex(blue,"#42b0f5").

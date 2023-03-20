@@ -134,18 +134,17 @@ Step 1. is different for each policy, but steps 2. and 3. are basically the same
 
 So step 2. updates the UIFB and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_update_uifb` method (see below). Step 3. takes than this updatd factbase and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
 
-For now step 2. is important, more specifically the `_update_uifb` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_uifb` method one computes the model which is then converted and sent back to the client, it makes sense to **overwrite/extend this method to provide further functionality**. In the normal ClingoBackend we call a UIFB method which is called `update`, which is inturn just a wrapper for two other methods: `update_all_consequences` and `update_uifb`. The first one will compute the consequences from the source encoding while the second one will generate the UI using the ui file and the consequences computed. What we do differently is we extract the consequences from the uifb object and use them to compute the graph with clingraph.
+For now step 2. is important, more specifically the `_update_uifb_ui` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_uifb_ui` method one computes the ui facts with the the `ui-files` provided, it makes sense to **overwrite/extend this method to provide further functionality**. Note that the consequences of the source files used as inputwere previously calculated in the call to `_update_uifb_consequences`. What we do differently is we extract the consequences from the uifb object and use them to compute the graph with clingraph and then update the UI factbase with the base64 of the images as shown bellow.
 
 .. code-block:: python
 
-    def _update_uifb(self):
-        try:
-            self._uifb.update(self._ctl,self._assumptions,clear,self._state_ui_prg)
-            graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
+    def _update_uifb_ui(self):
+        super()._update_uifb_ui()
+        graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
+        if not self._disable_saved_to_file:
+            self._save_clingraph_graphs_to_file(graphs)
 
-        except NoModelError:
-            # Notifies the user by a popup, that this is not possible.
-            self._model.add_message("Error","This operation can't be performed")
+        self._replace_uifb_with_b64_images(graphs)
 
 The method `_compute_clingraph_graphs` takes use of the Clingraph API. It computes the graphs and saves them into an intermediate format:
 
@@ -157,7 +156,7 @@ The method `_compute_clingraph_graphs` takes use of the Clingraph API. It comput
         for f in self._clingraph_files:
             ctl.load(f)
         ctl.add("base",[],prg)
-        ctl.add("base",[],self._state_ui_prg)
+        ctl.add("base",[],self._backend_state_prg)
         ctl.ground([("base",[])],ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))
@@ -250,24 +249,6 @@ The next method searches through all attributes and looks up all the places, whe
             new_attribute = AttributeDao(Raw(Function(str(attribute.id),[])), Raw(Function(str(attribute.key),[])), Raw(String(str(base64_key_image))))
             self._uifb._factbase.remove(attribute)
             self._uifb._factbase.add(new_attribute)
-
-The next-to-last thing to do is to edit our `_update_uifb` method, as we need to call the methods above to provide the functionality.
-
-.. code-block:: python
-
-    def _update_uifb(self):
-        try:
-            self._uifb.update(self._ctl,self._assumptions,clear,self._state_ui_prg)
-            graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
-
-            if not self._disable_saved_to_file:
-                self._save_clingraph_graphs_to_file(graphs)
-
-            self._replace_uifb_with_b64_images(graphs)
-
-        except NoModelError:
-            self._uifb.add_message("Error","This operation can't be performed")
-
 
 The full example can be found in `GitHub`_
 

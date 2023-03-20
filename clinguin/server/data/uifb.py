@@ -34,6 +34,12 @@ attribute(menu_options_select, label, "Select").
 attribute(menu_options_select, accelerator, "Cmd+S").
 callback(menu_options_select, click, select)."""
 
+UNSAT_MSG = """
+element(message_unsat,message,window):-_clinguin_unsat.
+attribute(message_unsat,title,"Error"):-_clinguin_unsat.
+attribute(message_unsat,message,"Unsatisfiable output."):-_clinguin_unsat.
+attribute(message_unsat,type,error):-_clinguin_unsat.
+"""
 
 class UIFB:
     """
@@ -42,7 +48,7 @@ class UIFB:
 
     unifiers = [ElementDao, AttributeDao, CallbackDao]
 
-    def __init__(self, ui_files,cautious_tag="_c",brave_tag="_b",auto_tag=None, include_menu_bar=False):
+    def __init__(self, ui_files,cautious_tag="_c",brave_tag="_b",auto_tag=None, include_menu_bar=False, include_unsat_msg=True):
         self._logger = logging.getLogger(Logger.server_logger_name)
         self._ui_files = ui_files
         self._tags = {"cautious":cautious_tag,"brave":brave_tag,"auto":auto_tag}
@@ -51,15 +57,15 @@ class UIFB:
             "brave": None,
             "auto": None
         }
-        self.clear_all()
         self._factbase = None
         self._include_menu_bar = include_menu_bar
+        self._include_unsat_msg = include_unsat_msg
+        self._unsat_core = None
 
     def __str__(self):
         s = "\nConsequences:\n==========\n"
         for k,v in self._conseq.items():
-            outdated = "OUTDATED!" if self._outdated[k] else ""
-            s+= f"{k} consequences: (tagged with {self._tags[k]}) {outdated}\n"
+            s+= f"{k} consequences: (tagged with {self._tags[k]})\n"
             s+=" ".join([str(s) for s in v])
             s+="\n"
         s +=  "\nUI Factbase:\n=========\n"
@@ -70,12 +76,9 @@ class UIFB:
     def is_empty(self):
         return self._factbase is None
 
-    def clear_all(self):
-        self._outdated ={
-            "cautious": True,
-            "brave": True,
-            "auto": True
-        }
+    @property
+    def is_unsat(self):
+        return self._unsat_core is not None
 
     def tag(self, symbols, tag):
         if tag is None:
@@ -90,9 +93,9 @@ class UIFB:
         conseq_facts = ""
         for c_type, symbols in self._conseq.items():
             if symbols is None:
-                raise RuntimeError("Use update function before getting the program")
-            if self._outdated[c_type]:
-                self._logger.warn(f"The {c_type} consequence facts are outdated. Make sure this is intended.")
+                # raise RuntimeError("Use update function before getting the program")
+                self._logger.warn(f"No {c_type} consequences where calculated. Update consequences before updating the UI.")
+                continue
             conseq_facts += symbols_to_facts(self.tag(symbols,self._tags[c_type]))
 
         return conseq_facts
@@ -113,6 +116,8 @@ class UIFB:
                 raise e
         if self._include_menu_bar:
             uictl.add("base",[],MENU_BAR)
+        if self._include_unsat_msg:
+            uictl.add("base",[],UNSAT_MSG)
 
         uictl.add("base",[],extra_ui_prg)
         uictl.add("base",[],self.conseq_facts)
@@ -123,17 +128,19 @@ class UIFB:
 
     def set_auto_conseq(self, model_symbols):
         self._conseq["auto"] = model_symbols
-        self._outdated["auto"] = False
 
-    def update_all_consequences(self, ctl, assumptions=None, clear=True):
-        if clear:
-            self.clear_all()
-
+    def update_all_consequences(self, ctl, assumptions=None):
         c_types=["brave","cautious","auto"]
         for c_type in c_types:
-            self.update_cosequence(c_type, ctl, assumptions)
+            try:
+                self.update_cosequence(c_type, ctl, assumptions)
+            except NoModelError:
+                #Error should be handled in the ui encoding
+                return
 
-    def update_uifb(self, extra_ui_prg=""):
+
+    def update_ui(self, extra_ui_prg=""):
+        self._logger.debug(f"Computing Ui with additional program:\n{extra_ui_prg}")
         uictl = self.ui_control(extra_ui_prg)
 
         with uictl.solve(yield_=True) as result:
@@ -143,10 +150,6 @@ class UIFB:
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
 
-    def update(self, ctl, assumptions=None, clear=True, extra_ui_prg=""):
-        self.update_all_consequences(ctl, assumptions, clear)
-        self.update_uifb(extra_ui_prg)
-
     def _compute_consequences(self,ctl, assumptions):
         with ctl.solve(assumptions=[(a,True) for a in assumptions],
                 yield_=True) as result:
@@ -154,21 +157,19 @@ class UIFB:
             for m in result:
                 model_symbols = m.symbols(shown=True,atoms=False)
             if model_symbols is None:
-                self._logger.error("Got an UNSAT result with the given encoding.")
-                self._logger.error("The operation can't be performed")
-                raise NoModelError(core=result.core())
+                self._logger.warn("Got an UNSAT result with the given source encoding.")
+                self._unsat_core = result.core()
+                raise NoModelError()
+            else:
+                self._unsat_core = None
         return list(model_symbols)
 
     def update_cosequence(self, c_type, ctl, assumptions=None):
-        if not self._outdated[c_type]:
-            self._logger.debug(f"Skiping {c_type} consequences")
-            return
         self._logger.debug(f"Updating {c_type} consequences")
         if c_type in ["brave","cautious"]:
             ctl.configuration.solve.opt_mode = 'ignore'
         ctl.configuration.solve.enum_mode = c_type
         self._conseq[c_type] = self._compute_consequences(ctl, assumptions)
-        self._outdated[c_type]=False
 
     def add_message(self,title,message,type="info"):
         """

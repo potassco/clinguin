@@ -35,9 +35,15 @@ class ClingoBackend(ClinguinBackend):
         self._atoms = set()
         self._ctl = None
 
-        self._restart()
+        self._end_browsing()
+        self._assumptions = set()
+        self._externals = {"true":set(),"false":set(),"released":set()}
+        self._atoms = set()
+        self._init_ctl()
+        self._ground()
 
-        self._uifb=UIFB(self._ui_files, include_menu_bar=args.include_menu_bar)
+        include_unsat_msg = not args.ignore_unsat_msg
+        self._uifb=UIFB(self._ui_files, include_menu_bar=args.include_menu_bar, include_unsat_msg=include_unsat_msg)
 
 
     # ---------------------------------------------
@@ -61,18 +67,13 @@ class ClingoBackend(ClinguinBackend):
         parser.add_argument('--include-menu-bar',
                     action='store_true',
                     help='Inlcude a menu bar with options: Next, Select and Clear')
+        parser.add_argument('--ignore-unsat-msg',
+                    action='store_true',
+                    help='The automatic pop-up message in the UI when the source files are UNSAT, will be ignored.')
 
     # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
-
-    def _restart(self):
-        self._end_browsing()
-        self._assumptions = set()
-        self._externals = {"true":set(),"false":set(),"released":set()}
-        self._atoms = set()
-        self._init_ctl()
-        self._ground()
 
     def _init_ctl(self):
         self._ctl = Control(['0'])
@@ -103,22 +104,30 @@ class ClingoBackend(ClinguinBackend):
         return self._iterator is not None
 
     @property
-    def _state_ui_prg(self):
+    def _backend_state_prg(self):
         """
-        Additional program to pass to the UI computation refering to the state of the backend
+        Additional program to pass to the UI computation. It represents to the state of the backend
         """
         state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. "
         if self._is_browsing:
             state_prg+="_clinguin_browsing."
+        if self._uifb.is_unsat:
+            state_prg+="_clinguin_unsat."
         for a in self._assumptions:
             state_prg+=(f"_clinguin_assume({str(a)}).")
         return state_prg
 
-    def _update_uifb(self, clear=True):
-        try:
-            self._uifb.update(self._ctl, self._assumptions, clear, self._state_ui_prg)
-        except NoModelError:
-            self._uifb.add_message("Error","This operation can't be performed. UNSAT output.",type="error")
+    def _update_uifb_consequences(self):
+        self._uifb.update_all_consequences(self._ctl, self._assumptions)
+        if self._uifb.is_unsat:
+            self._logger.error("Source files are UNSAT. Setting _clinguin_unsat to true")
+
+    def _update_uifb_ui(self):
+        self._uifb.update_ui(self._backend_state_prg)
+
+    def _update_uifb(self):
+        self._update_uifb_consequences()
+        self._update_uifb_ui()
 
 
     def _add_assumption(self, predicate_symbol):
@@ -134,8 +143,6 @@ class ClingoBackend(ClinguinBackend):
         """
         self._end_browsing()
         self._assumptions = set()
-        # self._init_ctl()
-        # self._ground()
 
         self._update_uifb()
         return self.get()
@@ -286,7 +293,7 @@ class ClingoBackend(ClinguinBackend):
                 self._logger.info("Skipping non-optimal model")
                 model = next(self._iterator)
             self._uifb.set_auto_conseq(model.symbols(shown=True,atoms=False))
-            self._update_uifb(clear=False)
+            self._update_uifb_ui()
         except StopIteration:
             self._logger.info("No more solutions")
             self._end_browsing()

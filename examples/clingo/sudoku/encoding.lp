@@ -15,3 +15,4 @@ subgrid(X,Y,(((X-1)/dim)*dim+((Y-1)/dim))) :- pos(X,Y).
 
 
 sudoku(X,Y,V) :- initial(X,Y,V).
+

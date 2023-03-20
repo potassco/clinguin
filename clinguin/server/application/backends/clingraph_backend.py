@@ -52,18 +52,16 @@ class ClingraphBackend(ClingoBackend):
     # Overwrite
     # ---------------------------------------------
 
-    def _update_uifb(self, clear=True):
-        try:
-            self._uifb.update(self._ctl,self._assumptions,clear,self._state_ui_prg)
-            graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
+    def _update_uifb_ui(self):
+        super()._update_uifb_ui()
+        if self._uifb.is_unsat:
+            return
+        graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
+        if not self._disable_saved_to_file:
+            self._save_clingraph_graphs_to_file(graphs)
 
-            if not self._disable_saved_to_file:
-                self._save_clingraph_graphs_to_file(graphs)
+        self._replace_uifb_with_b64_images(graphs)
 
-            self._replace_uifb_with_b64_images(graphs)
-
-        except NoModelError:
-            self._uifb.add_message("Error","This operation can't be performed")
 
     @classmethod
     def register_options(cls, parser):
@@ -170,7 +168,7 @@ class ClingraphBackend(ClingoBackend):
         for f in self._clingraph_files:
             ctl.load(f)
         ctl.add("base",[],prg)
-        ctl.add("base",[],self._state_ui_prg)
+        ctl.add("base",[],self._backend_state_prg)
         ctl.ground([("base",[])],ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))

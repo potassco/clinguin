@@ -20,7 +20,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
         self._canvas = None
         self._image = None
-        
+
 
     def _init_element(self, elements):
         canvas_frame = tk.Frame(elements[str(self._parent)].get_element())
@@ -49,19 +49,17 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
         elif image_base64 == "" and image_file != "":
             try:
-                
+
                 image_open = TImage.open(image_file)
 
                 height = self._attributes[AttributeNames.height]["value"]
                 width = self._attributes[AttributeNames.width]["value"]
                 resize_flag = self._attributes[AttributeNames.resize]["value"]
-                
-                should_resize = resize_flag and height > 0 and width > 0
-                
-                if should_resize:
-                    image_open = image_open.resize((width, height))
 
-                tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
+                should_resize = resize_flag and height > 0 and width > 0
+
+                if should_resize:
+                    tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
 
                 self._canvas.create_image(0,0,anchor=tk.NW, image=tkinter_image)
 
@@ -78,8 +76,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
                 image_bytes = io.BytesIO(image_decoded)
                 image_open = TImage.open(image_bytes)
-
-                image_open = image_open.resize((self._attributes[AttributeNames.width]["value"], self._attributes[AttributeNames.width]["value"]))
+                image_open = image_open.resize((self._attributes[AttributeNames.width]["value"], self._attributes[AttributeNames.height]["value"]))
                 tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
 
 
@@ -89,7 +86,7 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
                 self._image = tkinter_image
             except Exception:
                 self._logger.error("Could not render image (likely Base64 encoding is wrong).")
-            
+
 
     def _add_component_to_elements(self, elements):
         self._canvas.pack(expand=True, fill='both')

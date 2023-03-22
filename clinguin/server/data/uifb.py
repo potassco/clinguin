@@ -167,6 +167,10 @@ class UIFB:
     def update_cosequence(self, c_type, ctl, assumptions=None):
         self._logger.debug(f"Updating {c_type} consequences")
         if c_type in ["brave","cautious"]:
+            ctl.configuration.solve.models = 0
+            ctl.configuration.solve.opt_mode = 'ignore'
+        else:
+            ctl.configuration.solve.models = 1
             ctl.configuration.solve.opt_mode = 'ignore'
         ctl.configuration.solve.enum_mode = c_type
         self._conseq[c_type] = self._compute_consequences(ctl, assumptions)

@@ -5,6 +5,7 @@ This module contains the FloatType class.
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class FloatType(Type):
     """
     The flaot type shall be used, when the attribute-value is float like.
@@ -22,4 +23,4 @@ class FloatType(Type):
 
     @classmethod
     def description(cls):
-        return "Is a float type. A float must be specified as a string (e.g. \"5.98\")."
+        return 'Is a float type. A float must be specified as a string (e.g. "5.98").'

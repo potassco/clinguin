@@ -5,6 +5,7 @@ Module that contains the BooleanType class.
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class BooleanType(Type):
     """
     Class that resembles a boolean value in the attributes.
@@ -21,9 +22,7 @@ class BooleanType(Type):
         else:
             logger.error("Could not parse string to boolean: " + parsed_string)
             raise Exception("Could not parse string to boolean: " + parsed_string)
-            
-
 
     @classmethod
     def description(cls):
-        return "For the boolean type, either true or false are allowed - either as string or as a clingo-symbol. If one provides it as a string, it is case-insensitive."     
+        return "For the boolean type, either true or false are allowed - either as string or as a clingo-symbol. If one provides it as a string, it is case-insensitive."

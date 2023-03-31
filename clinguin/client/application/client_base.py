@@ -8,7 +8,8 @@ from clinguin.utils import CaseConverter, Logger
 from clinguin.client.api.api import Api
 from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
 
-class ClientBase:   
+
+class ClientBase:
     """
     ClientBase is the ''base'' of the client. It contains the logic which is responsible for connecting to the server, what to do in case of errors, forward the Json to the correct GUI, etc.
     """
@@ -30,10 +31,9 @@ class ClientBase:
         (status_code, response) = self.api.get("")
         if status_code == 200:
             self.draw(response)
-            self.frontend_generator.draw(response['children'][0]['id'])
+            self.frontend_generator.draw(response["children"][0]["id"])
         else:
-            self._logger.error(
-                "Connection error, status code: %s", str(status_code))
+            self._logger.error("Connection error, status code: %s", str(status_code))
 
             self.connected = False
             self.connect()
@@ -59,10 +59,10 @@ class ClientBase:
             response (dict): Json from which one can draw the GUI.
         """
 
-        children = response['children']
+        children = response["children"]
 
         for child in children:
-            snake_case_name = child['type']
+            snake_case_name = child["type"]
             camel_case_name = CaseConverter.snake_case_to_camel_case(snake_case_name)
 
             method = None
@@ -74,24 +74,21 @@ class ClientBase:
 
             if method and callable(method):
                 method(
-                    child['id'],
-                    child['parent'],
-                    child['attributes'],
-                    child['callbacks'])
+                    child["id"],
+                    child["parent"],
+                    child["attributes"],
+                    child["callbacks"],
+                )
                 self.base_engine(child)
             else:
-                self._logger.error(
-                    "Could not find element type: %s", child['type'])
+                self._logger.error("Could not find element type: %s", child["type"])
 
     def post_with_policy(self, click_policy):
         (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)
         else:
-            self._logger.error(
-                "Connection error, status code: %s", str(status_code))
+            self._logger.error("Connection error, status code: %s", str(status_code))
 
             self.connected = False
             self.connect()
-
-

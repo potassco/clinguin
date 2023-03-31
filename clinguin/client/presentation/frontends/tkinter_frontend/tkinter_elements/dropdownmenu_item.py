@@ -5,6 +5,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
+
 class DropdownmenuItem(RootCmp):
     """
     Is an item of a dropdown, e.g. for the dropdownmenu countries, germany would be a dropdownmenu-item.
@@ -16,38 +17,42 @@ class DropdownmenuItem(RootCmp):
             menu = parent.get_menu()
             return menu
         else:
-            error_string = "Parent of dropdown menu item " + self._id + " is not a dropdown menu."
+            error_string = (
+                "Parent of dropdown menu item " + self._id + " is not a dropdown menu."
+            )
             self._logger.error(error_string)
             raise Exception(error_string)
 
     @classmethod
-    def _get_attributes(cls, attributes = None):
+    def _get_attributes(cls, attributes=None):
         if attributes is None:
             attributes = {}
 
-        attributes[AttributeNames.label] = {"value":"", "value_type":StringType}
+        attributes[AttributeNames.label] = {"value": "", "value_type": StringType}
 
         return attributes
 
     @classmethod
-    def _get_callbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks=None):
         if callbacks is None:
-            callbacks =  {}
+            callbacks = {}
 
-        callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
+        callbacks[CallbackNames.click] = {"policy": None, "policy_type": SymbolType}
 
         return callbacks
 
-    def _define_click_event(self, elements, key = CallbackNames.click):
+    def _define_click_event(self, elements, key=CallbackNames.click):
         if self._callbacks[key]:
-            self._element['menu'].add_command(
+            self._element["menu"].add_command(
                 label=self._attributes[AttributeNames.label]["value"],
                 command=CallBackDefinition(
                     self._id,
                     self._parent,
-                    self._callbacks[key]['policy'],
+                    self._callbacks[key]["policy"],
                     elements,
-                    self._dropdownmenuitem_click))
+                    self._dropdownmenuitem_click,
+                ),
+            )
 
     def _dropdownmenuitem_click(self, id, parent_id, click_policy, elements):
         parent = elements[str(parent_id)]
@@ -57,20 +62,11 @@ class DropdownmenuItem(RootCmp):
             if click_policy is not None:
                 self._base_engine.post_with_policy(click_policy)
         else:
-            self._logger.warning("Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s", str(id), str(parent_id))
+            self._logger.warning(
+                "Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s",
+                str(id),
+                str(parent_id),
+            )
 
     def forget_children(self, elements):
         pass
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 from clinguin.server.application.backends.clingraph_backend import *
 from clingo import Symbol, Number
 
+
 class TspBackend(ClingraphBackend):
 
     # Computes the set difference between the brave and cautious model.
@@ -32,22 +33,18 @@ class TspBackend(ClingraphBackend):
                     if str(c2.name) == "weight":
                         v0_w = str(c2.arguments[0])
                         v1_w = str(c2.arguments[1])
-                        
+
                         if v0 == v0_w and v1 == v1_w:
                             cost = cost + int(str(c2.arguments[2]))
-                            
 
-                        
-                #for c2 in cautious_model:
-            #print(c)
+                # for c2 in cautious_model:
+            # print(c)
 
         symb = Function("_cautious_cost", [Number(cost)])
-    
 
         print(cost)
         print(symb)
-        return symb        
-        
+        return symb
 
     def _update_model(self):
         super()._update_model()
@@ -57,12 +54,14 @@ class TspBackend(ClingraphBackend):
             assumptions = self._assumptions
 
             model = ClinguinModel()
-            
+
             cautious_model = model.compute_cautious(ctl, assumptions)
             cautious_model.append(self.calculateCautiousCost(cautious_model))
 
             brave_model = model.compute_brave(ctl, assumptions)
-            brave_cautious_difference = self.doSetDifference(brave_model, cautious_model)
+            brave_cautious_difference = self.doSetDifference(
+                brave_model, cautious_model
+            )
             # c_prg = self.tag_cautious_prg(cautious_model)
             c_prg = model.symbols_to_prg(cautious_model)
             b_prg = model.tag_brave_prg(brave_model)
@@ -75,21 +74,23 @@ class TspBackend(ClingraphBackend):
             assumption_prg = model.tag(self._assumptions, "_assumption")
             assumption_prg = model.symbols_to_prg(assumption_prg)
 
-
-
-            #prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)
+            # prg = ClinguinModel.getCautiosBrave(self._ctl,self._assumptions)
             prg = c_prg + b_prg + bcd_prg + atom_prg + assumption_prg
 
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
+            self._model = ClinguinModel.from_ui_file_and_program(
+                self._ctl, self._ui_files, prg, self._assumptions
+            )
 
             graphs = self._compute_clingraph_graphs(prg)
 
             self._save_clingraph_graphs_to_file(graphs)
 
-            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
+            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(
+                graphs
+            )
 
         except NoModelError:
-            self._model.add_message("Error","This operation can't be performed")
+            self._model.add_message("Error", "This operation can't be performed")
 
     def saveBest(self, m):
         self._best = m.symbols(shown=True, atoms=False)
@@ -111,7 +112,7 @@ class TspBackend(ClingraphBackend):
 
                 # If b in best but not in cautious, then add:
                 if not found:
-                    self._assumptions.add(b) 
+                    self._assumptions.add(b)
 
     def findMinimum(self):
 
@@ -123,20 +124,17 @@ class TspBackend(ClingraphBackend):
 
         # Get Best Model
         self._init_ctl()
-        self._ctl.add("base",[],"#minimize{C:cost(C)}.")
+        self._ctl.add("base", [], "#minimize{C:cost(C)}.")
         self._ground()
-        self._ctl.solve(on_model=lambda m:self.saveBest(m))
+        self._ctl.solve(on_model=lambda m: self.saveBest(m))
         best = list(self._best)
-        
 
         self.addBestToAtoms(cautious, best)
         print("WORKED!")
 
         self._init_ctl()
         self._ground()
- 
+
         self._update_model()
 
         return self.get()
-
-

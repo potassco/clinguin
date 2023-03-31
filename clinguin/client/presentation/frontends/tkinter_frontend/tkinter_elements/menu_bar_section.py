@@ -5,6 +5,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
+
 class MenuBarSection(RootCmp):
     """
     The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
@@ -14,28 +15,27 @@ class MenuBarSection(RootCmp):
         menubar_element = elements[self._parent].get_element()
 
         menubar_section = tk.Menu(menubar_element)
-        
+
         return menubar_section
 
     @classmethod
-    def _get_attributes(cls, attributes = None):
+    def _get_attributes(cls, attributes=None):
         if attributes is None:
             attributes = {}
 
-        attributes[AttributeNames.label] = {"value":"default_label", "value_type" : StringType}
+        attributes[AttributeNames.label] = {
+            "value": "default_label",
+            "value_type": StringType,
+        }
 
         return attributes
-
 
     def _set_sub_menu(self, elements):
         text = self._attributes[AttributeNames.label]["value"]
 
         menubar_element = elements[self._parent].get_element()
         menubar_element.add_cascade(label=text, menu=self._element)
-        
+
     def _add_component_to_elements(self, elements):
-       
+
         elements[str(self._id)] = self
-
-
-

@@ -21,28 +21,29 @@ class ExplanationBackend(ClingoBackend):
     """
 
     def __init__(self, args):
-        self._muc=None
+        self._muc = None
         self._lit2symbol = {}
         self._mc_base_assumptions = set()
         self._last_prg = None
         super().__init__(args)
         for s in self._ctl.symbolic_atoms:
-            if s.symbol.match('initial',3):
+            if s.symbol.match("initial", 3):
                 self._mc_base_assumptions.add(s.symbol)
                 self._add_symbol_to_dict(s.symbol)
         self._assumptions = self._mc_base_assumptions.copy()
-    
+
     # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
 
-    def _add_symbol_to_dict(self,symbol):
+    def _add_symbol_to_dict(self, symbol):
         lit = self._ctl.symbolic_atoms[symbol].literal
-        self._lit2symbol[lit]=symbol
-
+        self._lit2symbol[lit] = symbol
 
     def _solve_core(self, assumptions):
-        with self._ctl.solve(assumptions=[(a,True) for a in assumptions], yield_=True) as solve_handle:
+        with self._ctl.solve(
+            assumptions=[(a, True) for a in assumptions], yield_=True
+        ) as solve_handle:
             satisfiable = solve_handle.get().satisfiable
             core = [self._lit2symbol[index] for index in solve_handle.core()]
         return satisfiable, core
@@ -57,7 +58,7 @@ class ExplanationBackend(ClingoBackend):
         probe_set = []
 
         for i, assumption in enumerate(assumption_set):
-            working_set = assumption_set[i+1:]
+            working_set = assumption_set[i + 1 :]
             sat, _ = self._solve_core(assumptions=working_set + probe_set)
             if sat:
                 probe_set.append(assumption)
@@ -67,15 +68,18 @@ class ExplanationBackend(ClingoBackend):
 
         return probe_set
 
-
     # ---------------------------------------------
     # Overwrite
     # ---------------------------------------------
 
     def _update_model(self):
         try:
-            self._last_prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,self._last_prg,self._assumptions)
+            self._last_prg = ClinguinModel.get_cautious_brave(
+                self._ctl, self._assumptions
+            )
+            self._model = ClinguinModel.from_ui_file_and_program(
+                self._ctl, self._ui_files, self._last_prg, self._assumptions
+            )
 
         except NoModelError as e:
             self._logger.info("UNSAT Answer, will add explanation")
@@ -85,9 +89,9 @@ class ExplanationBackend(ClingoBackend):
             prg = self._last_prg
             for s in muc_core:
                 prg = prg + f"_muc({str(s)})."
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
-
-    
+            self._model = ClinguinModel.from_ui_file_and_program(
+                self._ctl, self._ui_files, prg, self._assumptions
+            )
 
     # ---------------------------------------------
     # Plolicy methods (Overwrite ClingoBackend)

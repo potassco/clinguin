@@ -7,6 +7,7 @@ from enum import auto
 from .utils.standard_text_processing import StandardTextProcessing
 from .type import Type
 
+
 class FontFamiliesType(Type):
     """
     The FontFamlies is a type, which can be used to specify the font family of a text.
@@ -17,7 +18,6 @@ class FontFamiliesType(Type):
         parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
 
         return parsed_string
-
 
     @classmethod
     def description(cls):

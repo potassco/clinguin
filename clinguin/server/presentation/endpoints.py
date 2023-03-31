@@ -9,6 +9,7 @@ from fastapi import APIRouter
 import clingo
 
 from clinguin.utils import Logger
+
 # Self Defined
 from .endpoints_helper import EndpointsHelper
 from .backend_policy_dto import BackendPolicyDto
@@ -23,9 +24,10 @@ class Endpoints:
         standard_executor -> Json : Returns the default GUI representation as Json that the Backend provides.
         policy_executor -> Json : Executes a policy defined by the Json passed with the Post request.
     """
+
     def __init__(self, args) -> None:
-        Logger.setup_logger(args.log_args, process = "server")
-        self._logger = logging.getLogger(args.log_args['name'])
+        Logger.setup_logger(args.log_args, process="server")
+        self._logger = logging.getLogger(args.log_args["name"])
 
         self.router = APIRouter()
 
@@ -38,11 +40,11 @@ class Endpoints:
 
     async def health(self):
         self._logger.info("--> Health")
-        cuin = metadata('clinguin')
+        cuin = metadata("clinguin")
         return {
             "name": cuin["name"],
             "version": cuin["version"],
-            "description": cuin["summary"]
+            "description": cuin["summary"],
         }
 
     async def standard_executor(self):
@@ -53,16 +55,18 @@ class Endpoints:
         self._logger.debug("Got endpoint")
         symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name
-        function_arguments = (
-            list(map(str, symbol.arguments)))
+        function_arguments = list(map(str, symbol.arguments))
 
         call_args = ",".join(function_arguments)
-        self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
+        self._logger.info(
+            "--> %s:   %s(%s))",
+            self._backend.__class__.__name__,
+            function_name,
+            call_args,
+        )
 
         result = EndpointsHelper.call_function(
-            self._backend,
-            function_name,
-            function_arguments,
-            {})
-        
+            self._backend, function_name, function_arguments, {}
+        )
+
         return result

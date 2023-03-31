@@ -6,6 +6,7 @@ from enum import auto
 from .utils.standard_text_processing import StandardTextProcessing
 from .enum import EnumType
 
+
 class PopupTypesType(EnumType):
     """
     The PopupType is an Enum Type, which can be used to specify look and feel of the message box.
@@ -33,4 +34,3 @@ class PopupTypesType(EnumType):
     @classmethod
     def description(cls):
         return "For the popup-types three different options exists: ''info'' (Default information message), ''warning'' and ''error''"
-

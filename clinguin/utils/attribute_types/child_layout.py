@@ -31,8 +31,9 @@ class ChildLayoutType(EnumType):
             return cls.RELSTATIC
         else:
             logger.error("Could not parse " + parsed_string + " to child_layout type.")
-            raise Exception("Could not parse " + parsed_string + " to child_layout type.")
-        
+            raise Exception(
+                "Could not parse " + parsed_string + " to child_layout type."
+            )
 
     @classmethod
     def description(cls):

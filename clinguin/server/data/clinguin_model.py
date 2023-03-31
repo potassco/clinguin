@@ -5,7 +5,7 @@ import logging
 import clorm
 
 from clorm import Raw
-from clingo import Control,parse_term
+from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
 
 from clinguin.utils import NoModelError, Logger
@@ -13,6 +13,7 @@ from clinguin.utils import NoModelError, Logger
 from .element import ElementDao
 from .attribute import AttributeDao
 from .callback import CallbackDao
+
 
 class ClinguinModel:
     """
@@ -37,11 +38,11 @@ class ClinguinModel:
         """
         Creates a ClinguinModel from paths of ui files and assumptions.
         """
-        prg = cls.get_cautious_brave(ctl,assumptions)
-        return cls.from_ui_file_and_program(ctl,ui_files,prg,assumptions)
+        prg = cls.get_cautious_brave(ctl, assumptions)
+        return cls.from_ui_file_and_program(ctl, ui_files, prg, assumptions)
 
     @classmethod
-    def from_ui_file_and_program(cls, ctl, ui_files, prg,assumptions=None):
+    def from_ui_file_and_program(cls, ctl, ui_files, prg, assumptions=None):
         """
         Creates a ClinguinModel from a Clingo control object, paths of the ui-files and a logic program provided as a string (prg is a string which contains a logic program)
         """
@@ -59,51 +60,52 @@ class ClinguinModel:
         return model
 
     @classmethod
-    def wid_control(cls, ui_files, extra_prg="", assumptions =None):
+    def wid_control(cls, ui_files, extra_prg="", assumptions=None):
         """
         Generates a ClingoControl Object from paths of ui files and extra parts of a logic program given by a string.
         """
-        wctl = Control(['0','--warn=none'])
+        wctl = Control(["0", "--warn=none"])
         for f in ui_files:
             try:
                 wctl.load(str(f))
             except Exception as e:
                 logger = logging.getLogger(Logger.server_logger_name)
-                logger.critical("File %s  could not be loaded - likely not existant or syntax error in file!", str(f))
+                logger.critical(
+                    "File %s  could not be loaded - likely not existant or syntax error in file!",
+                    str(f),
+                )
                 raise e
 
         if assumptions:
             for a in assumptions:
-                wctl.add("base",[],f"_assume({str(a)}).")
-        wctl.add("base",[],extra_prg)
-        wctl.add("base",[],"#show element/3. #show attribute/3. #show callback/3.")
-        wctl.ground([("base",[])])
+                wctl.add("base", [], f"_assume({str(a)}).")
+        wctl.add("base", [], extra_prg)
+        wctl.add("base", [], "#show element/3. #show attribute/3. #show callback/3.")
+        wctl.ground([("base", [])])
 
         return wctl
 
-
     @classmethod
-    def from_BC_extended_file(cls, ctl,assumptions):
+    def from_BC_extended_file(cls, ctl, assumptions):
         """
         Creates a ClinguinModel instance from a ClingoControl object and the provided assumptions.
         """
 
         logger = logging.getLogger(Logger.server_logger_name)
 
-        ctl.assign_external(parse_term('show_all'),False)
-        ctl.assign_external(parse_term('show_cautious'),False)
-        ctl.assign_external(parse_term('show_untagged'),False)
-        ctl.assign_external(parse_term('show_brave'),True)
-        brave_model = cls.from_brave_model(ctl,assumptions, logger)
+        ctl.assign_external(parse_term("show_all"), False)
+        ctl.assign_external(parse_term("show_cautious"), False)
+        ctl.assign_external(parse_term("show_untagged"), False)
+        ctl.assign_external(parse_term("show_brave"), True)
+        brave_model = cls.from_brave_model(ctl, assumptions, logger)
         # Here we could see if the user wants none tagged as cautious by default
-        ctl.assign_external(parse_term('show_brave'),False)
-        ctl.assign_external(parse_term('show_untagged'),True)
-        cautious_model = cls.from_cautious_model(ctl,assumptions, logger)
-        ctl.assign_external(parse_term('show_untagged'),False)
-        ctl.assign_external(parse_term('show_all'),True)
+        ctl.assign_external(parse_term("show_brave"), False)
+        ctl.assign_external(parse_term("show_untagged"), True)
+        cautious_model = cls.from_cautious_model(ctl, assumptions, logger)
+        ctl.assign_external(parse_term("show_untagged"), False)
+        ctl.assign_external(parse_term("show_all"), True)
 
-        return cls.combine(brave_model,cautious_model, logger)
-
+        return cls.combine(brave_model, cautious_model, logger)
 
     @classmethod
     def combine(cls, cgmodel1, cgmodel2):
@@ -120,7 +122,7 @@ class ClinguinModel:
         model = cls()
         symbols = list(m.symbols(shown=True))
         prg = model.symbols_to_prg(symbols)
-        wctl = ClinguinModel.wid_control(ui_files,prg)
+        wctl = ClinguinModel.wid_control(ui_files, prg)
 
         model_symbols = None
         with wctl.solve(yield_=True) as result:
@@ -154,7 +156,7 @@ class ClinguinModel:
         # c_prg = self.tag_cautious_prg(cautious_model)
         c_prg = model.symbols_to_prg(cautious_model)
         b_prg = model.tag_brave_prg(brave_model)
-        return c_prg+b_prg
+        return c_prg + b_prg
 
     @classmethod
     def from_ctl(cls, ctl):
@@ -167,52 +169,50 @@ class ClinguinModel:
         model._set_fb_symbols(model_symbols)
         return model
 
-
-    def add_message(self,title,message):
+    def add_message(self, title, message):
         """
         Adds a ''Message'' (aka. Notification/Pop-Up) for the user with a certain title and message.
         """
-        self.add_element("message","message","window")
-        self.add_attribute("message","title",title)
-        self.add_attribute("message","message",message)
+        self.add_element("message", "message", "window")
+        self.add_attribute("message", "title", title)
+        self.add_attribute("message", "message", message)
 
     def tag(self, model, tag):
         tagged = []
         for s in model:
-            tagged.append(Function(tag,[s]))
+            tagged.append(Function(tag, [s]))
         return tagged
 
-    def symbols_to_prg(self,symbols):
-        return "\n".join([str(s)+"." for s in symbols])
+    def symbols_to_prg(self, symbols):
+        return "\n".join([str(s) + "." for s in symbols])
 
     def tag_brave_prg(self, model):
-        tagged = self.tag(model,'_b')
+        tagged = self.tag(model, "_b")
         return self.symbols_to_prg(tagged)
 
     def tag_cautious_prg(self, model):
-        tagged = self.tag(model,'_c')
+        tagged = self.tag(model, "_c")
         return self.symbols_to_prg(tagged)
 
-
     def add_element(self, id, t, parent):
-        if type(id)==str:
-            id = Function(id,[])
-        if type(t)==str:
-            t = Function(t,[])
-        if type(parent)==str:
-            parent = Function(parent,[])
-        self._factbase.add(ElementDao(Raw(id),Raw(t),Raw(parent)))
+        if type(id) == str:
+            id = Function(id, [])
+        if type(t) == str:
+            t = Function(t, [])
+        if type(parent) == str:
+            parent = Function(parent, [])
+        self._factbase.add(ElementDao(Raw(id), Raw(t), Raw(parent)))
 
     def add_attribute(self, id, key, value):
-        if type(id)==str:
-            id = Function(id,[])
-        if type(key)==str:
-            key = Function(key,[])
-        if type(value)==str:
+        if type(id) == str:
+            id = Function(id, [])
+        if type(key) == str:
+            key = Function(key, [])
+        if type(value) == str:
             value = String(value)
-        if type(value)==int:
+        if type(value) == int:
             value = Number(value)
-        self._factbase.add(AttributeDao(Raw(id),Raw(key),Raw(value)))
+        self._factbase.add(AttributeDao(Raw(id), Raw(key), Raw(value)))
 
     def filter_elements(self, condition):
         elements = self.get_elements()
@@ -222,7 +222,9 @@ class ClinguinModel:
         callbacks = self.get_callbacks()
         kept_attributes = [e for e in attributes if e.id in kept_ids]
         kept_callbacks = [e for e in callbacks if e.id in kept_ids]
-        self._factbase=clorm.FactBase(kept_elements+kept_callbacks+kept_attributes)
+        self._factbase = clorm.FactBase(
+            kept_elements + kept_callbacks + kept_attributes
+        )
 
     def get_elements(self):
         return self._factbase.query(ElementDao).all()
@@ -240,22 +242,27 @@ class ClinguinModel:
         return self._factbase.query(CallbackDao).all()
 
     def get_attributesForElementId(self, element_id):
-        return self._factbase.query(AttributeDao).where(
-            AttributeDao.id == element_id).all()
+        return (
+            self._factbase.query(AttributeDao)
+            .where(AttributeDao.id == element_id)
+            .all()
+        )
 
     def get_callbacksForElementId(self, element_id):
-        return self._factbase.query(CallbackDao).where(
-            CallbackDao.id == element_id).all()
+        return (
+            self._factbase.query(CallbackDao).where(CallbackDao.id == element_id).all()
+        )
 
     def _set_fb_symbols(self, symbols):
         self._factbase = clorm.unify(self.unifiers, symbols)
 
-    def _compute(self,ctl, assumptions):
-        with ctl.solve(assumptions=[(a,True) for a in assumptions],
-                yield_=True) as result:
+    def _compute(self, ctl, assumptions):
+        with ctl.solve(
+            assumptions=[(a, True) for a in assumptions], yield_=True
+        ) as result:
             model_symbols = None
             for m in result:
-                model_symbols = m.symbols(shown=True,atoms=False)
+                model_symbols = m.symbols(shown=True, atoms=False)
             if model_symbols is None:
                 self._logger.error("Got an UNSAT result with the given encoding.")
                 self._logger.error("The operation can't be performed")
@@ -263,29 +270,27 @@ class ClinguinModel:
         return list(model_symbols)
 
     def compute_brave(self, ctl, assumptions):
-        ctl.configuration.solve.opt_mode = 'ignore'
-        ctl.configuration.solve.enum_mode = 'brave'
+        ctl.configuration.solve.opt_mode = "ignore"
+        ctl.configuration.solve.enum_mode = "brave"
         l = self._compute(ctl, assumptions)
         self._logger.debug("BRAVE CONSEQUENCES:")
         self._logger.debug([str(s) for s in l])
         return l
 
     def compute_cautious(self, ctl, assumptions):
-        ctl.configuration.solve.opt_mode = 'ignore'
-        ctl.configuration.solve.enum_mode = 'cautious'
+        ctl.configuration.solve.opt_mode = "ignore"
+        ctl.configuration.solve.enum_mode = "cautious"
         l = self._compute(ctl, assumptions)
         self._logger.debug("CAUTIOUS CONSEQUENCES:")
         self._logger.debug([str(s) for s in l])
         return l
 
     def compute_auto(self, ctl, assumptions):
-        ctl.configuration.solve.enum_mode = 'auto'
+        ctl.configuration.solve.enum_mode = "auto"
         l = self._compute(ctl, assumptions)
         self._logger.debug("STABLE MODEL")
         self._logger.debug([str(s) for s in l])
         return l
 
-
     def get_factbase(self):
         return self._factbase
-

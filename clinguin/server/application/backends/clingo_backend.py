@@ -283,6 +283,7 @@ class ClingoBackend(ClinguinBackend):
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
             self._ctl.configuration.solve.opt_mode = opt_mode
+            self._ctl.configuration.solve.models = 0
             self._handler = self._ctl.solve(
                 assumptions=[(a,True) for a in self._assumptions],
                 yield_=True)

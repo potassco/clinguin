@@ -30,12 +30,13 @@ element(l(N), label, node(N)):-node(N).
 attribute(l(N), grid_column, 0):-node(N).
 attribute(l(N), label, N):-node(N).
 
-% Node dropdown 
+% Node dropdown
 element(dmc(N), dropdown_menu, node(N)):-node(N).
 attribute(dmc(N), grid_column, 1):-node(N).
 attribute(dmc(N), width, 100):-node(N).
 attribute(dmc(N), height, 30):-node(N).
-attribute(dmc(N), selected, C):-assign(N,C).
+attribute(dmc(N), selected, C):-assign(N,C), _clinguin_browsing.
+attribute(dmc(N), selected, C):-_c(assign(N,C)).
 callback(dmc(N), clear, remove_assumption_signature(assign(N,any))) :- node(N).
 
 % Node dropdown item

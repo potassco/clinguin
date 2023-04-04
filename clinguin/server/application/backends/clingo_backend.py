@@ -8,7 +8,7 @@ from clingo.script import enable_python
 # Self defined
 from clinguin.utils.errors import NoModelError
 from clinguin.server import StandardJsonEncoder
-from clinguin.server import ClinguinModel
+from clinguin.server import UIFB
 from clinguin.server import ClinguinBackend
 from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
 
@@ -25,21 +25,25 @@ class ClingoBackend(ClinguinBackend):
 
         self._source_files = args.source_files
         self._ui_files = args.ui_files
-        
+
         # For browising
         self._handler=None
         self._iterator=None
 
         # To make static linters happy
-        self._assumptions = None
-        self._atoms = None
+        self._assumptions = set()
+        self._atoms = set()
         self._ctl = None
-        
-        self._restart()
-        
-        # I think we should remove this and only have one ClinguinModel
-        self._modelClass = ClinguinModel
-        self._model=None
+
+        self._end_browsing()
+        self._assumptions = set()
+        self._externals = {"true":set(),"false":set(),"released":set()}
+        self._atoms = set()
+        self._init_ctl()
+        self._ground()
+
+        include_unsat_msg = not args.ignore_unsat_msg
+        self._uifb=UIFB(self._ui_files, include_menu_bar=args.include_menu_bar, include_unsat_msg=include_unsat_msg)
 
 
     # ---------------------------------------------
@@ -50,27 +54,26 @@ class ClingoBackend(ClinguinBackend):
         """
         Overwritten default method to get the gui as a Json structure.
         """
-        if not self._model:
-            self._update_model()
-        json_structure =  StandardJsonEncoder.encode(self._model)
+        if self._uifb.is_empty:
+            self._update_uifb()
+        self._logger.debug(self._uifb)
+        json_structure =  StandardJsonEncoder.encode(self._uifb)
         return json_structure
 
     @classmethod
     def register_options(cls, parser):
         parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
-    
+        parser.add_argument('--include-menu-bar',
+                    action='store_true',
+                    help='Inlcude a menu bar with options: Next, Select and Clear')
+        parser.add_argument('--ignore-unsat-msg',
+                    action='store_true',
+                    help='The automatic pop-up message in the UI when the source files are UNSAT, will be ignored.')
+
     # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
-
-    def _restart(self):
-        self._end_browsing()
-        self._assumptions = set()
-        self._externals = {"true":set(),"false":set(),"released":set()}
-        self._atoms = set()
-        self._init_ctl()
-        self._ground()
 
     def _init_ctl(self):
         self._ctl = Control(['0'])
@@ -81,28 +84,54 @@ class ClingoBackend(ClinguinBackend):
                 self._logger.critical(str(e))
                 self._logger.critical("Failed to load modules (there is likely a syntax error in your logic program), now exiting - see previous stack trace for more information.")
                 sys.exit()
-        
+
         for atom in self._atoms:
             self._ctl.add("base",[],str(atom) + ".")
-    
+
+
     def _ground(self):
         self._ctl.ground([("base", [])])
 
-    
+
     def _end_browsing(self):
         if self._handler:
             self._handler.cancel()
             self._handler = None
         self._iterator = None
 
-    def _update_model(self):
-        try:
-            self._model = ClinguinModel.from_ui_file(
-                self._ctl,
-                self._ui_files, 
-                self._assumptions)
-        except NoModelError:
-            self._model.add_message("Error","This operation can't be performed")
+    @property
+    def _is_browsing(self):
+        return self._iterator is not None
+
+    @property
+    def _backend_state_prg(self):
+        """
+        Additional program to pass to the UI computation. It represents to the state of the backend
+        """
+        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. "
+        if self._is_browsing:
+            state_prg+="_clinguin_browsing."
+        if self._uifb.is_unsat:
+            state_prg+="_clinguin_unsat."
+        for a in self._assumptions:
+            state_prg+=(f"_clinguin_assume({str(a)}).")
+        return state_prg
+
+    def _update_uifb_consequences(self):
+        self._uifb.update_all_consequences(self._ctl, self._assumptions)
+        if self._uifb.is_unsat:
+            self._logger.error("Source files are UNSAT. Setting _clinguin_unsat to true")
+
+    def _update_uifb_ui(self):
+        self._uifb.update_ui(self._backend_state_prg)
+
+    def _update_uifb(self):
+        self._update_uifb_consequences()
+        self._update_uifb_ui()
+
+
+    def _add_assumption(self, predicate_symbol):
+        self._assumptions.add(predicate_symbol)
 
     # ---------------------------------------------
     # Policies
@@ -114,10 +143,8 @@ class ClingoBackend(ClinguinBackend):
         """
         self._end_browsing()
         self._assumptions = set()
-        self._init_ctl()
-        self._ground()
 
-        self._update_model()
+        self._update_uifb()
         return self.get()
 
     def add_assumption(self, predicate):
@@ -126,23 +153,22 @@ class ClingoBackend(ClinguinBackend):
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
-            self._assumptions.add(predicate_symbol)
+            self._add_assumption(predicate_symbol)
             self._end_browsing()
-            self._update_model()
+            self._update_uifb()
         return self.get()
 
     def remove_assumption(self, predicate):
         """
         Policy: Removes an assumption and returns the udpated Json structure.
         """
-        # Iconf
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
             self._assumptions.remove(predicate_symbol)
             self._end_browsing()
-            self._update_model()
+            self._update_uifb()
         return self.get()
-   
+
     def remove_assumption_signature(self, predicate):
         """
         Policy: removes predicates with the predicate name of predicate and the given arity
@@ -162,7 +188,7 @@ class ClingoBackend(ClinguinBackend):
             self._assumptions.remove(s)
         if len(to_remove)>0:
             self._end_browsing()
-            self._update_model()
+            self._update_uifb()
         return self.get()
 
 
@@ -175,7 +201,7 @@ class ClingoBackend(ClinguinBackend):
         self._init_ctl()
         self._ground()
 
-        self._update_model()
+        self._update_uifb()
         return self.get()
 
     def add_atom(self, predicate):
@@ -189,7 +215,7 @@ class ClingoBackend(ClinguinBackend):
             self._init_ctl()
             self._ground()
             self._end_browsing()
-            self._update_model()
+            self._update_uifb()
         return self.get()
 
     def remove_atom(self,predicate):
@@ -202,7 +228,7 @@ class ClingoBackend(ClinguinBackend):
             self._init_ctl()
             self._ground()
             self._end_browsing()
-            self._update_model()
+            self._update_uifb()
         return self.get()
 
     def set_external(self, predicate, value):
@@ -211,6 +237,7 @@ class ClingoBackend(ClinguinBackend):
         """
         symbol = parse_term(predicate)
         name = value
+        self._end_browsing()
 
         if name == "release":
             self._ctl.release_external(parse_term(predicate))
@@ -218,7 +245,7 @@ class ClingoBackend(ClinguinBackend):
 
             if symbol in self._externals["true"]:
                 self._externals["true"].remove(symbol)
-    
+
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
@@ -230,7 +257,7 @@ class ClingoBackend(ClinguinBackend):
                 self._externals["false"].remove(symbol)
 
         elif name == "false":
-            self._ctl.assign_external(parse_term(predicate),True)
+            self._ctl.assign_external(parse_term(predicate),False)
             self._externals["false"].add(symbol)
 
             if symbol in self._externals["true"]:
@@ -239,13 +266,13 @@ class ClingoBackend(ClinguinBackend):
         else:
             raise ValueError(f"Invalid external value {name}. Must be true, false or relase")
 
-        self._update_model()
+        self._update_uifb()
         return self.get()
 
 
     def next_solution(self, opt_mode='ignore'):
         """
-        Policy: Obtains the next solution 
+        Policy: Obtains the next solution
         Arguments:
             opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """
@@ -256,6 +283,7 @@ class ClingoBackend(ClinguinBackend):
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = 'auto'
             self._ctl.configuration.solve.opt_mode = opt_mode
+            self._ctl.configuration.solve.models = 0
             self._handler = self._ctl.solve(
                 assumptions=[(a,True) for a in self._assumptions],
                 yield_=True)
@@ -265,11 +293,27 @@ class ClingoBackend(ClinguinBackend):
             while optimizing and not model.optimality_proven:
                 self._logger.info("Skipping non-optimal model")
                 model = next(self._iterator)
-            self._model = self._modelClass.from_clingo_model(model, self._ui_files)
+            self._uifb.set_auto_conseq(model.symbols(shown=True,atoms=False))
+            self._update_uifb_ui()
         except StopIteration:
             self._logger.info("No more solutions")
             self._end_browsing()
-            self._update_model()
-            self._model.add_message("Browsing Information","No more solutions")
+            self._update_uifb()
+            self._uifb.add_message("Browsing Information","No more solutions")
 
         return self.get()
+
+    def select(self):
+        """
+        Policy: Select the current solution during browsing
+        """
+        self._end_browsing()
+        last_model_symbols = self._uifb._conseq["auto"]
+        symbols_to_ignore = self._externals["true"]
+        symbols_to_ignore.union(self._externals["false"])
+        for s in last_model_symbols:
+            if s not in symbols_to_ignore:
+                self._add_assumption(s)
+        self._update_uifb()
+        return self.get()
+

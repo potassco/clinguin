@@ -6,7 +6,7 @@ import traceback
 from ...utils import CaseConverter, Logger, SERVER_ERROR_ALERT
 
 # def sever_error_json(e):
-#     model = ClinguinModel()
+#     model = UIFB()
 #     model.add_message("Error","Server error")
 #     json_structure =  StandardJsonEncoder.encode(model)
 #     return json_structure
@@ -43,7 +43,7 @@ class EndpointsHelper:
                 logger.error(e)
                 logger.error(traceback.format_exc())
                 return SERVER_ERROR_ALERT
-                
+
                 # return sever_error_json(e)
         else:
             error_string = "Could not find function: " + name + " :in backend"

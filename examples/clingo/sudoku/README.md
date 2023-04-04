@@ -1,4 +1,7 @@
-Start with: 
+# Sudoku
+
+The values that are inferred by the solver have a `*` appended.
+Those that are part of a browsing solution are extended with `+`.
 
 
 ```shell

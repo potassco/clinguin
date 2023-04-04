@@ -7,7 +7,7 @@ from clingo import parse_term
 from clingo.script import enable_python
 
 # Self defined
-from clinguin.server import ClinguinModel
+from clinguin.server import UIFB
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
 from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
 
@@ -23,7 +23,7 @@ class TemporalBackend(ClingoBackend):
         self._last_grounded_step = 0
         self._full_plan=None
         super().__init__(args)
-        
+
 
     def _init_ctl(self):
         self._step= 1
@@ -47,7 +47,7 @@ class TemporalBackend(ClingoBackend):
             self._ctl.assign_external(Function('check',[Number(self._step-1)]),False)
         self._ctl.assign_external(Function('check',[Number(self._step)]),True)
         plan = self._find_plan()
-        
+
         while plan is None or self._step>100:
             self._step +=1
             self._ground()
@@ -75,7 +75,7 @@ class TemporalBackend(ClingoBackend):
         except StopIteration:
             hdn.cancel()
             self._full_plan=None
-        
+
         return self._full_plan
 
 
@@ -84,8 +84,8 @@ class TemporalBackend(ClingoBackend):
             self._find_incrementally()
 
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
-        wctl = ClinguinModel.wid_control(self._ui_files,symbols)
-        self._model = ClinguinModel.from_ctl(wctl)
+        wctl = UIFB.wid_control(self._ui_files,symbols)
+        self._model = UIFB.from_ctl(wctl)
         return self.get()
 
     def assume_and_step(self, predicate):

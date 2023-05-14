@@ -57,6 +57,8 @@ attribute(window, child_layout, grid).
             % MODULE
             show_m(in(C,x(I))):-_c(in(C,x(I))).
             show_m(in(C,x(I))):-_clinguin_browsing, in(C,x(I)).
+            show_m(in("",x(I))):- semester(I), not _clinguin_browsing, not _c(in(_,x(I))).
+			show_m(in("",x(I))):- semester(I), _clinguin_browsing, not in(_,x(I)).
             element(m(C,I), container, sm(I)):-show_m(in(C,x(I))).
             attribute(m(C,I), border_width, 1):-show_m(in(C,x(I))).
             attribute(m(C,I), child_layout, grid):-show_m(in(C,x(I))).

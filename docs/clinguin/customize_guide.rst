@@ -48,7 +48,7 @@ For this we now assume that you copied the whole `/examples` folder into your cu
 
 .. code-block:: bash
 
-    $ clinguin client-server --custom-classes "./backends" --backend YourClingraphBackend --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
+    $ clinguin client-server --custom-classes "./backends" --backend YourClingraphBackend --domain-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
 
 Now Sudoku should open and it should work as expected. If not and you tripple checked that you did everything as specified above, create a GitHub issue with the *EXACT* things you did, your system, etc.
 
@@ -116,7 +116,7 @@ As after every step you can now validate, if you did it right: Go into the direc
 
 Again the help should show and now there should be a section at the bottom `YourClingraphBackend` where there are three arguments listed:
 
-1. `--source-files` - From ClingoBackend
+1. `--domain-files` - From ClingoBackend
 2. `--ui-files` - From ClingoBackend
 3. `--clingraph-files` - You just added this one, congrats
 
@@ -134,7 +134,7 @@ Step 1. is different for each policy, but steps 2. and 3. are basically the same
 
 So step 2. updates the UIFB and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_update_uifb` method (see below). Step 3. takes than this updatd factbase and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
 
-For now step 2. is important, more specifically the `_update_uifb_ui` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_uifb_ui` method one computes the ui facts with the the `ui-files` provided, it makes sense to **overwrite/extend this method to provide further functionality**. Note that the consequences of the source files used as inputwere previously calculated in the call to `_update_uifb_consequences`. What we do differently is we extract the consequences from the uifb object and use them to compute the graph with clingraph and then update the UI factbase with the base64 of the images as shown bellow.
+For now step 2. is important, more specifically the `_update_uifb_ui` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_uifb_ui` method one computes the ui facts with the the `ui-files` provided, it makes sense to **overwrite/extend this method to provide further functionality**. Note that the consequences of the domain files used as inputwere previously calculated in the call to `_update_uifb_consequences`. What we do differently is we extract the consequences from the uifb object and use them to compute the graph with clingraph and then update the UI factbase with the base64 of the images as shown bellow.
 
 .. code-block:: python
 

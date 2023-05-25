@@ -157,7 +157,7 @@ class UIFB:
             for m in result:
                 model_symbols = m.symbols(shown=True,atoms=False)
             if model_symbols is None:
-                self._logger.warn("Got an UNSAT result with the given source encoding.")
+                self._logger.warn("Got an UNSAT result with the given domain encoding.")
                 self._unsat_core = result.core()
                 raise NoModelError()
             else:

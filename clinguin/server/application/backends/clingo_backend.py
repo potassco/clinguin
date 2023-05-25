@@ -23,7 +23,7 @@ class ClingoBackend(ClinguinBackend):
     def __init__(self, args):
         super().__init__(args)
 
-        self._source_files = args.source_files
+        self._domain_files = args.domain_files
         self._ui_files = args.ui_files
 
         # For browising
@@ -62,14 +62,14 @@ class ClingoBackend(ClinguinBackend):
 
     @classmethod
     def register_options(cls, parser):
-        parser.add_argument('--source-files', nargs='+', help='Files',metavar='')
+        parser.add_argument('--domain-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
         parser.add_argument('--include-menu-bar',
                     action='store_true',
                     help='Inlcude a menu bar with options: Next, Select and Clear')
         parser.add_argument('--ignore-unsat-msg',
                     action='store_true',
-                    help='The automatic pop-up message in the UI when the source files are UNSAT, will be ignored.')
+                    help='The automatic pop-up message in the UI when the domain files are UNSAT, will be ignored.')
 
     # ---------------------------------------------
     # Private methods
@@ -77,7 +77,7 @@ class ClingoBackend(ClinguinBackend):
 
     def _init_ctl(self):
         self._ctl = Control(['0'])
-        for f in self._source_files:
+        for f in self._domain_files:
             try:
                 self._ctl.load(str(f))
             except Exception as e:
@@ -120,7 +120,7 @@ class ClingoBackend(ClinguinBackend):
     def _update_uifb_consequences(self):
         self._uifb.update_all_consequences(self._ctl, self._assumptions)
         if self._uifb.is_unsat:
-            self._logger.error("Source files are UNSAT. Setting _clinguin_unsat to true")
+            self._logger.error("domain files are UNSAT. Setting _clinguin_unsat to true")
 
     def _update_uifb_ui(self):
         self._uifb.update_ui(self._backend_state_prg)

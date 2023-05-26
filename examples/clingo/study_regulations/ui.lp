@@ -17,58 +17,58 @@ element(window, window, root).
 attribute(window, child_layout, grid).
 
     % SEMESTER
-    element(s(I), container, window):-semester(I).
-    attribute(s(I), child_layout, grid):-semester(I).
-    attribute(s(I), border_width, 1):-semester(I).
-    attribute(s(I), height, window_height):-semester(I).
-    attribute(s(I), width, semester_width):-semester(I).
-    attribute(s(I), grid_column, I):-semester(I).
+    element(s(I), container, window):-I=1..n.
+    attribute(s(I), child_layout, grid):-I=1..n.
+    attribute(s(I), border_width, 1):-I=1..n.
+    attribute(s(I), height, window_height):-I=1..n.
+    attribute(s(I), width, semester_width):-I=1..n.
+    attribute(s(I), grid_column, I):-I=1..n.
 
         % HEADER
-        element(header(I), container, s(I)):-semester(I).
-        attribute(header(I), child_layout, grid):-semester(I).
-        propagate_attribute(header(I), background_color, header_color):-semester(I).
+        element(header(I), container, s(I)):-I=1..n.
+        attribute(header(I), child_layout, grid):-I=1..n.
+        propagate_attribute(header(I), background_color, header_color):-I=1..n.
 
             % HEADER LABEL
-            element(slabel(I), label, header(I)):-semester(I).
-            attribute(slabel(I), label, @concat("Semester ",I)):-semester(I).
-            attribute(slabel(I), font_size,15):-semester(I).
-            attribute(slabel(I), height, 30):-semester(I).
-            attribute(slabel(I), width, semester_width):-semester(I).
+            element(slabel(I), label, header(I)):-I=1..n.
+            attribute(slabel(I), label, @concat("Semester ",I)):-I=1..n.
+            attribute(slabel(I), font_size,15):-I=1..n.
+            attribute(slabel(I), height, 30):-I=1..n.
+            attribute(slabel(I), width, semester_width):-I=1..n.
 
             % HEADER DROPDOWN
-            element(sdd(I), dropdown_menu, header(I)):-semester(I).
-            attribute(sdd(I), grid_row, 1):-semester(I).
-            attribute(sdd(I), height, 50):-semester(I).
-            attribute(sdd(I), width, semester_width-30):-semester(I).
-            attribute(sdd(I), selected, "Add module"):-semester(I).
+            element(sdd(I), dropdown_menu, header(I)):-I=1..n.
+            attribute(sdd(I), grid_row, 1):-I=1..n.
+            attribute(sdd(I), height, 50):-I=1..n.
+            attribute(sdd(I), width, semester_width-30):-I=1..n.
+            attribute(sdd(I), selected, "Add module"):-I=1..n.
 
-                element(ddmi(C,I), dropdown_menu_item, sdd(I)):-_b(in(C,x(I))), not _c(in(C,x(I))).
-                attribute(ddmi(C,I), label, C):-_b(in(C,x(I))), not _c(in(C,x(I))).
-                callback(ddmi(C,I), click, add_assumption(in(C,x(I)))):-_b(in(C,x(I))), not _c(in(C,x(I))).
+                element(ddmi(E,I), dropdown_menu_item, sdd(I)):-_b(in(E,s(I))), not _c(in(E,s(I))).
+                attribute(ddmi(E,I), label, E):-_b(in(E,s(I))), not _c(in(E,s(I))).
+                callback(ddmi(E,I), click, add_assumption(in(E,s(I)))):-_b(in(E,s(I))), not _c(in(E,s(I))).
 
-        % SELECTED MODULES
-        element(sm(I), container, s(I)):-semester(I).
-        attribute(sm(I), grid_row, 2):-semester(I).
-        attribute(sm(I), height, 500):-semester(I).
-        attribute(sm(I), width, semester_width):-semester(I).
-        attribute(sm(I), border_width, 1):-semester(I).
+        % SELEETED MODULES
+        element(sm(I), container, s(I)):-I=1..n.
+        attribute(sm(I), grid_row, 2):-I=1..n.
+        attribute(sm(I), height, 500):-I=1..n.
+        attribute(sm(I), width, semester_width):-I=1..n.
+        attribute(sm(I), border_width, 1):-I=1..n.
 
             % MODULE
-            show_m(in(C,x(I))):-_c(in(C,x(I))).
-            show_m(in(C,x(I))):-_clinguin_browsing, in(C,x(I)).
-            element(m(C,I), container, sm(I)):-show_m(in(C,x(I))).
-            attribute(m(C,I), border_width, 1):-show_m(in(C,x(I))).
-            attribute(m(C,I), child_layout, grid):-show_m(in(C,x(I))).
-            propagate_attribute(m(C,I), background_color, module_color):-show_m(in(C,x(I))).
+            show_m(in(E,s(I))):-_c(in(E,s(I))).
+            show_m(in(E,s(I))):-_clinguin_browsing, in(E,s(I)).
+            element(m(E,I), container, sm(I)):-show_m(in(E,s(I))).
+            attribute(m(E,I), border_width, 1):-show_m(in(E,s(I))).
+            attribute(m(E,I), child_layout, grid):-show_m(in(E,s(I))).
+            propagate_attribute(m(E,I), background_color, module_color):-show_m(in(E,s(I))).
 
                 % MODULE LABEL
-                element(mlabel(C,I), label, m(C,I)):-show_m(in(C,x(I))).
-                attribute(mlabel(C,I), label, C):-show_m(in(C,x(I))).
+                element(mlabel(E,I), label, m(E,I)):-show_m(in(E,s(I))).
+                attribute(mlabel(E,I), label, E):-show_m(in(E,s(I))).
 
                 % MODULE REMOVE
-                element(mbutton(C,I), button, m(C,I)):-_clinguin_assume(in(C,x(I))).
-                attribute(mbutton(C,I), label, "-"):-_clinguin_assume(in(C,x(I))).
-                attribute(mbutton(C,I), grid_column, 1):-_clinguin_assume(in(C,x(I))).
-                attribute(mbutton(C,I), foreground_color, red):-_clinguin_assume(in(C,x(I))).
-                callback(mbutton(C,I), click, remove_assumption(in(C,x(I)))):-_clinguin_assume(in(C,x(I))).
+                element(mbutton(E,I), button, m(E,I)):-_clinguin_assume(in(E,s(I))).
+                attribute(mbutton(E,I), label, "-"):-_clinguin_assume(in(E,s(I))).
+                attribute(mbutton(E,I), grid_column, 1):-_clinguin_assume(in(E,s(I))).
+                attribute(mbutton(E,I), foreground_color, red):-_clinguin_assume(in(E,s(I))).
+                callback(mbutton(E,I), click, remove_assumption(in(E,s(I)))):-_clinguin_assume(in(E,s(I))).

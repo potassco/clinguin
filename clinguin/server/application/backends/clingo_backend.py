@@ -39,11 +39,12 @@ class ClingoBackend(ClinguinBackend):
         self._assumptions = set()
         self._externals = {"true":set(),"false":set(),"released":set()}
         self._atoms = set()
+        self._constants = [f"-c {v}" for v in args.const] if args.const else []
         self._init_ctl()
         self._ground()
 
         include_unsat_msg = not args.ignore_unsat_msg
-        self._uifb=UIFB(self._ui_files, include_menu_bar=args.include_menu_bar, include_unsat_msg=include_unsat_msg)
+        self._uifb=UIFB(self._ui_files, self._constants, include_menu_bar=args.include_menu_bar, include_unsat_msg=include_unsat_msg)
 
 
     # ---------------------------------------------
@@ -64,6 +65,7 @@ class ClingoBackend(ClinguinBackend):
     def register_options(cls, parser):
         parser.add_argument('--domain-files', nargs='+', help='Files',metavar='')
         parser.add_argument('--ui-files', nargs='+', help='Files for the element generation',metavar='')
+        parser.add_argument('-c','--const',  nargs='+', help='Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>',metavar='')
         parser.add_argument('--include-menu-bar',
                     action='store_true',
                     help='Inlcude a menu bar with options: Next, Select and Clear')
@@ -76,7 +78,7 @@ class ClingoBackend(ClinguinBackend):
     # ---------------------------------------------
 
     def _init_ctl(self):
-        self._ctl = Control(['0'])
+        self._ctl = Control(['0']+self._constants)
         for f in self._domain_files:
             try:
                 self._ctl.load(str(f))

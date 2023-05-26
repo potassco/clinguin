@@ -48,7 +48,7 @@ class UIFB:
 
     unifiers = [ElementDao, AttributeDao, CallbackDao]
 
-    def __init__(self, ui_files,cautious_tag="_c",brave_tag="_b",auto_tag=None, include_menu_bar=False, include_unsat_msg=True):
+    def __init__(self, ui_files, constants, cautious_tag="_c",brave_tag="_b",auto_tag=None, include_menu_bar=False, include_unsat_msg=True):
         self._logger = logging.getLogger(Logger.server_logger_name)
         self._ui_files = ui_files
         self._tags = {"cautious":cautious_tag,"brave":brave_tag,"auto":auto_tag}
@@ -61,6 +61,7 @@ class UIFB:
         self._include_menu_bar = include_menu_bar
         self._include_unsat_msg = include_unsat_msg
         self._unsat_core = None
+        self._constants = constants
 
     def __str__(self):
         s = "\nConsequences:\n==========\n"
@@ -107,7 +108,7 @@ class UIFB:
         """
         Generates a ClingoControl Object from paths of ui files and extra parts of a logic program given by a string.
         """
-        uictl = Control(['0','--warn=none'])
+        uictl = Control(['0','--warn=none']+self._constants)
         for f in self._ui_files:
             try:
                 uictl.load(str(f))

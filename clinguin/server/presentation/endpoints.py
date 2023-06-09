@@ -51,17 +51,19 @@ class Endpoints:
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
         self._logger.debug("Got endpoint")
-        symbol = clingo.parse_term(backend_call_string.function)
-        function_name = symbol.name
-        function_arguments = (
-            list(map(str, symbol.arguments)))
+        for f in backend_call_string.functions:
+            symbol = clingo.parse_term(f)
+            function_name = symbol.name
+            function_arguments = (
+                list(map(str, symbol.arguments)))
 
-        call_args = ",".join(function_arguments)
-        self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
+            call_args = ",".join(function_arguments)
+            self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
 
-        result = EndpointsHelper.call_function(
-            self._backend,
-            function_name,
-            function_arguments,
-            {})
+            result = EndpointsHelper.call_function(
+                self._backend,
+                function_name,
+                function_arguments,
+                {})
+        
         return result

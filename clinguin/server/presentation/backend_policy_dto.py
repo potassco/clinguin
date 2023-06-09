@@ -8,4 +8,4 @@ class BackendPolicyDto(BaseModel):
     """
     Needed by the endpoints to get convert the transported json into something useful for the backend.
     """
-    function: str
+    functions: list

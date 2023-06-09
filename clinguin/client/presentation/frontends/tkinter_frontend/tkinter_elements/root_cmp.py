@@ -98,7 +98,10 @@ class RootCmp:
                 value_type = SymbolType
 
             if key in self._callbacks and "policy" in self._callbacks[key]:
-                self._callbacks[key]["policy"] = value_type.parse(value, self._logger)
+                if type(self._callbacks[key]["policy"]) == list:
+                    self._callbacks[key]["policy"].append(value_type.parse(value, self._logger))
+                else:  
+                    self._callbacks[key]["policy"] = [value_type.parse(value, self._logger)]
             else:
                 self._logger.warning('Undefined Command: %s, or policy item missing in command.', key)
 

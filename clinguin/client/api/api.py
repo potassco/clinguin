@@ -42,7 +42,7 @@ class Api:
 
     def post(self, endpoint, body: FrontendPolicyDto):
         try:
-            self._logger.info("<-- POST to %s%s   %s", str(self.base_url), str(endpoint), str(body.function))
+            self._logger.info("<-- POST to %s%s   %s", str(self.base_url), str(endpoint), str(body.functions))
 
             data = body.to_JSON()
             r = httpx.post(self.base_url + endpoint, data=data, timeout=10000)

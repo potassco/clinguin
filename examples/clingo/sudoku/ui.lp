@@ -24,12 +24,6 @@ attribute(window, child_layout, grid).
 %---------------------------------------------------------------------------------------
 
 % Grid cells
-
-element(button, button, window).
-callback(button, click, add_assumption(sudoku(1,1,1))).
-callback(button, click, add_assumption(sudoku(2,1,2))).
-
-
 cell_color(X,Y,gray):-subgrid(X,Y,S), S\2==0.
 cell_color(X,Y,white):-subgrid(X,Y,S), S\2!=0.
 

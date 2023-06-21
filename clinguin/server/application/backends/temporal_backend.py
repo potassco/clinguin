@@ -86,6 +86,7 @@ class TemporalBackend(ClingoBackend):
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
         wctl = self._uifb.ui_control(extra_ui_prg=symbols)
         self._model = self._uifb.from_ctl(wctl)
+        self._update_uifb()
         return self.get()
 
     def assume_and_step(self, predicate):

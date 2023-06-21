@@ -84,8 +84,8 @@ class TemporalBackend(ClingoBackend):
             self._find_incrementally()
 
         symbols = "\n".join([str(s)+"." for s in self._full_plan])
-        wctl = UIFB.wid_control(self._ui_files,symbols)
-        self._model = UIFB.from_ctl(wctl)
+        wctl = self._uifb.ui_control(extra_ui_prg=symbols)
+        self._model = self._uifb.from_ctl(wctl)
         return self.get()
 
     def assume_and_step(self, predicate):

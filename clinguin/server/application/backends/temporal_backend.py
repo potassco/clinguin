@@ -90,11 +90,11 @@ class TemporalBackend(ClingoBackend):
 
     def assume_and_step(self, predicate):
         predicate_symbol = parse_term(predicate)
-        self._assumptions.add(predicate_symbol)
+        self._add_assumption(predicate_symbol)
         self._step +=1
         self._ground()
         self._end_browsing()
-        self._update_model()
+        self._update_uifb()
         return self.get()
 
     def remove_assumption(self, predicate):

@@ -1,53 +1,32 @@
-% m
-in((bm1;bm2;bm3),m).
-in((fm1;fm2;fm3),m).
-in((am11;am12;am21;am22;am31;am32),m).
-in((pm1;pm2;pm3),m).
-in(im,m).
-in(msc,m).
+% b, f, a, o and p               % c
+in((bm1;bm2;bm3),b).             map(c,(bm1;bm2;bm3),9).
+in((fm1;fm2;fm3),f).             map(c,(fm1;fm2;fm3),6).
+in((am11;am12;am21),a).          map(c,(am11;am12;am21),6).
+in((am22;am31;am32),a).          map(c,(am22;am31;am32),6).
+in(E,o) :- in(E,(f;a)).          map(c,(pm1;pm2;pm3),12).
+in((pm1;pm2;pm3),p).             map(c,im,15).
+                                 map(c,msc,30).
 
-% b, f, a and p
-in((bm1;bm2;bm3),b).
-in((fm1;fm2;fm3),f).
-in((am11;am12;am21;am22;am31;am32),a).
-in((pm1;pm2;pm3),p).
+% m                              % s
+in(E,m) :- in(E,(b;f;a;p)).      map(s,bm1,w;s,bm2,s;s,bm3,w).
+in((im;msc),m).                  map(s,(fm1;fm2;fm3),w).
+                                 map(s,(am11;am12;am21),e).
+                                 map(s,(am22;am31;am32),e).
+% e                              map(s,(pm1;pm2;pm3),e).
+in(fm1,e).                       map(s,(im1;msc1),e).
 
-% c
-map(c,(bm1;bm2;bm3),9).
-map(c,(fm1;fm2;fm3),6).
-map(c,(am11;am12;am21;am22;am31;am32),6).
-map(c,(pm1;pm2;pm3),12).
-map(c,im,15).
-map(c,msc,30).
+                                 % l and u
+                                 map(l,b,27;l,o,24;l,p,24;l,m,120).
+                                 map(u,b,27;u,o,24;u,p,24;u,m,120).
 
-% s
-map(s,bm1,w).
-map(s,bm2,s).
-map(s,bm3,w).
-map(s,fm1,w).
-map(s,fm2,w).
-map(s,fm3,w).
-map(s,am11,e).
-map(s,am12,e).
-map(s,am21,e).
-map(s,am22,e).
-map(s,am31,e).
-map(s,am32,e).
-map(s,pm1,s).
-map(s,pm2,s).
-map(s,pm3,s).
-map(s,im1,e).
-map(s,msc1,e).
+% global constraints
+card(e,leq,2).  equal(int(s,f),e).
+sum(int(H,s),c,bw,(L,U)) :- H = (b;o;p;m), map(l,H,L), map(u,H,U).
+in(im,gc3). in(msc,gc3). subseteq(gc3,s).
 
-% m_w and m_s (s_w and s_s in the current draft)
-in(E,m(X)) :- X=(s;w), in(E,m), map(s,E,X).
+% temporal constraints
+empty(int(s(I),s(J)))       :- I = 1..n, J = 1..n, I < J.
+empty(int(m(w),s(2*K  )))   :- K = 1..n, 1 <= 2*K,   2*K   <= n.
+empty(int(m(s),s(2*K-1)))   :- K = 1..n, 1 <= 2*K-1, 2*K-1 <= n.
+in(msc,tc4). sum(before(tc4),c,geq,90).
 
-% l and u
-map(l,b,27). map(l,a,24). map(l,p,24).
-map(u,b,27). map(u,a,24). map(u,p,24).
-
-% e
-% in(fm1,e).
-
-% n
-#const n=4.

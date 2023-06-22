@@ -7,7 +7,7 @@ It assumes `clinguin` has already been installed es described in :ref:`Installat
 Mechanics
 =========
 
-The `clinguin` system uses a Client-Server Architecture, thus it is separated into two processes. 
+The `clinguin` system uses a Client-Server Architecture, thus it is separated into two processes.
 
 * **Server**: Will run a clingo process in the background and generate a UI specification based on a UI encoding and a domain specific encoding. It will then wait for notifications by the client to interact with the clingo process trough the *Backend*.
 
@@ -33,7 +33,7 @@ To allow flexibility, further separation is done to have interchangeable Backend
 Basic Usage
 ===========
 
-We will use **Sudoku** as an example. 
+We will use **Sudoku** as an example.
 All files used can be find `here <https://github.com/krr-up/clinguin/tree/master/examples/clingo/sudoku>`_.
 
 Client-Server
@@ -43,7 +43,7 @@ To run `clinguin` one can the execute the following command:
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
+    $ clinguin client-server --domain-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
 
 
 After execution a Sudoku window should open, where one can play a round of Sudoku. The look of the window will vary depending on the OS.
@@ -58,9 +58,9 @@ Server
 
 .. code-block:: bash
 
-    $ clinguin server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
+    $ clinguin server --domain-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp
 
-The source and gui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the encoding/problem one is working on, and after that create a ui for the problem, to showcase, debug, etc. 
+The source and gui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the encoding/problem one is working on, and after that create a ui for the problem, to showcase, debug, etc.
 
 When running the server one can further specify the *Backend* that should be used. See the :ref:`Customize Guide` for more information.
 
@@ -69,7 +69,7 @@ Client
 
 .. code-block:: bash
 
-    $ clinguin client 
+    $ clinguin client
 
 The client does not need any files as input since it will ask the server for the information.
 
@@ -86,12 +86,12 @@ After the startup of your first `clinguin` example, it is now time to understand
 To define a UI, `clinguin` uses three different predicates:
 
 * ``element(ID,TYPE,PARENT)``:  Corresponds to an element in the Gui (button, frame, etc).
-* ``attribute(ID_OF_ELEMENT,KEY,VALUE)``: Used to set various attributes of an element, (background-color, font, etc). 
+* ``attribute(ID_OF_ELEMENT,KEY,VALUE)``: Used to set various attributes of an element, (background-color, font, etc).
 * ``callback(ID_OF_ELEMENT,ACTION,POLICY)``: Used to define how an element behaves (how = policy) on certain actions.
 
 .. note::
-    
-    Each `clinguin` ``ui.lp`` file must contain exactly one element of type ``window``. 
+
+    Each `clinguin` ``ui.lp`` file must contain exactly one element of type ``window``.
 
 .. rubric:: *Example*
     :name: example-window
@@ -109,14 +109,14 @@ The next task is to execute this program and show actually the window. This can 
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files empty.lp --ui-files ui.lp
+    $ clinguin client-server --domain-files empty.lp --ui-files ui.lp
 
 
 Reasoning modes
 ===============
 
 When creating a UI one usually needs to reason with what is still *possibly* part of the solution and what is *necessarily* in the solution.
-We use this information to know all the available options that should appear in the UI. 
+We use this information to know all the available options that should appear in the UI.
 In ASP terms, we use the following types of reasoning.
 
 * *Brave reasoning*: What is in part of any stable models. (Union)
@@ -166,13 +166,13 @@ Syntax
 One can look the up the available elements, with the corresponding attributes and callback actions using:
 
 .. code-block:: bash
-    
+
     $ clinguin client-server --frontend-syntax
 
 If one is  also interested in what values one might set, one can also look at the full syntax:
 
 .. code-block:: bash
-    
+
     $ clinguin client-server --frontend-syntax-full
 
 
@@ -183,18 +183,18 @@ If one is  also interested in what values one might set, one can also look at th
 
 * ``TYPE`` The type of element (``window``, ``container``, ``button`` etc)
 
-* ``PARENT`` The id of the parent element. The ``root`` identifier is used as the root element of the UI. 
+* ``PARENT`` The id of the parent element. The ``root`` identifier is used as the root element of the UI.
 
 ``attribute(ID_OF_ELEMENT,KEY,VALUE)``
 ++++++++++++++++++++++++++++++++++++++
 
-For each of these element types there exists a bunch of available attributes to set how the element will look like. 
+For each of these element types there exists a bunch of available attributes to set how the element will look like.
 
 * ``ID_OF_ELEMENT`` Identifier of the element setting the attribute to
 
-* ``KEY`` The name of the attribute 
+* ``KEY`` The name of the attribute
 
-* ``Value`` The value of the attribute 
+* ``Value`` The value of the attribute
 
 
 ``callback(ID_OF_ELEMENT,ACTION,POLICY)``
@@ -211,7 +211,7 @@ Elaborated example
 ++++++++++++++++++
 
 
-This example captures a bit more how one structures the frontend. For this we take a simple logic program as our source-file (e.g. `source.lp`), which has two models: `p(1)` and `p(2)`:
+This example captures a bit more how one structures the frontend. For this we take a simple logic program as our domain-file (e.g. `domain.lp`), which has two models: `p(1)` and `p(2)`:
 
 .. code-block::
 
@@ -246,7 +246,7 @@ With this done, we can start our application:
 
 .. code-block:: bash
 
-    $ clinguin client-server --source-files source.lp --ui-files ui.lp
+    $ clinguin client-server --domain-files domain.lp --ui-files ui.lp
 
 .. figure:: ../basic-ui.png
 
@@ -257,12 +257,12 @@ We have four different elements:
 
     * As in the previous example it just defines the size of the window.
 
-2. ``dpm`` (dropdown_menu) 
+2. ``dpm`` (dropdown_menu)
 
-    * It's parent is the ``window`` which means, that it is directly shown below the window. 
+    * It's parent is the ``window`` which means, that it is directly shown below the window.
     * The attribute ``selected`` can be used to show the text in the ''selected'' field of the dropdown.
 
-3. ``dpm(V)`` (dropdown_menu_item) 
+3. ``dpm(V)`` (dropdown_menu_item)
 
     * A dropdown_menu_item can only be the child of a dropdown_menu (and no other element type)
     * We want to have one item for each model, therefore we have the ``_b(p(V))`` in the body. The atom preceded by an underscore: ``_b`` means, that we reason bravely (so basically the union of all models), therefore we have here both ``p(1)`` and ``p(2)``.

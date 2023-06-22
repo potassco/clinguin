@@ -6,5 +6,5 @@ The `ignore-unsat-msg` flag is necessary to exclude the usual way of handling UN
 
 
 ```shell
-clinguin client-server --source-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp --include-menu-bar --assumption-signature=initial,3 --ignore-unsat-msg
+clinguin client-server --domain-files examples/clingo/sudoku/instance.lp examples/clingo/sudoku/encoding.lp --ui-files examples/clingo/sudoku/ui.lp --include-menu-bar --assumption-signature=initial,3 --ignore-unsat-msg
 ```

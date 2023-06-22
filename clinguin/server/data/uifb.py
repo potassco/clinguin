@@ -128,7 +128,6 @@ class UIFB:
         return uictl
 
     def from_ctl(self, ctl):
-        #model = self()
         with ctl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True)

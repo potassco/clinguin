@@ -14,6 +14,8 @@ attribute(info, pos_x, 140 ).
 attribute(info, pos_y, 0 ).
 attribute(info, child_layout, grid).
 
+element(but, button, window) :- clinguin_browsing.
+
 element(info_find_goal, label, info).
 attribute(info_find_goal, grid_row, 0).
 attribute(info_find_goal, font_size, 20).
@@ -34,7 +36,8 @@ attribute(info_steps_l, grid_row, 4).
 attribute(info_steps_l, label, "History:").
 attribute(info_steps_l, font_size, 18).
 
-element(info_step_c(T),label,info):-occ(A,T).
+element(info_step_c(T),label,info):-_c(occ(A,T)).
+element(info_step_c(T),label,info):-occ(A,T), clinguin_browsing.
 attribute(info_step_c(T),grid_row,T+4):-occ(A,T).
 attribute(info_step_c(T),height,30):-occ(A,T).
 attribute(info_step_c(T),width,200):-occ(A,T).

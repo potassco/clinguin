@@ -127,6 +127,14 @@ class UIFB:
 
         return uictl
 
+    def from_ctl(self, ctl):
+        with ctl.solve(yield_=True) as result:
+            for m in result:
+                model_symbols = m.symbols(shown=True)
+                break
+
+        return self._set_fb_symbols(symbols=model_symbols)
+
     def set_auto_conseq(self, model_symbols):
         self._conseq["auto"] = model_symbols
 

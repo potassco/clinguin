@@ -1,16 +1,13 @@
-
-SETUP_FILE = setup.py
 APPLICATION_NAME = clinguin
 
-
 compile:
-	pip uninstall $(APPLICATION_NAME) -y
-	python $(SETUP_FILE) install
+	python3 -m pip uninstall $(APPLICATION_NAME) -y
+	python3 -m pip install ./
+
+all:
+	python3 -m pip uninstall $(APPLICATION_NAME) -y
+	python3 -m pip install ./[doc]
 
 clean:
-	pip uninstall $(APPLICATION_NAME) -y
-
-format:
-	pylint clinguin
-
+	python3 -m pip uninstall $(APPLICATION_NAME) -y
 

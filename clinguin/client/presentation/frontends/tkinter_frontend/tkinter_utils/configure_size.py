@@ -23,7 +23,6 @@ class ConfigureSize(ExtensionClass):
         width = self._attributes[AttributeNames.width]["value"]
 
         if height > 0 and width > 0:
-            # If height is set, 
             if AttributeNames.child_layout in self._attributes:
                 child_layout_value = self._attributes[AttributeNames.child_layout]["value"]
 

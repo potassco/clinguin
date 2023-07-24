@@ -16,5 +16,7 @@ class StandardTextProcessing:
             if text[len(text)-1] == "\"":
                 text = text[:-1]
 
+        text = text.replace("\\n","\n")
+
         return text
  

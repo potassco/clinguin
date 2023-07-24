@@ -7,6 +7,7 @@ from tkinter import font
 class ConfigureFont(ExtensionClass):
     """
     If a element is a subtype of the configure-size class the size of the element can be adjusted.
+    It is required that any subtype of this type has the ''_configure_font_element'' variable (and must be set appropriately).
     """
 
     def __init__(self):

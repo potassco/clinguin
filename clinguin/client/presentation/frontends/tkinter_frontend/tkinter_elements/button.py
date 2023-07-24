@@ -5,7 +5,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
-class Button(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
+class Button(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont, ConfigureTextElementSize):
     """
     A button is a element, which is generally regarded as an active element, so actions are executed. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Label and Dropdownmenu - to make it work for layouting, the actual button is hidden the the element is actually a tkinter frame (therefore self._element is a frame, whereas self._button is the button).
     """
@@ -20,6 +20,7 @@ class Button(RootCmp, LayoutFollower, ConfigureSize, ConfigureFont):
         
         self._button = tk.Button(button_frame)
         self._configure_font_element = self._button
+        self._configure_text_element_size = self._button
 
         return button_frame
 

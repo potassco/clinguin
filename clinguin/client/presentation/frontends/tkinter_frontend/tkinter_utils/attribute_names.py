@@ -49,6 +49,8 @@ class AttributeNames:
     image_path = "image_path"
     resize = "resize"
 
+    flex_direction = "flex_direction"
+
     accelerator = "accelerator"
     descriptions = {
         title : "With this attribute one can set the title of a pop-up.",
@@ -82,6 +84,7 @@ class AttributeNames:
         image : "Some backends define special values one can use, that e.g. a graph is shown (see corresponding backend description).",
         image_path : "Include an image from a path.",
         resize : "With this attribute one can define if an image shall be resized.",
-        accelerator: "The key binding for the menu option"
+        accelerator: "The key binding for the menu option",
+        flex_direction: "With this attribute one can set the ''direction'' (i.e., where it gets placed) of an element which root has a specified flex layout."
         }
 

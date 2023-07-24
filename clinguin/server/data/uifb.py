@@ -142,7 +142,7 @@ class UIFB:
         c_types=["brave","cautious","auto"]
         for c_type in c_types:
             try:
-                self.update_cosequence(c_type, ctl, assumptions)
+                self.update_consequence(c_type, ctl, assumptions)
             except NoModelError:
                 #Error should be handled in the ui encoding
                 return
@@ -173,7 +173,7 @@ class UIFB:
                 self._unsat_core = None
         return list(model_symbols)
 
-    def update_cosequence(self, c_type, ctl, assumptions=None):
+    def update_consequence(self, c_type, ctl, assumptions=None):
         self._logger.debug(f"Updating {c_type} consequences")
         if c_type in ["brave","cautious"]:
             ctl.configuration.solve.models = 0

@@ -20,6 +20,8 @@ class LayoutFollower(ExtensionClass):
             attributes = {}
 
         # Layout-Control
+        attributes[AttributeNames.flex_direction] = {"value":FlexDirectionType.COLUMN, "value_type": FlexDirectionType}
+
         attributes[AttributeNames.grid_column] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.grid_row] = {"value":0, "value_type" : IntegerType}
         attributes[AttributeNames.grid_column_span] = {"value":1, "value_type" : IntegerType}
@@ -40,7 +42,19 @@ class LayoutFollower(ExtensionClass):
             return
 
         if parent_org == ChildLayoutType.FLEX:
-            self._element.pack(expand=True, fill='both')
+            flex_direction_type = self._attributes[AttributeNames.flex_direction]['value']
+
+            flex_direction_tkinter_type = ""
+            if flex_direction_type == FlexDirectionType.COLUMN:
+                flex_direction_tkinter_type = "top"
+            elif flex_direction_type == FlexDirectionType.COLUMN_REVERSE:
+                flex_direction_tkinter_type = "bottom"
+            elif flex_direction_type == FlexDirectionType.ROW:
+                flex_direction_tkinter_type = "left"
+            elif flex_direction_type == FlexDirectionType.ROW_REVERSE:
+                flex_direction_tkinter_type = "right"
+
+            self._element.pack(expand=True, fill='both', side = flex_direction_tkinter_type)
 
         elif parent_org == ChildLayoutType.GRID:
             grid_pos_column = self._attributes[AttributeNames.grid_column]['value']

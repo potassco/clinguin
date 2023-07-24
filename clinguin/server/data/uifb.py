@@ -130,7 +130,7 @@ class UIFB:
     def from_ctl(self, ctl):
         with ctl.solve(yield_=True) as result:
             for m in result:
-                model_symbols = m.symbols(shown=True)
+                model_symbols = m.symbols(shown=True,atoms=True)
                 break
 
         return self._set_fb_symbols(symbols=model_symbols)
@@ -154,7 +154,7 @@ class UIFB:
 
         with uictl.solve(yield_=True) as result:
             for m in result:
-                model_symbols = m.symbols(shown=True)
+                model_symbols = m.symbols(shown=True, atoms=True)
                 break
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
@@ -164,7 +164,7 @@ class UIFB:
                 yield_=True) as result:
             model_symbols = None
             for m in result:
-                model_symbols = m.symbols(shown=True,atoms=False)
+                model_symbols = m.symbols(shown=True,atoms=True)
             if model_symbols is None:
                 self._logger.warn("Got an UNSAT result with the given domain encoding.")
                 self._unsat_core = result.core()

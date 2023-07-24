@@ -295,7 +295,7 @@ class ClingoBackend(ClinguinBackend):
             while optimizing and not model.optimality_proven:
                 self._logger.info("Skipping non-optimal model")
                 model = next(self._iterator)
-            self._uifb.set_auto_conseq(model.symbols(shown=True,atoms=False))
+            self._uifb.set_auto_conseq(model.symbols(shown=True,atoms=True))
             self._update_uifb_ui()
         except StopIteration:
             self._logger.info("No more solutions")

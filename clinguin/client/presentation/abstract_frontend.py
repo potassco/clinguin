@@ -54,5 +54,8 @@ class AbstractFrontend(CustomArgs):
     def canvas(self, id, parent, attributes, callbacks):
         print("CANVAS: " + str(id) + "::" + str(parent) + "::" + str(attributes) + "::" + str(callbacks))
 
+    def draw_postprocessing(self, id):
+        print("DRAW POSTPROCESSING")
+
     def draw(self, id):
         print("DRAW" + "::" + str(id))

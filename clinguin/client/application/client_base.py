@@ -50,6 +50,7 @@ class ClientBase:
 
     def draw(self, response):
         self.base_engine(response)
+        self.frontend_generator.draw_postprocessing(response['children'][0]['id'])
 
     def base_engine(self, response):
         """

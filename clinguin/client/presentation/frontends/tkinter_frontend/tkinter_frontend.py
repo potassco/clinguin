@@ -1,8 +1,11 @@
 """
 Contains the tkinter-gui class.
 """
+import networkx as nx
+
 from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.client import AbstractFrontend
+from clinguin.utils.attribute_types.child_layout import ChildLayoutType
 
 from .tkinter_elements import *
 from .tkinter_utils import *
@@ -134,6 +137,64 @@ class TkinterFrontend(AbstractFrontend):
         canvas = Canvas(self._args, id, parent, attributes, callbacks, self._base_engine)
         canvas.add_component(self.elements)
 
+    def draw_postprocessing(self, id):
+        self.elements[id].get_element().update()
+
+        elements_info = {}
+        dependency = []
+
+        for key in self.elements.keys():
+            w = self.elements[key]
+            if w._id == 'root':
+                continue
+
+            elements_info[w._id] = {'parent': w._parent, 'type': w._id}
+            dependency.append((w._id, w._parent))
+
+        DG = nx.DiGraph(dependency)
+        order = list((list(nx.topological_sort(DG))))
+
+        for element_key in order:
+            if element_key == 'root':
+                continue
+
+            cur_element = self.elements[element_key]
+
+            attributes = cur_element.get_attributes()
+
+            if AttributeNames.height in attributes and AttributeNames.width in attributes:
+
+                true_width = cur_element._element.winfo_width()
+                true_height = cur_element._element.winfo_height()
+
+                config_width = int(cur_element._attributes[AttributeNames.width]["value"])
+                config_height = int(cur_element._attributes[AttributeNames.height]["value"])
+
+                pack = False
+
+                if config_width > 0:
+                    pack = True
+                    cur_element._element.config(width = config_width)
+                else:
+                    cur_element._element.config(width = true_width)
+
+                if config_height > 0:
+                    pack = True
+                    cur_element._element.config(height = config_height)
+                else:
+                    cur_element._element.config(height = true_height)
+
+                if pack:
+                    if AttributeNames.child_layout in attributes:
+                        policy = cur_element._attributes[AttributeNames.child_layout]["value"]
+                        if policy == ChildLayoutType.FLEX:
+                            cur_element._element.pack_propagate(0)
+                    else:
+                        cur_element._element.pack_propagate(0)
+
+                    self.elements[id].get_element().update()
+
     def draw(self, id):
         self.first = False
+
         self.elements[id].get_element().mainloop()

@@ -49,17 +49,16 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
         elif image_base64 == "" and image_file != "":
             try:
-
                 image_open = TImage.open(image_file)
 
                 height = self._attributes[AttributeNames.height]["value"]
                 width = self._attributes[AttributeNames.width]["value"]
                 resize_flag = self._attributes[AttributeNames.resize]["value"]
 
-                should_resize = resize_flag and height > 0 and width > 0
+                if height > 0 and width > 0 and resize_flag:
+                    image_open = image_open.resize((width, height))
 
-                if should_resize:
-                    tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
+                tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
 
                 self._canvas.create_image(0,0,anchor=tk.NW, image=tkinter_image)
 
@@ -76,9 +75,15 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
 
                 image_bytes = io.BytesIO(image_decoded)
                 image_open = TImage.open(image_bytes)
-                image_open = image_open.resize((self._attributes[AttributeNames.width]["value"], self._attributes[AttributeNames.height]["value"]))
-                tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
 
+                height = self._attributes[AttributeNames.height]["value"]
+                width = self._attributes[AttributeNames.width]["value"]
+                resize_flag = self._attributes[AttributeNames.resize]["value"]
+
+                if height > 0 and width > 0 and resize_flag:
+                    image_open = image_open.resize((width, height))
+
+                tkinter_image = ImageTk.PhotoImage(image_open, master=self._canvas)
 
                 self._canvas.create_image(0,0,anchor=tk.NW, image=tkinter_image)
 

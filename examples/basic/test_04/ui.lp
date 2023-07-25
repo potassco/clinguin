@@ -8,12 +8,12 @@ attribute(w, child_layout, relstatic).
 element(m, menu_bar, w).
 
 element(ms1, menu_bar_section, m).
-attribute(ms1, label, "File").
+attribute(ms1, label, "Test2").
 
 element(ms1i1, menu_bar_section_item, ms1).
-attribute(ms1i1, label, "Open").
+attribute(ms1i1, label, "Item X").
 element(ms1i2, menu_bar_section_item, ms1).
-attribute(ms1i2, label, "Close").
+attribute(ms1i2, label, "Item Y").
 callback(ms1i2, click, clear_assumptions).
 
 element(ms2, menu_bar_section, m).

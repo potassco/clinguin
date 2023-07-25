@@ -1,20 +1,14 @@
 
-element(w, window, root).
-attribute(w, height, 500).
-attribute(w, width, 500).
-attribute(w, background_color, black).
+element(window, window, root).
 
-element(m, dropdown_menu, w).
-attribute(m, height, 20).
-attribute(m, width, 50).
-attribute(m, selected, X) :- p(X).
+attribute(window, background_color, black).
+attribute(window, resizable_x, 0).
+attribute(window, child_layout, flex).
 
-element(mi(X), dropdown_menu_item, m) :- _b(p(X)).
-attribute(mi(X), label, X) :- _b(p(X)).
-callback(mi(X), click, add_assumption(p(X))) :- _b(p(X)).
+element(c(X), container, window) :- p(X).
+attribute(c(X), background_color, "#00ff00") :- p(X).
+attribute(c(X), child_layout, flex) :- p(X).
 
-
-
-
-
-
+element(mbutton(X), label, c(X)) :- q(X).
+attribute(mbutton(X), label, "TEST 02\n Hello Potsdam") :- q(X).
+attribute(mbutton(X), foreground_color, red):- q(X).

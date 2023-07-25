@@ -1,17 +1,12 @@
 
 element(w, window, root).
-attribute(w, height, 500).
-attribute(w, width, 500).
 attribute(w, background_color, white).
+attribute(w, child_layout, flex).
 
 element(c, dropdown_menu, w).
 attribute(c, width, 100).
 attribute(c, height, 50).
-
-attribute(c, on_hover, true).
-attribute(c, on_hover_background_color, blue).
-
-attribute(c, selected, mi(X)) :- _b(p(X)).
+attribute(c, selected, mi(X)) :- _c(p(X)).
 
 element(mi(X), dropdown_menu_item, c) :- _b(p(X)).
 attribute(mi(X), label, X) :- _b(p(X)).

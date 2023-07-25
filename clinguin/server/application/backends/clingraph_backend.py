@@ -6,6 +6,8 @@ import base64
 
 import textwrap
 
+from pathlib import Path
+
 from clingo import Control
 from clingo.symbol import Function, String
 
@@ -165,8 +167,30 @@ class ClingraphBackend(ClingoBackend):
     def _compute_clingraph_graphs(self,prg):
         fbs = []
         ctl = Control("0")
+
+        existant_file_counter = 0
+        for f in self._clingraph_files:
+            path = Path(f)
+            if path.is_file():
+                try:
+                    ctl.load(str(f))
+                    existant_file_counter += 1
+                except Exception as e:
+                    self._logger.critical(f"Failed to load file \"{f}\" (there is likely a syntax error in this logic program file).")
+            else:
+                self._logger.critical(f"File \"{f}\" does not exist, this file is skipped.")
+
+        if existant_file_counter == 0:
+            exception_string = "None of the provided clingraph files exists, but at least one syntactically valid clingraph file must be specified. Exiting!"
+            self._logger.critical(exception_string)
+            raise Exception(exception_string)
+
+        """
         for f in self._clingraph_files:
             ctl.load(f)
+        """
+
+
         ctl.add("base",[],prg)
         ctl.add("base",[],self._backend_state_prg)
         ctl.ground([("base",[])],ClingraphContext())

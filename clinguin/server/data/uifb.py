@@ -2,7 +2,10 @@
 Module that contains the UIFB class.
 """
 import logging
+from pathlib import Path
+
 import clorm
+
 
 from clorm import Raw
 from clingo import Control,parse_term
@@ -109,12 +112,24 @@ class UIFB:
         Generates a ClingoControl Object from paths of ui files and extra parts of a logic program given by a string.
         """
         uictl = Control(['0','--warn=none']+self._constants)
+
+        existant_file_counter = 0
         for f in self._ui_files:
-            try:
-                uictl.load(str(f))
-            except Exception as e:
-                self._logger.critical("File %s  could not be loaded - likely not existant or syntax error in file!", str(f))
-                raise e
+            path = Path(f)
+            if path.is_file():
+                try:
+                    uictl.load(str(f))
+                    existant_file_counter += 1
+                except Exception as e:
+                    self._logger.critical(f"Failed to load file \"{f}\" (there is likely a syntax error in this logic program file).")
+            else:
+                self._logger.critical(f"File \"{f}\" does not exist, this file is skipped.")
+
+        if existant_file_counter == 0:
+            exception_string = "None of the provided ui files exists, but at least one syntactically valid ui file must be specified. Exiting!"
+            self._logger.critical(exception_string)
+            raise Exception(exception_string)
+
         if self._include_menu_bar:
             uictl.add("base",[],MENU_BAR)
         if self._include_unsat_msg:

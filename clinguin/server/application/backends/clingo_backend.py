@@ -2,6 +2,7 @@
 Module that contains the ClingoBackend.
 """
 import sys
+from pathlib import Path
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
@@ -79,13 +80,23 @@ class ClingoBackend(ClinguinBackend):
 
     def _init_ctl(self):
         self._ctl = Control(['0']+self._constants)
+
+        existant_file_counter = 0
         for f in self._domain_files:
-            try:
-                self._ctl.load(str(f))
-            except Exception as e:
-                self._logger.critical(str(e))
-                self._logger.critical("Failed to load modules (there is likely a syntax error in your logic program), now exiting - see previous stack trace for more information.")
-                sys.exit()
+            path = Path(f)
+            if path.is_file():
+                try:
+                    self._ctl.load(str(f))
+                    existant_file_counter += 1
+                except Exception as e:
+                    self._logger.critical(f"Failed to load file \"{f}\" (there is likely a syntax error in this logic program file).")
+            else:
+                self._logger.critical(f"File \"{f}\" does not exist, this file is skipped.")
+
+        if existant_file_counter == 0:
+            exception_string = "None of the provided domain files exists, but at least one syntactically valid domain file must be specified. Exiting!"
+            self._logger.critical(exception_string)
+            raise Exception(exception_string)
 
         for atom in self._atoms:
             self._ctl.add("base",[],str(atom) + ".")

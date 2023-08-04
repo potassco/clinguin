@@ -1,43 +1,17 @@
-import time
-import subprocess
-import datetime
-
-import re
-import json
+import re 
 
 from reference_json_output import *
 from utils_test_utils import UtilsTestUtils
 
-class Test:
+class TestBasic00_05:
 
     def setup_method(self, test_method):
-
-        test_method_name = test_method.__name__
-
-        p = re.compile(r"\d\d")
-        result = p.search(test_method_name)
-
-        if result is not None:
-            test_number = result.group(0)
-        else: 
-            test_number = "00"
-
-        self.port = 8000
-        self.url = "127.0.0.1"
-
-        self.uvicorn_url = f"http://{self.url}:{self.port}"
-
-        arguments = ["clinguin","server",f"--domain-files=examples/basic/test_{test_number}/domain_file.lp", f"--ui-files=examples/basic/test_{test_number}/ui.lp"]
-        self.p = subprocess.Popen(arguments)       
-
-        time.sleep(3)  # time for the server to start
-
-        print("SETUP COMPLETE")
+        
+        self.p, self.uvicorn_url = UtilsTestUtils.basic_tests_start_server(test_method)
+        
 
     def teardown_method(self, test_method):
-        self.p.kill()
-        print(datetime.datetime.now())
-        print("TEARDOWN COMPLETE")
+        UtilsTestUtils.shutdown_server(self.p)
 
     def test_health(self):
 
@@ -162,4 +136,4 @@ class Test:
         received_by_postman = str(BasicTest00.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
-
+        

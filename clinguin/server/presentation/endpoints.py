@@ -51,6 +51,13 @@ class Endpoints:
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
         self._logger.debug("Got endpoint")
+        self._logger.debug("backend_call: " + backend_call_string.__str__())
+
+        splits = backend_call_string.function.split("(")
+
+        #function_name = splits[0]
+        #call_args = "(".join(splits[1:])
+
         symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name
         function_arguments = (

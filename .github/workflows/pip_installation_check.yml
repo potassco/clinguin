@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest']
+        os: ['ubuntu-latest','windows-latest','macos-latest']
 
     steps:
     - name: "checkout repository"
@@ -46,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest']
+        os: ['ubuntu-latest','windows-latest','macos-latest']
 
     steps:
     - name: "checkout repository"
@@ -72,7 +72,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest']
+        os: ['ubuntu-latest','windows-latest','macos-latest']
 
     steps:
     - name: "checkout repository"

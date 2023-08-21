@@ -4,5 +4,7 @@ Image license (tommi.jpg): CC-BY-SA - Image taken by Alexander Beiser.
 - Note that tkinter loads the image from the path in this configuration, therefore client and server must have access to local files
 
 Start with: 
-`clinguin client-server --domain-files examples/basic/test_07/domain_file.lp --ui-files examples/basic/test_07/ui.lp`
+```
+clinguin client-server --domain-files examples/basic/test_07/domain_file.lp --ui-files examples/basic/test_07/ui.lp
+```
 

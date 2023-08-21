@@ -1,15 +1,16 @@
-import time
-import subprocess
-import re
-import httpx
-import json
 import copy
-
+import json
+import re
+import subprocess
+import time
 from datetime import datetime
 
+import httpx
+
+from clinguin import argsToDictConvert
 from clinguin.parse_input import ArgumentParser
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clinguin import argsToDictConvert
+
 
 class UtilsTestUtils:
 

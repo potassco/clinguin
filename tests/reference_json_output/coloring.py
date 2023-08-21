@@ -1,5 +1,6 @@
 import json
 
+
 class Coloring:
     """
         As graphviz is non-deterministic in nature we cannot be sure we produce the correct output here.

@@ -2,8 +2,11 @@
 Contains the RootCmp class.
 """
 import logging
+
 from clinguin.utils.attribute_types import *
+
 from ..tkinter_utils import *
+
 
 class RootCmp:
     """

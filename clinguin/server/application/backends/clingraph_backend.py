@@ -1,29 +1,25 @@
 """
 Module that contains the ClingraphBackend.
 """
-import copy
 import base64
-
 import textwrap
-
 from pathlib import Path
 
+import clorm
 from clingo import Control
 from clingo.symbol import Function, String
-
-import clorm
-from clorm import Raw
-
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
+from clorm import Raw
 
-# Self defined
-from clinguin.utils import StandardTextProcessing
-from clinguin.server.data.attribute import AttributeDao
-from clinguin.server.data.uifb import UIFB
 from clinguin.server import StandardJsonEncoder
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clinguin.utils import NoModelError
+from clinguin.server.data.attribute import AttributeDao
+from clinguin.server.data.uifb import UIFB
+
+# Self defined
+from clinguin.utils import NoModelError, StandardTextProcessing
+
 
 class ClingraphBackend(ClingoBackend):
     """
@@ -175,7 +171,7 @@ class ClingraphBackend(ClingoBackend):
                 try:
                     ctl.load(str(f))
                     existant_file_counter += 1
-                except Exception as e:
+                except Exception:
                     self._logger.critical(f"Failed to load file \"{f}\" (there is likely a syntax error in this logic program file).")
             else:
                 self._logger.critical(f"File \"{f}\" does not exist, this file is skipped.")

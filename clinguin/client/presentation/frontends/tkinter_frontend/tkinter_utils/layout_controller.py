@@ -3,6 +3,7 @@ This module contains the LayoutController class.
 """
 from .extension_class import *
 
+
 class LayoutController(ExtensionClass):
     """
     If a element is a subtype of this class, then it can steer the layouting behavior of children.

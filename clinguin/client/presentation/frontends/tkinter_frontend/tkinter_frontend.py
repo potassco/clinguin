@@ -3,8 +3,8 @@ Contains the tkinter-gui class.
 """
 import networkx as nx
 
-from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.client import AbstractFrontend
+from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.utils.attribute_types.child_layout import ChildLayoutType
 
 from .tkinter_elements import *

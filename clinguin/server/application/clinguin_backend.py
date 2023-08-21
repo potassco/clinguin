@@ -21,4 +21,3 @@ class ClinguinBackend(CustomArgs):
         """
         Default method that all sub classes must implement. This method must return the Json convertible Hierarchy.
         """
-        pass

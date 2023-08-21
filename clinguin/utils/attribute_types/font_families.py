@@ -1,11 +1,11 @@
 """
 Module that contains the FontFamiliesType.
 """
-from enum import auto
 
 
-from .utils.standard_text_processing import StandardTextProcessing
 from .type import Type
+from .utils.standard_text_processing import StandardTextProcessing
+
 
 class FontFamiliesType(Type):
     """

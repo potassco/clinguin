@@ -3,7 +3,8 @@ Module that contains the EndpointsHelper class.
 """
 import logging
 import traceback
-from ...utils import CaseConverter, Logger, SERVER_ERROR_ALERT
+
+from ...utils import SERVER_ERROR_ALERT, CaseConverter, Logger
 
 # def sever_error_json(e):
 #     model = UIFB()

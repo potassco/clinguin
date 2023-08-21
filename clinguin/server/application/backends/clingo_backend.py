@@ -1,18 +1,16 @@
 """
 Module that contains the ClingoBackend.
 """
-import sys
 from pathlib import Path
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
-# Self defined
-from clinguin.utils.errors import NoModelError
-from clinguin.server import StandardJsonEncoder
-from clinguin.server import UIFB
-from clinguin.server import ClinguinBackend
+
+from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
 from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
 
+# Self defined
+from clinguin.utils.errors import NoModelError
 
 enable_python()
 
@@ -88,7 +86,7 @@ class ClingoBackend(ClinguinBackend):
                 try:
                     self._ctl.load(str(f))
                     existant_file_counter += 1
-                except Exception as e:
+                except Exception:
                     self._logger.critical(f"Failed to load file \"{f}\" (there is likely a syntax error in this logic program file).")
             else:
                 self._logger.critical(f"File \"{f}\" does not exist, this file is skipped.")

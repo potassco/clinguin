@@ -1,12 +1,12 @@
 """
 Module that contains the FontWeightType.
 """
+import itertools
 from enum import auto
 
-import itertools
-
-from .utils.standard_text_processing import StandardTextProcessing
 from .enum import EnumType
+from .utils.standard_text_processing import StandardTextProcessing
+
 
 class FontWeightType(EnumType):
     """

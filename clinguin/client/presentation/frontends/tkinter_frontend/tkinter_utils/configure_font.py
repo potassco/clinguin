@@ -1,8 +1,10 @@
 """
 This module contains the ConfigureSize class.
 """
-from .extension_class import *
 from tkinter import font
+
+from .extension_class import *
+
 
 class ConfigureFont(ExtensionClass):
     """

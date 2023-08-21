@@ -3,6 +3,7 @@ Module that contains the AttributeDao.
 """
 from clorm import Predicate, RawField
 
+
 class AttributeDao(Predicate):
     """
     Class for CLORM (clingo-object-relational-mapping), i.e. for accessing attributes in a factbase.

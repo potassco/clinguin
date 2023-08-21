@@ -1,9 +1,9 @@
 """
 Contains the DropdownmenuItem class.
 """
-import tkinter as tk
 
 from .root_cmp import *
+
 
 class DropdownmenuItem(RootCmp):
     """

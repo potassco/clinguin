@@ -3,8 +3,9 @@ Module that contains the PopupTypesType.
 """
 from enum import auto
 
-from .utils.standard_text_processing import StandardTextProcessing
 from .enum import EnumType
+from .utils.standard_text_processing import StandardTextProcessing
+
 
 class PopupTypesType(EnumType):
     """

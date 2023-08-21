@@ -1,5 +1,6 @@
 import json
 
+
 class BasicTest00:
     @classmethod
     def get_reference_json(cls):

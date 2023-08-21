@@ -1,5 +1,6 @@
 import json
 
+
 class BasicTest08:
 
     @classmethod

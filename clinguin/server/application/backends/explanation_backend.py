@@ -2,11 +2,10 @@
 Module that contains the Explanation Backend.
 """
 
-from functools import partial
-from re import A
+import textwrap
+
 from clingo import parse_term
 from clingo.script import enable_python
-import textwrap
 
 from clinguin.server import UIFB
 from clinguin.server.application.backends.clingo_backend import ClingoBackend

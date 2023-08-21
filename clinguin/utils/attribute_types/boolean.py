@@ -5,6 +5,7 @@ Module that contains the BooleanType class.
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class BooleanType(Type):
     """
     Class that resembles a boolean value in the attributes.

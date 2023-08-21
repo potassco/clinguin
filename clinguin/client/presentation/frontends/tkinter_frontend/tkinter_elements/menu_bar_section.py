@@ -5,6 +5,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
+
 class MenuBarSection(RootCmp):
     """
     The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.

@@ -3,6 +3,7 @@ This module contains the ConfigureSize class.
 """
 from .extension_class import *
 
+
 class ConfigureSize(ExtensionClass):
     """
     If a element is a subtype of the configure-size class the size of the element can be adjusted.

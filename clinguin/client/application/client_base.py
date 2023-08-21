@@ -1,12 +1,13 @@
 """
 Module that contains the ClientBase class
 """
-import time
 import logging
+import time
 
-from clinguin.utils import CaseConverter, Logger
 from clinguin.client.api.api import Api
 from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
+from clinguin.utils import CaseConverter, Logger
+
 
 class ClientBase:
     """

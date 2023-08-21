@@ -3,7 +3,9 @@ This module contains the EnumType.
 """
 
 from enum import Enum
+
 from .type import Type
+
 
 class EnumType(Type, Enum):
     """

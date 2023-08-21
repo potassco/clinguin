@@ -5,6 +5,7 @@ from tkinter import font
 
 from .extension_class import *
 
+
 class ConfigureTextElementSize(ExtensionClass):
     """
     If a element is a subtype of the configure-element-size class the size of the element can be adjusted. 

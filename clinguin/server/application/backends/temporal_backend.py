@@ -2,9 +2,9 @@
 Module that contains the Temporal Backend.
 """
 
-from clingo.symbol import Function, Number
 from clingo import parse_term
 from clingo.script import enable_python
+from clingo.symbol import Function, Number
 
 # Self defined
 from clinguin.server import UIFB

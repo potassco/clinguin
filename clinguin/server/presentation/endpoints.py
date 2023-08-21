@@ -4,14 +4,15 @@ Module for the Endpoints class.
 import logging
 from importlib.metadata import metadata
 
+import clingo
 from fastapi import APIRouter
 
-import clingo
-
 from clinguin.utils import Logger
+
+from .backend_policy_dto import BackendPolicyDto
+
 # Self Defined
 from .endpoints_helper import EndpointsHelper
-from .backend_policy_dto import BackendPolicyDto
 
 
 class Endpoints:

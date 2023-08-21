@@ -10,6 +10,7 @@ from clinguin.utils import Logger
 
 from .frontend_policy_dto import FrontendPolicyDto
 
+
 class Api:
     """
     The API class is responsible for handling API calls, i.e. sending requests and receiving the responses.

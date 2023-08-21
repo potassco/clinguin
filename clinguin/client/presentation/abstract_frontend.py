@@ -5,6 +5,7 @@ import logging
 
 from clinguin.utils import CustomArgs, Logger
 
+
 class AbstractFrontend(CustomArgs):
     """
     Superclass from where every specialized gui class inherits from (e.g. TkinterFrontend). Defines the available elements.

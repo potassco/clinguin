@@ -2,7 +2,6 @@
 This module contains the reference json output
 """
 
-from .health import Health
 from .basic_test_00 import BasicTest00
 from .basic_test_01 import BasicTest01
 from .basic_test_02 import BasicTest02
@@ -15,8 +14,9 @@ from .basic_test_08 import BasicTest08
 from .basic_test_09 import BasicTest09
 from .basic_test_10 import BasicTest10
 from .basic_test_11 import BasicTest11
-from .sudoku import Sudoku
 from .elevator import Elevator
+from .health import Health
+from .sudoku import Sudoku
 
 __all__ = [Health.__name__, 
            BasicTest00.__name__, 

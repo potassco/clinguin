@@ -2,8 +2,10 @@
 This module contains the ExtensionClass
 """
 from clinguin.utils.attribute_types import *
+
 from .attribute_names import AttributeNames
 from .callback_names import CallbackNames
+
 
 class ExtensionClass:
     """

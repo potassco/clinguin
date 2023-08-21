@@ -7,9 +7,10 @@ import networkx as nx
 
 from clinguin.utils import Logger
 
-from .element import ElementDto
 from .attribute import AttributeDto
 from .callback import CallbackDto
+from .element import ElementDto
+
 
 class StandardJsonEncoder:
     """

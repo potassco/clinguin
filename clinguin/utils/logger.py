@@ -5,6 +5,7 @@ Module that takes care of the custom logging config, so it contains the Logger-c
 import logging
 import os
 
+
 class Logger:
     """
     Provides methods to set the logging config appropriatly. In principle two loggers exists - one for the client (default name: clinguin_client) and one for the server (default name: clinguin_server).

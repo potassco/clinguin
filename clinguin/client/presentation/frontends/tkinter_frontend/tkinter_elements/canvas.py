@@ -1,14 +1,15 @@
 """
 Contains the canvas class.
 """
-import io
 import base64
-
+import io
 import tkinter as tk
-from PIL import ImageTk
+
 import PIL.Image as TImage
+from PIL import ImageTk
 
 from .root_cmp import *
+
 
 class Canvas(RootCmp, LayoutFollower, ConfigureSize):
     """

@@ -5,6 +5,7 @@ This module contains the ColorType class.
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class ColorType(Type):
     """
     The color type is used for specifying a color.

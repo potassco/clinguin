@@ -5,6 +5,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
+
 class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
     """
     The label can be used for positiion text. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Dropdowmenu and Button - to make it work for layouting, the actual label is hidden and the element is actually a tkinter frame (therefore self._element is a frame, whereas self._label is the label).

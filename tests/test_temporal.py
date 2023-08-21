@@ -1,7 +1,7 @@
-import re 
 
 from reference_json_output import *
 from utils_test_utils import UtilsTestUtils
+
 
 class TestTemporal:
 

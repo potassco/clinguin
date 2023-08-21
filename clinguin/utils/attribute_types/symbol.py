@@ -7,6 +7,7 @@ import clingo
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class SymbolType(Type):
     """
     This class checks if the input IS A symbol, it does not parse it to a symbol.

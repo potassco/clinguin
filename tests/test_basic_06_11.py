@@ -1,12 +1,8 @@
-import time
-import subprocess
-import datetime
 
-import re
-import json
 
 from reference_json_output import *
 from utils_test_utils import UtilsTestUtils
+
 
 class TestBasic06_11:
 

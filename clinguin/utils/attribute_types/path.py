@@ -7,6 +7,7 @@ from os import path
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class PathType(Type):
     """
     The PathType shall be used, when a path is specified (checks if path exists).

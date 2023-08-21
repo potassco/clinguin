@@ -2,19 +2,18 @@
 Clinguin package - package entry point
 """
 import copy
+import sys
+import threading
+from datetime import datetime
 from re import X
 from subprocess import Popen
 
-import threading
-import sys
-from datetime import datetime
-
 from clinguin.utils import Logger
 
-from .parse_input import ArgumentParser
-
-from .server_helper import start as server_start
 from .client_helper import start as client_start
+from .parse_input import ArgumentParser
+from .server_helper import start as server_start
+
 
 def argsToDictConvert(args_dict, timestamp, name_prefix=""):
     """

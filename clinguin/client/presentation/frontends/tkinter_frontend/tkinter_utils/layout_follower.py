@@ -2,9 +2,11 @@
 This module contains the LayoutFollower class.
 """
 import logging
+
 from clinguin.utils import Logger
 
 from .extension_class import *
+
 
 class LayoutFollower(ExtensionClass):
     """

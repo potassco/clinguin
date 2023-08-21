@@ -5,17 +5,16 @@ import logging
 from pathlib import Path
 
 import clorm
-
-
-from clorm import Raw
-from clingo import Control,parse_term
+from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
+from clorm import Raw
 
-from clinguin.utils import NoModelError, Logger
+from clinguin.utils import Logger, NoModelError
 
-from .element import ElementDao
 from .attribute import AttributeDao
 from .callback import CallbackDao
+from .element import ElementDao
+
 
 def symbols_to_facts(symbols):
     return "\n".join([str(s)+"." for s in symbols])
@@ -120,7 +119,7 @@ class UIFB:
                 try:
                     uictl.load(str(f))
                     existant_file_counter += 1
-                except Exception as e:
+                except Exception:
                     self._logger.critical(f"Failed to load file \"{f}\" (there is likely a syntax error in this logic program file).")
             else:
                 self._logger.critical(f"File \"{f}\" does not exist, this file is skipped.")

@@ -18,7 +18,7 @@ class RootCmp:
     """
 
     def __init__(self, args, id, parent, attributes, callbacks, base_engine):
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(args.log_args["name"])
         self._id = id
         self._parent = parent
         self._json_attributes = attributes
@@ -31,7 +31,6 @@ class RootCmp:
 
     @classmethod
     def get_attributes(cls):
-
         attributes = {}
         for base in cls.__bases__:
             if issubclass(base, ExtensionClass):
@@ -40,9 +39,8 @@ class RootCmp:
         return cls._get_attributes(attributes)
 
     @classmethod
-    def _get_attributes(cls, attributes = None):
+    def _get_attributes(cls, attributes=None):
         return {}
-
 
     @classmethod
     def get_callbacks(cls):
@@ -54,9 +52,8 @@ class RootCmp:
         return cls._get_callbacks(callbacks)
 
     @classmethod
-    def _get_callbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks=None):
         return {}
-
 
     def get_element(self):
         return self._element
@@ -79,39 +76,43 @@ class RootCmp:
 
     def _fill_attributes(self):
         for attribute in self._json_attributes:
-            key = attribute['key']
-            value = attribute['value']
-            if key in self._attributes and 'value_type' in self._attributes[key]:
-                value_type = self._attributes[key]['value_type']
+            key = attribute["key"]
+            value = attribute["value"]
+            if key in self._attributes and "value_type" in self._attributes[key]:
+                value_type = self._attributes[key]["value_type"]
             else:
                 value_type = StringType
 
             if key in self._attributes and "value" in self._attributes[key]:
                 self._attributes[key]["value"] = value_type.parse(value, self._logger)
             else:
-                self._logger.warning('Undefined Command: ' + key + ' for element: ' + attribute['id'])
+                self._logger.warning(
+                    "Undefined Command: " + key + " for element: " + attribute["id"]
+                )
 
     def _fill_callbacks(self):
         for callback in self._json_callbacks:
-            key = callback['action']
-            value = callback['policy']
-            if key in self._callbacks and 'policy_type' in self._callbacks[key]:
-                value_type = self._callbacks[key]['policy_type']
+            key = callback["action"]
+            value = callback["policy"]
+            if key in self._callbacks and "policy_type" in self._callbacks[key]:
+                value_type = self._callbacks[key]["policy_type"]
             else:
                 value_type = SymbolType
 
             if key in self._callbacks and "policy" in self._callbacks[key]:
                 self._callbacks[key]["policy"] = value_type.parse(value, self._logger)
             else:
-                self._logger.warning('Undefined Command: %s, or policy item missing in command.', key)
+                self._logger.warning(
+                    "Undefined Command: %s, or policy item missing in command.", key
+                )
 
     def _get_methods(self, start_string):
-
         object_methods = []
         for method_name in dir(self):
-            if method_name.startswith(start_string) and callable(getattr(self, method_name)):
+            if method_name.startswith(start_string) and callable(
+                getattr(self, method_name)
+            ):
                 object_methods.append(getattr(self, method_name))
-
 
         return object_methods
 
@@ -132,7 +133,11 @@ class RootCmp:
         if str(self._parent) in elements:
             if hasattr(elements[self._parent], "get_child_org"):
                 parent_org = getattr(elements[self._parent], "get_child_org")()
-                if parent_org in (ChildLayoutType.FLEX, ChildLayoutType.RELSTATIC, ChildLayoutType.ABSSTATIC):
+                if parent_org in (
+                    ChildLayoutType.FLEX,
+                    ChildLayoutType.RELSTATIC,
+                    ChildLayoutType.ABSSTATIC,
+                ):
                     self._element.pack_forget()
                 elif parent_org == ChildLayoutType.GRID:
                     self._element.grid_forget()
@@ -142,5 +147,3 @@ class RootCmp:
                 self._element.forget()
         else:
             pass
-
-

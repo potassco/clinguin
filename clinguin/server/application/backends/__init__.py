@@ -6,9 +6,9 @@ from clinguin.server.application.backends.clingraph_backend import ClingraphBack
 from clinguin.server.application.backends.explanation_backend import ExplanationBackend
 from clinguin.server.application.backends.temporal_backend import TemporalBackend
 
-__all__ = [ClingoBackend.__name__,
-            ClingraphBackend.__name__,
-            TemporalBackend.__name__,
-            ExplanationBackend.__name__
-            ]
-
+__all__ = [
+    ClingoBackend.__name__,
+    ClingraphBackend.__name__,
+    TemporalBackend.__name__,
+    ExplanationBackend.__name__,
+]

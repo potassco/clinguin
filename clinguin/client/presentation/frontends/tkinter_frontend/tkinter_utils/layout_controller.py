@@ -10,14 +10,17 @@ class LayoutController(ExtensionClass):
     """
 
     @classmethod
-    def get_attributes(cls, attributes = None):
+    def get_attributes(cls, attributes=None):
         if attributes is None:
             attributes = {}
 
-        attributes[AttributeNames.child_layout] = {"value": ChildLayoutType.FLEX, "value_type" : ChildLayoutType}
+        attributes[AttributeNames.child_layout] = {
+            "value": ChildLayoutType.FLEX,
+            "value_type": ChildLayoutType,
+        }
 
         return attributes
- 
+
     def _set_child_org(self, elements):
         value = self._attributes[AttributeNames.child_layout]["value"]
         self._child_layout = value
@@ -27,5 +30,3 @@ class LayoutController(ExtensionClass):
 
     def get_fit_children_size(self):
         return self._fit_children_size
-
-

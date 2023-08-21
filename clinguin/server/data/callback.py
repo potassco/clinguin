@@ -17,4 +17,5 @@ class CallbackDao(Predicate):
         """
         Meta class
         """
+
         name = "callback"

@@ -30,9 +30,12 @@ class FlexDirectionType(EnumType):
         elif parsed_string == cls.ROW_REVERSE.name.lower():
             return cls.ROW_REVERSE
         else:
-            logger.error("Could not parse " + parsed_string + " to flex_direction type.")
-            raise Exception("Could not parse " + parsed_string + " to flex_direction type.")
-        
+            logger.error(
+                "Could not parse " + parsed_string + " to flex_direction type."
+            )
+            raise Exception(
+                "Could not parse " + parsed_string + " to flex_direction type."
+            )
 
     @classmethod
     def description(cls):

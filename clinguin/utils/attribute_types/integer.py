@@ -24,5 +24,3 @@ class IntegerType(Type):
     @classmethod
     def description(cls):
         return "Specification as an integer, can be either specified as a symbol or a string."
-
-        

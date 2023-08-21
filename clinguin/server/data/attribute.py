@@ -8,6 +8,7 @@ class AttributeDao(Predicate):
     """
     Class for CLORM (clingo-object-relational-mapping), i.e. for accessing attributes in a factbase.
     """
+
     id = RawField
     key = RawField
     value = RawField
@@ -16,4 +17,5 @@ class AttributeDao(Predicate):
         """
         Meta class
         """
+
         name = "attribute"

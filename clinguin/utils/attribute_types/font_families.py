@@ -18,7 +18,6 @@ class FontFamiliesType(Type):
 
         return parsed_string
 
-
     @classmethod
     def description(cls):
         return "As the font-families change from system to system, clinguin cannot provide a useful selection of fonts here. Therefore one should search in one's favorite search engine, how to get a list of available fonts for one's operating system. Generally one can then use the name of the preferred font-family as the value. Some wide spread and popular font-families are (NOTE THAT THEY MIGHT NOT WORK ON YOUR SYSTEM!!!): [''helvetica'',''times'',''arial'',''courier'']."

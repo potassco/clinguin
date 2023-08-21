@@ -23,4 +23,4 @@ class FloatType(Type):
 
     @classmethod
     def description(cls):
-        return "Is a float type. A float must be specified as a string (e.g. \"5.98\")."
+        return 'Is a float type. A float must be specified as a string (e.g. "5.98").'

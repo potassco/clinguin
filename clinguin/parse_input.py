@@ -14,32 +14,31 @@ from .server import ClinguinBackend
 from .show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 
 
-class ArgumentParser():
+class ArgumentParser:
     """
     ArgumentParser-Class, Responsible for parsing the command line attributes
     """
 
-    default_backend_exec_string = "from .server.application.backends import *"    
+    default_backend_exec_string = "from .server.application.backends import *"
     default_frontend_exec_string = "from .client.presentation.frontends import *"
 
-    default_backend = 'ClingoBackend'
-    default_frontend = 'TkinterFrontend'
+    default_backend = "ClingoBackend"
+    default_frontend = "TkinterFrontend"
 
     def __init__(self) -> None:
-
         self.frontend_name = None
         self.frontend = None
 
-
         self.titles = {
-            'client': self._client_title,
-            'server': self._server_title,
-            'client-server': self._client_server_title,
+            "client": self._client_title,
+            "server": self._server_title,
+            "client-server": self._client_server_title,
         }
         self.descriptions = {
-            'client': 'Start a client process that will render a UI.',
-            'server': 'Start server process making endpoints available for a client.',
-            'client-server': 'Start client and a server processes.'}
+            "client": "Start a client process that will render a UI.",
+            "server": "Start server process making endpoints available for a client.",
+            "client-server": "Start client and a server processes.",
+        }
         self.backend_name = None
         self.backend = None
         self._show_frontend_syntax = ShowFrontendSyntaxEnum.NONE
@@ -50,16 +49,20 @@ class ArgumentParser():
         """
         self._parse_custom_classes(string_args)
 
-        parser = argparse.ArgumentParser(description=self._clinguin_description(
-            process), add_help=True, formatter_class=argparse.RawTextHelpFormatter)
+        parser = argparse.ArgumentParser(
+            description=self._clinguin_description(process),
+            add_help=True,
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
         subparsers = parser.add_subparsers(
             title="Process type",
-            description='The type of process to start: a client (UI) a server (Backend) or both',
-            dest='process')
+            description="The type of process to start: a client (UI) a server (Backend) or both",
+            dest="process",
+        )
         self._create_client_subparser(subparsers)
         self._create_server_subparser(subparsers)
         self._create_client_server_subparser(subparsers)
- 
+
         args = parser.parse_args(string_args)
 
         self._add_selected_backend(args)
@@ -72,41 +75,43 @@ class ArgumentParser():
 
     @property
     def _clinguin_title(self):
-        return '''
+        return """
               ___| (_)_ __   __ _ _   _(_)_ __
              / __| | | '_ \\ / _` | | | | | '_ \\
             | (__| | | | | | (_| | |_| | | | | |
              \\___|_|_|_| |_|\\__, |\\__,_|_|_| |_|
                             |___/
-            '''
+            """
 
     @property
     def _client_server_title(self):
-        return '''
+        return """
              _ | o  _  ._  _|_     _  _  ._     _  ._
             (_ | | (/_ | |  |_    _> (/_ |  \\/ (/_ |
 
-            '''
+            """
 
     @property
     def _client_title(self):
-        return '''
+        return """
                        _ | o  _  ._  _|_
                       (_ | | (/_ | |  |_
 
-            '''
+            """
 
     @property
     def _server_title(self):
-        return '''
+        return """
                        _  _  ._     _  ._
                       _> (/_ |  \\/ (/_ |
 
-            '''
+            """
 
     def _clinguin_description(self, process):
-        description = 'Clinguin is a GUI language extension for a logic program that uses Clingo.'
-        if process not in ['server', 'client', 'client-server']:
+        description = (
+            "Clinguin is a GUI language extension for a logic program that uses Clingo."
+        )
+        if process not in ["server", "client", "client-server"]:
             ascci = f"{self._clinguin_title}{description}"
             return f"{inspect.cleandoc(ascci)}\n\n{description}"
         else:
@@ -114,15 +119,14 @@ class ArgumentParser():
             return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
 
     def _import_classes(self, path):
-
         if os.path.isfile(path):
             sys.path.append(os.path.dirname(path))
             self._import_files_from_path_array([path])
-        else: 
+        else:
             sys.path.append(path)
             self._recursive_import(path, "", "")
 
-    def _import_files_from_path_array(self,file_paths, module = ""):
+    def _import_files_from_path_array(self, file_paths, module=""):
         for file_path in file_paths:
             base = os.path.basename(file_path)
             file_name = os.path.splitext(base)[0]
@@ -130,19 +134,19 @@ class ArgumentParser():
             if ending == ".py":
                 if module != "":
                     try:
-                        importlib.import_module(module + "." + file_name)       
+                        importlib.import_module(module + "." + file_name)
                     except Exception:
                         print("Could not import module: " + module + "." + file_name)
                         print("<<<BEGIN-STACK-TRACE>>>")
                         traceback.print_exc()
                         print("<<<END-STACK-TRACE>>>")
-                else: 
-                    importlib.import_module(file_name)       
+                else:
+                    importlib.import_module(file_name)
 
     def _recursive_import(self, full_path, rec_path, module):
         folder_paths = []
         file_paths = []
-        
+
         try:
             for entity in os.scandir(os.path.join(full_path, rec_path)):
                 if entity.is_dir():
@@ -153,8 +157,12 @@ class ArgumentParser():
             print("<<<BEGIN-STACK-TRACE>>>")
             traceback.print_exc()
             print("<<<END-STACK-TRACE>>>")
-            raise Exception("Could not find path for importing libraries: " + os.path.join(full_path, rec_path) + ". Therefore program is terminating now (full stacktrace is printed below).")
-            
+            raise Exception(
+                "Could not find path for importing libraries: "
+                + os.path.join(full_path, rec_path)
+                + ". Therefore program is terminating now (full stacktrace is printed below)."
+            )
+
         self._import_files_from_path_array(file_paths)
 
         for folder_path in folder_paths:
@@ -173,7 +181,7 @@ class ArgumentParser():
         self._add_default_arguments_to_client_parser(custom_imports_parser)
 
         args, _ = custom_imports_parser.parse_known_args(str_args)
-    
+
         self.frontend_name = args.frontend
         self.backend_name = args.backend
         if args.custom_classes:
@@ -182,59 +190,93 @@ class ArgumentParser():
         exec(ArgumentParser.default_backend_exec_string)
         exec(ArgumentParser.default_frontend_exec_string)
 
-
         if args.frontend_syntax and not args.frontend_syntax_full:
             self._show_frontend_syntax = ShowFrontendSyntaxEnum.SHOW
         elif args.frontend_syntax_full:
             self._show_frontend_syntax = ShowFrontendSyntaxEnum.FULL
-        
 
     def _create_client_subparser(self, subparsers):
         parser_client = subparsers.add_parser(
-            'client',
-            help=self.descriptions['client'],
-            description=self._clinguin_description('client'),
+            "client",
+            help=self.descriptions["client"],
+            description=self._clinguin_description("client"),
             add_help=True,
-            formatter_class=argparse.RawTextHelpFormatter)
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
 
-        self._add_log_arguments(parser_client, abbrevation='C', logger_name = 'clinguin_client')       
+        self._add_log_arguments(
+            parser_client, abbrevation="C", logger_name="clinguin_client"
+        )
 
         self._add_default_arguments_to_client_parser(parser_client)
-        self.frontend = self._select_subclass_and_add_custom_arguments(parser_client, AbstractFrontend, self.frontend_name, ArgumentParser.default_frontend)
+        self.frontend = self._select_subclass_and_add_custom_arguments(
+            parser_client,
+            AbstractFrontend,
+            self.frontend_name,
+            ArgumentParser.default_frontend,
+        )
 
         return parser_client
 
     def _create_server_subparser(self, subparsers):
         parser_server = subparsers.add_parser(
-            'server',
-            help=self.descriptions['server'],
-            description=self._clinguin_description('server'),
+            "server",
+            help=self.descriptions["server"],
+            description=self._clinguin_description("server"),
             add_help=True,
-            formatter_class=argparse.RawTextHelpFormatter)
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
 
-        self._add_log_arguments(parser_server, abbrevation='S', logger_name = 'clinguin_server')       
+        self._add_log_arguments(
+            parser_server, abbrevation="S", logger_name="clinguin_server"
+        )
         self._add_default_arguments_to_backend_parser(parser_server)
-        self.backend = self._select_subclass_and_add_custom_arguments(parser_server, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
+        self.backend = self._select_subclass_and_add_custom_arguments(
+            parser_server,
+            ClinguinBackend,
+            self.backend_name,
+            ArgumentParser.default_backend,
+        )
 
         return parser_server
 
     def _create_client_server_subparser(self, subparsers):
-        parser_server_client = subparsers.add_parser('client-server',
-                                                     help=self.descriptions['client-server'],
-                                                     description=self._clinguin_description(
-                                                         'client-server'),
-                                                     add_help=True,
-                                                     formatter_class=argparse.RawTextHelpFormatter)
+        parser_server_client = subparsers.add_parser(
+            "client-server",
+            help=self.descriptions["client-server"],
+            description=self._clinguin_description("client-server"),
+            add_help=True,
+            formatter_class=argparse.RawTextHelpFormatter,
+        )
 
-
-        self._add_log_arguments(parser_server_client, abbrevation='C', logger_name = 'clinguin_client', display_name= 'client-')       
-        self._add_log_arguments(parser_server_client, abbrevation='S', logger_name = 'clinguin_server', display_name ='server-')       
+        self._add_log_arguments(
+            parser_server_client,
+            abbrevation="C",
+            logger_name="clinguin_client",
+            display_name="client-",
+        )
+        self._add_log_arguments(
+            parser_server_client,
+            abbrevation="S",
+            logger_name="clinguin_server",
+            display_name="server-",
+        )
 
         self._add_default_arguments_to_client_parser(parser_server_client)
-        self.frontend = self._select_subclass_and_add_custom_arguments(parser_server_client, AbstractFrontend, self.frontend_name, ArgumentParser.default_frontend)
+        self.frontend = self._select_subclass_and_add_custom_arguments(
+            parser_server_client,
+            AbstractFrontend,
+            self.frontend_name,
+            ArgumentParser.default_frontend,
+        )
 
         self._add_default_arguments_to_backend_parser(parser_server_client)
-        self.backend = self._select_subclass_and_add_custom_arguments(parser_server_client, ClinguinBackend, self.backend_name, ArgumentParser.default_backend)
+        self.backend = self._select_subclass_and_add_custom_arguments(
+            parser_server_client,
+            ClinguinBackend,
+            self.backend_name,
+            ArgumentParser.default_backend,
+        )
 
         return parser_server_client
 
@@ -242,75 +284,91 @@ class ArgumentParser():
         sub_classes = self._get_sub_classes(ClinguinBackend)
         sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
         sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
-        parser.add_argument('--backend', type=str,
-                            help=textwrap.dedent(f'''\
+        parser.add_argument(
+            "--backend",
+            type=str,
+            help=textwrap.dedent(
+                f"""\
                 Optionally specify which backend to use using the class name.
                 {sub_classes_str}
-                '''),
-                            metavar='')
+                """
+            ),
+            metavar="",
+        )
         parser.add_argument(
-            '--custom-classes',
-            type=str,
-            help='Path to custom classes.',
-            metavar='')
+            "--custom-classes", type=str, help="Path to custom classes.", metavar=""
+        )
 
     def _add_default_arguments_to_client_parser(self, parser):
         sub_classes = self._get_sub_classes(AbstractFrontend)
         sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
         sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
-        parser.add_argument('--frontend', type=str,
-                            help=textwrap.dedent(f'''\
+        parser.add_argument(
+            "--frontend",
+            type=str,
+            help=textwrap.dedent(
+                f"""\
                 Optionally specify which frontend to use using the class name.
                 {sub_classes_str}
-                '''),
-                            metavar='')
-        parser.add_argument('--frontend-syntax', 
-                action='store_true',
-                help='Show available commands for the GUI.')
-        parser.add_argument('--frontend-syntax-full', 
-                action='store_true',
-                help='Show available commands for the GUI and shows available value-types.')
-        
+                """
+            ),
+            metavar="",
+        )
+        parser.add_argument(
+            "--frontend-syntax",
+            action="store_true",
+            help="Show available commands for the GUI.",
+        )
+        parser.add_argument(
+            "--frontend-syntax-full",
+            action="store_true",
+            help="Show available commands for the GUI and shows available value-types.",
+        )
 
-    def _add_log_arguments(self, parser, abbrevation='', logger_name = '', display_name=''):
+    def _add_log_arguments(
+        self, parser, abbrevation="", logger_name="", display_name=""
+    ):
+        group = parser.add_argument_group(display_name + "logger")
+        group.add_argument(
+            "--" + display_name + "log-disable-shell",
+            action="store_true",
+            help="Disable shell logging",
+        )
+        group.add_argument(
+            "--" + display_name + "log-enable-file",
+            action="store_true",
+            help="Disable file logging",
+        )
+        group.add_argument(
+            "--" + display_name + "logger-name",
+            type=str,
+            help="Set logger name",
+            metavar="",
+            default=logger_name,
+        )
+        group.add_argument(
+            "--" + display_name + "log-level",
+            type=str,
+            help="Log level",
+            metavar="",
+            choices=["DEBUG", "INFO", "ERROR", "WARNING"],
+            default="INFO",
+        )
+        group.add_argument(
+            "--" + display_name + "log-format-shell",
+            type=str,
+            help="Log format shell",
+            metavar="",
+            default="[" + str(abbrevation) + "] %(levelname)s: %(message)s",
+        )
+        group.add_argument(
+            "--" + display_name + "log-format-file",
+            type=str,
+            help="Log format file",
+            metavar="",
+            default="%(levelname)s: %(message)s",
+        )
 
-        group = parser.add_argument_group(display_name + 'logger')
-        group.add_argument('--' + display_name + 'log-disable-shell',
-                                   action='store_true',
-                                   help='Disable shell logging')
-        group.add_argument('--' + display_name + 'log-enable-file',
-                                   action='store_true',
-                                   help='Disable file logging')
-        group.add_argument('--' + display_name + 'logger-name',
-                                   type=str,
-                                   help='Set logger name',
-                                   metavar='',
-                                   default=logger_name)
-        group.add_argument(
-            '--' + display_name + 'log-level',
-            type=str,
-            help='Log level',
-            metavar='',
-            choices=[
-                'DEBUG',
-                'INFO',
-                'ERROR',
-                'WARNING'],
-            default='INFO')
-        group.add_argument(
-            '--' + display_name + 'log-format-shell',
-            type=str,
-            help='Log format shell',
-            metavar='',
-            default='['+str(abbrevation)+'] %(levelname)s: %(message)s')
-        group.add_argument(
-            '--' + display_name + 'log-format-file',
-            type=str,
-            help='Log format file',
-            metavar='',
-            default='%(levelname)s: %(message)s')
-
-  
     def _get_sub_classes(self, cur_class):
         sub_classes = cur_class.__subclasses__()
         recursive = []
@@ -319,25 +377,30 @@ class ArgumentParser():
 
         return sub_classes + recursive
 
-
-    def _select_subclass_and_add_custom_arguments(self, parser, parent, class_name, default_class):
+    def _select_subclass_and_add_custom_arguments(
+        self, parser, parent, class_name, default_class
+    ):
         sub_classes = self._get_sub_classes(parent)
-        
+
         selected_class = None
 
         for sub_class in sub_classes:
             full_class_name = sub_class.__name__
             selected_by_default = not class_name and full_class_name == default_class
-            selected =  full_class_name == class_name
+            selected = full_class_name == class_name
             if selected_by_default or selected:
                 group = parser.add_argument_group(full_class_name)
                 sub_class.register_options(group)
-        
-                should_show_frontend_syntax = self._show_frontend_syntax == ShowFrontendSyntaxEnum.SHOW or self._show_frontend_syntax  == ShowFrontendSyntaxEnum.FULL
-                if should_show_frontend_syntax and hasattr(sub_class, 'available_syntax'):
+
+                should_show_frontend_syntax = (
+                    self._show_frontend_syntax == ShowFrontendSyntaxEnum.SHOW
+                    or self._show_frontend_syntax == ShowFrontendSyntaxEnum.FULL
+                )
+                if should_show_frontend_syntax and hasattr(
+                    sub_class, "available_syntax"
+                ):
                     print(sub_class.available_syntax(self._show_frontend_syntax))
                     sys.exit()
 
                 selected_class = sub_class
         return selected_class
-

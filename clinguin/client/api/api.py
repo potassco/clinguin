@@ -19,7 +19,6 @@ class Api:
     """
 
     def __init__(self, base_url="http://127.0.0.1:8000/"):
-
         self._logger = logging.getLogger(Logger.client_logger_name)
 
         self.base_url = base_url
@@ -39,11 +38,14 @@ class Api:
             self._logger.error("<<<END-STACKTRACE>>>")
             return (-2, "")
 
-
-
     def post(self, endpoint, body: FrontendPolicyDto):
         try:
-            self._logger.info("<-- POST to %s%s   %s", str(self.base_url), str(endpoint), str(body.function))
+            self._logger.info(
+                "<-- POST to %s%s   %s",
+                str(self.base_url),
+                str(endpoint),
+                str(body.function),
+            )
 
             data = body.to_JSON()
             r = httpx.post(self.base_url + endpoint, data=data, timeout=10000)
@@ -58,6 +60,3 @@ class Api:
             traceback.print_exc()
             self._logger.error("<<<END-STACKTRACE>>>")
             return (-2, "")
-
-
-

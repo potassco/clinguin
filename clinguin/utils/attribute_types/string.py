@@ -17,7 +17,6 @@ class StringType(Type):
 
         return parsed_string
 
-
     @classmethod
     def description(cls):
         return "String, can either be specified as a string or if it is simple as a symbol."

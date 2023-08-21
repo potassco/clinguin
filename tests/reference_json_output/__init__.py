@@ -18,22 +18,20 @@ from .elevator import Elevator
 from .health import Health
 from .sudoku import Sudoku
 
-__all__ = [Health.__name__, 
-           BasicTest00.__name__, 
-           BasicTest01.__name__, 
-           BasicTest02.__name__, 
-           BasicTest03.__name__, 
-           BasicTest04.__name__,
-           BasicTest05.__name__,
-           BasicTest06.__name__,
-           BasicTest07.__name__,
-           BasicTest08.__name__,
-           BasicTest09.__name__,
-           BasicTest10.__name__,
-           BasicTest11.__name__,
-           Sudoku.__name__,
-           Elevator.__name__]
-
-
-
-
+__all__ = [
+    Health.__name__,
+    BasicTest00.__name__,
+    BasicTest01.__name__,
+    BasicTest02.__name__,
+    BasicTest03.__name__,
+    BasicTest04.__name__,
+    BasicTest05.__name__,
+    BasicTest06.__name__,
+    BasicTest07.__name__,
+    BasicTest08.__name__,
+    BasicTest09.__name__,
+    BasicTest10.__name__,
+    BasicTest11.__name__,
+    Sudoku.__name__,
+    Elevator.__name__,
+]

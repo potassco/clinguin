@@ -1,18 +1,24 @@
-
 from reference_json_output import *
 from utils_test_utils import UtilsTestUtils
 
 
 class TestClingraph:
-
     def setup_method(self, test_method):
-
         domain_files = ["examples/clingraph/coloring/encoding.lp"]
         ui_files = ["examples/clingraph/coloring/ui.lp"]
 
-        clingraph = ["--backend", "ClingraphBackend", "--clingraph-files","examples/clingraph/coloring/viz.lp", "--engine", "neato"]
-        
-        self.p, self.uvicorn_url = UtilsTestUtils.start_server(domain_files, ui_files, optional = clingraph)
+        clingraph = [
+            "--backend",
+            "ClingraphBackend",
+            "--clingraph-files",
+            "examples/clingraph/coloring/viz.lp",
+            "--engine",
+            "neato",
+        ]
+
+        self.p, self.uvicorn_url = UtilsTestUtils.start_server(
+            domain_files, ui_files, optional=clingraph
+        )
 
     def teardown_method(self, test_method):
         UtilsTestUtils.shutdown_server(self.p)

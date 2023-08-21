@@ -20,5 +20,3 @@ class MenuBar(RootCmp):
 
     def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
-
-

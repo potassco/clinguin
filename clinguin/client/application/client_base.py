@@ -31,10 +31,9 @@ class ClientBase:
         (status_code, response) = self.api.get("")
         if status_code == 200:
             self.draw(response)
-            self.frontend_generator.draw(response['children'][0]['id'])
+            self.frontend_generator.draw(response["children"][0]["id"])
         else:
-            self._logger.error(
-                "Connection error, status code: %s", str(status_code))
+            self._logger.error("Connection error, status code: %s", str(status_code))
 
             self.connected = False
             self.connect()
@@ -51,7 +50,7 @@ class ClientBase:
 
     def draw(self, response):
         self.base_engine(response)
-        self.frontend_generator.draw_postprocessing(response['children'][0]['id'])
+        self.frontend_generator.draw_postprocessing(response["children"][0]["id"])
 
     def base_engine(self, response):
         """
@@ -60,10 +59,10 @@ class ClientBase:
         Parameters:
             response (dict): Json from which one can draw the GUI.
         """
-        children = response['children']
+        children = response["children"]
 
         for child in children:
-            snake_case_name = child['type']
+            snake_case_name = child["type"]
             camel_case_name = CaseConverter.snake_case_to_camel_case(snake_case_name)
 
             method = None
@@ -74,28 +73,23 @@ class ClientBase:
             elif hasattr(self.frontend_generator, snake_case_name):
                 method = getattr(self.frontend_generator, snake_case_name)
 
-
             if method and callable(method):
                 method(
-                    child['id'],
-                    child['parent'],
-                    child['attributes'],
-                    child['callbacks'])
+                    child["id"],
+                    child["parent"],
+                    child["attributes"],
+                    child["callbacks"],
+                )
                 self.base_engine(child)
             else:
-                self._logger.error(
-                    "Could not find element type: %s", child['type'])
+                self._logger.error("Could not find element type: %s", child["type"])
 
     def post_with_policy(self, click_policy):
         (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)
         else:
-            self._logger.error(
-                "Connection error, status code: %s", str(status_code))
+            self._logger.error("Connection error, status code: %s", str(status_code))
 
             self.connected = False
             self.connect()
-
-
-

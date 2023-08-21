@@ -1,35 +1,27 @@
-
-
 from reference_json_output import *
 from utils_test_utils import UtilsTestUtils
 
 
 class TestBasic06_11:
-
     def setup_method(self, test_method):
-        
         self.p, self.uvicorn_url = UtilsTestUtils.basic_tests_start_server(test_method)
-        
-    
+
     def teardown_method(self, test_method):
         UtilsTestUtils.shutdown_server(self.p)
 
     def test_basic_11(self):
-
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest11.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
     def test_basic_10(self):
-
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest10.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
     def test_basic_09_order_02(self):
- 
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest09.get_reference_json())
 
@@ -58,32 +50,25 @@ class TestBasic06_11:
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
     def test_basic_09_order_01(self):
-
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest09.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
     def test_basic_08(self):
-
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest08.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
-
     def test_basic_07(self):
-
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest07.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
-
     def test_basic_06(self):
-
         uri = f"{self.uvicorn_url}"
         received_by_postman = str(BasicTest06.get_reference_json())
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
-

@@ -8,6 +8,7 @@ class AttributeDto:
     """
     Objects of this class represent the attributes in the json convertible hierarchy.
     """
+
     def __init__(self, id, key, value):
         self.id = str(id)
         self.key = str(key)

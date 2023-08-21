@@ -44,16 +44,11 @@ class ArgumentParser():
         self.backend = None
         self._show_frontend_syntax = ShowFrontendSyntaxEnum.NONE
 
-    def parse(self):
+    def parse(self, process, string_args):
         """
         After initialization of the ArgumentParser call this function to parse the arguments.
         """
-        self._parse_custom_classes()
-
-        if len(sys.argv) > 1:
-            process = sys.argv[1]
-        else:
-            process = sys.argv[0]
+        self._parse_custom_classes(string_args)
 
         parser = argparse.ArgumentParser(description=self._clinguin_description(
             process), add_help=True, formatter_class=argparse.RawTextHelpFormatter)
@@ -65,7 +60,7 @@ class ArgumentParser():
         self._create_server_subparser(subparsers)
         self._create_client_server_subparser(subparsers)
  
-        args = parser.parse_args()
+        args = parser.parse_args(string_args)
 
         self._add_selected_backend(args)
 
@@ -172,12 +167,12 @@ class ArgumentParser():
 
             self._recursive_import(full_path, os.path.join(rec_path, base), new_module)
 
-    def _parse_custom_classes(self):
+    def _parse_custom_classes(self, str_args):
         custom_imports_parser = argparse.ArgumentParser(add_help=False)
         self._add_default_arguments_to_backend_parser(custom_imports_parser)
         self._add_default_arguments_to_client_parser(custom_imports_parser)
 
-        args, _ = custom_imports_parser.parse_known_args()
+        args, _ = custom_imports_parser.parse_known_args(str_args)
     
         self.frontend_name = args.frontend
         self.backend_name = args.backend
@@ -346,4 +341,3 @@ class ArgumentParser():
                 selected_class = sub_class
         return selected_class
 
-# W0703,R0201,W0707,W0122

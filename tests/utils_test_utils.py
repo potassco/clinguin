@@ -2,7 +2,14 @@ import time
 import subprocess
 import re
 import httpx
+import json
+import copy
 
+from datetime import datetime
+
+from clinguin.parse_input import ArgumentParser
+from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin import argsToDictConvert
 
 class UtilsTestUtils:
 
@@ -91,5 +98,52 @@ class UtilsTestUtils:
         server_process.kill()
 
         print("SERVER SHUTDOWN COMPLETE")
+
+    @classmethod
+    def instantiate_backend(self, test_method):
+
+        test_method_name = test_method.__name__
+
+        p = re.compile(r"\d\d")
+        result = p.search(test_method_name)
+
+        if result is not None:
+            test_number = result.group(0)
+        else: 
+            test_number = "00"
+
+        domain_files = [f"examples/basic/test_{test_number}/domain_file.lp"]
+
+        ui_files = [f"examples/basic/test_{test_number}/ui.lp"]
+
+        parser = ArgumentParser()
+
+        arguments = ["server",f"--domain-files"]\
+                    + domain_files\
+                    + [f"--ui-files"]\
+                    + ui_files
+
+        args = parser.parse("server", arguments)        
+
+        args_dict = vars(args)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
+        
+        log_dict = argsToDictConvert(args_dict, timestamp)
+
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args = log_dict
+
+        self.args = args_copy
+
+        return ClingoBackend(args_copy)
+
+    @classmethod
+    def assert_result(self, should_output, received_by_request):
+        received_by_request = json.loads(json.dumps(received_by_request, default=lambda o: o.__dict__))
+        assert str(received_by_request) == str(should_output)
+
+
+
 
 

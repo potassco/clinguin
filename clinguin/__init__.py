@@ -39,7 +39,13 @@ def main():
 
     parser = ArgumentParser()
 
-    args = parser.parse()
+    if len(sys.argv) > 1:
+        process = sys.argv[1]
+    else:
+        process = sys.argv[0]
+
+    args = parser.parse(process, sys.argv[1:])
+
     args_dict = vars(args)
 
     timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")

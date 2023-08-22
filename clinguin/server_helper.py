@@ -4,8 +4,8 @@ Responsible for starting the server
 import uvicorn
 from fastapi import FastAPI
 
-from clinguin.utils import Logger
 from clinguin.server import Endpoints
+from clinguin.utils import Logger
 
 
 def start(args):

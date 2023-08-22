@@ -1,11 +1,11 @@
 """
 Module that contains the FontFamiliesType.
 """
-from enum import auto
 
 
-from .utils.standard_text_processing import StandardTextProcessing
 from .type import Type
+from .utils.standard_text_processing import StandardTextProcessing
+
 
 class FontFamiliesType(Type):
     """
@@ -17,7 +17,6 @@ class FontFamiliesType(Type):
         parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
 
         return parsed_string
-
 
     @classmethod
     def description(cls):

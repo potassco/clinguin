@@ -7,6 +7,7 @@ from os import path
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class PathType(Type):
     """
     The PathType shall be used, when a path is specified (checks if path exists).
@@ -15,7 +16,7 @@ class PathType(Type):
     @classmethod
     def parse(cls, input: str, logger):
         parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
-        
+
         if path.exists(parsed_string):
             return parsed_string
         else:

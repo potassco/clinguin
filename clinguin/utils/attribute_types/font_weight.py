@@ -1,12 +1,12 @@
 """
 Module that contains the FontWeightType.
 """
+import itertools
 from enum import auto
 
-import itertools
-
-from .utils.standard_text_processing import StandardTextProcessing
 from .enum import EnumType
+from .utils.standard_text_processing import StandardTextProcessing
+
 
 class FontWeightType(EnumType):
     """
@@ -25,7 +25,7 @@ class FontWeightType(EnumType):
         normals = ["n", "normal"]
         bolds = ["b", "bold"]
         italics = ["i", "italic"]
-        
+
         combination = [bolds, italics]
 
         bolds_italic_list = []
@@ -54,5 +54,4 @@ class FontWeightType(EnumType):
 
     @classmethod
     def description(cls):
-        return "For the FontWeightType several different options exists - [\"i\" or \"italic\"] for italic, [\"b\" or \"bold\"] for bold and any permuation (with the delimiters \"_\", \"-\" and no delimiter) of those for both italic and bolt. Further \"normal\" exists for specifying normal font weight."
-
+        return 'For the FontWeightType several different options exists - ["i" or "italic"] for italic, ["b" or "bold"] for bold and any permuation (with the delimiters "_", "-" and no delimiter) of those for both italic and bolt. Further "normal" exists for specifying normal font weight.'

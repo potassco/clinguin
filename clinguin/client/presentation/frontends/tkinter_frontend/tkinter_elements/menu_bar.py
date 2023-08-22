@@ -5,6 +5,7 @@ import tkinter as tk
 
 from .root_cmp import *
 
+
 class MenuBar(RootCmp):
     """
     The MenuBar is the class which resembles the menu-bar in tkinter. There must only be one in a clinguin ui file.
@@ -19,5 +20,3 @@ class MenuBar(RootCmp):
 
     def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
-
-

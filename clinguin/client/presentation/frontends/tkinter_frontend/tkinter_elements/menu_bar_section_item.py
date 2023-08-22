@@ -4,14 +4,16 @@ Contains the menu bar section item class.
 from .root_cmp import *
 
 map = {
-    "Ctrl":"Control",
-    "Opt":"Option",
-    "Cmd":"Command",
-    "Control":"Control",
-    "Option":"Option",
-    "Command":"Command",
-    "Shift":"Shift"
+    "Ctrl": "Control",
+    "Opt": "Option",
+    "Cmd": "Command",
+    "Control": "Control",
+    "Option": "Option",
+    "Command": "Command",
+    "Shift": "Shift",
 }
+
+
 def accelerator_to_bind(a):
     args = a.split("+")
     formatted = []
@@ -20,7 +22,8 @@ def accelerator_to_bind(a):
             formatted.append(map[e])
         else:
             formatted.append(e.lower())
-    return "<"+"-".join(formatted)+">"
+    return "<" + "-".join(formatted) + ">"
+
 
 class MenuBarSectionItem(RootCmp):
     """
@@ -33,22 +36,27 @@ class MenuBarSectionItem(RootCmp):
         return menubar_section
 
     @classmethod
-    def _get_attributes(cls, attributes = None):
+    def _get_attributes(cls, attributes=None):
         if attributes is None:
             attributes = {}
 
-        attributes[AttributeNames.label] = {"value":"standard_label", "value_type" : StringType}
-        attributes[AttributeNames.accelerator] = {"value":None, "value_type" : StringType}
+        attributes[AttributeNames.label] = {
+            "value": "standard_label",
+            "value_type": StringType,
+        }
+        attributes[AttributeNames.accelerator] = {
+            "value": None,
+            "value_type": StringType,
+        }
 
         return attributes
 
-
     @classmethod
-    def _get_callbacks(cls, callbacks = None):
+    def _get_callbacks(cls, callbacks=None):
         if callbacks is None:
             callbacks = {}
 
-        callbacks[CallbackNames.click] = {"policy":None, "policy_type" : SymbolType}
+        callbacks[CallbackNames.click] = {"policy": None, "policy_type": SymbolType}
 
         return callbacks
 
@@ -58,32 +66,27 @@ class MenuBarSectionItem(RootCmp):
         accelerator = self._attributes[AttributeNames.accelerator]["value"]
         if self._callbacks[key] and self._callbacks[key]["policy"]:
             cb = CallBackDefinition(
-                    self._id,
-                    self._parent,
-                    self._callbacks[key]["policy"],
-                    elements,
-                    self._menubar_item_click)
-            self._element.add_command(
-                label=text,
-                command=cb, accelerator=accelerator)
+                self._id,
+                self._parent,
+                self._callbacks[key]["policy"],
+                elements,
+                self._menubar_item_click,
+            )
+            self._element.add_command(label=text, command=cb, accelerator=accelerator)
             menu = elements[self._parent]
             window = elements[menu._parent]
             root = elements[window._parent]
             if accelerator:
                 root.get_element().bind(accelerator_to_bind(accelerator), cb)
         else:
-            self._element.add_command(
-                label=text)
-
+            self._element.add_command(label=text)
 
     def _menubar_item_click(self, id, parent, click_policy, elements):
         if click_policy is not None:
             self._base_engine.post_with_policy(click_policy)
- 
+
     def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
 
     def forget_children(self, elements):
         pass
-
-

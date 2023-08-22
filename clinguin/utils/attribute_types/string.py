@@ -5,6 +5,7 @@ This module contains the StringType class.
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 
+
 class StringType(Type):
     """
     The StringType shall be used, when the attribute value is string like.
@@ -15,7 +16,6 @@ class StringType(Type):
         parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
 
         return parsed_string
-
 
     @classmethod
     def description(cls):

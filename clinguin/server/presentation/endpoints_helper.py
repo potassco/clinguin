@@ -3,7 +3,8 @@ Module that contains the EndpointsHelper class.
 """
 import logging
 import traceback
-from ...utils import CaseConverter, Logger, SERVER_ERROR_ALERT
+
+from ...utils import SERVER_ERROR_ALERT, CaseConverter, Logger
 
 # def sever_error_json(e):
 #     model = UIFB()
@@ -27,7 +28,6 @@ class EndpointsHelper:
         snake_case_name = name
         camel_case_name = CaseConverter.snake_case_to_camel_case(snake_case_name)
 
-
         if hasattr(backend, snake_case_name):
             function = getattr(backend, snake_case_name)
             found = True
@@ -49,4 +49,3 @@ class EndpointsHelper:
             error_string = "Could not find function: " + name + " :in backend"
             logger.error(error_string)
             raise Exception(error_string)
-

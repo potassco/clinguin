@@ -49,7 +49,7 @@ class ClingraphInteractiveBackend(ClinguinBackend):
             models = []
             with ctl.solve(yield_=True) as handle:
                 for model in handle:
-                    symbols = model.symbols(atoms=True)
+                    symbols = model.symbols(atoms=True, terms=True)
                     models.append([str(symbol) for symbol in symbols])
 
             if len(models) <= 0:
@@ -63,6 +63,7 @@ class ClingraphInteractiveBackend(ClinguinBackend):
                     e) + "\n" + "Particular: " + ClingoLogger.errorString())
 
         modelString = ".\n".join(models[0]) + "."
+        print(modelString)
         try:
             ctl = clingo.Control(logger=ClingoLogger.logger)
             ctl.add(modelString)
@@ -100,12 +101,13 @@ class ClingraphInteractiveBackend(ClinguinBackend):
             return Exception("An error occured during the Option solving stage: " + str(
                 e) + " Particular: " + ClingoLogger.errorString())
 
+        print("OPTIONS MODELS: ", options_models[0])
         oL: OptionsList = createOptionsList(options_models[0])
         graph = clingraph.compute_graphs(fb)
         clingraph.render(graph, format="svg")
         with open('out/default.svg', 'r') as svg_file:
             svg_content = svg_file.read()
         print("Done. Sending response...")
-        print(oL.toJson())
+        print("OPTIONSLIST: ", oL.toJson())
         raw = {"data": svg_content, "option_data": oL.toJson()}
         return raw

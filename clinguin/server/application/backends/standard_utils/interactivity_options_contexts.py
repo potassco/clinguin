@@ -1,25 +1,25 @@
 import json
 
-from clorm import Predicate, ConstantField, IntegerField, refine_field, StringField, FactBase
+from clorm import Predicate, ConstantField, IntegerField, refine_field, combine_fields, StringField, FactBase
 from typing import Any, Union
 
 class Option_Context(Predicate):
     node = refine_field(ConstantField, ["node","edge"])
-    id = IntegerField
+    id = combine_fields([ConstantField,IntegerField])
     type = refine_field(ConstantField, ["checkbox","text","select"]) # TODO: Add the other HTML input types.
     name = ConstantField
-    value = ConstantField
+    value = combine_fields([ConstantField,IntegerField])
 
 class User_Input(Predicate):
     node = refine_field(ConstantField, ["node","edge"])
-    id = IntegerField
+    id = combine_fields([ConstantField,IntegerField])
     type = refine_field(ConstantField, ["checkbox", "text", "select"])  # TODO: Add the other HTML input types.
-    name = StringField
-    value = ConstantField
+    name = ConstantField
+    value = combine_fields([ConstantField,IntegerField])
 
 class Select_Option(Predicate):
-    name = StringField
-    value = ConstantField
+    name = ConstantField
+    value = combine_fields([ConstantField,IntegerField])
 
 class Select_Option_Class:
     def __init__(self, name:str, state:Any, options:[str]):
@@ -75,7 +75,7 @@ class OptionsList:
     def __init__(self, options: list[NodeOptions]):
         self.options = options
 
-    def add(self, id:int, compType:str, option:Union[Input_Option,Select_Option_Class]):
+    def add(self, id:str, compType:str, option:Union[Input_Option,Select_Option_Class]):
         for opt in self.options:
             if opt.id == id:
                 opt.addOption(option)
@@ -101,9 +101,9 @@ def createOptionsList(atoms: FactBase) -> OptionsList:
             for o in selOpt_solutions:
                 if o[0] == s[1]:
                     selOpts.append(o[1])
-            oL.add(s[0], s[4], Select_Option_Class(s[1], s[3], selOpts))
+            oL.add(str(s[0]), s[4], Select_Option_Class(s[1], s[3], selOpts))
         else:
-            oL.add(s[0], s[4], Input_Option(s[2],s[1], s[3]))
+            oL.add(str(s[0]), s[4], Input_Option(s[2],s[1], s[3]))
 
 
     return oL

@@ -8,7 +8,8 @@ from clinguin.utils import CustomArgs, Logger
 
 class AbstractFrontend(CustomArgs):
     """
-    Superclass from where every specialized gui class inherits from (e.g. TkinterFrontend). Defines the available elements.
+    Superclass from where every specialized gui class inherits from (e.g. TkinterFrontend).
+    Defines the available elements.
     """
 
     def __init__(self, base_engine, args):

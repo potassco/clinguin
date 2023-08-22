@@ -17,7 +17,7 @@ class IntegerType(Type):
 
         try:
             return int(parsed_string)
-        except:
+        except Exception:
             logger.error("Could not parse string to int: " + parsed_string)
             raise Exception("Could not parse string to int: " + parsed_string)
 

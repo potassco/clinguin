@@ -3,14 +3,32 @@ This module contains the button class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    BooleanType,
+    ColorType,
+    StringType,
+    SymbolType,
+)
+from ..tkinter_utils import (
+    AttributeNames,
+    CallbackNames,
+    ConfigureFont,
+    ConfigureSize,
+    ConfigureTextElementSize,
+    LayoutFollower,
+)
+from .root_cmp import RootCmp
 
 
 class Button(
     RootCmp, LayoutFollower, ConfigureSize, ConfigureFont, ConfigureTextElementSize
 ):
     """
-    A button is a element, which is generally regarded as an active element, so actions are executed. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Label and Dropdownmenu - to make it work for layouting, the actual button is hidden the the element is actually a tkinter frame (therefore self._element is a frame, whereas self._button is the button).
+    A button is a element, which is generally regarded as an active element,
+    so actions are executed. For available attributes see syntax definition.
+    Implementation wise it is similarly implemented as the Label and Dropdownmenu -
+    to make it work for layouting, the actual button is hidden the the element is actually
+    a tkinter frame (therefore self._element is a frame, whereas self._button is the button).
     """
 
     def __init__(self, args, id, parent, attributes, callbacks, base_engine):

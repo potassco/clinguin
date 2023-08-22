@@ -5,10 +5,6 @@ import copy
 import sys
 import threading
 from datetime import datetime
-from re import X
-from subprocess import Popen
-
-from clinguin.utils import Logger
 
 from .client_helper import start as client_start
 from .parse_input import ArgumentParser

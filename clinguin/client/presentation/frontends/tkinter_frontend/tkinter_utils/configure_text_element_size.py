@@ -3,14 +3,19 @@ This module contains the ConfigureTextElementSize class.
 """
 from tkinter import font
 
-from .extension_class import *
+from clinguin.utils.attribute_types import (
+    IntegerType,
+)
+
+from .extension_class import ExtensionClass
+from ..tkinter_utils import AttributeNames
 
 
 class ConfigureTextElementSize(ExtensionClass):
     """
     If a element is a subtype of the configure-element-size class the size of the element can be adjusted.
-    It is required that any subtype of this type has the ''_configure_text_element_size'' variable (and must be set appropriately).
-    Further any subtype MUST also be a subtype of ''configure_font''
+    It is required that any subtype of this type has the ''_configure_text_element_size'' variable
+    (and must be set appropriately). Further any subtype MUST also be a subtype of ''configure_font''
     """
 
     def __init__(self):

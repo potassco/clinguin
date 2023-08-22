@@ -6,7 +6,14 @@ import tkinter as tk
 # This import is used implicitly
 import tkinter.messagebox
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    StringType,
+    PopupTypesType
+)
+from ..tkinter_utils import (
+    AttributeNames,
+)
+from .root_cmp import RootCmp
 
 
 class Message(RootCmp):

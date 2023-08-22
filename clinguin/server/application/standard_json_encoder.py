@@ -40,7 +40,9 @@ class StandardJsonEncoder:
     @classmethod
     def _generate_hierarchy(cls, uifb, hierarchy_root, elements_dict):
         """
-        Converts the UIFB into an Json Hierarchy (which is represented by an ElementDto). Therefore it first gets all dependencies, then orders the elements according to the dependencies and then adds for each element its attributes, callbacks and children.
+        Converts the UIFB into an Json Hierarchy (which is represented by an ElementDto).
+        Therefore it first gets all dependencies, then orders the elements according to the dependencies
+        and then adds for each element its attributes, callbacks and children.
 
         Arguments:
             uifb : UIFB
@@ -68,7 +70,7 @@ class StandardJsonEncoder:
             if str(element_id) == str(hierarchy_root.id):
                 continue
 
-            if not element_id in elements_info:
+            if element_id not in elements_info:
                 logger.critical(
                     "The provided element id (ID : %s) could not be found!",
                     str(element_id),

@@ -2,7 +2,13 @@
 This module contains the ConfigureBorder class.
 """
 
-from .extension_class import *
+from clinguin.utils.attribute_types import (
+    IntegerType,
+    ColorType
+)
+
+from .extension_class import ExtensionClass
+from ..tkinter_utils import AttributeNames
 
 
 class ConfigureBorder(ExtensionClass):

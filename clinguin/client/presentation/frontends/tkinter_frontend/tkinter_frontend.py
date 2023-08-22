@@ -7,13 +7,30 @@ from clinguin.client import AbstractFrontend
 from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.utils.attribute_types.child_layout import ChildLayoutType
 
-from .tkinter_elements import *
-from .tkinter_utils import *
+from .tkinter_elements import (
+    Button,
+    Canvas,
+    Container,
+    DropdownmenuItem,
+    Dropdownmenu,
+    Label,
+    MenuBarSectionItem,
+    MenuBarSection,
+    MenuBar,
+    Message,
+    RootCmp,
+    Window
+)
+from .tkinter_utils import (
+    AttributeNames,
+    CallbackNames
+)
 
 
 class TkinterFrontend(AbstractFrontend):
     """
-    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class, if it shall be used to render the Frontend. It defines what to do for each element.
+    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class,
+    if it shall be used to render the Frontend. It defines what to do for each element.
     """
 
     def __init__(self, base_engine, args):
@@ -62,11 +79,14 @@ class TkinterFrontend(AbstractFrontend):
             return description
 
         description = (
-            "Here one finds the supported attributes and callbacks of the TkinterFrontend and further a definition of the syntax:\n"
+            "Here one finds the supported attributes and callbacks of the TkinterFrontend and further a definition"
+            + "of the syntax:\n"
             + "There are three syntax elements:\n\n"
             + "element(<ID>, <TYPE>, <PARENT>) : To define an element\n"
-            + "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the corresponding element)\n"
-            + "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the corresponding element)\n\n"
+            + "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the"
+            + "corresponding element)\n"
+            + "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the"
+            + "corresponding element)\n\n"
             + "The following list shows for each <TYPE> the possible attributes and callbacks:\n"
         )
 

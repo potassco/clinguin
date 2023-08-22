@@ -1,7 +1,17 @@
 """
 Contains the menu bar section item class.
 """
-from .root_cmp import *
+
+from clinguin.utils.attribute_types import (
+    StringType,
+    SymbolType,
+)
+from ..tkinter_utils import (
+    AttributeNames,
+    CallbackNames,
+    CallBackDefinition
+)
+from .root_cmp import RootCmp
 
 map = {
     "Ctrl": "Control",
@@ -27,7 +37,9 @@ def accelerator_to_bind(a):
 
 class MenuBarSectionItem(RootCmp):
     """
-    The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
+    The menu bar section is a section of a menu bar (e.g. in the menu |main|contact|,
+    where if one clicks on |contact| further the options |location|team| appear,
+    a menu-bar-section would be |contact|, whereas |location| and |team| would be menu-bar-section-items.
     """
 
     def _init_element(self, elements):

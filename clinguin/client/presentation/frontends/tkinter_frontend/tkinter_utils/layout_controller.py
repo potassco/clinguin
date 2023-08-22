@@ -1,7 +1,13 @@
 """
 This module contains the LayoutController class.
 """
-from .extension_class import *
+
+from clinguin.utils.attribute_types import (
+    ChildLayoutType,
+)
+
+from .extension_class import ExtensionClass
+from ..tkinter_utils import AttributeNames
 
 
 class LayoutController(ExtensionClass):

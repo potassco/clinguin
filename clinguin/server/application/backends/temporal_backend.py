@@ -7,9 +7,7 @@ from clingo.script import enable_python
 from clingo.symbol import Function, Number
 
 # Self defined
-from clinguin.server import UIFB
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
 
 enable_python()
 

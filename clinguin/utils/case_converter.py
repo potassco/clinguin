@@ -5,7 +5,8 @@ Module contains the CaseConverter class.
 
 class CaseConverter:
     """
-    The CaseConverter class provides functionality to convert strings from one type-case (like snake_case) to another (like camelCase).
+    The CaseConverter class provides functionality to convert strings from one type-case
+    (like snake_case) to another (like camelCase).
 
     Methods:
         snake_case_to_camel_case(snake_case : str) -> str

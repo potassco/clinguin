@@ -3,17 +3,26 @@ Contains the RootCmp class.
 """
 import logging
 
-from clinguin.utils.attribute_types import *
-
-from ..tkinter_utils import *
+from clinguin.utils.attribute_types import (
+    StringType,
+    SymbolType,
+    ChildLayoutType
+)
+from ..tkinter_utils import (
+    ExtensionClass
+)
 
 
 class RootCmp:
     """
-    Every tkinter element must be a subtype of the RootCmp. It further features standard implementations of various methods, therefore one must just implement a handful of methods if one implements a new element, these are (see e.g. the button.py for a sample implementation):
+    Every tkinter element must be a subtype of the RootCmp.
+    It further features standard implementations of various methods,
+    therefore one must just implement a handful of methods if one implements a new element,
+    these are (see e.g. the button.py for a sample implementation):
     - _get_attributes(attributes = None)
     - _get_callbacks(callbacks = None)
-    - Every method, which name starts with ''_set'' will be executed and are designed to be used for setting the attributes.
+    - Every method, which name starts with ''_set'' will be executed and are designed to be used
+    for setting the attributes.
     - Every method, which name starts with ''_define'' will be executed and are designet to specify callbacks.
     """
 

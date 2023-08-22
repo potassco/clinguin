@@ -2,7 +2,16 @@
 Contains the DropdownmenuItem class.
 """
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    StringType,
+    SymbolType,
+)
+from ..tkinter_utils import (
+    AttributeNames,
+    CallbackNames,
+    CallBackDefinition
+)
+from .root_cmp import RootCmp
 
 
 class DropdownmenuItem(RootCmp):

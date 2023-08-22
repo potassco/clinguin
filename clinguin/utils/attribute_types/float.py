@@ -17,7 +17,7 @@ class FloatType(Type):
 
         try:
             return float(parsed_string)
-        except:
+        except Exception:
             logger.error("Could not parse string to float: " + parsed_string)
             raise Exception("Could not parse string to float: " + parsed_string)
 

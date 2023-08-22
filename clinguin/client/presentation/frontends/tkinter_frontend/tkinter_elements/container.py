@@ -3,14 +3,30 @@ Module contains the Container class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    BooleanType,
+    ColorType,
+    SymbolType,
+)
+
+from ..tkinter_utils import (
+    AttributeNames,
+    CallbackNames,
+    ConfigureSize,
+    LayoutFollower,
+    LayoutController,
+    ConfigureBorder
+)
+from .root_cmp import RootCmp
 
 
 class Container(
     RootCmp, LayoutFollower, LayoutController, ConfigureSize, ConfigureBorder
 ):
     """
-    The container is a generic element which can be used for layouting, hovering effects or even callbacks. Generally it is recommended to use it as a ''container'' for multiple other elements, e.g. labels, buttons, etc.
+    The container is a generic element which can be used for layouting,
+    hovering effects or even callbacks. Generally it is recommended to use
+    it as a ''container'' for multiple other elements, e.g. labels, buttons, etc.
     """
 
     def _init_element(self, elements):

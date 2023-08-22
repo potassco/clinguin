@@ -5,7 +5,14 @@ import logging
 
 from clinguin.utils import Logger
 
-from .extension_class import *
+from clinguin.utils.attribute_types import (
+    ChildLayoutType,
+    FlexDirectionType,
+    IntegerType
+)
+
+from .extension_class import ExtensionClass
+from ..tkinter_utils import AttributeNames
 
 
 class LayoutFollower(ExtensionClass):

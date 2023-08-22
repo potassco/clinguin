@@ -17,7 +17,9 @@ from .endpoints_helper import EndpointsHelper
 
 class Endpoints:
     """
-    The endpoints class define the available endpoints the backend (this time backend refers to the general concept of backend, like a server backend) has. These are defined in the ''__init__'', and correspond to the three methods:
+    The endpoints class define the available endpoints the backend
+    (this time backend refers to the general concept of backend, like a server backend) has.
+    These are defined in the ''__init__'', and correspond to the three methods:
 
     Methods:
         health -> Json : Returns name, version and description of clinguin.

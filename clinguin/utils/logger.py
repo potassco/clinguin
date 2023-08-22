@@ -8,7 +8,8 @@ import os
 
 class Logger:
     """
-    Provides methods to set the logging config appropriatly. In principle two loggers exists - one for the client (default name: clinguin_client) and one for the server (default name: clinguin_server).
+    Provides methods to set the logging config appropriatly. In principle two loggers exists -
+    one for the client (default name: clinguin_client) and one for the server (default name: clinguin_server).
     """
 
     class ColoredFormatter(logging.Formatter):

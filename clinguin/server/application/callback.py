@@ -6,7 +6,9 @@ import json
 
 class CallbackDto:
     """
-    This class represents a Callback that is Json convertible. Therefore objects of this class are part of the hierarchy that will get converted to Json by the endpoints on sending the reply.
+    This class represents a Callback that is Json convertible.
+    Therefore objects of this class are part of the hierarchy that will get converted to Json by the
+    endpoints on sending the reply.
     """
 
     def __init__(self, id, action, policy):

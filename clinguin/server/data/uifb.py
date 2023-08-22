@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 
 import clorm
-from clingo import Control, parse_term
+from clingo import Control
 from clingo.symbol import Function, Number, String
 from clorm import Raw
 
@@ -47,7 +47,10 @@ attribute(message_unsat,type,error):-_clinguin_unsat.
 
 class UIFB:
     """
-    The UIFB is the low-level-access-class for handling clorm and clingo, regarding brave-cautious and other default things. This class provides functionality to create a factbase with brave-cautious extended files, functionality to query important things for clinguin, etc.
+    The UIFB is the low-level-access-class for handling clorm and clingo,
+    regarding brave-cautious and other default things.
+    This class provides functionality to create a factbase with brave-cautious extended files,
+    functionality to query important things for clinguin, etc.
     """
 
     unifiers = [ElementDao, AttributeDao, CallbackDao]
@@ -138,7 +141,8 @@ class UIFB:
                 )
 
         if existant_file_counter == 0:
-            exception_string = "None of the provided ui files exists, but at least one syntactically valid ui file must be specified. Exiting!"
+            exception_string = "None of the provided ui files exists, but at least one syntactically valid ui"\
+                               + "file must be specified. Exiting!"
             self._logger.critical(exception_string)
             raise Exception(exception_string)
 
@@ -223,22 +227,22 @@ class UIFB:
     # Manage factbase
 
     def add_element(self, id, t, parent):
-        if type(id) == str:
+        if isinstance(id, str):
             id = Function(id, [])
-        if type(t) == str:
+        if isinstance(t, str):
             t = Function(t, [])
-        if type(parent) == str:
+        if isinstance(parent, str):
             parent = Function(parent, [])
         self._factbase.add(ElementDao(Raw(id), Raw(t), Raw(parent)))
 
     def add_attribute(self, id, key, value):
-        if type(id) == str:
+        if isinstance(id, str):
             id = Function(id, [])
-        if type(key) == str:
+        if isinstance(key, str):
             key = Function(key, [])
-        if type(value) == str:
+        if isinstance(value, str):
             value = String(value)
-        if type(value) == int:
+        if isinstance(value, int):
             value = Number(value)
         self._factbase.add(AttributeDao(Raw(id), Raw(key), Raw(value)))
 

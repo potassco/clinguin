@@ -3,12 +3,23 @@ Module contains the menu bar section class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    StringType
+)
+from ..tkinter_utils import (
+    AttributeNames,
+)
+from .root_cmp import RootCmp
 
 
 class MenuBarSection(RootCmp):
     """
-    The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
+    The menu bar section is a section of a menu bar
+    (e.g. in the menu |main|contact|,
+    where if one clicks on |contact|
+    further the options |location|team|
+    appear, a menu-bar-section would be |contact|,
+    whereas |location| and |team| would be menu-bar-section-items.
     """
 
     def _init_element(self, elements):

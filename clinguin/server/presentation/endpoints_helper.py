@@ -15,7 +15,9 @@ from ...utils import SERVER_ERROR_ALERT, CaseConverter, Logger
 
 class EndpointsHelper:
     """
-    The EndpointsHelper class is responsible for getting the correct method in the ''backend'' (here backend refers to ClingoBackend, TemporalBackend, etc.). This is done via reflections, i.e. it checks if the method is in the backend, if yes the method it returned.
+    The EndpointsHelper class is responsible for getting the correct method in the ''backend''
+    (here backend refers to ClingoBackend, TemporalBackend, etc.). This is done via reflections,
+    i.e. it checks if the method is in the backend, if yes the method it returned.
     """
 
     @classmethod

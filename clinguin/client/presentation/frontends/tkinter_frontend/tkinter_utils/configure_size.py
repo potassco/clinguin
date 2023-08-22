@@ -1,7 +1,14 @@
 """
 This module contains the ConfigureSize class.
 """
-from .extension_class import *
+
+from clinguin.utils.attribute_types import (
+    IntegerType,
+    ChildLayoutType
+)
+
+from .extension_class import ExtensionClass
+from ..tkinter_utils import AttributeNames
 
 
 class ConfigureSize(ExtensionClass):

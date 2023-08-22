@@ -4,13 +4,9 @@ Module that contains the Explanation Backend.
 
 import textwrap
 
-from clingo import parse_term
 from clingo.script import enable_python
 
-from clinguin.server import UIFB
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
-from clinguin.utils import NoModelError
 
 enable_python()
 
@@ -30,7 +26,7 @@ class ExplanationBackend(ClingoBackend):
             try:
                 name = a.split(",")[0]
                 arity = int(a.split(",")[1])
-            except:
+            except Exception:
                 raise ValueError(
                     "Argument assumption_signature must have format name,arity"
                 )
@@ -66,7 +62,7 @@ class ExplanationBackend(ClingoBackend):
         probe_set = []
 
         for i, assumption in enumerate(assumption_set):
-            working_set = assumption_set[i + 1 :]
+            working_set = assumption_set[i + 1:]
             sat, _ = self._solve_core(assumptions=working_set + probe_set)
             if sat:
                 probe_set.append(assumption)

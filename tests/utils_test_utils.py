@@ -72,9 +72,9 @@ class UtilsTestUtils:
         uvicorn_url = f"http://{url}:{port}"
 
         arguments = (
-            ["clinguin", "server", f"--domain-files"]
+            ["clinguin", "server", "--domain-files"]
             + domain_files
-            + [f"--ui-files"]
+            + ["--ui-files"]
             + ui_files
         )
 
@@ -114,7 +114,7 @@ class UtilsTestUtils:
         parser = ArgumentParser()
 
         arguments = (
-            ["server", f"--domain-files"] + domain_files + [f"--ui-files"] + ui_files
+            ["server", "--domain-files"] + domain_files + ["--ui-files"] + ui_files
         )
 
         args = parser.parse("server", arguments)

@@ -11,7 +11,9 @@ from clinguin.utils import CaseConverter, Logger
 
 class ClientBase:
     """
-    ClientBase is the ''base'' of the client. It contains the logic which is responsible for connecting to the server, what to do in case of errors, forward the Json to the correct GUI, etc.
+    ClientBase is the ''base'' of the client.
+    It contains the logic which is responsible for connecting to the server,
+    what to do in case of errors, forward the Json to the correct GUI, etc.
     """
 
     endpoint_health = "health"
@@ -54,7 +56,9 @@ class ClientBase:
 
     def base_engine(self, response):
         """
-        Handles the response of the server to draw the GUI. For this it iterates through the received Json/Dict in a top-down preorder fashion.
+        Handles the response of the server to draw the GUI.
+        For this it iterates through the received Json/Dict
+        in a top-down preorder fashion.
 
         Parameters:
             response (dict): Json from which one can draw the GUI.

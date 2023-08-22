@@ -3,12 +3,22 @@ Contains the window class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    ColorType,
+    IntegerType,
+    ChildLayoutType
+)
+from ..tkinter_utils import (
+    AttributeNames,
+    LayoutController,
+)
+from .root_cmp import RootCmp
 
 
 class Window(RootCmp, LayoutController):
     """
-    The window class is the top-lvl. component, therefore it MUST be used in every clinguin application! For available attributes see syntax definition.
+    The window class is the top-lvl. component, therefore it MUST be used in every clinguin application!
+    For available attributes see syntax definition.
     """
 
     def _init_element(self, elements):

@@ -6,7 +6,8 @@ import json
 
 class ElementDto:
     """
-    The class that represents elements that are Json convertible, i.e. these components are the heart of the Json convertible hierarchy.
+    The class that represents elements that are Json convertible,
+    i.e. these components are the heart of the Json convertible hierarchy.
     """
 
     def __init__(self, id, type, parent):

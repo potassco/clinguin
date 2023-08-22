@@ -20,7 +20,7 @@ class SymbolType(Type):
         try:
             clingo.parse_term(parsed_string)
             return parsed_string
-        except:
+        except Exception:
             error_string = "The string " + parsed_string + " is not a clingo symbol!"
             logger.error(error_string)
             raise Exception(error_string)

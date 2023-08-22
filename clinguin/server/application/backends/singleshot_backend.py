@@ -1,5 +1,5 @@
 """
-Module that contains the ClingoBackend.
+Module that contains the Single-shot Backend.
 """
 import sys
 
@@ -15,9 +15,9 @@ from clinguin.server.application.backends.standard_utils.brave_cautious_helper i
 
 enable_python()
 
-class SimpleBackend(ClinguinBackend):
+class SingleShotBackend(ClinguinBackend):
     """
-    The ClingoBackend class is the backend that is selected by default. It provides basic functionality to argue bravely and cautiously. Further it provides several policies for assumptions, atoms and externals.
+    The Single-shot Backend class is a backend that is reduced to the most important functionality. It only contains policies for adding and removing atoms and will reground after each user input.
     """
 
     def __init__(self, args):
@@ -105,7 +105,7 @@ class SimpleBackend(ClinguinBackend):
     @property
     def _backend_state_prg(self):
         """
-        Additional program to pass to the UI computation. It represents to the state of the backend
+        Additional program to pass to the UI computation. It represents to the state of the backend.
         """
         state_prg = "#defined _clinguin_browsing/0. "
         if self._is_browsing:
@@ -172,9 +172,9 @@ class SimpleBackend(ClinguinBackend):
 
     def show_solution(self, opt_mode='ignore'):
         """
-        Policy: Obtains the next solution
+        Policy: Shows the first (optimal) solution found
         Arguments:
-            opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
+            opt_mode: The clingo optimization mode, by default is 'ignore', to browse only optimal models use 'optN'
         """
         self._init_ctl()
         self._ground()

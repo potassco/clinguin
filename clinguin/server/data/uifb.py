@@ -141,8 +141,10 @@ class UIFB:
                 )
 
         if existant_file_counter == 0:
-            exception_string = "None of the provided ui files exists, but at least one syntactically valid ui"\
-                               + "file must be specified. Exiting!"
+            exception_string = (
+                "None of the provided ui files exists, but at least one syntactically valid ui"
+                + "file must be specified. Exiting!"
+            )
             self._logger.critical(exception_string)
             raise Exception(exception_string)
 

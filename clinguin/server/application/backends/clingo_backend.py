@@ -111,8 +111,10 @@ class ClingoBackend(ClinguinBackend):
                 )
 
         if existant_file_counter == 0:
-            exception_string = "None of the provided domain files exists, but at least one syntactically"\
+            exception_string = (
+                "None of the provided domain files exists, but at least one syntactically"
                 + "valid domain file must be specified. Exiting!"
+            )
             self._logger.critical(exception_string)
             raise Exception(exception_string)
 

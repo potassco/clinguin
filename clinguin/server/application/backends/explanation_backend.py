@@ -62,7 +62,7 @@ class ExplanationBackend(ClingoBackend):
         probe_set = []
 
         for i, assumption in enumerate(assumption_set):
-            working_set = assumption_set[i + 1:]
+            working_set = assumption_set[i + 1 :]
             sat, _ = self._solve_core(assumptions=working_set + probe_set)
             if sat:
                 probe_set.append(assumption)

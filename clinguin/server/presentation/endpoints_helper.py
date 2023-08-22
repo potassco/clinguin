@@ -4,7 +4,7 @@ Module that contains the EndpointsHelper class.
 import logging
 import traceback
 
-from ...utils import SERVER_ERROR_ALERT, CaseConverter, Logger
+from ...utils import get_server_error_alert, CaseConverter, Logger
 
 # def sever_error_json(e):
 #     model = UIFB()
@@ -44,7 +44,7 @@ class EndpointsHelper:
             except Exception as e:
                 logger.error(e)
                 logger.error(traceback.format_exc())
-                return SERVER_ERROR_ALERT
+                return get_server_error_alert()
 
                 # return sever_error_json(e)
         else:

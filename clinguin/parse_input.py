@@ -113,10 +113,12 @@ class ArgumentParser:
         )
         if process not in ["server", "client", "client-server"]:
             ascci = f"{self._clinguin_title}{description}"
-            return f"{inspect.cleandoc(ascci)}\n\n{description}"
+            return_value = f"{inspect.cleandoc(ascci)}\n\n{description}"
         else:
             ascci = f"{self._clinguin_title}{self.titles[process]}"
-            return f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
+            return_value = f"{inspect.cleandoc(ascci)}\n\n{description}\n{self.descriptions[process]}"
+
+        return return_value
 
     def _import_classes(self, path):
         if os.path.isfile(path):
@@ -135,11 +137,10 @@ class ArgumentParser:
                 if module != "":
                     try:
                         importlib.import_module(module + "." + file_name)
-                    except Exception:
-                        print("Could not import module: " + module + "." + file_name)
-                        print("<<<BEGIN-STACK-TRACE>>>")
-                        traceback.print_exc()
-                        print("<<<END-STACK-TRACE>>>")
+                    except Exception as ex:
+                        raise Exception(
+                            "Could not import module: " + module + "." + file_name
+                        ) from ex
                 else:
                     importlib.import_module(file_name)
 
@@ -153,7 +154,7 @@ class ArgumentParser:
                     folder_paths.append(entity.path)
                 elif entity.is_file():
                     file_paths.append(entity.path)
-        except Exception:
+        except Exception as ex:
             print("<<<BEGIN-STACK-TRACE>>>")
             traceback.print_exc()
             print("<<<END-STACK-TRACE>>>")
@@ -161,7 +162,7 @@ class ArgumentParser:
                 "Could not find path for importing libraries: "
                 + os.path.join(full_path, rec_path)
                 + ". Therefore program is terminating now (full stacktrace is printed below)."
-            )
+            ) from ex
 
         self._import_files_from_path_array(file_paths)
 
@@ -393,9 +394,9 @@ class ArgumentParser:
                 sub_class.register_options(group)
 
                 should_show_frontend_syntax = (
-                    self._show_frontend_syntax == ShowFrontendSyntaxEnum.SHOW
-                    or self._show_frontend_syntax == ShowFrontendSyntaxEnum.FULL
+                    self._show_frontend_syntax in [ShowFrontendSyntaxEnum.SHOW, ShowFrontendSyntaxEnum.FULL]
                 )
+
                 if should_show_frontend_syntax and hasattr(
                     sub_class, "available_syntax"
                 ):

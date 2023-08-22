@@ -24,6 +24,9 @@ class Api:
         self.base_url = base_url
 
     def get(self, endpoint):
+        """
+        Used for get requests.
+        """
         try:
             self._logger.info("<-- GET to %s%s", str(self.base_url), str(endpoint))
             r = httpx.get(self.base_url + endpoint, timeout=10000)
@@ -39,6 +42,9 @@ class Api:
             return (-2, "")
 
     def post(self, endpoint, body: FrontendPolicyDto):
+        """
+        Used for post requests.
+        """
         try:
             self._logger.info(
                 "<-- POST to %s%s   %s",

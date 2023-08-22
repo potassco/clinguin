@@ -9,12 +9,8 @@ from clinguin.utils.attribute_types import (
     StringType,
     SymbolType,
 )
-from ..tkinter_utils import (
-    AttributeNames,
-    CallbackNames,
-    ConfigureSize,
-    LayoutFollower,
-)
+
+from ..tkinter_utils import AttributeNames, CallbackNames, ConfigureSize, LayoutFollower
 from .root_cmp import RootCmp
 
 
@@ -28,8 +24,8 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
     is actually a tkinter frame (therefore self._element is a frame, whereas self._menu is the dropdownmenu).
     """
 
-    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
-        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+    def __init__(self, args, cid, parent, attributes, callbacks, base_engine):
+        super().__init__(args, cid, parent, attributes, callbacks, base_engine)
 
         self._menu = None
         self._variable = None
@@ -46,6 +42,9 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         return option_menu_frame
 
     def get_variable(self):
+        """
+        Gets the variable associated with the value.
+        """
         return self._variable
 
     @classmethod
@@ -85,11 +84,11 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
 
         return callbacks
 
-    def _clear_select(self, id, parent_id, click_policy, elements):
+    def _clear_select(self, cid, parent_id, click_policy, elements):
         parent = elements[str(parent_id)]
         if hasattr(parent, "get_variable"):
             variable = getattr(parent, "get_variable")()
-            variable.set(id)
+            variable.set(cid)
             if click_policy is not None:
                 self._base_engine.post_with_policy(click_policy)
         else:
@@ -104,30 +103,30 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         variable.set("")
         self._base_engine.post_with_policy(click_policy)
 
-    def _define_clear_event(self, elements, key=CallbackNames.clear):
+    def _define_clear_event(self, elements, key=CallbackNames.clear):  # pylint: disable=W0613
         if self._callbacks[key]["policy"] is None:
             return
 
-        def change(*args):
+        def change(*args):  # pylint: disable=W0613
             if self._variable.get() == "":
                 self._logger.info("Will remove previous selections")
                 self._dropdown_clear(self._callbacks[key]["policy"])
 
         self._variable.trace("w", change)
 
-    def _set_background_color(self, elements, key=AttributeNames.backgroundcolor):
+    def _set_background_color(self, elements, key=AttributeNames.backgroundcolor):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
 
         self._menu.config(bg=value, activebackground=value)
         self._menu["menu"].config(bg=value, activebackground=value)
 
-    def _set_foreground_color(self, elements, key=AttributeNames.foregroundcolor):
+    def _set_foreground_color(self, elements, key=AttributeNames.foregroundcolor):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
 
         self._menu.config(fg=value, activeforeground=value)
         self._menu["menu"].config(fg=value, activeforeground=value)
 
-    def _set_on_hover(self, elements):
+    def _set_on_hover(self, elements):  # pylint: disable=W0613
         on_hover = self._attributes[AttributeNames.onhover]["value"]
 
         on_hover_background_color = self._attributes[
@@ -148,10 +147,13 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
                 activeforeground=on_hover_foreground_color,
             )
 
-    def _set_selected(self, elements):
+    def _set_selected(self, elements):  # pylint: disable=W0613
         self._variable.set(self._attributes[AttributeNames.selected]["value"])
 
     def get_menu(self):
+        """
+        Returns the actual tkinter menu of this element.
+        """
         return self._menu
 
     def _add_component_to_elements(self, elements):

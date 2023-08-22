@@ -40,5 +40,7 @@ class FlexDirectionType(EnumType):
 
     @classmethod
     def description(cls):
-        return "For the flex-direction type two possible values exist: column (vertical alignment)"\
-               + "and row (horizontal alignment)."
+        return (
+            "For the flex-direction type two possible values exist: column (vertical alignment)"
+            + "and row (horizontal alignment)."
+        )

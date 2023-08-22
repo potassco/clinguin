@@ -16,7 +16,7 @@ def start(args):
     app = FastAPI()
 
     @app.on_event("startup")
-    async def startupEvent():
+    async def startup_event():
         Logger.setup_uvicorn_logger_on_startup(args.log_args)
 
     endpoints = Endpoints(args)

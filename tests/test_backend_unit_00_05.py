@@ -4,7 +4,7 @@ from reference_json_output import (
     BasicTest02,
     BasicTest03,
     BasicTest04,
-    BasicTest05
+    BasicTest05,
 )
 from utils_test_utils import UtilsTestUtils
 

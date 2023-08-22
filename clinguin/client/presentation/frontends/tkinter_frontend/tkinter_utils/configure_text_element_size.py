@@ -1,14 +1,13 @@
+# pylint: disable=E1101
 """
 This module contains the ConfigureTextElementSize class.
 """
 from tkinter import font
 
-from clinguin.utils.attribute_types import (
-    IntegerType,
-)
+from clinguin.utils.attribute_types import IntegerType
 
-from .extension_class import ExtensionClass
 from ..tkinter_utils import AttributeNames
+from .extension_class import ExtensionClass
 
 
 class ConfigureTextElementSize(ExtensionClass):
@@ -31,13 +30,13 @@ class ConfigureTextElementSize(ExtensionClass):
 
         return attributes
 
-    def _set_size(self, elements):
+    def _set_size(self, elements):  # pylint: disable=W0613
         height = self._attributes[AttributeNames.height]["value"]
         width = self._attributes[AttributeNames.width]["value"]
 
         self._element.pack_propagate(0)
 
-        used_font = self._configure_text_element_size["font"]
+        used_font = self._configure_text_element_size["font"]  # pylint: disable=E1136
         afont = font.Font(
             family=used_font, size=self._attributes[AttributeNames.font_size]["value"]
         )

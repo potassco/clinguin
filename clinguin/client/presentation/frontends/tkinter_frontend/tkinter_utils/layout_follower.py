@@ -1,18 +1,18 @@
+# pylint: disable=E1101
 """
 This module contains the LayoutFollower class.
 """
 import logging
 
 from clinguin.utils import Logger
-
 from clinguin.utils.attribute_types import (
     ChildLayoutType,
     FlexDirectionType,
-    IntegerType
+    IntegerType,
 )
 
-from .extension_class import ExtensionClass
 from ..tkinter_utils import AttributeNames
+from .extension_class import ExtensionClass
 
 
 class LayoutFollower(ExtensionClass):
@@ -51,6 +51,7 @@ class LayoutFollower(ExtensionClass):
         return attributes
 
     def _set_layout(self, elements):
+        # pylint: disable=R0912
         parent = elements[self._parent]
         if hasattr(parent, "get_child_org"):
             parent_org = getattr(parent, "get_child_org")()

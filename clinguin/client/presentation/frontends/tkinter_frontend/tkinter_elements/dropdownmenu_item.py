@@ -2,15 +2,9 @@
 Contains the DropdownmenuItem class.
 """
 
-from clinguin.utils.attribute_types import (
-    StringType,
-    SymbolType,
-)
-from ..tkinter_utils import (
-    AttributeNames,
-    CallbackNames,
-    CallBackDefinition
-)
+from clinguin.utils.attribute_types import StringType, SymbolType
+
+from ..tkinter_utils import AttributeNames, CallBackDefinition, CallbackNames
 from .root_cmp import RootCmp
 
 
@@ -23,13 +17,14 @@ class DropdownmenuItem(RootCmp):
         parent = elements[str(self._parent)]
         if hasattr(parent, "get_menu"):
             menu = parent.get_menu()
-            return menu
         else:
             error_string = (
                 "Parent of dropdown menu item " + self._id + " is not a dropdown menu."
             )
             self._logger.error(error_string)
             raise Exception(error_string)
+
+        return menu
 
     @classmethod
     def _get_attributes(cls, attributes=None):
@@ -62,19 +57,19 @@ class DropdownmenuItem(RootCmp):
                 ),
             )
 
-    def _dropdownmenuitem_click(self, id, parent_id, click_policy, elements):
+    def _dropdownmenuitem_click(self, cid, parent_id, click_policy, elements):
         parent = elements[str(parent_id)]
         if hasattr(parent, "get_variable"):
             variable = getattr(parent, "get_variable")()
-            variable.set(id)
+            variable.set(cid)
             if click_policy is not None:
                 self._base_engine.post_with_policy(click_policy)
         else:
             self._logger.warning(
                 "Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s",
-                str(id),
+                str(cid),
                 str(parent_id),
             )
 
     def forget_children(self, elements):
-        pass
+        pass  # pylint: disable=W0107

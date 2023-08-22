@@ -3,12 +3,9 @@ Module contains the menu bar section class.
 """
 import tkinter as tk
 
-from clinguin.utils.attribute_types import (
-    StringType
-)
-from ..tkinter_utils import (
-    AttributeNames,
-)
+from clinguin.utils.attribute_types import StringType
+
+from ..tkinter_utils import AttributeNames
 from .root_cmp import RootCmp
 
 

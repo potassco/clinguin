@@ -1,14 +1,12 @@
+# pylint: disable=E1101
 """
 This module contains the ConfigureBorder class.
 """
 
-from clinguin.utils.attribute_types import (
-    IntegerType,
-    ColorType
-)
+from clinguin.utils.attribute_types import ColorType, IntegerType
 
-from .extension_class import ExtensionClass
 from ..tkinter_utils import AttributeNames
+from .extension_class import ExtensionClass
 
 
 class ConfigureBorder(ExtensionClass):
@@ -32,7 +30,7 @@ class ConfigureBorder(ExtensionClass):
 
         return attributes
 
-    def _set_border_width(self, elements, key=AttributeNames.border_width):
+    def _set_border_width(self, elements, key=AttributeNames.border_width):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         if value > 0:
             # Not using borderwidth as one cannot set the color of the default border
@@ -50,7 +48,7 @@ class ConfigureBorder(ExtensionClass):
                 + str(value)
             )
 
-    def _set_border_background_color(self, elements, key=AttributeNames.border_color):
+    def _set_border_background_color(self, elements, key=AttributeNames.border_color):  # pylint: disable=W0613
         # Not using borderwidth as one cannot set the color of the default border
         value = self._attributes[key]["value"]
         self._element.configure(highlightbackground=value, highlightcolor=value)

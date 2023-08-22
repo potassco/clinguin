@@ -1,14 +1,12 @@
+# pylint: disable=E1101
 """
 This module contains the ConfigureSize class.
 """
 
-from clinguin.utils.attribute_types import (
-    IntegerType,
-    ChildLayoutType
-)
+from clinguin.utils.attribute_types import ChildLayoutType, IntegerType
 
-from .extension_class import ExtensionClass
 from ..tkinter_utils import AttributeNames
+from .extension_class import ExtensionClass
 
 
 class ConfigureSize(ExtensionClass):
@@ -26,7 +24,7 @@ class ConfigureSize(ExtensionClass):
 
         return attributes
 
-    def _set_size(self, elements):
+    def _set_size(self, elements):  # pylint: disable=W0613
         height = self._attributes[AttributeNames.height]["value"]
         width = self._attributes[AttributeNames.width]["value"]
 

@@ -12,36 +12,36 @@ class NoModelError(Exception):
         super().__init__()
         self.core = core
 
-
-SERVER_ERROR_ALERT = {
-    "id": "root",
-    "type": "root",
-    "parent": "root",
-    "attributes": [],
-    "callbacks": [],
-    "children": [
-        {
-            "id": "window",
-            "type": "window",
+def get_server_error_alert():
+    return {
+            "id": "root",
+            "type": "root",
             "parent": "root",
             "attributes": [],
             "callbacks": [],
             "children": [
                 {
-                    "id": "message",
-                    "type": "message",
-                    "parent": "window",
+                    "id": "window",
+                    "type": "window",
+                    "parent": "root",
+                    "attributes": [],
                     "callbacks": [],
-                    "attributes": [
+                    "children": [
                         {
                             "id": "message",
-                            "key": "message",
-                            "value": '"Server Error (Check logs)"',
-                        }
+                            "type": "message",
+                            "parent": "window",
+                            "callbacks": [],
+                            "attributes": [
+                                {
+                                    "id": "message",
+                                    "key": "message",
+                                    "value": '"Server Error (Check logs)"',
+                                }
+                            ],
+                            "children": [],
+                        },
                     ],
-                    "children": [],
-                },
+                }
             ],
         }
-    ],
-}

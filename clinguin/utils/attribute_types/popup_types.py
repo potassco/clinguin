@@ -33,5 +33,7 @@ class PopupTypesType(EnumType):
 
     @classmethod
     def description(cls):
-        return "For the popup-types three different options exists: 'info' (Default information message),"\
-               + "'warning' and 'error'"
+        return (
+            "For the popup-types three different options exists: 'info' (Default information message),"
+            + "'warning' and 'error'"
+        )

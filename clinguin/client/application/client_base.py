@@ -29,6 +29,9 @@ class ClientBase:
         self.frontend_generator = args.frontend(self, args)
 
     def start_up(self):
+        """
+        Code executed on first startup.
+        """
         self.connect()
         (status_code, response) = self.api.get("")
         if status_code == 200:
@@ -41,6 +44,9 @@ class ClientBase:
             self.connect()
 
     def connect(self):
+        """
+        Connect/reconnect to server.
+        """
         while not self.connected:
             (status_code, _) = self.api.get(self.endpoint_health)
 
@@ -51,6 +57,9 @@ class ClientBase:
                 time.sleep(1)
 
     def draw(self, response):
+        """
+        Draws the GUI.
+        """
         self.base_engine(response)
         self.frontend_generator.draw_postprocessing(response["children"][0]["id"])
 
@@ -89,6 +98,9 @@ class ClientBase:
                 self._logger.error("Could not find element type: %s", child["type"])
 
     def post_with_policy(self, click_policy):
+        """
+        Prepare post request for API.
+        """
         (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)

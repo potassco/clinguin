@@ -7,7 +7,7 @@ from datetime import datetime
 
 import httpx
 
-from clinguin import argsToDictConvert
+from clinguin import args_to_dict_converter
 from clinguin.parse_input import ArgumentParser
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
 
@@ -123,7 +123,7 @@ class UtilsTestUtils:
 
         timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
 
-        log_dict = argsToDictConvert(args_dict, timestamp)
+        log_dict = args_to_dict_converter(args_dict, timestamp)
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = log_dict

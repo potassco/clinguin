@@ -17,6 +17,11 @@ def lint_flake8(session):
     session.run("flake8", "clinguin", "tests")
 
 @nox.session
+def lint_pylint(session):
+    session.install("-e", ".[lint_pylint]")
+    session.run("pylint", "clinguin")    
+
+@nox.session
 def format(session):
     session.install("-e", ".[format]")
     check = "check" in session.posargs

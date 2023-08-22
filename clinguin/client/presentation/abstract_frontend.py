@@ -19,13 +19,19 @@ class AbstractFrontend(CustomArgs):
 
     @classmethod
     def available_syntax(cls, show_level):
+        """
+        Shows the available syntax for the chosen frontend.
+        """
         print(show_level)
         return ""
 
-    def window(self, id, parent, attributes, callbacks):
+    def window(self, cid, parent, attributes, callbacks):
+        """
+        Window placeholder.
+        """
         print(
             "WINDOW: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -34,10 +40,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def container(self, id, parent, attributes, callbacks):
+    def container(self, cid, parent, attributes, callbacks):
+        """
+        Container placeholder.
+        """
         print(
             "CONTAINER: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -46,10 +55,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def dropdown_menu(self, id, parent, attributes, callbacks):
+    def dropdown_menu(self, cid, parent, attributes, callbacks):
+        """
+        Dropdown-Menu placeholder.
+        """
         print(
             "DROPDOWNMENU: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -58,10 +70,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def dropdown_menu_item(self, id, parent, attributes, callbacks):
+    def dropdown_menu_item(self, cid, parent, attributes, callbacks):
+        """
+        Dropdown-menu-item placeholder.
+        """
         print(
             "DROPDOWNMENUITEM: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -70,10 +85,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def label(self, id, parent, attributes, callbacks):
+    def label(self, cid, parent, attributes, callbacks):
+        """
+        Label placeholder.
+        """
         print(
             "LABEL: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -82,10 +100,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def button(self, id, parent, attributes, callbacks):
+    def button(self, cid, parent, attributes, callbacks):
+        """
+        Button placeholder.
+        """
         print(
             "BUTTON: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -94,10 +115,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def menu_bar(self, id, parent, attributes, callbacks):
+    def menu_bar(self, cid, parent, attributes, callbacks):
+        """
+        Menu-Bar placeholder.
+        """
         print(
             "MENUBAR: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -106,10 +130,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def menu_bar_section(self, id, parent, attributes, callbacks):
+    def menu_bar_section(self, cid, parent, attributes, callbacks):
+        """
+        Menu-Bar-Section placeholder.
+        """
         print(
             "MENUBARSECTION: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -118,10 +145,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def menu_bar_section_item(self, id, parent, attributes, callbacks):
+    def menu_bar_section_item(self, cid, parent, attributes, callbacks):
+        """
+        Menu-Bar-Section-item placeholder.
+        """
         print(
             "MENUBARSECTIONITEM: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -130,10 +160,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def message(self, id, parent, attributes, callbacks):
+    def message(self, cid, parent, attributes, callbacks):
+        """
+        Message placeholder.
+        """
         print(
             "MESSAGE: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -142,10 +175,13 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def canvas(self, id, parent, attributes, callbacks):
+    def canvas(self, cid, parent, attributes, callbacks):
+        """
+        Canvas placeholder.
+        """
         print(
             "CANVAS: "
-            + str(id)
+            + str(cid)
             + "::"
             + str(parent)
             + "::"
@@ -154,8 +190,14 @@ class AbstractFrontend(CustomArgs):
             + str(callbacks)
         )
 
-    def draw_postprocessing(self, id):
-        print("DRAW POSTPROCESSING")
+    def draw_postprocessing(self, cid):
+        """
+        Draw postprocessing placeholder.
+        """
+        print("DRAW POSTPROCESSING" + "::" + str(cid))
 
-    def draw(self, id):
-        print("DRAW" + "::" + str(id))
+    def draw(self, cid):
+        """
+        Draw placeholder.
+        """
+        print("DRAW" + "::" + str(cid))

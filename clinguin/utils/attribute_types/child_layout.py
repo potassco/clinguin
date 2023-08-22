@@ -37,8 +37,10 @@ class ChildLayoutType(EnumType):
 
     @classmethod
     def description(cls):
-        return "For the child-layout four different options exists: flex (default, tries to do it automatically),"\
-               + "grid (grid-like-specification), absstatic (if one wants to specify the position with absolute-pixel"\
-               + "coordinates) and relstatic (if one wants to specify the position with relative-pixel coordinates"\
-               + "(from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)). They can either be"\
-               + "specified via a clingo symbol or via a string (string is case-insensitive)."
+        return (
+            "For the child-layout four different options exists: flex (default, tries to do it automatically),"
+            + "grid (grid-like-specification), absstatic (if one wants to specify the position with absolute-pixel"
+            + "coordinates) and relstatic (if one wants to specify the position with relative-pixel coordinates"
+            + "(from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)). They can either be"
+            + "specified via a clingo symbol or via a string (string is case-insensitive)."
+        )

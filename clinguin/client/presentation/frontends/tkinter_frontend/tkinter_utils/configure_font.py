@@ -1,17 +1,13 @@
+# pylint: disable=E1101
 """
 This module contains the ConfigureSize class.
 """
 from tkinter import font
 
+from clinguin.utils.attribute_types import FontFamiliesType, FontWeightType, IntegerType
 
-from clinguin.utils.attribute_types import (
-    IntegerType,
-    FontFamiliesType,
-    FontWeightType,
-)
-
-from .extension_class import ExtensionClass
 from ..tkinter_utils import AttributeNames
+from .extension_class import ExtensionClass
 
 
 class ConfigureFont(ExtensionClass):
@@ -41,7 +37,7 @@ class ConfigureFont(ExtensionClass):
 
         return attributes
 
-    def _set_font(self, elements):
+    def _set_font(self, elements):  # pylint: disable=W0613
         family = family = self._attributes[AttributeNames.font_family]["value"]
         size = int(self._attributes[AttributeNames.font_size]["value"])
         weight = self._attributes[AttributeNames.font_weight]["value"]

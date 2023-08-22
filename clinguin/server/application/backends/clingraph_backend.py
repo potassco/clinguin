@@ -224,8 +224,10 @@ class ClingraphBackend(ClingoBackend):
                 )
 
         if existant_file_counter == 0:
-            exception_string = "None of the provided clingraph files exists, but at least one syntactically"\
-                               + "valid clingraph file must be specified. Exiting!"
+            exception_string = (
+                "None of the provided clingraph files exists, but at least one syntactically"
+                + "valid clingraph file must be specified. Exiting!"
+            )
 
             self._logger.critical(exception_string)
             raise Exception(exception_string)

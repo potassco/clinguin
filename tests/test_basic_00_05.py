@@ -5,7 +5,7 @@ from reference_json_output import (
     BasicTest03,
     BasicTest04,
     BasicTest05,
-    Health
+    Health,
 )
 from utils_test_utils import UtilsTestUtils
 

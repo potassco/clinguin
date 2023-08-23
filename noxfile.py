@@ -3,7 +3,7 @@ import os
 import nox
 
 # default sessions that shall be run
-nox.options.sessions = ["test"]
+nox.options.sessions = ["test", "lint_pylint", "lint_flake8"]
 
 EDITABLE_TESTS = True
 PYTHON_VERSIONS = None

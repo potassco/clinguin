@@ -18,7 +18,9 @@ class AngularFrontend(AbstractFrontend):
 
     def __init__(self, args, base_engine):
         super().__init__(base_engine, args)
-        path = pathlib.Path(inspect.getfile(AngularFrontend)).parent
+        path = pathlib.Path(inspect.getfile(AngularFrontend)).parent.parent.parent.parent.parent.parent\
+            / "angular_frontend"
+        print(path)
 
         if sys.platform.startswith("win32") or sys.platform.startswith("cygwin"):
             self.process = subprocess.Popen(["ng", "serve"], shell=True, cwd=path)

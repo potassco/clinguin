@@ -10,15 +10,15 @@ from clinguin.utils import CustomArgs
 
 class ClinguinBackend(CustomArgs):
     """
-    Root class of all backends (here backend refers to the type like ClingoBackend, etc.). Just defines the logger, the standard arguments and get().
+    Root class of all backends (here backend refers to the type like ClingoBackend, etc.).
+    Just defines the logger, the standard arguments and get().
     """
 
     def __init__(self, args):
-        self._logger = logging.getLogger(args.log_args['name'])
+        self._logger = logging.getLogger(args.log_args["name"])
         self.args = args
 
     def get(self):
         """
         Default method that all sub classes must implement. This method must return the Json convertible Hierarchy.
         """
-        pass

@@ -1,14 +1,20 @@
-import time
-import subprocess
+import copy
+import json
 import re
+import subprocess
+import time
+from datetime import datetime
+
 import httpx
+
+from clinguin import args_to_dict_converter
+from clinguin.parse_input import ArgumentParser
+from clinguin.server.application.backends.clingo_backend import ClingoBackend
 
 
 class UtilsTestUtils:
-
     @classmethod
-    def assert_get_request(self, uri, should_output, should_status_code = 200):
-
+    def assert_get_request(self, uri, should_output, should_status_code=200):
         try:
             r = httpx.get(uri, timeout=1000)
             assert r.status_code == should_status_code
@@ -24,11 +30,9 @@ class UtilsTestUtils:
             assert False
 
     @classmethod
-    def assert_post_request(self, uri, should_output, data, should_status_code = 200):
+    def assert_post_request(self, uri, should_output, data, should_status_code=200):
         try:
-
-
-            r = httpx.post(uri, content = data, timeout=1000)
+            r = httpx.post(uri, content=data, timeout=1000)
 
             assert r.status_code == should_status_code
 
@@ -44,7 +48,6 @@ class UtilsTestUtils:
 
     @classmethod
     def basic_tests_start_server(cls, test_method):
-
         test_method_name = test_method.__name__
 
         p = re.compile(r"\d\d")
@@ -52,7 +55,7 @@ class UtilsTestUtils:
 
         if result is not None:
             test_number = result.group(0)
-        else: 
+        else:
             test_number = "00"
 
         domain_files = [f"examples/basic/test_{test_number}/domain_file.lp"]
@@ -62,34 +65,76 @@ class UtilsTestUtils:
         return cls.start_server(domain_files, ui_files)
 
     @classmethod
-    def start_server(cls, domain_files, ui_files, optional = None):
-
+    def start_server(cls, domain_files, ui_files, optional=None):
         port = 8000
         url = "127.0.0.1"
 
         uvicorn_url = f"http://{url}:{port}"
 
-        arguments = ["clinguin","server",f"--domain-files"]\
-                    + domain_files\
-                    + [f"--ui-files"]\
-                    + ui_files
-        
+        arguments = (
+            ["clinguin", "server", "--domain-files"]
+            + domain_files
+            + ["--ui-files"]
+            + ui_files
+        )
+
         if optional is not None:
             arguments += optional
 
-        p = subprocess.Popen(arguments)       
+        p = subprocess.Popen(arguments)
 
         time.sleep(3)  # time for the server to start
 
         print("SERVER SETUP COMPLETE")
-        
+
         return (p, uvicorn_url)
-    
+
     @classmethod
     def shutdown_server(cls, server_process):
-
         server_process.kill()
 
         print("SERVER SHUTDOWN COMPLETE")
 
+    @classmethod
+    def instantiate_backend(self, test_method):
+        test_method_name = test_method.__name__
 
+        p = re.compile(r"\d\d")
+        result = p.search(test_method_name)
+
+        if result is not None:
+            test_number = result.group(0)
+        else:
+            test_number = "00"
+
+        domain_files = [f"examples/basic/test_{test_number}/domain_file.lp"]
+
+        ui_files = [f"examples/basic/test_{test_number}/ui.lp"]
+
+        parser = ArgumentParser()
+
+        arguments = (
+            ["server", "--domain-files"] + domain_files + ["--ui-files"] + ui_files
+        )
+
+        args = parser.parse("server", arguments)
+
+        args_dict = vars(args)
+
+        timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
+
+        log_dict = args_to_dict_converter(args_dict, timestamp)
+
+        args_copy = copy.deepcopy(args)
+        args_copy.log_args = log_dict
+
+        self.args = args_copy
+
+        return ClingoBackend(args_copy)
+
+    @classmethod
+    def assert_result(self, should_output, received_by_request):
+        received_by_request = json.loads(
+            json.dumps(received_by_request, default=lambda o: o.__dict__)
+        )
+        assert str(received_by_request) == str(should_output)

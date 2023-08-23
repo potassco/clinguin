@@ -1,7 +1,9 @@
+# pylint: disable=R0903
 """
 Module that contains the CallbackDao.
 """
 from clorm import Predicate, RawField
+
 
 class CallbackDao(Predicate):
     """
@@ -16,4 +18,5 @@ class CallbackDao(Predicate):
         """
         Meta class
         """
+
         name = "callback"

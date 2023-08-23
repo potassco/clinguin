@@ -7,9 +7,10 @@ import networkx as nx
 
 from clinguin.utils import Logger
 
-from .element import ElementDto
 from .attribute import AttributeDto
 from .callback import CallbackDto
+from .element import ElementDto
+
 
 class StandardJsonEncoder:
     """
@@ -29,7 +30,7 @@ class StandardJsonEncoder:
         """
         elements_dict = {}
 
-        root = ElementDto('root', 'root', 'root')
+        root = ElementDto("root", "root", "root")
         elements_dict[str(root.id)] = root
 
         cls._generate_hierarchy(uifb, root, elements_dict)
@@ -39,7 +40,9 @@ class StandardJsonEncoder:
     @classmethod
     def _generate_hierarchy(cls, uifb, hierarchy_root, elements_dict):
         """
-        Converts the UIFB into an Json Hierarchy (which is represented by an ElementDto). Therefore it first gets all dependencies, then orders the elements according to the dependencies and then adds for each element its attributes, callbacks and children.
+        Converts the UIFB into an Json Hierarchy (which is represented by an ElementDto).
+        Therefore it first gets all dependencies, then orders the elements according to the dependencies
+        and then adds for each element its attributes, callbacks and children.
 
         Arguments:
             uifb : UIFB
@@ -52,34 +55,45 @@ class StandardJsonEncoder:
         elements_info = {}
 
         for w in uifb.get_elements():
-            elements_info[w.id] = {'parent': w.parent, 'type': w.type}
+            elements_info[w.id] = {"parent": w.parent, "type": w.type}
             dependency.append((w.id, w.parent))
 
-        DG = nx.DiGraph(dependency)
-        order = list(reversed(list(nx.topological_sort(DG))))
+        directed_graph = nx.DiGraph(dependency)
+        order = list(reversed(list(nx.topological_sort(directed_graph))))
 
-        attrs = uifb.get_attributesGrouped()
-        attrs = {a[0]:list(a[1]) for a in attrs}
-        cbs = uifb.get_callbacksGrouped()
-        cbs = {a[0]:list(a[1]) for a in cbs}
+        attrs = uifb.get_attributes_grouped()
+        attrs = {a[0]: list(a[1]) for a in attrs}
+        cbs = uifb.get_callbacks_grouped()
+        cbs = {a[0]: list(a[1]) for a in cbs}
 
         for element_id in order:
             if str(element_id) == str(hierarchy_root.id):
                 continue
 
-            if not element_id in elements_info:
-                logger.critical("The provided element id (ID : %s) could not be found!", str(element_id))
-                raise Exception("The provided element id (ID : " + str(element_id) + ") could not be found!")
+            if element_id not in elements_info:
+                logger.critical(
+                    "The provided element id (ID : %s) could not be found!",
+                    str(element_id),
+                )
+                raise Exception(
+                    "The provided element id (ID : "
+                    + str(element_id)
+                    + ") could not be found!"
+                )
 
-            type = elements_info[element_id]['type']
-            parent = elements_info[element_id]['parent']
-            element = ElementDto(element_id, type, parent)
+            element_type = elements_info[element_id]["type"]
+            parent = elements_info[element_id]["parent"]
+            element = ElementDto(element_id, element_type, parent)
 
             if element_id in attrs:
-                elem_attributes = [AttributeDto(a.id, a.key, a.value) for a in attrs[element_id]]
+                elem_attributes = [
+                    AttributeDto(a.id, a.key, a.value) for a in attrs[element_id]
+                ]
                 element.set_attributes(elem_attributes)
             if element_id in cbs:
-                elem_callbacks = [CallbackDto(a.id, a.action, a.policy) for a in cbs[element_id]]
+                elem_callbacks = [
+                    CallbackDto(a.id, a.action, a.policy) for a in cbs[element_id]
+                ]
                 element.set_callbacks(elem_callbacks)
 
             elements_dict[str(element_id)] = element

@@ -3,10 +3,11 @@ Responsible for starting the server
 """
 import uvicorn
 from fastapi import FastAPI
-
-from clinguin.utils import Logger
-from clinguin.server import Endpoints
 from starlette.middleware.cors import CORSMiddleware
+
+from clinguin.server import Endpoints
+from clinguin.utils import Logger
+
 
 def start(args):
     """
@@ -18,12 +19,13 @@ def start(args):
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
+
     @app.on_event("startup")
-    async def startupEvent():
+    async def startup_event():
         Logger.setup_uvicorn_logger_on_startup(args.log_args)
 
     endpoints = Endpoints(args)

@@ -1,0 +1,34 @@
+[FORMAT]
+
+max-line-length=120
+
+[DESIGN]
+
+max-args=10
+max-attributes=7
+max-bool-expr=5
+max-branches=12
+max-locals=30
+max-parents=7
+max-public-methods=20
+max-returns=10
+max-statements=50
+min-public-methods=1
+
+[SIMILARITIES]
+
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=yes
+ignore-signatures=yes
+
+[BASIC]
+
+argument-rgx=^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$
+variable-rgx=^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$
+
+# Good variable names which should always be accepted, separated by a comma.
+good-names=_,M,N,B,A,Nn,Bn,An
+
+[MESSAGE CONTROL]
+disable=W0719,W0122,C0206,C0201,W0718,R0902,C0103

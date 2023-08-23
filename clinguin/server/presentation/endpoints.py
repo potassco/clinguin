@@ -4,28 +4,32 @@ Module for the Endpoints class.
 import logging
 from importlib.metadata import metadata
 
+import clingo
 from fastapi import APIRouter
 
-import clingo
-
 from clinguin.utils import Logger
+
+from .backend_policy_dto import BackendPolicyDto
+
 # Self Defined
 from .endpoints_helper import EndpointsHelper
-from .backend_policy_dto import BackendPolicyDto
 
 
 class Endpoints:
     """
-    The endpoints class define the available endpoints the backend (this time backend refers to the general concept of backend, like a server backend) has. These are defined in the ''__init__'', and correspond to the three methods:
+    The endpoints class define the available endpoints the backend
+    (this time backend refers to the general concept of backend, like a server backend) has.
+    These are defined in the ''__init__'', and correspond to the three methods:
 
     Methods:
         health -> Json : Returns name, version and description of clinguin.
         standard_executor -> Json : Returns the default GUI representation as Json that the Backend provides.
         policy_executor -> Json : Executes a policy defined by the Json passed with the Post request.
     """
+
     def __init__(self, args) -> None:
-        Logger.setup_logger(args.log_args, process = "server")
-        self._logger = logging.getLogger(args.log_args['name'])
+        Logger.setup_logger(args.log_args, process="server")
+        self._logger = logging.getLogger(args.log_args["name"])
 
         self.router = APIRouter()
 
@@ -37,38 +41,49 @@ class Endpoints:
         self._backend = args.backend(args)
 
     async def health(self):
+        """
+        Health endpoint (/health) of the server-backend,
+        returns name, version and summary of clinguin.
+        """
         self._logger.info("--> Health")
-        cuin = metadata('clinguin')
+        cuin = metadata("clinguin")
         return {
             "name": cuin["name"],
             "version": cuin["version"],
-            "description": cuin["summary"]
+            "description": cuin["summary"],
         }
 
     async def standard_executor(self):
+        """
+        Get endpoint (/) of the server-backend,
+        calls the get() method of the respective backend (clinguin/clingo/clingraph/etc.).
+        The get() method is implemented by every backend.
+        """
         self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
         return self._backend.get()
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
+        """
+        Post endpoint (/backend) of the server-backend,
+        which can be used to call specific methods/functions of the backend.
+        It takes a backend_call_string, which is essentially a json defining a function to be called,
+        including arguments.
+        For example: {'function':'add_assumption(p(1))'}
+        """
         self._logger.debug("Got endpoint")
-        self._logger.debug("backend_call: " + backend_call_string.__str__())
-
-        splits = backend_call_string.function.split("(")
-
-        #function_name = splits[0]
-        #call_args = "(".join(splits[1:])
-
         symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name
-        function_arguments = (
-            list(map(str, symbol.arguments)))
+        function_arguments = list(map(str, symbol.arguments))
 
         call_args = ",".join(function_arguments)
-        self._logger.info("--> %s:   %s(%s))", self._backend.__class__.__name__, function_name, call_args)
+        self._logger.info(
+            "--> %s:   %s(%s))",
+            self._backend.__class__.__name__,
+            function_name,
+            call_args,
+        )
 
         result = EndpointsHelper.call_function(
-            self._backend,
-            function_name,
-            function_arguments,
-            {})
+            self._backend, function_name, function_arguments, {}
+        )
         return result

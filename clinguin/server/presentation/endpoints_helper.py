@@ -4,7 +4,7 @@ Module that contains the EndpointsHelper class.
 import logging
 import traceback
 
-from ...utils import get_server_error_alert, CaseConverter, Logger
+from ...utils import CaseConverter, Logger, get_server_error_alert
 
 
 class EndpointsHelper:

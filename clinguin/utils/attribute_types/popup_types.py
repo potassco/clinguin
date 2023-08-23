@@ -18,7 +18,9 @@ class PopupTypesType(EnumType):
 
     @classmethod
     def parse(cls, parse_input: str, logger):
-        parsed_string = (StandardTextProcessing.parse_string_with_quotes(parse_input)).lower()
+        parsed_string = (
+            StandardTextProcessing.parse_string_with_quotes(parse_input)
+        ).lower()
 
         return_value = None
 

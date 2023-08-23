@@ -30,7 +30,9 @@ class ConfigureBorder(ExtensionClass):
 
         return attributes
 
-    def _set_border_width(self, elements, key=AttributeNames.border_width):  # pylint: disable=W0613
+    def _set_border_width(
+        self, elements, key=AttributeNames.border_width
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         if value > 0:
             # Not using borderwidth as one cannot set the color of the default border
@@ -48,7 +50,9 @@ class ConfigureBorder(ExtensionClass):
                 + str(value)
             )
 
-    def _set_border_background_color(self, elements, key=AttributeNames.border_color):  # pylint: disable=W0613
+    def _set_border_background_color(
+        self, elements, key=AttributeNames.border_color
+    ):  # pylint: disable=W0613
         # Not using borderwidth as one cannot set the color of the default border
         value = self._attributes[key]["value"]
         self._element.configure(highlightbackground=value, highlightcolor=value)

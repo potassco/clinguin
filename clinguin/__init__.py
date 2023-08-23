@@ -62,14 +62,18 @@ def main():
         client_start(args_copy)
 
     elif args.process == "client-server":
-        server_log_dict = args_to_dict_converter(args_dict, timestamp, name_prefix="server_")
+        server_log_dict = args_to_dict_converter(
+            args_dict, timestamp, name_prefix="server_"
+        )
         args_copy = copy.deepcopy(args)
         args_copy.log_args = server_log_dict
 
         server = threading.Thread(target=server_start, args=[args_copy])
         server.start()
 
-        client_log_dict = args_to_dict_converter(args_dict, timestamp, name_prefix="client_")
+        client_log_dict = args_to_dict_converter(
+            args_dict, timestamp, name_prefix="client_"
+        )
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = client_log_dict

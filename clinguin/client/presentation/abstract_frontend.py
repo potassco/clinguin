@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module that contains the class AbstractFrontend.
 """

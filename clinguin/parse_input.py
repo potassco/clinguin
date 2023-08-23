@@ -393,9 +393,10 @@ class ArgumentParser:
                 group = parser.add_argument_group(full_class_name)
                 sub_class.register_options(group)
 
-                should_show_frontend_syntax = (
-                    self._show_frontend_syntax in [ShowFrontendSyntaxEnum.SHOW, ShowFrontendSyntaxEnum.FULL]
-                )
+                should_show_frontend_syntax = self._show_frontend_syntax in [
+                    ShowFrontendSyntaxEnum.SHOW,
+                    ShowFrontendSyntaxEnum.FULL,
+                ]
 
                 if should_show_frontend_syntax and hasattr(
                     sub_class, "available_syntax"

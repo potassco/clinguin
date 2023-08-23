@@ -19,4 +19,3 @@ class CustomArgs:
         """
         Method that needs to be implemented by all children.
         """
-        pass

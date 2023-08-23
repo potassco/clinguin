@@ -95,7 +95,7 @@ class UIFB:
                 # raise RuntimeError("Use update function before getting the program")
                 self._logger.warning(
                     "No %s consequences were calculated. Update consequences before updating the UI.",
-                    c_type
+                    c_type,
                 )
                 continue
             conseq_facts += UIFB.symbols_to_facts(self.tag(symbols, self._tags[c_type]))
@@ -120,13 +120,12 @@ class UIFB:
                     existant_file_counter += 1
                 except Exception:
                     self._logger.critical(
-                        'Failed to load file %s (there is likely a syntax error in this logic program file).',
-                        f
+                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                        f,
                     )
             else:
                 self._logger.critical(
-                    'File %s does not exist, this file is skipped.',
-                    f
+                    "File %s does not exist, this file is skipped.", f
                 )
 
         if existant_file_counter == 0:
@@ -207,7 +206,9 @@ class UIFB:
                 model_symbols = m.symbols(shown=True, atoms=True)
 
             if model_symbols is None:
-                self._logger.warning("Got an UNSAT result with the given domain encoding.")
+                self._logger.warning(
+                    "Got an UNSAT result with the given domain encoding."
+                )
                 self._unsat_core = result.core()
                 raise NoModelError()
 

@@ -104,13 +104,12 @@ class ClingoBackend(ClinguinBackend):
                     existant_file_counter += 1
                 except Exception:
                     self._logger.critical(
-                        'Failed to load file %s (there is likely a syntax error in this logic program file).',
-                        f
+                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                        f,
                     )
             else:
                 self._logger.critical(
-                    'File %s does not exist, this file is skipped.',
-                    f
+                    "File %s does not exist, this file is skipped.", f
                 )
 
         if existant_file_counter == 0:

@@ -104,7 +104,9 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         variable.set("")
         self._base_engine.post_with_policy(click_policy)
 
-    def _define_clear_event(self, elements, key=CallbackNames.clear):  # pylint: disable=W0613
+    def _define_clear_event(
+        self, elements, key=CallbackNames.clear
+    ):  # pylint: disable=W0613
         if self._callbacks[key]["policy"] is None:
             return
 
@@ -115,13 +117,17 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
 
         self._variable.trace("w", change)
 
-    def _set_background_color(self, elements, key=AttributeNames.backgroundcolor):  # pylint: disable=W0613
+    def _set_background_color(
+        self, elements, key=AttributeNames.backgroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
 
         self._menu.config(bg=value, activebackground=value)
         self._menu["menu"].config(bg=value, activebackground=value)
 
-    def _set_foreground_color(self, elements, key=AttributeNames.foregroundcolor):  # pylint: disable=W0613
+    def _set_foreground_color(
+        self, elements, key=AttributeNames.foregroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
 
         self._menu.config(fg=value, activeforeground=value)

@@ -105,5 +105,4 @@ class MenuBarSectionItem(RootCmp):
     def forget_children(self, elements):
         self._logger.debug(str(elements))
         # pylint: disable=W0107
-        pass
         # pylint: enable=W0107

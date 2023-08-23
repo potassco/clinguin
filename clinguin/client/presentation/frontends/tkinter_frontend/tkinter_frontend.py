@@ -225,11 +225,11 @@ class TkinterFrontend(AbstractFrontend):
         true_height = cur_element.get_element().winfo_height()
 
         config_width = int(
-                    cur_element.get_attributes_list()[AttributeNames.width]["value"]
-                )
+            cur_element.get_attributes_list()[AttributeNames.width]["value"]
+        )
         config_height = int(
-                    cur_element.get_attributes_list()[AttributeNames.height]["value"]
-                )
+            cur_element.get_attributes_list()[AttributeNames.height]["value"]
+        )
 
         pack = False
 
@@ -248,8 +248,8 @@ class TkinterFrontend(AbstractFrontend):
         if pack:
             if AttributeNames.child_layout in attributes:
                 policy = cur_element.get_attributes_list()[AttributeNames.child_layout][
-                            "value"
-                        ]
+                    "value"
+                ]
                 if policy == ChildLayoutType.FLEX:
                     cur_element.get_element().pack_propagate(0)
             else:

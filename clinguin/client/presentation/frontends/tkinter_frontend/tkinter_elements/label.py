@@ -83,15 +83,21 @@ class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
     # -----Standard-Attributes----
     # ----------------------------------------------------------------------------------------------
 
-    def _set_label_text(self, elements, key=AttributeNames.label):  # pylint: disable=W0613
+    def _set_label_text(
+        self, elements, key=AttributeNames.label
+    ):  # pylint: disable=W0613
         text = self._attributes[key]["value"]
         self._label.configure(text=text)
 
-    def _set_background_color(self, elements, key=AttributeNames.backgroundcolor):  # pylint: disable=W0613
+    def _set_background_color(
+        self, elements, key=AttributeNames.backgroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         self._label.configure(background=value)
 
-    def _set_foreground_color(self, elements, key=AttributeNames.foregroundcolor):  # pylint: disable=W0613
+    def _set_foreground_color(
+        self, elements, key=AttributeNames.foregroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         self._label.configure(foreground=value)
 

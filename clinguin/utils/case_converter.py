@@ -14,6 +14,9 @@ class CaseConverter:
 
     @classmethod
     def snake_case_to_camel_case(cls, snake_case):
+        """
+        Converts a snake case name to a camel case one.
+        """
         components = snake_case.split("_")
 
         return components[0] + "".join(x.title() for x in components[1:])

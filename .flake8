@@ -3,4 +3,4 @@ max-line-length = 120
 exclude =
     .git
     .github
-ignore = E741 W503 E203
+ignore = E741 W503 E203 E126 E121

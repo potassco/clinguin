@@ -1,11 +1,11 @@
-# pylint: disable=E1101
+# pylint: disable=E1101,R0801
 """
 This module contains the ConfigureSize class.
 """
 
 from clinguin.utils.attribute_types import ChildLayoutType, IntegerType
 
-from ..tkinter_utils import AttributeNames
+from .attribute_names import AttributeNames
 from .extension_class import ExtensionClass
 
 

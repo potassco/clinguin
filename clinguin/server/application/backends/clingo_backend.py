@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module that contains the ClingoBackend.
 """
@@ -103,11 +104,13 @@ class ClingoBackend(ClinguinBackend):
                     existant_file_counter += 1
                 except Exception:
                     self._logger.critical(
-                        f'Failed to load file "{f}" (there is likely a syntax error in this logic program file).'
+                        'Failed to load file %s (there is likely a syntax error in this logic program file).',
+                        f
                     )
             else:
                 self._logger.critical(
-                    f'File "{f}" does not exist, this file is skipped.'
+                    'File %s does not exist, this file is skipped.',
+                    f
                 )
 
         if existant_file_counter == 0:
@@ -344,10 +347,10 @@ class ClingoBackend(ClinguinBackend):
         Policy: Select the current solution during browsing
         """
         self._end_browsing()
-        last_model_symbols = self._uifb._conseq["auto"]
+        last_model_symbols = self._uifb.get_auto_conseq()
         symbols_to_ignore = self._externals["true"]
         symbols_to_ignore.union(self._externals["false"])
-        for s in last_model_symbols:
+        for s in last_model_symbols:  # pylint: disable=E1133
             if s not in symbols_to_ignore:
                 self._add_assumption(s)
         self._update_uifb()

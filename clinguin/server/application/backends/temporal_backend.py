@@ -18,10 +18,12 @@ class TemporalBackend(ClingoBackend):
     """
 
     def __init__(self, args):
+        super().__init__(args)
+
         self._step = 1
         self._last_grounded_step = 0
         self._full_plan = None
-        super().__init__(args)
+        self._model = None
 
     def _init_ctl(self):
         self._step = 1
@@ -81,6 +83,9 @@ class TemporalBackend(ClingoBackend):
         return self._full_plan
 
     def find_plan(self):
+        """
+        TODO -> Add documentation!
+        """
         if not self._full_plan:
             self._find_incrementally()
 
@@ -91,6 +96,9 @@ class TemporalBackend(ClingoBackend):
         return self.get()
 
     def assume_and_step(self, predicate):
+        """
+        TODO -> Add documentation!
+        """
         predicate_symbol = parse_term(predicate)
         self._add_assumption(predicate_symbol)
         self._step += 1
@@ -99,8 +107,14 @@ class TemporalBackend(ClingoBackend):
         self._update_uifb()
         return self.get()
 
-    def remove_assumption(self, predicate):
+    def remove_assumption(self, predicate):  # pylint: disable=W0613
+        """
+        TODO -> Add documentation!
+        """
         raise NotImplementedError()
 
-    def next_solution(self):
+    def next_solution(self, opt_mode=None):  # pylint: disable=W0613
+        """
+        TODO -> Add documentation!
+        """
         raise NotImplementedError()

@@ -1,3 +1,4 @@
+# pylint: disable=W0107
 """
 The module contains the CustomArgs class.
 """
@@ -15,4 +16,7 @@ class CustomArgs:
 
     @classmethod
     def register_options(cls, parser):
+        """
+        Method that needs to be implemented by all children.
+        """
         pass

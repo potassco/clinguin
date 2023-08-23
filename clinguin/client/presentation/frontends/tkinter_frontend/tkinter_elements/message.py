@@ -2,6 +2,7 @@
 Contains the Message class.
 """
 import tkinter as tk
+from tkinter import messagebox
 
 # This import is used implicitly
 from clinguin.utils.attribute_types import PopupTypesType, StringType
@@ -39,10 +40,10 @@ class Message(RootCmp):
         title = self._attributes[AttributeNames.title]["value"]
         message = self._attributes[AttributeNames.message]["value"]
         if PopupTypesType.INFO == attr_type:
-            tk.messagebox.showinfo(title=title, message=message)
+            messagebox.showinfo(title=title, message=message)
         elif PopupTypesType.WARNING == attr_type:
-            tk.messagebox.showwarning(title=title, message=message)
+            messagebox.showwarning(title=title, message=message)
         elif PopupTypesType.ERROR == attr_type:
-            tk.messagebox.showerror(title=title, message=message)
+            messagebox.showerror(title=title, message=message)
         else:
             self._logger.warning("Cannot display popup-type %s", attr_type)

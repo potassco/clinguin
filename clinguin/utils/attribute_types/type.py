@@ -10,7 +10,7 @@ class Type:
     """
 
     @classmethod
-    def parse(cls, input: str, logger):
+    def parse(cls, parse_input: str, logger):  # pylint: disable=W0613
         """
         Every type must override this method. This method parses/checks the given value.
         """

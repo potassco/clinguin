@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module that contains the ClingraphBackend.
 """
@@ -216,11 +217,13 @@ class ClingraphBackend(ClingoBackend):
                     existant_file_counter += 1
                 except Exception:
                     self._logger.critical(
-                        f'Failed to load file "{f}" (there is likely a syntax error in this logic program file).'
+                        'Failed to load file %s (there is likely a syntax error in this logic program file).',
+                        f
                     )
             else:
                 self._logger.critical(
-                    f'File "{f}" does not exist, this file is skipped.'
+                    'File %s does not exist, this file is skipped.',
+                    f
                 )
 
         if existant_file_counter == 0:
@@ -231,11 +234,6 @@ class ClingraphBackend(ClingoBackend):
 
             self._logger.critical(exception_string)
             raise Exception(exception_string)
-
-        """
-        for f in self._clingraph_files:
-            ctl.load(f)
-        """
 
         ctl.add("base", [], prg)
         ctl.add("base", [], self._backend_state_prg)
@@ -297,8 +295,7 @@ class ClingraphBackend(ClingoBackend):
                 Raw(Function(str(attribute.key), [])),
                 Raw(String(str(base64_key_image))),
             )
-            self._uifb._factbase.remove(attribute)
-            self._uifb._factbase.add(new_attribute)
+            self._uifb.replace_attribute(attribute, new_attribute)
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
         graphs = graphs[0]

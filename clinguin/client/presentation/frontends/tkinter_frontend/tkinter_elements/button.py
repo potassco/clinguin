@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 This module contains the button class.
 """

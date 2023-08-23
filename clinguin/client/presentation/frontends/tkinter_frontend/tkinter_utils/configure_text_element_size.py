@@ -1,4 +1,4 @@
-# pylint: disable=E1101
+# pylint: disable=E1101,R0801
 """
 This module contains the ConfigureTextElementSize class.
 """
@@ -6,7 +6,7 @@ from tkinter import font
 
 from clinguin.utils.attribute_types import IntegerType
 
-from ..tkinter_utils import AttributeNames
+from .attribute_names import AttributeNames
 from .extension_class import ExtensionClass
 
 

@@ -12,7 +12,11 @@ class NoModelError(Exception):
         super().__init__()
         self.core = core
 
+
 def get_server_error_alert():
+    """
+    Returns a JSON, which corresponds to valid clinguin json syntax and displays an error message.
+    """
     return {
             "id": "root",
             "type": "root",

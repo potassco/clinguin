@@ -26,10 +26,10 @@ class ExplanationBackend(ClingoBackend):
             try:
                 name = a.split(",")[0]
                 arity = int(a.split(",")[1])
-            except Exception:
+            except Exception as ex:
                 raise ValueError(
                     "Argument assumption_signature must have format name,arity"
-                )
+                ) from ex
             for s in self._ctl.symbolic_atoms:
                 if s.symbol.match(name, arity):
                     self._mc_base_assumptions.add(s.symbol)
@@ -80,7 +80,7 @@ class ExplanationBackend(ClingoBackend):
         prg = super()._backend_state_prg
         if self._uifb.is_unsat:
             self._logger.info("UNSAT Answer, will add explanation")
-            clingo_core = self._uifb._unsat_core
+            clingo_core = self._uifb.get_unsat_core()
             clingo_core_symbols = [self._lit2symbol[s] for s in clingo_core if s != -1]
             muc_core = self._get_minimum_uc(clingo_core_symbols)
             for s in muc_core:

@@ -12,16 +12,20 @@ class BooleanType(Type):
     """
 
     @classmethod
-    def parse(cls, input: str, logger):
-        parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
+    def parse(cls, parse_input: str, logger):
+        parsed_string = StandardTextProcessing.parse_string_with_quotes(parse_input)
+
+        return_value = None
 
         if parsed_string.lower() == "true":
-            return True
+            return_value = True
         elif parsed_string.lower() == "false":
-            return False
+            return_value = False
         else:
             logger.error("Could not parse string to boolean: " + parsed_string)
             raise Exception("Could not parse string to boolean: " + parsed_string)
+
+        return return_value
 
     @classmethod
     def description(cls):

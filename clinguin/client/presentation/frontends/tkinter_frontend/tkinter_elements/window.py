@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Contains the window class.
 """
@@ -43,7 +44,7 @@ class Window(RootCmp, LayoutController):
         value = self._attributes[key]["value"]
         self._element.configure(background=value)
 
-    def _set_dimensions(self, elements): # pylint: disable=W0613
+    def _set_dimensions(self, elements):  # pylint: disable=W0613
         width = self._attributes[AttributeNames.width]["value"]
         height = self._attributes[AttributeNames.height]["value"]
 
@@ -71,7 +72,7 @@ class Window(RootCmp, LayoutController):
                 str(width) + "x" + str(height) + "+" + str(pos_x) + "+" + str(pos_y)
             )
 
-        elif (height > 0 and width <= 0) or (height <= 0 and width > 0): # pylint: disable=R1716
+        elif (height > 0 and width <= 0) or (height <= 0 and width > 0):  # pylint: disable=R1716
             self._logger.warning(
                 "For the tkinter window one must set both height and width to positive values (not just one)."
             )

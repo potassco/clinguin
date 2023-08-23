@@ -5,7 +5,7 @@ This module contains the LayoutController class.
 
 from clinguin.utils.attribute_types import ChildLayoutType
 
-from ..tkinter_utils import AttributeNames
+from .attribute_names import AttributeNames
 from .extension_class import ExtensionClass
 
 

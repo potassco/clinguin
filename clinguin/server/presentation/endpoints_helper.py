@@ -6,12 +6,6 @@ import traceback
 
 from ...utils import get_server_error_alert, CaseConverter, Logger
 
-# def sever_error_json(e):
-#     model = UIFB()
-#     model.add_message("Error","Server error")
-#     json_structure =  StandardJsonEncoder.encode(model)
-#     return json_structure
-
 
 class EndpointsHelper:
     """
@@ -22,6 +16,10 @@ class EndpointsHelper:
 
     @classmethod
     def call_function(cls, backend, name, args, kwargs):
+        """
+        Helper function that calls given a backend, a name for a function/method and arguments,
+        the respective function/method.
+        """
         logger = logging.getLogger(Logger.server_logger_name)
 
         found = False

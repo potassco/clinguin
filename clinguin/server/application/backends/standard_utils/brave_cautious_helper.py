@@ -4,6 +4,9 @@ This module contains one string (brave_cautious_externals) that is helpful for t
 
 
 def get_brave_cautious_externals():
+    """
+    Returns the brave/cautious encoding.
+    """
     return """
 #external show_brave.
 #external show_cautious.

@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module contains the Container class.
 """

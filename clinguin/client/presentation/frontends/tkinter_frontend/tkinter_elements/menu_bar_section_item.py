@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Contains the menu bar section item class.
 """

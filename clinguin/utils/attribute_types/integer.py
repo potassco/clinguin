@@ -12,14 +12,14 @@ class IntegerType(Type):
     """
 
     @classmethod
-    def parse(cls, input: str, logger):
-        parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
+    def parse(cls, parse_input: str, logger):
+        parsed_string = StandardTextProcessing.parse_string_with_quotes(parse_input)
 
         try:
             return int(parsed_string)
-        except Exception:
+        except Exception as ex:
             logger.error("Could not parse string to int: " + parsed_string)
-            raise Exception("Could not parse string to int: " + parsed_string)
+            raise Exception("Could not parse string to int: " + parsed_string) from ex
 
     @classmethod
     def description(cls):

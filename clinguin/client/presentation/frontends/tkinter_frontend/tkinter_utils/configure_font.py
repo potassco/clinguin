@@ -6,7 +6,7 @@ from tkinter import font
 
 from clinguin.utils.attribute_types import FontFamiliesType, FontWeightType, IntegerType
 
-from ..tkinter_utils import AttributeNames
+from .attribute_names import AttributeNames
 from .extension_class import ExtensionClass
 
 

@@ -87,7 +87,7 @@ class RootCmp:
         return cls._get_callbacks(callbacks)
 
     @classmethod
-    def _get_callbacks(cls, callbacks=None): # pylint: disable=W0613
+    def _get_callbacks(cls, callbacks=None):  # pylint: disable=W0613
         return {}
 
     def add_component(self, elements):

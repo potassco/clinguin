@@ -14,16 +14,16 @@ class SymbolType(Type):
     """
 
     @classmethod
-    def parse(cls, input: str, logger) -> str:
-        parsed_string = StandardTextProcessing.parse_string_with_quotes(input)
+    def parse(cls, parse_input: str, logger) -> str:
+        parsed_string = StandardTextProcessing.parse_string_with_quotes(parse_input)
 
         try:
             clingo.parse_term(parsed_string)
             return parsed_string
-        except Exception:
+        except Exception as ex:
             error_string = "The string " + parsed_string + " is not a clingo symbol!"
             logger.error(error_string)
-            raise Exception(error_string)
+            raise Exception(error_string) from ex
 
     @classmethod
     def description(cls):

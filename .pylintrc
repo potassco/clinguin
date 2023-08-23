@@ -31,4 +31,4 @@ variable-rgx=^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$
 good-names=_,M,N,B,A,Nn,Bn,An
 
 [MESSAGE CONTROL]
-disable=W0719,W0122,C0206,C0201,W0718,R0902
+disable=W0719,W0122,C0206,C0201,W0718,R0902,C0103

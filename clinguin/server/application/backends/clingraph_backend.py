@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module that contains the ClingraphBackend.
 """
@@ -5,26 +6,25 @@ import base64
 import textwrap
 from pathlib import Path
 
-import clorm
 from clingo import Control
 from clingo.symbol import Function, String
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
-from clinguin.server import StandardJsonEncoder
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
 from clinguin.server.data.attribute import AttributeDao
-from clinguin.server.data.uifb import UIFB
 
 # Self defined
-from clinguin.utils import NoModelError, StandardTextProcessing
+from clinguin.utils import StandardTextProcessing
 
 
 class ClingraphBackend(ClingoBackend):
     """
-    Extends ClingoBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin. This can be done by both saving them to a file and by sending them to the client.
-    The process of sending them to the client includes the conversion to a Base64 encoding (so the binary images are encoded as a UTF-8 String) that is then send to the client.
+    Extends ClingoBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin.
+    This can be done by both saving them to a file and by sending them to the client.
+    The process of sending them to the client includes the conversion to a Base64 encoding
+    (so the binary images are encoded as a UTF-8 String) that is then send to the client.
     """
 
     def __init__(self, args):
@@ -217,22 +217,22 @@ class ClingraphBackend(ClingoBackend):
                     existant_file_counter += 1
                 except Exception:
                     self._logger.critical(
-                        f'Failed to load file "{f}" (there is likely a syntax error in this logic program file).'
+                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                        f,
                     )
             else:
                 self._logger.critical(
-                    f'File "{f}" does not exist, this file is skipped.'
+                    "File %s does not exist, this file is skipped.", f
                 )
 
         if existant_file_counter == 0:
-            exception_string = "None of the provided clingraph files exists, but at least one syntactically valid clingraph file must be specified. Exiting!"
+            exception_string = (
+                "None of the provided clingraph files exists, but at least one syntactically"
+                + "valid clingraph file must be specified. Exiting!"
+            )
+
             self._logger.critical(exception_string)
             raise Exception(exception_string)
-
-        """
-        for f in self._clingraph_files:
-            ctl.load(f)
-        """
 
         ctl.add("base", [], prg)
         ctl.add("base", [], self._backend_state_prg)
@@ -283,7 +283,8 @@ class ClingraphBackend(ClingoBackend):
             splits = attribute_value.split(self._attribute_image_value_seperator, 1)
             if len(splits) < 2:
                 raise ValueError(
-                    f"The images for clingraph should have format {self._attribute_image_value}{self._attribute_image_value_seperator}name"
+                    f"The images for clingraph should have format {self._attribute_image_value}"
+                    + f"{self._attribute_image_value_seperator}name"
                 )
             graph_name = splits[1]
             key_image = self._create_image_from_graph(graphs, key=graph_name)
@@ -293,8 +294,7 @@ class ClingraphBackend(ClingoBackend):
                 Raw(Function(str(attribute.key), [])),
                 Raw(String(str(base64_key_image))),
             )
-            self._uifb._factbase.remove(attribute)
-            self._uifb._factbase.add(new_attribute)
+            self._uifb.replace_attribute(attribute, new_attribute)
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
         graphs = graphs[0]

@@ -1,4 +1,3 @@
-from reference_json_output import *
 from utils_test_utils import UtilsTestUtils
 
 
@@ -44,7 +43,7 @@ class TestClingraph:
         post_calls = [
             ("add_assumption(assign(1,blue))", Coloring.post_assumption_1),
             ("add_assumption(assign(2,green))", Coloring.post_assumption_2),
-            ("add_assumption(assign(5,blue))", Coloring.post_assumption_3)           
+            ("add_assumption(assign(5,blue))", Coloring.post_assumption_3)
         ]
 
         for post_call in post_calls:

@@ -1,9 +1,14 @@
+# pylint: disable=R0801
 """
 Contains the menu bar section item class.
 """
-from .root_cmp import *
 
-map = {
+from clinguin.utils.attribute_types import StringType, SymbolType
+
+from ..tkinter_utils import AttributeNames, CallBackDefinition, CallbackNames
+from .root_cmp import RootCmp
+
+key_map = {
     "Ctrl": "Control",
     "Opt": "Option",
     "Cmd": "Command",
@@ -15,11 +20,14 @@ map = {
 
 
 def accelerator_to_bind(a):
+    """
+    Getting key bindings as string.
+    """
     args = a.split("+")
     formatted = []
     for e in args:
-        if e in map:
-            formatted.append(map[e])
+        if e in key_map:
+            formatted.append(key_map[e])
         else:
             formatted.append(e.lower())
     return "<" + "-".join(formatted) + ">"
@@ -27,7 +35,9 @@ def accelerator_to_bind(a):
 
 class MenuBarSectionItem(RootCmp):
     """
-    The menu bar section is a section of a menu bar (e.g. in the menu \|main\|contact\|, where if one clicks on \|contact\| further the options \|location\|team\| appear, a menu-bar-section would be \|contact\|, whereas \|location\| and \|team\| would be menu-bar-section-items.
+    The menu bar section is a section of a menu bar (e.g. in the menu |main|contact|,
+    where if one clicks on |contact| further the options |location|team| appear,
+    a menu-bar-section would be |contact|, whereas |location| and |team| would be menu-bar-section-items.
     """
 
     def _init_element(self, elements):
@@ -74,14 +84,18 @@ class MenuBarSectionItem(RootCmp):
             )
             self._element.add_command(label=text, command=cb, accelerator=accelerator)
             menu = elements[self._parent]
-            window = elements[menu._parent]
-            root = elements[window._parent]
+            window = elements[menu.get_parent()]
+            root = elements[window.get_parent()]
             if accelerator:
                 root.get_element().bind(accelerator_to_bind(accelerator), cb)
         else:
             self._element.add_command(label=text)
 
-    def _menubar_item_click(self, id, parent, click_policy, elements):
+    def _menubar_item_click(self, cid, parent, click_policy, elements):
+        self._logger.debug(str(cid))
+        self._logger.debug(str(parent))
+        self._logger.debug(str(elements))
+
         if click_policy is not None:
             self._base_engine.post_with_policy(click_policy)
 
@@ -89,4 +103,6 @@ class MenuBarSectionItem(RootCmp):
         elements[str(self._id)] = self
 
     def forget_children(self, elements):
-        pass
+        self._logger.debug(str(elements))
+        # pylint: disable=W0107
+        # pylint: enable=W0107

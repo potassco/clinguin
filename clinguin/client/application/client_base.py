@@ -11,7 +11,9 @@ from clinguin.utils import CaseConverter, Logger
 
 class ClientBase:
     """
-    ClientBase is the ''base'' of the client. It contains the logic which is responsible for connecting to the server, what to do in case of errors, forward the Json to the correct GUI, etc.
+    ClientBase is the ''base'' of the client.
+    It contains the logic which is responsible for connecting to the server,
+    what to do in case of errors, forward the Json to the correct GUI, etc.
     """
 
     endpoint_health = "health"
@@ -27,6 +29,9 @@ class ClientBase:
         self.frontend_generator = args.frontend(self, args)
 
     def start_up(self):
+        """
+        Code executed on first startup.
+        """
         self.connect()
         (status_code, response) = self.api.get("")
         if status_code == 200:
@@ -39,6 +44,9 @@ class ClientBase:
             self.connect()
 
     def connect(self):
+        """
+        Connect/reconnect to server.
+        """
         while not self.connected:
             (status_code, _) = self.api.get(self.endpoint_health)
 
@@ -49,12 +57,17 @@ class ClientBase:
                 time.sleep(1)
 
     def draw(self, response):
+        """
+        Draws the GUI.
+        """
         self.base_engine(response)
         self.frontend_generator.draw_postprocessing(response["children"][0]["id"])
 
     def base_engine(self, response):
         """
-        Handles the response of the server to draw the GUI. For this it iterates through the received Json/Dict in a top-down preorder fashion.
+        Handles the response of the server to draw the GUI.
+        For this it iterates through the received Json/Dict
+        in a top-down preorder fashion.
 
         Parameters:
             response (dict): Json from which one can draw the GUI.
@@ -85,6 +98,9 @@ class ClientBase:
                 self._logger.error("Could not find element type: %s", child["type"])
 
     def post_with_policy(self, click_policy):
+        """
+        Prepare post request for API.
+        """
         (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
         if status_code == 200:
             self.draw(json)

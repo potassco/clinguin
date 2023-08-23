@@ -8,7 +8,8 @@ import os
 
 class Logger:
     """
-    Provides methods to set the logging config appropriatly. In principle two loggers exists - one for the client (default name: clinguin_client) and one for the server (default name: clinguin_server).
+    Provides methods to set the logging config appropriatly. In principle two loggers exists -
+    one for the client (default name: clinguin_client) and one for the server (default name: clinguin_server).
     """
 
     class ColoredFormatter(logging.Formatter):
@@ -47,6 +48,9 @@ class Logger:
 
     @classmethod
     def formatter_message(cls, message, use_color=True):
+        """
+        Formats certain aspects of the messages (color).
+        """
         if use_color:
             message = message.replace("$RESET", cls.RESET_SEQ).replace(
                 "$BOLD", cls.BOLD_SEQ
@@ -85,7 +89,7 @@ class Logger:
     def _add_file_handler_to_logger(cls, logger, log_arg_dict, log_file_path):
         file_formatter = Logger.ColoredFormatter(log_arg_dict["format_file"])
 
-        with open(log_file_path, "a+") as file_object:
+        with open(log_file_path, "a+", encoding="utf-8") as file_object:
             file_object.write(
                 "<<<<<NEW-LOG-INSTANCE-" + log_arg_dict["name"] + ">>>>>\n\n"
             )
@@ -96,6 +100,9 @@ class Logger:
 
     @classmethod
     def setup_logger(cls, log_arg_dict, process=None):
+        """
+        Function for setting up the logger.
+        """
         if process and process == "client":
             cls.client_logger_name = log_arg_dict["name"]
         elif process and process == "server":
@@ -111,8 +118,9 @@ class Logger:
 
     @classmethod
     def setup_uvicorn_logger_on_startup(cls, log_arg_dict):
-        # ----------------------------------------------------------
-        # Remove handlers from uvicorn loggers
+        """
+        General function for setting up the logger on startup.
+        """
         logger = logging.getLogger("uvicorn.access")
         for handler in logger.handlers:
             logger.removeHandler(handler)

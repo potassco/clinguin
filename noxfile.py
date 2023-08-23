@@ -3,15 +3,23 @@ import os
 import nox
 
 # default sessions that shall be run
-nox.options.sessions = ["test"]
-
-
+nox.options.sessions = ["test", "lint_pylint", "lint_flake8"]
 
 EDITABLE_TESTS = True
 PYTHON_VERSIONS = None
 if "GITHUB_ACTIONS" in os.environ:
     PYTHON_VERSIONS = ["3.10"]
     EDITABLE_TESTS = False
+
+@nox.session
+def lint_flake8(session):
+    session.install("-e", ".[lint_flake8]")
+    session.run("flake8", "clinguin", "tests")
+
+@nox.session
+def lint_pylint(session):
+    session.install("-e", ".[lint_pylint]")
+    session.run("pylint", "clinguin")    
 
 @nox.session
 def format(session):

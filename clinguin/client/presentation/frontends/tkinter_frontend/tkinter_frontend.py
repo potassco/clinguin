@@ -7,13 +7,27 @@ from clinguin.client import AbstractFrontend
 from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.utils.attribute_types.child_layout import ChildLayoutType
 
-from .tkinter_elements import *
-from .tkinter_utils import *
+from .tkinter_elements import (
+    Button,
+    Canvas,
+    Container,
+    Dropdownmenu,
+    DropdownmenuItem,
+    Label,
+    MenuBar,
+    MenuBarSection,
+    MenuBarSectionItem,
+    Message,
+    RootCmp,
+    Window,
+)
+from .tkinter_utils import AttributeNames, CallbackNames
 
 
 class TkinterFrontend(AbstractFrontend):
     """
-    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class, if it shall be used to render the Frontend. It defines what to do for each element.
+    Class that inherits from AbstractFrontend and is therefore a dynamically loaded class,
+    if it shall be used to render the Frontend. It defines what to do for each element.
     """
 
     def __init__(self, base_engine, args):
@@ -30,14 +44,14 @@ class TkinterFrontend(AbstractFrontend):
 
     @classmethod
     def available_syntax(cls, show_level):
-        def append_dict(description, _dict, type_name):
-            for key in _dict.keys():
+        def append_dict(description, d, type_name):
+            for key in d.keys():
                 description = description + "    |- " + key + "\n"
                 if show_level == ShowFrontendSyntaxEnum.FULL:
-                    if "description" in _dict[key]:
+                    if "description" in d[key]:
                         # Specific has higher priority
                         description = description + "      |- Description: "
-                        description = description + ": " + _dict[key]["description"]
+                        description = description + ": " + d[key]["description"]
                         description = description + "\n"
                     elif key in AttributeNames.descriptions:
                         # General lesser priority
@@ -53,20 +67,23 @@ class TkinterFrontend(AbstractFrontend):
                         )
                         description = description + "\n"
 
-                    if type_name in _dict[key]:
+                    if type_name in d[key]:
                         description = description + "      |- Possible-Values: "
                         description = (
-                            description + _dict[key][type_name].description() + "\n"
+                            description + d[key][type_name].description() + "\n"
                         )
 
             return description
 
         description = (
-            "Here one finds the supported attributes and callbacks of the TkinterFrontend and further a definition of the syntax:\n"
+            "Here one finds the supported attributes and callbacks of the TkinterFrontend and further a definition"
+            + "of the syntax:\n"
             + "There are three syntax elements:\n\n"
             + "element(<ID>, <TYPE>, <PARENT>) : To define an element\n"
-            + "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the corresponding element)\n"
-            + "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the corresponding element)\n\n"
+            + "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the"
+            + "corresponding element)\n"
+            + "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the"
+            + "corresponding element)\n\n"
             + "The following list shows for each <TYPE> the possible attributes and callbacks:\n"
         )
 
@@ -89,96 +106,96 @@ class TkinterFrontend(AbstractFrontend):
 
         return description
 
-    def window(self, id, parent, attributes, callbacks):
+    def window(self, cid, parent, attributes, callbacks):
         if self.first:
             window = Window(
-                self._args, id, parent, attributes, callbacks, self._base_engine
+                self._args, cid, parent, attributes, callbacks, self._base_engine
             )
             window.add_component(self.elements)
         else:
             keys = list(self.elements.keys()).copy()
             for key in keys:
-                if str(key) == str(id):
+                if str(key) == str(cid):
                     continue
 
                 if str(key) in self.elements:
                     self.elements[str(key)].forget_children(self.elements)
                     del self.elements[str(key)]
 
-    def container(self, id, parent, attributes, callbacks):
+    def container(self, cid, parent, attributes, callbacks):
         container = Container(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         container.add_component(self.elements)
 
-    def dropdown_menu(self, id, parent, attributes, callbacks):
+    def dropdown_menu(self, cid, parent, attributes, callbacks):
         menu = Dropdownmenu(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         menu.add_component(self.elements)
 
-    def dropdown_menu_item(self, id, parent, attributes, callbacks):
+    def dropdown_menu_item(self, cid, parent, attributes, callbacks):
         menu = DropdownmenuItem(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         menu.add_component(self.elements)
 
-    def label(self, id, parent, attributes, callbacks):
-        label = Label(self._args, id, parent, attributes, callbacks, self._base_engine)
+    def label(self, cid, parent, attributes, callbacks):
+        label = Label(self._args, cid, parent, attributes, callbacks, self._base_engine)
         label.add_component(self.elements)
 
-    def button(self, id, parent, attributes, callbacks):
+    def button(self, cid, parent, attributes, callbacks):
         button = Button(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         button.add_component(self.elements)
 
-    def menu_bar(self, id, parent, attributes, callbacks):
+    def menu_bar(self, cid, parent, attributes, callbacks):
         menubar = MenuBar(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         menubar.add_component(self.elements)
 
-    def menu_bar_section(self, id, parent, attributes, callbacks):
+    def menu_bar_section(self, cid, parent, attributes, callbacks):
         menubar = MenuBarSection(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         menubar.add_component(self.elements)
 
-    def menu_bar_section_item(self, id, parent, attributes, callbacks):
+    def menu_bar_section_item(self, cid, parent, attributes, callbacks):
         menubar = MenuBarSectionItem(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         menubar.add_component(self.elements)
 
-    def message(self, id, parent, attributes, callbacks):
+    def message(self, cid, parent, attributes, callbacks):
         message = Message(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         message.add_component(self.elements)
 
-    def canvas(self, id, parent, attributes, callbacks):
+    def canvas(self, cid, parent, attributes, callbacks):
         canvas = Canvas(
-            self._args, id, parent, attributes, callbacks, self._base_engine
+            self._args, cid, parent, attributes, callbacks, self._base_engine
         )
         canvas.add_component(self.elements)
 
-    def draw_postprocessing(self, id):
-        self.elements[id].get_element().update()
+    def draw_postprocessing(self, cid):
+        self.elements[cid].get_element().update()
 
         elements_info = {}
         dependency = []
 
         for key in self.elements.keys():
             w = self.elements[key]
-            if w._id == "root":
+            if w.get_id() == "root":
                 continue
 
-            elements_info[w._id] = {"parent": w._parent, "type": w._id}
-            dependency.append((w._id, w._parent))
+            elements_info[w.get_id()] = {"parent": w.get_parent(), "type": w.get_id()}
+            dependency.append((w.get_id(), w.get_parent()))
 
-        DG = nx.DiGraph(dependency)
-        order = list((list(nx.topological_sort(DG))))
+        digraph = nx.DiGraph(dependency)
+        order = list((list(nx.topological_sort(digraph))))
 
         for element_key in order:
             if element_key == "root":
@@ -186,49 +203,61 @@ class TkinterFrontend(AbstractFrontend):
 
             cur_element = self.elements[element_key]
 
-            attributes = cur_element.get_attributes()
+            attributes = cur_element.get_attributes_list()
 
             if (
                 AttributeNames.height in attributes
                 and AttributeNames.width in attributes
             ):
-                true_width = cur_element._element.winfo_width()
-                true_height = cur_element._element.winfo_height()
+                self.postprocessing_size_setter(cid, cur_element, attributes)
 
-                config_width = int(
-                    cur_element._attributes[AttributeNames.width]["value"]
-                )
-                config_height = int(
-                    cur_element._attributes[AttributeNames.height]["value"]
-                )
+    def postprocessing_size_setter(self, cid, cur_element, attributes):
+        """
+        Postprocessing - Used to enable setting the size and width of tkinter elemnents independent.
+        Normal behavior of tkinter: Only set set the size the user wants when setting both height and width.
+        Wished behavior: Also do this if only one of height or width is set.
 
-                pack = False
+        This is implemented here, by first analyzing which elements are drawn latest.
+        Then from the latest to the first compute their actual sizes, and if necessary correct them.
+        In this manner every element takes the size it has been assigned.
+        """
+        true_width = cur_element.get_element().winfo_width()
+        true_height = cur_element.get_element().winfo_height()
 
-                if config_width > 0:
-                    pack = True
-                    cur_element._element.config(width=config_width)
-                else:
-                    cur_element._element.config(width=true_width)
+        config_width = int(
+            cur_element.get_attributes_list()[AttributeNames.width]["value"]
+        )
+        config_height = int(
+            cur_element.get_attributes_list()[AttributeNames.height]["value"]
+        )
 
-                if config_height > 0:
-                    pack = True
-                    cur_element._element.config(height=config_height)
-                else:
-                    cur_element._element.config(height=true_height)
+        pack = False
 
-                if pack:
-                    if AttributeNames.child_layout in attributes:
-                        policy = cur_element._attributes[AttributeNames.child_layout][
-                            "value"
-                        ]
-                        if policy == ChildLayoutType.FLEX:
-                            cur_element._element.pack_propagate(0)
-                    else:
-                        cur_element._element.pack_propagate(0)
+        if config_width > 0:
+            pack = True
+            cur_element.get_element().config(width=config_width)
+        else:
+            cur_element.get_element().config(width=true_width)
 
-                    self.elements[id].get_element().update()
+        if config_height > 0:
+            pack = True
+            cur_element.get_element().config(height=config_height)
+        else:
+            cur_element.get_element().config(height=true_height)
 
-    def draw(self, id):
+        if pack:
+            if AttributeNames.child_layout in attributes:
+                policy = cur_element.get_attributes_list()[AttributeNames.child_layout][
+                    "value"
+                ]
+                if policy == ChildLayoutType.FLEX:
+                    cur_element.get_element().pack_propagate(0)
+            else:
+                cur_element.get_element().pack_propagate(0)
+
+            self.elements[cid].get_element().update()
+
+    def draw(self, cid):
         self.first = False
 
-        self.elements[id].get_element().mainloop()
+        self.elements[cid].get_element().mainloop()

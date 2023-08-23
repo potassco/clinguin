@@ -10,6 +10,10 @@ class StandardTextProcessing:
 
     @classmethod
     def parse_string_with_quotes(cls, text):
+        """
+        Parses a string with quotes inside and returns the string without quotes.
+        Additionally it correctly parses newlines to ''correct'' newlines.
+        """
         if len(text) > 0:
             if text[0] == '"':
                 text = text[1:]

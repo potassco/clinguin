@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 """
 Module that contains the ClingoBackend.
 """
@@ -7,17 +8,15 @@ from clingo import Control, parse_term
 from clingo.script import enable_python
 
 from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
-from clinguin.server.application.backends.standard_utils.brave_cautious_helper import *
-
-# Self defined
-from clinguin.utils.errors import NoModelError
 
 enable_python()
 
 
 class ClingoBackend(ClinguinBackend):
     """
-    The ClingoBackend class is the backend that is selected by default. It provides basic functionality to argue bravely and cautiously. Further it provides several policies for assumptions, atoms and externals.
+    The ClingoBackend class is the backend that is selected by default.
+    It provides basic functionality to argue bravely and cautiously.
+    Further it provides several policies for assumptions, atoms and externals.
     """
 
     def __init__(self, args):
@@ -105,15 +104,19 @@ class ClingoBackend(ClinguinBackend):
                     existant_file_counter += 1
                 except Exception:
                     self._logger.critical(
-                        f'Failed to load file "{f}" (there is likely a syntax error in this logic program file).'
+                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                        f,
                     )
             else:
                 self._logger.critical(
-                    f'File "{f}" does not exist, this file is skipped.'
+                    "File %s does not exist, this file is skipped.", f
                 )
 
         if existant_file_counter == 0:
-            exception_string = "None of the provided domain files exists, but at least one syntactically valid domain file must be specified. Exiting!"
+            exception_string = (
+                "None of the provided domain files exists, but at least one syntactically"
+                + "valid domain file must be specified. Exiting!"
+            )
             self._logger.critical(exception_string)
             raise Exception(exception_string)
 
@@ -170,7 +173,8 @@ class ClingoBackend(ClinguinBackend):
 
     def clear_assumptions(self):
         """
-        Policy: clear_assumptions removes all assumptions, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
+        Policy: clear_assumptions removes all assumptions, then basically ''resets'' the backend
+        (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
         """
         self._end_browsing()
         self._assumptions = set()
@@ -224,7 +228,8 @@ class ClingoBackend(ClinguinBackend):
 
     def clear_atoms(self):
         """
-        Policy: clear_atoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
+        Policy: clear_atoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.)
+        and finally updates the model and returns the updated gui as a Json structure.
         """
         self._end_browsing()
         self._atoms = set()
@@ -236,7 +241,8 @@ class ClingoBackend(ClinguinBackend):
 
     def add_atom(self, predicate):
         """
-        Policy: Adds an assumption and basically resets the rest of the application (reground) - finally it returns the udpated Json structure.
+        Policy: Adds an assumption and basically resets the rest of the application (reground) -
+        finally it returns the udpated Json structure.
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
@@ -250,7 +256,8 @@ class ClingoBackend(ClinguinBackend):
 
     def remove_atom(self, predicate):
         """
-        Policy: Removes an assumption and basically resets the rest of the application (reground) - finally it returns the udpated Json structure.
+        Policy: Removes an assumption and basically resets the rest of the application (reground) -
+        finally it returns the udpated Json structure.
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._atoms:
@@ -339,10 +346,10 @@ class ClingoBackend(ClinguinBackend):
         Policy: Select the current solution during browsing
         """
         self._end_browsing()
-        last_model_symbols = self._uifb._conseq["auto"]
+        last_model_symbols = self._uifb.get_auto_conseq()
         symbols_to_ignore = self._externals["true"]
         symbols_to_ignore.union(self._externals["false"])
-        for s in last_model_symbols:
+        for s in last_model_symbols:  # pylint: disable=E1133
             if s not in symbols_to_ignore:
                 self._add_assumption(s)
         self._update_uifb()

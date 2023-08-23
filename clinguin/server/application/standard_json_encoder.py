@@ -40,7 +40,9 @@ class StandardJsonEncoder:
     @classmethod
     def _generate_hierarchy(cls, uifb, hierarchy_root, elements_dict):
         """
-        Converts the UIFB into an Json Hierarchy (which is represented by an ElementDto). Therefore it first gets all dependencies, then orders the elements according to the dependencies and then adds for each element its attributes, callbacks and children.
+        Converts the UIFB into an Json Hierarchy (which is represented by an ElementDto).
+        Therefore it first gets all dependencies, then orders the elements according to the dependencies
+        and then adds for each element its attributes, callbacks and children.
 
         Arguments:
             uifb : UIFB
@@ -56,19 +58,19 @@ class StandardJsonEncoder:
             elements_info[w.id] = {"parent": w.parent, "type": w.type}
             dependency.append((w.id, w.parent))
 
-        DG = nx.DiGraph(dependency)
-        order = list(reversed(list(nx.topological_sort(DG))))
+        directed_graph = nx.DiGraph(dependency)
+        order = list(reversed(list(nx.topological_sort(directed_graph))))
 
-        attrs = uifb.get_attributesGrouped()
+        attrs = uifb.get_attributes_grouped()
         attrs = {a[0]: list(a[1]) for a in attrs}
-        cbs = uifb.get_callbacksGrouped()
+        cbs = uifb.get_callbacks_grouped()
         cbs = {a[0]: list(a[1]) for a in cbs}
 
         for element_id in order:
             if str(element_id) == str(hierarchy_root.id):
                 continue
 
-            if not element_id in elements_info:
+            if element_id not in elements_info:
                 logger.critical(
                     "The provided element id (ID : %s) could not be found!",
                     str(element_id),
@@ -79,9 +81,9 @@ class StandardJsonEncoder:
                     + ") could not be found!"
                 )
 
-            type = elements_info[element_id]["type"]
+            element_type = elements_info[element_id]["type"]
             parent = elements_info[element_id]["parent"]
-            element = ElementDto(element_id, type, parent)
+            element = ElementDto(element_id, element_type, parent)
 
             if element_id in attrs:
                 elem_attributes = [

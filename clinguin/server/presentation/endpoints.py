@@ -17,7 +17,9 @@ from .endpoints_helper import EndpointsHelper
 
 class Endpoints:
     """
-    The endpoints class define the available endpoints the backend (this time backend refers to the general concept of backend, like a server backend) has. These are defined in the ''__init__'', and correspond to the three methods:
+    The endpoints class define the available endpoints the backend
+    (this time backend refers to the general concept of backend, like a server backend) has.
+    These are defined in the ''__init__'', and correspond to the three methods:
 
     Methods:
         health -> Json : Returns name, version and description of clinguin.
@@ -39,6 +41,10 @@ class Endpoints:
         self._backend = args.backend(args)
 
     async def health(self):
+        """
+        Health endpoint (/health) of the server-backend,
+        returns name, version and summary of clinguin.
+        """
         self._logger.info("--> Health")
         cuin = metadata("clinguin")
         return {
@@ -48,10 +54,22 @@ class Endpoints:
         }
 
     async def standard_executor(self):
+        """
+        Get endpoint (/) of the server-backend,
+        calls the get() method of the respective backend (clinguin/clingo/clingraph/etc.).
+        The get() method is implemented by every backend.
+        """
         self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
         return self._backend.get()
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
+        """
+        Post endpoint (/backend) of the server-backend,
+        which can be used to call specific methods/functions of the backend.
+        It takes a backend_call_string, which is essentially a json defining a function to be called,
+        including arguments.
+        For example: {'function':'add_assumption(p(1))'}
+        """
         self._logger.debug("Got endpoint")
         symbol = clingo.parse_term(backend_call_string.function)
         function_name = symbol.name

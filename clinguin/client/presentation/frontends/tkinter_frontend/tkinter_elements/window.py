@@ -1,14 +1,19 @@
+# pylint: disable=R0801,R1716
 """
 Contains the window class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import ChildLayoutType, ColorType, IntegerType
+
+from ..tkinter_utils import AttributeNames, LayoutController
+from .root_cmp import RootCmp
 
 
 class Window(RootCmp, LayoutController):
     """
-    The window class is the top-lvl. component, therefore it MUST be used in every clinguin application! For available attributes see syntax definition.
+    The window class is the top-lvl. component, therefore it MUST be used in every clinguin application!
+    For available attributes see syntax definition.
     """
 
     def _init_element(self, elements):
@@ -35,11 +40,13 @@ class Window(RootCmp, LayoutController):
 
         return attributes
 
-    def _set_background_color(self, elements, key=AttributeNames.backgroundcolor):
+    def _set_background_color(
+        self, elements, key=AttributeNames.backgroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         self._element.configure(background=value)
 
-    def _set_dimensions(self, elements):
+    def _set_dimensions(self, elements):  # pylint: disable=W0613
         width = self._attributes[AttributeNames.width]["value"]
         height = self._attributes[AttributeNames.height]["value"]
 
@@ -72,7 +79,7 @@ class Window(RootCmp, LayoutController):
                 "For the tkinter window one must set both height and width to positive values (not just one)."
             )
 
-    def _set_resizable(self, elements):
+    def _set_resizable(self, elements):  # pylint: disable=W0613
         self._element.resizable(
             self._attributes[AttributeNames.resizable_x]["value"],
             self._attributes[AttributeNames.resizable_y]["value"],

@@ -1,18 +1,37 @@
+# pylint: disable=R0801
 """
 This module contains the Label class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import (
+    BooleanType,
+    ColorType,
+    StringType,
+    SymbolType,
+)
+
+from ..tkinter_utils import (
+    AttributeNames,
+    CallbackNames,
+    ConfigureFont,
+    ConfigureTextElementSize,
+    LayoutFollower,
+)
+from .root_cmp import RootCmp
 
 
 class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
     """
-    The label can be used for positiion text. For available attributes see syntax definition. Implementation wise it is similarly implemented as the Dropdowmenu and Button - to make it work for layouting, the actual label is hidden and the element is actually a tkinter frame (therefore self._element is a frame, whereas self._label is the label).
+    The label can be used for positiion text.
+    For available attributes see syntax definition.
+    Implementation wise it is similarly implemented as the Dropdowmenu and Button -
+    to make it work for layouting, the actual label is hidden and the element is actually
+    a tkinter frame (therefore self._element is a frame, whereas self._label is the label).
     """
 
-    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
-        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+    def __init__(self, args, cid, parent, attributes, callbacks, base_engine):
+        super().__init__(args, cid, parent, attributes, callbacks, base_engine)
         self._configure_font_element = None
         self._label = None
 
@@ -64,15 +83,21 @@ class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
     # -----Standard-Attributes----
     # ----------------------------------------------------------------------------------------------
 
-    def _set_label_text(self, elements, key=AttributeNames.label):
+    def _set_label_text(
+        self, elements, key=AttributeNames.label
+    ):  # pylint: disable=W0613
         text = self._attributes[key]["value"]
         self._label.configure(text=text)
 
-    def _set_background_color(self, elements, key=AttributeNames.backgroundcolor):
+    def _set_background_color(
+        self, elements, key=AttributeNames.backgroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         self._label.configure(background=value)
 
-    def _set_foreground_color(self, elements, key=AttributeNames.foregroundcolor):
+    def _set_foreground_color(
+        self, elements, key=AttributeNames.foregroundcolor
+    ):  # pylint: disable=W0613
         value = self._attributes[key]["value"]
         self._label.configure(foreground=value)
 
@@ -92,7 +117,7 @@ class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
 
         if on_hover:
 
-            def enter(event):
+            def enter(event):  # pylint: disable=W0613
                 if on_hover_background_color != "":
                     self._set_background_color(
                         elements, key=AttributeNames.onhover_background_color
@@ -102,7 +127,7 @@ class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
                         elements, key=AttributeNames.onhover_foreground_color
                     )
 
-            def leave(event):
+            def leave(event):  # pylint: disable=W0613
                 self._set_background_color(elements, key=AttributeNames.backgroundcolor)
                 self._set_foreground_color(elements, key=AttributeNames.foregroundcolor)
 
@@ -113,11 +138,11 @@ class Label(RootCmp, LayoutFollower, ConfigureFont, ConfigureTextElementSize):
     # -----Actions----
     # ----------------------------------------------------------------------------------------------
 
-    def _define_click_event(self, elements):
+    def _define_click_event(self, elements):  # pylint: disable=W0613
         key = CallbackNames.click
         if self._callbacks[key] and self._callbacks[key]["policy"]:
 
-            def click_event(event):
+            def click_event(event):  # pylint: disable=W0613
                 self._base_engine.post_with_policy(self._callbacks[key]["policy"])
 
             self._label.bind("<Button-1>", click_event)

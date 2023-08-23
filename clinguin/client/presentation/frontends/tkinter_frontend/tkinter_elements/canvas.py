@@ -8,16 +8,23 @@ import tkinter as tk
 import PIL.Image as TImage
 from PIL import ImageTk
 
-from .root_cmp import *
+from clinguin.utils.attribute_types import BooleanType, ImageType, PathType
+
+from ..tkinter_utils import AttributeNames, ConfigureSize, LayoutFollower
+from .root_cmp import RootCmp
 
 
 class Canvas(RootCmp, LayoutFollower, ConfigureSize):
     """
-    The canvas class resembles a element, which is generally regarded as an ''empty sheet of paper'', so there is an area, where one can display images, draw something or does something similar. One can look up what actual options are available through the syntax-definition. Implementation wise it is similarly implemented to the label, button and dropdownmenu.
+    The canvas class resembles a element,
+    which is generally regarded as an ''empty sheet of paper'',
+    so there is an area, where one can display images, draw something or does something similar.
+    One can look up what actual options are available through the syntax-definition.
+    Implementation wise it is similarly implemented to the label, button and dropdownmenu.
     """
 
-    def __init__(self, args, id, parent, attributes, callbacks, base_engine):
-        super().__init__(args, id, parent, attributes, callbacks, base_engine)
+    def __init__(self, args, cid, parent, attributes, callbacks, base_engine):
+        super().__init__(args, cid, parent, attributes, callbacks, base_engine)
 
         self._canvas = None
         self._image = None
@@ -40,6 +47,8 @@ class Canvas(RootCmp, LayoutFollower, ConfigureSize):
         return attributes
 
     def _set_image(self, elements):
+        self._logger.debug(str(elements))
+
         image_base64 = self._attributes[AttributeNames.image]["value"]
         image_file = self._attributes[AttributeNames.image_path]["value"]
 

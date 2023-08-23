@@ -1,4 +1,11 @@
-from reference_json_output import *
+from reference_json_output import (
+    BasicTest06,
+    BasicTest07,
+    BasicTest08,
+    BasicTest09,
+    BasicTest10,
+    BasicTest11,
+)
 from utils_test_utils import UtilsTestUtils
 
 

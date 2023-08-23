@@ -175,6 +175,9 @@ class ClingoBackend(ClinguinBackend):
         self._update_uifb_consequences()
         self._update_uifb_ui()
 
+    def _set_auto_conseq(self, model):
+        self._uifb.set_auto_conseq(model)
+
     def _add_assumption(self, predicate_symbol):
         self._assumptions.add(predicate_symbol)
 
@@ -341,7 +344,7 @@ class ClingoBackend(ClinguinBackend):
             while optimizing and not model.optimality_proven:
                 self._logger.info("Skipping non-optimal model")
                 model = next(self._iterator)
-            self._uifb.set_auto_conseq(model.symbols(shown=True, atoms=True))
+            self._set_auto_conseq(model)
             self._update_uifb_ui()
         except StopIteration:
             self._logger.info("No more solutions")

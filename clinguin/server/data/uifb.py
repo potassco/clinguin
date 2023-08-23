@@ -159,10 +159,14 @@ class UIFB:
 
         return self._set_fb_symbols(symbols=model_symbols)
 
-    def set_auto_conseq(self, model_symbols):
+    def set_auto_conseq(self, model, on_model=lambda m: None):
         """
         Sets the auto conseq.
+        Args:
+            on_model: Optional callback to edit the models (Used for theory extensions)
         """
+        on_model(model)
+        model_symbols = model.symbols(shown=True, atoms=True)
         self._conseq["auto"] = model_symbols
 
     def get_auto_conseq(self):
@@ -171,14 +175,16 @@ class UIFB:
         """
         return self._conseq["auto"]
 
-    def update_all_consequences(self, ctl, assumptions=None):
+    def update_all_consequences(self, ctl, assumptions=None, on_model=lambda m: None):
         """
         Updates all consequences.
+        Args:
+            on_model: Optional callback to edit the models (Used for theory extensions)
         """
         c_types = ["brave", "cautious", "auto"]
         for c_type in c_types:
             try:
-                self.update_consequence(c_type, ctl, assumptions)
+                self.update_consequence(c_type, ctl, assumptions, on_model=on_model)
             except NoModelError:
                 # Error should be handled in the ui encoding
                 return
@@ -197,12 +203,13 @@ class UIFB:
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
 
-    def _compute_consequences(self, ctl, assumptions):
+    def _compute_consequences(self, ctl, assumptions, on_model=lambda m: None):
         with ctl.solve(
             assumptions=[(a, True) for a in assumptions], yield_=True
         ) as result:
             model_symbols = None
             for m in result:
+                on_model(m)
                 model_symbols = m.symbols(shown=True, atoms=True)
 
             if model_symbols is None:
@@ -216,9 +223,11 @@ class UIFB:
 
         return list(model_symbols)
 
-    def update_consequence(self, c_type, ctl, assumptions=None):
+    def update_consequence(self, c_type, ctl, assumptions=None, on_model=lambda m: None):
         """
         Computes for one consequence (brave/cautious/other) all consequences.
+        Args:
+            on_model: Optional callback to edit the models (Used for theory extensions)
         """
         self._logger.debug("Updating %s consequences", c_type)
         if c_type in ["brave", "cautious"]:
@@ -228,7 +237,7 @@ class UIFB:
             ctl.configuration.solve.models = 1
             ctl.configuration.solve.opt_mode = "ignore"
         ctl.configuration.solve.enum_mode = c_type
-        self._conseq[c_type] = self._compute_consequences(ctl, assumptions)
+        self._conseq[c_type] = self._compute_consequences(ctl, assumptions, on_model=on_model)
 
     def add_message(self, title, message, attribute_type="info"):
         """

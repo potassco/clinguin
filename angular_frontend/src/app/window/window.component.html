@@ -1,0 +1,8 @@
+<!-- <app-intermediate-component id={{window_id}} *ngIf="window != null" [element]="window">
+</app-intermediate-component>
+-->
+
+<div id={{window_id}} *ngIf="window != null" #parent>
+    <ng-template #child></ng-template>
+</div>
+

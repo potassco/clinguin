@@ -6,9 +6,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SvgServiceService {
 
   constructor(

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { GraphRequest, GraphResponse } from '../types/messageTypes';
 import { NodeOptions, Input_Option, Select_Option } from '../types/options';
 import { ASPtranslateService } from '../asptranslate.service';
+import { HttpService } from '../http.service';
 
 @Component({
   selector: 'app-main-page',
@@ -26,6 +27,7 @@ export class MainPageComponent implements AfterViewInit {
   constructor(private svgService: SvgServiceService, private fb:FormBuilder, private aspService:ASPtranslateService){
   }
   ngAfterViewInit(): void {
+
     this.svgService.get().subscribe({next: (data) => {
       this.svgString = data.data;
       this.svgContainer.nativeElement.innerHTML = this.svgString
@@ -154,7 +156,6 @@ export class MainPageComponent implements AfterViewInit {
 
     }})
   }
-
 
 
   

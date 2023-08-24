@@ -27,4 +27,9 @@ export class HttpService {
       );
       return response; 
     }
+
+    post(policy: string): Observable<ElementDto>{
+      const request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy })
+      return request
+    }
 }

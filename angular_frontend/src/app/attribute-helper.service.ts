@@ -43,6 +43,9 @@ export class AttributeHelperService {
 
         if (value == "grid") {
             html.style.display = "grid"
+        } else if (value == "flex") {
+            html.style.display = "flex"
+            html.style.flexDirection = "column"
         }
     }
 

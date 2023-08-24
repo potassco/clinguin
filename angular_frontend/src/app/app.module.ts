@@ -9,13 +9,18 @@ import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window/window.component';
 import { RootComponent } from './root/root.component';
 import { ContainerComponent } from './container/container.component';
+import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
+import { NgbDropdown, NgbDropdownAnchor, NgbDropdownConfig, NgbDropdownItem, NgbDropdownMenu, NgbDropdownModule, NgbDropdownToggle, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     WindowComponent,
     RootComponent,
-    ContainerComponent
+    ContainerComponent,
+    DropdownMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +28,9 @@ import { ContainerComponent } from './container/container.component';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

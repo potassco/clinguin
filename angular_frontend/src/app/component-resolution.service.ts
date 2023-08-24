@@ -1,5 +1,6 @@
 import { Component, Injectable, Type, ViewContainerRef } from '@angular/core';
 import { ContainerComponent } from './container/container.component';
+import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
 
 @Injectable({
   providedIn: 'root'
@@ -15,26 +16,11 @@ export class ComponentResolutionService {
 
         if (key == "container") {
             component = child.createComponent(ContainerComponent)
-        } 
+        }  else if (key == "dropdown_menu") {
+            component = child.createComponent(DropdownMenuComponent)
+        }
 
         return component
-
-        /*
-        let dict = [
-            {key:"container",value: ContainerComponent},
-            {key:"test",value: IntermediateComponentComponent}
-        ]
-
-        let index = dict.findIndex(item => item.key == key)
-
-        let return_class =  null
-
-        if (index >= 0) {
-            return_class = dict[index].value
-        } 
-
-        return return_class
-        */
     }
 }
 

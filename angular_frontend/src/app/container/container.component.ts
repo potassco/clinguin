@@ -27,7 +27,6 @@ export class ContainerComponent{
       let my_comp = ComponentResolutionService.component_resolution(this.child, item.type)
 
       if (my_comp != null) {
-        //my_comp.instance.element = item
         my_comp.setInput("element",item)
         let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
         html.id = item.id

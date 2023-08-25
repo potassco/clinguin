@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { DrawFrontendService } from './draw-frontend.service';
+import { ElementDto } from './types/json-response.dto';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Clinguin';
+
+  menuBar : ElementDto | null = null
+
+  constructor(private frontendService: DrawFrontendService) {}
+
+
+  ngAfterViewInit(): void {
+
+    this.frontendService.menuBar.subscribe({next: data => {
+      this.menuBar = data
+    }})
+  }
 }

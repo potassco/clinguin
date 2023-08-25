@@ -65,7 +65,6 @@ export class DropdownMenuComponent {
     if (this.element != null) {
       this.element.children.forEach(child => {
         let htmlChild : HTMLElement | null = document.getElementById(child.id)
-        console.log(htmlChild)
         if (htmlChild != null) {
           AttributeHelperService.addAttributes(htmlChild, child.attributes)
           AttributeHelperService.textAttributes(htmlChild, child.attributes)

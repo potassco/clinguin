@@ -9,9 +9,10 @@ import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window/window.component';
 import { ContainerComponent } from './container/container.component';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { LabelComponent } from './label/label.component';
+import { MenuBarComponent } from './menu-bar/menu-bar.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { LabelComponent } from './label/label.component';
     WindowComponent,
     ContainerComponent,
     DropdownMenuComponent,
-    LabelComponent
+    LabelComponent,
+    MenuBarComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { LabelComponent } from './label/label.component';
     CommonModule,
     HttpClientModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    NgbCollapseModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import { Component, ComponentRef, Injectable, Type, ViewContainerRef } from '@an
 import { ContainerComponent } from './container/container.component';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
 import { LabelComponent } from './label/label.component';
+import { MenuBarComponent } from './menu-bar/menu-bar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,18 @@ export class ComponentResolutionService {
         let dict : {key:string, value:Type<any>}[] = [
           {key:"container",value:ContainerComponent},
           {key:"dropdown_menu", value:DropdownMenuComponent},
-          {key:"label", value:LabelComponent}
+          {key:"label", value:LabelComponent},
         ]
 
         let component = null
         
         let index = dict.findIndex(item => item.key == key)
         if (index >= 0) {
-          // TODO
           component = child.createComponent(dict[index].value)
         }
 
-        if (component == null) {
+        if (component == null && key != "menu_bar") {
+          console.log("Could not associate component key with an component: " + key)
           //throw new Error("Could not associate component key with an component: " + key)
         }
 

@@ -103,14 +103,13 @@ export class AttributeHelperService {
         index = attributes.findIndex(item => item.key == "font_size")
         if (index >= 0) {
             fontSize = String(attributes[index].value)
-            console.log("FONT SIZE")
         }       
-        console.log(fontSize)
         html.style.fontSize = fontSize
 
     }
 
     static setAttributesDirectly(html: HTMLElement, attributes: AttributeDto[]) {
+        console.log(attributes)
         attributes.forEach((attr : AttributeDto) => {
             (<any>html.style)[attr.key] = attr.value
         })

@@ -13,6 +13,7 @@ import { HttpService } from './http.service';
 export class DrawFrontendService {
 
     frontendJson : Subject<ElementDto> = new Subject()
+    menuBar: Subject<ElementDto> = new Subject()
 
     constructor(private httpService: HttpService) {
     }
@@ -20,6 +21,7 @@ export class DrawFrontendService {
     initialGet() : void {
         this.httpService.get().subscribe(
         {next: (data:ElementDto) => {
+            this.detectCreateMenuBar(data)
             this.frontendJson.next(data)
         }})
     }
@@ -27,8 +29,20 @@ export class DrawFrontendService {
     policyPost(callback: CallbackDto) : void {
         this.httpService.post(callback.policy).subscribe(
         {next: (data:ElementDto) => {
+            this.detectCreateMenuBar(data)
             this.frontendJson.next(data)
         }})
+    }
+
+
+    detectCreateMenuBar(element:ElementDto) {
+        if (element.type == "menu_bar") {
+        this.menuBar.next(element)
+        } else {
+        element.children.forEach(child => {
+            this.detectCreateMenuBar(child)
+        })
+        }
     }
 
 

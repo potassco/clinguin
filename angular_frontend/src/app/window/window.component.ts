@@ -20,6 +20,8 @@ export class WindowComponent {
 
   window_id: string = ""
   window: ElementDto | null = null
+
+  menuBar: ElementDto | null = null
   
   constructor(private httpService: HttpService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService) {
   }
@@ -37,7 +39,7 @@ export class WindowComponent {
         this.children = []
 
         this.cleanValues(data)
-        
+ 
         let window = data.children[0]
 
         this.window_id = window.id
@@ -76,12 +78,20 @@ export class WindowComponent {
       let value = element.attributes[i].value
       value = this.stringSanitizer(value)
       element.attributes[i].value = value
+
+      let key = element.attributes[i].key
+      key = this.stringSanitizer(key)
+      element.attributes[i].key = key
     }
 
     for (let i = 0; i < element.callbacks.length; i++) {
-      let value = element.callbacks[i].policy
-      value = this.stringSanitizer(value)
-      element.callbacks[i].policy = value
+      let policy = element.callbacks[i].policy
+      policy = this.stringSanitizer(policy)
+      element.callbacks[i].policy = policy
+
+      let action = element.callbacks[i].action
+      action = this.stringSanitizer(action)
+      element.callbacks[i].action = action
     }
 
     element.children.forEach(child => {
@@ -102,8 +112,9 @@ export class WindowComponent {
       }
     }
 
-    value = value.replace("\\n","\n")
+    value = value.replace("\\n","<br>")
 
     return value
   }
+
 }

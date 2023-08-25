@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">{{title}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor03" [ngbCollapse]="isCollapsed">
+    <ul class="navbar-nav mr-auto">
+        <li *ngFor="let section of menuBarSections" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" (click)="isCollapsed2 = !isCollapsed2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{section.title}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" [ngbCollapse]="isCollapsed2" >
+            <a *ngFor="let item of section.menuBarItems" class="dropdown-item" (click)="policyExecutor(item.policy)">{{item.title}}</a>
+            </div>
+        </li>
+        
+    </ul>
+  </div>
+</nav>

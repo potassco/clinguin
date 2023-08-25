@@ -1,34 +1,39 @@
-import { ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
-import { CallbackDto, ElementDto } from '../types/json-response.dto';
-import { DrawFrontendService } from '../draw-frontend.service';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewRef } from '@angular/core';
+import { ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
-  selector: 'app-dropdown-menu',
-  templateUrl: './dropdown-menu.component.html',
-  styleUrls: ['./dropdown-menu.component.scss']
+  selector: 'app-label',
+  templateUrl: './label.component.html',
+  styleUrls: ['./label.component.scss']
 })
-export class DropdownMenuComponent {
-  // Why does the dropdown need this?
-  @Input() element : ElementDto | null = null
+export class LabelComponent {
+  @ViewChild('label',{static:true}) label! : ElementRef
+  @Input() element: ElementDto | null = null
 
-  @ViewChild('ddbut', {static:true}) ddbut! : ElementRef
+  elementLabel: string = ""
 
-  buttonLabel : string = ""
-  dropDownMenuItems : {label:string, element:ElementDto}[] = []
-
-  constructor(private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document) {
-  }
+  constructor (private  cd: ChangeDetectorRef) {}
 
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      let index = this.element.attributes.findIndex(attr => attr.key == "selected")
+      console.log(this.element)
+      let index = this.element.attributes.findIndex(attr => attr.key == "label")
       if (index >= 0) {
-        this.buttonLabel = this.element.attributes[index].value
+        this.elementLabel = this.element.attributes[index].value
       }
+
+      let htmlDdbut = this.label.nativeElement
+
+      AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
+      AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
+      AttributeHelperService.setAttributesDirectly(htmlDdbut, this.element.attributes)
+
+      this.cd.detectChanges()
+      /*
+
 
       this.element.children.forEach(child => {
         let index = child.attributes.findIndex(attr => attr.key == "label")
@@ -41,7 +46,6 @@ export class DropdownMenuComponent {
 
       AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
       AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.setAttributesDirectly(htmlDdbut, this.element.attributes)
 
       let border_color = "black"
       index = this.element.attributes.findIndex(item => item.key == "border_color")
@@ -51,9 +55,11 @@ export class DropdownMenuComponent {
       htmlDdbut.style.borderColor = border_color
 
       this.cd.detectChanges()
+      */
     }
   }
 
+  /*
   onClick(element: ElementDto) {
 
     let callback : CallbackDto = element.callbacks[0]
@@ -69,10 +75,11 @@ export class DropdownMenuComponent {
         if (htmlChild != null) {
           AttributeHelperService.addAttributes(htmlChild, child.attributes)
           AttributeHelperService.textAttributes(htmlChild, child.attributes)
-          AttributeHelperService.setAttributesDirectly(htmlChild, child.attributes)
         }
       })
       this.cd.detectChanges()
     }
   }
+  */
 }
+

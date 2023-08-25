@@ -8,37 +8,37 @@ export class AttributeHelperService {
 
   constructor() { }
 
-    static attr_grid_row(html:HTMLElement, attribute: AttributeDto) {
+    static attrGridRow(html:HTMLElement, attribute: AttributeDto) {
         let value = String(Number(attribute.value) + 1)
 
         html.style.gridRowStart = value
         html.style.gridRowEnd = value
     }
 
-    static attr_grid_column(html:HTMLElement, attribute: AttributeDto) {
+    static attrGridColumn(html:HTMLElement, attribute: AttributeDto) {
         let value = String(Number(attribute.value) + 1)
 
         html.style.gridColumnStart = value
         html.style.gridColumnEnd = value
     }
 
-    static attr_background_color(html:HTMLElement, attribute: AttributeDto) {
+    static attrBackgroundColor(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value
 
         html.style.backgroundColor = value
     }
 
-    static attr_height(html:HTMLElement, attribute: AttributeDto) {
+    static attrHeight(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value + "px"
         html.style.height = value
     }
 
-    static attr_width(html:HTMLElement, attribute: AttributeDto) {
+    static attrWidth(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value + "px"
         html.style.width = value
     }
 
-    static attr_child_layout(html:HTMLElement, attribute: AttributeDto) {
+    static attrChildLayout(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value 
 
         if (value == "grid") {
@@ -49,15 +49,36 @@ export class AttributeHelperService {
         }
     }
 
-    static add_attributes(html:HTMLElement, attributes : AttributeDto[]) {
+    static set_border(html:HTMLElement, attributes: AttributeDto[]) {
+
+        let border_width = 0
+        let index = attributes.findIndex(item => item.key == "border_width")
+        if (index >= 0) {
+            border_width = Number(attributes[index].value)
+        }       
+
+        let border_color = "black"
+        index = attributes.findIndex(item => item.key == "border_color")
+        if (index >= 0) {
+            border_color = attributes[index].value
+        }       
+
+        let border_style = "solid"
+
+        if (border_width > 0) {
+            html.style.border = String(border_width) + "px " + border_style + " " + border_color
+        }
+    }
+
+    static addAttributes(html:HTMLElement, attributes : AttributeDto[]) {
 
         let attr_dict = [
-            {key:"grid_row", value:AttributeHelperService.attr_grid_row},
-            {key:"grid_column", value:AttributeHelperService.attr_grid_column},
-            {key:"background_color",value:AttributeHelperService.attr_background_color},
-            {key:"height", value:AttributeHelperService.attr_height},
-            {key:"width", value:AttributeHelperService.attr_width},
-            {key:"child_layout", value:AttributeHelperService.attr_child_layout}
+            {key:"grid_row", value:AttributeHelperService.attrGridRow},
+            {key:"grid_column", value:AttributeHelperService.attrGridColumn},
+            {key:"background_color",value:AttributeHelperService.attrBackgroundColor},
+            {key:"height", value:AttributeHelperService.attrHeight},
+            {key:"width", value:AttributeHelperService.attrWidth},
+            {key:"child_layout", value:AttributeHelperService.attrChildLayout}
         ]
 
         attributes.forEach(attribute => {
@@ -67,6 +88,32 @@ export class AttributeHelperService {
             }
         })
 
+        AttributeHelperService.set_border(html, attributes)
+    }
+
+    static textAttributes(html: HTMLElement, attributes : AttributeDto[]) {
+        let color = "black"
+        let index = attributes.findIndex(item => item.key == "foreground_color")
+        if (index >= 0) {
+            color = String(attributes[index].value)
+        }       
+        html.style.color = color 
+
+        let fontSize = String(12) + "px"
+        index = attributes.findIndex(item => item.key == "font_size")
+        if (index >= 0) {
+            fontSize = String(attributes[index].value)
+            console.log("FONT SIZE")
+        }       
+        console.log(fontSize)
+        html.style.fontSize = fontSize
+
+    }
+
+    static setAttributesDirectly(html: HTMLElement, attributes: AttributeDto[]) {
+        attributes.forEach((attr : AttributeDto) => {
+            (<any>html.style)[attr.key] = attr.value
+        })
     }
 }
 

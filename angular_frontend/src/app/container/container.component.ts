@@ -24,14 +24,15 @@ export class ContainerComponent{
 
     this.element?.children.forEach(item => {
 
-      let my_comp = ComponentResolutionService.component_resolution(this.child, item.type)
+      let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
 
       if (my_comp != null) {
         my_comp.setInput("element",item)
         let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
         html.id = item.id
 
-        AttributeHelperService.add_attributes(html, item.attributes)
+        AttributeHelperService.addAttributes(html, item.attributes)
+        AttributeHelperService.setAttributesDirectly(html, item.attributes)
 
         this.children.push(my_comp)
 

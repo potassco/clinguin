@@ -1,8 +1,11 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentRef, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { HttpService } from 'src/app/http.service';
 import { ElementDto } from 'src/app/types/json-response.dto';
 import { ComponentResolutionService } from 'src/app/component-resolution.service';
 import { AttributeHelperService } from 'src/app/attribute-helper.service';
+import { DrawFrontendService } from '../draw-frontend.service';
+import { ContainerComponent } from '../container/container.component';
+import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
 
 @Component({
   selector: 'app-new-main',
@@ -13,21 +16,27 @@ export class WindowComponent {
   @ViewChild('parent',{static:false}) parent!: ElementRef;
   @ViewChild('child',{read: ViewContainerRef}) child!: ViewContainerRef;
 
-  children: any = []
+  children: ComponentRef<any>[] = []
 
   window_id: string = ""
   window: ElementDto | null = null
   
-  constructor(private httpService: HttpService, private cd: ChangeDetectorRef) {
+  constructor(private httpService: HttpService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService) {
   }
 
   ngAfterViewInit(): void {
 
+    this.frontendService.initialGet()
 
-    this.httpService.get().subscribe(
-      {next: (data:ElementDto) => {
-        console.log(data)
 
+    this.frontendService.frontendJson.subscribe({next: (data:ElementDto) => {
+
+        this.children.forEach(child => {
+          this.child.clear()
+        })
+        this.children = []
+
+        this.cleanValues(data)
         
         let window = data.children[0]
 
@@ -40,34 +49,61 @@ export class WindowComponent {
         window.children.forEach(item => {
 
 
-          let my_comp = ComponentResolutionService.component_resolution(this.child, item.type)
+          let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
 
           if (my_comp != null) {
-            //my_comp.instance.element = item
             my_comp.setInput("element",item)
             let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
             html.id = item.id
 
-            AttributeHelperService.add_attributes(html, item.attributes)
-
+            AttributeHelperService.addAttributes(html, item.attributes)
 
             this.children.push(my_comp)
-
           }
         })
 
         let parent_html = this.parent.nativeElement
-        AttributeHelperService.add_attributes(parent_html, window.attributes)
+        AttributeHelperService.addAttributes(parent_html, window.attributes)
 
-        this.cd.detectChanges()
         // Prevents Errors
+        this.cd.detectChanges()
       },
-      error: (err) => console.log(err)}
-    )
-
-    
+      error: (err) => console.log(err)})
   }
 
+  cleanValues(element: ElementDto) {
+    for (let i = 0; i < element.attributes.length; i++) {
+      let value = element.attributes[i].value
+      value = this.stringSanitizer(value)
+      element.attributes[i].value = value
+    }
 
+    for (let i = 0; i < element.callbacks.length; i++) {
+      let value = element.callbacks[i].policy
+      value = this.stringSanitizer(value)
+      element.callbacks[i].policy = value
+    }
 
+    element.children.forEach(child => {
+      this.cleanValues(child)
+    })
+  }
+
+  stringSanitizer(value:string) : string {
+    if (value.length > 0) {
+      if (value[0] == '"') {
+        value = value.slice(1)
+      }
+    }
+
+    if (value.length > 0) {
+      if (value[value.length - 1] == '"') {
+        value = value.slice(0, -1)
+      }
+    }
+
+    value = value.replace("\\n","\n")
+
+    return value
+  }
 }

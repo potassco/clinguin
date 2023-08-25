@@ -11,7 +11,6 @@ export class MenuBarComponent {
   @Input() element: ElementDto | null = null
 
   public isCollapsed = true;
-  public isCollapsed2 = true;
 
   title: string = ""
   menuBarSections: MenuBarSection[] = []
@@ -21,7 +20,6 @@ export class MenuBarComponent {
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      console.log(this.element)
 
       let index = this.element.attributes.findIndex(attr => attr.key == "title")
       if (index >= 0) {
@@ -64,7 +62,6 @@ export class MenuBarComponent {
   }
 
   policyExecutor(policy: CallbackDto) {
-    console.log(policy)
     this.displayFrontend.policyPost(policy)
   }
 }
@@ -82,9 +79,14 @@ class MenuBarItem {
 class MenuBarSection {
   title:string = ""
   menuBarItems:MenuBarItem[] = []
+  collapsed:boolean = true
 
   constructor(title:string, menuBarItems:MenuBarItem[]) {
     this.title = title
     this.menuBarItems = menuBarItems
+  }
+
+  toggleCollapsed() : void {
+    this.collapsed = !this.collapsed 
   }
 }

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { AttributeDto } from './types/json-response.dto';
+import { Attribute, Injectable } from '@angular/core';
+import { AttributeDto, ElementDto } from './types/json-response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -8,22 +8,10 @@ export class AttributeHelperService {
 
   constructor() { }
 
-    static attrGridRow(html:HTMLElement, attribute: AttributeDto) {
-        let value = String(Number(attribute.value) + 1)
-
-        html.style.gridRowStart = value
-        html.style.gridRowEnd = value
-    }
-
-    static attrGridColumn(html:HTMLElement, attribute: AttributeDto) {
-        let value = String(Number(attribute.value) + 1)
-
-        html.style.gridColumnStart = value
-        html.style.gridColumnEnd = value
-    }
 
     static attrBackgroundColor(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value
+
 
         html.style.backgroundColor = value
     }
@@ -46,35 +34,36 @@ export class AttributeHelperService {
         } else if (value == "flex") {
             html.style.display = "flex"
             html.style.flexDirection = "column"
+        } else if (value == "absstatic") {
+            console.log("absstatic")
+            html.style.position = "absolute"
+        } else if (value == "relstatic") {
+            console.log("relstatic")
+            html.style.position = "absolute"
+        } else {
+            html.style.display = "flex"
         }
     }
 
-    static set_border(html:HTMLElement, attributes: AttributeDto[]) {
+    static setBorderHelper(html:HTMLElement, attributes: AttributeDto[]) {
 
-        let border_width = 0
-        let index = attributes.findIndex(item => item.key == "border_width")
-        if (index >= 0) {
-            border_width = Number(attributes[index].value)
-        }       
+        let borderWidth = Number(AttributeHelperService.findGetAttributeValue("border_width", attributes, "0"))
+        let borderColor = AttributeHelperService.findGetAttributeValue("border_color",attributes, "black")
+        let borderStyle = "solid"
 
-        let border_color = "black"
-        index = attributes.findIndex(item => item.key == "border_color")
-        if (index >= 0) {
-            border_color = attributes[index].value
-        }       
+        AttributeHelperService.setBorder(html, borderWidth, borderColor, borderStyle)
+    }
 
-        let border_style = "solid"
-
-        if (border_width > 0) {
-            html.style.border = String(border_width) + "px " + border_style + " " + border_color
+    static setBorder(html:HTMLElement, borderWidth: number, borderColor: string, borderStyle: string) {
+        if (borderWidth > 0) {
+            html.style.border = String(borderWidth) + "px " + borderStyle + " " + borderColor
         }
+
     }
 
     static addAttributes(html:HTMLElement, attributes : AttributeDto[]) {
 
         let attr_dict = [
-            {key:"grid_row", value:AttributeHelperService.attrGridRow},
-            {key:"grid_column", value:AttributeHelperService.attrGridColumn},
             {key:"background_color",value:AttributeHelperService.attrBackgroundColor},
             {key:"height", value:AttributeHelperService.attrHeight},
             {key:"width", value:AttributeHelperService.attrWidth},
@@ -88,7 +77,69 @@ export class AttributeHelperService {
             }
         })
 
-        AttributeHelperService.set_border(html, attributes)
+        AttributeHelperService.setGrid(html,attributes)
+        AttributeHelperService.setBorderHelper(html, attributes)
+        AttributeHelperService.setHover(html, attributes)
+    }
+
+    static setGrid(html: HTMLElement, attributes:AttributeDto[]) {
+
+        let gridRowStart = AttributeHelperService.findAttribute("grid_row", attributes)
+        let gridRowSpan = AttributeHelperService.findAttribute("grid_row_span", attributes)
+        let gridColumnStart = AttributeHelperService.findAttribute("grid_column", attributes)
+        let gridColumnSpan = AttributeHelperService.findAttribute("grid_column_span", attributes)
+
+        let gridRowSpanN = 1
+        if (gridRowSpan != null) {
+            gridRowSpanN = Number(gridRowSpan.value)
+        }
+
+        let gridColumnSpanN = 1
+        if (gridColumnSpan != null) {
+            gridColumnSpanN = Number(gridColumnSpan.value)
+        }
+
+        if (gridRowStart != null) {
+            let gridRowStartN = Number(gridRowStart.value) + 1
+
+            html.style.gridRow = String(gridRowStartN) + "/" + "span " + String(gridRowSpanN)
+        }
+        
+        if (gridColumnStart != null) {
+            let gridColumnStartN = Number(gridColumnStart.value) + 1
+
+            html.style.gridColumn = String(gridColumnStartN) + "/" + "span " + String(gridColumnSpanN)
+        }
+    }
+
+    static setHover(html: HTMLElement, attributes:AttributeDto[]) {
+
+        let onHover = AttributeHelperService.findGetAttributeValue("on_hover", attributes,"false")
+        let onHoverBackgroundColor = AttributeHelperService.findGetAttributeValue("on_hover_background_color", attributes,"white")
+        let onHoverForegroundColor = AttributeHelperService.findGetAttributeValue("on_hover_foreground_color", attributes,"black")
+        let onHoverBorderColor = AttributeHelperService.findGetAttributeValue("on_hover_border_color", attributes,"white")
+        let backgroundColor = AttributeHelperService.findGetAttributeValue("background_color", attributes,"white")
+        let foregroundColor = AttributeHelperService.findGetAttributeValue("foreground_color", attributes,"black")
+        let borderWidth = Number(AttributeHelperService.findGetAttributeValue("border_width", attributes, "0"))
+        let borderColor = AttributeHelperService.findGetAttributeValue("border_color",attributes, "black")
+        let borderStyle = "solid"
+
+        if (onHover == "true") {
+            html.onmouseenter = (event) => {
+                html.style.backgroundColor = onHoverBackgroundColor
+                html.style.color = onHoverForegroundColor
+
+                AttributeHelperService.setBorder(html, borderWidth, onHoverBorderColor, borderStyle)
+            }
+            html.onmouseleave = (event) => {
+                html.style.backgroundColor = backgroundColor
+                html.style.color = foregroundColor
+
+                AttributeHelperService.setBorder(html, borderWidth, borderColor, borderStyle)
+            }
+
+        }
+
     }
 
     static textAttributes(html: HTMLElement, attributes : AttributeDto[]) {
@@ -109,10 +160,69 @@ export class AttributeHelperService {
     }
 
     static setAttributesDirectly(html: HTMLElement, attributes: AttributeDto[]) {
-        console.log(attributes)
         attributes.forEach((attr : AttributeDto) => {
             (<any>html.style)[attr.key] = attr.value
         })
+    }
+
+    static findAttribute(key:string, attributes: AttributeDto[]) : AttributeDto | null {
+      let value = null
+      let index = attributes.findIndex(attr => attr.key == key)
+      if (index >= 0) {
+        value = attributes[index]
+      }
+      return value
+    }
+
+    static findGetAttributeValue(key: string, attributes: AttributeDto[], defaultValue: string) {
+      let value = defaultValue
+      let index = attributes.findIndex(attr => attr.key == key)
+      if (index >= 0) {
+        value = attributes[index].value
+      }
+      return value
+    }
+
+    static setAbsoulteRelativePositions(parentChildLayout:string, html:HTMLElement, child:ElementDto) {
+
+        let posX = Number(AttributeHelperService.findGetAttributeValue("pos_x", child.attributes, "-1"))
+        let posY = Number(AttributeHelperService.findGetAttributeValue("pos_y", child.attributes, "-1"))
+
+        if (posX >= 0 && parentChildLayout == "absstatic") {
+        html.style.left = String(posX) + "px"
+        }
+        if (posX >= 0 && parentChildLayout == "relstatic") {
+        html.style.left = String(posX) + "%"
+        }
+        if (posY >= 0 && parentChildLayout == "absstatic") {
+        html.style.top = String(posY) + "px"
+        }
+        if (posY >= 0 && parentChildLayout == "relstatic") {
+        html.style.top = String(posY) + "%"
+        }
+        if (posY >= 0 || posX >= 0) {
+        html.style.position = "absolute"
+        }
+
+        let gridRowStart = AttributeHelperService.findAttribute("grid_row", child.attributes)
+        let gridColumnStart = AttributeHelperService.findAttribute("grid_column", child.attributes)
+
+        if (gridRowStart == null && parentChildLayout == "grid") {
+            html.style.gridRow = "1"
+        }
+        if (gridColumnStart == null && parentChildLayout == "grid") {
+            html.style.gridColumn = "1"
+        }
+
+        let childLayout = AttributeHelperService.findAttribute("child_layout", child.attributes)
+
+        if (childLayout == null) {
+            html.style.display = "flex"
+            html.style.flexDirection = "column"
+        }
+
+
+
     }
 }
 

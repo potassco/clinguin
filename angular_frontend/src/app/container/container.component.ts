@@ -22,24 +22,32 @@ export class ContainerComponent{
 
   ngAfterViewInit(): void {
 
-    this.element?.children.forEach(item => {
+    if (this.element != null) {
 
-      let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
+      let childLayout = AttributeHelperService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
 
-      if (my_comp != null) {
-        my_comp.setInput("element",item)
-        let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
-        html.id = item.id
+      this.element.children.forEach(item => {
 
-        AttributeHelperService.addAttributes(html, item.attributes)
-        AttributeHelperService.setAttributesDirectly(html, item.attributes)
+        let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
 
-        this.children.push(my_comp)
+        if (my_comp != null) {
+          my_comp.setInput("element",item)
+          let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
+          html.id = item.id
 
-      }
-    })
+          AttributeHelperService.addAttributes(html, item.attributes)
+          AttributeHelperService.setAttributesDirectly(html, item.attributes)
 
-    this.cd.detectChanges()
+          AttributeHelperService.setAbsoulteRelativePositions(childLayout, html, item)
+          
+          this.children.push(my_comp)
+
+
+        }
+      })
+
+      this.cd.detectChanges()
+    }
   }
 
 }

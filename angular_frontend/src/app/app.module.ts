@@ -13,6 +13,7 @@ import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
+import { ButtonComponent } from './button/button.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
     ContainerComponent,
     DropdownMenuComponent,
     LabelComponent,
-    MenuBarComponent
+    MenuBarComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

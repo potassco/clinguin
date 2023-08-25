@@ -48,9 +48,9 @@ export class WindowComponent {
 
         this.cd.detectChanges()
 
+        let childLayout = AttributeHelperService.findGetAttributeValue("child_layout",window.attributes,"flex")
+
         window.children.forEach(item => {
-
-
           let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
 
           if (my_comp != null) {
@@ -59,6 +59,7 @@ export class WindowComponent {
             html.id = item.id
 
             AttributeHelperService.addAttributes(html, item.attributes)
+            AttributeHelperService.setAbsoulteRelativePositions(childLayout, html, item)
 
             this.children.push(my_comp)
           }

@@ -1,34 +1,31 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
-  selector: 'app-label',
-  templateUrl: './label.component.html',
-  styleUrls: ['./label.component.scss']
+  selector: 'app-button',
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.scss']
 })
-export class LabelComponent {
-  @ViewChild('label',{static:true}) label! : ElementRef
-  @ViewChild('outerDiv',{static:true}) outerDiv! : ElementRef
+export class ButtonComponent {
+  @ViewChild("theButton",{static:false}) theButton! : ElementRef
 
   @Input() element: ElementDto | null = null
 
-  elementLabel: string = ""
+  buttonLabel: string = ""
 
   constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService) {}
-
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
       let index = this.element.attributes.findIndex(attr => attr.key == "label")
       if (index >= 0) {
-        this.elementLabel = this.element.attributes[index].value
+        this.buttonLabel = this.element.attributes[index].value
       }
 
-      let htmlDdbut = this.label.nativeElement
-      let htmlOuterDiv = this.outerDiv.nativeElement
+      let htmlDdbut = this.theButton.nativeElement
 
       AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
       AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
@@ -39,5 +36,6 @@ export class LabelComponent {
       this.cd.detectChanges()
     }
   }
-}
 
+
+}

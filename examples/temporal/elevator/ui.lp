@@ -6,13 +6,15 @@
 element(window, window, root).
 attribute(window, height, height_value).
 attribute(window, width, width_value).
-attribute(window, child_layout, absstatic).
+%attribute(window, child_layout, absstatic).
+attribute(window, child_layout, grid).
 
 % Info section
 element(info, container, window).
-attribute(info, pos_x, 140 ).
-attribute(info, pos_y, 0 ).
+%attribute(info, pos_x, 140 ).
+%attribute(info, pos_y, 0 ).
 attribute(info, child_layout, grid).
+attribute(info, grid_column, 1).
 
 element(but, button, window) :- clinguin_browsing.
 
@@ -47,6 +49,7 @@ attribute(info_step_c(T),label,A):-occ(A,T).
 % Elevator section
 element(elevator, container, window).
 attribute(elevator, child_layout, grid).
+attribute(elecator, grid_column, 0).
 
 element(elevator_row(F), container, elevator):-floor(F).
 attribute(elevator_row(F), grid_column, 0):-floor(F).

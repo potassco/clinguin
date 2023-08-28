@@ -22,16 +22,21 @@ export class WindowComponent {
   window: ElementDto | null = null
 
   menuBar: ElementDto | null = null
+  messageList: ElementDto[] = []
   
   constructor(private httpService: HttpService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService) {
   }
 
   ngAfterViewInit(): void {
 
-    this.frontendService.initialGet()
-
+    this.frontendService.messageLists.subscribe({next: data => {
+      this.messageList = data
+      this.cd.detectChanges()
+    }})
 
     this.frontendService.frontendJson.subscribe({next: (data:ElementDto) => {
+
+      console.log(data)
 
         this.children.forEach(child => {
           this.child.clear()
@@ -72,6 +77,9 @@ export class WindowComponent {
         this.cd.detectChanges()
       },
       error: (err) => console.log(err)})
+
+
+    this.frontendService.initialGet()
   }
 
   cleanValues(element: ElementDto) {
@@ -117,5 +125,6 @@ export class WindowComponent {
 
     return value
   }
+
 
 }

@@ -1,31 +1,28 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ElementDto } from '../types/json-response.dto';
-import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
+import { AttributeHelperService } from '../attribute-helper.service';
 
 @Component({
-  selector: 'app-button',
-  templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  selector: 'app-canvas',
+  templateUrl: './canvas.component.html',
+  styleUrls: ['./canvas.component.scss']
 })
-export class ButtonComponent {
-  @ViewChild("theButton",{static:false}) theButton! : ElementRef
+export class CanvasComponent {
+  @ViewChild("theImage",{static:false}) theImage! : ElementRef
 
   @Input() element: ElementDto | null = null
 
-  buttonLabel: string = ""
+  imageSource: string = ""
 
   constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService) {}
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      let index = this.element.attributes.findIndex(attr => attr.key == "label")
-      if (index >= 0) {
-        this.buttonLabel = this.element.attributes[index].value
-      }
+      console.log(window.location.href)
 
-      let htmlDdbut = this.theButton.nativeElement
+      let htmlDdbut = this.theImage.nativeElement
 
       AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
       AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
@@ -33,7 +30,16 @@ export class ButtonComponent {
 
       this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 
+      let imgPath = AttributeHelperService.findAttribute("image_path", this.element.attributes)
+
+      if (imgPath != null) {
+        this.imageSource = imgPath.value
+      }
+
+
       this.cd.detectChanges()
     }
   }
+
+
 }

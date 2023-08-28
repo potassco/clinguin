@@ -14,6 +14,8 @@ import { RouterModule } from '@angular/router';
 import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
+import { CanvasComponent } from './canvas/canvas.component';
+import { MessageComponent } from './message/message.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { ButtonComponent } from './button/button.component';
     DropdownMenuComponent,
     LabelComponent,
     MenuBarComponent,
-    ButtonComponent
+    ButtonComponent,
+    CanvasComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { DrawFrontendService } from './draw-frontend.service';
 import { ElementDto } from './types/json-response.dto';
 
@@ -11,14 +11,17 @@ export class AppComponent {
   title = 'Clinguin';
 
   menuBar : ElementDto | null = null
+  messageList : ElementDto[] = []
 
-  constructor(private frontendService: DrawFrontendService) {}
+  constructor(private frontendService: DrawFrontendService, private cd: ChangeDetectorRef) {}
 
 
   ngAfterViewInit(): void {
 
     this.frontendService.menuBar.subscribe({next: data => {
       this.menuBar = data
+      this.cd.detectChanges()
     }})
+
   }
 }

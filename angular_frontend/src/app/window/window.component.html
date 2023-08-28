@@ -1,4 +1,7 @@
 <div id={{window_id}} *ngIf="window != null" #parent>
     <ng-template #child></ng-template>
+
+    <app-message *ngFor="let message of messageList" [element]="message"></app-message>
 </div>
+
 

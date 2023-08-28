@@ -26,24 +26,6 @@ export class AttributeHelperService {
         html.style.width = value
     }
 
-    static attrChildLayout(html:HTMLElement, attribute: AttributeDto) {
-        let value = attribute.value 
-
-        if (value == "grid") {
-            html.style.display = "grid"
-        } else if (value == "flex") {
-            html.style.display = "flex"
-            html.style.flexDirection = "column"
-        } else if (value == "absstatic") {
-            console.log("absstatic")
-            html.style.position = "absolute"
-        } else if (value == "relstatic") {
-            console.log("relstatic")
-            html.style.position = "absolute"
-        } else {
-            html.style.display = "flex"
-        }
-    }
 
     static setBorderHelper(html:HTMLElement, attributes: AttributeDto[]) {
 
@@ -67,7 +49,6 @@ export class AttributeHelperService {
             {key:"background_color",value:AttributeHelperService.attrBackgroundColor},
             {key:"height", value:AttributeHelperService.attrHeight},
             {key:"width", value:AttributeHelperService.attrWidth},
-            {key:"child_layout", value:AttributeHelperService.attrChildLayout}
         ]
 
         attributes.forEach(attribute => {
@@ -80,6 +61,7 @@ export class AttributeHelperService {
         AttributeHelperService.setGrid(html,attributes)
         AttributeHelperService.setBorderHelper(html, attributes)
         AttributeHelperService.setHover(html, attributes)
+        AttributeHelperService.setChildLayout(html, attributes)
     }
 
     static setGrid(html: HTMLElement, attributes:AttributeDto[]) {
@@ -215,14 +197,35 @@ export class AttributeHelperService {
         }
 
         let childLayout = AttributeHelperService.findAttribute("child_layout", child.attributes)
+    }
 
-        if (childLayout == null) {
+    static setChildLayout(html:HTMLElement, attributes: AttributeDto[]) {
+        let attribute = AttributeHelperService.findAttribute("child_layout", attributes)
+
+        if (attribute != null) {
+            let value = attribute?.value
+
+            if (value == "grid") {
+                html.style.display = "grid"
+            } else if (value == "flex") {
+                html.style.display = "flex"
+
+                let flex_direction = AttributeHelperService.findAttribute("flex_direction", attributes)
+                if (flex_direction != null) {
+                    html.style.flexDirection = flex_direction.value
+                } else {
+                    html.style.flexDirection = "column"
+                }
+            } else if (value == "absstatic") {
+                html.style.position = "absolute"
+            } else if (value == "relstatic") {
+                html.style.position = "absolute"
+            }
+        } else {
             html.style.display = "flex"
             html.style.flexDirection = "column"
         }
-
-
-
     }
+
 }
 

@@ -4,6 +4,7 @@ import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
 import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
+import { CanvasComponent } from './canvas/canvas.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class ComponentResolutionService {
           {key:"container",value:ContainerComponent},
           {key:"dropdown_menu", value:DropdownMenuComponent},
           {key:"label", value:LabelComponent},
-          {key:"button", value:ButtonComponent}
+          {key:"button", value:ButtonComponent},
+          {key:"canvas", value:CanvasComponent}
         ]
 
         let component = null

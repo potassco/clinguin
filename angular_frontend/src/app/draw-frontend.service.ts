@@ -6,6 +6,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import { CallbackDto, ElementDto } from './types/json-response.dto';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
+import { ServerRequest } from './types/server-request';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,16 @@ export class DrawFrontendService {
     menuBar: Subject<ElementDto> = new Subject()
     messageLists: Subject<ElementDto[]> = new Subject()
 
-    constructor(private httpService: HttpService) {
+    private backend_URI = "http://localhost:8000"
+
+    constructor(private httpService: HttpService, private httpClient: HttpClient) {
     }
 
     initialGet() : void {
         this.httpService.get().subscribe(
         {next: (data:ElementDto) => {
+            console.log(data)
+
             this.detectCreateMenuBar(data)
 
             let messageList : ElementDto[] = []
@@ -45,6 +50,20 @@ export class DrawFrontendService {
         }})
     }
 
+    uncheckedPost(serverRequest: ServerRequest) : void {
+
+        this.httpClient.post<ElementDto>(this.backend_URI + "/backend", serverRequest).subscribe(
+        //this.httpService.post(serverRequest.function).subscribe(
+        {next: (data:ElementDto) => {
+            this.detectCreateMenuBar(data)
+
+            let messageList : ElementDto[] = []
+            this.getAllMessages(data, messageList)
+            this.messageLists.next(messageList)
+
+            this.frontendJson.next(data)
+        }})
+    }
 
     detectCreateMenuBar(element:ElementDto) {
         if (element.type == "menu_bar") {

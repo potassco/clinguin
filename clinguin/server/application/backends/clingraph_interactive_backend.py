@@ -10,6 +10,8 @@ import clingraph
 from clorm.clingo import Control as ClormControl
 
 from clinguin.server import ClinguinBackend
+from clinguin.server.application.backends import ClingoBackend
+from clinguin.server import StandardJsonEncoder
 
 from .standard_utils.clingo_logger import ClingoLogger
 from .standard_utils.interactivity_options_contexts import (
@@ -20,7 +22,7 @@ from .standard_utils.interactivity_options_contexts import (
 )
 
 
-class ClingraphInteractiveBackend(ClinguinBackend):
+class ClingraphInteractiveBackend(ClingoBackend):
     """
     ClingraphInteractiveBackend class.
     """
@@ -32,19 +34,57 @@ class ClingraphInteractiveBackend(ClinguinBackend):
         self._viz_encoding = args.viz_encoding[0]
         self._options_encoding = args.options_encoding[0]
         self._user_input_encoding = args.user_input_encoding[0]
-        print(args)
 
     def get(self):
         """
         The get method.
         """
-        return self.graphUpdate("")
 
+        if self._uifb.is_empty:
+            self._update_uifb()
+        self._logger.debug(self._uifb)
+        json_structure = StandardJsonEncoder.encode(self._uifb)
+
+        looked_upon_elements = [json_structure]
+        while len(looked_upon_elements) > 0:
+            element = looked_upon_elements.pop(0)
+            looked_upon_elements = looked_upon_elements + element.children
+
+            if element.type == "clingraph_interactive":
+                raw = self.graphUpdateHelper("")
+                element.attributes.append(raw)
+
+        return json_structure
+        
     @classmethod
     def register_options(cls, parser):
         """
         Register specific arguments.
         """
+        parser.add_argument("--domain-files", nargs="+", help="Files", metavar="")
+        parser.add_argument(
+            "--ui-files", nargs="+", help="Files for the element generation", metavar=""
+        )
+        
+        parser.add_argument(
+            "-c",
+            "--const",
+            nargs="+",
+            help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
+            metavar="",
+        )
+        parser.add_argument(
+            "--include-menu-bar",
+            action="store_true",
+            help="Inlcude a menu bar with options: Next, Select and Clear",
+        )
+        parser.add_argument(
+            "--ignore-unsat-msg",
+            action="store_true",
+            help="The automatic pop-up message in the UI when the domain files are UNSAT, will be ignored.",
+        )
+
+
         parser.add_argument(
             "--program",
             help=textwrap.dedent(
@@ -67,20 +107,38 @@ class ClingraphInteractiveBackend(ClinguinBackend):
         )
 
     def graphUpdate(self, *kwargs):
+        if self._uifb.is_empty:
+            self._update_uifb()
+        self._logger.debug(self._uifb)
+        json_structure = StandardJsonEncoder.encode(self._uifb)
+
+        looked_upon_elements = [json_structure]
+        while len(looked_upon_elements) > 0:
+            element = looked_upon_elements.pop(0)
+            looked_upon_elements = looked_upon_elements + element.children
+
+            if element.type == "clingraph_interactive":
+                raw = self.graphUpdateHelper(*kwargs)
+                element.attributes.append(raw)
+
+        return json_structure
+
+    def graphUpdateHelper(self, *kwargs):
         """
         Updates the graph and returns it.
         """
+
+        """
         for arg in kwargs:
             print(arg)
+        """
 
         try:
-            print(self._program)
             ctl = clingo.Control(logger=ClingoLogger.logger)
             ctl.load(self._program)
 
             if kwargs[0] != "":
                 input_prg = ".\n".join(kwargs) + "."
-                print("Input prg: ", input_prg)
                 ctl.add(input_prg)
                 ctl.load(self._user_input_encoding)
 
@@ -108,7 +166,6 @@ class ClingraphInteractiveBackend(ClinguinBackend):
             )
 
         model_string = ".\n".join(models[0]) + "."
-        print(model_string)
         try:
             ctl = clingo.Control(logger=ClingoLogger.logger)
             ctl.add(model_string)
@@ -159,13 +216,11 @@ class ClingraphInteractiveBackend(ClinguinBackend):
                 + ClingoLogger.errorString()
             )
 
-        print("OPTIONS MODELS: ", options_models[0])
         options_list: OptionsList = createOptionsList(options_models[0])
         graph = clingraph.compute_graphs(fb)
         clingraph.render(graph, format="svg")
         with open("out/default.svg", "r", encoding="UTF-8") as svg_file:
             svg_content = svg_file.read()
-        print("Done. Sending response...")
-        print("OPTIONSLIST: ", options_list.to_json())
-        raw = {"data": svg_content, "option_data": options_list.to_json()}
+
+        raw = {"key":"clingraph_interactive", "value":"", "data": svg_content, "option_data": options_list.to_json()}
         return raw

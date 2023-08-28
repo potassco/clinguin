@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ASPtranslateService } from '../asptranslate.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Input_Option, Select_Option } from '../types/options';
 
 @Component({
@@ -15,9 +14,6 @@ export class GraphOptionsComponent {
   @Output() submitEvent = new EventEmitter<string>()
 
   constructor(){}
-
-
-
 
   retrieveSelectOptions(opt:(Input_Option|Select_Option)){
     if("options" in opt){

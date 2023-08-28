@@ -1,3 +1,5 @@
+import { NodeOptions } from "../clingraphviz/types/options"
+
 
 export interface JsonResponse {
     root: ElementDto
@@ -17,6 +19,7 @@ export interface AttributeDto {
     key: string,
     value: string
 }
+
 
 export interface CallbackDto {
     id: string,

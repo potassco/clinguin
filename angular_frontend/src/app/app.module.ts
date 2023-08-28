@@ -16,6 +16,8 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { MessageComponent } from './message/message.component';
+import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
+import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-options.component';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { MessageComponent } from './message/message.component';
     MenuBarComponent,
     ButtonComponent,
     CanvasComponent,
-    MessageComponent
+    MessageComponent,
+    MainPageComponent,
+    GraphOptionsComponent
   ],
   imports: [
     BrowserModule,

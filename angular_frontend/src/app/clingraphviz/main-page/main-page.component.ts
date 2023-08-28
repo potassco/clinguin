@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { SvgServiceService } from '../svg-service.service';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { GraphRequest, GraphResponse } from '../types/messageTypes';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { GraphRequest, ClingraphVizDto } from '../types/messageTypes';
 import { NodeOptions, Input_Option, Select_Option } from '../types/options';
 import { ASPtranslateService } from '../asptranslate.service';
-import { HttpService } from '../http.service';
+import { ElementDto } from 'src/app/types/json-response.dto';
+import { AttributeHelperService } from 'src/app/attribute-helper.service';
+import { DrawFrontendService } from 'src/app/draw-frontend.service';
 
 @Component({
   selector: 'app-main-page',
@@ -12,6 +13,7 @@ import { HttpService } from '../http.service';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements AfterViewInit {
+  @Input() element: ElementDto | null = null
 
   @ViewChild("svgContainer")
   svgContainer!:ElementRef;
@@ -24,10 +26,29 @@ export class MainPageComponent implements AfterViewInit {
   optionsList: (Input_Option|Select_Option)[] = []
   errStr: string = ""
 
-  constructor(private svgService: SvgServiceService, private fb:FormBuilder, private aspService:ASPtranslateService){
-  }
+  constructor(private attributeService: AttributeHelperService, private frontendService: DrawFrontendService, private fb:FormBuilder, private cd: ChangeDetectorRef, private aspService:ASPtranslateService){}
+    //private svgService: SvgServiceService  }
   ngAfterViewInit(): void {
 
+    if (this.element != null) {
+
+      let data = this.attributeService.findAttribute("clingraph_interactive", this.element.attributes)
+      if (data != null) {
+        let clingraph_viz_data : ClingraphVizDto = data as ClingraphVizDto
+
+        this.svgString = clingraph_viz_data.data;
+        this.svgContainer.nativeElement.innerHTML = this.svgString
+
+        this.nodeOptionsList = clingraph_viz_data.option_data; 
+        console.log("NodeOptions after init:", this.nodeOptionsList)
+        console.log("form after init: ",this.optionsForm)
+
+        this.cd.detectChanges()
+      }
+
+    }
+
+    /*
     this.svgService.get().subscribe({next: (data) => {
       this.svgString = data.data;
       this.svgContainer.nativeElement.innerHTML = this.svgString
@@ -37,9 +58,8 @@ export class MainPageComponent implements AfterViewInit {
     }, error: (err) => {
       console.log("An error has occured: " + err)
       this.errStr = err.message
-
-
     }})
+    */
   }
 
   retrieveSelectOptions(opt:(Input_Option|Select_Option)){
@@ -85,8 +105,6 @@ export class MainPageComponent implements AfterViewInit {
     console.log(target.getAttribute("checked"))
     console.log("form: ",this.optionsForm)
   }
-
-
 
   updateOptions(id:string, compType:string){
     this.optionsList.forEach((val) => {
@@ -141,6 +159,10 @@ export class MainPageComponent implements AfterViewInit {
     let aspString:string = asp.join(",")
     let req = {"function":`graphUpdate(${aspString})`}
     console.log(req)
+
+    this.frontendService.uncheckedPost(req as GraphRequest)
+
+    /*
     this.svgService.post(req as GraphRequest).subscribe({next: (data) => {
       console.log("Were in data!")
       console.log(data)
@@ -155,6 +177,7 @@ export class MainPageComponent implements AfterViewInit {
       this.errStr = err.message
 
     }})
+    */
   }
 
 

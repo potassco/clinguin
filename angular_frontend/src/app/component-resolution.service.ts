@@ -5,6 +5,7 @@ import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
 import { CanvasComponent } from './canvas/canvas.component';
+import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class ComponentResolutionService {
           {key:"dropdown_menu", value:DropdownMenuComponent},
           {key:"label", value:LabelComponent},
           {key:"button", value:ButtonComponent},
-          {key:"canvas", value:CanvasComponent}
+          {key:"canvas", value:CanvasComponent},
+          {key:"clingraph_interactive", value: MainPageComponent}
         ]
 
         let component = null

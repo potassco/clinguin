@@ -8,47 +8,45 @@ export class AttributeHelperService {
 
   constructor() { }
 
-
-    static attrBackgroundColor(html:HTMLElement, attribute: AttributeDto) {
+    attrBackgroundColor(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value
-
 
         html.style.backgroundColor = value
     }
 
-    static attrHeight(html:HTMLElement, attribute: AttributeDto) {
+    attrHeight(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value + "px"
         html.style.height = value
     }
 
-    static attrWidth(html:HTMLElement, attribute: AttributeDto) {
+    attrWidth(html:HTMLElement, attribute: AttributeDto) {
         let value = attribute.value + "px"
         html.style.width = value
     }
 
 
-    static setBorderHelper(html:HTMLElement, attributes: AttributeDto[]) {
+    setBorderHelper(html:HTMLElement, attributes: AttributeDto[]) {
 
-        let borderWidth = Number(AttributeHelperService.findGetAttributeValue("border_width", attributes, "0"))
-        let borderColor = AttributeHelperService.findGetAttributeValue("border_color",attributes, "black")
+        let borderWidth = Number(this.findGetAttributeValue("border_width", attributes, "0"))
+        let borderColor = this.findGetAttributeValue("border_color",attributes, "black")
         let borderStyle = "solid"
 
-        AttributeHelperService.setBorder(html, borderWidth, borderColor, borderStyle)
+        this.setBorder(html, borderWidth, borderColor, borderStyle)
     }
 
-    static setBorder(html:HTMLElement, borderWidth: number, borderColor: string, borderStyle: string) {
+    setBorder(html:HTMLElement, borderWidth: number, borderColor: string, borderStyle: string) {
         if (borderWidth > 0) {
             html.style.border = String(borderWidth) + "px " + borderStyle + " " + borderColor
         }
 
     }
 
-    static addAttributes(html:HTMLElement, attributes : AttributeDto[]) {
+    addAttributes(html:HTMLElement, attributes : AttributeDto[]) {
 
         let attr_dict = [
-            {key:"background_color",value:AttributeHelperService.attrBackgroundColor},
-            {key:"height", value:AttributeHelperService.attrHeight},
-            {key:"width", value:AttributeHelperService.attrWidth},
+            {key:"background_color",value:this.attrBackgroundColor},
+            {key:"height", value:this.attrHeight},
+            {key:"width", value:this.attrWidth},
         ]
 
         attributes.forEach(attribute => {
@@ -58,18 +56,18 @@ export class AttributeHelperService {
             }
         })
 
-        AttributeHelperService.setGrid(html,attributes)
-        AttributeHelperService.setBorderHelper(html, attributes)
-        AttributeHelperService.setHover(html, attributes)
-        AttributeHelperService.setChildLayout(html, attributes)
+        this.setGrid(html,attributes)
+        this.setBorderHelper(html, attributes)
+        this.setHover(html, attributes)
+        this.setChildLayout(html, attributes)
     }
 
-    static setGrid(html: HTMLElement, attributes:AttributeDto[]) {
+    setGrid(html: HTMLElement, attributes:AttributeDto[]) {
 
-        let gridRowStart = AttributeHelperService.findAttribute("grid_row", attributes)
-        let gridRowSpan = AttributeHelperService.findAttribute("grid_row_span", attributes)
-        let gridColumnStart = AttributeHelperService.findAttribute("grid_column", attributes)
-        let gridColumnSpan = AttributeHelperService.findAttribute("grid_column_span", attributes)
+        let gridRowStart = this.findAttribute("grid_row", attributes)
+        let gridRowSpan = this.findAttribute("grid_row_span", attributes)
+        let gridColumnStart = this.findAttribute("grid_column", attributes)
+        let gridColumnSpan = this.findAttribute("grid_column_span", attributes)
 
         let gridRowSpanN = 1
         if (gridRowSpan != null) {
@@ -94,16 +92,16 @@ export class AttributeHelperService {
         }
     }
 
-    static setHover(html: HTMLElement, attributes:AttributeDto[]) {
+    setHover(html: HTMLElement, attributes:AttributeDto[]) {
 
-        let onHover = AttributeHelperService.findGetAttributeValue("on_hover", attributes,"false")
-        let onHoverBackgroundColor = AttributeHelperService.findGetAttributeValue("on_hover_background_color", attributes,"white")
-        let onHoverForegroundColor = AttributeHelperService.findGetAttributeValue("on_hover_foreground_color", attributes,"black")
-        let onHoverBorderColor = AttributeHelperService.findGetAttributeValue("on_hover_border_color", attributes,"white")
-        let backgroundColor = AttributeHelperService.findGetAttributeValue("background_color", attributes,"white")
-        let foregroundColor = AttributeHelperService.findGetAttributeValue("foreground_color", attributes,"black")
-        let borderWidth = Number(AttributeHelperService.findGetAttributeValue("border_width", attributes, "0"))
-        let borderColor = AttributeHelperService.findGetAttributeValue("border_color",attributes, "black")
+        let onHover = this.findGetAttributeValue("on_hover", attributes,"false")
+        let onHoverBackgroundColor = this.findGetAttributeValue("on_hover_background_color", attributes,"white")
+        let onHoverForegroundColor = this.findGetAttributeValue("on_hover_foreground_color", attributes,"black")
+        let onHoverBorderColor = this.findGetAttributeValue("on_hover_border_color", attributes,"white")
+        let backgroundColor = this.findGetAttributeValue("background_color", attributes,"white")
+        let foregroundColor = this.findGetAttributeValue("foreground_color", attributes,"black")
+        let borderWidth = Number(this.findGetAttributeValue("border_width", attributes, "0"))
+        let borderColor = this.findGetAttributeValue("border_color",attributes, "black")
         let borderStyle = "solid"
 
         if (onHover == "true") {
@@ -111,20 +109,20 @@ export class AttributeHelperService {
                 html.style.backgroundColor = onHoverBackgroundColor
                 html.style.color = onHoverForegroundColor
 
-                AttributeHelperService.setBorder(html, borderWidth, onHoverBorderColor, borderStyle)
+                this.setBorder(html, borderWidth, onHoverBorderColor, borderStyle)
             }
             html.onmouseleave = (event) => {
                 html.style.backgroundColor = backgroundColor
                 html.style.color = foregroundColor
 
-                AttributeHelperService.setBorder(html, borderWidth, borderColor, borderStyle)
+                this.setBorder(html, borderWidth, borderColor, borderStyle)
             }
 
         }
 
     }
 
-    static textAttributes(html: HTMLElement, attributes : AttributeDto[]) {
+    textAttributes(html: HTMLElement, attributes : AttributeDto[]) {
         let color = "black"
         let index = attributes.findIndex(item => item.key == "foreground_color")
         if (index >= 0) {
@@ -141,13 +139,13 @@ export class AttributeHelperService {
 
     }
 
-    static setAttributesDirectly(html: HTMLElement, attributes: AttributeDto[]) {
+    setAttributesDirectly(html: HTMLElement, attributes: AttributeDto[]) {
         attributes.forEach((attr : AttributeDto) => {
             (<any>html.style)[attr.key] = attr.value
         })
     }
 
-    static findAttribute(key:string, attributes: AttributeDto[]) : AttributeDto | null {
+    findAttribute(key:string, attributes: AttributeDto[]) : AttributeDto | null {
       let value = null
       let index = attributes.findIndex(attr => attr.key == key)
       if (index >= 0) {
@@ -156,7 +154,7 @@ export class AttributeHelperService {
       return value
     }
 
-    static findGetAttributeValue(key: string, attributes: AttributeDto[], defaultValue: string) {
+    findGetAttributeValue(key: string, attributes: AttributeDto[], defaultValue: string) {
       let value = defaultValue
       let index = attributes.findIndex(attr => attr.key == key)
       if (index >= 0) {
@@ -165,10 +163,10 @@ export class AttributeHelperService {
       return value
     }
 
-    static setAbsoulteRelativePositions(parentChildLayout:string, html:HTMLElement, child:ElementDto) {
+    setAbsoulteRelativePositions(parentChildLayout:string, html:HTMLElement, child:ElementDto) {
 
-        let posX = Number(AttributeHelperService.findGetAttributeValue("pos_x", child.attributes, "-1"))
-        let posY = Number(AttributeHelperService.findGetAttributeValue("pos_y", child.attributes, "-1"))
+        let posX = Number(this.findGetAttributeValue("pos_x", child.attributes, "-1"))
+        let posY = Number(this.findGetAttributeValue("pos_y", child.attributes, "-1"))
 
         if (posX >= 0 && parentChildLayout == "absstatic") {
         html.style.left = String(posX) + "px"
@@ -186,8 +184,8 @@ export class AttributeHelperService {
         html.style.position = "absolute"
         }
 
-        let gridRowStart = AttributeHelperService.findAttribute("grid_row", child.attributes)
-        let gridColumnStart = AttributeHelperService.findAttribute("grid_column", child.attributes)
+        let gridRowStart = this.findAttribute("grid_row", child.attributes)
+        let gridColumnStart = this.findAttribute("grid_column", child.attributes)
 
         if (gridRowStart == null && parentChildLayout == "grid") {
             html.style.gridRow = "1"
@@ -196,11 +194,11 @@ export class AttributeHelperService {
             html.style.gridColumn = "1"
         }
 
-        let childLayout = AttributeHelperService.findAttribute("child_layout", child.attributes)
+        let childLayout = this.findAttribute("child_layout", child.attributes)
     }
 
-    static setChildLayout(html:HTMLElement, attributes: AttributeDto[]) {
-        let attribute = AttributeHelperService.findAttribute("child_layout", attributes)
+    setChildLayout(html:HTMLElement, attributes: AttributeDto[]) {
+        let attribute = this.findAttribute("child_layout", attributes)
 
         if (attribute != null) {
             let value = attribute?.value
@@ -210,7 +208,7 @@ export class AttributeHelperService {
             } else if (value == "flex") {
                 html.style.display = "flex"
 
-                let flex_direction = AttributeHelperService.findAttribute("flex_direction", attributes)
+                let flex_direction = this.findAttribute("flex_direction", attributes)
                 if (flex_direction != null) {
                     html.style.flexDirection = flex_direction.value
                 } else {

@@ -9,25 +9,22 @@ import { AttributeHelperService } from '../attribute-helper.service';
   styleUrls: ['./message.component.scss']
 })
 export class MessageComponent {
-  @ViewChild("theMessage",{static:false}) theMessage! : ElementRef
   @Input() element: ElementDto | null = null
 
   attrType : string = ""
   attrMessage : string = ""
   attrTitle : string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
       console.log(this.element)
 
-      let htmlDdbut = this.theMessage.nativeElement
-
-      let attrType = AttributeHelperService.findGetAttributeValue("type", this.element.attributes, "warning")
-      let attrTitle = AttributeHelperService.findGetAttributeValue("title", this.element.attributes, "Title")
-      let attrMessage = AttributeHelperService.findGetAttributeValue("message", this.element.attributes, "Message")
+      let attrType = this.attributeService.findGetAttributeValue("type", this.element.attributes, "warning")
+      let attrTitle = this.attributeService.findGetAttributeValue("title", this.element.attributes, "Title")
+      let attrMessage = this.attributeService.findGetAttributeValue("message", this.element.attributes, "Message")
 
       if (attrType == "error") {
         attrType = "danger"
@@ -37,11 +34,7 @@ export class MessageComponent {
       this.attrTitle = attrTitle
       this.attrMessage = attrMessage
 
-
-
       this.cd.detectChanges()
     }
   }
-
-
 }

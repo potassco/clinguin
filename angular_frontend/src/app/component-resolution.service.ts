@@ -14,7 +14,7 @@ export class ComponentResolutionService {
   constructor() { }
 
 
-    static componentCreation(child: ViewContainerRef, key: string): ComponentRef<any> | null {
+    componentCreation(child: ViewContainerRef, key: string): ComponentRef<any> | null {
 
         let dict : {key:string, value:Type<any>}[] = [
           {key:"container",value:ContainerComponent},

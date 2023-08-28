@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, ComponentRef, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { HttpService } from 'src/app/http.service';
 import { ElementDto } from 'src/app/types/json-response.dto';
 import { ComponentResolutionService } from 'src/app/component-resolution.service';
 import { AttributeHelperService } from 'src/app/attribute-helper.service';
 import { DrawFrontendService } from '../draw-frontend.service';
-import { ContainerComponent } from '../container/container.component';
-import { DropdownMenuComponent } from '../dropdown-menu/dropdown-menu.component';
 
 @Component({
   selector: 'app-new-main',
@@ -24,7 +21,7 @@ export class WindowComponent {
   menuBar: ElementDto | null = null
   messageList: ElementDto[] = []
   
-  constructor(private httpService: HttpService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService) {
+  constructor(private componentService: ComponentResolutionService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService) {
   }
 
   ngAfterViewInit(): void {
@@ -53,25 +50,25 @@ export class WindowComponent {
 
         this.cd.detectChanges()
 
-        let childLayout = AttributeHelperService.findGetAttributeValue("child_layout",window.attributes,"flex")
+        let childLayout = this.attributeService.findGetAttributeValue("child_layout",window.attributes,"flex")
 
         window.children.forEach(item => {
-          let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
+          let my_comp = this.componentService.componentCreation(this.child, item.type)
 
           if (my_comp != null) {
             my_comp.setInput("element",item)
             let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
             html.id = item.id
 
-            AttributeHelperService.addAttributes(html, item.attributes)
-            AttributeHelperService.setAbsoulteRelativePositions(childLayout, html, item)
+            this.attributeService.addAttributes(html, item.attributes)
+            this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
 
             this.children.push(my_comp)
           }
         })
 
         let parent_html = this.parent.nativeElement
-        AttributeHelperService.addAttributes(parent_html, window.attributes)
+        this.attributeService.addAttributes(parent_html, window.attributes)
 
         // Prevents Errors
         this.cd.detectChanges()

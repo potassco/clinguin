@@ -15,7 +15,7 @@ export class CanvasComponent {
 
   imageSource: string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
 
   ngAfterViewInit(): void {
 
@@ -24,13 +24,13 @@ export class CanvasComponent {
 
       let htmlDdbut = this.theImage.nativeElement
 
-      AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.setAttributesDirectly(htmlDdbut, this.element.attributes)
+      this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
+      this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
+      this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
 
       this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 
-      let imgPath = AttributeHelperService.findAttribute("image_path", this.element.attributes)
+      let imgPath = this.attributeService.findAttribute("image_path", this.element.attributes)
 
       if (imgPath != null) {
         this.imageSource = imgPath.value

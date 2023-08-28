@@ -18,7 +18,7 @@ export class DropdownMenuComponent {
   buttonLabel : string = ""
   dropDownMenuItems : {label:string, element:ElementDto}[] = []
 
-  constructor(private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document) {
+  constructor(private attributeService: AttributeHelperService, private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document) {
   }
 
 
@@ -39,9 +39,9 @@ export class DropdownMenuComponent {
 
       let htmlDdbut = this.ddbut.nativeElement
 
-      AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.setAttributesDirectly(htmlDdbut, this.element.attributes)
+      this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
+      this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
+      this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
 
       let border_color = "black"
       index = this.element.attributes.findIndex(item => item.key == "border_color")
@@ -66,9 +66,9 @@ export class DropdownMenuComponent {
       this.element.children.forEach(child => {
         let htmlChild : HTMLElement | null = document.getElementById(child.id)
         if (htmlChild != null) {
-          AttributeHelperService.addAttributes(htmlChild, child.attributes)
-          AttributeHelperService.textAttributes(htmlChild, child.attributes)
-          AttributeHelperService.setAttributesDirectly(htmlChild, child.attributes)
+          this.attributeService.addAttributes(htmlChild, child.attributes)
+          this.attributeService.textAttributes(htmlChild, child.attributes)
+          this.attributeService.setAttributesDirectly(htmlChild, child.attributes)
         }
       })
       this.cd.detectChanges()

@@ -16,7 +16,7 @@ export class LabelComponent {
 
   elementLabel: string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
 
 
   ngAfterViewInit(): void {
@@ -30,9 +30,9 @@ export class LabelComponent {
       let htmlDdbut = this.label.nativeElement
       let htmlOuterDiv = this.outerDiv.nativeElement
 
-      AttributeHelperService.addAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.textAttributes(htmlDdbut, this.element.attributes)
-      AttributeHelperService.setAttributesDirectly(htmlDdbut, this.element.attributes)
+      this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
+      this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
+      this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
 
       this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 

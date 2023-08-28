@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { CallbackDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
+import { AttributeHelperService } from '../attribute-helper.service';
+import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
   selector: 'app-menu-bar',
@@ -15,7 +17,7 @@ export class MenuBarComponent {
   title: string = ""
   menuBarSections: MenuBarSection[] = []
 
-  constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService) {}
+  constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
 
   ngAfterViewInit(): void {
 
@@ -26,35 +28,24 @@ export class MenuBarComponent {
         this.title = this.element.attributes[index].value
       }
 
-
       this.element.children.forEach(child => {
         let menuBarItems: MenuBarItem[] = []
 
         child.children.forEach(child => {
 
-          let title = ""
-          let index = child.attributes.findIndex(attr => attr.key == "label")
-          if (index >= 0) {
-            title = child.attributes[index].value
-          }
+          let title = this.attributeService.findGetAttributeValue("label", child.attributes, "")
 
-          let policy = null
-          index = child.callbacks.findIndex(callback => callback.action == "click")
-          if (index >= 0) {
-            policy = child.callbacks[index]
-            let menuBarItem = new MenuBarItem(title, policy)
+          let callback = this.callbackService.findCallback("click", child.callbacks)
+          if (callback != null) {
+            let menuBarItem = new MenuBarItem(title, callback)
             menuBarItems.push(menuBarItem)
           }
 
         })
 
-        let title = ""
-        let index = child.attributes.findIndex(attr => attr.key == "label")
-        if (index >= 0) {
-          title = child.attributes[index].value
-        }
+        let menuBarTitle = this.attributeService.findGetAttributeValue("label", child.attributes, "")
 
-        let menuBarSection = new MenuBarSection(title, menuBarItems)
+        let menuBarSection = new MenuBarSection(menuBarTitle, menuBarItems)
         this.menuBarSections.push(menuBarSection)
       })
     this.cd.detectChanges()

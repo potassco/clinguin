@@ -17,32 +17,30 @@ export class ContainerComponent{
 
   children: any = []
   
-  constructor(private cd: ChangeDetectorRef) {
+  constructor(private componentService: ComponentResolutionService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService) {
   }
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
 
-      let childLayout = AttributeHelperService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
+      let childLayout = this.attributeService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
 
       this.element.children.forEach(item => {
 
-        let my_comp = ComponentResolutionService.componentCreation(this.child, item.type)
+        let my_comp = this.componentService.componentCreation(this.child, item.type)
 
         if (my_comp != null) {
           my_comp.setInput("element",item)
           let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
           html.id = item.id
 
-          AttributeHelperService.addAttributes(html, item.attributes)
-          AttributeHelperService.setAttributesDirectly(html, item.attributes)
+          this.attributeService.addAttributes(html, item.attributes)
+          this.attributeService.setAttributesDirectly(html, item.attributes)
 
-          AttributeHelperService.setAbsoulteRelativePositions(childLayout, html, item)
+          this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
           
           this.children.push(my_comp)
-
-
         }
       })
 

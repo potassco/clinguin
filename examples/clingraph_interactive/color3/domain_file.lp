@@ -18,3 +18,6 @@ color(red; green; blue).
 #show edge/1.
 #show attr(node, N, style, filled) : node(N).
 #show attr(node, N, color, C) : assign(N, C).
+
+assign(N,C) :- node(N), color(C), user_input(node,N,select, change_color,C).
+#show attr(node, N, label, "Important!") : user_input(node,N,checkbox,set_important,true).

@@ -60,9 +60,6 @@ class ClingraphInteractiveBackend(ClingraphBackend):
     def graphUpdate(self, *kwargs):
 
         if kwargs[0] != "":
-
-            self._atoms = set()
-
             for arg in kwargs:
                 predicate_symbol = parse_term(arg)
                 if predicate_symbol not in self._atoms:

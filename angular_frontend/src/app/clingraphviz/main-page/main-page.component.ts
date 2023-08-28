@@ -47,19 +47,6 @@ export class MainPageComponent implements AfterViewInit {
       }
 
     }
-
-    /*
-    this.svgService.get().subscribe({next: (data) => {
-      this.svgString = data.data;
-      this.svgContainer.nativeElement.innerHTML = this.svgString
-      this.nodeOptionsList = data.option_data; 
-      console.log("NodeOptions after init:", this.nodeOptionsList)
-      console.log("form after init: ",this.optionsForm)
-    }, error: (err) => {
-      console.log("An error has occured: " + err)
-      this.errStr = err.message
-    }})
-    */
   }
 
   retrieveSelectOptions(opt:(Input_Option|Select_Option)){
@@ -127,25 +114,13 @@ export class MainPageComponent implements AfterViewInit {
         }
       })
 
-      /* 
-      let group: Record<string, any> = {};
-      this.optionsList.forEach((val) => {
-        // TODO: Make a differentiation between different initial types (bool, num etc.) if necessary.
-        console.log("val: ", val.state, val.name, val.type)
-        group[val.name] = new FormControl(val.state)
-        console.log("NAME VALUE ", val.name)
-    })
-    */
     this.optionsForm = group
     console.log("form after update: ",this.optionsForm)
     console.log(this.nodeOptionsList)
-    //console.log(this.optionsForm)
-    //console.log(this.testFG)
   }
 }
 
   submitForm(){
-    console.log("submitted!")
     this.errStr = ""
     let asp: string[] = []
     let form = this.optionsForm.value
@@ -161,25 +136,6 @@ export class MainPageComponent implements AfterViewInit {
     console.log(req)
 
     this.frontendService.uncheckedPost(req as GraphRequest)
-
-    /*
-    this.svgService.post(req as GraphRequest).subscribe({next: (data) => {
-      console.log("Were in data!")
-      console.log(data)
-      this.svgString = data.data;
-      this.svgContainer.nativeElement.innerHTML = this.svgString
-      this.nodeOptionsList = data.option_data; 
-      console.log("node options after response of form submit: ", this.nodeOptionsList)
-      this.optionsList = []
-      this.updateOptions(this.currID,this.type)
-    }, error: (err) => {
-      console.log("Error here: " , err)
-      this.errStr = err.message
-
-    }})
-    */
   }
-
-
   
 }

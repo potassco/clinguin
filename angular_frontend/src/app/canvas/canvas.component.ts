@@ -30,12 +30,15 @@ export class CanvasComponent {
 
       this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 
+
+      let image = this.attributeService.findAttribute("image", this.element.attributes)
       let imgPath = this.attributeService.findAttribute("image_path", this.element.attributes)
 
-      if (imgPath != null) {
+      if (image != null) {
+        this.imageSource ="data:image/png;base64," + image.value
+      } else if (imgPath != null) {
         this.imageSource = imgPath.value
       }
-
 
       this.cd.detectChanges()
     }

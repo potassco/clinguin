@@ -2,12 +2,22 @@
 """
 Module that contains the ClingoBackend.
 """
+import os
+
+import base64
+
 from pathlib import Path
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
+from clingo.symbol import Function, String
 
+from clorm import Raw
+
+from clinguin.server.data.attribute import AttributeDao
 from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
+
+from clinguin.utils import StandardTextProcessing
 
 enable_python()
 
@@ -49,6 +59,9 @@ class ClingoBackend(ClinguinBackend):
             include_menu_bar=args.include_menu_bar,
             include_unsat_msg=include_unsat_msg,
         )
+
+        self._encoding = "utf-8"
+        self._attribute_image_key = "image"
 
     # ---------------------------------------------
     # Required methods
@@ -159,6 +172,8 @@ class ClingoBackend(ClinguinBackend):
 
     def _update_uifb_ui(self):
         self._uifb.update_ui(self._backend_state_prg)
+
+        self._replace_uifb_with_b64_images()
 
     def _update_uifb(self):
         self._update_uifb_consequences()
@@ -354,3 +369,30 @@ class ClingoBackend(ClinguinBackend):
                 self._add_assumption(s)
         self._update_uifb()
         return self.get()
+    
+
+    def _replace_uifb_with_b64_images(self):
+        attributes = list(self._uifb.get_attributes())
+        for attribute in attributes:
+            if str(attribute.key) != self._attribute_image_key:
+                continue
+
+            attribute_value = StandardTextProcessing.parse_string_with_quotes(
+                str(attribute.value)
+            )
+
+            if os.path.isfile(attribute_value):
+
+                with open(attribute_value, "rb") as image_file:
+                    encoded_string = self._image_to_b64(image_file.read())
+                    new_attribute = AttributeDao(
+                        Raw(Function(str(attribute.id), [])),
+                        Raw(Function(str(attribute.key), [])),
+                        Raw(String(str(encoded_string))),
+                    )
+                    self._uifb.replace_attribute(attribute, new_attribute)
+
+    def _image_to_b64(self, img):
+        encoded = base64.b64encode(img)
+        decoded = encoded.decode(self._encoding)
+        return decoded

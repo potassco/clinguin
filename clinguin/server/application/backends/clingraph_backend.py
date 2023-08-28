@@ -57,7 +57,7 @@ class ClingraphBackend(ClingoBackend):
         if not self._disable_saved_to_file:
             self._save_clingraph_graphs_to_file(graphs)
 
-        self._replace_uifb_with_b64_images(graphs)
+        self._replace_uifb_with_b64_images_clingraph(graphs)
 
     @classmethod
     def register_options(cls, parser):
@@ -266,7 +266,7 @@ class ClingraphBackend(ClingoBackend):
         self._logger.debug("Clingraph saved images:")
         self._logger.debug(paths)
 
-    def _replace_uifb_with_b64_images(self, graphs):
+    def _replace_uifb_with_b64_images_clingraph(self, graphs):
         attributes = list(self._uifb.get_attributes())
         for attribute in attributes:
             if str(attribute.key) != self._attribute_image_key:
@@ -319,8 +319,3 @@ class ClingraphBackend(ClingoBackend):
         img = graph.pipe(engine=self._engine)
 
         return img
-
-    def _image_to_b64(self, img):
-        encoded = base64.b64encode(img)
-        decoded = encoded.decode(self._encoding)
-        return decoded

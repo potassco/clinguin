@@ -8,7 +8,8 @@ attribute(window, pos_y, 100).
 element(canv, canvas, window).
 attribute(canv, height, 500).
 attribute(canv, width, 450).
-attribute(canv, image_path, "./examples/basic/test_07/tommi.jpg").
+attribute(canv, image, "examples/basic/test_07/tommi.jpg").
+
 attribute(canv, resize, true).
 
 

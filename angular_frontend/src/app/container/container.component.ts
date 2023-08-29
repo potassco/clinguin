@@ -11,6 +11,7 @@ import { AttributeHelperService } from '../attribute-helper.service';
 export class ContainerComponent{
   @ViewChild('child',{read: ViewContainerRef}) child!: ViewContainerRef;
   @Input() element: ElementDto | null = null
+  @Input() parentLayout: string = ""
 
   container_id: string = ""
   container: ElementDto | null = null
@@ -35,11 +36,18 @@ export class ContainerComponent{
           let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
           html.id = item.id
 
-          this.attributeService.addAttributes(html, item.attributes)
-          this.attributeService.setAttributesDirectly(html, item.attributes)
 
-          this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
-          
+          if (item.type != "button") {
+            this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
+            this.attributeService.addGeneralAttributes(html, item.attributes)
+            this.attributeService.addAttributes(html, item.attributes)
+
+            if (item.type == "container") {
+              this.attributeService.setChildLayout(html, item.attributes)
+            }
+            this.attributeService.setAttributesDirectly(html, item.attributes)
+          }
+
           this.children.push(my_comp)
         }
       })

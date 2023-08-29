@@ -10,9 +10,11 @@ import { CallBackHelperService } from '../callback-helper.service';
 })
 export class LabelComponent {
   @ViewChild('label',{static:true}) label! : ElementRef
+  @ViewChild('middleDiv', {static:true}) middleDiv!: ElementRef
   @ViewChild('outerDiv',{static:true}) outerDiv! : ElementRef
 
   @Input() element: ElementDto | null = null
+  @Input() parentLayout: string = ""
 
   elementLabel: string = ""
 
@@ -28,6 +30,7 @@ export class LabelComponent {
       }
 
       let htmlDdbut = this.label.nativeElement
+      let htmlMiddle = this.middleDiv.nativeElement
       let htmlOuterDiv = this.outerDiv.nativeElement
 
       this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
@@ -36,8 +39,32 @@ export class LabelComponent {
 
       this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 
+      this.setOuterDivStyles(htmlOuterDiv)
+      this.setMiddleDivStyle(htmlMiddle)
+      this.setParagraphStyle(htmlDdbut)
+
       this.cd.detectChanges()
     }
+  }
+
+  setOuterDivStyles(outerDiv:HTMLElement) {
+    outerDiv.style.display = "table"
+    outerDiv.style.minHeight = "100%"
+    outerDiv.style.minWidth = "100%"
+    outerDiv.style.overflow = "hidden"
+  }
+
+  setMiddleDivStyle(middleDiv:HTMLElement) {
+    middleDiv.style.minWidth = "100%"
+    middleDiv.style.display = "table-row"
+    //style="display:table-row; min-width: 100%;"
+  }
+
+  setParagraphStyle(paragraph:HTMLElement) {
+
+    paragraph.style.display = "table-cell"
+    paragraph.style.verticalAlign = "middle"
+    paragraph.style.textAlign = "center"
   }
 }
 

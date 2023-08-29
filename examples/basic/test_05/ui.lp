@@ -4,7 +4,7 @@ attribute(w, child_layout, grid).
 
 element(c2, container, w).
 attribute(c2, border_width, 3).
-attribute(c2, background_color, "#0f0f0f").
+attribute(c2, background_color, "#707070").
 attribute(c2, grid_column, 0).
 
 element(l2, label, c2).
@@ -16,7 +16,7 @@ attribute(l3, label, "This is another label").
 element(c20, container, c2).
 attribute(c20, background_color, "#00ffff").
 attribute(c20, height, 20).
-attribute(c20, width, 20).
+%attribute(c20, width, 20).
 
 element(c3, container, w).
 attribute(c3, background_color, "#ffff00").

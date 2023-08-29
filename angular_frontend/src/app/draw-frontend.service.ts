@@ -26,13 +26,6 @@ export class DrawFrontendService {
         this.httpService.get().subscribe(
         {next: (data:ElementDto) => {
             console.log(data)
-
-            this.detectCreateMenuBar(data)
-
-            let messageList : ElementDto[] = []
-            this.getAllMessages(data, messageList)
-            this.messageLists.next(messageList)
-
             this.frontendJson.next(data)
         }})
     }
@@ -40,12 +33,6 @@ export class DrawFrontendService {
     policyPost(callback: CallbackDto) : void {
         this.httpService.post(callback.policy).subscribe(
         {next: (data:ElementDto) => {
-            this.detectCreateMenuBar(data)
-
-            let messageList : ElementDto[] = []
-            this.getAllMessages(data, messageList)
-            this.messageLists.next(messageList)
-
             this.frontendJson.next(data)
         }})
     }
@@ -55,12 +42,6 @@ export class DrawFrontendService {
         this.httpClient.post<ElementDto>(this.backend_URI + "/backend", serverRequest).subscribe(
         //this.httpService.post(serverRequest.function).subscribe(
         {next: (data:ElementDto) => {
-            this.detectCreateMenuBar(data)
-
-            let messageList : ElementDto[] = []
-            this.getAllMessages(data, messageList)
-            this.messageLists.next(messageList)
-
             this.frontendJson.next(data)
         }})
     }

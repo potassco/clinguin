@@ -56,10 +56,12 @@ export class AttributeHelperService {
             }
         })
 
+        this.setHover(html, attributes)
+    }
+
+    addGeneralAttributes(html:HTMLElement, attributes: AttributeDto[]) {
         this.setGrid(html,attributes)
         this.setBorderHelper(html, attributes)
-        this.setHover(html, attributes)
-        this.setChildLayout(html, attributes)
     }
 
     setGrid(html: HTMLElement, attributes:AttributeDto[]) {
@@ -169,19 +171,19 @@ export class AttributeHelperService {
         let posY = Number(this.findGetAttributeValue("pos_y", child.attributes, "-1"))
 
         if (posX >= 0 && parentChildLayout == "absstatic") {
-        html.style.left = String(posX) + "px"
+            html.style.left = String(posX) + "px"
         }
         if (posX >= 0 && parentChildLayout == "relstatic") {
-        html.style.left = String(posX) + "%"
+            html.style.left = String(posX) + "%"
         }
         if (posY >= 0 && parentChildLayout == "absstatic") {
-        html.style.top = String(posY) + "px"
+            html.style.top = String(posY) + "px"
         }
         if (posY >= 0 && parentChildLayout == "relstatic") {
-        html.style.top = String(posY) + "%"
+            html.style.top = String(posY) + "%"
         }
-        if (posY >= 0 || posX >= 0) {
-        html.style.position = "absolute"
+        if ((posY >= 0 || posX >= 0) && (parentChildLayout == "absstatic" || parentChildLayout == "relstatic")) {
+            html.style.position = "absolute"
         }
 
         let gridRowStart = this.findAttribute("grid_row", child.attributes)
@@ -194,7 +196,6 @@ export class AttributeHelperService {
             html.style.gridColumn = "1"
         }
 
-        let childLayout = this.findAttribute("child_layout", child.attributes)
     }
 
     setChildLayout(html:HTMLElement, attributes: AttributeDto[]) {
@@ -215,9 +216,11 @@ export class AttributeHelperService {
                     html.style.flexDirection = "column"
                 }
             } else if (value == "absstatic") {
-                html.style.position = "absolute"
+                html.style.position = "relative"
+                html.style.display = "flex"
             } else if (value == "relstatic") {
-                html.style.position = "absolute"
+                html.style.position = "relative"
+                html.style.display = "flex"
             }
         } else {
             html.style.display = "flex"

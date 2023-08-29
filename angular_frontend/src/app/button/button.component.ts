@@ -12,6 +12,7 @@ export class ButtonComponent {
   @ViewChild("theButton",{static:false}) theButton! : ElementRef
 
   @Input() element: ElementDto | null = null
+  @Input() parentLayout: string = ""
 
   buttonLabel: string = ""
 
@@ -30,6 +31,10 @@ export class ButtonComponent {
       this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
       this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
       this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
+      this.attributeService.addGeneralAttributes(htmlDdbut, this.element.attributes)
+
+        this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
+
 
       this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 

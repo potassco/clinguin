@@ -12,6 +12,7 @@ export class CanvasComponent {
   @ViewChild("theImage",{static:false}) theImage! : ElementRef
 
   @Input() element: ElementDto | null = null
+  @Input() parentLayout: string = ""
 
   imageSource: string = ""
 

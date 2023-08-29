@@ -12,6 +12,7 @@ import { DOCUMENT } from '@angular/common';
 export class DropdownMenuComponent {
   // Why does the dropdown need this?
   @Input() element : ElementDto | null = null
+  @Input() parentLayout: string = ""
 
   @ViewChild('ddbut', {static:true}) ddbut! : ElementRef
 

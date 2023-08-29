@@ -35,45 +35,66 @@ export class WindowComponent {
 
       console.log(data)
 
-        this.children.forEach(child => {
-          this.child.clear()
-        })
-        this.children = []
+      this.children.forEach(child => {
+        this.child.clear()
+      })
+      this.children = []
 
-        this.cleanValues(data)
- 
-        let window = data.children[0]
+      this.cleanValues(data)
 
-        this.window_id = window.id
+      this.frontendService.detectCreateMenuBar(data)
 
-        this.window = window
+      let messageList : ElementDto[] = []
+      this.frontendService.getAllMessages(data, messageList)
+      this.frontendService.messageLists.next(messageList)
 
-        this.cd.detectChanges()
+      let window = data.children[0]
 
-        let childLayout = this.attributeService.findGetAttributeValue("child_layout",window.attributes,"flex")
+      this.window_id = window.id
 
-        window.children.forEach(item => {
-          let my_comp = this.componentService.componentCreation(this.child, item.type)
+      this.window = window
 
-          if (my_comp != null) {
-            my_comp.setInput("element",item)
-            let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
-            html.id = item.id
+      this.cd.detectChanges()
+
+      let childLayout = this.attributeService.findGetAttributeValue("child_layout",window.attributes,"flex")
+
+      this.attributeService.setChildLayout(this.parent.nativeElement, window.attributes)
+
+      window.children.forEach(item => {
+        let my_comp = this.componentService.componentCreation(this.child, item.type)
+
+        if (my_comp != null) {
+          my_comp.setInput("element",item)
+          my_comp.setInput("parentLayout", childLayout)
+          let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
+          html.id = item.id
+
+          if (item.type != "button") {
+            this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
+            this.attributeService.addGeneralAttributes(html, item.attributes)
 
             this.attributeService.addAttributes(html, item.attributes)
-            this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
 
-            this.children.push(my_comp)
+            if (item.type == "container") {
+              this.attributeService.setChildLayout(html, item.attributes)
+            } 
+
+            this.attributeService.setAttributesDirectly(html, item.attributes)
           }
-        })
 
-        let parent_html = this.parent.nativeElement
-        this.attributeService.addAttributes(parent_html, window.attributes)
 
-        // Prevents Errors
-        this.cd.detectChanges()
-      },
-      error: (err) => console.log(err)})
+          this.children.push(my_comp)
+        }
+
+      })
+
+      let parent_html = this.parent.nativeElement
+      this.attributeService.addAttributes(parent_html, window.attributes)
+
+      // Prevents Errors
+      this.cd.detectChanges()
+    },
+    error: (err) => console.log(err)})
 
 
     this.frontendService.initialGet()

@@ -30,6 +30,8 @@ export class MessageComponent {
         attrType = "danger"
       }
 
+      console.log(attrType)
+
       this.attrType = attrType
       this.attrTitle = attrTitle
       this.attrMessage = attrMessage

@@ -10,7 +10,7 @@ Visit the [documentation page](https://clinguin.readthedocs.io/en/latest/clingui
     - NPM/Node (default web-development setup):  [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), [NODE](https://nodejs.org/en/download)
     - Angular: ([installation page](https://angular.io/guide/setup-local))
 
-Then navigate to the foler `angular_frontend`. There type `ng serve` and then go to the URL `127.0.0.1:4200` in your web-browser.
+Then navigate to the folder `angular_frontend`. There type `ng serve` and then go to the URL `127.0.0.1:4200` in your web-browser.
 It is assumed that the backend is already started (just the `clinguin server`).
 
 

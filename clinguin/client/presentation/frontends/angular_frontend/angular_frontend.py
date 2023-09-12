@@ -7,8 +7,16 @@ import inspect
 import pathlib
 import subprocess
 
+import http.server
+import socketserver
+
 from clinguin.client import AbstractFrontend
 
+DIRECTORY = "clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend"
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=DIRECTORY, **kwargs)
 
 class AngularFrontend(AbstractFrontend):
     """
@@ -18,7 +26,17 @@ class AngularFrontend(AbstractFrontend):
 
     def __init__(self, args, base_engine):
         super().__init__(base_engine, args)
+
+        port = 10001
+
+        with socketserver.TCPServer(("",port), Handler) as httpd:
+            print("serving at port", port)
+            httpd.serve_forever()
+
+
         # Just for local development!
+
+
         path = pathlib.Path(inspect.getfile(AngularFrontend)).parent.parent.parent.parent.parent.parent\
             / "angular_frontend"
 

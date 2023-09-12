@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/clin-graph-viz",
+            "outputPath": "dist/clinguin_angular_frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [

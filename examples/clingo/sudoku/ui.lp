@@ -31,18 +31,20 @@ element(c(X,Y), container, window) :- pos(X,Y).
 attribute(c(X,Y), grid_column, X-1) :- pos(X,Y).
 attribute(c(X,Y), grid_row, Y-1) :- pos(X,Y).
 attribute(c(X,Y),background_color,COLOR):- cell_color(X,Y,COLOR).
-attribute(c(X,Y), height, height_value/(dim*dim)) :- pos(X,Y).
-attribute(c(X,Y), width, width_value/(dim*dim)) :- pos(X,Y).
+%attribute(c(X,Y), height, height_value/(dim*dim)) :- pos(X,Y).
+%attribute(c(X,Y), width, width_value/(dim*dim)) :- pos(X,Y).
 
 % Label
 element(l(X,Y), label, c(X,Y)) :- initial(X,Y,V).
+%attribute(l(X,Y), "border","1px solid black") :- initial(X,Y,V).
 attribute(l(X,Y), label, V) :- initial(X,Y,V).
-attribute(l(X,Y), font_size, 16) :- initial(X,Y,V).
+attribute(l(X,Y), font_size, "16") :- initial(X,Y,V).
 attribute(l(X,Y), background_color, COLOR) :- initial(X,Y,V),cell_color(X,Y,COLOR).
 
 % Option Menu
 menu(X,Y):-pos(X,Y), not initial(X,Y,_).
 element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
+attribute(m(X,Y), font_size, "16") :- menu(X,Y).
 attribute(m(X,Y), selected, @concat(V,"*")) :- menu(X,Y), _c(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
 attribute(m(X,Y), selected, V) :- menu(X,Y), _clinguin_assume(sudoku(X,Y,V)).
 attribute(m(X,Y), selected, @concat(V,"+")) :- menu(X,Y), sudoku(X,Y,V), _clinguin_browsing, not _c(sudoku(X,Y,V)).
@@ -53,8 +55,10 @@ callback(m(X,Y), clear, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,
 
 % Option menu Item
 element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
+attribute(mi(X,Y,V), font_size, "16") :- menu(X,Y), _b(sudoku(X,Y,V)).
 attribute(mi(X,Y,V), label, V) :- menu(X,Y), _b(sudoku(X,Y,V)).
 callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
+attribute(mi(X,Y,V), foreground_color,"green") :- menu(X,Y), _b(sudoku(X,Y,V)).
 
 %---------------------------------------------------------------------------------------
 % Menu Bar
@@ -63,6 +67,7 @@ callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudok
 % Menu bar
 element(m, menu_bar, window).
 element(ms, menu_bar_section, m).
+attribute(m, title,"Sudoku").
 attribute(ms, label, "Options").
 element(ms_clear, menu_bar_section_item, ms).
 attribute(ms_clear, label, "Clear").

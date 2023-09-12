@@ -112,7 +112,7 @@ attribute(room_title(I), label, T) :- room(I,T).
 element(room_dropdown(B,I), dropdown_menu, room(I)) :- bed(B,I),setting_rooms.
 attribute(room_dropdown(B,I), selected, P) :- _c(assign(bed(B,I),P)).
 attribute(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P), clinguin_browsing.
-attribute(room_dropdown(B,I), height, 50) :- bed(B,I).
+attribute(room_dropdown(B,I), height, 30) :- bed(B,I).
 attribute(room_dropdown(B,I), width, 100) :- bed(B,I).
 attribute(room_dropdown(B,I), pos_y, B*40):- bed(B,I).
 callback(room_dropdown(B,I), clear, remove_assumption_signature(assign(bed(B,I),any))) :- bed(B,I).

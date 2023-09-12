@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { CallbackDto, ElementDto } from '../types/json-response.dto';
+import { DoDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
@@ -35,7 +35,7 @@ export class MenuBarComponent {
 
           let title = this.attributeService.findGetAttributeValue("label", child.attributes, "")
 
-          let callback = this.callbackService.findCallback("click", child.callbacks)
+          let callback = this.callbackService.findCallback("click", child.do)
           if (callback != null) {
             let menuBarItem = new MenuBarItem(title, callback)
             menuBarItems.push(menuBarItem)
@@ -52,16 +52,16 @@ export class MenuBarComponent {
     }
   }
 
-  policyExecutor(policy: CallbackDto) {
+  policyExecutor(policy: DoDto) {
     this.displayFrontend.policyPost(policy)
   }
 }
 
 class MenuBarItem {
   title:string=""
-  policy!:CallbackDto
+  policy!:DoDto
 
-  constructor(title: string, policy:CallbackDto) {
+  constructor(title: string, policy:DoDto) {
     this.title = title
     this.policy = policy
   }

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { CallbackDto, ElementDto } from './types/json-response.dto';
+import { DoDto, ElementDto } from './types/json-response.dto';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { ServerRequest } from './types/server-request';
@@ -30,7 +30,7 @@ export class DrawFrontendService {
         }})
     }
 
-    policyPost(callback: CallbackDto) : void {
+    policyPost(callback: DoDto) : void {
         this.httpService.post(callback.policy).subscribe(
         {next: (data:ElementDto) => {
             this.frontendJson.next(data)

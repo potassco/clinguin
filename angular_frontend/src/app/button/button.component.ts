@@ -36,7 +36,7 @@ export class ButtonComponent {
         this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
 
 
-      this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
+      this.callbackService.setCallbacks(htmlDdbut, this.element.do)
 
       this.cd.detectChanges()
     }

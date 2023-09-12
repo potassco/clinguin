@@ -96,7 +96,6 @@ export class WindowComponent {
     },
     error: (err) => console.log(err)})
 
-
     this.frontendService.initialGet()
   }
 
@@ -109,16 +108,31 @@ export class WindowComponent {
       let key = element.attributes[i].key
       key = this.stringSanitizer(key)
       element.attributes[i].key = key
+
+      if (key != "image") {
+        value = value.replace("\\n","<br>")
+      }
     }
 
-    for (let i = 0; i < element.callbacks.length; i++) {
-      let policy = element.callbacks[i].policy
-      policy = this.stringSanitizer(policy)
-      element.callbacks[i].policy = policy
+    for (let i = 0; i < element.do.length; i++) {
+      if (element.do[i].action_type !== undefined) {
+        element.do[i].actionType = element.do[i].action_type!
+      }
+      if (element.do[i].interaction_type !== undefined) {
+        element.do[i].interactionType = element.do[i].interaction_type!
+      }
 
-      let action = element.callbacks[i].action
+      let policy = element.do[i].policy
+      policy = this.stringSanitizer(policy)
+      element.do[i].policy = policy
+
+      let action = element.do[i].actionType
       action = this.stringSanitizer(action)
-      element.callbacks[i].action = action
+      element.do[i].actionType = action
+
+      let interaction = element.do[i].interactionType
+      interaction = this.stringSanitizer(interaction)
+      element.do[i].interactionType = interaction
     }
 
     element.children.forEach(child => {
@@ -127,6 +141,9 @@ export class WindowComponent {
   }
 
   stringSanitizer(value:string) : string {
+    if (value == null) {
+      return value
+    }
     if (value.length > 0) {
       if (value[0] == '"') {
         value = value.slice(1)
@@ -138,8 +155,6 @@ export class WindowComponent {
         value = value.slice(0, -1)
       }
     }
-
-    value = value.replace("\\n","<br>")
 
     return value
   }

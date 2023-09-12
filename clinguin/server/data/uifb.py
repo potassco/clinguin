@@ -13,7 +13,7 @@ from clorm import Raw
 from clinguin.utils import Logger, NoModelError
 
 from .attribute import AttributeDao
-from .callback import CallbackDao
+from .callback import DoDao
 from .element import ElementDao
 
 
@@ -25,7 +25,7 @@ class UIFB:
     functionality to query important things for clinguin, etc.
     """
 
-    unifiers = [ElementDao, AttributeDao, CallbackDao]
+    unifiers = [ElementDao, AttributeDao, DoDao]
 
     def __init__(
         self,
@@ -143,7 +143,7 @@ class UIFB:
 
         uictl.add("base", [], extra_ui_prg)
         uictl.add("base", [], self.conseq_facts)
-        uictl.add("base", [], "#show element/3. #show attribute/3. #show callback/3.")
+        uictl.add("base", [], "#show element/3. #show attribute/3. #show do/4.")
         uictl.ground([("base", [])])
 
         return uictl
@@ -267,6 +267,12 @@ class UIFB:
             value = Number(value)
         self._factbase.add(AttributeDao(Raw(cid), Raw(key), Raw(value)))
 
+    def add_attribute_direct(self, new_attribute):
+        """
+        Directly adds an attribute.
+        """
+        self._factbase.add(new_attribute)
+
     def get_elements(self):
         """
         Get all elements.
@@ -283,7 +289,7 @@ class UIFB:
         """
         Get all callbacks.
         """
-        return self._factbase.query(CallbackDao).all()
+        return self._factbase.query(DoDao).all()
 
     def get_attributes_grouped(self):
         """
@@ -295,7 +301,7 @@ class UIFB:
         """
         Get all callbacks grouped by element id.
         """
-        return self._factbase.query(CallbackDao).group_by(CallbackDao.id).all()
+        return self._factbase.query(DoDao).group_by(DoDao.id).all()
 
     def get_attributes_for_element_id(self, element_id):
         """
@@ -312,7 +318,7 @@ class UIFB:
         Get all callbacks for one element id.
         """
         return (
-            self._factbase.query(CallbackDao).where(CallbackDao.id == element_id).all()
+            self._factbase.query(DoDao).where(DoDao.id == element_id).all()
         )
 
     def replace_attribute(self, old_attribute, new_attribute):
@@ -347,15 +353,15 @@ attribute(menu_options, label, "Options").
 element(menu_options_clear, menu_bar_section_item, menu_options).
 attribute(menu_options_clear, label, "Clear").
 attribute(menu_options_clear, accelerator, "Cmd+C").
-callback(menu_options_clear, click, clear_assumptions).
+do(menu_options_clear, click, callback, clear_assumptions).
 element(menu_options_next, menu_bar_section_item, menu_options).
 attribute(menu_options_next, label, "Next").
 attribute(menu_options_next, accelerator, "Cmd+N").
-callback(menu_options_next, click, next_solution).
+do(menu_options_next, click, callback, next_solution).
 element(menu_options_select, menu_bar_section_item, menu_options).
 attribute(menu_options_select, label, "Select").
 attribute(menu_options_select, accelerator, "Cmd+S").
-callback(menu_options_select, click, select)."""
+do(menu_options_select, click, callback, select)."""
 
     @classmethod
     def get_unsat_messages_ui_encoding(cls):

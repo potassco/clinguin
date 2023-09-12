@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
-import { CallbackDto, ElementDto } from '../types/json-response.dto';
+import { DoDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { DOCUMENT } from '@angular/common';
@@ -57,7 +57,7 @@ export class DropdownMenuComponent {
 
   onClick(element: ElementDto) {
 
-    let callback : CallbackDto = element.callbacks[0]
+    let callback : DoDto = element.do[0]
 
     this.frontendService.policyPost(callback)
   }

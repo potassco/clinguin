@@ -39,11 +39,11 @@ class ClingraphBackend(ClingoBackend):
         self._engine = args.engine
         self._disable_saved_to_file = args.disable_saved_to_file
 
-        self._intermediate_format = "png"
+        self._intermediate_format = "svg"
         self._encoding = "utf-8"
-        self._attribute_image_key = "image"
-        self._attribute_image_value = "clingraph"
-        self._attribute_image_value_seperator = "__"
+        self._attribute_image_key = "image_type"
+        self._attribute_image_value = "clingraph_svg"
+        #self._attribute_image_value_seperator = "__"
 
     # ---------------------------------------------
     # Overwrite
@@ -274,27 +274,26 @@ class ClingraphBackend(ClingoBackend):
             attribute_value = StandardTextProcessing.parse_string_with_quotes(
                 str(attribute.value)
             )
-            is_cg_image = (
-                attribute_value.startswith(self._attribute_image_value)
-                and attribute_value != "clingraph"
-            )
+            is_cg_image = attribute_value == self._attribute_image_value
+
             if not is_cg_image:
                 continue
-            splits = attribute_value.split(self._attribute_image_value_seperator, 1)
-            if len(splits) < 2:
-                raise ValueError(
-                    f"The images for clingraph should have format {self._attribute_image_value}"
-                    + f"{self._attribute_image_value_seperator}name"
-                )
-            graph_name = splits[1]
-            key_image = self._create_image_from_graph(graphs, key=graph_name)
-            base64_key_image = self._image_to_b64(key_image)
+
+            graph_name = "default"
+
+            # Currently assuming SVG, otherwise b64 encoding necessary!
+            image_value = self._create_image_from_graph(graphs, key=graph_name)
+            new_image_key = "image"
+            base64_key_image = self._image_to_b64(image_value)
+
             new_attribute = AttributeDao(
                 Raw(Function(str(attribute.id), [])),
-                Raw(Function(str(attribute.key), [])),
+                Raw(Function(str(new_image_key), [])),
                 Raw(String(str(base64_key_image))),
             )
-            self._uifb.replace_attribute(attribute, new_attribute)
+            self._uifb.add_attribute_direct(new_attribute)
+            
+            #self._uifb.replace_attribute(attribute, new_attribute)
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
         graphs = graphs[0]

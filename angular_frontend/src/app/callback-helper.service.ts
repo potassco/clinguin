@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AttributeDto, CallbackDto, ElementDto } from './types/json-response.dto';
+import { AttributeDto, DoDto, ElementDto } from './types/json-response.dto';
 import { DrawFrontendService } from './draw-frontend.service';
 
 @Injectable({
@@ -9,16 +9,16 @@ export class CallBackHelperService {
 
   constructor(private frontendService: DrawFrontendService) { }
 
-    findCallback(action: string, callbacks: CallbackDto[]): CallbackDto | null {
+    findCallback(action: string, callbacks: DoDto[]): DoDto | null {
       let value = null
-      let index = callbacks.findIndex(callback => callback.action == action)
+      let index = callbacks.findIndex(callback => callback.actionType == action)
       if (index >= 0) {
         value = callbacks[index]
       }
       return value
     }
  
-    setCallbacks(html: HTMLElement, callbacks:CallbackDto[]) {
+    setCallbacks(html: HTMLElement, callbacks:DoDto[]) {
 
         let onHoverCallback = this.findCallback("click", callbacks)
         if (onHoverCallback != null) {

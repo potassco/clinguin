@@ -37,7 +37,7 @@ export class LabelComponent {
       this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
       this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
 
-      this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
+      this.callbackService.setCallbacks(htmlDdbut, this.element.do)
 
       this.setOuterDivStyles(htmlOuterDiv)
       this.setMiddleDivStyle(htmlMiddle)

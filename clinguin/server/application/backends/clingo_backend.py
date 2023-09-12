@@ -262,7 +262,6 @@ class ClingoBackend(ClinguinBackend):
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
-            # Maybe best to do using the callback tuple?
             self._init_ctl()
             self._ground()
             self._end_browsing()

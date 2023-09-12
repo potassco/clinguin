@@ -83,6 +83,12 @@ class Endpoints:
             call_args,
         )
 
+        fields_set = backend_call_string.model_fields_set
+        if 'context' in fields_set:
+            self._backend.set_context(backend_call_string.context)
+        else:
+            self._backend.set_context([])
+
         result = EndpointsHelper.call_function(
             self._backend, function_name, function_arguments, {}
         )

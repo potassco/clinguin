@@ -17,8 +17,15 @@ class ClinguinBackend(CustomArgs):
     def __init__(self, args):
         self._logger = logging.getLogger(args.log_args["name"])
         self.args = args
+        self.context = []
 
     def get(self):
         """
         Default method that all sub classes must implement. This method must return the Json convertible Hierarchy.
         """
+
+    def set_context(self, context):
+        """
+        Sets the context.
+        """
+        self.context = context

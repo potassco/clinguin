@@ -77,13 +77,31 @@ attribute(person_remove(P), on_hover_background_color, color_considered_on_hover
 
 % Next
 
-element(button_next, button, window).
-attribute(button_next, height, 40).
-attribute(button_next, width, width_value).
-attribute(button_next, pos_x, 0).
-attribute(button_next, pos_y, height_names).
-attribute(button_next, label, "Define rooms").
-callback(button_next, click, set_external(setting_rooms,true)).
+element(button_next, button, window) :- not setting_rooms.
+attribute(button_next, height, 40) :- not setting_rooms.
+attribute(button_next, width, width_value) :- not setting_rooms.
+attribute(button_next, pos_x, 0) :- not setting_rooms.
+attribute(button_next, pos_y, height_names) :- not setting_rooms.
+attribute(button_next, label, "Define rooms") :- not setting_rooms.
+callback(button_next, click, set_external(setting_rooms,true)) :- not setting_rooms.
+
+room_assigned :- _c(assign(_,_)).
+
+element(define_people_button, button, window) :- setting_rooms, not room_assigned.
+attribute(define_people_button, height, 40) :- setting_rooms, not room_assigned.
+attribute(define_people_button, width, width_value) :- setting_rooms, not room_assigned.
+attribute(define_people_button, pos_x, 0) :- setting_rooms, not room_assigned.
+attribute(define_people_button, pos_y, height_names) :- setting_rooms, not room_assigned.
+attribute(define_people_button, label, "Define People") :- setting_rooms, not room_assigned.
+callback(define_people_button, click, set_external(setting_rooms,false)) :- setting_rooms, not room_assigned.
+
+element(clear_rooms_button, button, window) :- setting_rooms, room_assigned.
+attribute(clear_rooms_button, height, 40) :- setting_rooms, room_assigned.
+attribute(clear_rooms_button, width, width_value) :- setting_rooms, room_assigned.
+attribute(clear_rooms_button, pos_x, 0) :- setting_rooms, room_assigned.
+attribute(clear_rooms_button, pos_y, height_names) :- setting_rooms, room_assigned.
+attribute(clear_rooms_button, label, "Clear Room Assignment") :- setting_rooms, room_assigned.
+callback(clear_rooms_button, click, clear_assumptions) :- setting_rooms, room_assigned.
 
 
 % Rooms container

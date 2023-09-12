@@ -2,6 +2,6 @@
     <ng-template #child></ng-template>
 
 </div>
-<div *ngIf="window != null">
+<div style="position: fixed; bottom:0;" *ngIf="window != null">
     <app-message *ngFor="let message of messageList" [element]="message"></app-message>
 </div>

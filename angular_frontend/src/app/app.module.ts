@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -16,7 +16,19 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { MessageComponent } from './message/message.component';
 import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
 import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-options.component';
+import { ConfigService } from './config.service';
 
+function initialize() {
+  return (): Promise<boolean> => {
+    return new Promise<boolean>((resolve: (a:boolean) => void): void => {resolve(true);})
+  }
+}
+
+export function appConfigInit(appConfigService: ConfigService) {
+  return () => {
+    return appConfigService.load()
+  };
+}
 
 @NgModule({
   declarations: [
@@ -41,7 +53,14 @@ import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-option
     NgbModule,
     NgbCollapseModule,
   ],
-  providers: [],
+  providers: [{
+    provide: APP_INITIALIZER,
+    useFactory: appConfigInit,
+    deps: [
+      ConfigService
+    ],
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

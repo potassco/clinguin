@@ -4,11 +4,14 @@ Clinguin package - package entry point
 import copy
 import sys
 import threading
+import signal
+
 from datetime import datetime
 
 from .client_helper import start as client_start
 from .parse_input import ArgumentParser
 from .server_helper import start as server_start
+from .thread_interruption_handler import ThreadInterruptionHandler
 
 
 def args_to_dict_converter(args_dict, timestamp, name_prefix=""):
@@ -45,12 +48,15 @@ def main():
 
     timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
 
+    ThreadInterruptionHandler.register_signal_handler()
+
     if args.process == "server":
         log_dict = args_to_dict_converter(args_dict, timestamp)
 
         args_copy = copy.deepcopy(args)
         args_copy.log_args = log_dict
         server = threading.Thread(target=server_start, args=[args_copy])
+
         server.start()
 
     elif args.process == "client":
@@ -69,6 +75,7 @@ def main():
         args_copy.log_args = server_log_dict
 
         server = threading.Thread(target=server_start, args=[args_copy])
+
         server.start()
 
         client_log_dict = args_to_dict_converter(

@@ -6,17 +6,20 @@ import sys
 import inspect
 import pathlib
 import subprocess
+import os
+import json
 
 import http.server
 import socketserver
 
 from clinguin.client import AbstractFrontend
 
-DIRECTORY = "clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend"
+HTML_FILES_RELATIVE_DIRECTORY = "clinguin_angular_frontend"
+SERVED_DIRECTORY = os.path.join("clinguin","client","presentation","frontends","angular_frontend",HTML_FILES_RELATIVE_DIRECTORY)
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
+        super().__init__(*args, directory=SERVED_DIRECTORY, **kwargs)
 
 class AngularFrontend(AbstractFrontend):
     """
@@ -24,25 +27,40 @@ class AngularFrontend(AbstractFrontend):
     It opens the angular server via ng serve.
     """
 
-    def __init__(self, args, base_engine):
+    @classmethod
+    def register_options(cls, parser):
+        parser.description = (
+            "This GUI is based on the Angular package."
+        )
+
+        parser.add_argument(
+            "--client-port", type=int, default=8080, help="Set the port for the webserver of the client."
+        )
+
+    def __init__(self, base_engine, args):
         super().__init__(base_engine, args)
 
-        port = 10001
-
-        with socketserver.TCPServer(("",port), Handler) as httpd:
-            print("serving at port", port)
-            httpd.serve_forever()
-
-
-        # Just for local development!
-
-
-        path = pathlib.Path(inspect.getfile(AngularFrontend)).parent.parent.parent.parent.parent.parent\
-            / "angular_frontend"
-
-        if sys.platform.startswith("win32") or sys.platform.startswith("cygwin"):
-            self.process = subprocess.Popen(["ng", "serve"], shell=True, cwd=path)
+        if hasattr(args, "server_port"):
+            server_port = args.server_port
         else:
-            self.process = subprocess.Popen(["ng", "serve"], cwd=path)
+            server_port = 8000
 
-        self.process.communicate()
+        if hasattr(args, "server_url"):
+            server_url = args.server_url
+        else:
+            server_url = "http://localhost"
+
+        config_dict = {}
+        config_dict["serverPort"] = server_port
+        config_dict["serverUrl"] = server_url
+
+        with open(os.path.join(SERVED_DIRECTORY,"assets","config.json"), "w") as config_file:
+            config_file.write(str(json.dumps(config_dict)))
+
+        with socketserver.TCPServer(("", args.client_port), Handler) as httpd:
+            print("serving at port", args.client_port)
+            try:
+                httpd.serve_forever()
+            except KeyboardInterrupt:
+                httpd.shutdown()
+                quit()

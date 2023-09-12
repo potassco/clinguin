@@ -16,6 +16,7 @@ def start(args):
 
     app = FastAPI()
 
+    # Disable CORS
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -31,4 +32,4 @@ def start(args):
     endpoints = Endpoints(args)
     app.include_router(endpoints.router)
 
-    uvicorn.run(app)
+    uvicorn.run(app, port = args.server_port)

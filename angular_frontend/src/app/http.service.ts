@@ -4,6 +4,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { ElementDto } from './types/json-response.dto';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,14 @@ import { ElementDto } from './types/json-response.dto';
 export class HttpService {
 
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient, private configService: ConfigService) {
+      this.backend_URI = configService.serverUrl + ":" + configService.serverPort
+     }
 
     private backend_URI = "http://localhost:8000"
 
     get(): Observable<ElementDto>{
+      console.log(this.backend_URI)
       const response = this.http.get<ElementDto>(this.backend_URI,)
       
       .pipe(

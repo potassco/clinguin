@@ -38,6 +38,7 @@ export class ChildBearerService {
 
     setChildTagAttributes(html:HTMLElement, item:ElementDto) {
       if (item.type != "button") {
+        this.attributeService.setAttributesDirectly(html, item.attributes)
         this.attributeService.addGeneralAttributes(html, item.attributes)
 
         this.attributeService.addAttributes(html, item.attributes)
@@ -47,7 +48,6 @@ export class ChildBearerService {
           this.attributeService.setVisibility(html, item.attributes)
         } 
 
-        this.attributeService.setAttributesDirectly(html, item.attributes)
       }
 
     }

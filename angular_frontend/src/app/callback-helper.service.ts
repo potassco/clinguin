@@ -61,12 +61,11 @@ function handleUpdate(do_:DoDto) {
 }
   
 function handleCallback(do_:DoDto) {
-  console.log("TODO - CALLBACK")
-
+  let frontendService = LocatorService.injector.get(DrawFrontendService)
+  frontendService.policyPost(do_)
   }
 
 function handleContext(do_:DoDto) {
-  console.log("TODO - CONTEXT")
   let contextService = LocatorService.injector.get(ContextService)
    
   let policy = do_.policy
@@ -76,7 +75,11 @@ function handleContext(do_:DoDto) {
   let splits = policy.split(",")
 
   let key = splits[0]
+
   let value = splits[1]
+  for (let index = 2; index < splits.length; index++) {
+      value = value + "," + splits[index]
+  }
 
   contextService.addContext(key, value)
 }

@@ -37,9 +37,9 @@ export class ButtonComponent {
 
       let htmlDdbut = this.theButton.nativeElement
 
+      this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
       this.attributeService.addAttributes(htmlDdbut, attributes)
       this.attributeService.textAttributes(htmlDdbut, attributes)
-      this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
       this.attributeService.addGeneralAttributes(htmlDdbut, attributes)
 
       if (this.element != null) {

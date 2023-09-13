@@ -5,14 +5,36 @@ import { Injectable } from "@angular/core";
 })
 export class ContextService {
 
-    contextKeyVal : {"key":string, "val":string}[] = []
+    contextKeyVal : ContextItem[] = []
 
     addContext(key: string, val: string) {
-        this.contextKeyVal.push({"key":key, "val":val})
+
+        let found = false
+        for (let index = 0; index < this.contextKeyVal.length; index++) {
+            let item = this.contextKeyVal[index]
+            if (item.key == key) {
+                item.value = val
+                found = true
+            }
+        }
+
+        if (found == false) {
+            this.contextKeyVal.push(new ContextItem(key, val))
+        }
     }
 
-    getContext() : {"key":string, "val":string}[] {
+    getContext() : ContextItem[] {
         return this.contextKeyVal
+    }
+}
+
+export class ContextItem {
+    key!:string
+    value!:string
+
+    constructor(key:string, value:string) {
+        this.key = key
+        this.value = value
     }
 }
 

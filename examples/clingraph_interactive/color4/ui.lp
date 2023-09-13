@@ -1,4 +1,6 @@
 element(window, window, root).
+attribute(window, child_layout, flex).
+attribute(window, flex_direction, row).
 
 
 % A canvas, where images can be displayed.
@@ -69,6 +71,20 @@ do(n(X), click, update, (f(Y), visibility, hidden)):- _clingraph(node(X)), _clin
 % do(c(X), click, call, add_atom(select(_name(X),_include(X)))):- _clingraph(node(X)).
 
 
-%%%%%%%%%%%%
 
+%---------------------------------------------------------------------------------------
+% Menu Bar
+%---------------------------------------------------------------------------------------
+
+% Menu bar
+element(m, menu_bar, window).
+element(ms, menu_bar_section, m).
+attribute(m, title,"Interactive 3-Color Example").
+attribute(ms, label, "Options").
+element(ms_clear, menu_bar_section_item, ms).
+attribute(ms_clear, label, "Clear").
+do(ms_clear, click, call, clear_assumptions).
+element(ms_next, menu_bar_section_item, ms).
+attribute(ms_next, label, "Next").
+do(ms_next, click, call, next_solution).
 

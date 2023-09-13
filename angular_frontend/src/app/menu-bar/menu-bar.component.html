@@ -11,7 +11,7 @@
                 {{section.title}}
             </a>
             <div class="dropdown-menu" attr.aria-labelledby="{{section.id}}" [ngbCollapse]="section.collapsed" >
-            <a *ngFor="let item of section.menuBarItems" style="cursor: pointer;" id={{item.id}} class="dropdown-item" (click)="policyExecutor(item.policy)">{{item.title}}</a>
+            <a *ngFor="let item of section.menuBarItems" style="cursor: pointer;" id={{item.id}} class="dropdown-item">{{item.title}}</a>
             </div>
         </li>
         

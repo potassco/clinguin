@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { ElementDto } from './types/json-response.dto';
 import { ConfigService } from './config.service';
+import { ContextItem } from './context.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,8 @@ export class HttpService {
       return response; 
     }
 
-    post(policy: string): Observable<ElementDto>{
-      const request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy })
+    post(policy: string, context: ContextItem[]): Observable<ElementDto>{
+      const request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy, context: context })
       return request
     }
 }

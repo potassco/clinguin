@@ -8,23 +8,41 @@ export class ElementLookupService {
 
     elementLookup : ElementLookupDto[] = []
 
+    private findElementIndex(key:string) : number {
+        let foundIndex : number = -1
+        for (let index = 0; index < this.elementLookup.length; index++) {
+            let item = this.elementLookup[index]
+
+            if (item.id == key) {
+                foundIndex = index
+            }
+
+        }       
+
+        return foundIndex
+    }
+
     addElementObject(key: string, val: Object, element: ElementDto) {
-        let result = this.elementLookup.find((item: ElementLookupDto) => {key == item.id})
-        if (result == undefined) {
+
+        let foundIndex = this.findElementIndex(key)
+
+        if (foundIndex < 0) {
             let newElemement = this.initializeElementLookupDtoNullTagHTML(key, element, val)
             this.elementLookup.push(newElemement)
         } else { // result != undefined
-            result.object = val
+            this.elementLookup[foundIndex].object = val
         }
     }
     
     addElementTagHTML(key: string, htmlTag: HTMLElement, element: ElementDto) {
-        let result = this.elementLookup.find((item: ElementLookupDto) => {key == item.id})
-        if (result == undefined) {
+        
+        let foundIndex = this.findElementIndex(key)
+        
+        if (foundIndex < 0) {
             let newElemement = this.initializeElementLookupDtoNullObject(key, element, htmlTag)
             this.elementLookup.push(newElemement)
         } else { // result != undefined
-            result.tagHtml = htmlTag
+            this.elementLookup[foundIndex].tagHtml = htmlTag
         }
     }
 

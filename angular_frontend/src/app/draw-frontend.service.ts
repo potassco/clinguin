@@ -7,6 +7,7 @@ import { DoDto, ElementDto } from './types/json-response.dto';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { ServerRequest } from './types/server-request';
+import { ContextService } from './context.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class DrawFrontendService {
 
     private backend_URI = "http://localhost:8000"
 
-    constructor(private httpService: HttpService, private httpClient: HttpClient) {
+    constructor(private httpService: HttpService, private httpClient: HttpClient, private contextService: ContextService) {
     }
 
     initialGet() : void {
@@ -31,7 +32,10 @@ export class DrawFrontendService {
     }
 
     policyPost(callback: DoDto) : void {
-        this.httpService.post(callback.policy).subscribe(
+
+        let context = this.contextService.getContext()
+
+        this.httpService.post(callback.policy, context).subscribe(
         {next: (data:ElementDto) => {
             this.frontendJson.next(data)
         }})

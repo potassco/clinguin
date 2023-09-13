@@ -18,33 +18,53 @@ export class MenuBarComponent {
   title: string = ""
   menuBarSections: MenuBarSection[] = []
 
-  constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
+  constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private callBackHelperService:CallBackHelperService) {}
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
       this.elementLookupService.addElementObject(this.element.id, this, this.element)
 
-      this.element.children.forEach(child => {
+      this.element.children.forEach(menuBarSection => {
         let menuBarItems: MenuBarItem[] = []
 
-        child.children.forEach(child => {
+        menuBarSection.children.forEach(menuBarSectionItem => {
 
-          let menuBarItemTitle = this.attributeService.findGetAttributeValue("label", child.attributes, "")
-          let callback = this.callbackService.findCallback("click", child.do)
+          let menuBarItemTitle = this.attributeService.findGetAttributeValue("label", menuBarSectionItem.attributes, "")
 
-          let menuBarItem = new MenuBarItem(child.id, menuBarItemTitle, callback)
-          this.elementLookupService.addElementObject(child.id, menuBarItem, child)
-          menuBarItems.push(menuBarItem)
+          let menuBarItemObject = new MenuBarItem(menuBarSectionItem.id, menuBarItemTitle, menuBarSectionItem)
+          this.elementLookupService.addElementObject(menuBarSectionItem.id, menuBarItemObject, menuBarSectionItem)
+          menuBarItems.push(menuBarItemObject)
         
         })
 
-        let menuBarTitle = this.attributeService.findGetAttributeValue("label", child.attributes, "")
-        let menuBarSectionId = child.id
+        let menuBarTitle = this.attributeService.findGetAttributeValue("label", menuBarSection.attributes, "")
+        let menuBarSectionId = menuBarSection.id
 
-        let menuBarSection = new MenuBarSection(menuBarSectionId, menuBarTitle, menuBarItems)
-        this.elementLookupService.addElementObject(child.id, menuBarSection, child)
-        this.menuBarSections.push(menuBarSection)
+        let menuBarSectionObject = new MenuBarSection(menuBarSectionId, menuBarTitle, menuBarItems, menuBarSection)
+        this.elementLookupService.addElementObject(menuBarSection.id, menuBarSectionObject, menuBarSection)
+        this.menuBarSections.push(menuBarSectionObject)
+
+        this.cd.detectChanges()
+
+        let htmlChild : HTMLElement | null = document.getElementById(menuBarSection.id)
+        if (htmlChild != null) {
+          menuBarSectionObject.setHtmlElement(htmlChild)
+          menuBarSectionObject.setAttributes(menuBarSection.attributes)
+
+          this.callBackHelperService.setCallbacks(htmlChild, menuBarSection.do)
+        }
+      
+        menuBarSectionObject.menuBarItems.forEach((menuBarSectionItemObject:MenuBarItem) => {
+   
+          let menuBarSectionItemHTML : HTMLElement | null = document.getElementById(menuBarSectionItemObject.id)
+          if (menuBarSectionItemHTML != null) {
+            menuBarSectionItemObject.setHtmlElement(menuBarSectionItemHTML)
+            menuBarSectionItemObject.setAttributes(menuBarSectionItemObject.element.attributes)
+          
+            this.callBackHelperService.setCallbacks(menuBarSectionItemHTML, menuBarSectionItemObject.element.do)
+          }
+        })
       })
 
     this.setAttributes(this.element.attributes)
@@ -73,12 +93,17 @@ export class MenuBarComponent {
 class MenuBarItem {
   id:string=""
   title:string=""
-  policy!:DoDto | null
+  element!:ElementDto
+  htmlElement:HTMLElement| null = null
 
-  constructor(id:string, title: string, policy:DoDto | null) {
+  constructor(id:string, title: string, element: ElementDto) {
     this.id = id
     this.title = title
-    this.policy = policy
+    this.element = element
+  }
+
+  setHtmlElement(htmlElement:HTMLElement) {
+    this.htmlElement = htmlElement
   }
 
   setAttributes(attributes: AttributeDto[]) {
@@ -94,17 +119,24 @@ class MenuBarItem {
 class MenuBarSection {
   id : string = "menuBarSection"
   title:string = ""
+  element!:ElementDto
   menuBarItems:MenuBarItem[] = []
   collapsed:boolean = true
+  htmlElement:HTMLElement| null = null
 
-  constructor(id: string, title:string, menuBarItems:MenuBarItem[]) {
+  constructor(id: string, title:string, menuBarItems:MenuBarItem[], element: ElementDto) {
     this.id = id
     this.title = title
     this.menuBarItems = menuBarItems
+    this.element = element
   }
 
   toggleCollapsed() : void {
     this.collapsed = !this.collapsed 
+  }
+
+  setHtmlElement(htmlElement:HTMLElement) {
+    this.htmlElement = htmlElement
   }
 
   setAttributes(attributes: AttributeDto[]) {

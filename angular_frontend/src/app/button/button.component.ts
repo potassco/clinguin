@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ElementDto } from '../types/json-response.dto';
+import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
+import { ElementLookupService } from '../element-lookup.service';
 
 @Component({
   selector: 'app-button',
@@ -16,29 +17,35 @@ export class ButtonComponent {
 
   buttonLabel: string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      let index = this.element.attributes.findIndex(attr => attr.key == "label")
-      if (index >= 0) {
-        this.buttonLabel = this.element.attributes[index].value
-      }
+      this.elementLookupService.addElementObject(this.element.id, this, this.element)
 
+      this.setAttributes(this.element.attributes)
       let htmlDdbut = this.theButton.nativeElement
-
-      this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
-      this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
-      this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
-      this.attributeService.addGeneralAttributes(htmlDdbut, this.element.attributes)
-
-        this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
-
-
       this.callbackService.setCallbacks(htmlDdbut, this.element.do)
 
       this.cd.detectChanges()
     }
+  }
+
+  setAttributes(attributes : AttributeDto[]) {
+      this.buttonLabel = this.attributeService.findGetAttributeValue("label",attributes,"")
+
+      let htmlDdbut = this.theButton.nativeElement
+
+      this.attributeService.addAttributes(htmlDdbut, attributes)
+      this.attributeService.textAttributes(htmlDdbut, attributes)
+      this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
+      this.attributeService.addGeneralAttributes(htmlDdbut, attributes)
+
+      if (this.element != null) {
+        this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
+      }
+      
+      this.cd.detectChanges()
   }
 }

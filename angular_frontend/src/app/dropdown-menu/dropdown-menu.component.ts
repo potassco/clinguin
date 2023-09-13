@@ -1,8 +1,9 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
-import { DoDto, ElementDto } from '../types/json-response.dto';
+import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { DOCUMENT } from '@angular/common';
+import { ElementLookupService } from '../element-lookup.service';
 
 @Component({
   selector: 'app-dropdown-menu',
@@ -17,42 +18,51 @@ export class DropdownMenuComponent {
   @ViewChild('ddbut', {static:true}) ddbut! : ElementRef
 
   buttonLabel : string = ""
-  dropDownMenuItems : {label:string, element:ElementDto}[] = []
+  dropDownMenuItems : DropdownMenuItemChild[] = []
 
-  constructor(private attributeService: AttributeHelperService, private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document) {
+  constructor(private attributeService: AttributeHelperService, private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document, private elementLookupService: ElementLookupService) {
   }
 
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      let index = this.element.attributes.findIndex(attr => attr.key == "selected")
-      if (index >= 0) {
-        this.buttonLabel = this.element.attributes[index].value
-      }
+      this.elementLookupService.addElementObject(this.element.id, this, this.element)
 
       this.element.children.forEach(child => {
-        let index = child.attributes.findIndex(attr => attr.key == "label")
-        if (index >= 0) {
-          this.dropDownMenuItems.push({label:child.attributes[index].value, element:child})
-        }
+
+        let childLabel = this.attributeService.findGetAttributeValue("label",child.attributes,"")
+
+        let childObject = new DropdownMenuItemChild(childLabel, child)
+
+        this.elementLookupService.addElementObject(child.id, childObject, child)
+
+        this.dropDownMenuItems.push(childObject)
       })
 
-      let htmlDdbut = this.ddbut.nativeElement
-
-      this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
-      this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
-      this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
-
-      let border_color = "black"
-      index = this.element.attributes.findIndex(item => item.key == "border_color")
-      if (index >= 0) {
-          border_color = this.element.attributes[index].value
-      }       
-      htmlDdbut.style.borderColor = border_color
-
       this.cd.detectChanges()
+      
+      this.setAttributes(this.element.attributes)
     }
+  }
+
+  setAttributes(attributes: AttributeDto[]) {
+
+    let buttonLabel = this.attributeService.findAttribute("selected", attributes)
+    if (buttonLabel != null) {
+      this.buttonLabel = buttonLabel.value
+    }
+    
+    let htmlDdbut = this.ddbut.nativeElement
+
+    this.attributeService.addAttributes(htmlDdbut, attributes)
+    this.attributeService.textAttributes(htmlDdbut, attributes)
+    this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
+
+    htmlDdbut.style.border_color = this.attributeService.findGetAttributeValue("border_color", attributes, "black")
+
+    this.cd.detectChanges()
+  
   }
 
   onClick(element: ElementDto) {
@@ -74,5 +84,19 @@ export class DropdownMenuComponent {
       })
       this.cd.detectChanges()
     }
+  }
+}
+
+class DropdownMenuItemChild {
+  label!:string 
+  element!:ElementDto
+
+  constructor(label: string, element: ElementDto) {
+    this.label = label
+    this.element = element
+  }
+
+  setAttributes(attributes: AttributeDto[]) {
+    console.log("TODO!!!")
   }
 }

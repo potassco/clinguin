@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ElementDto } from '../types/json-response.dto';
+import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { CallBackHelperService } from '../callback-helper.service';
 import { AttributeHelperService } from '../attribute-helper.service';
+import { ElementLookupService } from '../element-lookup.service';
 
 @Component({
   selector: 'app-message',
@@ -15,16 +16,25 @@ export class MessageComponent {
   attrMessage : string = ""
   attrTitle : string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService : ElementLookupService) {}
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      console.log(this.element)
+      this.elementLookupService.addElementObject(this.element.id, this, this.element)
 
-      let attrType = this.attributeService.findGetAttributeValue("type", this.element.attributes, "warning")
-      let attrTitle = this.attributeService.findGetAttributeValue("title", this.element.attributes, "Title")
-      let attrMessage = this.attributeService.findGetAttributeValue("message", this.element.attributes, "Message")
+      this.setAttributes(this.element.attributes)
+
+      this.cd.detectChanges()
+    }
+  }
+
+  
+  setAttributes(attributes: AttributeDto[]) {
+    
+      let attrType = this.attributeService.findGetAttributeValue("type", attributes, "warning")
+      let attrTitle = this.attributeService.findGetAttributeValue("title", attributes, "Title")
+      let attrMessage = this.attributeService.findGetAttributeValue("message", attributes, "Message")
 
       if (attrType == "error") {
         attrType = "danger"
@@ -37,6 +47,5 @@ export class MessageComponent {
       this.attrMessage = attrMessage
 
       this.cd.detectChanges()
-    }
   }
 }

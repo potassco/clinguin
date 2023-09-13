@@ -19,14 +19,25 @@ attribute(n(X), id, X) :- _clingraph(node(X)).
 element(f(X), container, window) :- _clingraph(node(X)).
 attribute(f(X), visibility, hidden) :- _clingraph(node(X)).
 
-element(t(X), textbox, f(X)) :- _clingraph(node(X)).
-attribute(t(X), label, "Name") :- _clingraph(node(X)).
+element(l(X), label, f(X)) :- _clingraph(node(X)).
+attribute(l(X), label, X) :- _clingraph(node(X)).
 
-element(c(X), checkbox, f(X)) :- _clingraph(node(X)).
-attribute(c(X), label, "Include Node") :- _clingraph(node(X)).
+element(d(X), dropdown_menu, f(X)) :- _clingraph(node(X)).
+attribute(d(X), selected, C) :- _clingraph(node(X)), _c(assign(X,C)).
+
+element(d(X,C), dropdown_menu_item, d(X)) :- _b(assign(X,C)).
+attribute(d(X,C), label, C) :- _b(assign(X,C)).
+do(d(X,C), click, context, (add_assumption_d(X),assign(X,C))) :- _b(assign(X,C)).
+
+%element(t(X), textbox, f(X)) :- _clingraph(node(X)).
+%attribute(t(X), label, "Name") :- _clingraph(node(X)).
+
+%element(c(X), checkbox, f(X)) :- _clingraph(node(X)).
+%attribute(c(X), label, "Include Node") :- _clingraph(node(X)).
 
 element(b(X), button, f(X)) :- _clingraph(node(X)).
 attribute(b(X), label, "Submit") :- _clingraph(node(X)).
+do(b(X), click, call, _transfer_context) :- _clingraph(node(X)).
 
 %%%%%%%%%%%% Interactivity predicate wit arity 4 might be better for the frontend and for clorm to give errors...
 
@@ -46,8 +57,8 @@ do(n(X), click, update, (f(Y), visibility, hidden)):- _clingraph(node(X)), _clin
 % attribute(f(X), visibility, hidden) :- _clingraph(node(X)), not _clinguin_context(selected_node,X).
 
 % Special predicate _value for the input value when the type of the call is input
-do(t(X), input, context, (name(X),_value)):- _clingraph(node(X)).
-do(c(X), input, context, (include(X),_value)):- _clingraph(node(X)).
+%do(t(X), input, context, (name(X),_value)):- _clingraph(node(X)).
+%do(c(X), input, context, (include(X),_value)):- _clingraph(node(X)).
 % do(c(X), click, call, add_assumption(X)):- _clingraph(node(X)).
 
 % Replace _ with context??

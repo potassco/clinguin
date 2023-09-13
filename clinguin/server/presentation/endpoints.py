@@ -83,8 +83,7 @@ class Endpoints:
             call_args,
         )
 
-        fields_set = backend_call_string.model_fields_set
-        if 'context' in fields_set:
+        if hasattr(backend_call_string, 'context'):
             self._backend.set_context(backend_call_string.context)
         else:
             self._backend.set_context([])

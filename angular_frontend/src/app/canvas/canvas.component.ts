@@ -3,6 +3,7 @@ import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
 import { CallBackHelperService } from '../callback-helper.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { Buffer } from "buffer";import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
+import { ElementLookupService } from '../element-lookup.service';
 ;
 
 @Component({
@@ -23,12 +24,12 @@ export class CanvasComponent {
   imageType: string = ""
 
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      console.log(this.element)
+      this.elementLookupService.addElementObject(this.element.id, this, this.element)
       
       let image = this.attributeService.findAttribute("image", this.element.attributes)
       let image_type = this.attributeService.findAttribute("image_type", this.element.attributes)
@@ -43,7 +44,11 @@ export class CanvasComponent {
     }
   }
 
-  svgImageHandler(element: ElementDto, image: AttributeDto, iamgeType : AttributeDto) {
+  setAttributes(attributes: AttributeDto[]) {
+    console.log("TODO?")
+  }
+
+  svgImageHandler(element: ElementDto, image: AttributeDto, imageType : AttributeDto) {
     
     const decodeBase64 = (str: string):string => Buffer.from(str, 'base64').toString('binary');
 

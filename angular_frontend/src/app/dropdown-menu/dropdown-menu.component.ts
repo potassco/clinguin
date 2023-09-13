@@ -4,6 +4,8 @@ import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { DOCUMENT } from '@angular/common';
 import { ElementLookupService } from '../element-lookup.service';
+import { LocatorService } from '../locator.service';
+import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
   selector: 'app-dropdown-menu',
@@ -20,7 +22,7 @@ export class DropdownMenuComponent {
   buttonLabel : string = ""
   dropDownMenuItems : DropdownMenuItemChild[] = []
 
-  constructor(private attributeService: AttributeHelperService, private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document, private elementLookupService: ElementLookupService) {
+  constructor(private attributeService: AttributeHelperService, private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document, private elementLookupService: ElementLookupService, private callbackHelperService: CallBackHelperService) {
   }
 
 
@@ -38,6 +40,20 @@ export class DropdownMenuComponent {
         this.elementLookupService.addElementObject(child.id, childObject, child)
 
         this.dropDownMenuItems.push(childObject)
+
+        this.cd.detectChanges()
+
+        let htmlChild : HTMLElement | null = document.getElementById(child.id)
+        if (htmlChild != null) {
+          childObject.setHtmlElement(htmlChild)
+          childObject.setAttributes(child.attributes)
+
+          this.callbackHelperService.setCallbacks(htmlChild, child.do)
+
+          
+        }
+ 
+
       })
 
       this.cd.detectChanges()
@@ -71,32 +87,28 @@ export class DropdownMenuComponent {
 
     this.frontendService.policyPost(callback)
   }
-
-  onDropdownChange() {
-    if (this.element != null) {
-      this.element.children.forEach(child => {
-        let htmlChild : HTMLElement | null = document.getElementById(child.id)
-        if (htmlChild != null) {
-          this.attributeService.addAttributes(htmlChild, child.attributes)
-          this.attributeService.textAttributes(htmlChild, child.attributes)
-          this.attributeService.setAttributesDirectly(htmlChild, child.attributes)
-        }
-      })
-      this.cd.detectChanges()
-    }
-  }
 }
 
 class DropdownMenuItemChild {
   label!:string 
   element!:ElementDto
+  htmlElement: HTMLElement | null = null
 
   constructor(label: string, element: ElementDto) {
     this.label = label
     this.element = element
   }
 
+  setHtmlElement(htmlElement : HTMLElement) {
+    this.htmlElement = htmlElement
+  }
+
   setAttributes(attributes: AttributeDto[]) {
-    console.log("TODO!!!")
+    if (this.htmlElement != null) {
+      let attributeService = LocatorService.injector.get(AttributeHelperService)
+      attributeService.addAttributes(this.htmlElement, attributes)
+      attributeService.textAttributes(this.htmlElement, attributes)
+      attributeService.setAttributesDirectly(this.htmlElement, attributes)
+    }
   }
 }

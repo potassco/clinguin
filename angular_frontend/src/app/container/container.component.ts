@@ -3,7 +3,7 @@ import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { ComponentResolutionService } from '../component-creation.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { ElementLookupService } from '../element-lookup.service';
-import { childBearerService } from '../child-bearer.service';
+import { ChildBearerService } from '../child-bearer.service';
 
 @Component({
   selector: 'app-container',
@@ -20,7 +20,7 @@ export class ContainerComponent{
 
   children: any = []
   
-  constructor(private childBearerService: childBearerService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {
+  constructor(private childBearerService: ChildBearerService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {
   }
 
   ngAfterViewInit(): void {

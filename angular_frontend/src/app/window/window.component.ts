@@ -4,7 +4,7 @@ import { AttributeHelperService } from 'src/app/attribute-helper.service';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ComponentResolutionService } from '../component-creation.service';
-import { childBearerService } from '../child-bearer.service';
+import { ChildBearerService } from '../child-bearer.service';
 
 @Component({
   selector: 'app-new-main',
@@ -25,7 +25,7 @@ export class WindowComponent {
   menuBar: ElementDto | null = null
   messageList: ElementDto[] = []
   
-  constructor(private childBearerService: childBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService) {
+  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService) {
   }
 
   ngAfterViewInit(): void {

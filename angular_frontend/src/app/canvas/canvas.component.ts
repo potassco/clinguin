@@ -123,6 +123,9 @@ export class CanvasComponent {
       let uiElement = elem.ui
       let clickRelatedDoList : DoDto[] = []
 
+      this.callbackService.setCallbacks(elem.svg, elem.ui.do)
+
+      /*
       uiElement.do.forEach((do_: DoDto) => {
         if (do_.actionType == "click") {
           clickRelatedDoList.push(do_)
@@ -132,15 +135,7 @@ export class CanvasComponent {
       elem.svg.addEventListener("click",function(){
         clickRelatedDoList.forEach((do_:DoDto) => {
           if (do_.interactionType == "update") {
-            let policy = do_.policy
 
-            policy = policy.substring(1)
-            policy = policy.slice(0,-1)
-            let splits = policy.split(",")
-
-            let id = splits[0]
-            let key = splits[1]
-            let value = splits[2]
 
             let searchedElement : null | HTMLElement = document.getElementById(id)
             if (searchedElement != null) {
@@ -155,6 +150,7 @@ export class CanvasComponent {
           }
         })
       })
+      */
     })
   }
 

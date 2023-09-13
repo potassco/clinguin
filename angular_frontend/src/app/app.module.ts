@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { MessageComponent } from './message/message.component';
 import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
 import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-options.component';
 import { ConfigService } from './config.service';
+import { LocatorService } from './locator.service';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -63,4 +64,8 @@ export function appConfigInit(appConfigService: ConfigService) {
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    LocatorService.injector = injector
+  }
+ }

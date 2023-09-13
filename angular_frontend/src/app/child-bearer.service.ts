@@ -7,7 +7,7 @@ import { AttributeHelperService } from "./attribute-helper.service";
 @Injectable({
   providedIn: 'root'
 })
-export class childBearerService {
+export class ChildBearerService {
 
     constructor(private componentService: ComponentResolutionService, private elementLookupService: ElementLookupService, private attributeService: AttributeHelperService) {}
 
@@ -23,21 +23,28 @@ export class childBearerService {
 
           this.elementLookupService.addElementTagHTML(item.id, html, item)
 
-          this.setChildTagAttributes(html, item, childLayout)
+          this.setAllTagAttributes(html, item, childLayout)
         }
 
         return my_comp
     }
 
-    setChildTagAttributes(html:HTMLElement, item:ElementDto, childLayout:string) {
+    setAllTagAttributes(html:HTMLElement, item:ElementDto, childLayout:string) { 
+        if (item.type != "button") {
+            this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
+        }
+        this.setChildTagAttributes(html, item)
+    }
+
+    setChildTagAttributes(html:HTMLElement, item:ElementDto) {
       if (item.type != "button") {
-        this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
         this.attributeService.addGeneralAttributes(html, item.attributes)
 
         this.attributeService.addAttributes(html, item.attributes)
 
         if (item.type == "container") {
           this.attributeService.setChildLayout(html, item.attributes)
+          this.attributeService.setVisibility(html, item.attributes)
         } 
 
         this.attributeService.setAttributesDirectly(html, item.attributes)

@@ -16,6 +16,7 @@ export class ButtonComponent {
   @Input() parentLayout: string = ""
 
   buttonLabel: string = ""
+  disabledAttribute: boolean = false
 
   constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
 
@@ -45,7 +46,18 @@ export class ButtonComponent {
       if (this.element != null) {
         this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
       }
-      
+
+      let stringDisabled = this.attributeService.findGetAttributeValue("disabled", attributes, "false")
+      if (stringDisabled == "false") {
+        this.disabledAttribute = false
+      } else if (stringDisabled == "true") {
+        this.disabledAttribute = true
+      } else {
+        console.log("NOT SUPPORTED VALUE FOR DISABLED (assuming not disabled): ")
+        console.log(stringDisabled)
+        this.disabledAttribute = false
+      }
+
       this.cd.detectChanges()
   }
 }

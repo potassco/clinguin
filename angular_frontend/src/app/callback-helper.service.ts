@@ -62,6 +62,24 @@ function handleUpdate(do_:DoDto) {
   
 function handleCallback(do_:DoDto) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
+  let contextService = LocatorService.injector.get(ContextService)
+
+  let regex = /_value_context\(([^)]*)\)/
+  let policy_string = do_.policy
+
+  let match = regex.exec(policy_string)
+  while(match != null) {
+    let match_group = match[1]
+
+    let new_value = contextService.retrieveContextValue(match_group)
+
+    policy_string = policy_string.replace(regex, new_value)
+    
+    match = regex.exec(policy_string)
+  }
+
+  do_.policy = policy_string
+
   frontendService.policyPost(do_)
   }
 

@@ -7,24 +7,41 @@ export class ContextService {
 
     contextKeyVal : ContextItem[] = []
 
-    addContext(key: string, val: string) {
+    addContext(key: string, value: string) {
 
         let found = false
         for (let index = 0; index < this.contextKeyVal.length; index++) {
             let item = this.contextKeyVal[index]
             if (item.key == key) {
-                item.value = val
+                item.value = value
                 found = true
             }
         }
 
         if (found == false) {
-            this.contextKeyVal.push(new ContextItem(key, val))
+            this.contextKeyVal.push(new ContextItem(key, value))
         }
     }
 
     getContext() : ContextItem[] {
         return this.contextKeyVal
+    }
+
+    retrieveContextValue(key: string): string {
+
+        let foundIndex = -1
+        for (let index = 0; index < this.contextKeyVal.length; index++) {
+            if (this.contextKeyVal[index].key == key) {
+                foundIndex = index
+                break
+            }
+        }
+
+        if (foundIndex >= 0) {
+            return this.contextKeyVal[foundIndex].value
+        } else {
+            return ""
+        }
     }
 }
 

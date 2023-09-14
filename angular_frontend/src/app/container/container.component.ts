@@ -26,7 +26,9 @@ export class ContainerComponent{
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      this.elementLookupService.addElementObject(this.element.id, this, this.element)
+      if (this.element.type != "modal") {
+        this.elementLookupService.addElementObject(this.element.id, this, this.element)
+      }
 
       let childLayout = this.attributeService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
 

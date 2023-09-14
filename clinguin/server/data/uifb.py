@@ -347,21 +347,21 @@ class UIFB:
         Get the standard lp encoding for the menu bar.
         """
         return """
-element(m, menu_bar, window).
-element(menu_options, menu_bar_section, m).
-attribute(menu_options, label, "Options").
-element(menu_options_clear, menu_bar_section_item, menu_options).
-attribute(menu_options_clear, label, "Clear").
-attribute(menu_options_clear, accelerator, "Cmd+C").
-do(menu_options_clear, click, callback, clear_assumptions).
-element(menu_options_next, menu_bar_section_item, menu_options).
-attribute(menu_options_next, label, "Next").
-attribute(menu_options_next, accelerator, "Cmd+N").
-do(menu_options_next, click, callback, next_solution).
-element(menu_options_select, menu_bar_section_item, menu_options).
-attribute(menu_options_select, label, "Select").
-attribute(menu_options_select, accelerator, "Cmd+S").
-do(menu_options_select, click, callback, select)."""
+element(_default_menu_bar, menu_bar, window).
+element(_default_menu_bar_section, menu_bar_section, _default_menu_bar).
+attribute(_default_menu_bar_section, label, "Options").
+element(_default_menu_bar_section_clear, menu_bar_section_item, _default_menu_bar_section).
+attribute(_default_menu_bar_section_clear, label, "Clear").
+attribute(_default_menu_bar_section_clear, accelerator, "Cmd+C").
+do(_default_menu_bar_section_clear, click, callback, clear_assumptions).
+element(_default_menu_bar_section_next, menu_bar_section_item, _default_menu_bar_section).
+attribute(_default_menu_bar_section_next, label, "Next").
+attribute(_default_menu_bar_section_next, accelerator, "Cmd+N").
+do(_default_menu_bar_section_next, click, callback, next_solution).
+element(_default_menu_bar_section_select, menu_bar_section_item, _default_menu_bar_section).
+attribute(_default_menu_bar_section_select, label, "Select").
+attribute(_default_menu_bar_section_select, accelerator, "Cmd+S").
+do(_default_menu_bar_section_select, click, callback, select)."""
 
     @classmethod
     def get_unsat_messages_ui_encoding(cls):

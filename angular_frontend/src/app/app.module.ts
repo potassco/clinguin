@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window/window.component';
 import { ContainerComponent } from './container/container.component';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
-import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
@@ -19,6 +19,7 @@ import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-option
 import { ConfigService } from './config.service';
 import { LocatorService } from './locator.service';
 import { TextfieldComponent } from './textfield/textfield.component';
+import { ModalComponent } from './modal/modal.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -45,7 +46,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     MessageComponent,
     MainPageComponent,
     GraphOptionsComponent,
-    TextfieldComponent
+    TextfieldComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

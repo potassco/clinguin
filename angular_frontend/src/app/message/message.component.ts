@@ -15,6 +15,7 @@ export class MessageComponent {
   attrType : string = ""
   attrMessage : string = ""
   attrTitle : string = ""
+  visible : string = "shown"
 
   constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService : ElementLookupService) {}
 
@@ -36,16 +37,21 @@ export class MessageComponent {
       let attrTitle = this.attributeService.findGetAttributeValue("title", attributes, "Title")
       let attrMessage = this.attributeService.findGetAttributeValue("message", attributes, "Message")
 
+      this.visible = this.attributeService.findGetAttributeValue("visible", attributes, "shown")
+
       if (attrType == "error") {
         attrType = "danger"
       }
-
-      console.log(attrType)
 
       this.attrType = attrType
       this.attrTitle = attrTitle
       this.attrMessage = attrMessage
 
       this.cd.detectChanges()
+  }
+
+  messageClosed() {
+    this.visible = "hidden"
+    this.cd.detectChanges()
   }
 }

@@ -83,6 +83,10 @@ export class ElementLookupService {
     private initializeElementLookupDtoNullTagHTML(id:string,  element:ElementDto, object: Object) {
         return new ElementLookupDto(id, object, element, null)
     }
+
+    clearElementLookupDict() : void {
+        this.elementLookup.length = 0
+    }
 }
 
 export class ElementLookupDto {

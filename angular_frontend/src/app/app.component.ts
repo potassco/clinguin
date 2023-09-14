@@ -19,6 +19,9 @@ export class AppComponent {
   ngAfterViewInit(): void {
 
     this.frontendService.menuBar.subscribe({next: data => {
+      // Explicitly set to null and then to data (again), as otherwise typescript doesn't get it that a change occurred...
+      this.menuBar = null
+      this.cd.detectChanges()
       this.menuBar = data
       this.cd.detectChanges()
     }})

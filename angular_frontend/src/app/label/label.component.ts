@@ -28,6 +28,7 @@ export class LabelComponent {
       this.elementLookupService.addElementObject(this.element.id, this, this.element)
 
       let htmlDdbut = this.label.nativeElement
+
       this.callbackService.setCallbacks(htmlDdbut, this.element.do)
 
       this.setAttributes(this.element.attributes)

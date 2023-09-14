@@ -7,6 +7,7 @@ import { ElementLookupDto, ElementLookupService } from './element-lookup.service
 import { ChildBearerService } from './child-bearer.service';
 
 function handleUpdate(do_:DoDto, event: Event) {
+  console.log(do_)
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
   let policy = do_.policy
@@ -146,8 +147,11 @@ export class CallBackHelperService {
       if (allClicks.length > 0 && htmlEventName != "") {
 
         html.addEventListener(htmlEventName,function(event: Event){
+
+          console.log("CLICK")
           allClicks.forEach((do_:DoDto) => {
             if (do_.interactionType == "update") {
+              console.log("UPDATE")
               handleUpdate(do_, event)
             } else if (do_.interactionType == "context") {
               handleContext(do_, event)

@@ -43,6 +43,10 @@ export class ContextService {
             return ""
         }
     }
+
+    clearContext() : void {
+        this.contextKeyVal.length = 0
+    }
 }
 
 export class ContextItem {

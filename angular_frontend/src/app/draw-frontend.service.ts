@@ -64,6 +64,8 @@ export class DrawFrontendService {
 
         if (element.type == "message") {
             messageList.push(element)
+            console.log("HEYY")
+            console.log(element)
         } else {
             element.children.forEach(child => {
                 this.getAllMessages(child, messageList)

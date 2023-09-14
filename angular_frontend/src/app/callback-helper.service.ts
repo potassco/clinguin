@@ -6,7 +6,7 @@ import { ContextService } from './context.service';
 import { ElementLookupDto, ElementLookupService } from './element-lookup.service';
 import { ChildBearerService } from './child-bearer.service';
 
-function handleUpdate(do_:DoDto) {
+function handleUpdate(do_:DoDto, event: Event) {
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
   let policy = do_.policy
@@ -60,7 +60,7 @@ function handleUpdate(do_:DoDto) {
 
 }
   
-function handleCallback(do_:DoDto) {
+function handleCallback(do_:DoDto, event: Event) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
   let contextService = LocatorService.injector.get(ContextService)
 
@@ -83,7 +83,7 @@ function handleCallback(do_:DoDto) {
   frontendService.policyPost(do_)
   }
 
-function handleContext(do_:DoDto) {
+function handleContext(do_:DoDto, event: Event) {
   let contextService = LocatorService.injector.get(ContextService)
    
   let policy = do_.policy
@@ -95,6 +95,17 @@ function handleContext(do_:DoDto) {
   let key = splits[0]
 
   let value = splits[1]
+
+  if (value == "_value") {
+    let eventTarget : EventTarget | null = event.target
+
+    if (eventTarget != null && "value" in eventTarget) {
+      if (typeof eventTarget.value === "string") {
+        value = eventTarget.value
+      }
+    }
+  }
+
   for (let index = 2; index < splits.length; index++) {
       value = value + "," + splits[index]
   }
@@ -118,25 +129,30 @@ export class CallBackHelperService {
       return value
     }
  
-    setCallbacks(html: HTMLElement, callbacks:DoDto[]) {
+    setCallbacks(html: HTMLElement, dos:DoDto[]) {
+      this.handleEvent(html, dos, "click", "click")
+      this.handleEvent(html, dos, "type", "input")
+    }
 
+    handleEvent(html: HTMLElement, dos:DoDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
+      
       let allClicks:DoDto[] = []
-      callbacks.forEach((do_:DoDto) => {
-        if (do_.actionType == "click") {
+      dos.forEach((do_:DoDto) => {
+        if (do_.actionType == supportedAttributeName) {
           allClicks.push(do_)
         }
       })
 
-      if (allClicks.length > 0) {
+      if (allClicks.length > 0 && htmlEventName != "") {
 
-        html.addEventListener("click",function(){
+        html.addEventListener(htmlEventName,function(event: Event){
           allClicks.forEach((do_:DoDto) => {
             if (do_.interactionType == "update") {
-              handleUpdate(do_)
+              handleUpdate(do_, event)
             } else if (do_.interactionType == "context") {
-              handleContext(do_)
+              handleContext(do_, event)
             } else if (do_.interactionType == "call" || do_.interactionType == "callback") {
-              handleCallback(do_)
+              handleCallback(do_, event)
             }
           })
         })

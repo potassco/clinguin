@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { AttributeDto, ElementDto } from '../types/json-response.dto';
-import { ComponentResolutionService } from '../component-creation.service';
+import { ComponentCreationService } from '../component-creation.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ChildBearerService } from '../child-bearer.service';

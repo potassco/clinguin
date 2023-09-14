@@ -3,7 +3,7 @@ import { AttributeDto, ElementDto } from 'src/app/types/json-response.dto';
 import { AttributeHelperService } from 'src/app/attribute-helper.service';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { ElementLookupService } from '../element-lookup.service';
-import { ComponentResolutionService } from '../component-creation.service';
+import { ComponentCreationService } from '../component-creation.service';
 import { ChildBearerService } from '../child-bearer.service';
 
 @Component({

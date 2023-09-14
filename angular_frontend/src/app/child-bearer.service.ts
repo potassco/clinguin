@@ -1,5 +1,5 @@
 import { ComponentRef, Injectable, ViewContainerRef } from "@angular/core";
-import { ComponentResolutionService } from "./component-creation.service";
+import { ComponentCreationService } from "./component-creation.service";
 import { ElementDto } from "./types/json-response.dto";
 import { ElementLookupService } from "./element-lookup.service";
 import { AttributeHelperService } from "./attribute-helper.service";
@@ -9,7 +9,7 @@ import { AttributeHelperService } from "./attribute-helper.service";
 })
 export class ChildBearerService {
 
-    constructor(private componentService: ComponentResolutionService, private elementLookupService: ElementLookupService, private attributeService: AttributeHelperService) {}
+    constructor(private componentService: ComponentCreationService, private elementLookupService: ElementLookupService, private attributeService: AttributeHelperService) {}
 
     bearChild(child : ViewContainerRef, item: ElementDto, childLayout : string): ComponentRef<any> | null {
          

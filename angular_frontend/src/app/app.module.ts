@@ -18,6 +18,7 @@ import { MainPageComponent } from './clingraphviz/main-page/main-page.component'
 import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-options.component';
 import { ConfigService } from './config.service';
 import { LocatorService } from './locator.service';
+import { TextfieldComponent } from './textfield/textfield.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -43,7 +44,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     CanvasComponent,
     MessageComponent,
     MainPageComponent,
-    GraphOptionsComponent
+    GraphOptionsComponent,
+    TextfieldComponent
   ],
   imports: [
     BrowserModule,

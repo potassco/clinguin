@@ -9,7 +9,6 @@
 ast_ancestor(A,N) :- ast_edge(I, _, _), I = (A, N), ast_show(node, A), ast_show(node,N).
 ast_ancestor(A,N) :- ast_edge(I1, _,_), I1 = (A,P), ast_ancestor(P,N).
 ast_show(node,0).
-%show_children(0,true).
 ast_ancestor(0,0).
 
 ast_show(node, C) :- ast_edge((P,C),_,_), show_children(P,true), not ast_node(C, type, "Location").

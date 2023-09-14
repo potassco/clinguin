@@ -29,6 +29,9 @@ attribute(d(X), selected, C) :- _clingraph(node(X)), _c(assign(X,C)).
 
 element(d(X,C), dropdown_menu_item, d(X)) :- _b(assign(X,C)).
 attribute(d(X,C), label, C) :- _b(assign(X,C)).
+
+% do(d(X,C), click, context, (operation, (add_assumption(X), add_assumption(assign(X,C)))) :- _b(assign(X,C)).
+
 do(d(X,C), click, context, (add_assumption_d(X),assign(X,C))) :- _b(assign(X,C)).
 do(d(X,C), click, update, (d(X), selected, C)) :- _b(assign(X,C)).
 

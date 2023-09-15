@@ -2,8 +2,6 @@
 #const color_considered_on_hover = "#6cc13e".
 #const color_not_considered = "#E5C2AE".
 #const color_not_considered_on_hover = "#c16e3e".
-%#const height_value= 800.
-%#const height_persons= 250.
 #const width_value= 400.
 
 

@@ -31,15 +31,11 @@ export class AppComponent {
     }})
 
     this.contentWrapper.nativeElement.addEventListener("click", function(){
-      console.log("CLICK SOMEWHERE")
-
       let lookupService = LocatorService.injector.get(ElementLookupService)
 
       lookupService.elementLookup.forEach((element:ElementLookupDto) => {
         if (element.element.type == "menu_bar_section" && element.object != null && "collapsed" in element.object) {
-            console.log("42")
             if (element.object.collapsed == false) {
-              console.log("44")
               element.object.collapsed = true
             }
           }         

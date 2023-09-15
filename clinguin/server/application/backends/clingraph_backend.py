@@ -295,21 +295,6 @@ class ClingraphBackend(ClingoBackend):
             
             #self._uifb.replace_attribute(attribute, new_attribute)
 
-    def _transfer_context(self):
-
-        changed = False
-        for context_item in self.context:
-            if context_item.key.startswith("add_assumption"):
-                predicate_symbol = parse_term(context_item.value)
-                if predicate_symbol not in self._assumptions:
-                    self._add_assumption(predicate_symbol)
-                    changed = True
-
-        if changed:
-            self._end_browsing()
-            self._update_uifb()
-
-        return self.get()
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
         graphs = graphs[0]

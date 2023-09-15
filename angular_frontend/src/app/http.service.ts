@@ -43,12 +43,22 @@ export class HttpService {
     }
 
     post(policy: string, context: ContextItem[]): Observable<ElementDto>{
+      let clonedContext : ContextItem[] = []
+      context.forEach(val => clonedContext.push(Object.assign({}, val)));
+
       this.modalRefService.closeRemoveAllModals()
       this.elementLookupService.clearElementLookupDict()
       this.contextService.clearContext()
       this.contextMenuService.removeAllContextMenus()
 
-      const request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy, context: context })
+      console.log(clonedContext)
+
+      let request = null
+      if (clonedContext.length > 0) {
+        request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy, context: clonedContext })
+      } else {
+        request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy})
+      }
       return request
     }
 }

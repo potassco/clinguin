@@ -8,6 +8,41 @@ import { ChildBearerService } from './child-bearer.service';
 import { ContextMenuService } from './context-menu.service';
 import { hide } from '@popperjs/core';
 
+
+function aspArgumentSplitter(aspArguments: string) : string[] {
+
+  let returnStrings : string[] = []
+  let curString : string = ""
+
+  let bracketLevel = 0
+
+  for (let index = 0; index < aspArguments.length; index++) {
+    let curChar = aspArguments.charAt(index)
+
+    if (curChar == "(") {
+      bracketLevel += 1
+      curString += curChar
+    } else if (curChar == ")") {
+      bracketLevel -= 1
+      curString += curChar
+
+      if (bracketLevel < 0) {
+        console.log("ERROR - BRACKE LEVEL LOWER THAN 0")
+        break
+      }
+    } else if (curChar == "," && bracketLevel == 0) {
+      returnStrings.push(curString)
+      curString = ""
+    } else {
+      curString += curChar
+    }
+  }
+
+  returnStrings.push(curString)
+
+  return returnStrings
+}
+
 function defaultClickContextHandler(event: Event) {
   let contextMenuService = LocatorService.injector.get(ContextMenuService)
 
@@ -52,14 +87,6 @@ function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
   if (result != null) {
     if ("pageX" in event && "pageY" in event && typeof event.pageX == "number" && typeof event.pageY == "number") {
 
-      /*
-      const x = event.offsetX;
-      const y = event.offsetY - 15;
-      let style_display = "block";
-      let style_top = y + "px";
-      let style_left = x + "px";
-      */
-
       let contextMenu = document.getElementById(do_.policy)
 
       if (contextMenu != null) {
@@ -81,14 +108,14 @@ function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
  
 
 function handleUpdate(do_:DoDto, event: Event) {
-  console.log(do_)
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
   let policy = do_.policy
 
   policy = policy.substring(1)
   policy = policy.slice(0,-1)
-  let splits = policy.split(",")
+
+  let splits = aspArgumentSplitter(policy)
 
   let id = splits[0]
   let key = splits[1]
@@ -165,27 +192,43 @@ function handleContext(do_:DoDto, event: Event) {
 
   policy = policy.substring(1)
   policy = policy.slice(0,-1)
-  let splits = policy.split(",")
 
-  let key = splits[0]
+  let splits = aspArgumentSplitter(policy)
 
-  let value = splits[1]
+  if (splits.length >= 2) {
+    if (splits.length > 2) {
+      console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
+      console.log(do_)
+    }
+    let key = splits[0]
+    let value = splits[1]
 
-  if (value == "_value") {
+    
+    let regex = /_value/g
     let eventTarget : EventTarget | null = event.target
 
     if (eventTarget != null && "value" in eventTarget) {
-      if (typeof eventTarget.value === "string") {
-        value = eventTarget.value
+      let match = value.match(regex)
+
+      if (match != null && typeof eventTarget.value === "string") {
+        if (eventTarget.value == "") {
+          console.log("EVENT TARGET IS EMPTY")
+          // DO NOTHING IF EMPTY!
+          return
+        }
+        value = value.replace("_value", eventTarget.value)
       }
     }
-  }
 
-  for (let index = 2; index < splits.length; index++) {
-      value = value + "," + splits[index]
-  }
+    for (let index = 2; index < splits.length; index++) {
+        value = value + "," + splits[index]
+    }
 
-  contextService.addContext(key, value)
+    contextService.addContext(key, value)
+  } else {
+    console.log("ERROR, CONTEXT LENGTH LOWER THAN 2 FOR (NOTHING SET!)")
+    console.log(do_)
+  }
 }
 
 @Injectable({
@@ -215,20 +258,22 @@ export class CallBackHelperService {
 
     handleEvent(html: HTMLElement, dos:DoDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
       
-      let allClicks:DoDto[] = []
+      let allEvents:DoDto[] = []
       dos.forEach((do_:DoDto) => {
         if (do_.actionType == supportedAttributeName) {
-          allClicks.push(do_)
+          allEvents.push(do_)
         }
       })
 
-      if (allClicks.length > 0 && htmlEventName != "") {
+      if (allEvents.length > 0 && htmlEventName != "") {
+        if (supportedAttributeName == "click") {
+          html.style.cursor = "pointer"
+        }
 
         html.addEventListener(htmlEventName,function(event: Event){
 
-          allClicks.forEach((do_:DoDto) => {
+          allEvents.forEach((do_:DoDto) => {
             if (do_.interactionType == "update") {
-              console.log("UPDATE")
               handleUpdate(do_, event)
             } else if (do_.interactionType == "context") {
               handleContext(do_, event)

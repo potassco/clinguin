@@ -390,6 +390,29 @@ class ClingoBackend(ClinguinBackend):
                         Raw(String(str(encoded_string))),
                     )
                     self._uifb.replace_attribute(attribute, new_attribute)
+                    
+    def transfer_context(self):
+        """
+        Backend method that handles incoming transfer_context calls.
+        """
+
+        changed = False
+        for context_item in self.context:
+            if context_item.value.startswith("add_assumption"):
+                symbol = parse_term(context_item.value)
+                assumptions = list(map(str, symbol.arguments))
+
+                for assumption in assumptions:
+                    predicate_symbol = parse_term(assumption)
+                    if predicate_symbol not in self._assumptions:
+                        self._add_assumption(predicate_symbol)
+                        changed = True
+
+        if changed:
+            self._end_browsing()
+            self._update_uifb()
+
+        return self.get()
 
     def _image_to_b64(self, img):
         encoded = base64.b64encode(img)

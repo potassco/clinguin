@@ -32,7 +32,7 @@ attribute(d(X,C), label, C) :- _b(assign(X,C)).
 
 % do(d(X,C), click, context, (operation, (add_assumption(X), add_assumption(assign(X,C)))) :- _b(assign(X,C)).
 
-do(d(X,C), click, context, (add_assumption_d(X),assign(X,C))) :- _b(assign(X,C)).
+do(d(X,C), click, context, (d(X), add_assumption(assign(X,C)))) :- _b(assign(X,C)).
 do(d(X,C), click, update, (d(X), selected, C)) :- _b(assign(X,C)).
 
 %element(t(X), textbox, f(X)) :- _clingraph(node(X)).
@@ -43,7 +43,7 @@ do(d(X,C), click, update, (d(X), selected, C)) :- _b(assign(X,C)).
 
 element(b(X), button, f(X)) :- _clingraph(node(X)).
 attribute(b(X), label, "Submit") :- _clingraph(node(X)).
-do(b(X), click, call, _transfer_context) :- _clingraph(node(X)).
+do(b(X), click, call, transfer_context) :- _clingraph(node(X)).
 
 %%%%%%%%%%%% Interactivity predicate wit arity 4 might be better for the frontend and for clorm to give errors...
 

@@ -2,11 +2,10 @@
 """
 Module that contains the ClingraphBackend.
 """
-import base64
 import textwrap
 from pathlib import Path
 
-from clingo import Control, parse_term
+from clingo import Control
 from clingo.symbol import Function, String
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
@@ -43,7 +42,7 @@ class ClingraphBackend(ClingoBackend):
         self._encoding = "utf-8"
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph_svg"
-        #self._attribute_image_value_seperator = "__"
+        # self._attribute_image_value_seperator = "__"
 
     # ---------------------------------------------
     # Overwrite
@@ -292,9 +291,8 @@ class ClingraphBackend(ClingoBackend):
                 Raw(String(str(base64_key_image))),
             )
             self._uifb.add_attribute_direct(new_attribute)
-            
-            #self._uifb.replace_attribute(attribute, new_attribute)
 
+            # self._uifb.replace_attribute(attribute, new_attribute)
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
         graphs = graphs[0]

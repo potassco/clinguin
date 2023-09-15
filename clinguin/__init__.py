@@ -4,8 +4,6 @@ Clinguin package - package entry point
 import copy
 import sys
 import threading
-import signal
-
 from datetime import datetime
 
 from .client_helper import start as client_start

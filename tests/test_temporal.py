@@ -1,4 +1,3 @@
-from reference_json_output import Elevator
 from utils_test_utils import UtilsTestUtils
 
 

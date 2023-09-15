@@ -2,9 +2,10 @@
 Module that contains the BackendPolicyDto
 """
 
+from typing import List, Optional
+
 from pydantic import BaseModel
-from typing import Optional
-from typing import List
+
 
 class ContextDto(BaseModel):
     """
@@ -14,6 +15,7 @@ class ContextDto(BaseModel):
     key: str
     value: str
 
+
 class BackendPolicyDto(BaseModel):
     """
     Needed by the endpoints to get convert the transported json into something useful for the backend.
@@ -21,4 +23,3 @@ class BackendPolicyDto(BaseModel):
 
     function: str
     context: Optional[List[ContextDto]] = []
-

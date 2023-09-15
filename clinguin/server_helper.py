@@ -32,4 +32,4 @@ def start(args):
     endpoints = Endpoints(args)
     app.include_router(endpoints.router)
 
-    uvicorn.run(app, port = args.server_port)
+    uvicorn.run(app, port=args.server_port)

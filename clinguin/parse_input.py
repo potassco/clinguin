@@ -210,11 +210,17 @@ class ArgumentParser:
         )
 
         parser_client.add_argument(
-            "--server-port", type=int, default=8000, help="Define the Port of the server, default value is 8000."
+            "--server-port",
+            type=int,
+            default=8000,
+            help="Define the Port of the server, default value is 8000.",
         )
 
         parser_client.add_argument(
-            "--server-url", type=str, default="http://localhost", help="Define the URL of the server, default value is 'http://localhost'."
+            "--server-url",
+            type=str,
+            default="http://localhost",
+            help="Define the URL of the server, default value is 'http://localhost'.",
         )
 
         self._add_default_arguments_to_client_parser(parser_client)
@@ -308,7 +314,10 @@ class ArgumentParser:
             "--custom-classes", type=str, help="Path to custom classes.", metavar=""
         )
         parser.add_argument(
-            "--server-port", type=int, default=8000, help="Define the server side port, default value is 8000."
+            "--server-port",
+            type=int,
+            default=8000,
+            help="Define the server side port, default value is 8000.",
         )
 
     def _add_default_arguments_to_client_parser(self, parser):

@@ -317,9 +317,7 @@ class UIFB:
         """
         Get all callbacks for one element id.
         """
-        return (
-            self._factbase.query(DoDao).where(DoDao.id == element_id).all()
-        )
+        return self._factbase.query(DoDao).where(DoDao.id == element_id).all()
 
     def replace_attribute(self, old_attribute, new_attribute):
         """

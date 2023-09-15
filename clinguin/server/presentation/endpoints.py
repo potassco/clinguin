@@ -83,8 +83,7 @@ class Endpoints:
             call_args,
         )
 
-
-        if hasattr(backend_call_string, 'context'):
+        if hasattr(backend_call_string, "context"):
             self._backend.set_context(backend_call_string.context)
         else:
             self._backend.set_context([])

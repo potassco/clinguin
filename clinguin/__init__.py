@@ -11,7 +11,6 @@ from datetime import datetime
 from .client_helper import start as client_start
 from .parse_input import ArgumentParser
 from .server_helper import start as server_start
-from .thread_interruption_handler import ThreadInterruptionHandler
 
 
 def args_to_dict_converter(args_dict, timestamp, name_prefix=""):
@@ -47,8 +46,6 @@ def main():
     args_dict = vars(args)
 
     timestamp = datetime.now().strftime("%Y-%m-%d::%H:%M:%S")
-
-    ThreadInterruptionHandler.register_signal_handler()
 
     if args.process == "server":
         log_dict = args_to_dict_converter(args_dict, timestamp)

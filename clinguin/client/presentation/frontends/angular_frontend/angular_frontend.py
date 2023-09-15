@@ -2,12 +2,10 @@
 """
 Wrapper module for starting the angular frontend.
 """
-import sys
-import inspect
-import pathlib
-import subprocess
+
 import os
 import json
+import signal
 
 import http.server
 import socketserver
@@ -62,5 +60,11 @@ class AngularFrontend(AbstractFrontend):
             try:
                 httpd.serve_forever()
             except KeyboardInterrupt:
-                httpd.shutdown()
-                quit()
+                print("Interruption signal detected in frontend, shutting down!")
+                try:
+                    httpd.shutdown()
+                    print("Frontend destruction successful!")
+                except Exception as ex:
+                    print("Could not destroy frontend-server, frontend port could still be in use!")
+                
+                os.kill(os.getpid(), signal.SIGTERM)

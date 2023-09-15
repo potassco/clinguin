@@ -20,6 +20,7 @@ import { ConfigService } from './config.service';
 import { LocatorService } from './locator.service';
 import { TextfieldComponent } from './textfield/textfield.component';
 import { ModalComponent } from './modal/modal.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -47,7 +48,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     MainPageComponent,
     GraphOptionsComponent,
     TextfieldComponent,
-    ModalComponent
+    ModalComponent,
+    ContextMenuComponent
   ],
   imports: [
     BrowserModule,

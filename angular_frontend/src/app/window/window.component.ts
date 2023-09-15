@@ -5,6 +5,7 @@ import { DrawFrontendService } from '../draw-frontend.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ComponentCreationService } from '../component-creation.service';
 import { ChildBearerService } from '../child-bearer.service';
+import { ContextMenuService } from '../context-menu.service';
 
 @Component({
   selector: 'app-new-main',
@@ -24,8 +25,9 @@ export class WindowComponent {
 
   menuBar: ElementDto | null = null
   messageList: ElementDto[] = []
+  contextMenuList: ElementDto[] = []
   
-  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService) {
+  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService, private contextMenuService: ContextMenuService) {
   }
 
   ngAfterViewInit(): void {
@@ -49,8 +51,18 @@ export class WindowComponent {
       this.frontendService.detectCreateMenuBar(data)
 
       let messageList : ElementDto[] = []
-      this.frontendService.getAllMessages(data, messageList)
+      let contextMenus : ElementDto[] = []
+      this.frontendService.getAllMessagesContextMenus(data, messageList, contextMenus)
       this.frontendService.messageLists.next(messageList)
+
+      this.frontendService.contextMenus.subscribe(data => {
+          data.forEach((item:ElementDto) => {
+              this.contextMenuService.registerContextMenu(item.id, item)
+          })
+          this.contextMenuList = data
+      })
+
+      this.frontendService.contextMenus.next(contextMenus)
 
       let window = data.children[0]
 

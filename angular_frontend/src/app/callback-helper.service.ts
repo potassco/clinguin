@@ -5,6 +5,80 @@ import { LocatorService } from './locator.service';
 import { ContextService } from './context.service';
 import { ElementLookupDto, ElementLookupService } from './element-lookup.service';
 import { ChildBearerService } from './child-bearer.service';
+import { ContextMenuService } from './context-menu.service';
+import { hide } from '@popperjs/core';
+
+function defaultClickContextHandler(event: Event) {
+  let contextMenuService = LocatorService.injector.get(ContextMenuService)
+
+  if (contextMenuService.contextMenus.length > 0) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    if (hideAllContextMenus() == true) {
+      return
+    }   
+  }
+}
+
+function hideAllContextMenus() : boolean { 
+  let contextMenuService = LocatorService.injector.get(ContextMenuService)
+  let anyWasOpen = false
+
+  contextMenuService.contextMenus.forEach((item: {key:string, contextMenu:ElementDto}) => {
+    let contextMenu = document.getElementById(item.key)
+
+    if (contextMenu != null && contextMenu.style.display == "block") {
+      contextMenu.style.display = "none"
+      anyWasOpen = true
+    }
+  })
+
+  return anyWasOpen
+} 
+
+function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
+  event.preventDefault()
+  event.stopPropagation()
+
+  if (hideAllContextMenus() == true) {
+    return
+  }
+
+  let contextMenuService = LocatorService.injector.get(ContextMenuService)
+
+  let result = contextMenuService.retrieveContextValue(do_.policy)
+
+  if (result != null) {
+    if ("pageX" in event && "pageY" in event && typeof event.pageX == "number" && typeof event.pageY == "number") {
+
+      /*
+      const x = event.offsetX;
+      const y = event.offsetY - 15;
+      let style_display = "block";
+      let style_top = y + "px";
+      let style_left = x + "px";
+      */
+
+      let contextMenu = document.getElementById(do_.policy)
+
+      if (contextMenu != null) {
+        if (contextMenu.style.display == "block"){ 
+          contextMenu.style.display = "none"
+        } else { 
+          contextMenu.style.display = 'block'; 
+          contextMenu.style.left = event.pageX + "px"; 
+          contextMenu.style.top = event.pageY + "px"; 
+      } 
+
+      }
+
+    }
+  }
+  
+
+}
+ 
 
 function handleUpdate(do_:DoDto, event: Event) {
   console.log(do_)
@@ -119,7 +193,10 @@ function handleContext(do_:DoDto, event: Event) {
 })
 export class CallBackHelperService {
 
-  constructor(private frontendService: DrawFrontendService) { }
+  constructor(private frontendService: DrawFrontendService) {
+    document.onclick = defaultClickContextHandler; 
+    document.oncontextmenu = defaultClickContextHandler; 
+   }
 
     findCallback(action: string, callbacks: DoDto[]): DoDto | null {
       let value = null
@@ -133,6 +210,7 @@ export class CallBackHelperService {
     setCallbacks(html: HTMLElement, dos:DoDto[]) {
       this.handleEvent(html, dos, "click", "click")
       this.handleEvent(html, dos, "type", "input")
+      this.handleEvent(html, dos, "right_click", "contextmenu")
     }
 
     handleEvent(html: HTMLElement, dos:DoDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
@@ -148,7 +226,6 @@ export class CallBackHelperService {
 
         html.addEventListener(htmlEventName,function(event: Event){
 
-          console.log("CLICK")
           allClicks.forEach((do_:DoDto) => {
             if (do_.interactionType == "update") {
               console.log("UPDATE")
@@ -157,7 +234,9 @@ export class CallBackHelperService {
               handleContext(do_, event)
             } else if (do_.interactionType == "call" || do_.interactionType == "callback") {
               handleCallback(do_, event)
-            }
+            } else if (do_.interactionType == "show_context_menu") {
+              handleRightClick(html, do_, event)
+           }
           })
         })
 

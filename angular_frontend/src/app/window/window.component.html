@@ -5,3 +5,5 @@
 <div style="position: fixed; bottom:0;" *ngIf="window != null">
     <app-message *ngFor="let message of messageList" [element]="message"></app-message>
 </div>
+<app-context-menu *ngFor="let contextMenu of contextMenuList" [id]="contextMenu.id" [element]="contextMenu" style="display: none; position: absolute;"></app-context-menu>
+ 

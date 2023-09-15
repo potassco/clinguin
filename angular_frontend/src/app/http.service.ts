@@ -8,6 +8,7 @@ import { ConfigService } from './config.service';
 import { ContextItem, ContextService } from './context.service';
 import { ModalRefService } from './modal-ref.service';
 import { ElementLookupService } from './element-lookup.service';
+import { ContextMenuService } from './context-menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ import { ElementLookupService } from './element-lookup.service';
 export class HttpService {
 
   constructor(
-    private http: HttpClient, private configService: ConfigService, private modalRefService: ModalRefService, private elementLookupService: ElementLookupService, private contextService: ContextService) {
+    private http: HttpClient, private configService: ConfigService, private modalRefService: ModalRefService, private elementLookupService: ElementLookupService, private contextService: ContextService, private contextMenuService: ContextMenuService) {
       this.backend_URI = configService.serverUrl + ":" + configService.serverPort
      }
 
@@ -25,6 +26,7 @@ export class HttpService {
       this.modalRefService.closeRemoveAllModals()
       this.elementLookupService.clearElementLookupDict()
       this.contextService.clearContext()
+      this.contextMenuService.removeAllContextMenus()
 
 
       console.log(this.backend_URI)
@@ -44,6 +46,7 @@ export class HttpService {
       this.modalRefService.closeRemoveAllModals()
       this.elementLookupService.clearElementLookupDict()
       this.contextService.clearContext()
+      this.contextMenuService.removeAllContextMenus()
 
       const request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy, context: context })
       return request

@@ -17,6 +17,9 @@ export class DrawFrontendService {
     frontendJson : Subject<ElementDto> = new Subject()
     menuBar: Subject<ElementDto> = new Subject()
     messageLists: Subject<ElementDto[]> = new Subject()
+    contextMenus: Subject<ElementDto[]> = new Subject()
+
+    
 
     private backend_URI = "http://localhost:8000"
 
@@ -60,21 +63,16 @@ export class DrawFrontendService {
         }
     }
 
-    getAllMessages(element:ElementDto, messageList:ElementDto[]) {
+    getAllMessagesContextMenus(element:ElementDto, messageList:ElementDto[], contextMenuList: ElementDto[]) {
 
         if (element.type == "message") {
             messageList.push(element)
-            console.log("HEYY")
-            console.log(element)
+        } else if (element.type == "context_menu") {
+            contextMenuList.push(element)
         } else {
             element.children.forEach(child => {
-                this.getAllMessages(child, messageList)
+                this.getAllMessagesContextMenus(child, messageList, contextMenuList)
             })
         }
-
     }
-
-
-
-
 }

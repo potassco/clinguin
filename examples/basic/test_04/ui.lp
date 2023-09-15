@@ -14,7 +14,7 @@ element(ms1i1, menu_bar_section_item, ms1).
 attribute(ms1i1, label, "Item X").
 element(ms1i2, menu_bar_section_item, ms1).
 attribute(ms1i2, label, "Item Y").
-callback(ms1i2, click, clear_assumptions).
+do(ms1i2, click, callback, clear_assumptions).
 
 element(ms2, menu_bar_section, m).
 element(ms2i2, menu_bar_section_item, ms2).
@@ -38,7 +38,7 @@ attribute(b, pos_y, 0).
 attribute(c, border_width, 2).
 
 
-callback(b, click, clear_assumptions).
+do(b, click, callback, clear_assumptions).
 
 % --------------------- BELOW ELEMENT(S) --------------------------------------
 

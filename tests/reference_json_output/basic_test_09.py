@@ -9,7 +9,7 @@ class BasicTest09:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "window",
@@ -19,14 +19,14 @@ class BasicTest09:
                         {"id": "window", "key": "height", "value": "400"},
                         {"id": "window", "key": "width", "value": "400"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "dpm",
                             "type": "dropdown_menu",
                             "parent": "window",
                             "attributes": [],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "dmp(1)",
@@ -35,10 +35,11 @@ class BasicTest09:
                                     "attributes": [
                                         {"id": "dmp(1)", "key": "label", "value": "1"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "dmp(1)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
                                     ],
@@ -51,10 +52,11 @@ class BasicTest09:
                                     "attributes": [
                                         {"id": "dmp(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "dmp(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -86,10 +88,11 @@ class BasicTest09:
                                     "value": '"#990000"',
                                 },
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -109,7 +112,7 @@ class BasicTest09:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "window",
@@ -119,7 +122,7 @@ class BasicTest09:
                         {"id": "window", "key": "height", "value": "400"},
                         {"id": "window", "key": "width", "value": "400"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "dpm",
@@ -128,7 +131,7 @@ class BasicTest09:
                             "attributes": [
                                 {"id": "dpm", "key": "selected", "value": "2"}
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "dmp(2)",
@@ -137,10 +140,11 @@ class BasicTest09:
                                     "attributes": [
                                         {"id": "dmp(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "dmp(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -172,10 +176,11 @@ class BasicTest09:
                                     "value": '"#990000"',
                                 },
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -195,7 +200,7 @@ class BasicTest09:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "window",
@@ -205,7 +210,7 @@ class BasicTest09:
                         {"id": "window", "key": "height", "value": "400"},
                         {"id": "window", "key": "width", "value": "400"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "dpm",
@@ -214,7 +219,7 @@ class BasicTest09:
                             "attributes": [
                                 {"id": "dpm", "key": "selected", "value": "2"}
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "dmp(2)",
@@ -223,10 +228,11 @@ class BasicTest09:
                                     "attributes": [
                                         {"id": "dmp(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "dmp(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -258,10 +264,11 @@ class BasicTest09:
                                     "value": '"#990000"',
                                 },
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -281,7 +288,7 @@ class BasicTest09:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "window",
@@ -291,14 +298,14 @@ class BasicTest09:
                         {"id": "window", "key": "height", "value": "400"},
                         {"id": "window", "key": "width", "value": "400"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "dpm",
                             "type": "dropdown_menu",
                             "parent": "window",
                             "attributes": [],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "dmp(1)",
@@ -307,10 +314,11 @@ class BasicTest09:
                                     "attributes": [
                                         {"id": "dmp(1)", "key": "label", "value": "1"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "dmp(1)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
                                     ],
@@ -323,10 +331,11 @@ class BasicTest09:
                                     "attributes": [
                                         {"id": "dmp(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "dmp(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -358,10 +367,11 @@ class BasicTest09:
                                     "value": '"#990000"',
                                 },
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],

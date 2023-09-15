@@ -9,7 +9,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -21,7 +21,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -50,7 +50,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -83,7 +83,7 @@ class BasicTest03:
                                             "value": "black",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "mi(2)",
@@ -96,10 +96,11 @@ class BasicTest03:
                                                     "value": "2",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(2)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(2))",
                                                 }
                                             ],
@@ -116,10 +117,11 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(1)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(1))",
                                                 }
                                             ],
@@ -147,7 +149,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -180,7 +182,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -214,7 +216,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -248,7 +250,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -282,7 +284,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -316,7 +318,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -350,7 +352,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -384,7 +386,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -418,7 +420,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -452,7 +454,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                     ],
@@ -477,7 +479,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                             ],
@@ -512,10 +514,11 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "b",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -555,10 +558,11 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l1",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -578,7 +582,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -590,7 +594,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -619,7 +623,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -653,7 +657,7 @@ class BasicTest03:
                                         },
                                         {"id": "m", "key": "selected", "value": "1"},
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "mi(1)",
@@ -666,10 +670,11 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(1)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(1))",
                                                 }
                                             ],
@@ -697,7 +702,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -730,7 +735,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -764,7 +769,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -798,7 +803,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -832,7 +837,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -866,7 +871,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -900,7 +905,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -934,7 +939,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -968,7 +973,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1002,7 +1007,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                     ],
@@ -1027,7 +1032,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                             ],
@@ -1062,10 +1067,11 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "b",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -1105,10 +1111,11 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l1",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -1128,7 +1135,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -1140,7 +1147,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -1169,7 +1176,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -1202,7 +1209,7 @@ class BasicTest03:
                                             "value": "black",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "mi(2)",
@@ -1215,10 +1222,11 @@ class BasicTest03:
                                                     "value": "2",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(2)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(2))",
                                                 }
                                             ],
@@ -1235,10 +1243,11 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(1)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(1))",
                                                 }
                                             ],
@@ -1266,7 +1275,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -1299,7 +1308,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1333,7 +1342,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1367,7 +1376,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1401,7 +1410,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1435,7 +1444,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1469,7 +1478,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1503,7 +1512,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1537,7 +1546,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1571,7 +1580,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                     ],
@@ -1596,7 +1605,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                             ],
@@ -1631,10 +1640,11 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "b",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -1674,10 +1684,11 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l1",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -1697,7 +1708,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -1709,7 +1720,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -1738,7 +1749,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -1771,7 +1782,7 @@ class BasicTest03:
                                             "value": "black",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "mi(2)",
@@ -1784,10 +1795,11 @@ class BasicTest03:
                                                     "value": "2",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(2)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(2))",
                                                 }
                                             ],
@@ -1804,10 +1816,11 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "mi(1)",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "add_assumption(p(1))",
                                                 }
                                             ],
@@ -1835,7 +1848,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -1868,7 +1881,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1902,7 +1915,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1936,7 +1949,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -1970,7 +1983,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -2004,7 +2017,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -2038,7 +2051,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -2072,7 +2085,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -2106,7 +2119,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                         {
@@ -2140,7 +2153,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                     ],
@@ -2165,7 +2178,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                             ],
@@ -2200,10 +2213,11 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "b",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],
@@ -2243,10 +2257,11 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "l1",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],

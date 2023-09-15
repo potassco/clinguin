@@ -7,11 +7,11 @@
   <div class="collapse navbar-collapse" id="navbarColor03" [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav mr-auto">
         <li *ngFor="let section of menuBarSections" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" (click)="section.toggleCollapsed()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id={{section.id}} role="button" (click)="section.toggleCollapsed()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{section.title}}
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown" [ngbCollapse]="section.collapsed" >
-            <a *ngFor="let item of section.menuBarItems" style="cursor: pointer;" class="dropdown-item" (click)="policyExecutor(item.policy)">{{item.title}}</a>
+            <div class="dropdown-menu" attr.aria-labelledby="{{section.id}}" [ngbCollapse]="section.collapsed" >
+            <a *ngFor="let item of section.menuBarItems" style="cursor: pointer;" id={{item.id}} class="dropdown-item">{{item.title}}</a>
             </div>
         </li>
         

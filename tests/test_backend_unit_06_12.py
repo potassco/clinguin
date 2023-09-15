@@ -5,6 +5,7 @@ from reference_json_output import (
     BasicTest09,
     BasicTest10,
     BasicTest11,
+    BasicTest12,
 )
 from utils_test_utils import UtilsTestUtils
 
@@ -15,6 +16,11 @@ class TestBackendUnit_06_11:
 
     def teardown_method(self, test_method):
         pass
+
+    def test_basic_12(self):
+        should_output = BasicTest12.get_reference_json()
+        received_by_backend = self.backend.get()
+        UtilsTestUtils.assert_result(should_output, received_by_backend)
 
     def test_basic_11(self):
         should_output = BasicTest11.get_reference_json()

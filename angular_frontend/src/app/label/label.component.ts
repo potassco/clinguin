@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewRef } from '@angular/core';
-import { ElementDto } from '../types/json-response.dto';
+import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
+import { ElementLookupService } from '../element-lookup.service';
 
 @Component({
   selector: 'app-label',
@@ -18,33 +19,44 @@ export class LabelComponent {
 
   elementLabel: string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService) {}
+  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
 
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
-      let index = this.element.attributes.findIndex(attr => attr.key == "label")
-      if (index >= 0) {
-        this.elementLabel = this.element.attributes[index].value
+      this.elementLookupService.addElementObject(this.element.id, this, this.element)
+
+      let htmlDdbut = this.label.nativeElement
+
+      this.callbackService.setCallbacks(htmlDdbut, this.element.do)
+
+      this.setAttributes(this.element.attributes)
+      
+      this.cd.detectChanges()   
+    }
+  }
+
+  setAttributes(attributes: AttributeDto[]) {
+      let label = this.attributeService.findAttribute("label", attributes)
+      if (label != null) {
+        this.elementLabel = label.value
       }
 
       let htmlDdbut = this.label.nativeElement
       let htmlMiddle = this.middleDiv.nativeElement
       let htmlOuterDiv = this.outerDiv.nativeElement
 
-      this.attributeService.addAttributes(htmlDdbut, this.element.attributes)
-      this.attributeService.textAttributes(htmlDdbut, this.element.attributes)
-      this.attributeService.setAttributesDirectly(htmlDdbut, this.element.attributes)
+      this.attributeService.addAttributes(htmlDdbut, attributes)
+      this.attributeService.textAttributes(htmlDdbut, attributes)
+      this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
 
-      this.callbackService.setCallbacks(htmlDdbut, this.element.callbacks)
 
       this.setOuterDivStyles(htmlOuterDiv)
       this.setMiddleDivStyle(htmlMiddle)
       this.setParagraphStyle(htmlDdbut)
 
-      this.cd.detectChanges()
-    }
+      this.cd.detectChanges()   
   }
 
   setOuterDivStyles(outerDiv:HTMLElement) {

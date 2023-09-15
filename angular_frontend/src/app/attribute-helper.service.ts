@@ -228,5 +228,16 @@ export class AttributeHelperService {
         }
     }
 
+    setVisibility(html:HTMLElement, attributes:AttributeDto[]) {
+        let visibilityAttribute = this.findAttribute("visibility", attributes)
+        if (visibilityAttribute != null) {
+            if (visibilityAttribute.value == "hidden" || visibilityAttribute.value == "collapse") {
+                html.style.visibility = "collapse"
+            } else if (visibilityAttribute.value == "shown" || visibilityAttribute.value == "visible") {
+                html.style.visibility = "visible"
+            }
+        }
+    }
+
 }
 

@@ -9,7 +9,7 @@ class BasicTest10:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -20,7 +20,7 @@ class BasicTest10:
                         {"id": "w", "key": "width", "value": "600"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c6",
@@ -40,7 +40,7 @@ class BasicTest10:
                                     "value": '"column_reverse"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                         {
@@ -61,7 +61,7 @@ class BasicTest10:
                                     "value": '"column"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                         {
@@ -82,7 +82,7 @@ class BasicTest10:
                                     "value": '"column"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                         {
@@ -103,7 +103,7 @@ class BasicTest10:
                                     "value": '"row_reverse"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                         {
@@ -124,7 +124,7 @@ class BasicTest10:
                                     "value": '"row_reverse"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                         {
@@ -145,7 +145,7 @@ class BasicTest10:
                                     "value": '"row_reverse"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],

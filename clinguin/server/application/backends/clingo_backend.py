@@ -2,21 +2,17 @@
 """
 Module that contains the ClingoBackend.
 """
-import os
-
 import base64
-
+import os
 from pathlib import Path
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
 from clingo.symbol import Function, String
-
 from clorm import Raw
 
-from clinguin.server.data.attribute import AttributeDao
 from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
-
+from clinguin.server.data.attribute import AttributeDao
 from clinguin.utils import StandardTextProcessing
 
 enable_python()
@@ -262,7 +258,6 @@ class ClingoBackend(ClinguinBackend):
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
-            # Maybe best to do using the callback tuple?
             self._init_ctl()
             self._ground()
             self._end_browsing()
@@ -369,7 +364,6 @@ class ClingoBackend(ClinguinBackend):
                 self._add_assumption(s)
         self._update_uifb()
         return self.get()
-    
 
     def _replace_uifb_with_b64_images(self):
         attributes = list(self._uifb.get_attributes())
@@ -382,7 +376,6 @@ class ClingoBackend(ClinguinBackend):
             )
 
             if os.path.isfile(attribute_value):
-
                 with open(attribute_value, "rb") as image_file:
                     encoded_string = self._image_to_b64(image_file.read())
                     new_attribute = AttributeDao(
@@ -391,6 +384,29 @@ class ClingoBackend(ClinguinBackend):
                         Raw(String(str(encoded_string))),
                     )
                     self._uifb.replace_attribute(attribute, new_attribute)
+
+    def transfer_context(self):
+        """
+        Backend method that handles incoming transfer_context calls.
+        """
+
+        changed = False
+        for context_item in self.context:
+            if context_item.value.startswith("add_assumption"):
+                symbol = parse_term(context_item.value)
+                assumptions = list(map(str, symbol.arguments))
+
+                for assumption in assumptions:
+                    predicate_symbol = parse_term(assumption)
+                    if predicate_symbol not in self._assumptions:
+                        self._add_assumption(predicate_symbol)
+                        changed = True
+
+        if changed:
+            self._end_browsing()
+            self._update_uifb()
+
+        return self.get()
 
     def _image_to_b64(self, img):
         encoded = base64.b64encode(img)

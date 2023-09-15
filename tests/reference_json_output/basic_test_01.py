@@ -9,7 +9,7 @@ class BasicTest01:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -19,7 +19,7 @@ class BasicTest01:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -29,7 +29,7 @@ class BasicTest01:
                                 {"id": "c", "key": "width", "value": "100"},
                                 {"id": "c", "key": "height", "value": "50"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "mi(2)",
@@ -38,10 +38,11 @@ class BasicTest01:
                                     "attributes": [
                                         {"id": "mi(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "mi(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -54,10 +55,11 @@ class BasicTest01:
                                     "attributes": [
                                         {"id": "mi(1)", "key": "label", "value": "1"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "mi(1)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
                                     ],
@@ -76,7 +78,7 @@ class BasicTest01:
                                 {"id": "c2", "key": "border_color", "value": "pink"},
                                 {"id": "c2", "key": "background_color", "value": "red"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],
@@ -93,7 +95,7 @@ class BasicTest01:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -103,7 +105,7 @@ class BasicTest01:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -114,7 +116,7 @@ class BasicTest01:
                                 {"id": "c", "key": "height", "value": "50"},
                                 {"id": "c", "key": "selected", "value": "mi(1)"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "mi(1)",
@@ -123,10 +125,11 @@ class BasicTest01:
                                     "attributes": [
                                         {"id": "mi(1)", "key": "label", "value": "1"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "mi(1)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
                                     ],
@@ -145,7 +148,7 @@ class BasicTest01:
                                 {"id": "c2", "key": "border_color", "value": "pink"},
                                 {"id": "c2", "key": "background_color", "value": "red"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],
@@ -162,7 +165,7 @@ class BasicTest01:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -172,7 +175,7 @@ class BasicTest01:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -183,7 +186,7 @@ class BasicTest01:
                                 {"id": "c", "key": "height", "value": "50"},
                                 {"id": "c", "key": "selected", "value": "mi(1)"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "mi(1)",
@@ -192,10 +195,11 @@ class BasicTest01:
                                     "attributes": [
                                         {"id": "mi(1)", "key": "label", "value": "1"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "mi(1)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
                                     ],
@@ -214,7 +218,7 @@ class BasicTest01:
                                 {"id": "c2", "key": "border_color", "value": "pink"},
                                 {"id": "c2", "key": "background_color", "value": "red"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],
@@ -231,7 +235,7 @@ class BasicTest01:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -241,7 +245,7 @@ class BasicTest01:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -252,7 +256,7 @@ class BasicTest01:
                                 {"id": "c", "key": "height", "value": "50"},
                                 {"id": "c", "key": "selected", "value": "mi(2)"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "mi(2)",
@@ -261,10 +265,11 @@ class BasicTest01:
                                     "attributes": [
                                         {"id": "mi(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "mi(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -283,14 +288,13 @@ class BasicTest01:
                                 {"id": "c2", "key": "border_color", "value": "pink"},
                                 {"id": "c2", "key": "background_color", "value": "red"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],
                 }
             ],
         }
-
         return json.loads(json.dumps(json_dict))
 
     @classmethod
@@ -300,7 +304,7 @@ class BasicTest01:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -310,7 +314,7 @@ class BasicTest01:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c",
@@ -321,7 +325,7 @@ class BasicTest01:
                                 {"id": "c", "key": "height", "value": "50"},
                                 {"id": "c", "key": "selected", "value": "mi(2)"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "mi(2)",
@@ -330,10 +334,11 @@ class BasicTest01:
                                     "attributes": [
                                         {"id": "mi(2)", "key": "label", "value": "2"}
                                     ],
-                                    "callbacks": [
+                                    "do": [
                                         {
                                             "id": "mi(2)",
-                                            "action": "click",
+                                            "action_type": "click",
+                                            "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
                                     ],
@@ -352,7 +357,7 @@ class BasicTest01:
                                 {"id": "c2", "key": "border_color", "value": "pink"},
                                 {"id": "c2", "key": "background_color", "value": "red"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],

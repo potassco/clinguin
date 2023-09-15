@@ -2,7 +2,18 @@
 Module that contains the BackendPolicyDto
 """
 
+from typing import List, Optional
+
 from pydantic import BaseModel
+
+
+class ContextDto(BaseModel):
+    """
+    Optional pass to the backend, which handles the context.
+    """
+
+    key: str
+    value: str
 
 
 class BackendPolicyDto(BaseModel):
@@ -11,3 +22,4 @@ class BackendPolicyDto(BaseModel):
     """
 
     function: str
+    context: Optional[List[ContextDto]] = []

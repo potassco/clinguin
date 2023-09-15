@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window/window.component';
 import { ContainerComponent } from './container/container.component';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
-import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
@@ -17,6 +17,10 @@ import { MessageComponent } from './message/message.component';
 import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
 import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-options.component';
 import { ConfigService } from './config.service';
+import { LocatorService } from './locator.service';
+import { TextfieldComponent } from './textfield/textfield.component';
+import { ModalComponent } from './modal/modal.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -42,7 +46,10 @@ export function appConfigInit(appConfigService: ConfigService) {
     CanvasComponent,
     MessageComponent,
     MainPageComponent,
-    GraphOptionsComponent
+    GraphOptionsComponent,
+    TextfieldComponent,
+    ModalComponent,
+    ContextMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -63,4 +70,8 @@ export function appConfigInit(appConfigService: ConfigService) {
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    LocatorService.injector = injector
+  }
+ }

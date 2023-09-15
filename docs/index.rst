@@ -14,6 +14,7 @@ Welcome to clinguin's documentation!
    clinguin/user_guide
    clinguin/customize_guide
    clinguin/api
+   clinguin/web_frontend
 
 
 

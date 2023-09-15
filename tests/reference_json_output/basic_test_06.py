@@ -9,7 +9,7 @@ class BasicTest06:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -18,8 +18,9 @@ class BasicTest06:
                     "attributes": [
                         {"id": "w", "key": "background_color", "value": "pink"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
+                        {"id": "w", "key": "flex_direction", "value": '"row-reverse"'},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c3",
@@ -34,13 +35,8 @@ class BasicTest06:
                                 },
                                 {"id": "c3", "key": "width", "value": "200"},
                                 {"id": "c3", "key": "height", "value": "200"},
-                                {
-                                    "id": "c3",
-                                    "key": "flex_direction",
-                                    "value": '"row_reverse"',
-                                },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                         {
@@ -56,13 +52,8 @@ class BasicTest06:
                                 },
                                 {"id": "c2", "key": "width", "value": "200"},
                                 {"id": "c2", "key": "height", "value": "200"},
-                                {
-                                    "id": "c2",
-                                    "key": "flex_direction",
-                                    "value": '"row_reverse"',
-                                },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [],
                         },
                     ],

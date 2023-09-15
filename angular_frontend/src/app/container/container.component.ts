@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, Input, Type, ViewChild, ViewContainerRef } from '@angular/core';
-import { ElementDto } from '../types/json-response.dto';
-import { ComponentResolutionService } from '../component-resolution.service';
+import { AttributeDto, ElementDto } from '../types/json-response.dto';
+import { ComponentCreationService } from '../component-creation.service';
 import { AttributeHelperService } from '../attribute-helper.service';
+import { ElementLookupService } from '../element-lookup.service';
+import { ChildBearerService } from '../child-bearer.service';
 
 @Component({
   selector: 'app-container',
@@ -18,35 +20,22 @@ export class ContainerComponent{
 
   children: any = []
   
-  constructor(private componentService: ComponentResolutionService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService) {
+  constructor(private childBearerService: ChildBearerService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {
   }
 
   ngAfterViewInit(): void {
 
     if (this.element != null) {
+      if (this.element.type != "modal") {
+        this.elementLookupService.addElementObject(this.element.id, this, this.element)
+      }
 
       let childLayout = this.attributeService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
 
       this.element.children.forEach(item => {
 
-        let my_comp = this.componentService.componentCreation(this.child, item.type)
-
+        let my_comp = this.childBearerService.bearChild(this.child, item, childLayout)
         if (my_comp != null) {
-          my_comp.setInput("element",item)
-          let html: HTMLElement = <HTMLElement>my_comp.location.nativeElement
-          html.id = item.id
-
-
-          if (item.type != "button") {
-            this.attributeService.setAbsoulteRelativePositions(childLayout, html, item)
-            this.attributeService.addGeneralAttributes(html, item.attributes)
-            this.attributeService.addAttributes(html, item.attributes)
-
-            if (item.type == "container") {
-              this.attributeService.setChildLayout(html, item.attributes)
-            }
-            this.attributeService.setAttributesDirectly(html, item.attributes)
-          }
 
           this.children.push(my_comp)
         }
@@ -54,6 +43,10 @@ export class ContainerComponent{
 
       this.cd.detectChanges()
     }
+  }
+
+  setAttributes(attributes: AttributeDto[]) {
+    // Nothing to set here.
   }
 
 }

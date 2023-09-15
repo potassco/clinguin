@@ -15,12 +15,12 @@ attribute(window, resizable_x, 1).
 attribute(window, resizable_y, 1).
 attribute(window, child_layout, absstatic).
 
-% Menu bar is defined automatically called menu_options
+% Menu bar is defined automatically called _default_menu_bar_section
 % These lines only add an extra option
-element(menu_options_next_opt, menu_bar_section_item, menu_options).
-attribute(menu_options_next_opt, label, "Next Optimal").
-attribute(menu_options_next_opt, accelerator, "Cmd+O").
-callback(menu_options_next_opt, click, next_solution(optN)).
+element(_default_menu_bar_section_next_opt, menu_bar_section_item, _default_menu_bar_section).
+attribute(_default_menu_bar_section_next_opt, label, "Next Optimal").
+attribute(_default_menu_bar_section_next_opt, accelerator, "Cmd+O").
+callback(_default_menu_bar_section_next_opt, click, next_solution(optN)).
 
 
 % Top container

@@ -36,7 +36,7 @@ attribute(w, child_layout, relstatic).
 
             element(mi(X), dropdown_menu_item, m) :- _b(p(X)).
             attribute(mi(X), label, X) :- _b(p(X)).
-            callback(mi(X), click, add_assumption(p(X))) :- _b(p(X)).
+            do(mi(X), click, callback, add_assumption(p(X))) :- _b(p(X)).
             attribute(m, selected, X) :- _c(p(X)).
 
         element(c4, container, c).
@@ -68,7 +68,7 @@ attribute(w, child_layout, relstatic).
     attribute(l1, height, 50).
     attribute(l1, pos_x, 40).
     attribute(l1, pos_y, 50).
-    callback(l1, click, clear_assumptions).
+    do(l1, click, callback, clear_assumptions).
 
     element(b, button, w).
     attribute(b, background_color, blue).
@@ -83,6 +83,6 @@ attribute(w, child_layout, relstatic).
     attribute(b, height, 50).
     attribute(b, pos_x, 40).
     attribute(b, pos_y, 70).
-    callback(b, click, clear_assumptions).
+    do(b, click, callback, clear_assumptions).
 
 

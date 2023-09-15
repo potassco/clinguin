@@ -9,7 +9,7 @@ class BasicTest02:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "window",
@@ -20,7 +20,7 @@ class BasicTest02:
                         {"id": "window", "key": "resizable_x", "value": "0"},
                         {"id": "window", "key": "child_layout", "value": "flex"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c(1)",
@@ -34,7 +34,7 @@ class BasicTest02:
                                     "value": '"#00ff00"',
                                 },
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "mbutton(1)",
@@ -52,7 +52,7 @@ class BasicTest02:
                                             "value": '"TEST 02\\n Hello Potsdam"',
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 }
                             ],

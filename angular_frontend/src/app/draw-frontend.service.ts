@@ -3,10 +3,11 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { CallbackDto, ElementDto } from './types/json-response.dto';
+import { DoDto, ElementDto } from './types/json-response.dto';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { ServerRequest } from './types/server-request';
+import { ContextService } from './context.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,13 @@ export class DrawFrontendService {
     frontendJson : Subject<ElementDto> = new Subject()
     menuBar: Subject<ElementDto> = new Subject()
     messageLists: Subject<ElementDto[]> = new Subject()
+    contextMenus: Subject<ElementDto[]> = new Subject()
+
+    
 
     private backend_URI = "http://localhost:8000"
 
-    constructor(private httpService: HttpService, private httpClient: HttpClient) {
+    constructor(private httpService: HttpService, private httpClient: HttpClient, private contextService: ContextService) {
     }
 
     initialGet() : void {
@@ -30,8 +34,11 @@ export class DrawFrontendService {
         }})
     }
 
-    policyPost(callback: CallbackDto) : void {
-        this.httpService.post(callback.policy).subscribe(
+    policyPost(callback: DoDto) : void {
+
+        let context = this.contextService.getContext()
+
+        this.httpService.post(callback.policy, context).subscribe(
         {next: (data:ElementDto) => {
             this.frontendJson.next(data)
         }})
@@ -56,19 +63,16 @@ export class DrawFrontendService {
         }
     }
 
-    getAllMessages(element:ElementDto, messageList:ElementDto[]) {
+    getAllMessagesContextMenus(element:ElementDto, messageList:ElementDto[], contextMenuList: ElementDto[]) {
 
         if (element.type == "message") {
             messageList.push(element)
+        } else if (element.type == "context_menu") {
+            contextMenuList.push(element)
         } else {
             element.children.forEach(child => {
-                this.getAllMessages(child, messageList)
+                this.getAllMessagesContextMenus(child, messageList, contextMenuList)
             })
         }
-
     }
-
-
-
-
 }

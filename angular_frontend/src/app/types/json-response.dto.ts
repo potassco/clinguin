@@ -10,7 +10,7 @@ export interface ElementDto {
     type: string,
     parent: string,
     attributes: AttributeDto[],
-    callbacks: CallbackDto[],
+    do: DoDto[],
     children: ElementDto[]
 }
 
@@ -21,8 +21,11 @@ export interface AttributeDto {
 }
 
 
-export interface CallbackDto {
+export interface DoDto {
     id: string,
-    action: string,
-    policy: string
+    actionType: string,
+    interactionType: string,
+    policy: string,
+    action_type?: string,
+    interaction_type?: string
 }

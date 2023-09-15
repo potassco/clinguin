@@ -5,6 +5,7 @@ from reference_json_output import (
     BasicTest09,
     BasicTest10,
     BasicTest11,
+    BasicTest12,
 )
 from utils_test_utils import UtilsTestUtils
 
@@ -15,6 +16,12 @@ class TestBasic06_11:
 
     def teardown_method(self, test_method):
         UtilsTestUtils.shutdown_server(self.p)
+
+    def test_basic_12(self):
+        uri = f"{self.uvicorn_url}"
+        received_by_postman = str(BasicTest12.get_reference_json())
+
+        UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
     def test_basic_11(self):
         uri = f"{self.uvicorn_url}"

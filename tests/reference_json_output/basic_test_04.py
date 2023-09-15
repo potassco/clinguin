@@ -9,7 +9,7 @@ class BasicTest04:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -21,28 +21,28 @@ class BasicTest04:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "m",
                             "type": "menu_bar",
                             "parent": "w",
                             "attributes": [],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "ms2",
                                     "type": "menu_bar_section",
                                     "parent": "m",
                                     "attributes": [],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "ms2i2",
                                             "type": "menu_bar_section_item",
                                             "parent": "ms2",
                                             "attributes": [],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         }
                                     ],
@@ -58,7 +58,7 @@ class BasicTest04:
                                             "value": '"Test2"',
                                         }
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [
                                         {
                                             "id": "ms1i2",
@@ -71,10 +71,11 @@ class BasicTest04:
                                                     "value": '"Item Y"',
                                                 }
                                             ],
-                                            "callbacks": [
+                                            "do": [
                                                 {
                                                     "id": "ms1i2",
-                                                    "action": "click",
+                                                    "action_type": "click",
+                                                    "interaction_type": "callback",
                                                     "policy": "clear_assumptions",
                                                 }
                                             ],
@@ -91,7 +92,7 @@ class BasicTest04:
                                                     "value": '"Item X"',
                                                 }
                                             ],
-                                            "callbacks": [],
+                                            "do": [],
                                             "children": [],
                                         },
                                     ],
@@ -121,7 +122,7 @@ class BasicTest04:
                                 {"id": "c2", "key": "pos_y", "value": "50"},
                                 {"id": "c2", "key": "child_layout", "value": "grid"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "c24",
@@ -133,7 +134,7 @@ class BasicTest04:
                                         {
                                             "id": "c24",
                                             "key": "background_color",
-                                            "value": '"#000000000"',
+                                            "value": '"#000000"',
                                         },
                                         {
                                             "id": "c24",
@@ -152,7 +153,7 @@ class BasicTest04:
                                             "value": "1",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                                 {
@@ -165,7 +166,7 @@ class BasicTest04:
                                         {
                                             "id": "c23",
                                             "key": "background_color",
-                                            "value": '"#999999999"',
+                                            "value": '"#999999"',
                                         },
                                         {
                                             "id": "c23",
@@ -184,7 +185,7 @@ class BasicTest04:
                                             "value": "1",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                                 {
@@ -197,7 +198,7 @@ class BasicTest04:
                                         {
                                             "id": "c22",
                                             "key": "background_color",
-                                            "value": '"#000000fff"',
+                                            "value": '"#0000ff"',
                                         },
                                         {
                                             "id": "c22",
@@ -216,7 +217,7 @@ class BasicTest04:
                                             "value": "2",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                                 {
@@ -229,7 +230,7 @@ class BasicTest04:
                                         {
                                             "id": "c21",
                                             "key": "background_color",
-                                            "value": '"#000fff000"',
+                                            "value": '"#00ff00"',
                                         },
                                         {
                                             "id": "c21",
@@ -248,7 +249,7 @@ class BasicTest04:
                                             "value": "2",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                                 {
@@ -261,7 +262,7 @@ class BasicTest04:
                                         {
                                             "id": "c20",
                                             "key": "background_color",
-                                            "value": '"#fff000000"',
+                                            "value": '"#ff0000"',
                                         },
                                         {
                                             "id": "c20",
@@ -280,7 +281,7 @@ class BasicTest04:
                                             "value": "1",
                                         },
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                             ],
@@ -312,10 +313,11 @@ class BasicTest04:
                                 {"id": "b", "key": "pos_x", "value": "25"},
                                 {"id": "b", "key": "pos_y", "value": "0"},
                             ],
-                            "callbacks": [
+                            "do": [
                                 {
                                     "id": "b",
-                                    "action": "click",
+                                    "action_type": "click",
+                                    "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
                             ],

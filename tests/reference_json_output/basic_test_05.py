@@ -9,7 +9,7 @@ class BasicTest05:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "callbacks": [],
+            "do": [],
             "children": [
                 {
                     "id": "w",
@@ -19,7 +19,7 @@ class BasicTest05:
                         {"id": "w", "key": "background_color", "value": "pink"},
                         {"id": "w", "key": "child_layout", "value": "grid"},
                     ],
-                    "callbacks": [],
+                    "do": [],
                     "children": [
                         {
                             "id": "c3",
@@ -33,7 +33,7 @@ class BasicTest05:
                                 },
                                 {"id": "c3", "key": "grid_column", "value": "1"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "l33",
@@ -46,7 +46,7 @@ class BasicTest05:
                                             "value": '"Label 3"',
                                         }
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 }
                             ],
@@ -60,11 +60,11 @@ class BasicTest05:
                                 {
                                     "id": "c2",
                                     "key": "background_color",
-                                    "value": '"#0f0f0f"',
+                                    "value": '"#707070"',
                                 },
                                 {"id": "c2", "key": "grid_column", "value": "0"},
                             ],
-                            "callbacks": [],
+                            "do": [],
                             "children": [
                                 {
                                     "id": "c20",
@@ -77,9 +77,8 @@ class BasicTest05:
                                             "value": '"#00ffff"',
                                         },
                                         {"id": "c20", "key": "height", "value": "20"},
-                                        {"id": "c20", "key": "width", "value": "20"},
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                                 {
@@ -93,7 +92,7 @@ class BasicTest05:
                                             "value": '"This is another label"',
                                         }
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                                 {
@@ -107,7 +106,7 @@ class BasicTest05:
                                             "value": '"This is a label"',
                                         }
                                     ],
-                                    "callbacks": [],
+                                    "do": [],
                                     "children": [],
                                 },
                             ],

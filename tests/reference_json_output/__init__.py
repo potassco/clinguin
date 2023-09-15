@@ -14,6 +14,7 @@ from .basic_test_08 import BasicTest08
 from .basic_test_09 import BasicTest09
 from .basic_test_10 import BasicTest10
 from .basic_test_11 import BasicTest11
+from .basic_test_12 import BasicTest12
 from .elevator import Elevator
 from .health import Health
 from .sudoku import Sudoku
@@ -32,6 +33,7 @@ __all__ = [
     BasicTest09.__name__,
     BasicTest10.__name__,
     BasicTest11.__name__,
+    BasicTest12.__name__,
     Sudoku.__name__,
     Elevator.__name__,
 ]

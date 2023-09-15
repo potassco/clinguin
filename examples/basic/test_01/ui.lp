@@ -10,7 +10,7 @@ attribute(c, selected, mi(X)) :- _c(p(X)).
 
 element(mi(X), dropdown_menu_item, c) :- _b(p(X)).
 attribute(mi(X), label, X) :- _b(p(X)).
-callback(mi(X), click, add_assumption(p(X))) :- _b(p(X)).
+do(mi(X), click, callback, add_assumption(p(X))) :- _b(p(X)).
 
 element(c2, container, w).
 attribute(c2, width, 100).

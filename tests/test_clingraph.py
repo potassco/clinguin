@@ -22,9 +22,9 @@ class TestClingraph:
     def teardown_method(self, test_method):
         UtilsTestUtils.shutdown_server(self.p)
 
+    # TODO -> Fix non-determinism of clingraph/graphviz!
     # Not working due to non-deterministic nature of graphviz
     # Maybe further investigation in the future ...
-
     """
     def test_startup_get(self):
 

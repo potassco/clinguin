@@ -17,7 +17,7 @@ export class ModalRefService {
         let foundIndex = -1
         for (let index = 0; index < this.modals.length; index++) {
             let item = this.modals[index]
-            if (item.key == key) {
+            if (item != undefined && item.key == key) {
                 foundIndex = index
                 break
             }

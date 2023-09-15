@@ -19,7 +19,7 @@ export class ContextMenuService {
         this.contextMenus.push({key:key, contextMenu: contextMenu})
     }
 
-    removeModalByKey(key:string) : number {
+    removeContextMenuByKey(key:string) : number {
 
         let foundIndex = -1
         for (let index = 0; index < this.contextMenus.length; index++) {

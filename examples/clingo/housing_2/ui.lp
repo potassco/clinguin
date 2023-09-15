@@ -31,6 +31,7 @@ attribute(c1, flex_direction, row_reverse).
 
 element(t1, textfield, c1).
 attribute(t1, placeholder, "Please enter the name of the person.").
+%attribute(t1, input_type, number).
 do(t1, type, context, (t1_content, _value)).
 
 element(b1, button, c1).

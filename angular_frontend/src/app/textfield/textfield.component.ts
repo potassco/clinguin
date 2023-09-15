@@ -18,6 +18,7 @@ export class TextfieldComponent {
   placeholder: string = ""
 
   disabledAttribute: boolean = false
+  inputType: string = "text"
 
   constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
 
@@ -37,6 +38,8 @@ export class TextfieldComponent {
   setAttributes(attributes : AttributeDto[]) {
 
       this.placeholder = this.attributeService.findGetAttributeValue("placeholder", attributes, "")
+      
+      this.inputType = this.attributeService.findGetAttributeValue("input_type", attributes, "text")
 
       //this.buttonLabel = this.attributeService.findGetAttributeValue("label",attributes,"")
 

@@ -77,6 +77,15 @@ export class ModalComponent {
           (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             console.log(this.closeResult)
+            
+            if (this.element != null) {
+              for (let index = 0; index < this.element.attributes.length; index++) {
+                let attribute = this.element.attributes[index]
+                if (attribute.key == "shown" || attribute.key == "visible") {
+                  attribute.value = "hidden"
+                }
+              }
+            }
 
             if (this.element != null) {
               this.modalRefService.removeModalByKey(this.element.id)

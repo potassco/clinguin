@@ -51,7 +51,6 @@ class AngularFrontend(AbstractFrontend):
 
     def __init__(self, base_engine, args):
         super().__init__(base_engine, args)
-
         if hasattr(args, "server_port"):
             server_port = args.server_port
         else:
@@ -74,7 +73,7 @@ class AngularFrontend(AbstractFrontend):
             config_file.write(str(json.dumps(config_dict)))
 
         with socketserver.TCPServer(("", args.client_port), Handler) as httpd:
-            print("serving at port", args.client_port)
+            print(f"\033[1;4m-> -> -> -> -> -> ->  Open the following link in your browser: \033[1;34m http://127.0.0.1:{args.client_port}\033[0m")
             try:
                 httpd.serve_forever()
             except KeyboardInterrupt:

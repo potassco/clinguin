@@ -17,6 +17,7 @@ export class ButtonComponent {
 
   buttonLabel: string = ""
   disabledAttribute: boolean = false
+  // class: string = ""
 
   constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
 
@@ -35,17 +36,23 @@ export class ButtonComponent {
 
   setAttributes(attributes : AttributeDto[]) {
       this.buttonLabel = this.attributeService.findGetAttributeValue("label",attributes,"")
+      // this.class = this.attributeService.findGetAttributeValue("class", attributes, "")
 
       let htmlDdbut = this.theButton.nativeElement
 
       this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
       this.attributeService.addAttributes(htmlDdbut, attributes)
       this.attributeService.textAttributes(htmlDdbut, attributes)
+      this.attributeService.class(htmlDdbut, attributes, ["btn"])
       this.attributeService.addGeneralAttributes(htmlDdbut, attributes)
 
       if (this.element != null) {
         this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
       }
+
+      let icon = htmlDdbut.children.item(0)
+      
+      this.attributeService.class(icon, attributes, ["fa"], 'icon')
 
       let stringDisabled = this.attributeService.findGetAttributeValue("disabled", attributes, "false")
       if (stringDisabled == "false") {

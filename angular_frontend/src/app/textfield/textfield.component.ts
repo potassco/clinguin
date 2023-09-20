@@ -49,6 +49,7 @@ export class TextfieldComponent {
       this.attributeService.addAttributes(htmlTextfield, attributes)
       this.attributeService.textAttributes(htmlTextfield, attributes)
       this.attributeService.addGeneralAttributes(htmlTextfield, attributes)
+      this.attributeService.class(htmlTextfield, attributes,[])
 
       if (this.element != null) {
         this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlTextfield, this.element)

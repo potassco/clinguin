@@ -12,7 +12,6 @@ export class ChildBearerService {
     constructor(private componentService: ComponentCreationService, private elementLookupService: ElementLookupService, private attributeService: AttributeHelperService) {}
 
     bearChild(child : ViewContainerRef, item: ElementDto, childLayout : string): ComponentRef<any> | null {
-         
         let my_comp = this.componentService.componentCreation(child, item.type)
 
         if (my_comp != null) {

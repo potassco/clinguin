@@ -1,5 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* custom.scss */
+/* change theme colors */
+$primary: #00305E;
+$secondary: #4b6e90;
+// $success: #6F9C68;
+$info: #CED6DE;
+$warning: #b8ac61;
+$danger: #CE474F;
+$light: #eff1f3;
+/* end custom.scss */
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 

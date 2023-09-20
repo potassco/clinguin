@@ -125,19 +125,41 @@ export class AttributeHelperService {
     }
 
     textAttributes(html: HTMLElement, attributes : AttributeDto[]) {
-        let color = "black"
-        let index = attributes.findIndex(item => item.key == "foreground_color")
-        if (index >= 0) {
-            color = String(attributes[index].value)
-        }       
-        html.style.color = color 
+        // NOw IS SUPPOSED TO BE SET WITH THE CLASSES
 
-        let fontSize = String(12) + "px"
-        index = attributes.findIndex(item => item.key == "font_size")
-        if (index >= 0) {
-            fontSize = String(attributes[index].value)
-        }       
-        html.style.fontSize = fontSize
+
+
+        // let color = "black"
+        // let index = attributes.findIndex(item => item.key == "foreground_color")
+        // if (index >= 0) {
+        //     color = String(attributes[index].value)
+        // }       
+        // html.style.color = color 
+
+        // let fontSize = String(12) + "px"
+        // let index = attributes.findIndex(item => item.key == "font_size")
+        // if (index >= 0) {
+        //     fontSize = String(attributes[index].value)
+        // }       
+        // html.style.fontSize = fontSize
+
+    }
+
+    class(html: Element, attributes : AttributeDto[], default_classes:string[], attrName: string ='class' ) {
+
+        default_classes.forEach(function (c){
+            html.classList.add(c)
+        })
+
+        attributes.forEach(function (item){
+            if (item.key==attrName){
+                console.log("Adding class")
+                console.log(item.value)
+                let c = String(item.value)
+                html.classList.add(c)
+            }
+        })
+        
 
     }
 

@@ -252,7 +252,7 @@ export class CallBackHelperService {
  
     setCallbacks(html: HTMLElement, dos:DoDto[]) {
       this.handleEvent(html, dos, "click", "click")
-      this.handleEvent(html, dos, "type", "input")
+      this.handleEvent(html, dos, "input", "input")
       this.handleEvent(html, dos, "right_click", "contextmenu")
     }
 

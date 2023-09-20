@@ -71,7 +71,12 @@ class Endpoints:
         For example: {'function':'add_assumption(p(1))'}
         """
         self._logger.debug("Got endpoint")
-        symbol = clingo.parse_term(backend_call_string.function)
+        try:
+            symbol = clingo.parse_term(backend_call_string.function)
+        except Exception as e:
+            #TODO handle errors sending message to client...
+            self._logger.error(f"Could not parse {backend_call_string.function} into an atom. Make sure strings are quoted.")
+            raise e
         function_name = symbol.name
         function_arguments = list(map(str, symbol.arguments))
 

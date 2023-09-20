@@ -74,6 +74,7 @@ export class DropdownMenuComponent {
     this.attributeService.addAttributes(htmlDdbut, attributes)
     this.attributeService.textAttributes(htmlDdbut, attributes)
     this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
+    this.attributeService.class(htmlDdbut, attributes, ["btn","btn-outline-dark","dropdown-toggle","mx-1"])
 
     htmlDdbut.style.border_color = this.attributeService.findGetAttributeValue("border_color", attributes, "black")
 
@@ -109,6 +110,8 @@ class DropdownMenuItemChild {
       attributeService.addAttributes(this.htmlElement, attributes)
       attributeService.textAttributes(this.htmlElement, attributes)
       attributeService.setAttributesDirectly(this.htmlElement, attributes)
+      attributeService.class(this.htmlElement, attributes, ["dropdown-item"])
+      
     }
   }
 }

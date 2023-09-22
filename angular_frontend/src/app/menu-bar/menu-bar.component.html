@@ -1,5 +1,9 @@
-<nav class="navbar navbar-expand navbar-dark bg-light">
-  <a class="navbar-brand">{{title}}</a>
+<nav class="navbar navbar-expand  bg-light justify-content-between ">
+  <a class="navbar-brand mx-3 text-dark">
+    <i #titleIcon ></i>
+    {{title}}
+  </a>
+  <div>
   <button *ngFor="let button of menuBarButtons" type="button" id={{button.id}} class="btn" ><i #icon></i> {{button.title}}</button>
-
+  </div>
 </nav>

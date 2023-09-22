@@ -153,31 +153,34 @@ do(mi(B,I,P), click, callback, add_assumption(assign(bed(B,I),P))) :- _b(assign(
 
 
 element(menu_bar, menu_bar, window).
+attribute(menu_bar, title, "Smart accomodation").
+attribute(menu_bar, icon, "fa-hotel").
+
 element(menu_bar_clear, button, menu_bar).
 attribute(menu_bar_clear, label, "Clear").
 attribute(menu_bar_clear, icon, "fa-trash").
 attribute(menu_bar_clear, class, "btn-outline-danger").
+attribute(menu_bar_clear, class, "border-0").
 do(menu_bar_clear, click, callback, clear_assumptions).
 
 
 element(menu_bar_select, button, menu_bar).
 attribute(menu_bar_select, label, "Select solution").
-attribute(menu_bar_select, class, "btn-outline-secondary").
-% attribute(menu_bar_select, class, "btn-outline-warning").
+attribute(menu_bar_select, class, "btn-outline-dark").
+attribute(menu_bar_select, class, "border-0").
 attribute(menu_bar_select, icon, "fa-hand-pointer").
-attribute(menu_bar_select, icon, "fa-duotone").
 do(menu_bar_select, click, callback, select).
 
 element(menu_bar_next_opt, button, menu_bar).
 attribute(menu_bar_next_opt, label, "Next Optimal").
 attribute(menu_bar_next_opt, icon, "fa-forward-fast").
-% attribute(menu_bar_next_opt, class, "btn-outline-success").
-attribute(menu_bar_next_opt, class, "btn-outline-secondary").
+attribute(menu_bar_next_opt, class, "btn-outline-dark").
+attribute(menu_bar_next_opt, class, "border-0").
 do(menu_bar_next_opt, click, callback, next_solution(optN)).
 
 element(menu_bar_next, button, menu_bar).
 attribute(menu_bar_next, label, "Next").
 attribute(menu_bar_next, icon, "fa-forward-step").
-attribute(menu_bar_next, class, "btn-outline-primary").
+attribute(menu_bar_next, class, "btn-outline-dark").
+attribute(menu_bar_next, class, "border-0").
 do(menu_bar_next, click, callback, next_solution).
-

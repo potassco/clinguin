@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
@@ -12,6 +12,7 @@ import { ElementLookupService } from '../element-lookup.service';
 })
 export class MenuBarComponent {
   @Input() element: ElementDto | null = null
+  @ViewChild("titleIcon",{static:false}) titleIcon! : ElementRef
 
   public isCollapsed = true;
 
@@ -42,11 +43,8 @@ export class MenuBarComponent {
 
           this.callBackHelperService.setCallbacks(menuBarButtonHTML, menuBarButtonObject.element.do)
 
-          console.log(menuBarButtonHTML)
           let icon = menuBarButtonHTML.children.item(0)
-          console.log(menuBarButtonHTML.children)
 
-          console.log(icon)
           if (icon != null) {
       
             this.attributeService.class(icon, menuBarButtonObject.element.attributes, ["fa"], 'icon')
@@ -66,6 +64,10 @@ export class MenuBarComponent {
       this.title = title.value
     }
 
+    let iconHtml = this.titleIcon.nativeElement
+    this.attributeService.class(iconHtml, attributes, ["fa"], 'icon')
+
+    
     this.cd.detectChanges()
 
   }

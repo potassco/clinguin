@@ -54,7 +54,7 @@ export class DropdownMenuComponent {
   
           if (icon != null) {
       
-            this.attributeService.class(icon, child.attributes, ["fa"], 'icon')
+            this.attributeService.addClasses(icon, child.attributes, ["fa"], [], 'icon')
           }
           
         }
@@ -79,7 +79,7 @@ export class DropdownMenuComponent {
     this.attributeService.addAttributes(htmlDdbut, attributes)
     this.attributeService.textAttributes(htmlDdbut, attributes)
     this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
-    this.attributeService.class(htmlDdbut, attributes, ["btn"])
+    this.attributeService.addClasses(htmlDdbut, attributes, ["btn"], ["btn-outline-dark"])
 
     htmlDdbut.style.border_color = this.attributeService.findGetAttributeValue("border_color", attributes, "black")
 
@@ -115,7 +115,7 @@ class DropdownMenuItemChild {
       attributeService.addAttributes(this.htmlElement, attributes)
       attributeService.textAttributes(this.htmlElement, attributes)
       attributeService.setAttributesDirectly(this.htmlElement, attributes)
-      attributeService.class(this.htmlElement, attributes, ["dropdown-item"])
+      attributeService.addClasses(this.htmlElement, attributes, ["dropdown-item"],[])
       
     }
   }

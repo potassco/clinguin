@@ -39,7 +39,7 @@ export class MenuBarComponent {
         if (menuBarButtonHTML != null) {
           menuBarButtonObject.setHtmlElement(menuBarButtonHTML)
           menuBarButtonObject.setAttributes(menuBarButtonObject.element.attributes)
-          this.attributeService.class(menuBarButtonHTML, menuBarButtonObject.element.attributes, ["btn-sm","mx-1"])
+          this.attributeService.addClasses(menuBarButtonHTML, menuBarButtonObject.element.attributes, ["btn-sm","mx-1"],["btn-outline-dark","border-0"])
 
           this.callBackHelperService.setCallbacks(menuBarButtonHTML, menuBarButtonObject.element.when)
 
@@ -47,7 +47,7 @@ export class MenuBarComponent {
 
           if (icon != null) {
       
-            this.attributeService.class(icon, menuBarButtonObject.element.attributes, ["fa"], 'icon')
+            this.attributeService.addClasses(icon, menuBarButtonObject.element.attributes, ["fa"], [], 'icon')
           }
         }
       })
@@ -65,7 +65,7 @@ export class MenuBarComponent {
     }
 
     let iconHtml = this.titleIcon.nativeElement
-    this.attributeService.class(iconHtml, attributes, ["fa"], 'icon')
+    this.attributeService.addClasses(iconHtml, attributes, ["fa"], [], 'icon')
 
     
     this.cd.detectChanges()

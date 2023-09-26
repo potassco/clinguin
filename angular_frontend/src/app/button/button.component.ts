@@ -43,7 +43,7 @@ export class ButtonComponent {
       this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
       this.attributeService.addAttributes(htmlDdbut, attributes)
       this.attributeService.textAttributes(htmlDdbut, attributes)
-      this.attributeService.class(htmlDdbut, attributes, ["btn"])
+      this.attributeService.addClasses(htmlDdbut, attributes, ["btn"], ["btn-info"])
       this.attributeService.addGeneralAttributes(htmlDdbut, attributes)
 
       if (this.element != null) {
@@ -52,7 +52,7 @@ export class ButtonComponent {
 
       let icon = htmlDdbut.children.item(0)
       
-      this.attributeService.class(icon, attributes, ["fa"], 'icon')
+      this.attributeService.addClasses(icon, attributes, ["fa"], [], 'icon')
 
       let stringDisabled = this.attributeService.findGetAttributeValue("disabled", attributes, "false")
       if (stringDisabled == "false") {

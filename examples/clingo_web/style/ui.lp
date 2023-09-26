@@ -1,6 +1,6 @@
 elem(window, window, root).
 % attr(window, child_layout, flex).
-% attr(window, flex_direction, column).
+attr(window, class, "flex-column-reverse").
 
 % ---------
 % Menu bar
@@ -19,23 +19,17 @@ when(menu_bar_clear, click, callback, clear_assumptions).
 
 elem(menu_bar_select, button, menu_bar).
 attr(menu_bar_select, label, "Select solution").
-attr(menu_bar_select, class, "btn-outline-dark").
-attr(menu_bar_select, class, "border-0").
 attr(menu_bar_select, icon, "fa-hand-pointer").
 when(menu_bar_select, click, callback, select).
 
 elem(menu_bar_next_opt, button, menu_bar).
 attr(menu_bar_next_opt, label, "Next Optimal").
 attr(menu_bar_next_opt, icon, "fa-forward-fast").
-attr(menu_bar_next_opt, class, "btn-outline-dark").
-attr(menu_bar_next_opt, class, "border-0").
 when(menu_bar_next_opt, click, callback, next_solution(optN)).
 
 elem(menu_bar_next, button, menu_bar).
 attr(menu_bar_next, label, "Next").
 attr(menu_bar_next, icon, "fa-forward-step").
-attr(menu_bar_next, class, "btn-outline-dark").
-attr(menu_bar_next, class, "border-0").
 when(menu_bar_next, click, callback, next_solution).
 
 
@@ -173,7 +167,6 @@ attr(c4, class, "bg-info").
 attr(c4, class, "w-75").
 attr(c4, class, "h-100").
 attr(c4, class, "align-items-start").
-attr(c4, class, "opacity-25").
 % attr(c4, flex_direction, "row").
 elem(c5, container, c6).
 attr(c5, class, "bg-success").
@@ -199,13 +192,17 @@ attr(dd2_2, label, "2").
 
 
 elem(dd3, dropdown_menu, c5).
-attr(dd3, class, "btn-light").
 attr(dd3, selected, "Choose a value").
 elem(dd3_1, dropdown_menu_item, dd3).
 attr(dd3_1, label, "INVALID").
 attr(dd3_1, class, "text-danger").
+attr(dd3_1, class, "disabled").
 attr(dd3_1, order, 1).
 elem(dd3_2, dropdown_menu_item, dd3).
 attr(dd3_2, label, "Valid").
 attr(dd3_2, class, "text-uppercase").
 attr(dd3_2, class, "text-success").
+elem(remove, dropdown_menu_item, dd3).
+attr(remove, icon, "fa-ban").
+attr(remove, class, "text-info").
+

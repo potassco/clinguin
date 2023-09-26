@@ -98,6 +98,7 @@ export class WindowComponent {
       let parentHTML = this.parent.nativeElement
       this.attributeService.setChildLayout(parentHTML, attributes)
       this.attributeService.addAttributes(parentHTML, attributes)
+      this.attributeService.addClasses(parentHTML, attributes,[],[])
       
       this.cd.detectChanges()
   }

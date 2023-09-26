@@ -176,21 +176,15 @@ attr(window, flex_direction, row).
 
         elem(menu_bar_select, button, menu_bar).
         attr(menu_bar_select, label, "Select solution").
-        attr(menu_bar_select, class, "btn-outline-dark").
-        attr(menu_bar_select, class, "border-0").
         attr(menu_bar_select, icon, "fa-hand-pointer").
         when(menu_bar_select, click, call, select).
 
         elem(menu_bar_next_opt, button, menu_bar).
         attr(menu_bar_next_opt, label, "Next Optimal").
         attr(menu_bar_next_opt, icon, "fa-forward-fast").
-        attr(menu_bar_next_opt, class, "btn-outline-dark").
-        attr(menu_bar_next_opt, class, "border-0").
         when(menu_bar_next_opt, click, call, next_solution(optN)).
 
         elem(menu_bar_next, button, menu_bar).
         attr(menu_bar_next, label, "Next").
         attr(menu_bar_next, icon, "fa-forward-step").
-        attr(menu_bar_next, class, "btn-outline-dark").
-        attr(menu_bar_next, class, "border-0").
         when(menu_bar_next, click, call, next_solution).

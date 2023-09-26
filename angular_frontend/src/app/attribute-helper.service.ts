@@ -145,20 +145,25 @@ export class AttributeHelperService {
 
     }
 
-    class(html: Element, attributes : AttributeDto[], default_classes:string[], attrName: string ='class' ) {
+    addClasses(html: Element, attributes : AttributeDto[], base_classes:string[], default_classes:string[], attrName: string ='class' ) {
 
-        default_classes.forEach(function (c){
+        base_classes.forEach(function (c){
             html.classList.add(c)
         })
-
+        let added = false
         attributes.forEach(function (item){
             if (item.key==attrName){
-                console.log("Adding class")
-                console.log(item.value)
+                added = true
                 let c = String(item.value)
                 html.classList.add(c)
             }
         })
+
+        if (!added){
+            default_classes.forEach(function (c){
+                html.classList.add(c)
+            })
+        }
         
 
     }

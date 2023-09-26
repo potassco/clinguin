@@ -50,7 +50,7 @@ export class LabelComponent {
       this.attributeService.addAttributes(htmlDdbut, attributes)
       this.attributeService.textAttributes(htmlDdbut, attributes)
       this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
-      this.attributeService.class(htmlDdbut, attributes, [])
+      this.attributeService.addClasses(htmlDdbut, attributes, [],[])
 
 
       this.setOuterDivStyles(htmlOuterDiv)

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
+import { AttributeDto, WhenDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { DOCUMENT } from '@angular/common';
@@ -48,7 +48,7 @@ export class DropdownMenuComponent {
           childObject.setHtmlElement(htmlChild)
           childObject.setAttributes(child.attributes)
 
-          this.callbackHelperService.setCallbacks(htmlChild, child.do)
+          this.callbackHelperService.setCallbacks(htmlChild, child.when)
 
           let icon = htmlChild.children.item(0)
   
@@ -89,7 +89,7 @@ export class DropdownMenuComponent {
 
   onClick(element: ElementDto) {
 
-    let callback : DoDto = element.do[0]
+    let callback : WhenDto = element.when[0]
 
     this.frontendService.policyPost(callback)
   }

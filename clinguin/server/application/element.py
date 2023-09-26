@@ -15,7 +15,7 @@ class ElementDto:
         self.type = str(element_type)
         self.parent = str(parent)
         self.attributes = []
-        self.do = []
+        self.when = []
         self.children = []
 
     def set_attributes(self, attributes):
@@ -34,7 +34,7 @@ class ElementDto:
         """
         Sets (all) the callbacks of this element.
         """
-        self.do = callbacks
+        self.when = callbacks
 
     def to_JSON(self):  # pylint: disable=C0103
         """
@@ -55,7 +55,7 @@ class ElementDto:
         clone.set_attributes(cloned_attributes)
 
         cloned_callbacks = []
-        for callback in self.do:
+        for callback in self.when:
             cloned_callbacks.append(callback.clone())
         clone.set_callbacks(cloned_callbacks)
 

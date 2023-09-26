@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { DoDto, ElementDto } from './types/json-response.dto';
+import { WhenDto, ElementDto } from './types/json-response.dto';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { ServerRequest } from './types/server-request';
@@ -34,7 +34,7 @@ export class DrawFrontendService {
         }})
     }
 
-    policyPost(callback: DoDto) : void {
+    policyPost(callback: WhenDto) : void {
 
         let context = this.contextService.getContext()
 

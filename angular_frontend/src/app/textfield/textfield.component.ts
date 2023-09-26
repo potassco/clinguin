@@ -29,7 +29,7 @@ export class TextfieldComponent {
 
       this.setAttributes(this.element.attributes)
       let htmlTextfield = this.theTextfield.nativeElement
-      this.callbackService.setCallbacks(htmlTextfield, this.element.do)
+      this.callbackService.setCallbacks(htmlTextfield, this.element.when)
 
       this.cd.detectChanges()
     }

@@ -5,9 +5,9 @@ Module that contains the CallbackDao.
 from clorm import Predicate, RawField
 
 
-class DoDao(Predicate):
+class WhenDao(Predicate):
     """
-    Class for CLORM (clingo-object-relational-mapping), i.e. for accessing 'do' in a factbase.
+    Class for CLORM (clingo-object-relational-mapping), i.e. for accessing 'when' in a factbase.
     """
 
     id = RawField
@@ -20,4 +20,4 @@ class DoDao(Predicate):
         Meta class
         """
 
-        name = "do"
+        name = "when"

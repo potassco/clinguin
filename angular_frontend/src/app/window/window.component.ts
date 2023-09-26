@@ -117,25 +117,25 @@ export class WindowComponent {
       }
     }
 
-    for (let i = 0; i < element.do.length; i++) {
-      if (element.do[i].action_type !== undefined) {
-        element.do[i].actionType = element.do[i].action_type!
+    for (let i = 0; i < element.when.length; i++) {
+      if (element.when[i].action_type !== undefined) {
+        element.when[i].actionType = element.when[i].action_type!
       }
-      if (element.do[i].interaction_type !== undefined) {
-        element.do[i].interactionType = element.do[i].interaction_type!
+      if (element.when[i].interaction_type !== undefined) {
+        element.when[i].interactionType = element.when[i].interaction_type!
       }
 
-      let policy = element.do[i].policy
+      let policy = element.when[i].policy
       policy = this.stringSanitizer(policy)
-      element.do[i].policy = policy
+      element.when[i].policy = policy
 
-      let action = element.do[i].actionType
+      let action = element.when[i].actionType
       action = this.stringSanitizer(action)
-      element.do[i].actionType = action
+      element.when[i].actionType = action
 
-      let interaction = element.do[i].interactionType
+      let interaction = element.when[i].interactionType
       interaction = this.stringSanitizer(interaction)
-      element.do[i].interactionType = interaction
+      element.when[i].interactionType = interaction
     }
 
     element.children.forEach(child => {

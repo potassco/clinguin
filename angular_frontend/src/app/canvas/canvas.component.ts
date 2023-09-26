@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
+import { AttributeDto, WhenDto, ElementDto } from '../types/json-response.dto';
 import { CallBackHelperService } from '../callback-helper.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { Buffer } from "buffer";import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
@@ -121,19 +121,19 @@ export class CanvasComponent {
     
     svgNodeUiNodeAssociationList.forEach((elem : {"svg":HTMLElement, "ui":ElementDto}) => {
       let uiElement = elem.ui
-      let clickRelatedDoList : DoDto[] = []
+      let clickRelatedDoList : WhenDto[] = []
 
-      this.callbackService.setCallbacks(elem.svg, elem.ui.do)
+      this.callbackService.setCallbacks(elem.svg, elem.ui.when)
 
       /*
-      uiElement.do.forEach((do_: DoDto) => {
+      uiElement.when.forEach((do_: WhenDto) => {
         if (do_.actionType == "click") {
           clickRelatedDoList.push(do_)
         }
       })
 
       elem.svg.addEventListener("click",function(){
-        clickRelatedDoList.forEach((do_:DoDto) => {
+        clickRelatedDoList.forEach((do_:WhenDto) => {
           if (do_.interactionType == "update") {
 
 
@@ -166,7 +166,7 @@ export class CanvasComponent {
     this.attributeService.textAttributes(htmlDdbut, element.attributes)
     this.attributeService.setAttributesDirectly(htmlDdbut, element.attributes)
 
-    this.callbackService.setCallbacks(htmlDdbut, element.do)
+    this.callbackService.setCallbacks(htmlDdbut, element.when)
 
     let imgPath = this.attributeService.findAttribute("image_path", element.attributes)
 

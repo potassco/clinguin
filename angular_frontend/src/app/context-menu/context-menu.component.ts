@@ -36,7 +36,7 @@ export class ContextMenuComponent {
       this.element.children.forEach((item:ElementDto) => {
         let button = document.getElementById(item.id)
         if (button != null) {
-          this.callbackService.setCallbacks(button, item.do)
+          this.callbackService.setCallbacks(button, item.when)
         }
       })
       

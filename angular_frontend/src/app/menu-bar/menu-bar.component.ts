@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, ElementRef, ViewChild } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
+import { AttributeDto, WhenDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
@@ -41,7 +41,7 @@ export class MenuBarComponent {
           menuBarButtonObject.setAttributes(menuBarButtonObject.element.attributes)
           this.attributeService.class(menuBarButtonHTML, menuBarButtonObject.element.attributes, ["btn-sm","mx-1"])
 
-          this.callBackHelperService.setCallbacks(menuBarButtonHTML, menuBarButtonObject.element.do)
+          this.callBackHelperService.setCallbacks(menuBarButtonHTML, menuBarButtonObject.element.when)
 
           let icon = menuBarButtonHTML.children.item(0)
 
@@ -72,7 +72,7 @@ export class MenuBarComponent {
 
   }
 
-  policyExecutor(policy: DoDto | null) {
+  policyExecutor(policy: WhenDto | null) {
     if (policy != null) {
       this.displayFrontend.policyPost(policy)
     }

@@ -60,7 +60,8 @@ class Endpoints:
         The get() method is implemented by every backend.
         """
         self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
-        return self._backend.get()
+        json = self._backend.get()
+        return json
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
         """

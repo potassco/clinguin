@@ -19,4 +19,4 @@ class AttributeDao(Predicate):
         Meta class
         """
 
-        name = "attribute"
+        name = "attr"

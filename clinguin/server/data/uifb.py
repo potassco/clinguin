@@ -13,7 +13,7 @@ from clorm import Raw
 from clinguin.utils import Logger, NoModelError
 
 from .attribute import AttributeDao
-from .callback import DoDao
+from .callback import WhenDao
 from .element import ElementDao
 
 
@@ -25,7 +25,7 @@ class UIFB:
     functionality to query important things for clinguin, etc.
     """
 
-    unifiers = [ElementDao, AttributeDao, DoDao]
+    unifiers = [ElementDao, AttributeDao, WhenDao]
 
     def __init__(
         self,
@@ -143,7 +143,7 @@ class UIFB:
 
         uictl.add("base", [], extra_ui_prg)
         uictl.add("base", [], self.conseq_facts)
-        uictl.add("base", [], "#show element/3. #show attribute/3. #show do/4.")
+        uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
         uictl.ground([("base", [])])
 
         return uictl
@@ -298,7 +298,7 @@ class UIFB:
         """
         Get all callbacks.
         """
-        return self._factbase.query(DoDao).all()
+        return self._factbase.query(WhenDao).all()
 
     def get_attributes_grouped(self):
         """
@@ -310,7 +310,7 @@ class UIFB:
         """
         Get all callbacks grouped by element id.
         """
-        return self._factbase.query(DoDao).group_by(DoDao.id).all()
+        return self._factbase.query(WhenDao).group_by(WhenDao.id).all()
 
     def get_attributes_for_element_id(self, element_id):
         """
@@ -326,7 +326,7 @@ class UIFB:
         """
         Get all callbacks for one element id.
         """
-        return self._factbase.query(DoDao).where(DoDao.id == element_id).all()
+        return self._factbase.query(WhenDao).where(WhenDao.id == element_id).all()
 
     def replace_attribute(self, old_attribute, new_attribute):
         """

@@ -28,7 +28,7 @@ export class ButtonComponent {
 
       this.setAttributes(this.element.attributes)
       let htmlDdbut = this.theButton.nativeElement
-      this.callbackService.setCallbacks(htmlDdbut, this.element.do)
+      this.callbackService.setCallbacks(htmlDdbut, this.element.when)
 
       this.cd.detectChanges()
     }

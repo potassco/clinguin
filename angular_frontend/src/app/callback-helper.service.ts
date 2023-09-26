@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from './types/json-response.dto';
+import { AttributeDto, WhenDto, ElementDto } from './types/json-response.dto';
 import { DrawFrontendService } from './draw-frontend.service';
 import { LocatorService } from './locator.service';
 import { ContextService } from './context.service';
@@ -72,7 +72,7 @@ function hideAllContextMenus() : boolean {
   return anyWasOpen
 } 
 
-function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
+function handleRightClick(html: HTMLElement, do_:WhenDto, event: Event) {
   event.preventDefault()
   event.stopPropagation()
 
@@ -107,7 +107,7 @@ function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
 }
  
 
-function handleUpdate(do_:DoDto, event: Event) {
+function handleUpdate(do_:WhenDto, event: Event) {
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
   let policy = do_.policy
@@ -162,7 +162,7 @@ function handleUpdate(do_:DoDto, event: Event) {
 
 }
   
-function handleCallback(do_:DoDto, event: Event) {
+function handleCallback(do_:WhenDto, event: Event) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
   let contextService = LocatorService.injector.get(ContextService)
 
@@ -189,7 +189,7 @@ function handleCallback(do_:DoDto, event: Event) {
   frontendService.policyPost(do_)
   }
 
-function handleContext(do_:DoDto, event: Event) {
+function handleContext(do_:WhenDto, event: Event) {
   let contextService = LocatorService.injector.get(ContextService)
    
   let policy = do_.policy
@@ -245,7 +245,7 @@ export class CallBackHelperService {
     document.oncontextmenu = defaultClickContextHandler; 
    }
 
-    findCallback(action: string, callbacks: DoDto[]): DoDto | null {
+    findCallback(action: string, callbacks: WhenDto[]): WhenDto | null {
       let value = null
       let index = callbacks.findIndex(callback => callback.actionType == action)
       if (index >= 0) {
@@ -254,16 +254,16 @@ export class CallBackHelperService {
       return value
     }
  
-    setCallbacks(html: HTMLElement, dos:DoDto[]) {
+    setCallbacks(html: HTMLElement, dos:WhenDto[]) {
       this.handleEvent(html, dos, "click", "click")
       this.handleEvent(html, dos, "input", "input")
       this.handleEvent(html, dos, "right_click", "contextmenu")
     }
 
-    handleEvent(html: HTMLElement, dos:DoDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
+    handleEvent(html: HTMLElement, dos:WhenDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
       
-      let allEvents:DoDto[] = []
-      dos.forEach((do_:DoDto) => {
+      let allEvents:WhenDto[] = []
+      dos.forEach((do_:WhenDto) => {
         if (do_.actionType == supportedAttributeName) {
           allEvents.push(do_)
         }
@@ -276,7 +276,7 @@ export class CallBackHelperService {
 
         html.addEventListener(htmlEventName,function(event: Event){
 
-          allEvents.forEach((do_:DoDto) => {
+          allEvents.forEach((do_:WhenDto) => {
             if (do_.interactionType == "update") {
               handleUpdate(do_, event)
             } else if (do_.interactionType == "context") {

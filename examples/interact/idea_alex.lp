@@ -1,21 +1,21 @@
-element(window, window, root).
+elem(window, window, root).
 
 % A form container, which is a placeholder for possible forms
-element(form_container, container, window).
+elem(form_container, container, window).
 
 % A canvas, where images can be displayed.
-element(c, canvas, window).
+elem(c, canvas, window).
 
 % Specifying a special type from the ''clingraph-backend'' (not yet there).
-attribute(c, image_type, clingraph).
+attr(c, image_type, clingraph).
 
 % Specifying that we want an svg as an output, which enables interactivity.
-attribute(c, image_type, svg).
+attr(c, image_type, svg).
 
 % Creating nodes in the frontend - for svgs only
-element(n(X), svg_node, c) :- node(X).
+elem(n(X), svg_node, c) :- node(X).
 % For interactivity/callbacks it is necessary to specify some sort of id, which (might) differ from the clinguin id.
-attribute(n(X), id, X) :- node(X).
+attr(n(X), id, X) :- node(X).
 
 % Interactivity predicate:
 % Specifies that there should be some action purely in the frontend (e.g. on a press on an svg node a form should appear)
@@ -38,12 +38,12 @@ interactivity(n(X), action, f(X)) :- node(X).
 interactivity(n(x), action_type, show) :- node(X).
 
 % The element where the form resides
-element(f(X), form, form_container) :- node(X).
+elem(f(X), form, form_container) :- node(X).
 
 % If n(X) has action click, then f(X) should be shown
 interactivity(f(X), shown_if, n(X)) :- node(X)
 
 % Form elements [...]
-element(b(X), button, f(X)) :- node(X).
-attribute(b(X), label, "Assume Node") :- node(X).
+elem(b(X), button, f(X)) :- node(X).
+attr(b(X), label, "Assume Node") :- node(X).
 callback(b(X), click, add_assumption(node(X))) :- node(X).

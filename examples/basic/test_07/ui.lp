@@ -1,16 +1,16 @@
-element(window, window, root).
+elem(window, window, root).
 
-attribute(window, height, 500).
-attribute(window, width, 450).
-attribute(window, pos_x, 0).
-attribute(window, pos_y, 100).
+attr(window, height, 500).
+attr(window, width, 450).
+attr(window, pos_x, 0).
+attr(window, pos_y, 100).
 
-element(canv, canvas, window).
-attribute(canv, height, 500).
-attribute(canv, width, 450).
-attribute(canv, image, "examples/basic/test_07/tommi.jpg").
+elem(canv, canvas, window).
+attr(canv, height, 500).
+attr(canv, width, 450).
+attr(canv, image, "examples/basic/test_07/tommi.jpg").
 
-attribute(canv, resize, true).
+attr(canv, resize, true).
 
 
 

@@ -1,88 +1,88 @@
-element(w, window, root).
-attribute(w, height, 500).
-attribute(w, width, 500).
-attribute(w, background_color, white).
-attribute(w, child_layout, relstatic).
+elem(w, window, root).
+attr(w, height, 500).
+attr(w, width, 500).
+attr(w, background_color, white).
+attr(w, child_layout, relstatic).
 
-    element(c, container, w).
-    attribute(c, width, 250).
-    attribute(c, height, 150).
-    attribute(c, border_width, 2).
-    attribute(c, on_hover, true).
-    attribute(c, on_hover_background_color, blue).
-    attribute(c, on_hover_border_color, red).
-    attribute(c, pos_x, 25).
-    attribute(c, pos_y, 0).
-    attribute(c, child_layout, absstatic).
+    elem(c, container, w).
+    attr(c, width, 250).
+    attr(c, height, 150).
+    attr(c, border_width, 2).
+    attr(c, on_hover, true).
+    attr(c, on_hover_background_color, blue).
+    attr(c, on_hover_border_color, red).
+    attr(c, pos_x, 25).
+    attr(c, pos_y, 0).
+    attr(c, child_layout, absstatic).
 
-        element(cc, container, c).
-        attribute(cc, width, 100).
-        attribute(cc, height, 50).
-        attribute(cc, background_color, green).
-        attribute(cc, border_width, 2).
-        attribute(cc, pos_x, 0).
-        attribute(cc, pos_y, 0).
+        elem(cc, container, c).
+        attr(cc, width, 100).
+        attr(cc, height, 50).
+        attr(cc, background_color, green).
+        attr(cc, border_width, 2).
+        attr(cc, pos_x, 0).
+        attr(cc, pos_y, 0).
 
-        element(m, dropdown_menu, c).
-        attribute(m, width, 100).
-        attribute(m, height, 50).
-        attribute(m, pos_x, 0).
-        attribute(m, pos_y, 50).
-        attribute(m, background_color, black).
-        attribute(m, foreground_color, white).
-        attribute(m, on_hover, true).
-        attribute(m, on_hover_background_color, white).
-        attribute(m, on_hover_foreground_color, black).
+        elem(m, dropdown_menu, c).
+        attr(m, width, 100).
+        attr(m, height, 50).
+        attr(m, pos_x, 0).
+        attr(m, pos_y, 50).
+        attr(m, background_color, black).
+        attr(m, foreground_color, white).
+        attr(m, on_hover, true).
+        attr(m, on_hover_background_color, white).
+        attr(m, on_hover_foreground_color, black).
 
-            element(mi(X), dropdown_menu_item, m) :- _b(p(X)).
-            attribute(mi(X), label, X) :- _b(p(X)).
-            do(mi(X), click, callback, add_assumption(p(X))) :- _b(p(X)).
-            attribute(m, selected, X) :- _c(p(X)).
+            elem(mi(X), dropdown_menu_item, m) :- _b(p(X)).
+            attr(mi(X), label, X) :- _b(p(X)).
+            when(mi(X), click, callback, add_assumption(p(X))) :- _b(p(X)).
+            attr(m, selected, X) :- _c(p(X)).
 
-        element(c4, container, c).
-        attribute(c4, width, 146).
-        attribute(c4, height, 146).
-        attribute(c4, background_color, beige).
-        attribute(c4, pos_x, 100).
-        attribute(c4, pos_y, 0).
-        attribute(c4, child_layout, grid).
+        elem(c4, container, c).
+        attr(c4, width, 146).
+        attr(c4, height, 146).
+        attr(c4, background_color, beige).
+        attr(c4, pos_x, 100).
+        attr(c4, pos_y, 0).
+        attr(c4, child_layout, grid).
 
-            element(c(X,Y), container, c4) :- pos(X,Y).
-            attribute(c(X,Y), width, 48) :- pos(X,Y).
-            attribute(c(X,Y), height, 48) :- pos(X,Y).
-            attribute(c(X,Y), grid_column, X) :- pos(X,Y).
-            attribute(c(X,Y), grid_row, Y) :- pos(X,Y).
-            attribute(c(X,Y), background_color, pink) :- pos(X,Y), (X + Y) \ 2 = 0.
-            attribute(c(X,Y), background_color, red) :- pos(X,Y), (X + Y) \ 2 = 1.
+            elem(c(X,Y), container, c4) :- pos(X,Y).
+            attr(c(X,Y), width, 48) :- pos(X,Y).
+            attr(c(X,Y), height, 48) :- pos(X,Y).
+            attr(c(X,Y), grid_column, X) :- pos(X,Y).
+            attr(c(X,Y), grid_row, Y) :- pos(X,Y).
+            attr(c(X,Y), background_color, pink) :- pos(X,Y), (X + Y) \ 2 = 0.
+            attr(c(X,Y), background_color, red) :- pos(X,Y), (X + Y) \ 2 = 1.
 
-    element(l1, label, w).
-    attribute(l1, background_color, blue).
-    attribute(l1, foreground_color, brown).
-    attribute(l1, label, "Clear!").
-    attribute(l1, on_hover, true).
-    attribute(l1, on_hover_background_color, gray).
-    attribute(l1, on_hover_foreground_color, beige).
-    attribute(l1, font_size, 15).
-    attribute(l1, font_weight, "i").
-    attribute(l1, width, 100).
-    attribute(l1, height, 50).
-    attribute(l1, pos_x, 40).
-    attribute(l1, pos_y, 50).
-    do(l1, click, callback, clear_assumptions).
+    elem(l1, label, w).
+    attr(l1, background_color, blue).
+    attr(l1, foreground_color, brown).
+    attr(l1, label, "Clear!").
+    attr(l1, on_hover, true).
+    attr(l1, on_hover_background_color, gray).
+    attr(l1, on_hover_foreground_color, beige).
+    attr(l1, font_size, 15).
+    attr(l1, font_weight, "i").
+    attr(l1, width, 100).
+    attr(l1, height, 50).
+    attr(l1, pos_x, 40).
+    attr(l1, pos_y, 50).
+    when(l1, click, callback, clear_assumptions).
 
-    element(b, button, w).
-    attribute(b, background_color, blue).
-    attribute(b, foreground_color, brown).
-    attribute(b, label, "Clear!").
-    attribute(b, on_hover, true).
-    attribute(b, on_hover_background_color, gray).
-    attribute(b, on_hover_foreground_color, beige).
-    attribute(b, font_size, 18).
-    attribute(b, font_weight, "bi").
-    attribute(b, width, 100).
-    attribute(b, height, 50).
-    attribute(b, pos_x, 40).
-    attribute(b, pos_y, 70).
-    do(b, click, callback, clear_assumptions).
+    elem(b, button, w).
+    attr(b, background_color, blue).
+    attr(b, foreground_color, brown).
+    attr(b, label, "Clear!").
+    attr(b, on_hover, true).
+    attr(b, on_hover_background_color, gray).
+    attr(b, on_hover_foreground_color, beige).
+    attr(b, font_size, 18).
+    attr(b, font_weight, "bi").
+    attr(b, width, 100).
+    attr(b, height, 50).
+    attr(b, pos_x, 40).
+    attr(b, pos_y, 70).
+    when(b, click, callback, clear_assumptions).
 
 

@@ -1,15 +1,15 @@
-room(1,"Bedroom 1").
-room(2,"Bedroom 2").
-room(3,"Bedroom 3").
-bed(1,1).
-bed(2,1).
-bed(1,2).
-bed(1,3).
-bed(2,3).
-bed(3,3).
-person(max).
-person(phil).
-person(anna).
+table(1,"Table 1").
+table(2,"Table 2").
+table(3,"Table 3").
+seat(1,1).
+seat(2,1).
+seat(1,2).
+seat(1,3).
+seat(2,3).
+seat(3,3).
+person("Max").
+person("Phil").
+person("Anna").
 %person(sus).
 %person(tobias).
 %person(sven).

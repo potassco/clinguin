@@ -50,9 +50,14 @@ export class DropdownMenuComponent {
 
           this.callbackHelperService.setCallbacks(htmlChild, child.do)
 
+          let icon = htmlChild.children.item(0)
+  
+          if (icon != null) {
+      
+            this.attributeService.class(icon, child.attributes, ["fa"], 'icon')
+          }
           
         }
- 
 
       })
 
@@ -74,7 +79,7 @@ export class DropdownMenuComponent {
     this.attributeService.addAttributes(htmlDdbut, attributes)
     this.attributeService.textAttributes(htmlDdbut, attributes)
     this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
-    this.attributeService.class(htmlDdbut, attributes, ["btn","btn-outline-dark","dropdown-toggle","mx-1"])
+    this.attributeService.class(htmlDdbut, attributes, ["btn"])
 
     htmlDdbut.style.border_color = this.attributeService.findGetAttributeValue("border_color", attributes, "black")
 

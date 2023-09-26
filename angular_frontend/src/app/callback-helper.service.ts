@@ -174,7 +174,11 @@ function handleCallback(do_:DoDto, event: Event) {
     let match_group = match[1]
 
     let new_value = contextService.retrieveContextValue(match_group)
-
+    if (typeof new_value === "string" && new_value.length>0) {
+      if ( new_value[0] === new_value[0].toUpperCase()){
+        new_value = '"'+new_value+'"'
+      }
+    } 
     policy_string = policy_string.replace(regex, new_value)
     
     match = regex.exec(policy_string)

@@ -1,186 +1,196 @@
-% #const color_considered = "#C1E5AE".
-% #const color_considered_on_hover = "#6cc13e".
-% #const color_not_considered = "#E5C2AE".
-% #const color_not_considered_on_hover = "#c16e3e".
-#const width_value= 400.
-
-
-% Window
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% WINDOW
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 element(window, window, root).
-attribute(window, width, width_value).
 attribute(window, child_layout, flex).
-attribute(window, flex_direction, column).
+attribute(window, flex_direction, row).
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% MODAL
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % MODAL
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-element(modal, modal, window).
-attribute(modal, title, "Add person").
+    element(modal, modal, window).
+    attribute(modal, title, "Add person").
 
-element(c1, container, modal).
-attribute(c1, child_layout, flex).
-attribute(c1, flex_direction, row_reverse).
+        element(c1, container, modal).
+        attribute(c1, child_layout, flex).
+        attribute(c1, flex_direction, row_reverse).
 
-element(t1, textfield, c1).
-attribute(t1, placeholder, "Enter the name of the person").
-attribute(t1, width, 250).
-do(t1, input, context, (t1_content, _value)).
+            element(t1, textfield, c1).
+            attribute(t1, placeholder, "Enter the name of the person").
+            attribute(t1, width, 250).
+            do(t1, input, context, (t1_content, _value)).
 
-element(b1, button, c1).
-do(b1, click, callback, add_atom(person(_value_context(t1_content)))).
-attribute(b1, label, "Add").
-attribute(b1, class, "btn-light").
-attribute(b1, icon, "fa-plus").
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Error message
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-room_assigned :- _c(assign(_,_)).
-adding_people_not_possible :- room_assigned.
-adding_people_not_possible :- setting_rooms.
-
-element(message_impossible_op,message,window):- adding_people_not_possible.
-attribute(message_impossible_op,title,"Invalid Operation!"):- adding_people_not_possible.
-attribute(message_impossible_op,message,"Adding people only possible while in room-defining mode"):- adding_people_not_possible.
-attribute(message_impossible_op,type,error):- adding_people_not_possible.
-attribute(message_impossible_op,visible,hidden) :- adding_people_not_possible.
+            element(b1, button, c1).
+            do(b1, click, callback, add_atom(person(_value_context(t1_content)))).
+            attribute(b1, label, "Add").
+            attribute(b1, class, "m-1").
+            attribute(b1, class, "btn-secondary").
+            attribute(b1, icon, "fa-plus").
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% List of people
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % ALL PEOPLE
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-element(add_button, button, window).
-attribute(add_button, icon, "fa-user-plus").
-attribute(add_button, class, "btn-light").
-attribute(add_button, class, "border-info").
-do(add_button, click, update, (modal, visible, shown)) :- not room_assigned, not setting_rooms.
-do(add_button, click, update, (message_impossible_op, visible, shown)) :- adding_people_not_possible.
+    element(people, container, window).
+    attribute(people, class, "w-25").
+    attribute(people, child_layout, "flex").
+    attribute(people, flex_direction, "row").
 
-% Top container
-element(upper_container, container, window).
-attribute(upper_container, order, 1).
-attribute(upper_container, class, "rounded").
-attribute(upper_container, class, "bg-light").
-attribute(upper_container, width, width_value).
-% attribute(upper_container, child_layout, grid).
+        element(add_button, button, people).
+        attribute(add_button, icon, "fa-user-plus").
+        attribute(add_button, class, "btn-secondary").
+        attribute(add_button, class, "bg-opacity-50").
+        attribute(add_button, class, "border-info").
+        attribute(add_button, child_layout, flex).
+        attribute(add_button, flex_direction, column).
+        do(add_button, click, update, (modal, visible, shown)).
 
-% People to add to the house
-can_add(P):-person(P), not in_house(P).
-element(person_add(P), label, upper_container):- can_add(P).
-attribute(person_add(P), label, P) :- can_add(P).
-attribute(person_add(P), class, "text-danger") :- can_add(P).
-do(person_add(P), click, callback, set_external(in_house(P),true)):- can_add(P), not setting_rooms.
+        element(list_people, container, people).
+        attribute(tables, class, "w-25").
+        attribute(tables, order, 1).
+        attribute(list_people, class, "rounded").
+        attribute(list_people, class, "bg-secondary").
+        attribute(list_people, class, "bg-opacity-50").
+        attribute(list_people, class, "p-4").
+        attribute(list_people, class, "align-items-start").
 
-% People to remove from the house
-can_remove(P):- in_house(P).
-element(person_remove(P), label, upper_container):- can_remove(P).
-attribute(person_remove(P), label, P) :- can_remove(P).
-attribute(person_remove(P), class, "text-success") :- can_remove(P).
-do(person_remove(P), click, callback, set_external(in_house(P),false)):-can_remove(P), not setting_rooms.
+            element(person_l(P), label, list_people):- person(P).
+            attribute(person_l(P), label, P):- person(P).
+            attribute(person_l(P), class, "text-capitalize"):- person(P).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Next step button
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % PEOPLE INCLUDED
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    element(included, container, window).
+    attribute(included, class, "bg-info").
+    attribute(included, class, "w-25").
+    attribute(included, class, "p-4").
+    attribute(included, class, "rounded").
+    attribute(included, order, 2).
+    attribute(included, child_layout, "flex").
+
+        element(included(P), container, included):- person(P).
+        attribute(included(P), flex_direction, row):- person(P).
+        attribute(included(P), class, "align-items-center"):- person(P).
+
+            element(included_l(P), container, included(P)):- person(P).
+            attribute(included_l(P), class, "w-75"):- person(P).
+            attribute(included_l(P), flex_direction, row):- person(P).
+            
+                element(included_btn(P), button, included_l(P)):- person(P).
+                attribute(included_btn(P), class, "btn-sm"):- person(P).
+                attribute(included_btn(P), class, "rounded-circle"):- person(P).
+                attribute(included_btn(P), icon, "fa-circle-check"):- person(P), include(P).
+                attribute(included_btn(P), icon, "fa-circle-xmark"):- person(P), not include(P).
+                attribute(included_btn(P), class, "text-success"):- person(P), include(P).
+                attribute(included_btn(P), class, "text-danger"):- person(P), not include(P).
+            
+                element(included_label(P), label, included_l(P)):- person(P).
+                attribute(included_label(P), label, P):- person(P).
+                attribute(included_label(P), class, "text-capitalize"):- person(P).
+
+            element(included_b(P), container, included(P)):- person(P).
+            attribute(included_b(P), flex_direction, row):- person(P).
 
 
-% Next
-element(button_container, container, window).
-attribute(button_container, order, 2).
-attribute(button_container, height, 100).
-attribute(button_container, width, width_value).
-attribute(button_container, child_layout, flex).
-attribute(button_container, "alignItems", center).
-attribute(button_container, "justifyContent", center).
-
-
-element(button_next, button, button_container).
-attribute(button_next, class, "btn-secondary").
-attribute(button_next, height, 40).
-attribute(button_next, width, width_value).
-attribute(button_next, icon, "fa-arrow-down-up-across-line").
-attribute(button_next, label, "Define rooms") :- not setting_rooms.
-attribute(button_next, label, "Define people") :- setting_rooms.
-
-% do(button_next, click, callback, clear_assumptions) :- setting_rooms, room_assigned.
-do(button_next, click, callback, set_external(setting_rooms,true)) :- not setting_rooms.
-do(button_next, click, callback, set_external(setting_rooms,false)) :- setting_rooms.
-
-
-
-% Rooms container
-element(rooms_main_container, container, window):-setting_rooms.
-attribute(rooms_main_container, order, 3).
-attribute(rooms_main_container, width, width_value).
-attribute(rooms_main_container, child_layout, grid).
-
-% Room container
-element(room(I), container, rooms_main_container) :- room(I,_),setting_rooms.
-attribute(room(I), height, 200) :- room(I,_).
-attribute(room(I), width, 200) :- room(I,_).
-attribute(room(I), grid_column, (I-1)\2) :- room(I,_).
-attribute(room(I), grid_row, (I-1)/2) :- room(I,_).
-attribute(room(I), child_layout, absstatic) :- room(I,_).
-
-% Room title
-element(room_title(I), label, room(I)) :- room(I,_),setting_rooms.
-attribute(room_title(I), height, 20) :- room(I,_).
-attribute(room_title(I), class, "text-uppercase") :- room(I,_).
-attribute(room_title(I), width, 190) :- room(I,_).
-attribute(room_title(I), label, T) :- room(I,T).
-
-% Room beds dropdowns
-element(room_dropdown(B,I), dropdown_menu, room(I)) :- bed(B,I),setting_rooms.
-attribute(room_dropdown(B,I), class, "btn-sm") :- bed(B,I),setting_rooms.
-attribute(room_dropdown(B,I), selected, P) :- _c(assign(bed(B,I),P)).
-% attribute(room_dropdown(B,I), height, 30) :- bed(B,I).
-attribute(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P), _clinguin_browsing.
-% attribute(room_dropdown(B,I), width, 100) :- bed(B,I).
-attribute(room_dropdown(B,I), pos_y, B*40):- bed(B,I).
-do(room_dropdown(B,I), clear, callback, remove_assumption_signature(assign(bed(B,I),any))) :- bed(B,I).
-
-element(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _b(assign(bed(B,I),P)),setting_rooms.
-attribute(mi(B,I,P), label, P) :- _b(assign(bed(B,I),P)).
-do(mi(B,I,P), click, callback, add_assumption(assign(bed(B,I),P))) :- _b(assign(bed(B,I),P)).
+                element(included_btn_add(P), button, included_b(P)):- person(P).
+                attribute(included_btn_add(P), class, "btn-sm"):- person(P).
+                attribute(included_btn_add(P), class, "btn-outline-dark"):- person(P).
+                attribute(included_btn_add(P), class, "m-1"):- person(P).
+                attribute(included_btn_add(P), label, "Add"):- person(P), not include(P).
+                attribute(included_btn_add(P), label, "Remove"):- person(P), include(P).
+                do(included_btn_add(P), click, callback, set_external(include(P),true)) :- person(P), not include(P).
+                do(included_btn_add(P), click, callback, set_external(include(P),false)) :- person(P), include(P).
 
 
 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Table setup
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+    element(tables, container, window).
+    attribute(tables, order, 3).
+    attribute(tables, class, "w-50").
 
 
-element(menu_bar, menu_bar, window).
-attribute(menu_bar, title, "Smart accomodation").
-attribute(menu_bar, icon, "fa-hotel").
+        element(table(T), container, tables):-table(T,_).
+        attribute(table(T), flex_direction, "row"):-table(T,_).
+        attribute(table(T), class, "border"):-table(T,L).
+        attribute(table(T), class, "bg-primary"):-table(T,L).
+        attribute(table(T), class, "bg-opacity-50"):-table(T,L).
+        attribute(table(T), class, "rounded"):-table(T,L).
+        attribute(table(T), class, "m-2"):-table(T,L).
+        attribute(table(T), class, "p-4"):-table(T,L).
 
-element(menu_bar_clear, button, menu_bar).
-attribute(menu_bar_clear, label, "Clear").
-attribute(menu_bar_clear, icon, "fa-trash").
-attribute(menu_bar_clear, class, "btn-outline-danger").
-attribute(menu_bar_clear, class, "border-0").
-do(menu_bar_clear, click, callback, clear_assumptions).
+            element(table_label_container(T), container, table(T)):-table(T,_).
+            attribute(table_label_container(T), order, 1):-table(T,_).
+            attribute(table_label_container(T), class, "align-self-center"):-table(T,_).
+
+                element(table_label(T), label, table_label_container(T)):-table(T,_).
+                attribute(table_label(T), label, L):-table(T,L).
+                attribute(table_label(T), class, "font-weight-bold"):-table(T,L).
+                attribute(table_label(T), "font-size", "20px"):-table(T,L).
+                attribute(table_label(T), class, "align-middle"):-table(T,L).
+
+            element(table_dropdowns(T), container, table(T)):-table(T,_).
+            attribute(table_dropdowns(T), order, 2):-table(T,_).
+            attribute(table_dropdowns(T), class, "m-2"):-table(T,_).
+
+                element(table_seat(S,T), dropdown_menu, table_dropdowns(T)):-seat(S,T).
+                attribute(table_seat(S,T), class, "btn-sm"):-seat(S,T).
+                attribute(table_seat(S,T), class, "btn-primary"):-seat(S,T).
+                attribute(table_seat(S,T), class, "m-1"):-seat(S,T).
+                attribute(table_seat(S,T), selected, P):- _c(assign(seat(S,T),P)).
+                attribute(table_seat(S,T), selected, P):- assign(seat(S,T),P), _clinguin_browsing.
+
+                    element(table_seat_remove(S,T), dropdown_menu_item, table_seat(S,T)):-seat(S,T).
+                    attribute(table_seat_remove(S,T), icon, "fa-ban"):-seat(S,T).
+                    attribute(table_seat_remove(S,T), class, "text-info"):-seat(S,T).
+                    do(table_seat_remove(S,T), click, callback, remove_assumption_signature(assign(seat(S,T),any))):-seat(S,T).
+
+                    element(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-_b(assign(seat(S,T),P)).
+                    attribute(table_seat_p(T,S,P), label, P):-_b(assign(seat(S,T),P)).
+                    attribute(table_seat_p(T,S,P), class, "text-capitalize"):- _b(assign(seat(S,T),P)).
+                    do(table_seat_p(T,S,P), click, callback, add_assumption(assign(seat(S,T),P))):- _b(assign(seat(S,T),P)).
+
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Menu bar
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    element(menu_bar, menu_bar, window).
+    attribute(menu_bar, title, "Smart placement").
+    attribute(menu_bar, icon, "fa-utensils").
+
+        element(menu_bar_clear, button, menu_bar).
+        attribute(menu_bar_clear, label, "Clear").
+        attribute(menu_bar_clear, icon, "fa-trash").
+        attribute(menu_bar_clear, class, "btn-outline-danger").
+        attribute(menu_bar_clear, class, "border-0").
+        do(menu_bar_clear, click, callback, clear_assumptions).
 
 
-element(menu_bar_select, button, menu_bar).
-attribute(menu_bar_select, label, "Select solution").
-attribute(menu_bar_select, class, "btn-outline-dark").
-attribute(menu_bar_select, class, "border-0").
-attribute(menu_bar_select, icon, "fa-hand-pointer").
-do(menu_bar_select, click, callback, select).
+        element(menu_bar_select, button, menu_bar).
+        attribute(menu_bar_select, label, "Select solution").
+        attribute(menu_bar_select, class, "btn-outline-dark").
+        attribute(menu_bar_select, class, "border-0").
+        attribute(menu_bar_select, icon, "fa-hand-pointer").
+        do(menu_bar_select, click, callback, select).
 
-element(menu_bar_next_opt, button, menu_bar).
-attribute(menu_bar_next_opt, label, "Next Optimal").
-attribute(menu_bar_next_opt, icon, "fa-forward-fast").
-attribute(menu_bar_next_opt, class, "btn-outline-dark").
-attribute(menu_bar_next_opt, class, "border-0").
-do(menu_bar_next_opt, click, callback, next_solution(optN)).
+        element(menu_bar_next_opt, button, menu_bar).
+        attribute(menu_bar_next_opt, label, "Next Optimal").
+        attribute(menu_bar_next_opt, icon, "fa-forward-fast").
+        attribute(menu_bar_next_opt, class, "btn-outline-dark").
+        attribute(menu_bar_next_opt, class, "border-0").
+        do(menu_bar_next_opt, click, callback, next_solution(optN)).
 
-element(menu_bar_next, button, menu_bar).
-attribute(menu_bar_next, label, "Next").
-attribute(menu_bar_next, icon, "fa-forward-step").
-attribute(menu_bar_next, class, "btn-outline-dark").
-attribute(menu_bar_next, class, "border-0").
-do(menu_bar_next, click, callback, next_solution).
+        element(menu_bar_next, button, menu_bar).
+        attribute(menu_bar_next, label, "Next").
+        attribute(menu_bar_next, icon, "fa-forward-step").
+        attribute(menu_bar_next, class, "btn-outline-dark").
+        attribute(menu_bar_next, class, "border-0").
+        do(menu_bar_next, click, callback, next_solution).

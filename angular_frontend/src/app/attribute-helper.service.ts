@@ -222,6 +222,7 @@ export class AttributeHelperService {
 
     setChildLayout(html:HTMLElement, attributes: AttributeDto[]) {
         let attribute = this.findAttribute("child_layout", attributes)
+        let flex_direction = this.findAttribute("flex_direction", attributes)
 
         if (attribute != null) {
             let value = attribute?.value
@@ -231,7 +232,6 @@ export class AttributeHelperService {
             } else if (value == "flex") {
                 html.style.display = "flex"
 
-                let flex_direction = this.findAttribute("flex_direction", attributes)
                 if (flex_direction != null) {
                     html.style.flexDirection = flex_direction.value
                 } else {
@@ -246,7 +246,12 @@ export class AttributeHelperService {
             }
         } else {
             html.style.display = "flex"
-            html.style.flexDirection = "column"
+            if (flex_direction != null){
+                html.style.flexDirection = flex_direction.value
+
+            }else {
+                html.style.flexDirection = "column"
+            }
         }
     }
 

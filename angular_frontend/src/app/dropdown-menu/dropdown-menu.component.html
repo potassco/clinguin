@@ -7,8 +7,7 @@
                 </button>
                 <div ngbDropdownMenu>
                     <button ngbDropdownItem *ngFor="let child of dropDownMenuItems" id="{{child.element.id}}">
-                        {{child.label}}
-                    </button>
+                        <i #icon></i>{{child.label}}</button>
                 </div>
             </div>
         </div>

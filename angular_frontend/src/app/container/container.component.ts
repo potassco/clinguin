@@ -12,7 +12,6 @@ import { ChildBearerService } from '../child-bearer.service';
 })
 export class ContainerComponent{
   @ViewChild('child',{read: ViewContainerRef}) child!: ViewContainerRef;
-  @ViewChild('div',{read: ElementRef}) div!: ElementRef;
   @Input() element: ElementDto | null = null
   @Input() parentLayout: string = ""
 
@@ -31,7 +30,6 @@ export class ContainerComponent{
         this.elementLookupService.addElementObject(this.element.id, this, this.element)
       }
 
-      this.setAttributes(this.element.attributes)
 
 
       let childLayout = this.attributeService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
@@ -49,11 +47,5 @@ export class ContainerComponent{
     }
   }
 
-  setAttributes(attributes: AttributeDto[]) {
-    let htmlDdbut = this.div.nativeElement
-
-    this.attributeService.class(htmlDdbut, attributes, [])
-
-  }
-
+  
 }

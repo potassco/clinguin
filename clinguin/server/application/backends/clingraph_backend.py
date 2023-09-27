@@ -11,16 +11,16 @@ from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
 from clinguin.server.data.attribute import AttributeDao
 
 # Self defined
 from clinguin.utils import StandardTextProcessing
 
 
-class ClingraphBackend(ClingoBackend):
+class ClingraphBackend(ClingoMultishotBackend):
     """
-    Extends ClingoBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin.
+    Extends ClingoMultishotBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin.
     This can be done by both saving them to a file and by sending them to the client.
     The process of sending them to the client includes the conversion to a Base64 encoding
     (so the binary images are encoded as a UTF-8 String) that is then send to the client.
@@ -63,7 +63,7 @@ class ClingraphBackend(ClingoBackend):
         """
         Registers command line options for ClingraphBackend.
         """
-        ClingoBackend.register_options(parser)
+        ClingoMultishotBackend.register_options(parser)
 
         parser.add_argument(
             "--clingraph-files",

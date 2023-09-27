@@ -243,10 +243,11 @@ class UIFB:
         """
         Adds a ''Message'' (aka. Notification/Pop-Up) for the user with a certain title and message.
         """
-        self.add_element("message", "message", "window")
-        self.add_attribute("message", "title", title)
-        self.add_attribute("message", "message", message)
-        self.add_attribute("message", "type", attribute_type)
+        mid = f'{hash(message)}'
+        self.add_element(mid, "message", "window")
+        self.add_attribute(mid, "title", title)
+        self.add_attribute(mid, "message", message)
+        self.add_attribute(mid, "type", attribute_type)
 
     # Manage factbase
 

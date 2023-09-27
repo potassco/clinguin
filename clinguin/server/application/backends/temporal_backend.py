@@ -7,12 +7,12 @@ from clingo.script import enable_python
 from clingo.symbol import Function, Number
 
 # Self defined
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
 
 enable_python()
 
 
-class TemporalBackend(ClingoBackend):
+class TemporalBackend(ClingoMultishotBackend):
     """
     TODO -> Add documentation!
     """

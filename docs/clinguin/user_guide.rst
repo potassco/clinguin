@@ -17,7 +17,7 @@ To allow flexibility, further separation is done to have interchangeable Backend
 
 * **Backend**: Will define the control and functionality (policies) that is available. The backend will start the clingo solving process and manage the encoding and the ui. The user can create their own Backend to increase functionality (See the :ref:`Customize Guide` for more information). We provide the following `Backends <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends>`_ with the system:
 
-    * *ClingoBackend*: Basic clingo functionality
+    * *ClingoMultishotBackend*: Basic clingo functionality
     * *ClingraphBackend*: Basic clingo functionality with the option to render clingraph images on the side
     * *TemporalBackend*: Basic temporal functionalities
     * *ExplanationBackend*: Basic explanation functionalities
@@ -204,7 +204,7 @@ For each of these element types there exists a bunch of available attributes to 
 
 * ``ACTION`` The action performed (``click``, ``hover``, etc). Each element allows different actions.
 
-* ``POLICY`` The functionality from the Backend that will be called when the action is performed on the element. The available policies can be looked up in the API documentation under the section `Server`/`Server Backends`/`ClingoBackend` (class `ClingoBackend`).
+* ``POLICY`` The functionality from the Backend that will be called when the action is performed on the element. The available policies can be looked up in the API documentation under the section `Server`/`Server Backends`/`ClingoMultishotBackend` (class `ClingoMultishotBackend`).
 
 
 Elaborated example

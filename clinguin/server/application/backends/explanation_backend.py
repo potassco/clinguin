@@ -6,12 +6,12 @@ import textwrap
 
 from clingo.script import enable_python
 
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
 
 enable_python()
 
 
-class ExplanationBackend(ClingoBackend):
+class ExplanationBackend(ClingoMultishotBackend):
     """
     Backend for explanations
     """
@@ -96,7 +96,7 @@ class ExplanationBackend(ClingoBackend):
         self._assumptions.add(predicate_symbol)
 
     # ---------------------------------------------
-    # Plolicy methods (Overwrite ClingoBackend)
+    # Plolicy methods (Overwrite ClingoMultishotBackend)
     # ---------------------------------------------
 
     @classmethod
@@ -104,7 +104,7 @@ class ExplanationBackend(ClingoBackend):
         """
         Registers command line options for ClingraphBackend.
         """
-        ClingoBackend.register_options(parser)
+        ClingoMultishotBackend.register_options(parser)
 
         parser.add_argument(
             "--assumption-signature",

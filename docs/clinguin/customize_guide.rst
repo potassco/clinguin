@@ -6,35 +6,35 @@ This guide is for the people, that already have a special use case in mind, wher
 Idea
 ====
 
-The idea regarding the extensibility of clinguin is, that one can tailor the program to ones needs. Clinguin was designed with this in mind, therefore several default backends are provided, which can be tailored to ones needs. For example take the ClingoBackend - the basic idea here is to do meta-reasoning about logic programs in terms of cautious-brave. The problem is, that this type of reasoning is simply not enough, e.g. take the example, where one now wants reason about graphs.
+The idea regarding the extensibility of clinguin is, that one can tailor the program to ones needs. Clinguin was designed with this in mind, therefore several default backends are provided, which can be tailored to ones needs. For example take the ClingoMultishotBackend - the basic idea here is to do meta-reasoning about logic programs in terms of cautious-brave. The problem is, that this type of reasoning is simply not enough, e.g. take the example, where one now wants reason about graphs.
 
-Example: Extending ClingoBackend with Clingraph
+Example: Extending ClingoMultishotBackend with Clingraph
 ================================================
 
-Now one wants to display graphs inside Clinguin. In general there exists the package Clingraph, where one can reason about graphs. Now the idea is to extend the ClingoBackend with some further functionality to get the ClingraphBackend. As the ClingraphBackend is already included in the `default_backends` we show you the necessary steps that are required to implement the same functionality by yourself.
+Now one wants to display graphs inside Clinguin. In general there exists the package Clingraph, where one can reason about graphs. Now the idea is to extend the ClingoMultishotBackend with some further functionality to get the ClingraphBackend. As the ClingraphBackend is already included in the `default_backends` we show you the necessary steps that are required to implement the same functionality by yourself.
 
 The first step is to create a new folder any directory, **with one noteable exception**: If you downloaded the source of Clinguin **DO NOT** create the file inside any subfolder of `/clinguin` (where `/` is the root of the root of the source) and do not create the file in any parent of `/clinguin` (e.g. if you have the source located in `/home/test/my_prgs/clinguin/`, do not create the file in `/home`, `/home/test` or `/home/test/my_prgs` - but as an example something like `/home/my_backends/` would be perfectly fine). E.g. one could name this folder `test`.
 
 Then one creates inside this `test` folder another folder, which is now assumed to be named `backends` and then inside this folder one has to create a file. The name of the file can be chosen as you want (we will assume `your_clingraph_backend.py` from here on).
 
-The next step is to open the file, to import the `ClingoBackend` and create a class that inherits from this class. One can import `ClingoBackend` by specifying `from clinguin.server.application.backends import ClingoBackend` at the beginning of the file (in the default_backends ClingraphBackend we imported it with `from clinguin.server.application.backends.clingo_backend import ClingoBackend`, as the ClingraphBackend is also included in `backends` and we wanted to avoid cyclic imports).
+The next step is to open the file, to import the `ClingoMultishotBackend` and create a class that inherits from this class. One can import `ClingoMultishotBackend` by specifying `from clinguin.server.application.backends import ClingoMultishotBackend` at the beginning of the file (in the default_backends ClingraphBackend we imported it with `from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend`, as the ClingraphBackend is also included in `backends` and we wanted to avoid cyclic imports).
 
 The next step is to write our new backend, where we can e.g. start with:
 
 .. code-block::
 
-    class YourClingraphBackend(ClingoBackend):
+    class YourClingraphBackend(ClingoMultishotBackend):
         """
         TODO
         """
 
-With this we get the whole functionality of ClingoBackend, to test if the class is recognised by Clinguin. For this we first navigate to the path of the file and then type:
+With this we get the whole functionality of ClingoMultishotBackend, to test if the class is recognised by Clinguin. For this we first navigate to the path of the file and then type:
 
 .. code-block:: bash
 
     $ clinguin client-server --custom-classses "./backends" -h
 
-Now we should get the help of the Clinguin application, where there is also the `--backend` option and in the text of this option there should now be the following line (assuming you don't have other Backends in this directory): `{ClingoBackend|ClingraphBackend|TemporalBackend|YourClingraphBackend}`.
+Now we should get the help of the Clinguin application, where there is also the `--backend` option and in the text of this option there should now be the following line (assuming you don't have other Backends in this directory): `{ClingoMultishotBackend|ClingraphBackend|TemporalBackend|YourClingraphBackend}`.
 
 If this is shown, then we can make our final test, that we did the above steps correctly (see below).
 
@@ -57,13 +57,13 @@ Extending the Class with command line arguments:
 
 A logical next step is to ask yourself what functionalities your extension should have and what kind of files/command line arguments you need for this. Therefore you can define custom command line options, that will get passed to your backend in the `__init__` method.
 
-You can add additional cmd-arguments by overwriting the `register_options` method. As we want to keep the `ClingoBackend` arguments and just want to add your own arguments you can do the following:
+You can add additional cmd-arguments by overwriting the `register_options` method. As we want to keep the `ClingoMultishotBackend` arguments and just want to add your own arguments you can do the following:
 
 .. code-block:: python
 
     @classmethod
     def register_options(cls, parser):
-        ClingoBackend.register_options(parser)
+        ClingoMultishotBackend.register_options(parser)
 
         # YOUR ARGUMENTS
         # parser is a argparse object (see https://docs.python.org/3/library/argparse.html)
@@ -101,7 +101,7 @@ To implement a very basic version of the ClingraphBackend you can copy-paste the
 
     @classmethod
     def register_options(cls, parser):
-        ClingoBackend.register_options(parser)
+        ClingoMultishotBackend.register_options(parser)
 
         parser.add_argument('--clingraph-files',
                         nargs='+',
@@ -116,15 +116,15 @@ As after every step you can now validate, if you did it right: Go into the direc
 
 Again the help should show and now there should be a section at the bottom `YourClingraphBackend` where there are three arguments listed:
 
-1. `--domain-files` - From ClingoBackend
-2. `--ui-files` - From ClingoBackend
+1. `--domain-files` - From ClingoMultishotBackend
+2. `--ui-files` - From ClingoMultishotBackend
 3. `--clingraph-files` - You just added this one, congrats
 
 
 Programming functionality into your class:
 ------------------------------------------
 
-In order to program additional functionality, one must understand some basics of how the ClingoBackend works: ClingoBackend provides several policies (which can be extended by custom classes, for looking up what policies are look into the user guide and into the ClingoBackend-API-Documentation), where each policy de facto does the following things:
+In order to program additional functionality, one must understand some basics of how the ClingoMultishotBackend works: ClingoMultishotBackend provides several policies (which can be extended by custom classes, for looking up what policies are look into the user guide and into the ClingoMultishotBackend-API-Documentation), where each policy de facto does the following things:
 
 1. Execute the policy
 2. Update the *uifb* (UI Factbase) (see below)
@@ -132,7 +132,7 @@ In order to program additional functionality, one must understand some basics of
 
 Step 1. is different for each policy, but steps 2. and 3. are basically the same for all (or most) policies. Step 2. says that it updates the *uifb*, where the uifb corresponds to an instance of the `UIFB` (see also the corresponding API documentation) class, which is basically a low-level tool, which directly accesses clingo-consequences to generate a factbase with the UI (one can think of it as a Clingo and CLORM (Clingo ORM) wrapper). This wrapper provides some functionality that is useful for various default Clinguin things, like computing the cautious/brave sets, etc.
 
-So step 2. updates the UIFB and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoBackend` `_update_uifb` method (see below). Step 3. takes than this updatd factbase and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
+So step 2. updates the UIFB and depending on the policy re-computes some answer-sets if needed. This is mostly done in the `ClingoMultishotBackend` `_update_uifb` method (see below). Step 3. takes than this updatd factbase and generates a Class-Hierarchy, that is Json-convertible, i.e. it uses the classes `ElementDto`, `AttributeDto` and `CallbackDto`, where each instance of the classes are Json convertible and form a hierarchy which corresponds to the graphical user interface. Step 3. is performed in the `get` method, take a look at the API for more information.
 
 For now step 2. is important, more specifically the `_update_uifb_ui` method: So back to our idea of extending Clinguin with Clingraph. As in the `_update_uifb_ui` method one computes the ui facts with the the `ui-files` provided, it makes sense to **overwrite/extend this method to provide further functionality**. Note that the consequences of the domain files used as inputwere previously calculated in the call to `_update_uifb_consequences`. What we do differently is we extract the consequences from the uifb object and use them to compute the graph with clingraph and then update the UI factbase with the base64 of the images as shown bellow.
 

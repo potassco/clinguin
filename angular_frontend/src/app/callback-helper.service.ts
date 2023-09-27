@@ -293,12 +293,7 @@ export class CallBackHelperService {
         if (supportedAttributeName == "click") {
           html.style.cursor = "pointer"
         }
-        console.log("Adding event handle")
-        console.log(supportedAttributeName)
-        console.log(html)
         html.addEventListener(htmlEventName,function(event: Event){
-          console.log("---- listened to")
-          console.log(supportedAttributeName)
           allEvents.sort( function (a, b) {
             if (a.interactionType < b.interactionType) {
               return 1;

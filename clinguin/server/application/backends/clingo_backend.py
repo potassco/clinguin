@@ -1,6 +1,6 @@
 # pylint: disable=R0801
 """
-Module that contains the ClingoBackend.
+Module that contains the ClingoMultishotBackend.
 """
 import base64
 import os
@@ -20,9 +20,8 @@ enable_python()
 
 class ClingoBackend(ClinguinBackend):
     """
-    The ClingoBackend class is the backend that is selected by default.
-    It provides basic functionality to argue bravely and cautiously.
-    Further it provides several policies for assumptions, atoms and externals.
+    The Single-shot Backend class is a backend that is reduced to the most important functionality.
+    It only contains policies for adding and removing atoms and will reground after each user input.
     """
 
     def __init__(self, args):
@@ -30,21 +29,10 @@ class ClingoBackend(ClinguinBackend):
 
         self._domain_files = args.domain_files
         self._ui_files = args.ui_files
-
-        # For browising
-        self._handler = None
-        self._iterator = None
-
-        # To make static linters happy
-        self._assumptions = set()
-        self._atoms = set()
-        self._ctl = None
-
-        self._end_browsing()
-        self._assumptions = set()
-        self._externals = {"true": set(), "false": set(), "released": set()}
-        self._atoms = set()
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
+
+        self._init_setup()
+        self._end_browsing()
         self._init_ctl()
         self._ground()
 
@@ -101,6 +89,18 @@ class ClingoBackend(ClinguinBackend):
     # Private methods
     # ---------------------------------------------
 
+    def _init_setup(self):
+        """
+        Initial setup of properties
+        """
+        # For browising
+        self._handler = None
+        self._iterator = None
+
+        # To make static linters happy
+        self._atoms = set()
+        self._ctl = None
+
     def _init_ctl(self):
         self._ctl = Control(["0"] + self._constants)
 
@@ -123,8 +123,8 @@ class ClingoBackend(ClinguinBackend):
 
         if existant_file_counter == 0:
             exception_string = (
-                "None of the provided domain files exists, but at least one syntactically"
-                + "valid domain file must be specified. Exiting!"
+                "None of the provided domain files exists or they can't be parsed by clingo. At least one syntactically"
+                + "valid domain file must be specified."
             )
             self._logger.critical(exception_string)
             raise Exception(exception_string)
@@ -150,16 +150,28 @@ class ClingoBackend(ClinguinBackend):
         """
         Additional program to pass to the UI computation. It represents to the state of the backend
         """
-        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. #defined _clinguin_context/2. "
+        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_context/2. "
         if self._is_browsing:
             state_prg += "_clinguin_browsing."
         if self._uifb.is_unsat:
             state_prg += "_clinguin_unsat."
-        for a in self._assumptions:
-            state_prg += f"_clinguin_assume({str(a)})."
         for a in self.context:
-            state_prg += f"_clinguin_context({str(a.key)},{str(a.value)})."
+            value = str(a.value)
+            if value[0].isupper():
+                value = f'"{value}"'
+            state_prg += f"_clinguin_context({str(a.key)},{value})."
         return state_prg
+
+    @property
+    def _output_prg(self):
+        """
+        Output program used when exporting into file
+        """
+        prg = ""
+        for a in self._atoms:
+            prg = prg + f"{str(a)}.\n"
+        return prg
+
 
     def _update_uifb_consequences(self):
         self._uifb.update_all_consequences(self._ctl, self._assumptions)
@@ -180,67 +192,30 @@ class ClingoBackend(ClinguinBackend):
     def _set_auto_conseq(self, model):
         self._uifb.set_auto_conseq(model)
 
-    def _add_assumption(self, predicate_symbol):
-        self._assumptions.add(predicate_symbol)
+    def _solve_set_handler(self):
+        self._handler = self._ctl.solve(yield_=True)
 
+    def _add_atom(self, predicate_symbol):
+        if predicate_symbol not in self._atoms:
+            self._atoms.add(predicate_symbol)
     # ---------------------------------------------
     # Policies
     # ---------------------------------------------
 
-    def clear_assumptions(self):
-        """
-        Policy: clear_assumptions removes all assumptions, then basically ''resets'' the backend
-        (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
-        """
+    def export(self, file_name = "clinguin_export.lp"):
+        prg = self._output_prg
+        was_browsing = self._is_browsing
         self._end_browsing()
-        self._assumptions = set()
-
         self._update_uifb()
+        if was_browsing:
+            self._uifb.add_message("Warning", "Browsing was active during export, only selected solutions will be present on the file.", "warning")
+        with open(file_name, "w") as file:
+            file.write(prg)
+        self._uifb.add_message("Download successful", f"Information saved in file {file_name}.", "success")
+        
         return self.get()
 
-    def add_assumption(self, predicate):
-        """
-        Policy: Adds an assumption and returns the udpated Json structure.
-        """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol not in self._assumptions:
-            self._add_assumption(predicate_symbol)
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
 
-    def remove_assumption(self, predicate):
-        """
-        Policy: Removes an assumption and returns the udpated Json structure.
-        """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol in self._assumptions:
-            self._assumptions.remove(predicate_symbol)
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
-
-    def remove_assumption_signature(self, predicate):
-        """
-        Policy: removes predicates with the predicate name of predicate and the given arity
-        """
-        predicate_symbol = parse_term(predicate)
-        arity = len(predicate_symbol.arguments)
-        to_remove = []
-        for s in self._assumptions:
-            if s.match(predicate_symbol.name, arity):
-                for i, a in enumerate(predicate_symbol.arguments):
-                    if str(a) != "any" and s.arguments[i] != a:
-                        break
-                else:
-                    to_remove.append(s)
-                    continue
-        for s in to_remove:
-            self._assumptions.remove(s)
-        if len(to_remove) > 0:
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
 
     def clear_atoms(self):
         """
@@ -262,7 +237,7 @@ class ClingoBackend(ClinguinBackend):
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
-            self._atoms.add(predicate_symbol)
+            self._add_atom(predicate_symbol)
             self._init_ctl()
             self._ground()
             self._end_browsing()
@@ -283,45 +258,6 @@ class ClingoBackend(ClinguinBackend):
             self._update_uifb()
         return self.get()
 
-    def set_external(self, predicate, value):
-        """
-        Policy: Sets the value of an external.
-        """
-        symbol = parse_term(predicate)
-        name = value
-        self._end_browsing()
-
-        if name == "release":
-            self._ctl.release_external(parse_term(predicate))
-            self._externals["released"].add(symbol)
-
-            if symbol in self._externals["true"]:
-                self._externals["true"].remove(symbol)
-
-            if symbol in self._externals["false"]:
-                self._externals["false"].remove(symbol)
-
-        elif name == "true":
-            self._ctl.assign_external(parse_term(predicate), True)
-            self._externals["true"].add(symbol)
-
-            if symbol in self._externals["false"]:
-                self._externals["false"].remove(symbol)
-
-        elif name == "false":
-            self._ctl.assign_external(parse_term(predicate), False)
-            self._externals["false"].add(symbol)
-
-            if symbol in self._externals["true"]:
-                self._externals["true"].remove(symbol)
-
-        else:
-            raise ValueError(
-                f"Invalid external value {name}. Must be true, false or relase"
-            )
-
-        self._update_uifb()
-        return self.get()
 
     def next_solution(self, opt_mode="ignore"):
         """
@@ -337,9 +273,7 @@ class ClingoBackend(ClinguinBackend):
             self._ctl.configuration.solve.enum_mode = "auto"
             self._ctl.configuration.solve.opt_mode = opt_mode
             self._ctl.configuration.solve.models = 0
-            self._handler = self._ctl.solve(
-                assumptions=[(a, True) for a in self._assumptions], yield_=True
-            )
+            self._solve_set_handler()
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
@@ -362,11 +296,8 @@ class ClingoBackend(ClinguinBackend):
         """
         self._end_browsing()
         last_model_symbols = self._uifb.get_auto_conseq()
-        symbols_to_ignore = self._externals["true"]
-        symbols_to_ignore.union(self._externals["false"])
         for s in last_model_symbols:  # pylint: disable=E1133
-            if s not in symbols_to_ignore:
-                self._add_assumption(s)
+            self._add_atom(s)
         self._update_uifb()
         return self.get()
 
@@ -389,29 +320,6 @@ class ClingoBackend(ClinguinBackend):
                         Raw(String(str(encoded_string))),
                     )
                     self._uifb.replace_attribute(attribute, new_attribute)
-
-    # def transfer_context(self):
-    #     """
-    #     Backend method that handles incoming transfer_context calls.
-    #     """
-
-    #     changed = False
-    #     for context_item in self.context:
-    #         if context_item.value.startswith("add_assumption"):
-    #             symbol = parse_term(context_item.value)
-    #             assumptions = list(map(str, symbol.arguments))
-
-    #             for assumption in assumptions:
-    #                 predicate_symbol = parse_term(assumption)
-    #                 if predicate_symbol not in self._assumptions:
-    #                     self._add_assumption(predicate_symbol)
-    #                     changed = True
-
-    #     if changed:
-    #         self._end_browsing()
-    #         self._update_uifb()
-
-    #     return self.get()
 
     def _image_to_b64(self, img):
         encoded = base64.b64encode(img)

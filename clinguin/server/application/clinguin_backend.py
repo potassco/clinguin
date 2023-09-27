@@ -10,7 +10,7 @@ from clinguin.utils import CustomArgs
 
 class ClinguinBackend(CustomArgs):
     """
-    Root class of all backends (here backend refers to the type like ClingoBackend, etc.).
+    Root class of all backends (here backend refers to the type like ClingoMultishotBackend, etc.).
     Just defines the logger, the standard arguments and get().
     """
 

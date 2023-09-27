@@ -10,7 +10,7 @@ from ...utils import CaseConverter, Logger, get_server_error_alert
 class EndpointsHelper:
     """
     The EndpointsHelper class is responsible for getting the correct method in the ''backend''
-    (here backend refers to ClingoBackend, TemporalBackend, etc.). This is done via reflections,
+    (here backend refers to ClingoMultishotBackend, TemporalBackend, etc.). This is done via reflections,
     i.e. it checks if the method is in the backend, if yes the method it returned.
     """
 

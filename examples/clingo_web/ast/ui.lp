@@ -28,13 +28,13 @@ when(window, load, context, (selected_node, X)):- _clinguin_context(selected_nod
         attr(show_children, class, ("btn-light";"btn-sm";"m-2") ).
         attr(show_children, label, "Show children" ).
         attr(show_children, icon, "fa-eye" ).
-        when(show_children, click, call, add_atom(show_children(_value_context(selected_node),true))).
+        when(show_children, click, call, add_atom(show_children(_context_value(selected_node),true))).
 
         elem(hide_chidren, button, form ).
         attr(hide_chidren, class, ("btn-light";"btn-sm";"m-2") ).
         attr(hide_chidren, label, "Hide children" ).
         attr(hide_chidren, icon, "fa-eye-slash" ).
-        when(hide_chidren, click, call, remove_atom(show_children(_value_context(selected_node),true))).
+        when(hide_chidren, click, call, remove_atom(show_children(_context_value(selected_node),true))).
 
 
 

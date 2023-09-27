@@ -15,7 +15,7 @@ when(t1, type, context, (t1_content, _value)).
 
 
 elem(b1, button, c1).
-when(b1, click, callback, add_atom(name(_value_context(t1_content)))).
+when(b1, click, callback, add_atom(name(_context_value(t1_content)))).
 attr(b1, label, "Add Name").
 
 elem(c2, container, w).

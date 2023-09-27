@@ -35,7 +35,7 @@ attr(t1, placeholder, "Please enter the name of the person.").
 when(t1, type, context, (t1_content, _value)).
 
 elem(b1, button, c1).
-when(b1, click, callback, add_atom(person(_value_context(t1_content)))).
+when(b1, click, callback, add_atom(person(_context_value(t1_content)))).
 attr(b1, label, "Add Person").
 
 elem(c2, container, modal).

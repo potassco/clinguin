@@ -36,7 +36,7 @@ attr(c, width, 150).
 
 elem(b, button, f).
 attr(b, label, "Show Children").
-when(b, click, callback, add_atom(show_children(_value_context(selected_node),true))).
+when(b, click, callback, add_atom(show_children(_context_value(selected_node),true))).
 attr(b, disabled, true).
 
 %elem(f(X), container, window) :- ast_show(node,X).

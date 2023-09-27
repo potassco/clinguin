@@ -54,7 +54,7 @@ class BasicTest12:
                                             "id": "b1",
                                             "action_type": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_atom(name(_value_context(t1_content)))",
+                                            "policy": "add_atom(name(_context_value(t1_content)))",
                                         }
                                     ],
                                     "children": [],

@@ -167,7 +167,7 @@ function handleCallback(when:WhenDto, event: Event) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
   let contextService = LocatorService.injector.get(ContextService)
 
-  let regex = /_value_context\(([^)]*)\)/
+  let regex = /_context_value\(([^)]*)\)/
   let policy_string = when.policy
 
   let match = regex.exec(policy_string)

@@ -42,7 +42,7 @@ class ClingraphBackend(ClingoBackend):
         self._encoding = "utf-8"
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph_svg"
-        # self._attribute_image_value_seperator = "__"
+
 
     # ---------------------------------------------
     # Overwrite
@@ -244,8 +244,9 @@ class ClingraphBackend(ClingoBackend):
                     raise ValueError(f"Invalid model number selected {m}")
             fbs = [f if i in self._select_model else None for i, f in enumerate(fbs)]
 
-        graphs = compute_graphs(fbs, graphviz_type=self._type)
-
+        if len(fbs)>1:
+            self._logger.warning("Multiple clingraph outputs were computed. Only first one considered.")
+        graphs = compute_graphs([fbs[0]], graphviz_type=self._type)
         return graphs
 
     def _save_clingraph_graphs_to_file(self, graphs):

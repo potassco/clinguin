@@ -1,0 +1,50 @@
+
+elem(window, window, root).
+
+    %%%%%% Info
+    elem(l, message, window).
+    attr(l, message, "Right click on node to select color!").
+    attr(l, type, warning).
+    attr(l, visible, hidden):- _clinguin_assume(_).
+
+    %%%%%% Context Menu
+    elem(context_menu(X), context_menu, window) :- node(X).
+        elem(bcm(X,C), button, context_menu(X)) :- color(C), node(X).
+        attr(bcm(X,C), label, C) :- color(C), node(X).
+        attr(bcm(X,C), class, "disabled") :- color(C), node(X), not _b(assign(X,C)).
+        when(bcm(X,C), click, callback, add_assumption(assign(X,C))) :- _b(assign(X,C)).
+
+
+    % A canvas, where images can be displayed.
+    elem(c, canvas, window).
+    attr(c, order, 2).
+    attr(c, image_type, clingraph_svg).
+
+        %%%%%% Clingraph nodes from svg
+        elem(n(X), svg_node, c) :- node(X).
+        % The id refers to the one used in the clingraph encoding
+        attr(n(X), clingraph_id, X) :- node(X).
+        when(n(X), right_click, show_context_menu, context_menu(X)):- node(X).
+
+% ---------
+% Menu bar
+% ---------
+elem(menu_bar, menu_bar, window).
+attr(menu_bar, title, "Graph coloring").
+attr(menu_bar, icon, "fa-diagram-project").
+
+    elem(menu_bar_clear, button, menu_bar).
+    attr(menu_bar_clear, label, "Clear").
+    attr(menu_bar_clear, icon, "fa-trash").
+    attr(menu_bar_clear, class, ("btn-outline-danger";"border-0")).
+    when(menu_bar_clear, click, callback, clear_assumptions).
+
+    elem(menu_bar_select, button, menu_bar).
+    attr(menu_bar_select, label, "Select solution").
+    attr(menu_bar_select, icon, "fa-hand-pointer").
+    when(menu_bar_select, click, callback, select).
+
+    elem(menu_bar_next, button, menu_bar).
+    attr(menu_bar_next, label, "Next").
+    attr(menu_bar_next, icon, "fa-forward-step").
+    when(menu_bar_next, click, callback, next_solution).

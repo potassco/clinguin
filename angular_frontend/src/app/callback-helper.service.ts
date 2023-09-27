@@ -72,7 +72,7 @@ function hideAllContextMenus() : boolean {
   return anyWasOpen
 } 
 
-function handleRightClick(html: HTMLElement, do_:WhenDto, event: Event) {
+function handleRightClick(html: HTMLElement, when:WhenDto, event: Event) {
   event.preventDefault()
   event.stopPropagation()
 
@@ -82,12 +82,12 @@ function handleRightClick(html: HTMLElement, do_:WhenDto, event: Event) {
 
   let contextMenuService = LocatorService.injector.get(ContextMenuService)
 
-  let result = contextMenuService.retrieveContextValue(do_.policy)
+  let result = contextMenuService.retrieveContextValue(when.policy)
 
   if (result != null) {
     if ("pageX" in event && "pageY" in event && typeof event.pageX == "number" && typeof event.pageY == "number") {
 
-      let contextMenu = document.getElementById(do_.policy)
+      let contextMenu = document.getElementById(when.policy)
 
       if (contextMenu != null) {
         if (contextMenu.style.display == "block"){ 
@@ -107,10 +107,10 @@ function handleRightClick(html: HTMLElement, do_:WhenDto, event: Event) {
 }
  
 
-function handleUpdate(do_:WhenDto, event: Event) {
+function handleUpdate(when:WhenDto, event: Event) {
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
-  let policy = do_.policy
+  let policy = when.policy
 
   policy = policy.substring(1)
   policy = policy.slice(0,-1)
@@ -156,25 +156,30 @@ function handleUpdate(do_:WhenDto, event: Event) {
     }
 
   } else {
-    console.log("COULD NOT FIND ELEMENT FOR do_:" + id + "::" + key + "::" + value)
+    console.log("COULD NOT FIND ELEMENT FOR when:" + id + "::" + key + "::" + value)
   }
 
 
 }
   
-function handleCallback(do_:WhenDto, event: Event) {
+function handleCallback(when:WhenDto, event: Event) {
+  console.log("Callback")
   let frontendService = LocatorService.injector.get(DrawFrontendService)
   let contextService = LocatorService.injector.get(ContextService)
 
   let regex = /_value_context\(([^)]*)\)/
-  let policy_string = do_.policy
+  let policy_string = when.policy
 
   let match = regex.exec(policy_string)
   while(match != null) {
     let match_group = match[1]
 
     let new_value = contextService.retrieveContextValue(match_group)
-    if (typeof new_value === "string" && new_value.length>0) {
+    function isNumber(s:string) {
+      return /^[0-9]*$/.test(s);
+    }
+
+    if (!isNumber(new_value) && new_value.length>0) {
       if ( new_value[0] === new_value[0].toUpperCase()){
         new_value = '"'+new_value+'"'
       }
@@ -184,15 +189,17 @@ function handleCallback(do_:WhenDto, event: Event) {
     match = regex.exec(policy_string)
   }
 
-  do_.policy = policy_string
+  when.policy = policy_string
 
-  frontendService.policyPost(do_)
+  frontendService.policyPost(when)
   }
 
-function handleContext(do_:WhenDto, event: Event) {
+function handleContext(when:WhenDto, event: Event | null) {
+  console.warn("In context")
+  console.log(when)
   let contextService = LocatorService.injector.get(ContextService)
    
-  let policy = do_.policy
+  let policy = when.policy
 
   policy = policy.substring(1)
   policy = policy.slice(0,-1)
@@ -202,36 +209,39 @@ function handleContext(do_:WhenDto, event: Event) {
   if (splits.length >= 2) {
     if (splits.length > 2) {
       console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
-      console.log(do_)
+      console.log(when)
     }
     let key = splits[0]
     let value = splits[1]
 
-    
-    let regex = /_value/g
-    let eventTarget : EventTarget | null = event.target
+    if (event!=null){
 
-    if (eventTarget != null && "value" in eventTarget) {
-      let match = value.match(regex)
-
-      if (match != null && typeof eventTarget.value === "string") {
-        if (eventTarget.value == "") {
-          console.log("EVENT TARGET IS EMPTY")
-          // DO NOTHING IF EMPTY!
-          return
+      let regex = /_value/g
+      let eventTarget : EventTarget | null = event.target
+  
+      if (eventTarget != null && "value" in eventTarget) {
+        let match = value.match(regex)
+  
+        if (match != null && typeof eventTarget.value === "string") {
+          if (eventTarget.value == "") {
+            console.log("EVENT TARGET IS EMPTY")
+            // DO NOTHING IF EMPTY!
+            return
+          }
+          value = value.replace("_value", eventTarget.value)
         }
-        value = value.replace("_value", eventTarget.value)
       }
     }
 
     for (let index = 2; index < splits.length; index++) {
         value = value + "," + splits[index]
     }
-
+    console.log("Adding to context")
+    console.log(key)
     contextService.addContext(key, value)
   } else {
     console.log("ERROR, CONTEXT LENGTH LOWER THAN 2 FOR (NOTHING SET!)")
-    console.log(do_)
+    console.log(when)
   }
 }
 
@@ -258,33 +268,56 @@ export class CallBackHelperService {
       this.handleEvent(html, dos, "click", "click")
       this.handleEvent(html, dos, "input", "input")
       this.handleEvent(html, dos, "right_click", "contextmenu")
+      this.handleEvent(html, dos, "load", "load")
     }
 
     handleEvent(html: HTMLElement, dos:WhenDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
       
       let allEvents:WhenDto[] = []
-      dos.forEach((do_:WhenDto) => {
-        if (do_.actionType == supportedAttributeName) {
-          allEvents.push(do_)
+      dos.forEach((when:WhenDto) => {
+        if (when.actionType == supportedAttributeName) {
+          allEvents.push(when)
         }
       })
-
+      
       if (allEvents.length > 0 && htmlEventName != "") {
+        if(supportedAttributeName=="load"){
+          console.warn("In load")
+          allEvents.forEach((when:WhenDto) => {
+            if (when.interactionType == "context") {
+              handleContext(when, null)
+            }
+          })
+          return
+        }
         if (supportedAttributeName == "click") {
           html.style.cursor = "pointer"
         }
-
+        console.log("Adding event handle")
+        console.log(supportedAttributeName)
+        console.log(html)
         html.addEventListener(htmlEventName,function(event: Event){
+          console.log("---- listened to")
+          console.log(supportedAttributeName)
+          allEvents.sort( function (a, b) {
+            if (a.interactionType < b.interactionType) {
+              return 1;
+            }
+            if (a.interactionType > b.interactionType) {
+              return -1;
+            }
+            return 0;
+          });
 
-          allEvents.forEach((do_:WhenDto) => {
-            if (do_.interactionType == "update") {
-              handleUpdate(do_, event)
-            } else if (do_.interactionType == "context") {
-              handleContext(do_, event)
-            } else if (do_.interactionType == "call" || do_.interactionType == "callback") {
-              handleCallback(do_, event)
-            } else if (do_.interactionType == "show_context_menu") {
-              handleRightClick(html, do_, event)
+          allEvents.forEach((when:WhenDto) => {
+            if (when.interactionType == "update") {
+              handleUpdate(when, event)
+            } else if (when.interactionType == "context") {
+              handleContext(when, event)
+            } else if (when.interactionType == "call" || when.interactionType == "callback") {
+              handleCallback(when, event)
+            } else if (when.interactionType == "show_context_menu") {
+              handleRightClick(html, when, event)
            }
           })
         })

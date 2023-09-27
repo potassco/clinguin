@@ -63,11 +63,11 @@ class ClingoBackend(ClinguinBackend):
     # Required methods
     # ---------------------------------------------
 
-    def get(self):
+    def get(self, force_update=False):
         """
         Overwritten default method to get the gui as a Json structure.
         """
-        if self._uifb.is_empty:
+        if force_update or self._uifb.is_empty:
             self._update_uifb()
         self._logger.debug(self._uifb)
         json_structure = StandardJsonEncoder.encode(self._uifb)
@@ -150,13 +150,15 @@ class ClingoBackend(ClinguinBackend):
         """
         Additional program to pass to the UI computation. It represents to the state of the backend
         """
-        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. "
+        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. #defined _clinguin_context/2. "
         if self._is_browsing:
             state_prg += "_clinguin_browsing."
         if self._uifb.is_unsat:
             state_prg += "_clinguin_unsat."
         for a in self._assumptions:
             state_prg += f"_clinguin_assume({str(a)})."
+        for a in self.context:
+            state_prg += f"_clinguin_context({str(a.key)},{str(a.value)})."
         return state_prg
 
     def _update_uifb_consequences(self):
@@ -388,28 +390,28 @@ class ClingoBackend(ClinguinBackend):
                     )
                     self._uifb.replace_attribute(attribute, new_attribute)
 
-    def transfer_context(self):
-        """
-        Backend method that handles incoming transfer_context calls.
-        """
+    # def transfer_context(self):
+    #     """
+    #     Backend method that handles incoming transfer_context calls.
+    #     """
 
-        changed = False
-        for context_item in self.context:
-            if context_item.value.startswith("add_assumption"):
-                symbol = parse_term(context_item.value)
-                assumptions = list(map(str, symbol.arguments))
+    #     changed = False
+    #     for context_item in self.context:
+    #         if context_item.value.startswith("add_assumption"):
+    #             symbol = parse_term(context_item.value)
+    #             assumptions = list(map(str, symbol.arguments))
 
-                for assumption in assumptions:
-                    predicate_symbol = parse_term(assumption)
-                    if predicate_symbol not in self._assumptions:
-                        self._add_assumption(predicate_symbol)
-                        changed = True
+    #             for assumption in assumptions:
+    #                 predicate_symbol = parse_term(assumption)
+    #                 if predicate_symbol not in self._assumptions:
+    #                     self._add_assumption(predicate_symbol)
+    #                     changed = True
 
-        if changed:
-            self._end_browsing()
-            self._update_uifb()
+    #     if changed:
+    #         self._end_browsing()
+    #         self._update_uifb()
 
-        return self.get()
+    #     return self.get()
 
     def _image_to_b64(self, img):
         encoded = base64.b64encode(img)

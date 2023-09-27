@@ -67,7 +67,7 @@ export class CanvasComponent {
 
     let nodeIdNodeElementLookup : {"key":string, "value":ElementDto}[] = []
     element.children.forEach(child => {
-      let id_attr = this.attributeService.findAttribute("id", child.attributes)
+      let id_attr = this.attributeService.findAttribute("clingraph_id", child.attributes)
 
       if (id_attr != null) {
         let key = id_attr.value

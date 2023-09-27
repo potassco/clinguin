@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, ComponentRef, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { AttributeDto, ElementDto } from 'src/app/types/json-response.dto';
+import { AttributeDto, ElementDto, WhenDto } from 'src/app/types/json-response.dto';
 import { AttributeHelperService } from 'src/app/attribute-helper.service';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ComponentCreationService } from '../component-creation.service';
 import { ChildBearerService } from '../child-bearer.service';
 import { ContextMenuService } from '../context-menu.service';
+import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
   selector: 'app-new-main',
@@ -27,7 +28,7 @@ export class WindowComponent {
   messageList: ElementDto[] = []
   contextMenuList: ElementDto[] = []
   
-  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService, private contextMenuService: ContextMenuService) {
+  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService, private contextMenuService: ContextMenuService, private callbackService: CallBackHelperService) {
   }
 
   ngAfterViewInit(): void {
@@ -86,6 +87,7 @@ export class WindowComponent {
       })
 
       this.setAttributes(window.attributes)
+      this.doCallbacks(window.when)
       // Prevents Errors
       this.cd.detectChanges()
     },
@@ -103,6 +105,11 @@ export class WindowComponent {
       this.cd.detectChanges()
   }
 
+  doCallbacks(whens:WhenDto[]) {
+    let parentHTML = this.parent.nativeElement
+    this.callbackService.setCallbacks(parentHTML, whens)
+  }
+  
   cleanValues(element: ElementDto) {
     for (let i = 0; i < element.attributes.length; i++) {
       let value = element.attributes[i].value

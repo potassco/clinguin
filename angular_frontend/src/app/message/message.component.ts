@@ -34,8 +34,8 @@ export class MessageComponent {
   setAttributes(attributes: AttributeDto[]) {
     
       let attrType = this.attributeService.findGetAttributeValue("type", attributes, "warning")
-      let attrTitle = this.attributeService.findGetAttributeValue("title", attributes, "Title")
-      let attrMessage = this.attributeService.findGetAttributeValue("message", attributes, "Message")
+      let attrTitle = this.attributeService.findGetAttributeValue("title", attributes, "")
+      let attrMessage = this.attributeService.findGetAttributeValue("message", attributes, "")
 
       this.visible = this.attributeService.findGetAttributeValue("visible", attributes, "shown")
 

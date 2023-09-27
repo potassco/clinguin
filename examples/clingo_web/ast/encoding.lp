@@ -12,5 +12,3 @@ ast_show(edge, I) :- ast_edge(I, _, _), I = (I1, I2), ast_show(node, I1), ast_sh
 
 ast_show(node, C) :- show_all, ast_edge((P,C),_,_), ast_ancestor(A,P), not ast_node(C, type, "Location").
 ast_show(edge, I) :- show_all, ast_edge(I, _, _), I = (I1, I2), ast_show(node, I1), ast_show(node,I2).
-
-

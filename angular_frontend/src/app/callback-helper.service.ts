@@ -162,21 +162,21 @@ function handleUpdate(when:WhenDto, event: Event) {
 
 
 }
-  
-function handleCallback(when:WhenDto, event: Event) {
-  let frontendService = LocatorService.injector.get(DrawFrontendService)
-  let contextService = LocatorService.injector.get(ContextService)
 
+function replaceContext(policy_string:string, optional:boolean){
+  let contextService = LocatorService.injector.get(ContextService)
   let regex = /_context_value\(([^)]*)\)/
-  let policy_string = when.policy
+  if (optional){
+    regex = /_context_value_optional\(([^)]*)\)/
+  }
 
   let match = regex.exec(policy_string)
   while(match != null) {
     let match_group = match[1]
 
     let new_value = contextService.retrieveContextValue(match_group)
-    if (new_value.length == 0){
-      throw new Error("Missing context value");      
+    if (new_value.length == 0 && !optional){
+      throw new Error("Missing required value for " + match_group);      
     }
     function isNumber(s:string) {
       return /^[0-9]*$/.test(s);
@@ -191,11 +191,20 @@ function handleCallback(when:WhenDto, event: Event) {
     
     match = regex.exec(policy_string)
   }
+  return policy_string
+}
+function handleCallback(when:WhenDto, event: Event) {
+  let frontendService = LocatorService.injector.get(DrawFrontendService)
+
+  let policy_string = when.policy
+
+  policy_string = replaceContext(policy_string, true)
+  policy_string = replaceContext(policy_string, false)
 
   when.policy = policy_string
 
   frontendService.policyPost(when)
-  }
+}
 
 function handleContext(when:WhenDto, event: Event | null) {
   let contextService = LocatorService.injector.get(ContextService)
@@ -244,10 +253,7 @@ function handleContext(when:WhenDto, event: Event | null) {
   let message = "The value of context event should be a tuple of size 2, but got " +when.policy 
   console.error(message)
   let frontendService = LocatorService.injector.get(DrawFrontendService)
-  if (frontendService.lastData!=null){
-    let messageList : ElementDto[] = [frontendService.getErrorMessage(message,"warning")]
-    frontendService.messageLists.next(messageList)
-  }
+  frontendService.postMessage(message,"warning")
 }
 
 @Injectable({
@@ -322,10 +328,8 @@ export class CallBackHelperService {
               }
             }catch(error:any){
               let frontendService = LocatorService.injector.get(DrawFrontendService)
-              if (frontendService.lastData!=null){
-                let messageList : ElementDto[] = [frontendService.getErrorMessage(error.message)]
-                frontendService.messageLists.next(messageList)
-              }
+              frontendService.postMessage(error.message,"warning")
+              
             }
 
           })

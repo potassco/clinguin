@@ -9,6 +9,8 @@ import { ContextItem, ContextService } from './context.service';
 import { ModalRefService } from './modal-ref.service';
 import { ElementLookupService } from './element-lookup.service';
 import { ContextMenuService } from './context-menu.service';
+import { DrawFrontendService } from './draw-frontend.service';
+import { LocatorService } from './locator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,18 +29,20 @@ export class HttpService {
       this.elementLookupService.clearElementLookupDict()
       this.contextService.clearContext()
       this.contextMenuService.removeAllContextMenus()
+      let frontendService = LocatorService.injector.get(DrawFrontendService)
 
 
-      console.log(this.backend_URI)
       const response = this.http.get<ElementDto>(this.backend_URI,)
       
       .pipe(
         catchError((error:HttpErrorResponse,caught) => {
-          // Handle the error here (e.g., log it or throw a custom error)
           console.error('Error occurred during the HTTP request:', error);
+          frontendService.postMessage("error connection")
           return throwError(() => new Error(error.error)); 
         })
       );
+      
+      frontendService.lastData
       return response; 
     }
 
@@ -51,7 +55,6 @@ export class HttpService {
       this.contextService.clearContext()
       this.contextMenuService.removeAllContextMenus()
 
-      console.log(clonedContext)
 
       let request = null
       if (clonedContext.length > 0) {

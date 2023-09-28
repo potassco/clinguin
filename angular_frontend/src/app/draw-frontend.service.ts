@@ -79,6 +79,11 @@ export class DrawFrontendService {
         }
     }
 
+    postMessage(message:string, type:string="danger"){
+        let messageList : ElementDto[] = [this.getErrorMessage(message)]
+        this.messageLists.next(messageList)
+    }
+    
     getErrorMessage(message:string, type:string="danger"){
         let messageElement: ElementDto = {
             "id": "client_error",

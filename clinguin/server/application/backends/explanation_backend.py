@@ -120,4 +120,3 @@ class ExplanationBackend(ClingoMultishotBackend):
         self._end_browsing()
         self._assumptions = self._mc_base_assumptions.copy()
         self._update_uifb()
-        return self.get()

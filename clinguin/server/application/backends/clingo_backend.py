@@ -215,8 +215,6 @@ class ClingoBackend(ClinguinBackend):
         self._init_ctl()
         self._ground()
         self._update_uifb()
-        return self.get()
-
     def download(self, show_prg= None, file_name = "clinguin_download.lp"):
         """
         Policy: Downloads the current state of the backend. All added atoms and assumptions
@@ -249,8 +247,6 @@ class ClingoBackend(ClinguinBackend):
             file.write(prg)
         self._uifb.add_message("Download successful", f"Information saved in file {file_name}.", "success")
         
-        return self.get()
-
 
 
     def clear_atoms(self):
@@ -264,8 +260,6 @@ class ClingoBackend(ClinguinBackend):
         self._ground()
 
         self._update_uifb()
-        return self.get()
-
     def add_atom(self, predicate):
         """
         Policy: Adds an assumption and basically resets the rest of the application (reground) -
@@ -278,8 +272,6 @@ class ClingoBackend(ClinguinBackend):
             self._ground()
             self._end_browsing()
             self._update_uifb()
-        return self.get()
-
     def remove_atom(self, predicate):
         """
         Policy: Removes an assumption and basically resets the rest of the application (reground) -
@@ -292,8 +284,6 @@ class ClingoBackend(ClinguinBackend):
             self._ground()
             self._end_browsing()
             self._update_uifb()
-        return self.get()
-
 
     def next_solution(self, opt_mode="ignore"):
         """
@@ -324,8 +314,6 @@ class ClingoBackend(ClinguinBackend):
             self._update_uifb()
             self._uifb.add_message("Browsing Information", "No more solutions")
 
-        return self.get()
-
     def select(self):
         """
         Policy: Select the current solution during browsing
@@ -335,8 +323,6 @@ class ClingoBackend(ClinguinBackend):
         for s in last_model_symbols:  # pylint: disable=E1133
             self._add_atom(s)
         self._update_uifb()
-        return self.get()
-
     def _replace_uifb_with_b64_images(self):
         attributes = list(self._uifb.get_attributes())
         for attribute in attributes:

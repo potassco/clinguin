@@ -40,7 +40,7 @@ elem(window, window, root).
             attr(b1, icon, "fa-download").
 
             elem(t1, textfield, c1).
-            attr(t1, placeholder, "Enter ASP program with #show statements").
+            attr(t1, placeholder, "Optinal ASP program with #show statements").
             attr(t1, width, 400).
             when(t1, input, context, (show_download, _value)).
 

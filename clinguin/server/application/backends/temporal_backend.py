@@ -93,7 +93,6 @@ class TemporalBackend(ClingoMultishotBackend):
         wctl = self._uifb.ui_control(extra_ui_prg=symbols)
         self._model = self._uifb.from_ctl(wctl)
         self._update_uifb()
-        return self.get()
 
     def assume_and_step(self, predicate):
         """
@@ -105,7 +104,6 @@ class TemporalBackend(ClingoMultishotBackend):
         self._ground()
         self._end_browsing()
         self._update_uifb()
-        return self.get()
 
     def remove_assumption(self, predicate):  # pylint: disable=W0613
         """

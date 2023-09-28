@@ -17,25 +17,6 @@ def get_server_error_alert(message='', last_response=None):
     """
     Returns a JSON, which corresponds to valid clinguin json syntax and displays an error message.
     """
-    if last_response is None:
-        last_response = {
-            "id": "root",
-            "type": "root",
-            "parent": "root",
-            "attributes": [],
-            "when": [],
-            "children": [
-                {
-                    "id": "window",
-                    "type": "window",
-                    "parent": "root",
-                    "attributes": [],
-                    "when": [],
-                    "children": [
-                    ]
-                }
-            ]}
-    
     error_alert = {
                         "id": "server_error",
                         "type": "message",
@@ -60,5 +41,26 @@ def get_server_error_alert(message='', last_response=None):
                         "when": [],
                         "children": []
                     }
+    
+    if last_response is None:
+        return {
+            "id": "root",
+            "type": "root",
+            "parent": "root",
+            "attributes": [],
+            "when": [],
+            "children": [
+                {
+                    "id": "window",
+                    "type": "window",
+                    "parent": "root",
+                    "attributes": [],
+                    "when": [],
+                    "children": [
+                        error_alert
+                    ]
+                }
+            ]}
+    
     last_response.children[0].children.append(error_alert)
     return last_response

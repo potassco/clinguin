@@ -109,7 +109,6 @@ class ClingoMultishotBackend(ClingoBackend):
         self._assumptions = set()
 
         self._update_uifb()
-        return self.get()
 
     def add_assumption(self, predicate):
         """
@@ -120,7 +119,6 @@ class ClingoMultishotBackend(ClingoBackend):
             self._add_assumption(predicate_symbol)
             self._end_browsing()
             self._update_uifb()
-        return self.get()
 
     def remove_assumption(self, predicate):
         """
@@ -131,7 +129,6 @@ class ClingoMultishotBackend(ClingoBackend):
             self._assumptions.remove(predicate_symbol)
             self._end_browsing()
             self._update_uifb()
-        return self.get()
 
     def remove_assumption_signature(self, predicate):
         """
@@ -153,7 +150,6 @@ class ClingoMultishotBackend(ClingoBackend):
         if len(to_remove) > 0:
             self._end_browsing()
             self._update_uifb()
-        return self.get()
 
 
     def set_external(self, predicate, value):
@@ -194,7 +190,6 @@ class ClingoMultishotBackend(ClingoBackend):
             )
 
         self._update_uifb()
-        return self.get()
 
     def next_solution(self, opt_mode="ignore"):
         """
@@ -225,7 +220,6 @@ class ClingoMultishotBackend(ClingoBackend):
             self._update_uifb()
             self._uifb.add_message("Browsing Information", "No more solutions")
 
-        return self.get()
 
     def select(self):
         """
@@ -239,4 +233,3 @@ class ClingoMultishotBackend(ClingoBackend):
             if s not in symbols_to_ignore:
                 self._add_assumption(s)
         self._update_uifb()
-        return self.get()

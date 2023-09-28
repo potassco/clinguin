@@ -206,7 +206,27 @@ class ClingoBackend(ClinguinBackend):
     # Policies
     # ---------------------------------------------
 
+    def restart(self):
+        """
+        Policy: Restart 
+        """
+        self._init_setup()
+        self._end_browsing()
+        self._init_ctl()
+        self._ground()
+        self._update_uifb()
+        return self.get()
+
     def download(self, show_prg= None, file_name = "clinguin_download.lp"):
+        """
+        Policy: Downloads the current state of the backend. All added atoms and assumptions
+        are put together as a list of facts. 
+
+        Args:
+            show_prg (_type_, optional): Program to filter output using show statements. Defaults to None.
+            file_name (str, optional): The name of the file for the download. Defaults to "clinguin_download.lp".
+
+        """
         prg = self._output_prg
         was_browsing = self._is_browsing
         self._end_browsing()

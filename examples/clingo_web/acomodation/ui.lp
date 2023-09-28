@@ -166,6 +166,14 @@ attr(window, flex_direction, row).
     attr(menu_bar, title, "Smart placement").
     attr(menu_bar, icon, "fa-utensils").
 
+
+        elem(menu_bar_restart, button, menu_bar).
+        attr(menu_bar_restart, label, "Restart").
+        attr(menu_bar_restart, icon, "fa-arrows-rotate").
+        attr(menu_bar_restart, class, "btn-outline-danger").
+        attr(menu_bar_restart, class, "border-0").
+        when(menu_bar_restart, click, call, restart).
+
         elem(menu_bar_clear, button, menu_bar).
         attr(menu_bar_clear, label, "Clear").
         attr(menu_bar_clear, icon, "fa-trash").

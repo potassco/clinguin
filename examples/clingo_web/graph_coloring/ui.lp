@@ -18,7 +18,7 @@ elem(window, window, root).
     % A canvas, where images can be displayed.
     elem(c, canvas, window).
     attr(c, order, 2).
-    attr(c, image_type, clingraph_svg).
+    attr(c, image_type, clingraph).
 
         %%%%%% Clingraph nodes from svg
         elem(n(X), svg_node, c) :- node(X).

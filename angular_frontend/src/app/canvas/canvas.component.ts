@@ -34,7 +34,7 @@ export class CanvasComponent {
       let image = this.attributeService.findAttribute("image", this.element.attributes)
       let image_type = this.attributeService.findAttribute("image_type", this.element.attributes)
 
-      if (image != null && image_type != null && image_type.value == "clingraph_svg") {
+      if (image != null && image_type != null && image_type.value.startsWith("clingraph")) {
         this.svgImageHandler(this.element, image, image_type) 
       } else {
         this.defaultImageHandler(this.element, image)

@@ -289,11 +289,14 @@ class UIFB:
         """
         return self._factbase.query(ElementDao).all()
 
-    def get_attributes(self):
+    def get_attributes(self, key=None):
         """
         Get all attributes.
         """
-        return self._factbase.query(AttributeDao).all()
+        q = self._factbase.query(AttributeDao)
+        if key is not None:
+            q.where(AttributeDao.key == key)
+        return q.all()
 
     def get_callbacks(self):
         """

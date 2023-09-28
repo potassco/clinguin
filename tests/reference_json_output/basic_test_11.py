@@ -9,14 +9,14 @@ class BasicTest11:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
                     "type": "window",
                     "parent": "root",
                     "attributes": [{"id": "w", "key": "child_layout", "value": "flex"}],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c1",
@@ -35,7 +35,7 @@ class BasicTest11:
                                     "value": '"column"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "l1",
@@ -53,7 +53,7 @@ class BasicTest11:
                                             "value": '"#00ff00"',
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 }
                             ],
@@ -76,7 +76,7 @@ class BasicTest11:
                                     "value": '"column"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                     ],

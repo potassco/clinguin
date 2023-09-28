@@ -9,7 +9,7 @@ class BasicTest00:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "window",
@@ -22,7 +22,7 @@ class BasicTest00:
                         {"id": "window", "key": "width", "value": "500"},
                         {"id": "window", "key": "height", "value": "500"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c(24)",
@@ -40,7 +40,7 @@ class BasicTest00:
                                 {"id": "c(24)", "key": "grid_row", "value": "4"},
                                 {"id": "c(24)", "key": "grid_column", "value": "4"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(24,8)",
@@ -73,7 +73,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -107,7 +107,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -141,7 +141,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -175,7 +175,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -209,7 +209,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -243,7 +243,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -277,7 +277,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -311,7 +311,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -345,7 +345,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -366,7 +366,7 @@ class BasicTest00:
                                 {"id": "c(23)", "key": "grid_row", "value": "4"},
                                 {"id": "c(23)", "key": "grid_column", "value": "3"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(23,8)",
@@ -399,7 +399,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -433,7 +433,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -467,7 +467,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -501,7 +501,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -535,7 +535,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -569,7 +569,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -603,7 +603,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -637,7 +637,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -671,7 +671,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -692,7 +692,7 @@ class BasicTest00:
                                 {"id": "c(22)", "key": "grid_row", "value": "4"},
                                 {"id": "c(22)", "key": "grid_column", "value": "2"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(22,8)",
@@ -725,7 +725,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -759,7 +759,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -793,7 +793,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -827,7 +827,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -861,7 +861,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -895,7 +895,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -929,7 +929,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -963,7 +963,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -997,7 +997,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -1018,7 +1018,7 @@ class BasicTest00:
                                 {"id": "c(21)", "key": "grid_row", "value": "4"},
                                 {"id": "c(21)", "key": "grid_column", "value": "1"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(21,8)",
@@ -1051,7 +1051,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1085,7 +1085,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1119,7 +1119,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1153,7 +1153,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1187,7 +1187,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1221,7 +1221,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1255,7 +1255,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1289,7 +1289,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1323,7 +1323,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -1344,7 +1344,7 @@ class BasicTest00:
                                 {"id": "c(20)", "key": "grid_row", "value": "4"},
                                 {"id": "c(20)", "key": "grid_column", "value": "0"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(20,8)",
@@ -1377,7 +1377,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1411,7 +1411,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1445,7 +1445,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1479,7 +1479,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1513,7 +1513,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1547,7 +1547,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1581,7 +1581,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1615,7 +1615,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1649,7 +1649,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -1670,7 +1670,7 @@ class BasicTest00:
                                 {"id": "c(19)", "key": "grid_row", "value": "3"},
                                 {"id": "c(19)", "key": "grid_column", "value": "4"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(19,8)",
@@ -1703,7 +1703,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1737,7 +1737,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1771,7 +1771,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1805,7 +1805,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1839,7 +1839,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1873,7 +1873,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1907,7 +1907,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1941,7 +1941,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -1975,7 +1975,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -1996,7 +1996,7 @@ class BasicTest00:
                                 {"id": "c(18)", "key": "grid_row", "value": "3"},
                                 {"id": "c(18)", "key": "grid_column", "value": "3"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(18,8)",
@@ -2029,7 +2029,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2063,7 +2063,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2097,7 +2097,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2131,7 +2131,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2165,7 +2165,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2199,7 +2199,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2233,7 +2233,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2267,7 +2267,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2301,7 +2301,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -2322,7 +2322,7 @@ class BasicTest00:
                                 {"id": "c(17)", "key": "grid_row", "value": "3"},
                                 {"id": "c(17)", "key": "grid_column", "value": "2"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(17,8)",
@@ -2355,7 +2355,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2389,7 +2389,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2423,7 +2423,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2457,7 +2457,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2491,7 +2491,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2525,7 +2525,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2559,7 +2559,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2593,7 +2593,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2627,7 +2627,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -2648,7 +2648,7 @@ class BasicTest00:
                                 {"id": "c(16)", "key": "grid_row", "value": "3"},
                                 {"id": "c(16)", "key": "grid_column", "value": "1"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(16,8)",
@@ -2681,7 +2681,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2715,7 +2715,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2749,7 +2749,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2783,7 +2783,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2817,7 +2817,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2851,7 +2851,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2885,7 +2885,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2919,7 +2919,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -2953,7 +2953,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -2974,7 +2974,7 @@ class BasicTest00:
                                 {"id": "c(15)", "key": "grid_row", "value": "3"},
                                 {"id": "c(15)", "key": "grid_column", "value": "0"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(15,8)",
@@ -3007,7 +3007,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3041,7 +3041,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3075,7 +3075,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3109,7 +3109,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3143,7 +3143,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3177,7 +3177,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3211,7 +3211,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3245,7 +3245,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3279,7 +3279,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -3300,7 +3300,7 @@ class BasicTest00:
                                 {"id": "c(14)", "key": "grid_row", "value": "2"},
                                 {"id": "c(14)", "key": "grid_column", "value": "4"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(14,8)",
@@ -3333,7 +3333,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3367,7 +3367,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3401,7 +3401,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3435,7 +3435,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3469,7 +3469,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3503,7 +3503,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3537,7 +3537,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3571,7 +3571,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3605,7 +3605,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -3626,7 +3626,7 @@ class BasicTest00:
                                 {"id": "c(13)", "key": "grid_row", "value": "2"},
                                 {"id": "c(13)", "key": "grid_column", "value": "3"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(13,8)",
@@ -3659,7 +3659,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3693,7 +3693,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3727,7 +3727,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3761,7 +3761,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3795,7 +3795,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3829,7 +3829,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3863,7 +3863,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3897,7 +3897,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -3931,7 +3931,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -3952,7 +3952,7 @@ class BasicTest00:
                                 {"id": "c(12)", "key": "grid_row", "value": "2"},
                                 {"id": "c(12)", "key": "grid_column", "value": "2"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(12,8)",
@@ -3985,7 +3985,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4019,7 +4019,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4053,7 +4053,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4087,7 +4087,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4121,7 +4121,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4155,7 +4155,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4189,7 +4189,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4223,7 +4223,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4257,7 +4257,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -4278,7 +4278,7 @@ class BasicTest00:
                                 {"id": "c(11)", "key": "grid_row", "value": "2"},
                                 {"id": "c(11)", "key": "grid_column", "value": "1"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(11,8)",
@@ -4311,7 +4311,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4345,7 +4345,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4379,7 +4379,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4413,7 +4413,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4447,7 +4447,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4481,7 +4481,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4515,7 +4515,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4549,7 +4549,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4583,7 +4583,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -4604,7 +4604,7 @@ class BasicTest00:
                                 {"id": "c(10)", "key": "grid_row", "value": "2"},
                                 {"id": "c(10)", "key": "grid_column", "value": "0"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(10,8)",
@@ -4637,7 +4637,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4671,7 +4671,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4705,7 +4705,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4739,7 +4739,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4773,7 +4773,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4807,7 +4807,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4841,7 +4841,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4875,7 +4875,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4909,7 +4909,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -4930,7 +4930,7 @@ class BasicTest00:
                                 {"id": "c(9)", "key": "grid_row", "value": "1"},
                                 {"id": "c(9)", "key": "grid_column", "value": "4"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(9,8)",
@@ -4959,7 +4959,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -4989,7 +4989,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5019,7 +5019,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5049,7 +5049,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5079,7 +5079,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5109,7 +5109,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5139,7 +5139,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5169,7 +5169,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5199,7 +5199,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -5220,7 +5220,7 @@ class BasicTest00:
                                 {"id": "c(8)", "key": "grid_row", "value": "1"},
                                 {"id": "c(8)", "key": "grid_column", "value": "3"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(8,8)",
@@ -5249,7 +5249,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5279,7 +5279,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5309,7 +5309,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5339,7 +5339,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5369,7 +5369,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5399,7 +5399,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5429,7 +5429,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5459,7 +5459,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5489,7 +5489,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -5510,7 +5510,7 @@ class BasicTest00:
                                 {"id": "c(7)", "key": "grid_row", "value": "1"},
                                 {"id": "c(7)", "key": "grid_column", "value": "2"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(7,8)",
@@ -5539,7 +5539,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5569,7 +5569,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5599,7 +5599,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5629,7 +5629,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5659,7 +5659,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5689,7 +5689,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5719,7 +5719,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5749,7 +5749,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5779,7 +5779,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -5800,7 +5800,7 @@ class BasicTest00:
                                 {"id": "c(6)", "key": "grid_row", "value": "1"},
                                 {"id": "c(6)", "key": "grid_column", "value": "1"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(6,8)",
@@ -5829,7 +5829,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5859,7 +5859,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5889,7 +5889,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5919,7 +5919,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5949,7 +5949,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -5979,7 +5979,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6009,7 +6009,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6039,7 +6039,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6069,7 +6069,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -6090,7 +6090,7 @@ class BasicTest00:
                                 {"id": "c(5)", "key": "grid_row", "value": "1"},
                                 {"id": "c(5)", "key": "grid_column", "value": "0"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(5,8)",
@@ -6119,7 +6119,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6149,7 +6149,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6179,7 +6179,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6209,7 +6209,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6239,7 +6239,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6269,7 +6269,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6299,7 +6299,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6329,7 +6329,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6359,7 +6359,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -6380,7 +6380,7 @@ class BasicTest00:
                                 {"id": "c(4)", "key": "grid_row", "value": "0"},
                                 {"id": "c(4)", "key": "grid_column", "value": "4"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(4,8)",
@@ -6409,7 +6409,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6439,7 +6439,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6469,7 +6469,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6499,7 +6499,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6529,7 +6529,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6559,7 +6559,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6589,7 +6589,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6619,7 +6619,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6649,7 +6649,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -6670,7 +6670,7 @@ class BasicTest00:
                                 {"id": "c(3)", "key": "grid_row", "value": "0"},
                                 {"id": "c(3)", "key": "grid_column", "value": "3"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(3,8)",
@@ -6699,7 +6699,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6729,7 +6729,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6759,7 +6759,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6789,7 +6789,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6819,7 +6819,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6849,7 +6849,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6879,7 +6879,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6909,7 +6909,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -6939,7 +6939,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -6960,7 +6960,7 @@ class BasicTest00:
                                 {"id": "c(2)", "key": "grid_row", "value": "0"},
                                 {"id": "c(2)", "key": "grid_column", "value": "2"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(2,8)",
@@ -6989,7 +6989,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7019,7 +7019,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7049,7 +7049,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7079,7 +7079,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7109,7 +7109,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7139,7 +7139,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7169,7 +7169,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7199,7 +7199,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7229,7 +7229,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -7250,7 +7250,7 @@ class BasicTest00:
                                 {"id": "c(1)", "key": "grid_row", "value": "0"},
                                 {"id": "c(1)", "key": "grid_column", "value": "1"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(1,8)",
@@ -7279,7 +7279,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7309,7 +7309,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7339,7 +7339,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7369,7 +7369,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7399,7 +7399,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7429,7 +7429,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7459,7 +7459,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7489,7 +7489,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7519,7 +7519,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -7540,7 +7540,7 @@ class BasicTest00:
                                 {"id": "c(0)", "key": "grid_row", "value": "0"},
                                 {"id": "c(0)", "key": "grid_column", "value": "0"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c(0,8)",
@@ -7569,7 +7569,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7599,7 +7599,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7629,7 +7629,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7659,7 +7659,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7689,7 +7689,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7719,7 +7719,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7749,7 +7749,7 @@ class BasicTest00:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7779,7 +7779,7 @@ class BasicTest00:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -7809,7 +7809,7 @@ class BasicTest00:
                                             "value": "0",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],

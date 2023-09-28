@@ -13,39 +13,52 @@ class NoModelError(Exception):
         self.core = core
 
 
-def get_server_error_alert():
+def get_server_error_alert(message='', last_response=None):
     """
     Returns a JSON, which corresponds to valid clinguin json syntax and displays an error message.
     """
-    return {
-        "id": "root",
-        "type": "root",
-        "parent": "root",
-        "attributes": [],
-        "callbacks": [],
-        "children": [
-            {
-                "id": "window",
-                "type": "window",
-                "parent": "root",
-                "attributes": [],
-                "callbacks": [],
-                "children": [
-                    {
-                        "id": "message",
+    if last_response is None:
+        last_response = {
+            "id": "root",
+            "type": "root",
+            "parent": "root",
+            "attributes": [],
+            "when": [],
+            "children": [
+                {
+                    "id": "window",
+                    "type": "window",
+                    "parent": "root",
+                    "attributes": [],
+                    "when": [],
+                    "children": [
+                    ]
+                }
+            ]}
+    
+    error_alert = {
+                        "id": "server_error",
                         "type": "message",
                         "parent": "window",
-                        "callbacks": [],
                         "attributes": [
                             {
-                                "id": "message",
+                                "id": "server_error",
                                 "key": "message",
-                                "value": '"Server Error (Check logs)"',
+                                "value": message + " Check the server logs for more details."
+                            },
+                            {
+                                "id": "server_error",
+                                "key": "title",
+                                "value": "Server error"
+                            },
+                            {
+                                "id": "server_error",
+                                "key": "type",
+                                "value": "danger"
                             }
                         ],
-                        "children": [],
-                    },
-                ],
-            }
-        ],
-    }
+                        "when": [],
+                        "children": []
+                    }
+    last_response.children[0].children.append(error_alert)
+    return last_response

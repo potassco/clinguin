@@ -36,16 +36,9 @@ class EndpointsHelper:
             found = True
 
         if found:
-            try:
-                result = function(*args, **kwargs)
-                return result
-            except Exception as e:
-                logger.error(e)
-                logger.error(traceback.format_exc())
-                return get_server_error_alert()
-
-                # return sever_error_json(e)
+            result = function(*args, **kwargs)
+            return result
         else:
-            error_string = "Could not find function: " + name + " :in backend"
+            error_string = "Could not find function " + name + " in backend."
             logger.error(error_string)
             raise Exception(error_string)

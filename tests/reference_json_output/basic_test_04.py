@@ -9,7 +9,7 @@ class BasicTest04:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -21,28 +21,28 @@ class BasicTest04:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "m",
                             "type": "menu_bar",
                             "parent": "w",
                             "attributes": [],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "ms2",
                                     "type": "menu_bar_section",
                                     "parent": "m",
                                     "attributes": [],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "ms2i2",
                                             "type": "menu_bar_section_item",
                                             "parent": "ms2",
                                             "attributes": [],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         }
                                     ],
@@ -58,7 +58,7 @@ class BasicTest04:
                                             "value": '"Test2"',
                                         }
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "ms1i2",
@@ -71,7 +71,7 @@ class BasicTest04:
                                                     "value": '"Item Y"',
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "ms1i2",
                                                     "action_type": "click",
@@ -92,7 +92,7 @@ class BasicTest04:
                                                     "value": '"Item X"',
                                                 }
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                     ],
@@ -122,7 +122,7 @@ class BasicTest04:
                                 {"id": "c2", "key": "pos_y", "value": "50"},
                                 {"id": "c2", "key": "child_layout", "value": "grid"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c24",
@@ -153,7 +153,7 @@ class BasicTest04:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -185,7 +185,7 @@ class BasicTest04:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -217,7 +217,7 @@ class BasicTest04:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -249,7 +249,7 @@ class BasicTest04:
                                             "value": "2",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -281,7 +281,7 @@ class BasicTest04:
                                             "value": "1",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -313,7 +313,7 @@ class BasicTest04:
                                 {"id": "b", "key": "pos_x", "value": "25"},
                                 {"id": "b", "key": "pos_y", "value": "0"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "b",
                                     "action_type": "click",

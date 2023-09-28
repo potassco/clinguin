@@ -19,7 +19,7 @@ export class DrawFrontendService {
     messageLists: Subject<ElementDto[]> = new Subject()
     contextMenus: Subject<ElementDto[]> = new Subject()
 
-    
+    lastData: ElementDto | null = null
 
     private backend_URI = "http://localhost:8000"
 
@@ -30,6 +30,7 @@ export class DrawFrontendService {
         this.httpService.get().subscribe(
         {next: (data:ElementDto) => {
             console.log(data)
+            this.lastData = data
             this.frontendJson.next(data)
         }})
     }
@@ -40,6 +41,7 @@ export class DrawFrontendService {
 
         this.httpService.post(callback.policy, context).subscribe(
         {next: (data:ElementDto) => {
+            this.lastData = data
             this.frontendJson.next(data)
         }})
     }
@@ -49,6 +51,7 @@ export class DrawFrontendService {
         this.httpClient.post<ElementDto>(this.backend_URI + "/backend", serverRequest).subscribe(
         //this.httpService.post(serverRequest.function).subscribe(
         {next: (data:ElementDto) => {
+            this.lastData = data
             this.frontendJson.next(data)
         }})
     }
@@ -74,5 +77,33 @@ export class DrawFrontendService {
                 this.getAllMessagesContextMenus(child, messageList, contextMenuList)
             })
         }
+    }
+
+    getErrorMessage(message:string, type:string="danger"){
+        let messageElement: ElementDto = {
+            "id": "client_error",
+            "type": "message",
+            "parent": "window",
+            "attributes": [
+                {
+                    "id": "client_error",
+                    "key": "message",
+                    "value": message 
+                },
+                {
+                    "id": "client_error",
+                    "key": "title",
+                    "value": "Error"
+                },
+                {
+                    "id": "client_error",
+                    "key": "type",
+                    "value": type
+                }
+            ],
+            "when": [],
+            "children": []
+        }
+        return messageElement
     }
 }

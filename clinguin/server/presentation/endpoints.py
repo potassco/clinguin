@@ -13,6 +13,7 @@ from .backend_policy_dto import BackendPolicyDto
 
 # Self Defined
 from .endpoints_helper import EndpointsHelper
+from ...utils import get_server_error_alert
 
 
 class Endpoints:
@@ -26,6 +27,8 @@ class Endpoints:
         standard_executor -> Json : Returns the default GUI representation as Json that the Backend provides.
         policy_executor -> Json : Executes a policy defined by the Json passed with the Post request.
     """
+
+    last_response = None
 
     def __init__(self, args) -> None:
         Logger.setup_logger(args.log_args, process="server")
@@ -60,8 +63,13 @@ class Endpoints:
         The get() method is implemented by every backend.
         """
         self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
-        json = self._backend.get()
-        return json
+        try:
+            json = self._backend.get()
+            self.last_response = json
+            return json
+        except Exception as e:
+            self._logger.error("Handling global exception in endpoint")
+            return get_server_error_alert( str(e), self.last_response)
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
         """
@@ -72,29 +80,36 @@ class Endpoints:
         For example: {'function':'add_assumption(p(1))'}
         """
         self._logger.debug("Got endpoint")
+        
         try:
-            symbol = clingo.parse_term(backend_call_string.function)
+
+            try:
+                symbol = clingo.parse_term(backend_call_string.function)
+            except Exception as e:
+                self._logger.error(f"Could not parse {backend_call_string.function} into an atom.")
+                raise e
+            function_name = symbol.name
+            function_arguments = list(map(str, symbol.arguments))
+
+            call_args = ",".join(function_arguments)
+            self._logger.info(
+                "--> %s:   %s(%s))",
+                self._backend.__class__.__name__,
+                function_name,
+                call_args,
+            )
+
+            if hasattr(backend_call_string, "context"):
+                self._backend.set_context(backend_call_string.context)
+            else:
+                self._backend.set_context([])
+
+            result = EndpointsHelper.call_function(
+                self._backend, function_name, function_arguments, {}
+            )
+            self.last_response = result
+            return result
         except Exception as e:
-            #TODO handle errors sending message to client...
-            self._logger.error(f"Could not parse {backend_call_string.function} into an atom. Make sure strings are quoted.")
-            raise e
-        function_name = symbol.name
-        function_arguments = list(map(str, symbol.arguments))
+            self._logger.error("Handling global exception in endpoint")
+            return get_server_error_alert(str(e), self.last_response)
 
-        call_args = ",".join(function_arguments)
-        self._logger.info(
-            "--> %s:   %s(%s))",
-            self._backend.__class__.__name__,
-            function_name,
-            call_args,
-        )
-
-        if hasattr(backend_call_string, "context"):
-            self._backend.set_context(backend_call_string.context)
-        else:
-            self._backend.set_context([])
-
-        result = EndpointsHelper.call_function(
-            self._backend, function_name, function_arguments, {}
-        )
-        return result

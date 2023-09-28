@@ -7,6 +7,7 @@ import { ElementLookupDto, ElementLookupService } from './element-lookup.service
 import { ChildBearerService } from './child-bearer.service';
 import { ContextMenuService } from './context-menu.service';
 import { hide } from '@popperjs/core';
+import { isEmpty, throwError } from 'rxjs';
 
 
 function aspArgumentSplitter(aspArguments: string) : string[] {
@@ -163,7 +164,6 @@ function handleUpdate(when:WhenDto, event: Event) {
 }
   
 function handleCallback(when:WhenDto, event: Event) {
-  console.log("Callback")
   let frontendService = LocatorService.injector.get(DrawFrontendService)
   let contextService = LocatorService.injector.get(ContextService)
 
@@ -175,6 +175,9 @@ function handleCallback(when:WhenDto, event: Event) {
     let match_group = match[1]
 
     let new_value = contextService.retrieveContextValue(match_group)
+    if (new_value.length == 0){
+      throw new Error("Missing context value");      
+    }
     function isNumber(s:string) {
       return /^[0-9]*$/.test(s);
     }
@@ -195,53 +198,55 @@ function handleCallback(when:WhenDto, event: Event) {
   }
 
 function handleContext(when:WhenDto, event: Event | null) {
-  console.warn("In context")
-  console.log(when)
   let contextService = LocatorService.injector.get(ContextService)
-   
   let policy = when.policy
 
-  policy = policy.substring(1)
-  policy = policy.slice(0,-1)
+  if (policy[0]=='('){
+    policy = policy.substring(1)
+    policy = policy.slice(0,-1)
 
-  let splits = aspArgumentSplitter(policy)
+    let splits = aspArgumentSplitter(policy)
+    if (splits.length >= 2) {
+      if (splits.length > 2) {
+        console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
+        console.log(when)
+      }
+      let key = splits[0]
+      let value = splits[1]
 
-  if (splits.length >= 2) {
-    if (splits.length > 2) {
-      console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
-      console.log(when)
-    }
-    let key = splits[0]
-    let value = splits[1]
+      if (event!=null){
 
-    if (event!=null){
-
-      let regex = /_value/g
-      let eventTarget : EventTarget | null = event.target
-  
-      if (eventTarget != null && "value" in eventTarget) {
-        let match = value.match(regex)
-  
-        if (match != null && typeof eventTarget.value === "string") {
-          if (eventTarget.value == "") {
-            console.log("EVENT TARGET IS EMPTY")
-            // DO NOTHING IF EMPTY!
-            return
+        let regex = /_value/g
+        let eventTarget : EventTarget | null = event.target
+    
+        if (eventTarget != null && "value" in eventTarget) {
+          let match = value.match(regex)
+    
+          if (match != null && typeof eventTarget.value === "string") {
+            if (eventTarget.value == "") {
+              console.log("EVENT TARGET IS EMPTY")
+              // DO NOTHING IF EMPTY!
+              return
+            }
+            value = value.replace("_value", eventTarget.value)
           }
-          value = value.replace("_value", eventTarget.value)
         }
       }
-    }
 
-    for (let index = 2; index < splits.length; index++) {
-        value = value + "," + splits[index]
+      for (let index = 2; index < splits.length; index++) {
+          value = value + "," + splits[index]
+      }
+      contextService.addContext(key, value)
+      return
     }
-    console.log("Adding to context")
-    console.log(key)
-    contextService.addContext(key, value)
-  } else {
-    console.log("ERROR, CONTEXT LENGTH LOWER THAN 2 FOR (NOTHING SET!)")
-    console.log(when)
+  } 
+
+  let message = "The value of context event should be a tuple of size 2, but got " +when.policy 
+  console.error(message)
+  let frontendService = LocatorService.injector.get(DrawFrontendService)
+  if (frontendService.lastData!=null){
+    let messageList : ElementDto[] = [frontendService.getErrorMessage(message,"warning")]
+    frontendService.messageLists.next(messageList)
   }
 }
 
@@ -305,15 +310,24 @@ export class CallBackHelperService {
           });
 
           allEvents.forEach((when:WhenDto) => {
-            if (when.interactionType == "update") {
-              handleUpdate(when, event)
-            } else if (when.interactionType == "context") {
-              handleContext(when, event)
-            } else if (when.interactionType == "call" || when.interactionType == "callback") {
-              handleCallback(when, event)
-            } else if (when.interactionType == "show_context_menu") {
-              handleRightClick(html, when, event)
-           }
+            try{
+              if (when.interactionType == "update") {
+                handleUpdate(when, event)
+              } else if (when.interactionType == "context") {
+                handleContext(when, event)
+              } else if (when.interactionType == "call" || when.interactionType == "callback") {
+                handleCallback(when, event)
+              } else if (when.interactionType == "show_context_menu") {
+                handleRightClick(html, when, event)
+              }
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              if (frontendService.lastData!=null){
+                let messageList : ElementDto[] = [frontendService.getErrorMessage(error.message)]
+                frontendService.messageLists.next(messageList)
+              }
+            }
+
           })
         })
 

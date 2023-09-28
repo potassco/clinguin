@@ -26,6 +26,25 @@ elem(window, window, root).
         attr(n(X), clingraph_id, X) :- node(X).
         when(n(X), right_click, show_context_menu, context_menu(X)):- node(X).
 
+
+    elem(modal, modal, window).
+    attr(modal, title, "Download").
+
+        elem(c1, container, modal).
+
+            elem(b1, button, c1).
+            when(b1, click, call, download(_context_value(show_download))).
+            attr(b1, label, "Download").
+            attr(b1, class, "m-1").
+            attr(b1, class, "btn-success").
+            attr(b1, icon, "fa-download").
+
+            elem(t1, textfield, c1).
+            attr(t1, placeholder, "Enter ASP program with #show statements").
+            attr(t1, width, 400).
+            when(t1, input, context, (show_download, _value)).
+
+
 % ---------
 % Menu bar
 % ---------
@@ -38,6 +57,12 @@ attr(menu_bar, icon, "fa-diagram-project").
     attr(menu_bar_clear, icon, "fa-trash").
     attr(menu_bar_clear, class, ("btn-outline-danger";"border-0")).
     when(menu_bar_clear, click, callback, clear_assumptions).
+
+    elem(menu_bar_download, button, menu_bar).
+    attr(menu_bar_download, label, "Download").
+    attr(menu_bar_download, icon, "fa-download").
+    when(menu_bar_download, click, update, (modal, visible, shown)).
+
 
     elem(menu_bar_select, button, menu_bar).
     attr(menu_bar_select, label, "Select solution").

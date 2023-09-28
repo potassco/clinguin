@@ -174,10 +174,10 @@ attr(window, flex_direction, row).
         when(menu_bar_clear, click, call, clear_assumptions).
 
 
-        elem(menu_bar_export, button, menu_bar).
-        attr(menu_bar_export, label, "Download").
-        attr(menu_bar_export, icon, "fa-download").
-        when(menu_bar_export, click, call, export).
+        elem(menu_bar_download, button, menu_bar).
+        attr(menu_bar_download, label, "Download").
+        attr(menu_bar_download, icon, "fa-download").
+        when(menu_bar_download, click, call, download).
 
 
         elem(menu_bar_select, button, menu_bar).

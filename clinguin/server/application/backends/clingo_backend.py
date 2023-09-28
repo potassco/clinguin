@@ -157,7 +157,11 @@ class ClingoBackend(ClinguinBackend):
             state_prg += "_clinguin_unsat."
         for a in self.context:
             value = str(a.value)
-            if value[0].isupper():
+            try:
+                symbol = parse_term(value)
+            except:
+                symbol = None
+            if symbol is None:
                 value = f'"{value}"'
             state_prg += f"_clinguin_context({str(a.key)},{value})."
         return state_prg
@@ -165,7 +169,7 @@ class ClingoBackend(ClinguinBackend):
     @property
     def _output_prg(self):
         """
-        Output program used when exporting into file
+        Output program used when downloading into file
         """
         prg = ""
         for a in self._atoms:
@@ -202,13 +206,25 @@ class ClingoBackend(ClinguinBackend):
     # Policies
     # ---------------------------------------------
 
-    def export(self, file_name = "clinguin_export.lp"):
+    def download(self, show_prg= None, file_name = "clinguin_download.lp"):
         prg = self._output_prg
         was_browsing = self._is_browsing
         self._end_browsing()
         self._update_uifb()
         if was_browsing:
-            self._uifb.add_message("Warning", "Browsing was active during export, only selected solutions will be present on the file.", "warning")
+            self._uifb.add_message("Warning", "Browsing was active during download, only selected solutions will be present on the file.", "warning")
+        if show_prg is not None:
+            ctl = Control()
+            ctl.add("base", [], prg)
+            ctl.add("base", [], show_prg.replace('"',''))
+            ctl.ground([("base", [])])
+            with ctl.solve(yield_=True) as hnd:
+                for m in hnd:
+                    atoms = [f"{str(s)}." for s in m.symbols(shown=True)]
+            
+            prg = "\n".join(atoms)
+
+        
         with open(file_name, "w") as file:
             file.write(prg)
         self._uifb.add_message("Download successful", f"Information saved in file {file_name}.", "success")

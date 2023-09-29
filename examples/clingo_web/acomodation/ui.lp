@@ -16,6 +16,7 @@ attr(window, flex_direction, row).
         elem(c1, container, modal).
         attr(c1, child_layout, flex).
         attr(c1, flex_direction, row_reverse).
+        attr(c1, class, "align-items-center").
 
             elem(t1, textfield, c1).
             attr(t1, placeholder, "Enter the name of the person").

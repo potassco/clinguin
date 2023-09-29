@@ -1,36 +1,44 @@
 
 elem(window, window, root).
 
-    %%%%%% Info
+    % ---------
+    % Info message
+    % ---------
     elem(l, message, window).
     attr(l, message, "Right click on node to select color!").
     attr(l, type, warning).
     attr(l, visible, hidden):- _clinguin_assume(_).
 
-    %%%%%% Context Menu
+    % ---------
+    % Context menu
+    % ---------
     elem(context_menu(X), context_menu, window) :- node(X).
         elem(bcm(X,C), button, context_menu(X)) :- color(C), node(X).
         attr(bcm(X,C), label, C) :- color(C), node(X).
         attr(bcm(X,C), class, "disabled") :- color(C), node(X), not _b(assign(X,C)).
         when(bcm(X,C), click, callback, add_assumption(assign(X,C))) :- _b(assign(X,C)).
 
-
-    % A canvas, where images can be displayed.
+    % ---------
+    % Clingraph image
+    % ---------
     elem(c, canvas, window).
     attr(c, order, 2).
     attr(c, image_type, clingraph).
 
-        %%%%%% Clingraph nodes from svg
         elem(n(X), svg_node, c) :- node(X).
-        % The id refers to the one used in the clingraph encoding
         attr(n(X), clingraph_id, X) :- node(X).
         when(n(X), right_click, show_context_menu, context_menu(X)):- node(X).
 
-
+    % ---------
+    % Download modal
+    % ---------
     elem(modal, modal, window).
     attr(modal, title, "Download").
 
         elem(c1, container, modal).
+        % attr(c1, child_layout, "flex").
+        attr(c1, flex_direction, "column").
+        attr(c1, class, "align-items-end").
 
             elem(b1, button, c1).
             when(b1, click, call, download(_context_value_optional(show_download))).
@@ -41,7 +49,7 @@ elem(window, window, root).
 
             elem(t1, textfield, c1).
             attr(t1, placeholder, "Optinal ASP program with #show statements").
-            attr(t1, width, 400).
+            attr(t1, width, 450).
             when(t1, input, context, (show_download, _value)).
 
 

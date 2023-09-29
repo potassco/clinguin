@@ -41,7 +41,6 @@ export class ChildBearerService {
         this.attributeService.addGeneralAttributes(html, item.attributes)
 
         this.attributeService.addAttributes(html, item.attributes)
-
         if (item.type == "container") {
           this.attributeService.setChildLayout(html, item.attributes)
           this.attributeService.setVisibility(html, item.attributes)

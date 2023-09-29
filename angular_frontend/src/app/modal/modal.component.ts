@@ -20,7 +20,7 @@ export class ModalComponent {
 
   container_id: string = ""
   container: ElementDto | null = null
-  modalTitle: string = "title"
+  modalTitle: string = ""
 
   modalRef : NgbModalRef | null = null
 

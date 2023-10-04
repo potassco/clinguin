@@ -66,7 +66,9 @@ class ClingoDLBackend(ClingoMultishotBackend):
 
     def _solve_set_handler(self):
         self._theory.prepare(self._ctl)
-        self._handler = self._ctl.solve(yield_=True)
+        self._handler = self._ctl.solve(
+                assumptions=[(a, True) for a in self._assumptions], yield_=True
+            )
     
 
     def _on_model(self, model):

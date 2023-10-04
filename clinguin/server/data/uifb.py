@@ -200,7 +200,7 @@ class UIFB:
         with uictl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True, atoms=True)
-                print(model_symbols)
+                # print(model_symbols)
                 break
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)

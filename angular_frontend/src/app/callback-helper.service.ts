@@ -315,11 +315,20 @@ export class CallBackHelperService {
             return 0;
           });
 
-          console.log(allEvents)
           const updates = allEvents.filter((w) => w.interactionType == "update"|| w.interactionType == "context")
           const context = allEvents.filter((w) => w.interactionType == "context")
           const call = allEvents.filter((w) => w.interactionType == "call" || w.interactionType == "callback")
+          const context_menu = allEvents.filter((w) => w.interactionType == "show_context_menu" )
           
+          context_menu.forEach((when:WhenDto) => {
+            try{
+                handleRightClick(html,when, event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
+          })
+
           updates.forEach((when:WhenDto) => {
             try{
                 handleUpdate(when, event)

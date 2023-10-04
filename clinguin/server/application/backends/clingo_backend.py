@@ -14,7 +14,6 @@ from clorm import Raw
 from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
 from clinguin.server.data.attribute import AttributeDao
 from clinguin.utils import StandardTextProcessing
-
 enable_python()
 
 
@@ -176,9 +175,11 @@ class ClingoBackend(ClinguinBackend):
             prg = prg + f"{str(a)}.\n"
         return prg
 
+    def _on_model(self, model):
+        pass
 
     def _update_uifb_consequences(self):
-        self._uifb.update_all_consequences(self._ctl, self._assumptions)
+        self._uifb.update_all_consequences(self._ctl, self._assumptions, self._on_model)
         if self._uifb.is_unsat:
             self._logger.error(
                 "domain files are UNSAT. Setting _clinguin_unsat to true"
@@ -241,6 +242,7 @@ class ClingoBackend(ClinguinBackend):
         self._init_ctl()
         self._ground()
         self._update_uifb()
+    
     def download(self, show_prg= None, file_name = "clinguin_download.lp"):
         """
         Policy: Downloads the current state of the backend. All added atoms and assumptions
@@ -286,6 +288,7 @@ class ClingoBackend(ClinguinBackend):
         self._ground()
 
         self._update_uifb()
+    
     def add_atom(self, predicate):
         """
         Policy: Adds an assumption and basically resets the rest of the application (reground) -
@@ -298,6 +301,7 @@ class ClingoBackend(ClinguinBackend):
             self._ground()
             self._end_browsing()
             self._update_uifb()
+    
     def remove_atom(self, predicate):
         """
         Policy: Removes an assumption and basically resets the rest of the application (reground) -

@@ -11,6 +11,7 @@ from clingo.symbol import Function, Number, String
 from clorm import Raw
 
 from clinguin.utils import Logger, NoModelError
+from clingraph.clingo_utils import ClingraphContext
 
 from .attribute import AttributeDao
 from .callback import WhenDao
@@ -144,7 +145,7 @@ class UIFB:
         uictl.add("base", [], extra_ui_prg)
         uictl.add("base", [], self.conseq_facts)
         uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
-        uictl.ground([("base", [])])
+        uictl.ground([("base", [])], ClingraphContext)
 
         return uictl
 
@@ -199,6 +200,7 @@ class UIFB:
         with uictl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True, atoms=True)
+                # print(model_symbols)
                 break
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)

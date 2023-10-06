@@ -315,23 +315,48 @@ export class CallBackHelperService {
             return 0;
           });
 
-          allEvents.forEach((when:WhenDto) => {
+          const updates = allEvents.filter((w) => w.interactionType == "update"|| w.interactionType == "context")
+          const context = allEvents.filter((w) => w.interactionType == "context")
+          const call = allEvents.filter((w) => w.interactionType == "call" || w.interactionType == "callback")
+          const context_menu = allEvents.filter((w) => w.interactionType == "show_context_menu" )
+          
+          context_menu.forEach((when:WhenDto) => {
             try{
-              if (when.interactionType == "update") {
-                handleUpdate(when, event)
-              } else if (when.interactionType == "context") {
-                handleContext(when, event)
-              } else if (when.interactionType == "call" || when.interactionType == "callback") {
-                handleCallback(when, event)
-              } else if (when.interactionType == "show_context_menu") {
-                handleRightClick(html, when, event)
-              }
+                handleRightClick(html,when, event)
             }catch(error:any){
               let frontendService = LocatorService.injector.get(DrawFrontendService)
               frontendService.postMessage(error.message,"warning")
-              
             }
+          })
 
+          updates.forEach((when:WhenDto) => {
+            try{
+                handleUpdate(when, event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
+          })
+
+          context.forEach((when:WhenDto) => {
+            try{
+                handleContext(when, event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
+          })
+
+          if (call.length>1) {
+            call[0].policy = "(" + call.map(x=>{return x.policy}).join(',') + ")"
+          }
+          call.forEach((when:WhenDto) => {
+            try{
+                handleCallback(call[0],event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
           })
         })
 

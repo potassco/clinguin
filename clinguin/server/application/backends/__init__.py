@@ -6,6 +6,7 @@ from clinguin.server.application.backends.clingo_multishot_backend import Clingo
 from clinguin.server.application.backends.clingraph_backend import ClingraphBackend
 from clinguin.server.application.backends.explanation_backend import ExplanationBackend
 from clinguin.server.application.backends.temporal_backend import TemporalBackend
+from clinguin.server.application.backends.clingodl_backend import ClingoDLBackend
 
 __all__ = [
     ClingoMultishotBackend.__name__,
@@ -13,4 +14,5 @@ __all__ = [
     TemporalBackend.__name__,
     ExplanationBackend.__name__,
     ClingoBackend.__name__,
+    ClingoDLBackend.__name__,
 ]

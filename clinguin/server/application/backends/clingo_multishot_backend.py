@@ -191,36 +191,6 @@ class ClingoMultishotBackend(ClingoBackend):
 
         self._update_uifb()
 
-    def next_solution(self, opt_mode="ignore"):
-        """
-        Policy: Obtains the next solution
-        Arguments:
-            opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
-        """
-        if self._ctl.configuration.solve.opt_mode != opt_mode:
-            self._logger.debug("Ended browsing since opt mode changed")
-            self._end_browsing()
-        optimizing = opt_mode in ["optN", "opt"]
-        if not self._iterator:
-            self._ctl.configuration.solve.enum_mode = "auto"
-            self._ctl.configuration.solve.opt_mode = opt_mode
-            self._ctl.configuration.solve.models = 0
-            self._solve_set_handler()
-            self._iterator = iter(self._handler)
-        try:
-            model = next(self._iterator)
-            while optimizing and not model.optimality_proven:
-                self._logger.info("Skipping non-optimal model")
-                model = next(self._iterator)
-            self._set_auto_conseq(model)
-            self._update_uifb_ui()
-        except StopIteration:
-            self._logger.info("No more solutions")
-            self._end_browsing()
-            self._update_uifb()
-            self._uifb.add_message("Browsing Information", "No more solutions")
-
-
     def select(self):
         """
         Policy: Select the current solution during browsing

@@ -280,7 +280,6 @@ class ClingraphBackend(ClingoMultishotBackend):
             graph_name = "default"
             split = attribute_value.split("__")
             if len(split)>1:
-                print(graph_name)
                 graph_name== split[1]
 
             # Currently assuming SVG, otherwise b64 encoding necessary!

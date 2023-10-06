@@ -14,7 +14,6 @@ from clorm import Raw
 from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
 from clinguin.server.data.attribute import AttributeDao
 from clinguin.utils import StandardTextProcessing
-
 enable_python()
 
 
@@ -176,9 +175,11 @@ class ClingoBackend(ClinguinBackend):
             prg = prg + f"{str(a)}.\n"
         return prg
 
+    def _on_model(self, model):
+        pass
 
     def _update_uifb_consequences(self):
-        self._uifb.update_all_consequences(self._ctl, self._assumptions)
+        self._uifb.update_all_consequences(self._ctl, self._assumptions, self._on_model)
         if self._uifb.is_unsat:
             self._logger.error(
                 "domain files are UNSAT. Setting _clinguin_unsat to true"
@@ -202,6 +203,32 @@ class ClingoBackend(ClinguinBackend):
     def _add_atom(self, predicate_symbol):
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
+
+    def _replace_uifb_with_b64_images(self):
+        attributes = list(self._uifb.get_attributes())
+        for attribute in attributes:
+            if str(attribute.key) != self._attribute_image_key:
+                continue
+
+            attribute_value = StandardTextProcessing.parse_string_with_quotes(
+                str(attribute.value)
+            )
+
+            if os.path.isfile(attribute_value):
+                with open(attribute_value, "rb") as image_file:
+                    encoded_string = self._image_to_b64(image_file.read())
+                    new_attribute = AttributeDao(
+                        Raw(Function(str(attribute.id), [])),
+                        Raw(Function(str(attribute.key), [])),
+                        Raw(String(str(encoded_string))),
+                    )
+                    self._uifb.replace_attribute(attribute, new_attribute)
+
+    def _image_to_b64(self, img):
+        encoded = base64.b64encode(img)
+        decoded = encoded.decode(self._encoding)
+        return decoded
+
     # ---------------------------------------------
     # Policies
     # ---------------------------------------------
@@ -215,6 +242,7 @@ class ClingoBackend(ClinguinBackend):
         self._init_ctl()
         self._ground()
         self._update_uifb()
+    
     def download(self, show_prg= None, file_name = "clinguin_download.lp"):
         """
         Policy: Downloads the current state of the backend. All added atoms and assumptions
@@ -260,6 +288,7 @@ class ClingoBackend(ClinguinBackend):
         self._ground()
 
         self._update_uifb()
+    
     def add_atom(self, predicate):
         """
         Policy: Adds an assumption and basically resets the rest of the application (reground) -
@@ -272,6 +301,7 @@ class ClingoBackend(ClinguinBackend):
             self._ground()
             self._end_browsing()
             self._update_uifb()
+    
     def remove_atom(self, predicate):
         """
         Policy: Removes an assumption and basically resets the rest of the application (reground) -
@@ -323,27 +353,4 @@ class ClingoBackend(ClinguinBackend):
         for s in last_model_symbols:  # pylint: disable=E1133
             self._add_atom(s)
         self._update_uifb()
-    def _replace_uifb_with_b64_images(self):
-        attributes = list(self._uifb.get_attributes())
-        for attribute in attributes:
-            if str(attribute.key) != self._attribute_image_key:
-                continue
-
-            attribute_value = StandardTextProcessing.parse_string_with_quotes(
-                str(attribute.value)
-            )
-
-            if os.path.isfile(attribute_value):
-                with open(attribute_value, "rb") as image_file:
-                    encoded_string = self._image_to_b64(image_file.read())
-                    new_attribute = AttributeDao(
-                        Raw(Function(str(attribute.id), [])),
-                        Raw(Function(str(attribute.key), [])),
-                        Raw(String(str(encoded_string))),
-                    )
-                    self._uifb.replace_attribute(attribute, new_attribute)
-
-    def _image_to_b64(self, img):
-        encoded = base64.b64encode(img)
-        decoded = encoded.decode(self._encoding)
-        return decoded
+    

@@ -108,7 +108,7 @@ function handleRightClick(html: HTMLElement, when:WhenDto, event: Event) {
 }
  
 
-function handleUpdate(when:WhenDto, event: Event) {
+function handleUpdate(when:WhenDto, event: Event | null) {
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
   let policy = when.policy
@@ -150,6 +150,10 @@ function handleUpdate(when:WhenDto, event: Event) {
         }
       }
     }
+
+    if(elementLookup.object == null && elementLookup.element.type.startsWith('svg') && elementLookup.tagHtml!=null){
+      elementLookup.tagHtml.style.setProperty(key,value.replaceAll('"',''))
+    }
     if (elementLookup.tagHtml != null) {
       let childBearerService = LocatorService.injector.get(ChildBearerService)
 
@@ -183,7 +187,7 @@ function replaceContext(policy_string:string, optional:boolean){
     }
 
     if (!isNumber(new_value) && new_value.length>0) {
-      if ( new_value[0] === new_value[0].toUpperCase()){
+      if ( new_value[0] === new_value[0].toUpperCase() && new_value[0]!='"'){
         new_value = '"'+new_value+'"'
       }
     } 
@@ -193,6 +197,7 @@ function replaceContext(policy_string:string, optional:boolean){
   }
   return policy_string
 }
+
 function handleCallback(when:WhenDto, event: Event) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
 
@@ -210,10 +215,12 @@ function handleContext(when:WhenDto, event: Event | null) {
   let contextService = LocatorService.injector.get(ContextService)
   let policy = when.policy
 
+  policy = replaceContext(policy, true)
+  policy = replaceContext(policy, false)
+
   if (policy[0]=='('){
     policy = policy.substring(1)
     policy = policy.slice(0,-1)
-
     let splits = aspArgumentSplitter(policy)
     if (splits.length >= 2) {
       if (splits.length > 2) {
@@ -279,11 +286,13 @@ export class CallBackHelperService {
       this.handleEvent(html, dos, "click", "click")
       this.handleEvent(html, dos, "input", "input")
       this.handleEvent(html, dos, "right_click", "contextmenu")
+      this.handleEvent(html, dos, "mouse_enter", "mouseenter")
+      this.handleEvent(html, dos, "mouse_leave", "mouseleave")
       this.handleEvent(html, dos, "load", "load")
+      this.handleEvent(html, dos, "dblclick", "dblclick")
     }
 
     handleEvent(html: HTMLElement, dos:WhenDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
-      
       let allEvents:WhenDto[] = []
       dos.forEach((when:WhenDto) => {
         if (when.actionType == supportedAttributeName) {
@@ -293,10 +302,12 @@ export class CallBackHelperService {
       
       if (allEvents.length > 0 && htmlEventName != "") {
         if(supportedAttributeName=="load"){
-          console.warn("In load")
           allEvents.forEach((when:WhenDto) => {
             if (when.interactionType == "context") {
               handleContext(when, null)
+            }
+            if (when.interactionType == "update") {
+              handleUpdate(when, null)
             }
           })
           return

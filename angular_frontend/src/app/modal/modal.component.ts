@@ -61,7 +61,6 @@ export class ModalComponent {
         this.modalRef.result.then(
           (result) => {
             this.closeResult = `Closed with: ${result}`;
-            console.log(this.closeResult)
 
             if (this.element != null) {
               for (let index = 0; index < this.element.attributes.length; index++) {
@@ -76,7 +75,6 @@ export class ModalComponent {
           },
           (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            console.log(this.closeResult)
             
             if (this.element != null) {
               for (let index = 0; index < this.element.attributes.length; index++) {

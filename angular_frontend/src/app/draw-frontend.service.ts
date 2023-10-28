@@ -29,7 +29,6 @@ export class DrawFrontendService {
     initialGet() : void {
         this.httpService.get().subscribe(
         {next: (data:ElementDto) => {
-            console.log(data)
             this.lastData = data
             this.frontendJson.next(data)
         }})

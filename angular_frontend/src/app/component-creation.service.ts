@@ -37,7 +37,7 @@ export class ComponentCreationService {
           component = child.createComponent(dict[index].value)
         }
 
-        if (component == null && key != "menu_bar") {
+        if (component == null && key != "menu_bar" && key != "context_menu" && key != "message") {
           console.log("Could not associate component key with an component: " + key)
           //throw new Error("Could not associate component key with an component: " + key)
         }

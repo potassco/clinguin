@@ -40,7 +40,6 @@ export class WindowComponent {
 
     this.frontendService.frontendJson.subscribe({next: (data:ElementDto) => {
 
-      console.log(data)
 
       this.children.forEach(child => {
         this.child.clear()

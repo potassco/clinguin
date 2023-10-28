@@ -48,7 +48,6 @@ export class ContextMenuComponent {
           this.attributeService.addClasses(listButtonHTML, listButton.attributes, ["list-group-item", "list-group-item-action"],[])
 
           let link = listButtonHTML.children.item(0)
-          console.log(link)
           if (link!= null){
 
             let icon = link.children.item(0)

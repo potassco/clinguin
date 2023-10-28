@@ -34,7 +34,7 @@ export class ElementLookupService {
         }
     }
     
-    addElementTagHTML(key: string, htmlTag: HTMLElement, element: ElementDto) {
+    addElementTagHTML(key: string, htmlTag: HTMLElement|null, element: ElementDto) {
         
         let foundIndex = this.findElementIndex(key)
         
@@ -76,7 +76,7 @@ export class ElementLookupService {
         return new ElementLookupDto(id, object, element, tagHTML)
     }
 
-    private initializeElementLookupDtoNullObject(id:string, element:ElementDto, tagHTML:HTMLElement) {
+    private initializeElementLookupDtoNullObject(id:string, element:ElementDto, tagHTML:HTMLElement|null) {
         return new ElementLookupDto(id, null, element, tagHTML)
     }
         

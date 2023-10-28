@@ -73,7 +73,7 @@ function hideAllContextMenus() : boolean {
   return anyWasOpen
 } 
 
-function handleRightClick(html: HTMLElement, when:WhenDto, event: Event) {
+function handleRightClick( policy:string, event: Event) {
   event.preventDefault()
   event.stopPropagation()
 
@@ -83,12 +83,12 @@ function handleRightClick(html: HTMLElement, when:WhenDto, event: Event) {
 
   let contextMenuService = LocatorService.injector.get(ContextMenuService)
 
-  let result = contextMenuService.retrieveContextValue(when.policy)
+  let result = contextMenuService.retrieveContextValue(policy)
 
   if (result != null) {
     if ("pageX" in event && "pageY" in event && typeof event.pageX == "number" && typeof event.pageY == "number") {
 
-      let contextMenu = document.getElementById(when.policy)
+      let contextMenu = document.getElementById(policy)
 
       if (contextMenu != null) {
         if (contextMenu.style.display == "block"){ 
@@ -125,6 +125,15 @@ function handleUpdate(when:WhenDto, event: Event | null) {
   let elementLookup : ElementLookupDto | null = elementLookupService.getElement(id)
 
   if (elementLookup != null) {
+
+    if (elementLookup.element.type == "context_menu" && event!=null){
+      if(key!="visibility" || value!="visible"){
+        console.error("For updates to context menu only tuples of form (_,visibility,visible) are valid, but got: " +id+","+key +","+value)
+      }else{
+        handleRightClick(id,event)
+      }
+      return
+    }
     let tmpAttributes = elementLookup.element.attributes
     let found = false
 
@@ -286,8 +295,8 @@ export class CallBackHelperService {
       this.handleEvent(html, dos, "click", "click")
       this.handleEvent(html, dos, "input", "input")
       this.handleEvent(html, dos, "right_click", "contextmenu")
-      this.handleEvent(html, dos, "mouse_enter", "mouseenter")
-      this.handleEvent(html, dos, "mouse_leave", "mouseleave")
+      this.handleEvent(html, dos, "mouseenter", "mouseenter")
+      this.handleEvent(html, dos, "mouseleave", "mouseleave")
       this.handleEvent(html, dos, "load", "load")
       this.handleEvent(html, dos, "dblclick", "dblclick")
     }
@@ -333,7 +342,13 @@ export class CallBackHelperService {
           
           context_menu.forEach((when:WhenDto) => {
             try{
-                handleRightClick(html,when, event)
+              if (when.interactionType == "update") {
+                handleUpdate(when, event)
+              } else if (when.interactionType == "context") {
+                handleContext(when, event)
+              } else if (when.interactionType == "call" || when.interactionType == "callback") {
+                handleCallback(when, event)
+              }
             }catch(error:any){
               let frontendService = LocatorService.injector.get(DrawFrontendService)
               frontendService.postMessage(error.message,"warning")

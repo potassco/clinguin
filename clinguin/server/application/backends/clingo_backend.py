@@ -242,8 +242,8 @@ class ClingoBackend(ClinguinBackend):
         self._init_ctl()
         self._ground()
         self._update_uifb()
-    
-    def download(self, show_prg= None, file_name = "clinguin_download.lp"):
+
+    def download(self, show_prg= None, file_name = "clinguin_download.lp", domain_files = True):
         """
         Policy: Downloads the current state of the backend. All added atoms and assumptions
         are put together as a list of facts. 
@@ -251,6 +251,7 @@ class ClingoBackend(ClinguinBackend):
         Args:
             show_prg (_type_, optional): Program to filter output using show statements. Defaults to None.
             file_name (str, optional): The name of the file for the download. Defaults to "clinguin_download.lp".
+            domain_files (bool, optional): If the domain files should be included. Defaults to True
 
         """
         prg = self._output_prg
@@ -262,6 +263,9 @@ class ClingoBackend(ClinguinBackend):
         if show_prg is not None:
             ctl = Control()
             ctl.add("base", [], prg)
+            if domain_files:
+                for f in self._domain_files:
+                    ctl.load(f)
             ctl.add("base", [], show_prg.replace('"',''))
             ctl.ground([("base", [])])
             with ctl.solve(yield_=True) as hnd:
@@ -270,7 +274,7 @@ class ClingoBackend(ClinguinBackend):
             
             prg = "\n".join(atoms)
 
-        
+        file_name = file_name.strip('"')
         with open(file_name, "w") as file:
             file.write(prg)
         self._uifb.add_message("Download successful", f"Information saved in file {file_name}.", "success")

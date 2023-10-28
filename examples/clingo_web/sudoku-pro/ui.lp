@@ -28,6 +28,7 @@ elem(window,window,root).
             when(remove(X,Y), click, call, remove_assumption_signature(sudoku(X,Y,any))):-pos(X,Y).
 
             elem(pos_v(X,Y,V),dropdown_menu_item,pos(X,Y)):-pos(X,Y), val(V).
+            attr(pos_v(X,Y,V),class,("text-danger")):-pos(X,Y), val(V), not _b(sudoku(X,Y,V)).
             attr(pos_v(X,Y,V),label,V):-pos(X,Y), val(V).
             when(pos_v(X,Y,V),click,call,(remove_assumption_signature(sudoku(X,Y,any)),
                                         add_assumption(sudoku(X,Y,V))))

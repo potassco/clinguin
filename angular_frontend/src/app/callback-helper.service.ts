@@ -171,6 +171,7 @@ function handleUpdate(when:WhenDto, event: Event | null) {
 
   } else {
     console.log("COULD NOT FIND ELEMENT FOR when:" + id + "::" + key + "::" + value)
+    console.log(when)
   }
 
 
@@ -335,25 +336,25 @@ export class CallBackHelperService {
             return 0;
           });
 
-          const updates = allEvents.filter((w) => w.interactionType == "update"|| w.interactionType == "context")
+          const updates = allEvents.filter((w) => w.interactionType == "update")
           const context = allEvents.filter((w) => w.interactionType == "context")
           const call = allEvents.filter((w) => w.interactionType == "call" || w.interactionType == "callback")
-          const context_menu = allEvents.filter((w) => w.interactionType == "show_context_menu" )
+          // const context_menu = allEvents.filter((w) => w.interactionType == "show_context_menu" )
           
-          context_menu.forEach((when:WhenDto) => {
-            try{
-              if (when.interactionType == "update") {
-                handleUpdate(when, event)
-              } else if (when.interactionType == "context") {
-                handleContext(when, event)
-              } else if (when.interactionType == "call" || when.interactionType == "callback") {
-                handleCallback(when, event)
-              }
-            }catch(error:any){
-              let frontendService = LocatorService.injector.get(DrawFrontendService)
-              frontendService.postMessage(error.message,"warning")
-            }
-          })
+          // context_menu.forEach((when:WhenDto) => {
+          //   try{
+          //     if (when.interactionType == "update") {
+          //       handleUpdate(when, event)
+          //     } else if (when.interactionType == "context") {
+          //       handleContext(when, event)
+          //     } else if (when.interactionType == "call" || when.interactionType == "callback") {
+          //       handleCallback(when, event)
+          //     }
+          //   }catch(error:any){
+          //     let frontendService = LocatorService.injector.get(DrawFrontendService)
+          //     frontendService.postMessage(error.message,"warning")
+          //   }
+          // })
 
           updates.forEach((when:WhenDto) => {
             try{

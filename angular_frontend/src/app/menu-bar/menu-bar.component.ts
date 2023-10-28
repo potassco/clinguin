@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
+import { ChangeDetectorRef, Component, Input, ElementRef, ViewChild } from '@angular/core';
+import { AttributeDto, WhenDto, ElementDto } from '../types/json-response.dto';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { CallBackHelperService } from '../callback-helper.service';
@@ -12,11 +12,13 @@ import { ElementLookupService } from '../element-lookup.service';
 })
 export class MenuBarComponent {
   @Input() element: ElementDto | null = null
+  @ViewChild("titleIcon",{static:false}) titleIcon! : ElementRef
 
   public isCollapsed = true;
 
   title: string = ""
-  menuBarSections: MenuBarSection[] = []
+  // menuBarSections: MenuBarSection[] = []
+  menuBarButtons: MenuBarButton[] = []
 
   constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private callBackHelperService:CallBackHelperService) {}
 
@@ -24,47 +26,30 @@ export class MenuBarComponent {
 
     if (this.element != null) {
       this.elementLookupService.addElementObject(this.element.id, this, this.element)
-
-      this.element.children.forEach(menuBarSection => {
-        let menuBarItems: MenuBarItem[] = []
-
-        menuBarSection.children.forEach(menuBarSectionItem => {
-
-          let menuBarItemTitle = this.attributeService.findGetAttributeValue("label", menuBarSectionItem.attributes, "")
-
-          let menuBarItemObject = new MenuBarItem(menuBarSectionItem.id, menuBarItemTitle, menuBarSectionItem)
-          this.elementLookupService.addElementObject(menuBarSectionItem.id, menuBarItemObject, menuBarSectionItem)
-          menuBarItems.push(menuBarItemObject)
-        
-        })
-
-        let menuBarTitle = this.attributeService.findGetAttributeValue("label", menuBarSection.attributes, "")
-        let menuBarSectionId = menuBarSection.id
-
-        let menuBarSectionObject = new MenuBarSection(menuBarSectionId, menuBarTitle, menuBarItems, menuBarSection)
-        this.elementLookupService.addElementObject(menuBarSection.id, menuBarSectionObject, menuBarSection)
-        this.menuBarSections.push(menuBarSectionObject)
-
-        this.cd.detectChanges()
-
-        let htmlChild : HTMLElement | null = document.getElementById(menuBarSection.id)
-        if (htmlChild != null) {
-          menuBarSectionObject.setHtmlElement(htmlChild)
-          menuBarSectionObject.setAttributes(menuBarSection.attributes)
-
-          this.callBackHelperService.setCallbacks(htmlChild, menuBarSection.do)
-        }
+      this.element.children.forEach(menuBarButton => {
+        let menuBarButtonTitle = this.attributeService.findGetAttributeValue("label", menuBarButton.attributes, "")
+        let menuBarButtonObject = new MenuBarButton(menuBarButton.id, menuBarButtonTitle, menuBarButton)
+        this.elementLookupService.addElementObject(menuBarButton.id, menuBarButtonObject, menuBarButton)
+        this.menuBarButtons.push(menuBarButtonObject)
+      })
+      this.cd.detectChanges()
       
-        menuBarSectionObject.menuBarItems.forEach((menuBarSectionItemObject:MenuBarItem) => {
-   
-          let menuBarSectionItemHTML : HTMLElement | null = document.getElementById(menuBarSectionItemObject.id)
-          if (menuBarSectionItemHTML != null) {
-            menuBarSectionItemObject.setHtmlElement(menuBarSectionItemHTML)
-            menuBarSectionItemObject.setAttributes(menuBarSectionItemObject.element.attributes)
-          
-            this.callBackHelperService.setCallbacks(menuBarSectionItemHTML, menuBarSectionItemObject.element.do)
+      this.menuBarButtons.forEach((menuBarButtonObject:MenuBarButton) => {
+        let menuBarButtonHTML : HTMLElement | null = document.getElementById(menuBarButtonObject.id)
+        if (menuBarButtonHTML != null) {
+          menuBarButtonObject.setHtmlElement(menuBarButtonHTML)
+          menuBarButtonObject.setAttributes(menuBarButtonObject.element.attributes)
+          this.attributeService.addClasses(menuBarButtonHTML, menuBarButtonObject.element.attributes, ["btn-sm","mx-1"],["btn-outline-dark","border-0"])
+
+          this.callBackHelperService.setCallbacks(menuBarButtonHTML, menuBarButtonObject.element.when)
+
+          let icon = menuBarButtonHTML.children.item(0)
+
+          if (icon != null) {
+      
+            this.attributeService.addClasses(icon, menuBarButtonObject.element.attributes, ["fa"], [], 'icon')
           }
-        })
+        }
       })
 
     this.setAttributes(this.element.attributes)
@@ -79,13 +64,43 @@ export class MenuBarComponent {
       this.title = title.value
     }
 
+    let iconHtml = this.titleIcon.nativeElement
+    this.attributeService.addClasses(iconHtml, attributes, ["fa"], [], 'icon')
+
+    
     this.cd.detectChanges()
 
   }
 
-  policyExecutor(policy: DoDto | null) {
+  policyExecutor(policy: WhenDto | null) {
     if (policy != null) {
       this.displayFrontend.policyPost(policy)
+    }
+  }
+}
+
+class MenuBarButton {
+  id:string=""
+  title:string=""
+  element!:ElementDto
+  htmlElement:HTMLElement| null = null
+
+  constructor(id:string, title: string, element: ElementDto) {
+    this.id = id
+    this.title = title
+    this.element = element
+  }
+
+  setHtmlElement(htmlElement:HTMLElement) {
+    this.htmlElement = htmlElement
+  }
+
+  setAttributes(attributes: AttributeDto[]) {
+    let title = attributes.find((item: AttributeDto) => item.key == "label")
+    if (title != null) {
+      this.title = title.value
+    } else {
+      this.title = ""
     }
   }
 }

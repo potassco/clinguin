@@ -29,7 +29,7 @@ export class TextfieldComponent {
 
       this.setAttributes(this.element.attributes)
       let htmlTextfield = this.theTextfield.nativeElement
-      this.callbackService.setCallbacks(htmlTextfield, this.element.do)
+      this.callbackService.setCallbacks(htmlTextfield, this.element.when)
 
       this.cd.detectChanges()
     }
@@ -49,6 +49,7 @@ export class TextfieldComponent {
       this.attributeService.addAttributes(htmlTextfield, attributes)
       this.attributeService.textAttributes(htmlTextfield, attributes)
       this.attributeService.addGeneralAttributes(htmlTextfield, attributes)
+      this.attributeService.addClasses(htmlTextfield, attributes,[],[])
 
       if (this.element != null) {
         this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlTextfield, this.element)

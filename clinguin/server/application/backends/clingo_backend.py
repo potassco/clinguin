@@ -1,6 +1,6 @@
 # pylint: disable=R0801
 """
-Module that contains the ClingoBackend.
+Module that contains the ClingoMultishotBackend.
 """
 import base64
 import os
@@ -14,15 +14,13 @@ from clorm import Raw
 from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
 from clinguin.server.data.attribute import AttributeDao
 from clinguin.utils import StandardTextProcessing
-
 enable_python()
 
 
 class ClingoBackend(ClinguinBackend):
     """
-    The ClingoBackend class is the backend that is selected by default.
-    It provides basic functionality to argue bravely and cautiously.
-    Further it provides several policies for assumptions, atoms and externals.
+    The Single-shot Backend class is a backend that is reduced to the most important functionality.
+    It only contains policies for adding and removing atoms and will reground after each user input.
     """
 
     def __init__(self, args):
@@ -30,21 +28,10 @@ class ClingoBackend(ClinguinBackend):
 
         self._domain_files = args.domain_files
         self._ui_files = args.ui_files
-
-        # For browising
-        self._handler = None
-        self._iterator = None
-
-        # To make static linters happy
-        self._assumptions = set()
-        self._atoms = set()
-        self._ctl = None
-
-        self._end_browsing()
-        self._assumptions = set()
-        self._externals = {"true": set(), "false": set(), "released": set()}
-        self._atoms = set()
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
+
+        self._init_setup()
+        self._end_browsing()
         self._init_ctl()
         self._ground()
 
@@ -63,11 +50,11 @@ class ClingoBackend(ClinguinBackend):
     # Required methods
     # ---------------------------------------------
 
-    def get(self):
+    def get(self, force_update=False):
         """
         Overwritten default method to get the gui as a Json structure.
         """
-        if self._uifb.is_empty:
+        if force_update or self._uifb.is_empty:
             self._update_uifb()
         self._logger.debug(self._uifb)
         json_structure = StandardJsonEncoder.encode(self._uifb)
@@ -101,6 +88,18 @@ class ClingoBackend(ClinguinBackend):
     # Private methods
     # ---------------------------------------------
 
+    def _init_setup(self):
+        """
+        Initial setup of properties
+        """
+        # For browising
+        self._handler = None
+        self._iterator = None
+
+        # To make static linters happy
+        self._atoms = set()
+        self._ctl = None
+
     def _init_ctl(self):
         self._ctl = Control(["0"] + self._constants)
 
@@ -123,8 +122,8 @@ class ClingoBackend(ClinguinBackend):
 
         if existant_file_counter == 0:
             exception_string = (
-                "None of the provided domain files exists, but at least one syntactically"
-                + "valid domain file must be specified. Exiting!"
+                "None of the provided domain files exists or they can't be parsed by clingo. At least one syntactically"
+                + "valid domain file must be specified."
             )
             self._logger.critical(exception_string)
             raise Exception(exception_string)
@@ -150,17 +149,37 @@ class ClingoBackend(ClinguinBackend):
         """
         Additional program to pass to the UI computation. It represents to the state of the backend
         """
-        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_assume/1. "
+        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_context/2. "
         if self._is_browsing:
             state_prg += "_clinguin_browsing."
         if self._uifb.is_unsat:
             state_prg += "_clinguin_unsat."
-        for a in self._assumptions:
-            state_prg += f"_clinguin_assume({str(a)})."
+        for a in self.context:
+            value = str(a.value)
+            try:
+                symbol = parse_term(value)
+            except:
+                symbol = None
+            if symbol is None:
+                value = f'"{value}"'
+            state_prg += f"_clinguin_context({str(a.key)},{value})."
         return state_prg
 
+    @property
+    def _output_prg(self):
+        """
+        Output program used when downloading into file
+        """
+        prg = ""
+        for a in self._atoms:
+            prg = prg + f"{str(a)}.\n"
+        return prg
+
+    def _on_model(self, model):
+        pass
+
     def _update_uifb_consequences(self):
-        self._uifb.update_all_consequences(self._ctl, self._assumptions)
+        self._uifb.update_all_consequences(self._ctl, self._assumptions, self._on_model)
         if self._uifb.is_unsat:
             self._logger.error(
                 "domain files are UNSAT. Setting _clinguin_unsat to true"
@@ -178,195 +197,12 @@ class ClingoBackend(ClinguinBackend):
     def _set_auto_conseq(self, model):
         self._uifb.set_auto_conseq(model)
 
-    def _add_assumption(self, predicate_symbol):
-        self._assumptions.add(predicate_symbol)
+    def _solve_set_handler(self):
+        self._handler = self._ctl.solve(yield_=True)
 
-    # ---------------------------------------------
-    # Policies
-    # ---------------------------------------------
-
-    def clear_assumptions(self):
-        """
-        Policy: clear_assumptions removes all assumptions, then basically ''resets'' the backend
-        (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
-        """
-        self._end_browsing()
-        self._assumptions = set()
-
-        self._update_uifb()
-        return self.get()
-
-    def add_assumption(self, predicate):
-        """
-        Policy: Adds an assumption and returns the udpated Json structure.
-        """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol not in self._assumptions:
-            self._add_assumption(predicate_symbol)
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
-
-    def remove_assumption(self, predicate):
-        """
-        Policy: Removes an assumption and returns the udpated Json structure.
-        """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol in self._assumptions:
-            self._assumptions.remove(predicate_symbol)
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
-
-    def remove_assumption_signature(self, predicate):
-        """
-        Policy: removes predicates with the predicate name of predicate and the given arity
-        """
-        predicate_symbol = parse_term(predicate)
-        arity = len(predicate_symbol.arguments)
-        to_remove = []
-        for s in self._assumptions:
-            if s.match(predicate_symbol.name, arity):
-                for i, a in enumerate(predicate_symbol.arguments):
-                    if str(a) != "any" and s.arguments[i] != a:
-                        break
-                else:
-                    to_remove.append(s)
-                    continue
-        for s in to_remove:
-            self._assumptions.remove(s)
-        if len(to_remove) > 0:
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
-
-    def clear_atoms(self):
-        """
-        Policy: clear_atoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.)
-        and finally updates the model and returns the updated gui as a Json structure.
-        """
-        self._end_browsing()
-        self._atoms = set()
-        self._init_ctl()
-        self._ground()
-
-        self._update_uifb()
-        return self.get()
-
-    def add_atom(self, predicate):
-        """
-        Policy: Adds an assumption and basically resets the rest of the application (reground) -
-        finally it returns the udpated Json structure.
-        """
-        predicate_symbol = parse_term(predicate)
+    def _add_atom(self, predicate_symbol):
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
-            self._init_ctl()
-            self._ground()
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
-
-    def remove_atom(self, predicate):
-        """
-        Policy: Removes an assumption and basically resets the rest of the application (reground) -
-        finally it returns the udpated Json structure.
-        """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol in self._atoms:
-            self._atoms.remove(predicate_symbol)
-            self._init_ctl()
-            self._ground()
-            self._end_browsing()
-            self._update_uifb()
-        return self.get()
-
-    def set_external(self, predicate, value):
-        """
-        Policy: Sets the value of an external.
-        """
-        symbol = parse_term(predicate)
-        name = value
-        self._end_browsing()
-
-        if name == "release":
-            self._ctl.release_external(parse_term(predicate))
-            self._externals["released"].add(symbol)
-
-            if symbol in self._externals["true"]:
-                self._externals["true"].remove(symbol)
-
-            if symbol in self._externals["false"]:
-                self._externals["false"].remove(symbol)
-
-        elif name == "true":
-            self._ctl.assign_external(parse_term(predicate), True)
-            self._externals["true"].add(symbol)
-
-            if symbol in self._externals["false"]:
-                self._externals["false"].remove(symbol)
-
-        elif name == "false":
-            self._ctl.assign_external(parse_term(predicate), False)
-            self._externals["false"].add(symbol)
-
-            if symbol in self._externals["true"]:
-                self._externals["true"].remove(symbol)
-
-        else:
-            raise ValueError(
-                f"Invalid external value {name}. Must be true, false or relase"
-            )
-
-        self._update_uifb()
-        return self.get()
-
-    def next_solution(self, opt_mode="ignore"):
-        """
-        Policy: Obtains the next solution
-        Arguments:
-            opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
-        """
-        if self._ctl.configuration.solve.opt_mode != opt_mode:
-            self._logger.debug("Ended browsing since opt mode changed")
-            self._end_browsing()
-        optimizing = opt_mode in ["optN", "opt"]
-        if not self._iterator:
-            self._ctl.configuration.solve.enum_mode = "auto"
-            self._ctl.configuration.solve.opt_mode = opt_mode
-            self._ctl.configuration.solve.models = 0
-            self._handler = self._ctl.solve(
-                assumptions=[(a, True) for a in self._assumptions], yield_=True
-            )
-            self._iterator = iter(self._handler)
-        try:
-            model = next(self._iterator)
-            while optimizing and not model.optimality_proven:
-                self._logger.info("Skipping non-optimal model")
-                model = next(self._iterator)
-            self._set_auto_conseq(model)
-            self._update_uifb_ui()
-        except StopIteration:
-            self._logger.info("No more solutions")
-            self._end_browsing()
-            self._update_uifb()
-            self._uifb.add_message("Browsing Information", "No more solutions")
-
-        return self.get()
-
-    def select(self):
-        """
-        Policy: Select the current solution during browsing
-        """
-        self._end_browsing()
-        last_model_symbols = self._uifb.get_auto_conseq()
-        symbols_to_ignore = self._externals["true"]
-        symbols_to_ignore.union(self._externals["false"])
-        for s in last_model_symbols:  # pylint: disable=E1133
-            if s not in symbols_to_ignore:
-                self._add_assumption(s)
-        self._update_uifb()
-        return self.get()
 
     def _replace_uifb_with_b64_images(self):
         attributes = list(self._uifb.get_attributes())
@@ -388,30 +224,137 @@ class ClingoBackend(ClinguinBackend):
                     )
                     self._uifb.replace_attribute(attribute, new_attribute)
 
-    def transfer_context(self):
-        """
-        Backend method that handles incoming transfer_context calls.
-        """
-
-        changed = False
-        for context_item in self.context:
-            if context_item.value.startswith("add_assumption"):
-                symbol = parse_term(context_item.value)
-                assumptions = list(map(str, symbol.arguments))
-
-                for assumption in assumptions:
-                    predicate_symbol = parse_term(assumption)
-                    if predicate_symbol not in self._assumptions:
-                        self._add_assumption(predicate_symbol)
-                        changed = True
-
-        if changed:
-            self._end_browsing()
-            self._update_uifb()
-
-        return self.get()
-
     def _image_to_b64(self, img):
         encoded = base64.b64encode(img)
         decoded = encoded.decode(self._encoding)
         return decoded
+
+    # ---------------------------------------------
+    # Policies
+    # ---------------------------------------------
+
+    def restart(self):
+        """
+        Policy: Restart 
+        """
+        self._init_setup()
+        self._end_browsing()
+        self._init_ctl()
+        self._ground()
+        self._update_uifb()
+
+    def download(self, show_prg= None, file_name = "clinguin_download.lp", domain_files = True):
+        """
+        Policy: Downloads the current state of the backend. All added atoms and assumptions
+        are put together as a list of facts. 
+
+        Args:
+            show_prg (_type_, optional): Program to filter output using show statements. Defaults to None.
+            file_name (str, optional): The name of the file for the download. Defaults to "clinguin_download.lp".
+            domain_files (bool, optional): If the domain files should be included. Defaults to True
+
+        """
+        prg = self._output_prg
+        was_browsing = self._is_browsing
+        self._end_browsing()
+        self._update_uifb()
+        if was_browsing:
+            self._uifb.add_message("Warning", "Browsing was active during download, only selected solutions will be present on the file.", "warning")
+        if show_prg is not None:
+            ctl = Control()
+            ctl.add("base", [], prg)
+            if domain_files:
+                for f in self._domain_files:
+                    ctl.load(f)
+            ctl.add("base", [], show_prg.replace('"',''))
+            ctl.ground([("base", [])])
+            with ctl.solve(yield_=True) as hnd:
+                for m in hnd:
+                    atoms = [f"{str(s)}." for s in m.symbols(shown=True)]
+            
+            prg = "\n".join(atoms)
+
+        file_name = file_name.strip('"')
+        with open(file_name, "w") as file:
+            file.write(prg)
+        self._uifb.add_message("Download successful", f"Information saved in file {file_name}.", "success")
+        
+
+
+    def clear_atoms(self):
+        """
+        Policy: clear_atoms removes all atoms, then basically ''resets'' the backend (i.e. it regrounds, etc.)
+        and finally updates the model and returns the updated gui as a Json structure.
+        """
+        self._end_browsing()
+        self._atoms = set()
+        self._init_ctl()
+        self._ground()
+
+        self._update_uifb()
+    
+    def add_atom(self, predicate):
+        """
+        Policy: Adds an assumption and basically resets the rest of the application (reground) -
+        finally it returns the udpated Json structure.
+        """
+        predicate_symbol = parse_term(predicate)
+        if predicate_symbol not in self._atoms:
+            self._add_atom(predicate_symbol)
+            self._init_ctl()
+            self._ground()
+            self._end_browsing()
+            self._update_uifb()
+    
+    def remove_atom(self, predicate):
+        """
+        Policy: Removes an assumption and basically resets the rest of the application (reground) -
+        finally it returns the udpated Json structure.
+        """
+        predicate_symbol = parse_term(predicate)
+        if predicate_symbol in self._atoms:
+            self._atoms.remove(predicate_symbol)
+            self._init_ctl()
+            self._ground()
+            self._end_browsing()
+            self._update_uifb()
+
+    def next_solution(self, opt_mode="ignore"):
+        """
+        Policy: Obtains the next solution
+        Arguments:
+            opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
+        """
+        if self._ctl.configuration.solve.opt_mode != opt_mode:
+            self._logger.debug("Ended browsing since opt mode changed")
+            self._end_browsing()
+        optimizing = opt_mode in ["optN", "opt"]
+        if not self._iterator:
+            self._ctl.configuration.solve.enum_mode = "auto"
+            self._ctl.configuration.solve.opt_mode = opt_mode
+            self._ctl.configuration.solve.models = 0
+            self._solve_set_handler()
+            self._iterator = iter(self._handler)
+        try:
+            model = next(self._iterator)
+            while optimizing and not model.optimality_proven:
+                self._logger.info("Skipping non-optimal model")
+                model = next(self._iterator)
+            self._set_auto_conseq(model)
+            self._update_uifb_ui()
+        except StopIteration:
+            self._logger.info("No more solutions")
+            self._end_browsing()
+            self._update_uifb()
+            self._uifb.add_message("Browsing Information", "No more solutions")
+
+    def select(self):
+        """
+        Policy: Select the current solution during browsing
+        """
+        self._end_browsing()
+        last_model_symbols = self._uifb.get_auto_conseq()
+        for s in last_model_symbols:  # pylint: disable=E1133
+            self._add_atom(s)
+        self._update_uifb()
+    

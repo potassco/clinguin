@@ -7,12 +7,12 @@ from clingo.script import enable_python
 from clingo.symbol import Function, Number
 
 # Self defined
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
 
 enable_python()
 
 
-class TemporalBackend(ClingoBackend):
+class TemporalBackend(ClingoMultishotBackend):
     """
     TODO -> Add documentation!
     """
@@ -93,7 +93,6 @@ class TemporalBackend(ClingoBackend):
         wctl = self._uifb.ui_control(extra_ui_prg=symbols)
         self._model = self._uifb.from_ctl(wctl)
         self._update_uifb()
-        return self.get()
 
     def assume_and_step(self, predicate):
         """
@@ -105,7 +104,6 @@ class TemporalBackend(ClingoBackend):
         self._ground()
         self._end_browsing()
         self._update_uifb()
-        return self.get()
 
     def remove_assumption(self, predicate):  # pylint: disable=W0613
         """

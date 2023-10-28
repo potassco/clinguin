@@ -1,30 +1,30 @@
-element(window, window, root).
+elem(window, window, root).
 
-attribute(window, height, 600).
-attribute(window, width, 600).
-attribute(window, child_layout, absstatic).
+attr(window, height, 600).
+attr(window, width, 600).
+attr(window, child_layout, absstatic).
 
-element(f1, container, window).
-attribute(f1, background_color, "#ff0000").
+elem(f1, container, window).
+attr(f1, background_color, "#ff0000").
 
-element(b1, button, f1).
-attribute(b1, label, "My button").
-attribute(b1, background_color, "#00ff00").
+elem(b1, button, f1).
+attr(b1, label, "My button").
+attr(b1, background_color, "#00ff00").
 
-element(m1, message, window).
-attribute(m1, type, info).
-attribute(m1, title, "INFO").
-attribute(m1, message, "INFO MESSAGE").
+elem(m1, message, window).
+attr(m1, type, info).
+attr(m1, title, "INFO").
+attr(m1, message, "INFO MESSAGE").
 
-element(m2, message, window).
-attribute(m2, type, error).
-attribute(m2, title, "ERROR").
-attribute(m2, message, "ERROR MESSAGE").
+elem(m2, message, window).
+attr(m2, type, error).
+attr(m2, title, "ERROR").
+attr(m2, message, "ERROR MESSAGE").
 
-element(m3, message, window).
-attribute(m3, type, warning).
-attribute(m3, title, "WARNING").
-attribute(m3, message, "WARNING MESSAGE").
+elem(m3, message, window).
+attr(m3, type, warning).
+attr(m3, title, "WARNING").
+attr(m3, message, "WARNING MESSAGE").
 
 
 

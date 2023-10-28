@@ -3,6 +3,7 @@ Module for the Endpoints class.
 """
 import logging
 from importlib.metadata import metadata
+import traceback
 
 import clingo
 from fastapi import APIRouter
@@ -13,6 +14,7 @@ from .backend_policy_dto import BackendPolicyDto
 
 # Self Defined
 from .endpoints_helper import EndpointsHelper
+from ...utils import get_server_error_alert
 
 
 class Endpoints:
@@ -26,6 +28,8 @@ class Endpoints:
         standard_executor -> Json : Returns the default GUI representation as Json that the Backend provides.
         policy_executor -> Json : Executes a policy defined by the Json passed with the Post request.
     """
+
+    last_response = None
 
     def __init__(self, args) -> None:
         Logger.setup_logger(args.log_args, process="server")
@@ -60,7 +64,15 @@ class Endpoints:
         The get() method is implemented by every backend.
         """
         self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
-        return self._backend.get()
+        try:
+            json = self._backend.get()
+            self.last_response = json
+            return json
+        except Exception as e:
+            self._logger.error("Handling global exception in endpoint")
+            self._logger.error(e)
+            self._logger.error(traceback.format_exc())
+            return get_server_error_alert( str(e), self.last_response)
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
         """
@@ -71,24 +83,56 @@ class Endpoints:
         For example: {'function':'add_assumption(p(1))'}
         """
         self._logger.debug("Got endpoint")
-        symbol = clingo.parse_term(backend_call_string.function)
-        function_name = symbol.name
-        function_arguments = list(map(str, symbol.arguments))
+        
+        try:
 
-        call_args = ",".join(function_arguments)
-        self._logger.info(
-            "--> %s:   %s(%s))",
-            self._backend.__class__.__name__,
-            function_name,
-            call_args,
-        )
+            try:
+                symbol = clingo.parse_term(backend_call_string.function)
+            except Exception:
+                msg = f"Could not parse {backend_call_string.function} into an atom."
+                self._logger.error(msg)
+                raise Exception(msg)
+            
+            if symbol.type != clingo.SymbolType.Function:
+                raise Exception(f"Policy {symbol} is not a function")
 
-        if hasattr(backend_call_string, "context"):
-            self._backend.set_context(backend_call_string.context)
-        else:
-            self._backend.set_context([])
+            if hasattr(backend_call_string, "context"):
+                self._backend.set_context(backend_call_string.context)
+            else:
+                self._backend.set_context([])
 
-        result = EndpointsHelper.call_function(
-            self._backend, function_name, function_arguments, {}
-        )
-        return result
+            function_name = symbol.name
+            policies = []
+            if function_name=="":
+                policies = symbol.arguments
+                self._logger.info("Calling multiple policies")
+            else:
+                policies = [symbol]
+
+            for p in policies:
+                function_name = p.name
+                
+                function_arguments = list(map(str, p.arguments))
+
+
+                call_args = ",".join(function_arguments)
+                self._logger.info(
+                    "--> %s:   %s(%s))",
+                    self._backend.__class__.__name__,
+                    function_name,
+                    call_args,
+                )
+
+                EndpointsHelper.call_function(
+                    self._backend, function_name, function_arguments, {}
+                )
+            
+            self.last_response = self._backend.get()
+            return self.last_response
+        
+        except Exception as e:
+            self._logger.error("Handling global exception in endpoint")
+            self._logger.error(e)
+            self._logger.error(traceback.format_exc())
+            return get_server_error_alert(str(e), self.last_response)
+

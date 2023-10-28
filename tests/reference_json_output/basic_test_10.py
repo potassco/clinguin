@@ -9,7 +9,7 @@ class BasicTest10:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -20,7 +20,7 @@ class BasicTest10:
                         {"id": "w", "key": "width", "value": "600"},
                         {"id": "w", "key": "child_layout", "value": "flex"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c6",
@@ -40,7 +40,7 @@ class BasicTest10:
                                     "value": '"column_reverse"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -61,7 +61,7 @@ class BasicTest10:
                                     "value": '"column"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -82,7 +82,7 @@ class BasicTest10:
                                     "value": '"column"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -103,7 +103,7 @@ class BasicTest10:
                                     "value": '"row_reverse"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -124,7 +124,7 @@ class BasicTest10:
                                     "value": '"row_reverse"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -145,7 +145,7 @@ class BasicTest10:
                                     "value": '"row_reverse"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                     ],

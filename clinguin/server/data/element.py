@@ -19,4 +19,4 @@ class ElementDao(Predicate):
         Meta class
         """
 
-        name = "element"
+        name = "elem"

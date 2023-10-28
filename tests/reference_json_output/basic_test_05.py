@@ -9,7 +9,7 @@ class BasicTest05:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -19,7 +19,7 @@ class BasicTest05:
                         {"id": "w", "key": "background_color", "value": "pink"},
                         {"id": "w", "key": "child_layout", "value": "grid"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c3",
@@ -33,7 +33,7 @@ class BasicTest05:
                                 },
                                 {"id": "c3", "key": "grid_column", "value": "1"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "l33",
@@ -46,7 +46,7 @@ class BasicTest05:
                                             "value": '"Label 3"',
                                         }
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 }
                             ],
@@ -64,7 +64,7 @@ class BasicTest05:
                                 },
                                 {"id": "c2", "key": "grid_column", "value": "0"},
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "c20",
@@ -78,7 +78,7 @@ class BasicTest05:
                                         },
                                         {"id": "c20", "key": "height", "value": "20"},
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -92,7 +92,7 @@ class BasicTest05:
                                             "value": '"This is another label"',
                                         }
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                                 {
@@ -106,7 +106,7 @@ class BasicTest05:
                                             "value": '"This is a label"',
                                         }
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],

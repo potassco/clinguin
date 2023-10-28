@@ -11,9 +11,10 @@ from clingo.symbol import Function, Number, String
 from clorm import Raw
 
 from clinguin.utils import Logger, NoModelError
+from clingraph.clingo_utils import ClingraphContext
 
 from .attribute import AttributeDao
-from .callback import DoDao
+from .callback import WhenDao
 from .element import ElementDao
 
 
@@ -25,7 +26,7 @@ class UIFB:
     functionality to query important things for clinguin, etc.
     """
 
-    unifiers = [ElementDao, AttributeDao, DoDao]
+    unifiers = [ElementDao, AttributeDao, WhenDao]
 
     def __init__(
         self,
@@ -143,8 +144,8 @@ class UIFB:
 
         uictl.add("base", [], extra_ui_prg)
         uictl.add("base", [], self.conseq_facts)
-        uictl.add("base", [], "#show element/3. #show attribute/3. #show do/4.")
-        uictl.ground([("base", [])])
+        uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
+        uictl.ground([("base", [])], ClingraphContext)
 
         return uictl
 
@@ -199,6 +200,7 @@ class UIFB:
         with uictl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True, atoms=True)
+                # print(model_symbols)
                 break
 
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
@@ -243,10 +245,11 @@ class UIFB:
         """
         Adds a ''Message'' (aka. Notification/Pop-Up) for the user with a certain title and message.
         """
-        self.add_element("message", "message", "window")
-        self.add_attribute("message", "title", title)
-        self.add_attribute("message", "message", message)
-        self.add_attribute("message", "type", attribute_type)
+        mid = f'{hash(message)}'
+        self.add_element(mid, "message", "window")
+        self.add_attribute(mid, "title", title)
+        self.add_attribute(mid, "message", message)
+        self.add_attribute(mid, "type", attribute_type)
 
     # Manage factbase
 
@@ -288,17 +291,20 @@ class UIFB:
         """
         return self._factbase.query(ElementDao).all()
 
-    def get_attributes(self):
+    def get_attributes(self, key=None):
         """
         Get all attributes.
         """
-        return self._factbase.query(AttributeDao).all()
+        q = self._factbase.query(AttributeDao)
+        if key is not None:
+            q.where(AttributeDao.key == key)
+        return q.all()
 
     def get_callbacks(self):
         """
         Get all callbacks.
         """
-        return self._factbase.query(DoDao).all()
+        return self._factbase.query(WhenDao).all()
 
     def get_attributes_grouped(self):
         """
@@ -310,7 +316,7 @@ class UIFB:
         """
         Get all callbacks grouped by element id.
         """
-        return self._factbase.query(DoDao).group_by(DoDao.id).all()
+        return self._factbase.query(WhenDao).group_by(WhenDao.id).all()
 
     def get_attributes_for_element_id(self, element_id):
         """
@@ -326,7 +332,7 @@ class UIFB:
         """
         Get all callbacks for one element id.
         """
-        return self._factbase.query(DoDao).where(DoDao.id == element_id).all()
+        return self._factbase.query(WhenDao).where(WhenDao.id == element_id).all()
 
     def replace_attribute(self, old_attribute, new_attribute):
         """

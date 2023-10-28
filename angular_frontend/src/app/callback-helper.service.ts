@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from './types/json-response.dto';
+import { AttributeDto, WhenDto, ElementDto } from './types/json-response.dto';
 import { DrawFrontendService } from './draw-frontend.service';
 import { LocatorService } from './locator.service';
 import { ContextService } from './context.service';
@@ -7,6 +7,7 @@ import { ElementLookupDto, ElementLookupService } from './element-lookup.service
 import { ChildBearerService } from './child-bearer.service';
 import { ContextMenuService } from './context-menu.service';
 import { hide } from '@popperjs/core';
+import { isEmpty, throwError } from 'rxjs';
 
 
 function aspArgumentSplitter(aspArguments: string) : string[] {
@@ -72,7 +73,7 @@ function hideAllContextMenus() : boolean {
   return anyWasOpen
 } 
 
-function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
+function handleRightClick( policy:string, event: Event) {
   event.preventDefault()
   event.stopPropagation()
 
@@ -82,12 +83,12 @@ function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
 
   let contextMenuService = LocatorService.injector.get(ContextMenuService)
 
-  let result = contextMenuService.retrieveContextValue(do_.policy)
+  let result = contextMenuService.retrieveContextValue(policy)
 
   if (result != null) {
     if ("pageX" in event && "pageY" in event && typeof event.pageX == "number" && typeof event.pageY == "number") {
 
-      let contextMenu = document.getElementById(do_.policy)
+      let contextMenu = document.getElementById(policy)
 
       if (contextMenu != null) {
         if (contextMenu.style.display == "block"){ 
@@ -107,10 +108,10 @@ function handleRightClick(html: HTMLElement, do_:DoDto, event: Event) {
 }
  
 
-function handleUpdate(do_:DoDto, event: Event) {
+function handleUpdate(when:WhenDto, event: Event | null) {
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
-  let policy = do_.policy
+  let policy = when.policy
 
   policy = policy.substring(1)
   policy = policy.slice(0,-1)
@@ -124,6 +125,15 @@ function handleUpdate(do_:DoDto, event: Event) {
   let elementLookup : ElementLookupDto | null = elementLookupService.getElement(id)
 
   if (elementLookup != null) {
+
+    if (elementLookup.element.type == "context_menu" && event!=null){
+      if(key!="visibility" || value!="visible"){
+        console.error("For updates to context menu only tuples of form (_,visibility,visible) are valid, but got: " +id+","+key +","+value)
+      }else{
+        handleRightClick(id,event)
+      }
+      return
+    }
     let tmpAttributes = elementLookup.element.attributes
     let found = false
 
@@ -149,6 +159,10 @@ function handleUpdate(do_:DoDto, event: Event) {
         }
       }
     }
+
+    if(elementLookup.object == null && elementLookup.element.type.startsWith('svg') && elementLookup.tagHtml!=null){
+      elementLookup.tagHtml.style.setProperty(key,value.replaceAll('"',''))
+    }
     if (elementLookup.tagHtml != null) {
       let childBearerService = LocatorService.injector.get(ChildBearerService)
 
@@ -156,79 +170,107 @@ function handleUpdate(do_:DoDto, event: Event) {
     }
 
   } else {
-    console.log("COULD NOT FIND ELEMENT FOR do_:" + id + "::" + key + "::" + value)
+    console.log("COULD NOT FIND ELEMENT FOR when:" + id + "::" + key + "::" + value)
+    console.log(when)
   }
 
 
 }
-  
-function handleCallback(do_:DoDto, event: Event) {
-  let frontendService = LocatorService.injector.get(DrawFrontendService)
-  let contextService = LocatorService.injector.get(ContextService)
 
-  let regex = /_value_context\(([^)]*)\)/
-  let policy_string = do_.policy
+function replaceContext(policy_string:string, optional:boolean){
+  let contextService = LocatorService.injector.get(ContextService)
+  let regex = /_context_value\(([^)]*)\)/
+  if (optional){
+    regex = /_context_value_optional\(([^)]*)\)/
+  }
 
   let match = regex.exec(policy_string)
   while(match != null) {
     let match_group = match[1]
 
     let new_value = contextService.retrieveContextValue(match_group)
+    if (new_value.length == 0 && !optional){
+      throw new Error("Missing required value for " + match_group);      
+    }
+    function isNumber(s:string) {
+      return /^[0-9]*$/.test(s);
+    }
 
+    if (!isNumber(new_value) && new_value.length>0) {
+      if ( new_value[0] === new_value[0].toUpperCase() && new_value[0]!='"'){
+        new_value = '"'+new_value+'"'
+      }
+    } 
     policy_string = policy_string.replace(regex, new_value)
     
     match = regex.exec(policy_string)
   }
+  return policy_string
+}
 
-  do_.policy = policy_string
+function handleCallback(when:WhenDto, event: Event) {
+  let frontendService = LocatorService.injector.get(DrawFrontendService)
 
-  frontendService.policyPost(do_)
-  }
+  let policy_string = when.policy
 
-function handleContext(do_:DoDto, event: Event) {
+  policy_string = replaceContext(policy_string, true)
+  policy_string = replaceContext(policy_string, false)
+
+  when.policy = policy_string
+
+  frontendService.policyPost(when)
+}
+
+function handleContext(when:WhenDto, event: Event | null) {
   let contextService = LocatorService.injector.get(ContextService)
-   
-  let policy = do_.policy
+  let policy = when.policy
 
-  policy = policy.substring(1)
-  policy = policy.slice(0,-1)
+  policy = replaceContext(policy, true)
+  policy = replaceContext(policy, false)
 
-  let splits = aspArgumentSplitter(policy)
-
-  if (splits.length >= 2) {
-    if (splits.length > 2) {
-      console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
-      console.log(do_)
-    }
-    let key = splits[0]
-    let value = splits[1]
-
-    
-    let regex = /_value/g
-    let eventTarget : EventTarget | null = event.target
-
-    if (eventTarget != null && "value" in eventTarget) {
-      let match = value.match(regex)
-
-      if (match != null && typeof eventTarget.value === "string") {
-        if (eventTarget.value == "") {
-          console.log("EVENT TARGET IS EMPTY")
-          // DO NOTHING IF EMPTY!
-          return
-        }
-        value = value.replace("_value", eventTarget.value)
+  if (policy[0]=='('){
+    policy = policy.substring(1)
+    policy = policy.slice(0,-1)
+    let splits = aspArgumentSplitter(policy)
+    if (splits.length >= 2) {
+      if (splits.length > 2) {
+        console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
+        console.log(when)
       }
-    }
+      let key = splits[0]
+      let value = splits[1]
 
-    for (let index = 2; index < splits.length; index++) {
-        value = value + "," + splits[index]
-    }
+      if (event!=null){
 
-    contextService.addContext(key, value)
-  } else {
-    console.log("ERROR, CONTEXT LENGTH LOWER THAN 2 FOR (NOTHING SET!)")
-    console.log(do_)
-  }
+        let regex = /_value/g
+        let eventTarget : EventTarget | null = event.target
+    
+        if (eventTarget != null && "value" in eventTarget) {
+          let match = value.match(regex)
+    
+          if (match != null && typeof eventTarget.value === "string") {
+            if (eventTarget.value == "") {
+              console.log("EVENT TARGET IS EMPTY")
+              // DO NOTHING IF EMPTY!
+              return
+            }
+            value = value.replace("_value", eventTarget.value)
+          }
+        }
+      }
+
+      for (let index = 2; index < splits.length; index++) {
+          value = value + "," + splits[index]
+      }
+      contextService.addContext(key, value)
+      return
+    }
+  } 
+
+  let message = "The value of context event should be a tuple of size 2, but got " +when.policy 
+  console.error(message)
+  let frontendService = LocatorService.injector.get(DrawFrontendService)
+  frontendService.postMessage(message,"warning")
 }
 
 @Injectable({
@@ -241,7 +283,7 @@ export class CallBackHelperService {
     document.oncontextmenu = defaultClickContextHandler; 
    }
 
-    findCallback(action: string, callbacks: DoDto[]): DoDto | null {
+    findCallback(action: string, callbacks: WhenDto[]): WhenDto | null {
       let value = null
       let index = callbacks.findIndex(callback => callback.actionType == action)
       if (index >= 0) {
@@ -250,38 +292,98 @@ export class CallBackHelperService {
       return value
     }
  
-    setCallbacks(html: HTMLElement, dos:DoDto[]) {
+    setCallbacks(html: HTMLElement, dos:WhenDto[]) {
       this.handleEvent(html, dos, "click", "click")
-      this.handleEvent(html, dos, "type", "input")
+      this.handleEvent(html, dos, "input", "input")
       this.handleEvent(html, dos, "right_click", "contextmenu")
+      this.handleEvent(html, dos, "mouseenter", "mouseenter")
+      this.handleEvent(html, dos, "mouseleave", "mouseleave")
+      this.handleEvent(html, dos, "load", "load")
+      this.handleEvent(html, dos, "dblclick", "dblclick")
     }
 
-    handleEvent(html: HTMLElement, dos:DoDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
-      
-      let allEvents:DoDto[] = []
-      dos.forEach((do_:DoDto) => {
-        if (do_.actionType == supportedAttributeName) {
-          allEvents.push(do_)
+    handleEvent(html: HTMLElement, dos:WhenDto[], supportedAttributeName:string = "", htmlEventName:string = "") {
+      let allEvents:WhenDto[] = []
+      dos.forEach((when:WhenDto) => {
+        if (when.actionType == supportedAttributeName) {
+          allEvents.push(when)
         }
       })
-
+      
       if (allEvents.length > 0 && htmlEventName != "") {
+        if(supportedAttributeName=="load"){
+          allEvents.forEach((when:WhenDto) => {
+            if (when.interactionType == "context") {
+              handleContext(when, null)
+            }
+            if (when.interactionType == "update") {
+              handleUpdate(when, null)
+            }
+          })
+          return
+        }
         if (supportedAttributeName == "click") {
           html.style.cursor = "pointer"
         }
-
         html.addEventListener(htmlEventName,function(event: Event){
+          allEvents.sort( function (a, b) {
+            if (a.interactionType < b.interactionType) {
+              return 1;
+            }
+            if (a.interactionType > b.interactionType) {
+              return -1;
+            }
+            return 0;
+          });
 
-          allEvents.forEach((do_:DoDto) => {
-            if (do_.interactionType == "update") {
-              handleUpdate(do_, event)
-            } else if (do_.interactionType == "context") {
-              handleContext(do_, event)
-            } else if (do_.interactionType == "call" || do_.interactionType == "callback") {
-              handleCallback(do_, event)
-            } else if (do_.interactionType == "show_context_menu") {
-              handleRightClick(html, do_, event)
-           }
+          const updates = allEvents.filter((w) => w.interactionType == "update")
+          const context = allEvents.filter((w) => w.interactionType == "context")
+          const call = allEvents.filter((w) => w.interactionType == "call" || w.interactionType == "callback")
+          // const context_menu = allEvents.filter((w) => w.interactionType == "show_context_menu" )
+          
+          // context_menu.forEach((when:WhenDto) => {
+          //   try{
+          //     if (when.interactionType == "update") {
+          //       handleUpdate(when, event)
+          //     } else if (when.interactionType == "context") {
+          //       handleContext(when, event)
+          //     } else if (when.interactionType == "call" || when.interactionType == "callback") {
+          //       handleCallback(when, event)
+          //     }
+          //   }catch(error:any){
+          //     let frontendService = LocatorService.injector.get(DrawFrontendService)
+          //     frontendService.postMessage(error.message,"warning")
+          //   }
+          // })
+
+          updates.forEach((when:WhenDto) => {
+            try{
+                handleUpdate(when, event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
+          })
+
+          context.forEach((when:WhenDto) => {
+            try{
+                handleContext(when, event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
+          })
+
+          if (call.length>1) {
+            call[0].policy = "(" + call.map(x=>{return x.policy}).join(',') + ")"
+          }
+          call.forEach((when:WhenDto) => {
+            try{
+                handleCallback(call[0],event)
+            }catch(error:any){
+              let frontendService = LocatorService.injector.get(DrawFrontendService)
+              frontendService.postMessage(error.message,"warning")
+            }
           })
         })
 

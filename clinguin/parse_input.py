@@ -22,7 +22,7 @@ class ArgumentParser:
     default_backend_exec_string = "from .server.application.backends import *"
     default_frontend_exec_string = "from .client.presentation.frontends import *"
 
-    default_backend = "ClingoBackend"
+    default_backend = "ClingoMultishotBackend"
     default_frontend = "TkinterFrontend"
 
     def __init__(self) -> None:

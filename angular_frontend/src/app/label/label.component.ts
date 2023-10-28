@@ -29,7 +29,7 @@ export class LabelComponent {
 
       let htmlDdbut = this.label.nativeElement
 
-      this.callbackService.setCallbacks(htmlDdbut, this.element.do)
+      this.callbackService.setCallbacks(htmlDdbut, this.element.when)
 
       this.setAttributes(this.element.attributes)
       
@@ -50,6 +50,7 @@ export class LabelComponent {
       this.attributeService.addAttributes(htmlDdbut, attributes)
       this.attributeService.textAttributes(htmlDdbut, attributes)
       this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
+      this.attributeService.addClasses(htmlDdbut, attributes, [],[])
 
 
       this.setOuterDivStyles(htmlOuterDiv)

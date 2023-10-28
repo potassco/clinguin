@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { ComponentCreationService } from '../component-creation.service';
 import { AttributeHelperService } from '../attribute-helper.service';
@@ -30,6 +30,8 @@ export class ContainerComponent{
         this.elementLookupService.addElementObject(this.element.id, this, this.element)
       }
 
+
+
       let childLayout = this.attributeService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
 
       this.element.children.forEach(item => {
@@ -45,8 +47,5 @@ export class ContainerComponent{
     }
   }
 
-  setAttributes(attributes: AttributeDto[]) {
-    // Nothing to set here.
-  }
-
+  
 }

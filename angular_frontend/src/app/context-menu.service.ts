@@ -2,21 +2,22 @@ import { Injectable } from "@angular/core";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { ElementDto } from "./types/json-response.dto";
 import { DrawFrontendService } from "./draw-frontend.service";
+import { ElementLookupService } from './element-lookup.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContextMenuService {
 
-    constructor() {
+    constructor(private elementLookupService: ElementLookupService) {
 
     }
-
 
     contextMenus: {key:string,contextMenu:ElementDto}[] = []
 
     registerContextMenu(key:string, contextMenu: ElementDto) : void {
         this.contextMenus.push({key:key, contextMenu: contextMenu})
+        this.elementLookupService.addElementTagHTML(key, null, contextMenu)
     }
 
     removeContextMenuByKey(key:string) : number {

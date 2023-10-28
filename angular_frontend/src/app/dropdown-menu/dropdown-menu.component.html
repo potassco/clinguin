@@ -2,13 +2,12 @@
     <div style="display:table-row; min-width: 100%;">
         <div style="display:table-cell; vertical-align: middle; text-align: center;">
             <div ngbDropdown class="d-inline-block">
-                <button type="button" class="btn btn-outline-primary" id="{{element?.id}}" ngbDropdownToggle #ddbut>
+                <button type="button" id="{{element?.id}}" ngbDropdownToggle #ddbut ata-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{buttonLabel}}
                 </button>
                 <div ngbDropdownMenu>
                     <button ngbDropdownItem *ngFor="let child of dropDownMenuItems" id="{{child.element.id}}">
-                        {{child.label}}
-                    </button>
+                        <i #icon></i>{{child.label}}</button>
                 </div>
             </div>
         </div>

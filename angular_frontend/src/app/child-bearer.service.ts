@@ -12,9 +12,8 @@ export class ChildBearerService {
     constructor(private componentService: ComponentCreationService, private elementLookupService: ElementLookupService, private attributeService: AttributeHelperService) {}
 
     bearChild(child : ViewContainerRef, item: ElementDto, childLayout : string): ComponentRef<any> | null {
-         
         let my_comp = this.componentService.componentCreation(child, item.type)
-
+        
         if (my_comp != null) {
           my_comp.setInput("element",item)
           my_comp.setInput("parentLayout", childLayout)
@@ -42,11 +41,12 @@ export class ChildBearerService {
         this.attributeService.addGeneralAttributes(html, item.attributes)
 
         this.attributeService.addAttributes(html, item.attributes)
-
         if (item.type == "container") {
           this.attributeService.setChildLayout(html, item.attributes)
           this.attributeService.setVisibility(html, item.attributes)
-        } 
+          this.attributeService.addClasses(html, item.attributes, [], ["p-2"])
+        }
+        
 
       //}
 

@@ -1,20 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand">{{title}}</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation" (click)="isCollapsed = !isCollapsed">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarColor03" [ngbCollapse]="isCollapsed">
-    <ul class="navbar-nav mr-auto">
-        <li *ngFor="let section of menuBarSections" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id={{section.id}} role="button" (click)="section.toggleCollapsed()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{section.title}}
-            </a>
-            <div class="dropdown-menu" attr.aria-labelledby="{{section.id}}" [ngbCollapse]="section.collapsed" >
-            <a *ngFor="let item of section.menuBarItems" style="cursor: pointer;" id={{item.id}} class="dropdown-item">{{item.title}}</a>
-            </div>
-        </li>
-        
-    </ul>
+<nav class="navbar navbar-expand  bg-light justify-content-between ">
+  <a class="navbar-brand mx-3 text-dark">
+    <i #titleIcon ></i>
+    {{title}}
+  </a>
+  <div>
+  <button *ngFor="let button of menuBarButtons" type="button" id={{button.id}} class="btn" ><i #icon></i> {{button.title}}</button>
   </div>
 </nav>
+  

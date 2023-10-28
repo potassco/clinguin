@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { AttributeDto, DoDto, ElementDto } from '../types/json-response.dto';
+import { AttributeDto, WhenDto, ElementDto } from '../types/json-response.dto';
 import { CallBackHelperService } from '../callback-helper.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { Buffer } from "buffer";import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
@@ -34,7 +34,7 @@ export class CanvasComponent {
       let image = this.attributeService.findAttribute("image", this.element.attributes)
       let image_type = this.attributeService.findAttribute("image_type", this.element.attributes)
 
-      if (image != null && image_type != null && image_type.value == "clingraph_svg") {
+      if (image != null && image_type != null && image_type.value.startsWith("clingraph")) {
         this.svgImageHandler(this.element, image, image_type) 
       } else {
         this.defaultImageHandler(this.element, image)
@@ -51,6 +51,7 @@ export class CanvasComponent {
   svgImageHandler(element: ElementDto, image: AttributeDto, imageType : AttributeDto) {
     
     const decodeBase64 = (str: string):string => Buffer.from(str, 'base64').toString('binary');
+    const regexPattern: RegExp = /\(([^,]+),\s*([^)]+)\)/;
 
     this.imageType = "svg"
 
@@ -63,14 +64,27 @@ export class CanvasComponent {
     this.cd.detectChanges()
 
     // Create necessary preprocessing lists
-    let svgNodeElements = this.svgContainer.nativeElement.querySelectorAll(".node")
+    let svgNodeElements = this.svgContainer.nativeElement.querySelectorAll(".node, .edge")
+    // let svgEdgeElements = this.svgContainer.nativeElement.querySelectorAll(".edge")
 
+    // console.log(svgNodeElements)
     let nodeIdNodeElementLookup : {"key":string, "value":ElementDto}[] = []
     element.children.forEach(child => {
-      let id_attr = this.attributeService.findAttribute("id", child.attributes)
+      // console.log(child)
+      let id_attr = this.attributeService.findAttribute("clingraph_id", child.attributes)
 
       if (id_attr != null) {
         let key = id_attr.value
+        if (child.type=="svg_edge"){
+            const match = key.match(regexPattern);
+            if (!match){
+              console.error("Invalid edge format expected a tuple (X,Y) but got ", key)
+            }else{
+              key = match[1].replaceAll('"','')+"--"+ match[2].replaceAll('"','')
+              let key2 = match[1].replaceAll('"','')+"-&gt;"+ match[2].replaceAll('"','')
+              nodeIdNodeElementLookup.push({"key":key2,"value":child})
+            }
+        }
         nodeIdNodeElementLookup.push({"key":key,"value":child})
       }
     })
@@ -85,18 +99,25 @@ export class CanvasComponent {
 
   generateSvgNodeUiNodeAssociationList(svgNodeElements : any, nodeIdNodeElementLookup : {"key":string, "value":ElementDto}[]) {
     
+    // console.log(nodeIdNodeElementLookup)
     let svgNodeUiNodeAssociationList : {"svg":HTMLElement, "ui":ElementDto}[] = []
 
     svgNodeElements.forEach((svgNodeElement : HTMLElement) => {
+      // svgNodeElement.tooltip('hide')
       let correspondingElementDtoNode : null | ElementDto = null
-
+      // console.error("----")
+      // console.error(svgNodeElement.id)
       nodeIdNodeElementLookup.forEach((item:{"key":string,"value":ElementDto}) => {
+
         if (svgNodeElement.id == item.key) {
           correspondingElementDtoNode = item.value
         } else {
-                    
+          // if  (svgNodeElement.id.startsWith("edge")){
+            // key = 
+          // }
           for (const child of Array.from(svgNodeElement.children)) {
             if (child.tagName == "title") {
+              // console.log(child.innerHTML)
               if (child.innerHTML == item.key) {
                 correspondingElementDtoNode = item.value
               }
@@ -106,10 +127,11 @@ export class CanvasComponent {
       })
     
       if (correspondingElementDtoNode != null) {
+        this.elementLookupService.addElementTagHTML(correspondingElementDtoNode['id'], svgNodeElement, correspondingElementDtoNode)
         svgNodeUiNodeAssociationList.push({"svg":svgNodeElement,"ui":correspondingElementDtoNode})
 
       } else {
-        console.log("Warning: Could not find for the following svgNodeElement a corresponding ui.lp node!")
+        console.log("Warning: Could not find for the following svgElement a corresponding clingraph node or edge!")
         console.log(svgNodeElement)
       }
     })
@@ -121,19 +143,18 @@ export class CanvasComponent {
     
     svgNodeUiNodeAssociationList.forEach((elem : {"svg":HTMLElement, "ui":ElementDto}) => {
       let uiElement = elem.ui
-      let clickRelatedDoList : DoDto[] = []
-
-      this.callbackService.setCallbacks(elem.svg, elem.ui.do)
+      let clickRelatedDoList : WhenDto[] = []
+      this.callbackService.setCallbacks(elem.svg, elem.ui.when)
 
       /*
-      uiElement.do.forEach((do_: DoDto) => {
+      uiElement.when.forEach((do_: WhenDto) => {
         if (do_.actionType == "click") {
           clickRelatedDoList.push(do_)
         }
       })
 
       elem.svg.addEventListener("click",function(){
-        clickRelatedDoList.forEach((do_:DoDto) => {
+        clickRelatedDoList.forEach((do_:WhenDto) => {
           if (do_.interactionType == "update") {
 
 
@@ -166,7 +187,7 @@ export class CanvasComponent {
     this.attributeService.textAttributes(htmlDdbut, element.attributes)
     this.attributeService.setAttributesDirectly(htmlDdbut, element.attributes)
 
-    this.callbackService.setCallbacks(htmlDdbut, element.do)
+    this.callbackService.setCallbacks(htmlDdbut, element.when)
 
     let imgPath = this.attributeService.findAttribute("image_path", element.attributes)
 

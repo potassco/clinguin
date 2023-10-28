@@ -34,7 +34,6 @@ class StandardJsonEncoder:
         elements_dict[str(root.id)] = root
 
         cls._generate_hierarchy(uifb, root, elements_dict)
-
         return root
 
     @classmethod

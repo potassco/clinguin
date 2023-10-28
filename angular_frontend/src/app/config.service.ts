@@ -15,7 +15,6 @@ export class ConfigService {
         const promise = this.http.get('/assets/config.json')
         .toPromise()
         .then(data => {
-            console.log(data)
             Object.assign(this, data);
             return data;
         });

@@ -9,7 +9,7 @@ class BasicTest08:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "window",
@@ -20,7 +20,7 @@ class BasicTest08:
                         {"id": "window", "key": "width", "value": "600"},
                         {"id": "window", "key": "child_layout", "value": "absstatic"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "f1",
@@ -33,7 +33,7 @@ class BasicTest08:
                                     "value": '"#ff0000"',
                                 }
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "b1",
@@ -51,7 +51,7 @@ class BasicTest08:
                                             "value": '"#00ff00"',
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 }
                             ],
@@ -69,7 +69,7 @@ class BasicTest08:
                                     "value": '"WARNING MESSAGE"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -85,7 +85,7 @@ class BasicTest08:
                                     "value": '"ERROR MESSAGE"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                         {
@@ -101,7 +101,7 @@ class BasicTest08:
                                     "value": '"INFO MESSAGE"',
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                     ],

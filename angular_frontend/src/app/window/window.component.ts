@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, ComponentRef, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { AttributeDto, ElementDto } from 'src/app/types/json-response.dto';
+import { AttributeDto, ElementDto, WhenDto } from 'src/app/types/json-response.dto';
 import { AttributeHelperService } from 'src/app/attribute-helper.service';
 import { DrawFrontendService } from '../draw-frontend.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ComponentCreationService } from '../component-creation.service';
 import { ChildBearerService } from '../child-bearer.service';
 import { ContextMenuService } from '../context-menu.service';
+import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
   selector: 'app-new-main',
@@ -27,7 +28,7 @@ export class WindowComponent {
   messageList: ElementDto[] = []
   contextMenuList: ElementDto[] = []
   
-  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService, private contextMenuService: ContextMenuService) {
+  constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService, private contextMenuService: ContextMenuService, private callbackService: CallBackHelperService) {
   }
 
   ngAfterViewInit(): void {
@@ -39,7 +40,6 @@ export class WindowComponent {
 
     this.frontendService.frontendJson.subscribe({next: (data:ElementDto) => {
 
-      console.log(data)
 
       this.children.forEach(child => {
         this.child.clear()
@@ -86,6 +86,7 @@ export class WindowComponent {
       })
 
       this.setAttributes(window.attributes)
+      this.doCallbacks(window.when)
       // Prevents Errors
       this.cd.detectChanges()
     },
@@ -98,10 +99,16 @@ export class WindowComponent {
       let parentHTML = this.parent.nativeElement
       this.attributeService.setChildLayout(parentHTML, attributes)
       this.attributeService.addAttributes(parentHTML, attributes)
+      this.attributeService.addClasses(parentHTML, attributes,[],[])
       
       this.cd.detectChanges()
   }
 
+  doCallbacks(whens:WhenDto[]) {
+    let parentHTML = this.parent.nativeElement
+    this.callbackService.setCallbacks(parentHTML, whens)
+  }
+  
   cleanValues(element: ElementDto) {
     for (let i = 0; i < element.attributes.length; i++) {
       let value = element.attributes[i].value
@@ -117,25 +124,25 @@ export class WindowComponent {
       }
     }
 
-    for (let i = 0; i < element.do.length; i++) {
-      if (element.do[i].action_type !== undefined) {
-        element.do[i].actionType = element.do[i].action_type!
+    for (let i = 0; i < element.when.length; i++) {
+      if (element.when[i].action_type !== undefined) {
+        element.when[i].actionType = element.when[i].action_type!
       }
-      if (element.do[i].interaction_type !== undefined) {
-        element.do[i].interactionType = element.do[i].interaction_type!
+      if (element.when[i].interaction_type !== undefined) {
+        element.when[i].interactionType = element.when[i].interaction_type!
       }
 
-      let policy = element.do[i].policy
+      let policy = element.when[i].policy
       policy = this.stringSanitizer(policy)
-      element.do[i].policy = policy
+      element.when[i].policy = policy
 
-      let action = element.do[i].actionType
+      let action = element.when[i].actionType
       action = this.stringSanitizer(action)
-      element.do[i].actionType = action
+      element.when[i].actionType = action
 
-      let interaction = element.do[i].interactionType
+      let interaction = element.when[i].interactionType
       interaction = this.stringSanitizer(interaction)
-      element.do[i].interactionType = interaction
+      element.when[i].interactionType = interaction
     }
 
     element.children.forEach(child => {

@@ -9,7 +9,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -21,7 +21,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c",
@@ -50,7 +50,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -83,7 +83,7 @@ class BasicTest03:
                                             "value": "black",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "mi(2)",
@@ -96,7 +96,7 @@ class BasicTest03:
                                                     "value": "2",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(2)",
                                                     "action_type": "click",
@@ -117,7 +117,7 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(1)",
                                                     "action_type": "click",
@@ -149,7 +149,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -182,7 +182,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -216,7 +216,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -250,7 +250,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -284,7 +284,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -318,7 +318,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -352,7 +352,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -386,7 +386,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -420,7 +420,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -454,7 +454,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                     ],
@@ -479,7 +479,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -514,7 +514,7 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "b",
                                     "action_type": "click",
@@ -558,7 +558,7 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "l1",
                                     "action_type": "click",
@@ -582,7 +582,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -594,7 +594,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c",
@@ -623,7 +623,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -657,7 +657,7 @@ class BasicTest03:
                                         },
                                         {"id": "m", "key": "selected", "value": "1"},
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "mi(1)",
@@ -670,7 +670,7 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(1)",
                                                     "action_type": "click",
@@ -702,7 +702,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -735,7 +735,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -769,7 +769,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -803,7 +803,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -837,7 +837,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -871,7 +871,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -905,7 +905,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -939,7 +939,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -973,7 +973,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1007,7 +1007,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                     ],
@@ -1032,7 +1032,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -1067,7 +1067,7 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "b",
                                     "action_type": "click",
@@ -1111,7 +1111,7 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "l1",
                                     "action_type": "click",
@@ -1135,7 +1135,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -1147,7 +1147,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c",
@@ -1176,7 +1176,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -1209,7 +1209,7 @@ class BasicTest03:
                                             "value": "black",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "mi(2)",
@@ -1222,7 +1222,7 @@ class BasicTest03:
                                                     "value": "2",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(2)",
                                                     "action_type": "click",
@@ -1243,7 +1243,7 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(1)",
                                                     "action_type": "click",
@@ -1275,7 +1275,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -1308,7 +1308,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1342,7 +1342,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1376,7 +1376,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1410,7 +1410,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1444,7 +1444,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1478,7 +1478,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1512,7 +1512,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1546,7 +1546,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1580,7 +1580,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                     ],
@@ -1605,7 +1605,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -1640,7 +1640,7 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "b",
                                     "action_type": "click",
@@ -1684,7 +1684,7 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "l1",
                                     "action_type": "click",
@@ -1708,7 +1708,7 @@ class BasicTest03:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -1720,7 +1720,7 @@ class BasicTest03:
                         {"id": "w", "key": "background_color", "value": "white"},
                         {"id": "w", "key": "child_layout", "value": "relstatic"},
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c",
@@ -1749,7 +1749,7 @@ class BasicTest03:
                                     "value": "absstatic",
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "m",
@@ -1782,7 +1782,7 @@ class BasicTest03:
                                             "value": "black",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "mi(2)",
@@ -1795,7 +1795,7 @@ class BasicTest03:
                                                     "value": "2",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(2)",
                                                     "action_type": "click",
@@ -1816,7 +1816,7 @@ class BasicTest03:
                                                     "value": "1",
                                                 }
                                             ],
-                                            "do": [
+                                            "when": [
                                                 {
                                                     "id": "mi(1)",
                                                     "action_type": "click",
@@ -1848,7 +1848,7 @@ class BasicTest03:
                                             "value": "grid",
                                         },
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [
                                         {
                                             "id": "c(3,3)",
@@ -1881,7 +1881,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1915,7 +1915,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1949,7 +1949,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -1983,7 +1983,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -2017,7 +2017,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -2051,7 +2051,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -2085,7 +2085,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -2119,7 +2119,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                         {
@@ -2153,7 +2153,7 @@ class BasicTest03:
                                                     "value": "48",
                                                 },
                                             ],
-                                            "do": [],
+                                            "when": [],
                                             "children": [],
                                         },
                                     ],
@@ -2178,7 +2178,7 @@ class BasicTest03:
                                         {"id": "cc", "key": "pos_x", "value": "0"},
                                         {"id": "cc", "key": "pos_y", "value": "0"},
                                     ],
-                                    "do": [],
+                                    "when": [],
                                     "children": [],
                                 },
                             ],
@@ -2213,7 +2213,7 @@ class BasicTest03:
                                 {"id": "b", "key": "pos_x", "value": "40"},
                                 {"id": "b", "key": "pos_y", "value": "70"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "b",
                                     "action_type": "click",
@@ -2257,7 +2257,7 @@ class BasicTest03:
                                 {"id": "l1", "key": "pos_x", "value": "40"},
                                 {"id": "l1", "key": "pos_y", "value": "50"},
                             ],
-                            "do": [
+                            "when": [
                                 {
                                     "id": "l1",
                                     "action_type": "click",

@@ -10,13 +10,13 @@ val(1..dim*dim).
 %---------------------------------------------------------------------------------------
 % Window
 %---------------------------------------------------------------------------------------
-element(window, window, root).
-attribute(window, height, height_value).
-attribute(window, width, width_value).
-attribute(window, background_color, white).
-attribute(window, resizable_x, 0).
-attribute(window, resizable_y, 0).
-attribute(window, child_layout, grid).
+elem(window, window, root).
+attr(window, height, height_value).
+attr(window, width, width_value).
+attr(window, background_color, white).
+attr(window, resizable_x, 0).
+attr(window, resizable_y, 0).
+attr(window, child_layout, grid).
 
 %---------------------------------------------------------------------------------------
 % Sudoku-Grid
@@ -32,31 +32,31 @@ cell_color(X,Y,red):-_muc(initial(X,Y,_)).
 cell_color(X,Y,orange):-_muc(sudoku(X,Y,_)).
 
 menu(X,Y):-pos(X,Y), not initial(X,Y,_).
-element(c(X,Y), container, window) :- pos(X,Y).
-attribute(c(X,Y), grid_column, X-1) :- pos(X,Y).
-attribute(c(X,Y), grid_row, Y-1) :- pos(X,Y).
-attribute(c(X,Y), background_color,COLOR):- cell_color(X,Y,COLOR).
-attribute(c(X,Y), height, height_value/(dim*dim)) :- pos(X,Y).
-attribute(c(X,Y), width, width_value/(dim*dim)) :- pos(X,Y).
+elem(c(X,Y), container, window) :- pos(X,Y).
+attr(c(X,Y), grid_column, X-1) :- pos(X,Y).
+attr(c(X,Y), grid_row, Y-1) :- pos(X,Y).
+attr(c(X,Y), background_color,COLOR):- cell_color(X,Y,COLOR).
+attr(c(X,Y), height, height_value/(dim*dim)) :- pos(X,Y).
+attr(c(X,Y), width, width_value/(dim*dim)) :- pos(X,Y).
 
 % Label
-element(l(X,Y), label, c(X,Y)) :- initial(X,Y,V).
-attribute(l(X,Y), label, V) :- initial(X,Y,V).
-attribute(l(X,Y), font_size, 16) :- initial(X,Y,V).
-attribute(l(X,Y), background_color, COLOR) :- initial(X,Y,V), cell_color(X,Y,COLOR).
+elem(l(X,Y), label, c(X,Y)) :- initial(X,Y,V).
+attr(l(X,Y), label, V) :- initial(X,Y,V).
+attr(l(X,Y), font_size, 16) :- initial(X,Y,V).
+attr(l(X,Y), background_color, COLOR) :- initial(X,Y,V), cell_color(X,Y,COLOR).
 
 % Option Menu
-element(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
-attribute(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
-attribute(m(X,Y), selected, V) :- menu(X,Y), _clinguin_assume(sudoku(X,Y,V)).
-attribute(m(X,Y), selected, V) :- menu(X,Y), _muc(sudoku(X,Y,V)).
-attribute(m(X,Y), selected, V) :- sudoku(X,Y,V), _clinguin_browsing.
+elem(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
+attr(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
+attr(m(X,Y), selected, V) :- menu(X,Y), _clinguin_assume(sudoku(X,Y,V)).
+attr(m(X,Y), selected, V) :- menu(X,Y), _muc(sudoku(X,Y,V)).
+attr(m(X,Y), selected, V) :- sudoku(X,Y,V), _clinguin_browsing.
 callback(m(X,Y), clear, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,Y).
 
 % Option menu Item
-element(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), val(V).
-attribute(mi(X,Y,V), label, @concat(V,"  ✕")) :- menu(X,Y), val(V), not _b(sudoku(X,Y,V)).
-attribute(mi(X,Y,V), label, V) :- menu(X,Y), val(V), _b(sudoku(X,Y,V)).
+elem(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), val(V).
+attr(mi(X,Y,V), label, @concat(V,"  ✕")) :- menu(X,Y), val(V), not _b(sudoku(X,Y,V)).
+attr(mi(X,Y,V), label, V) :- menu(X,Y), val(V), _b(sudoku(X,Y,V)).
 callback(mi(X,Y,V), click, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), val(V).
 
 

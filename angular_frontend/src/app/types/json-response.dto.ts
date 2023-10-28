@@ -10,7 +10,7 @@ export interface ElementDto {
     type: string,
     parent: string,
     attributes: AttributeDto[],
-    do: DoDto[],
+    when: WhenDto[],
     children: ElementDto[]
 }
 
@@ -21,7 +21,7 @@ export interface AttributeDto {
 }
 
 
-export interface DoDto {
+export interface WhenDto {
     id: string,
     actionType: string,
     interactionType: string,

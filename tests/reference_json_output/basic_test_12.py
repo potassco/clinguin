@@ -9,7 +9,7 @@ class BasicTest12:
             "type": "root",
             "parent": "root",
             "attributes": [],
-            "do": [],
+            "when": [],
             "children": [
                 {
                     "id": "w",
@@ -18,7 +18,7 @@ class BasicTest12:
                     "attributes": [
                         {"id": "w", "key": "child_layout", "value": "absstatic"}
                     ],
-                    "do": [],
+                    "when": [],
                     "children": [
                         {
                             "id": "c1",
@@ -36,7 +36,7 @@ class BasicTest12:
                                     "value": "row_reverse",
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [
                                 {
                                     "id": "b1",
@@ -49,12 +49,12 @@ class BasicTest12:
                                             "value": '"Add Name"',
                                         }
                                     ],
-                                    "do": [
+                                    "when": [
                                         {
                                             "id": "b1",
                                             "action_type": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_atom(name(_value_context(t1_content)))",
+                                            "policy": "add_atom(name(_context_value(t1_content)))",
                                         }
                                     ],
                                     "children": [],
@@ -70,7 +70,7 @@ class BasicTest12:
                                             "value": '"Type Name Here"',
                                         }
                                     ],
-                                    "do": [
+                                    "when": [
                                         {
                                             "id": "t1",
                                             "action_type": "type",
@@ -98,7 +98,7 @@ class BasicTest12:
                                     "value": "column",
                                 },
                             ],
-                            "do": [],
+                            "when": [],
                             "children": [],
                         },
                     ],

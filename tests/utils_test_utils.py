@@ -9,7 +9,7 @@ import httpx
 
 from clinguin import args_to_dict_converter
 from clinguin.parse_input import ArgumentParser
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
+from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
 
 
 class UtilsTestUtils:
@@ -130,7 +130,7 @@ class UtilsTestUtils:
 
         self.args = args_copy
 
-        return ClingoBackend(args_copy)
+        return ClingoMultishotBackend(args_copy)
 
     @classmethod
     def assert_result(self, should_output, received_by_request):

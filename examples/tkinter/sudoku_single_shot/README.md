@@ -11,7 +11,7 @@ Those that are part of a browsing solution are extended with `+`.
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/tkinter/sudoku-single-shot/instance.lp examples/tkinter/sudoku-single-shot/encoding.lp --ui-files examples/tkinter/sudoku-single-shot/ui.lp --backend=ClingoBackend
+clinguin client-server --domain-files examples/tkinter/sudoku_single_shot/instance.lp examples/tkinter/sudoku_single_shot/encoding.lp --ui-files examples/tkinter/sudoku_single_shot/ui.lp --backend=ClingoBackend
 ```
 
 ![](out.png)

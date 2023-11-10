@@ -92,4 +92,4 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
         elem(menu_bar_download, button, menu_bar).
         attr(menu_bar_download, label, "Save").
         attr(menu_bar_download, icon, "fa-save").
-        when(menu_bar_download, click, call, download("#show parent/2. #show root/1.","examples/angular/tree-browser/instance.lp")).
+        when(menu_bar_download, click, call, download("#show parent/2. #show root/1.","examples/angular/tree_browser/instance.lp")).

@@ -87,11 +87,12 @@ class ClientBase:
                 method = getattr(self.frontend_generator, snake_case_name)
 
             if method and callable(method):
+                print(child)
                 method(
                     child["id"],
                     child["parent"],
                     child["attributes"],
-                    child["callbacks"],
+                    child["when"],
                 )
                 self.base_engine(child)
             else:

@@ -45,7 +45,7 @@ class AngularFrontend(AbstractFrontend):
         parser.add_argument(
             "--client-port",
             type=int,
-            default=8080,
+            default=8087,
             help="Set the port for the webserver of the client.",
         )
 

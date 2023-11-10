@@ -9,9 +9,9 @@ Visit the [documentation page](https://clinguin.readthedocs.io/en/latest/clingui
 1. (Optional) Manually build: `make all`
 2. For e.g. the housing example you can type: 
 ```
-clinguin client-server --domain-files examples/clingo/housing/instance.lp examples/clingo/housing/encoding.lp --ui-files examples/clingo/housing/ui.lp --include-menu-bar --server-port 8000 --frontend AngularFrontend --client-port 8080
+clinguin client-server --domain-files examples/clingo/housing/instance.lp examples/clingo/housing/encoding.lp --ui-files examples/clingo/housing/ui.lp --include-menu-bar --server-port 8000 --frontend AngularFrontend --client-port 8087
 ```
-3. Then navigate in the browser of your choice to `127.0.0.1:8080` and enjoy :-)
+3. Then navigate in the browser of your choice to `127.0.0.1:8087` and enjoy :-)
 
 
 ### Details

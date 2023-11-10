@@ -39,7 +39,6 @@ class ClingoBackend(ClinguinBackend):
         self._uifb = UIFB(
             self._ui_files,
             self._constants,
-            include_menu_bar=args.include_menu_bar,
             include_unsat_msg=include_unsat_msg,
         )
 
@@ -72,11 +71,6 @@ class ClingoBackend(ClinguinBackend):
             nargs="+",
             help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
             metavar="",
-        )
-        parser.add_argument(
-            "--include-menu-bar",
-            action="store_true",
-            help="Inlcude a menu bar with options: Next, Select and Clear",
         )
         parser.add_argument(
             "--ignore-unsat-msg",
@@ -179,7 +173,7 @@ class ClingoBackend(ClinguinBackend):
         pass
 
     def _update_uifb_consequences(self):
-        self._uifb.update_all_consequences(self._ctl, self._assumptions, self._on_model)
+        self._uifb.update_all_consequences(self._ctl, [], self._on_model)
         if self._uifb.is_unsat:
             self._logger.error(
                 "domain files are UNSAT. Setting _clinguin_unsat to true"

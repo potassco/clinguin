@@ -38,7 +38,7 @@ class ClingraphBackend(ClingoMultishotBackend):
         self._engine = args.engine
         self._disable_saved_to_file = args.disable_saved_to_file
 
-        self._intermediate_format = "svg"
+        self._intermediate_format = args.intermediate_format
         self._encoding = "utf-8"
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph"
@@ -197,6 +197,17 @@ class ClingraphBackend(ClingoMultishotBackend):
             "--disable-saved-to-file",
             action="store_true",
             help="Disable image saved to file",
+        )
+
+        parser.add_argument(
+            "--intermediate-format",
+            default="svg",
+            type=str,
+            choices=[
+                "png",
+                "svg",
+            ],
+            help="Intermediate format. Use 'svg' for angular fronted and 'png' tkinter. (default: %(default)s)",
         )
 
     # ---------------------------------------------

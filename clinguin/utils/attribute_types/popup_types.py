@@ -28,7 +28,7 @@ class PopupTypesType(EnumType):
             return_value = cls.INFO
         elif parsed_string == cls.WARNING.name.lower():
             return_value = cls.WARNING
-        elif parsed_string == cls.ERROR.name.lower():
+        elif parsed_string == cls.ERROR.name.lower() or parsed_string == "danger":
             return_value = cls.ERROR
         else:
             error_string = "Could not parse " + parsed_string + " to PopupTypesType."

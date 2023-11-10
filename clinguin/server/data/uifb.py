@@ -35,7 +35,6 @@ class UIFB:
         cautious_tag="_c",
         brave_tag="_b",
         auto_tag=None,
-        include_menu_bar=False,
         include_unsat_msg=True,
     ):
         self._logger = logging.getLogger(Logger.server_logger_name)
@@ -43,7 +42,6 @@ class UIFB:
         self._tags = {"cautious": cautious_tag, "brave": brave_tag, "auto": auto_tag}
         self._conseq = {"cautious": None, "brave": None, "auto": None}
         self._factbase = None
-        self._include_menu_bar = include_menu_bar
         self._include_unsat_msg = include_unsat_msg
         self._unsat_core = None
         self._constants = constants
@@ -137,8 +135,6 @@ class UIFB:
             self._logger.critical(exception_string)
             raise Exception(exception_string)
 
-        if self._include_menu_bar:
-            uictl.add("base", [], UIFB.get_menu_bar_ui_encoding())
         if self._include_unsat_msg:
             uictl.add("base", [], UIFB.get_unsat_messages_ui_encoding())
 
@@ -353,28 +349,6 @@ class UIFB:
         Converts a iterable symbols to a string of facts.
         """
         return "\n".join([str(s) + "." for s in symbols])
-
-    @classmethod
-    def get_menu_bar_ui_encoding(cls):
-        """
-        Get the standard lp encoding for the menu bar.
-        """
-        return """
-element(_default_menu_bar, menu_bar, window).
-element(_default_menu_bar_section, menu_bar_section, _default_menu_bar).
-attribute(_default_menu_bar_section, label, "Options").
-element(_default_menu_bar_section_clear, menu_bar_section_item, _default_menu_bar_section).
-attribute(_default_menu_bar_section_clear, label, "Clear").
-attribute(_default_menu_bar_section_clear, accelerator, "Cmd+C").
-do(_default_menu_bar_section_clear, click, callback, clear_assumptions).
-element(_default_menu_bar_section_next, menu_bar_section_item, _default_menu_bar_section).
-attribute(_default_menu_bar_section_next, label, "Next").
-attribute(_default_menu_bar_section_next, accelerator, "Cmd+N").
-do(_default_menu_bar_section_next, click, callback, next_solution).
-element(_default_menu_bar_section_select, menu_bar_section_item, _default_menu_bar_section).
-attribute(_default_menu_bar_section_select, label, "Select").
-attribute(_default_menu_bar_section_select, accelerator, "Cmd+S").
-do(_default_menu_bar_section_select, click, callback, select)."""
 
     @classmethod
     def get_unsat_messages_ui_encoding(cls):

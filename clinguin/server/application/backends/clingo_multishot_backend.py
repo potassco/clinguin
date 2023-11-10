@@ -42,7 +42,6 @@ class ClingoMultishotBackend(ClingoBackend):
         self._uifb = UIFB(
             self._ui_files,
             self._constants,
-            include_menu_bar=args.include_menu_bar,
             include_unsat_msg=include_unsat_msg,
         )
 
@@ -95,6 +94,13 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def _add_assumption(self, predicate_symbol):
         self._assumptions.add(predicate_symbol)
+
+    def _update_uifb_consequences(self):
+        self._uifb.update_all_consequences(self._ctl, self._assumptions, self._on_model)
+        if self._uifb.is_unsat:
+            self._logger.error(
+                "domain files are UNSAT. Setting _clinguin_unsat to true"
+            )
 
     # ---------------------------------------------
     # Policies

@@ -9,7 +9,7 @@ Visit the [documentation page](https://clinguin.readthedocs.io/en/latest/clingui
 1. (Optional) Manually build: `make all`
 2. For e.g. the housing example you can type: 
 ```
-clinguin client-server --domain-files examples/clingo/housing/instance.lp examples/clingo/housing/encoding.lp --ui-files examples/clingo/housing/ui.lp --include-menu-bar --server-port 8000 --frontend AngularFrontend --client-port 8087
+clinguin client-server --domain-files examples/clingo/housing/instance.lp examples/clingo/housing/encoding.lp --ui-files examples/clingo/housing/ui.lp  --server-port 8000 --frontend AngularFrontend --client-port 8087
 ```
 3. Then navigate in the browser of your choice to `127.0.0.1:8087` and enjoy :-)
 
@@ -43,3 +43,15 @@ It is assumed that the backend is already started (just the `clinguin server`).
 
 
 
+
+
+### Development mode
+
+Show changes made on the `angular_fronted` folder in real time:
+
+- Replace  `clinguin client-server` by `python start.py server` and remove argument `--frontend=AngularFrontend`
+- Make sure angular is running in another terminal 
+
+```
+cd angular_fronted; ng serve
+```

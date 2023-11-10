@@ -118,7 +118,6 @@ class RootCmp:
                 value_type = self._attributes[key]["value_type"]
             else:
                 value_type = StringType
-
             if key in self._attributes and "value" in self._attributes[key]:
                 self._attributes[key]["value"] = value_type.parse(value, self._logger)
             else:
@@ -128,7 +127,9 @@ class RootCmp:
 
     def _fill_callbacks(self):
         for callback in self._json_callbacks:
-            key = callback["action"]
+            if callback["interaction_type"] not in ["call","callback"]:
+                self._logger.warning(f"Only interaction type call and callback are available in the Tkinter frontend. Interactivity: '{callback['interaction_type']}' was ignored")
+            key = callback["action_type"]
             value = callback["policy"]
             if key in self._callbacks and "policy_type" in self._callbacks[key]:
                 value_type = self._callbacks[key]["policy_type"]

@@ -1,26 +1,26 @@
 
 elem(window, window, root).
 
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % Info message
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     elem(l, message, window).
     attr(l, message, "Right click on node to select color!").
     attr(l, type, warning).
     attr(l, visible, hidden):- _clinguin_assume(_).
 
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % Context menu
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     elem(context_menu(X), context_menu, window) :- node(X).
         elem(bcm(X,C), button, context_menu(X)) :- color(C), node(X), _b(assign(X,C)).
         attr(bcm(X,C), label, C) :- color(C), node(X).
         % attr(bcm(X,C), class, "disabled") :- color(C), node(X), not _b(assign(X,C)).
         when(bcm(X,C), click, callback, add_assumption(assign(X,C))) :- _b(assign(X,C)).
 
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % Clingraph image
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     elem(c, canvas, window).
     attr(c, order, 2).
     attr(c, image_type, clingraph).
@@ -29,14 +29,13 @@ elem(window, window, root).
         attr(n(X), clingraph_id, X) :- node(X).
         when(n(X), right_click, update, (context_menu(X),visibility,visible)):- node(X).
 
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % Download modal
-    % ---------
+    %%%%%%%%%%%%%%%%%%%%%%%%
     elem(modal, modal, window).
     attr(modal, title, "Download").
 
         elem(c1, container, modal).
-        % attr(c1, child_layout, "flex").
         attr(c1, flex_direction, "column").
         attr(c1, class, "align-items-end").
 
@@ -53,9 +52,9 @@ elem(window, window, root).
             when(t1, input, context, (show_download, _value)).
 
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Menu bar
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 elem(menu_bar, menu_bar, window).
 attr(menu_bar, title, "Graph coloring").
 attr(menu_bar, icon, "fa-diagram-project").

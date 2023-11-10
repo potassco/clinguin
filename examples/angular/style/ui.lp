@@ -2,9 +2,9 @@ elem(window, window, root).
 % attr(window, child_layout, flex).
 attr(window, class, "flex-column-reverse").
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Menu bar
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 elem(menu_bar, menu_bar, window).
 attr(menu_bar, title, "My app").
 attr(menu_bar, icon, "fa-home").
@@ -33,9 +33,9 @@ attr(menu_bar_next, icon, "fa-forward-step").
 when(menu_bar_next, click, callback, next_solution).
 
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Containers
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 elem(c1, container, window).
 attr(c1, child_layout, flex).
@@ -55,9 +55,9 @@ attr(c2, class, "rounded").
 attr(c2, child_layout, flex).
 attr(c2, flex_direction, row).
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Buttons C1
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 elem(b1, button, c1).
 attr(b1, class, "btn-primary").
 attr(b1, class, "m-2").
@@ -99,9 +99,9 @@ attr(b8, class, "m-2").
 attr(b8, class, "btn-sm").
 attr(b8, label, "btn-dark").
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Buttons C2
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 elem(b1o, button, c2).
 attr(b1o, class, "btn-outline-primary").
 attr(b1o, label, "btn-outline-primary").
@@ -129,9 +129,9 @@ attr(b8o, label, "btn-outline-dark").
 
 
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Labels C3
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 elem(c3, container, window).
 attr(c3, class, "border").
@@ -151,9 +151,9 @@ attr(l2, class, "text-danger").
 attr(l2, class, "text-capitalize").
 
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Dropdowns C4
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 elem(c6, container, window).
 attr(c6, class, "border").

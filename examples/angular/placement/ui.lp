@@ -1,14 +1,14 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
 % WINDOW
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
 elem(window, window, root).
 attr(window, child_layout, flex).
 attr(window, flex_direction, row).
 
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % MODAL
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
 
     elem(modal, modal, window).
     attr(modal, title, "Add person").
@@ -32,9 +32,9 @@ attr(window, flex_direction, row).
             attr(b1, icon, "fa-plus").
 
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % ALL PEOPLE
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
 
     elem(people, container, window).
     attr(people, class, "w-25").
@@ -63,9 +63,9 @@ attr(window, flex_direction, row).
             attr(person_l(P), label, P):- person(P).
             attr(person_l(P), class, "text-capitalize"):- person(P).
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % PEOPLE INCLUDED
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
 
     elem(included, container, window).
     attr(included, class, "bg-info").
@@ -110,9 +110,9 @@ attr(window, flex_direction, row).
 
 
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % Table setup
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
 
 
     elem(tables, container, window).
@@ -160,9 +160,9 @@ attr(window, flex_direction, row).
                     attr(table_seat_p(T,S,P), class, "text-capitalize"):- _b(assign(seat(S,T),P)).
                     when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P))):- _b(assign(seat(S,T),P)).
 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
     % Menu bar
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%
 
     elem(menu_bar, menu_bar, window).
     attr(menu_bar, title, "Smart placement").

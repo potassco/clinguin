@@ -4,7 +4,7 @@ attr(w, width, 500).
 attr(w, background_color, white).
 attr(w, child_layout, relstatic).
 
-% ---------------- MENU BAR -----------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%------- MENU BAR -----------------------------
 elem(m, menu_bar, w).
 
 elem(ms1, menu_bar_section, m).
@@ -19,7 +19,7 @@ when(ms1i2, click, callback, clear_assumptions).
 elem(ms2, menu_bar_section, m).
 elem(ms2i2, menu_bar_section_item, ms2).
 
-% ------------------- TOP elem(S) ----------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%---------- TOP elem(S) ----------------------------------
 
 elem(b, button, w).
 attr(b, background_color, blue).
@@ -40,7 +40,7 @@ attr(c, border_width, 2).
 
 when(b, click, callback, clear_assumptions).
 
-% --------------------- BELOW elem(S) --------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%------------ BELOW elem(S) --------------------------------------
 
 elem(c2, container, w).
 attr(c2, width, 180).

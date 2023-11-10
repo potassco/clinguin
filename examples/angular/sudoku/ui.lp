@@ -1,10 +1,16 @@
 elem(window,window,root).
 
+    %%%%%%%%%%%%%%%%%%%%%%%%
+    % Grid
+    %%%%%%%%%%%%%%%%%%%%%%%%
     elem(sudoku,container,window).
     attr(sudoku,child_layout,grid).
     attr(sudoku,width,100).
     attr(sudoku,height,100).
 
+        %%%%%%%%%%%%%%%%%%%%%%%%
+        % Cell dropdown
+        %%%%%%%%%%%%%%%%%%%%%%%%
         elem(pos(X,Y),dropdown_menu,sudoku):-pos(X,Y).
         attr(pos(X,Y),width,50):-pos(X,Y).
         attr(pos(X,Y),height,50):-pos(X,Y).
@@ -19,6 +25,9 @@ elem(window,window,root).
         attr(pos(X,Y),selected,V):-_c(sudoku(X,Y,V)).
         attr(pos(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
+            %%%%%%%%%%%%%%%%%%%%%%%%
+            % Cell items
+            %%%%%%%%%%%%%%%%%%%%%%%%
             elem(remove(X,Y), dropdown_menu_item, pos(X,Y)):-pos(X,Y).
             attr(remove(X,Y), icon, ("fa-ban";"text-info")):-pos(X,Y).
             when(remove(X,Y), click, call, remove_assumption_signature(sudoku(X,Y,any))):-pos(X,Y).
@@ -29,9 +38,9 @@ elem(window,window,root).
             when(pos_v(X,Y,V),click,call,add_assumption(sudoku(X,Y,V))):-pos(X,Y), val(V).
 
 
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 % Menu bar
-% ---------
+%%%%%%%%%%%%%%%%%%%%%%%%
 elem(menu_bar, menu_bar, window).
 attr(menu_bar, title, "Sudoku").
 attr(menu_bar, icon, "fa-table-cells").

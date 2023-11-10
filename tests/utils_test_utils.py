@@ -137,4 +137,9 @@ class UtilsTestUtils:
         received_by_request = json.loads(
             json.dumps(received_by_request, default=lambda o: o.__dict__)
         )
+        print("recived")
+        print(received_by_request)
+        print("\n---------\n")
+        print("should")
+        print(should_output)
         assert str(received_by_request) == str(should_output)

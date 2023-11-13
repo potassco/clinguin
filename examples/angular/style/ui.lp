@@ -1,5 +1,4 @@
 elem(window, window, root).
-% attr(window, child_layout, flex).
 attr(window, class, "flex-column-reverse").
 
 %%%%%%%%%%%%%%%%%%%%%%%%

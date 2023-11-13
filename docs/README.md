@@ -1,10 +1,10 @@
-For the `doc` you can type 
+# Documentation 
 
 ```
 make html
 ```
 
-which generates the  `html` files and puts them into the `_build/html` directory.
+Generates the  `html` files and puts them into the `_build/html` directory.
 
 To locally start the documentation environment navigate to `_build/html` and start an HTML server of your choice, 
 e.g. by:

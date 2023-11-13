@@ -1,38 +1,85 @@
 Installation
 ############
 
-Clinguin Installation guide:
+Clinguin requires a Python version between 3.8 and 3.10, we recomend 3.10
 
-Current installation procedure
-===============================
+.. warning:: 
+    For using the Angular web fronted additional steps must be followed see :ref:`syntax <angular>`
 
-
-You need to have a working `python` installation (version 3.10 is recommended) and also the pip package `setuptools` installed. Then the current recommended way to install clinguin is to execute the following command in the top level clinguin directory:
-
-.. code-block:: bash
-
-    $ python -m pip install ./ 
-
-If you want to have the tkinter gui you need the `tkinter` dependency, which can be installed in one step together with clinguin:
-
-.. code-block:: bash
-
-    $ python -m pip install ./[tkinter]
-
-If you want to have the full dependencies of the development environment you can install clinguin in the following way:
-
-.. code-block:: bash
-
-    $ python -m pip install ./[tkinter,doc]
-
-After this, one can run clinguin by executing (-h for help):
+You can check a successfull instalaltion by running
 
 .. code-block:: bash
 
     $ clinguin -h
 
-Install with latest web-frontend
-================================
+
+Installing with conda
+=====================
+
+The conda clinguin package can be found `here <https://anaconda.org/potassco/clinguin>`_.
+
+.. code-block:: bash
+
+    $ conda install -c potassco clinguin 
+    $ conda install -c potassco/label/dev clinguin
+
+.. note::
+    The conda installation does not include optional dependencies for tkinter. 
+
+    .. code-block:: bash
+
+        $ conda install -c conda-forge tk
+        
+
+
+Installing with pip 
+===================
+
+The python clinguin package can be found `here <https://pypi.org/project/clinguin/>`_.
+
+
+
+.. code-block:: bash
+
+    $ pip install clinguin
+
+The following dependencies used in `clinguin` are optional. 
+
+#. `tkinter`: For using the tkinter fronted.
+
+To include them in the installation use:
+
+.. code-block:: bash
+
+    $ pip install clinguin[tkinter]
+
+
+Installing from source
+======================
+
+The project is hosted on github at https://github.com/potassco/clinguin and can
+also be installed from source. We recommend this only for development purposes.
+
+.. note::
+    The pip package `setuptools` must be previously installed
+
+Execute the following command in the top level clinguin directory:
+
+.. code-block:: bash
+
+    $ git clone https://github.com/potassco/clinguin
+    $ cd clinguin
+    $ pip install .[all]
+
+
+Angular (Web) Frontend
+======================
+
+TODO make this simpler with conda and pip
+
+
+Basic installation
+------------------
 
 Be sure that you have `make` and all the dev-tools for the web-frontend installed (`Angular`), as detailed below! Then type:
 
@@ -44,7 +91,7 @@ This builds the frontend, and then installs `clinguin`.
 
 
 Angular (Web) Frontend Installation Guide for Development Mode
-==============================================================
+---------------------------------------------------------------
 
 The following is only required for making changes to the web-frontend.
 
@@ -62,7 +109,7 @@ If you have installed all the dependencies you can navigate to the `/angular-fro
     $ ng serve
 
 After startup the web-frontend should be (by default) displayed at `127.0.0.1:4200`.
-When using the `ng serve` command you may make changes to the frontend without hitting `ng serve` again (dynamic compilation, etc.).
+When using the `ng serve` command you may make changes to the frontend without hitting `ng serve` again getting a dynamic compilation.
 
 
 

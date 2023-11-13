@@ -1,8 +1,9 @@
 # Clinguin :penguin: 
 
-Clinguin is a graphical-user-interface for Clingo, where one can specify the user-interface entirely in a logic-program. One might wonder how one can do this by him-/herself - for this see the descriptions below and have fun :-)
+Clinguin is a framework for building User Interfaces (UI) using clingo. The UI is entirely specified in a logic-program.
 
 Visit the [documentation page](https://clinguin.readthedocs.io/en/latest/clinguin/installation.html).
+
 
 ## Web-Frontend Build and Deploy
 
@@ -34,24 +35,17 @@ For `client` the additional `--server-url` and `--server-port` options let one s
 
 ## Web-Frontend Development Enviroment
 
+This option show changes made on the `angular_fronted` folder in real time.
+
+
 - Needed:
     - NPM/Node (default web-development setup):  [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), [NODE](https://nodejs.org/en/download)
     - Angular: ([installation page](https://angular.io/guide/setup-local))
 
-Then navigate to the folder `/angular_frontend`. There type `ng serve` and then go to the URL `127.0.0.1:4200` in your web-browser.
-It is assumed that the backend is already started (just the `clinguin server`).
-
-
-
-
-
-### Development mode
-
-Show changes made on the `angular_fronted` folder in real time:
-
-- Replace  `clinguin client-server` by `python start.py server` and remove argument `--frontend=AngularFrontend`
-- Make sure angular is running in another terminal 
-
-```
-cd angular_fronted; ng serve
-```
+1. Start the server
+    - Replace  `clinguin client-server` by `python start.py server` and remove argument `--frontend=AngularFrontend` from the command line of the desired example
+2. Start the web client
+    - Open a new tab
+    - Navigate to the folder `/angular_frontend`. 
+    - Type `ng serve`
+    - Go to the URL `127.0.0.1:4200` in your web-browser.

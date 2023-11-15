@@ -1,127 +1,68 @@
+A User Interface is defined in `clinguin` using the three predicates below.
 
-Syntax and Components
-#####################
-
-One can look the up the available elements, with the corresponding attributes and callback actions using:
-
-.. code-block:: bash
-
-    $ clinguin client-server --frontend-syntax
-
-If one is  also interested in what values one might set, one can also look at the full syntax:
-
-.. code-block:: bash
-
-    $ clinguin client-server --frontend-syntax-full
+.. note::
+    The available element types, attributes, events and actions will vary depending on the frontend. See the details for each front end in the :ref:`Frontends` section.
 
 
-``element(ID,TYPE,PARENT)``
+``elem(ID, TYPE, PARENT)``
 +++++++++++++++++++++++++++
 
-* ``ID`` Identifies the element for further references.
+    Elements define building blocks of the UI.
 
-* ``TYPE`` The type of element (``window``, ``container``, ``button`` etc)
+    * ``ID`` Identifies the element for further references.
 
-* ``PARENT`` The id of the parent element. The ``root`` identifier is used as the root element of the UI.
+    * ``TYPE`` The type of element (``window``, ``container``, ``button`` etc).
 
-``attribute(ID_OF_ELEMENT,KEY,VALUE)``
-++++++++++++++++++++++++++++++++++++++
-
-For each of these element types there exists a bunch of available attributes to set how the element will look like.
-
-* ``ID_OF_ELEMENT`` Identifier of the element setting the attribute to
-
-* ``KEY`` The name of the attribute
-
-* ``Value`` The value of the attribute
+    * ``PARENT`` The id of the parent element. The identifier ``root`` is used as the root element of the UI.
 
 
-``callback(ID_OF_ELEMENT,ACTION,POLICY)``
+``attr(ID, KEY, VALUE)``
+++++++++++++++++++++++++
+
+    Attributes define the style of the UI.
+
+    * ``ID`` Identifier of the element that the attribute will be set to.
+
+    * ``KEY`` The name of the attribute. Avaliable attributes depend on the element type and the frontend.
+
+    * ``VALUE`` The value of the attribute.
+
+
+``when(ID, EVENT, ACTION, OEPRATION)``
 +++++++++++++++++++++++++++++++++++++++++
 
-* ``ID_OF_ELEMENT`` Identifier of the element to which the action is performed
+    Actions define the interactivite of the UI.  Multiple actions are allowed as explaned in :ref:`Multiple actions`. To better understand the execution of actions, we refer the reader to the diagram in the :ref:`Basic Usage`.
 
-* ``ACTION`` The action performed (``click``, ``hover``, etc). Each element allows different actions.
+    * ``ID`` Identifier of the element that the user interacted with.
 
-* ``POLICY`` The functionality from the Backend that will be called when the action is performed on the element. The available policies can be looked up in the API documentation under the section `Server`/`Server Backends`/`ClingoMultishotBackend` (class `ClingoMultishotBackend`).
+    * ``EVENT`` The event that is being triggered, such as ``click``, ``hover``,  ``input``, etc. Each element type allows different events.
 
+    * ``ACTION`` The action performed.  
 
-Elaborated example
-++++++++++++++++++
+        * ``call`` Calls the server to perform an operation. 
+        * ``update`` Updates the attribute of another element without any calls to the server.
+        * ``context`` Updates the internal context that will be passed to the server on the following call actions. See :ref:`Context` for more details.
 
+    * ``OPERATION`` The operation acounts to the information that the action requires for its execution.
 
-This example captures a bit more how one structures the frontend. For this we take a simple logic program as our domain-file (e.g. `domain.lp`), which has two models: `p(1)` and `p(2)`:
+        * ``ACTION`` = ``call`` The operation corresponds to an function available in the Backend. The function call is represented as a predicate, for instance ``add_assumption(a)`` or ``next_solution``.
+        * ``ACTION`` = ``update`` The operation will be a tuple of size three ``(ID', KEY, VALUE)`` where ``ID'`` is the identifier of the element whose value for attribute ``KEY`` will be updated to ``VALUE``. Notice that ``ID'`` might be different than ``ID``.
+        * ``ACTION`` = ``context`` The operation will be a tuple ``(KEY, VALUE)``, which will update the key ``KEY`` in the context dictionary to ``VALUE``. See the :ref:`Context` section for detail information on how to use the context.
 
-.. code-block::
+    **Multiple actions**
 
-    1{p(1);p(2)}1.
+        If multiple occurences of predicate ``when`` are present for the same element and event. All of them will be executed. First, the updates will be performed, followed by context changes and finally server calls. Within each type of action no order can be asured. 
 
+        In the case of multiple apearences of ``call``,  a single call will be placed to the server with the information to execute all actions in any order. For instance, in the example below, when ``button1`` is clicked, the server will recive the instruction to exectute two operations: adding assumption ``a`` and adding assumption ``b`` in any order. For a more evolved example of this feature see the `jobshop example <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop/ui.lp>`_
 
-Now we create a UI (e.g. ``ui.lp``), where we assume either ``p(1)`` or ``p(2)`` and provide a functionality to reset it:
+        .. code-block:: 
 
-.. code-block::
-
-    element(window, window, root).
-    attribute(window, height, 400).
-    attribute(window, width, 400).
-
-    element(dpm, dropdown_menu, window).
-    attribute(dpm, selected, V) :- p(V).
-
-    element(dmp(V), dropdown_menu_item, dpm) :- _b(p(V)).
-    attribute(dmp(V), label, V) :- _b(p(V)).
-    callback(dmp(V), click, add_assumption(p(V))) :- _b(p(V)).
-
-    element(l, label, window).
-    attribute(l, label, "Clear assumptions").
-    attribute(l, font_weight, "italic").
-    attribute(l, font_size, 20).
-    attribute(l, background_color, "#ff4d4d").
-    attribute(l, on_hover, "True").
-    attribute(l, on_hover_background_color, "#990000").
-    callback(l, click, clear_assumptions).
-
-With this done, we can start our application:
-
-.. code-block:: bash
-
-    $ clinguin client-server --domain-files domain.lp --ui-files ui.lp
-
-.. figure:: ../basic-ui.png
+            when(button1, click, call, add_assumption(a)).
+            when(button1, click, call, add_assumption(b)).
 
 
-We have four different elements:
+        To impose an order, the operation provided must be a tuple, in which case the order of execution is defined by the tuple. For instance, the example below will make sure that assumption ``a`` is added before computing a solution.
 
-1. ``window`` (window)
+        .. code-block:: 
 
-    * As in the previous example it just defines the size of the window.
-
-2. ``dpm`` (dropdown_menu)
-
-    * It's parent is the ``window`` which means, that it is directly shown below the window.
-    * The attribute ``selected`` can be used to show the text in the ''selected'' field of the dropdown.
-
-3. ``dpm(V)`` (dropdown_menu_item)
-
-    * A dropdown_menu_item can only be the child of a dropdown_menu (and no other element type)
-    * We want to have one item for each model, therefore we have the ``_b(p(V))`` in the body. The atom preceded by an underscore: ``_b`` means, that we reason bravely (so basically the union of all models), therefore we have here both ``p(1)`` and ``p(2)``.
-    * We add an attribute to define the text (attribute key ``label``)
-    * We add a callback to define what shall happen on a click. In this case the policy ``add_assumption`` is called with the parameter ``p(V)``. Doing so, we add the assumption, that either ``p(1)`` or ``p(2)`` exist.
-
-4. ``l`` (label)
-
-    * We use this label to display the text `Clear assumptions` and further create an action, that when one clicks on it, all assumptions are cleared.
-    * All other attributes are only there for the look and feel of the label (on hover, etc.)
-
-
-
-
-
-
-
-
-
-
-
-
-
+            when(button1, click, call, (add_assumption(a), next_solution)).

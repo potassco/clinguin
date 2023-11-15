@@ -9,14 +9,12 @@ Clinguin: Building User Interfaces in ASP
 Clinguin enables ASP developers to create interactive User Interface (UI) prototypes using only ASP.
 UIs are defined as sets of facts,  which are then rendered by a fronted to provide continuous interaction with ASP solvers based on user-triggered events.
 
-This and more examples are available in our `examples folder <https://github.com/potassco/clinguin/tree/master/examples>`_ 
-
-For details on how this code works see the :ref:`User Guide`
+This and more examples are available in our `examples folder <https://github.com/potassco/clinguin/tree/master/examples>`_!
 
 **Here is a motivation example:**
 
 Consider an ASP encoding that solves the sudoku puzzle where cells are defined by prediate  ``pos(X,Y)`` and solutions by ``sudoku(X,Y,V)``
-Clinguin will use this encoding and the following `ui-encoding` to construct the UI shown bellow.
+Clinguin will use this encoding and the following ui encoding to construct the UI shown bellow.
 
 .. code-block::
    
@@ -45,6 +43,8 @@ Clinguin will use this encoding and the following `ui-encoding` to construct the
 .. image:: ../examples/angular/sudoku_basic/out3.png
    :width: 30%
 
+For a more detailed explanation on how this code works take a look at the :ref:`Basic Usage` section.
+
 
 .. note:: Clinguin is part the Potassco umbrella (which is the home of Clingo and the other ASP tools)
 
@@ -53,11 +53,10 @@ Clinguin will use this encoding and the following `ui-encoding` to construct the
    :caption: Contents:
 
    clinguin/installation
-   clinguin/user_guide
-   clinguin/syntax
-   clinguin/customize_guide
-   clinguin/api
-   clinguin/web_frontend
+   clinguin/use.rst
+   clinguin/reference
+   clinguin/frontends
+   clinguin/backends
 
 
 

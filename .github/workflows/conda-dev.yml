@@ -1,12 +1,12 @@
 name: Deploy conda packages (wip)
 
-on: [push]
-  # workflow_dispatch:
-  #   inputs:
-  #     wip:
-  #       description: 'Publish work in progress package.'
-  #       required: false
-  #       default: 'true'
+on:
+  workflow_dispatch:
+    inputs:
+      wip:
+        description: 'Publish work in progress package.'
+        required: false
+        default: 'true'
 
 jobs:
   build:

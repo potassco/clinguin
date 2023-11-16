@@ -26,6 +26,6 @@ export interface WhenDto {
     actionType: string,
     interactionType: string,
     policy: string,
-    action_type?: string,
+    event?: string,
     interaction_type?: string
 }

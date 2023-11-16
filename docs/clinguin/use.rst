@@ -2,8 +2,7 @@
 Basic Usage
 ===========
 
-We will use Sudoku as an example, and run it using the `ClingoMultishotBackend` and the `AngularFrontend`.
-All files used can be find `here <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_.
+We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_ , and run it using the `ClingoMultishotBackend` and the `AngularFrontend`.
 
 
 .. image:: ../../examples/angular/sudoku/out1.png

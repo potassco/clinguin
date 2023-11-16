@@ -1,0 +1,13 @@
+div.admonition.example {
+border-color: hsl(257, 20%, 50%);
+background-color: hsl(257, 20%, 80%);
+}
+
+div.admonition.example > .admonition-title {
+color: white;
+background-color: hsl(257, 20%, 50%);
+}
+
+div.admonition.example > .admonition-title::before {
+    content: "\f004"; /* the fa-scale icon */
+  }

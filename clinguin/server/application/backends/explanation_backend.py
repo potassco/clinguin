@@ -73,11 +73,11 @@ class ExplanationBackend(ClingoMultishotBackend):
         return probe_set
 
     @property
-    def _backend_state_prg(self):
+    def _clinguin_state(self):
         """
         Additional program to pass to the UI computation. It represents to the state of the backend
         """
-        prg = super()._backend_state_prg
+        prg = super()._clinguin_state
         if self._uifb.is_unsat:
             self._logger.info("UNSAT Answer, will add explanation")
             clingo_core = self._uifb.get_unsat_core()

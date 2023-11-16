@@ -156,7 +156,7 @@ The method `_compute_clingraph_graphs` takes use of the Clingraph API. It comput
         for f in self._clingraph_files:
             ctl.load(f)
         ctl.add("base",[],prg)
-        ctl.add("base",[],self._backend_state_prg)
+        ctl.add("base",[],self._clinguin_state)
         ctl.ground([("base",[])],ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))

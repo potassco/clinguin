@@ -2,6 +2,7 @@
 Module contains the CaseConverter class.
 """
 
+import base64
 
 class CaseConverter:
     """
@@ -20,3 +21,10 @@ class CaseConverter:
         components = snake_case.split("_")
 
         return components[0] + "".join(x.title() for x in components[1:])
+
+def image_to_b64(img):
+    """
+    """
+    encoded = base64.b64encode(img)
+    decoded = encoded.decode("utf-8")
+    return decoded

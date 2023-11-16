@@ -5,6 +5,23 @@ Module that takes care of the custom logging config, so it contains the Logger-c
 import logging
 import os
 
+BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
+
+COLOR_NAMES = {
+    "YELLOW":YELLOW,
+    "GREEN":GREEN,
+    "BLUE":BLUE,
+    "RED":RED,
+    "GRAY":MAGENTA,
+}
+
+RESET_SEQ = "\033[0m"
+COLOR_SEQ = "\033[1;%dm"
+BOLD_SEQ = "\033[1m"
+
+def colored_text(txt, color):
+    return COLOR_SEQ % (30 + COLOR_NAMES[color]) + txt + RESET_SEQ
+    
 
 class Logger:
     """
@@ -24,8 +41,7 @@ class Logger:
         def format(self, record):
             levelname = record.levelname
             if self.use_color and levelname in Logger.COLORS:
-                color = Logger.COLOR_SEQ % (30 + Logger.COLORS[levelname])
-                levelname_color = color + levelname[0:4] + Logger.RESET_SEQ
+                levelname_color = colored_text(levelname[0:4], Logger.COLORS[levelname])
                 record.levelname = levelname_color
             return logging.Formatter.format(self, record)
 
@@ -41,10 +57,7 @@ class Logger:
         "CRITICAL": logging.CRITICAL,
     }
 
-    BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
-    RESET_SEQ = "\033[0m"
-    COLOR_SEQ = "\033[1;%dm"
-    BOLD_SEQ = "\033[1m"
+    
 
     @classmethod
     def formatter_message(cls, message, use_color=True):
@@ -52,19 +65,19 @@ class Logger:
         Formats certain aspects of the messages (color).
         """
         if use_color:
-            message = message.replace("$RESET", cls.RESET_SEQ).replace(
-                "$BOLD", cls.BOLD_SEQ
+            message = message.replace("$RESET", RESET_SEQ).replace(
+                "$BOLD", BOLD_SEQ
             )
         else:
             message = message.replace("$RESET", "").replace("$BOLD", "")
         return message
 
     COLORS = {
-        "WARNING": YELLOW,
-        "INFO": GREEN,
-        "DEBUG": BLUE,
-        "CRITICAL": RED,
-        "ERROR": RED,
+        "WARNING": "YELLOW",
+        "INFO": "GREEN",
+        "DEBUG": "BLUE",
+        "CRITICAL": "RED",
+        "ERROR": "RED",
     }
 
     @classmethod

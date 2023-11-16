@@ -74,7 +74,7 @@ class BasicTest04:
                                             "when": [
                                                 {
                                                     "id": "ms1i2",
-                                                    "action_type": "click",
+                                                    "event": "click",
                                                     "interaction_type": "callback",
                                                     "policy": "clear_assumptions",
                                                 }
@@ -316,7 +316,7 @@ class BasicTest04:
                             "when": [
                                 {
                                     "id": "b",
-                                    "action_type": "click",
+                                    "event": "click",
                                     "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }

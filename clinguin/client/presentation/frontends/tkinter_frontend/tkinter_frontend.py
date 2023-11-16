@@ -6,6 +6,9 @@ import networkx as nx
 from clinguin.client import AbstractFrontend
 from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.utils.attribute_types.child_layout import ChildLayoutType
+from clinguin.utils.attribute_types.child_layout import ChildLayoutType
+from clinguin.utils.logger import colored_text
+
 
 from .tkinter_elements import (
     Button,
@@ -46,63 +49,57 @@ class TkinterFrontend(AbstractFrontend):
     def available_syntax(cls, show_level):
         def append_dict(description, d, type_name):
             for key in d.keys():
-                description = description + "    |- " + key + "\n"
+                description += colored_text("    " + key + "\n", "GREEN")
                 if show_level == ShowFrontendSyntaxEnum.FULL:
                     if "description" in d[key]:
                         # Specific has higher priority
-                        description = description + "      |- Description: "
+                        description = description + "      Description: "
                         description = description + ": " + d[key]["description"]
                         description = description + "\n"
                     elif key in AttributeNames.descriptions:
                         # General lesser priority
-                        description = description + "      |- Description: "
+                        description = description + "      Description: "
                         description = (
-                            description + ": " + AttributeNames.descriptions[key]
+                            description + ": " + colored_text(AttributeNames.descriptions[key],"GRAY")
                         )
                         description = description + "\n"
                     elif key in CallbackNames.descriptions:
-                        description = description + "      |- Description: "
+                        description = description + "      Description: "
                         description = (
-                            description + ": " + CallbackNames.descriptions[key]
+                            description + ": " + colored_text(CallbackNames.descriptions[key],"GRAY")
                         )
                         description = description + "\n"
 
                     if type_name in d[key]:
-                        description = description + "      |- Possible-Values: "
+                        description = description + "      Possible-Values: "
                         description = (
-                            description + d[key][type_name].description() + "\n"
+                            description + colored_text(d[key][type_name].description() + "\n","GRAY")
                         )
 
             return description
 
         description = (
-            "Here one finds the supported attributes and callbacks of the TkinterFrontend and further a definition"
-            + "of the syntax:\n"
-            + "There are three syntax elements:\n\n"
-            + "element(<ID>, <TYPE>, <PARENT>) : To define an element\n"
-            + "attribute(<ID>, <KEY>, <VALUE>) : To define an attribute for an element (the ID is the ID of the"
-            + "corresponding element)\n"
-            + "callback(<ID>, <ACTION>, <POLICY>) : To define a callback for an element (the ID is the ID of the"
-            + "corresponding element)\n\n"
-            + "The following list shows for each <TYPE> the possible attributes and callbacks:\n"
-        )
+            "Here one finds the supported attributes and events of the TkinterFrontend "
+            + "The following list shows for each the possible attributes and events."
+            + "See the documentation for more details on the syntax.\n"
+         )
 
         class_list = RootCmp.__subclasses__()
 
-        description = description + "|--------------------------------\n"
+        description = description + "--------------------------------\n"
         for c in class_list:
-            description = description + "|- " + c.__name__ + "\n"
+            description = description + colored_text("" + c.__name__ + "\n", "BLUE")
 
             attributes = c.get_attributes()
             if len(attributes.keys()) > 0:
-                description = description + "  |- attributes\n"
+                description = description + colored_text("  attributes\n", "YELLOW")
                 description = append_dict(description, attributes, "value_type")
 
             callbacks = c.get_callbacks()
             if len(callbacks.keys()) > 0:
-                description = description + "  |- callbacks\n"
+                description = description + colored_text("  events\n", "YELLOW")
                 description = append_dict(description, callbacks, "policy_type")
-            description = description + "|--------------------------------\n"
+            description = description + "--------------------------------\n"
 
         return description
 

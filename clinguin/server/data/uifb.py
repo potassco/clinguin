@@ -38,7 +38,7 @@ class UIFB:
         include_unsat_msg=True,
     ):
         self._logger = logging.getLogger(Logger.server_logger_name)
-        self._ui_files = ui_files
+        self._ui_files = [] if ui_files is None else ui_files
         self._tags = {"cautious": cautious_tag, "brave": brave_tag, "auto": auto_tag}
         self._conseq = {"cautious": None, "brave": None, "auto": None}
         self._factbase = None
@@ -117,23 +117,25 @@ class UIFB:
                 try:
                     uictl.load(str(f))
                     existant_file_counter += 1
-                except Exception:
+                except Exception(exception_string):
                     self._logger.critical(
                         "Failed to load file %s (there is likely a syntax error in this logic program file).",
                         f,
                     )
+                    self._logger.critical(exception_string)
+                    raise Exception(exception_string)
             else:
                 self._logger.critical(
-                    "File %s does not exist, this file is skipped.", f
+                    "File %s does not exist", f
                 )
+                raise Exception("File %s does not exist", f)
+
 
         if existant_file_counter == 0:
             exception_string = (
-                "None of the provided ui files exists, but at least one syntactically valid ui"
-                + "file must be specified. Exiting!"
+                "None of the provided ui files exists"
             )
-            self._logger.critical(exception_string)
-            raise Exception(exception_string)
+            self._logger.warning(exception_string)
 
         if self._include_unsat_msg:
             uictl.add("base", [], UIFB.get_unsat_messages_ui_encoding())

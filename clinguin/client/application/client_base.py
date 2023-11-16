@@ -61,6 +61,8 @@ class ClientBase:
         Draws the GUI.
         """
         self.base_engine(response)
+        if len(response["children"])==0:
+            raise Exception("Empty UI! check the logs and the provided files.")
         self.frontend_generator.draw_postprocessing(response["children"][0]["id"])
 
     def base_engine(self, response):

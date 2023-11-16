@@ -38,7 +38,7 @@ class BasicTest09:
                                     "when": [
                                         {
                                             "id": "dmp(1)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
@@ -55,7 +55,7 @@ class BasicTest09:
                                     "when": [
                                         {
                                             "id": "dmp(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
@@ -91,7 +91,7 @@ class BasicTest09:
                             "when": [
                                 {
                                     "id": "l",
-                                    "action_type": "click",
+                                    "event": "click",
                                     "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
@@ -143,7 +143,7 @@ class BasicTest09:
                                     "when": [
                                         {
                                             "id": "dmp(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
@@ -179,7 +179,7 @@ class BasicTest09:
                             "when": [
                                 {
                                     "id": "l",
-                                    "action_type": "click",
+                                    "event": "click",
                                     "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
@@ -231,7 +231,7 @@ class BasicTest09:
                                     "when": [
                                         {
                                             "id": "dmp(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
@@ -267,7 +267,7 @@ class BasicTest09:
                             "when": [
                                 {
                                     "id": "l",
-                                    "action_type": "click",
+                                    "event": "click",
                                     "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }
@@ -317,7 +317,7 @@ class BasicTest09:
                                     "when": [
                                         {
                                             "id": "dmp(1)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
@@ -334,7 +334,7 @@ class BasicTest09:
                                     "when": [
                                         {
                                             "id": "dmp(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
@@ -370,7 +370,7 @@ class BasicTest09:
                             "when": [
                                 {
                                     "id": "l",
-                                    "action_type": "click",
+                                    "event": "click",
                                     "interaction_type": "callback",
                                     "policy": "clear_assumptions",
                                 }

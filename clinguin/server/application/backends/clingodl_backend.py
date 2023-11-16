@@ -76,11 +76,11 @@ class ClingoDLBackend(ClingoMultishotBackend):
         self._assignment = [f'_clinguin_assign({key},{val}).' for key, val in self._theory.assignment(model.thread_id)]
 
     @property
-    def _backend_state_prg(self):
+    def _clinguin_state(self):
         """
         Additional program to pass to the UI computation. It represents to the state of the backend
         """
-        prg = super()._backend_state_prg
+        prg = super()._clinguin_state
         prg += " ".join(self._assignment)
         return prg
     

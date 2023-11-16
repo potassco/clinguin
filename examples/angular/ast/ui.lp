@@ -50,7 +50,7 @@ when(window, load, context, (selected_node, X)):- _clinguin_context(selected_nod
         elem(n(X), svg_node, c) :- node(X).
         attr(n(X), clingraph_id, X) :- node(X).
         when(n(X), click, context, (selected_node, X)):- node(X).
-        when(n(X), click, call, get(1)):- node(X).
+        when(n(X), click, call, update):- node(X).
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Menu bar

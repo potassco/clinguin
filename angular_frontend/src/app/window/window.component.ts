@@ -125,8 +125,8 @@ export class WindowComponent {
     }
 
     for (let i = 0; i < element.when.length; i++) {
-      if (element.when[i].action_type !== undefined) {
-        element.when[i].actionType = element.when[i].action_type!
+      if (element.when[i].event !== undefined) {
+        element.when[i].actionType = element.when[i].event!
       }
       if (element.when[i].interaction_type !== undefined) {
         element.when[i].interactionType = element.when[i].interaction_type!

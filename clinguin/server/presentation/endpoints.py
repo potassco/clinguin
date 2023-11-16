@@ -97,9 +97,9 @@ class Endpoints:
                 raise Exception(f"Policy {symbol} is not a function")
 
             if hasattr(backend_call_string, "context"):
-                self._backend.set_context(backend_call_string.context)
+                self._backend._set_context(backend_call_string.context)
             else:
-                self._backend.set_context([])
+                self._backend._set_context([])
 
             function_name = symbol.name
             policies = []

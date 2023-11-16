@@ -52,7 +52,7 @@ class BasicTest12:
                                     "when": [
                                         {
                                             "id": "b1",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_atom(name(_context_value(t1_content)))",
                                         }
@@ -73,7 +73,7 @@ class BasicTest12:
                                     "when": [
                                         {
                                             "id": "t1",
-                                            "action_type": "type",
+                                            "event": "input",
                                             "interaction_type": "context",
                                             "policy": "(t1_content,_value)",
                                         }

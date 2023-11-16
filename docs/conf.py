@@ -13,13 +13,13 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
-autodoc_mock_imports = ["clingo","clorm","networkx","graphviz","jsonschema","fastapi","httpx","uvicorn"]
+autodoc_mock_imports = ["clingo","clorm","networkx","graphviz","jsonschema","fastapi","httpx","uvicorn","clingodl"]
 
 # -- Project information -----------------------------------------------------
 
 project = 'clinguin'
-copyright = '2022, Alexander Beiser,Susana Hahn'
-author = 'Alexander Beiser,Susana Hahn'
+copyright = '2022, Susana Hahn, Alexander Beiser'
+author = 'Susana Hahn, Alexander Beiser'
 
 # The full version, including alpha/beta/rc tags
 release = '0.0.1'
@@ -75,8 +75,11 @@ html_theme_options = {
     'titles_only': False
 }
 
+html_css_files = [
+    'css/custom.css',
+]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+html_static_path = ['_static']

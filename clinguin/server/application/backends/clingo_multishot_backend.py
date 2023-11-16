@@ -29,25 +29,6 @@ class ClingoMultishotBackend(ClingoBackend):
     def __init__(self, args):
         super().__init__(args)
 
-        self._domain_files = args.domain_files
-        self._ui_files = args.ui_files
-        self._constants = [f"-c {v}" for v in args.const] if args.const else []
-
-        self._init_setup()
-        self._end_browsing()
-        self._init_ctl()
-        self._ground()
-
-        include_unsat_msg = not args.ignore_unsat_msg
-        self._uifb = UIFB(
-            self._ui_files,
-            self._constants,
-            include_unsat_msg=include_unsat_msg,
-        )
-
-        self._encoding = "utf-8"
-        self._attribute_image_key = "image"
-
     # ---------------------------------------------
     # Required methods
     # ---------------------------------------------
@@ -67,11 +48,11 @@ class ClingoMultishotBackend(ClingoBackend):
         self._externals = {"true": set(), "false": set(), "released": set()}
 
     @property
-    def _backend_state_prg(self):
+    def _clinguin_state(self):
         """
         Additional program to pass to the UI computation. It represents to the state of the backend
         """
-        prg = super()._backend_state_prg
+        prg = super()._clinguin_state
         state_prg = "#defined _clinguin_assume/1."
         for a in self._assumptions:
             state_prg += f"_clinguin_assume({str(a)})."
@@ -108,7 +89,7 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def clear_assumptions(self):
         """
-        Policy: clear_assumptions removes all assumptions, then basically ''resets'' the backend
+        Removes all assumptions, then basically ''resets'' the backend
         (i.e. it regrounds, etc.) and finally updates the model and returns the updated gui as a Json structure.
         """
         self._end_browsing()
@@ -118,7 +99,7 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def add_assumption(self, predicate):
         """
-        Policy: Adds an assumption and returns the udpated Json structure.
+        Adds an assumption and returns the udpated Json structure.
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
@@ -128,7 +109,7 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def remove_assumption(self, predicate):
         """
-        Policy: Removes an assumption and returns the udpated Json structure.
+        Removes an assumption and returns the udpated Json structure.
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
@@ -138,7 +119,7 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def remove_assumption_signature(self, predicate):
         """
-        Policy: removes predicates with the predicate name of predicate and the given arity
+        removes predicates with the predicate name of predicate and the given arity
         """
         predicate_symbol = parse_term(predicate)
         arity = len(predicate_symbol.arguments)
@@ -160,7 +141,7 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def set_external(self, predicate, value):
         """
-        Policy: Sets the value of an external.
+        Sets the value of an external.
         """
         symbol = parse_term(predicate)
         name = value
@@ -199,7 +180,7 @@ class ClingoMultishotBackend(ClingoBackend):
 
     def select(self):
         """
-        Policy: Select the current solution during browsing
+        Select the current solution during browsing
         """
         self._end_browsing()
         last_model_symbols = self._uifb.get_auto_conseq()

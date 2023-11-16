@@ -11,9 +11,9 @@ class CallbackDto:
     endpoints on sending the reply.
     """
 
-    def __init__(self, cid, action_type, interaction_type, policy):
+    def __init__(self, cid, event, interaction_type, policy):
         self.id = str(cid)  # pylint: disable=C0103
-        self.action_type = str(action_type)
+        self.event = str(event)
         self.interaction_type = str(interaction_type)
         self.policy = str(policy)
 
@@ -28,5 +28,5 @@ class CallbackDto:
         Creates a new CallbackDto object with the same properties.
         """
         return CallbackDto(
-            self.id, self.action_type, self.interaction_type, self.policy
+            self.id, self.event, self.interaction_type, self.policy
         )

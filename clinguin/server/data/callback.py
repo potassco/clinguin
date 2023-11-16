@@ -11,7 +11,7 @@ class WhenDao(Predicate):
     """
 
     id = RawField
-    action_type = RawField
+    event = RawField
     interaction_type = RawField
     policy = RawField
 

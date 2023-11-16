@@ -41,7 +41,7 @@ class BasicTest01:
                                     "when": [
                                         {
                                             "id": "mi(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
@@ -58,7 +58,7 @@ class BasicTest01:
                                     "when": [
                                         {
                                             "id": "mi(1)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
@@ -128,7 +128,7 @@ class BasicTest01:
                                     "when": [
                                         {
                                             "id": "mi(1)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
@@ -198,7 +198,7 @@ class BasicTest01:
                                     "when": [
                                         {
                                             "id": "mi(1)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(1))",
                                         }
@@ -268,7 +268,7 @@ class BasicTest01:
                                     "when": [
                                         {
                                             "id": "mi(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }
@@ -337,7 +337,7 @@ class BasicTest01:
                                     "when": [
                                         {
                                             "id": "mi(2)",
-                                            "action_type": "click",
+                                            "event": "click",
                                             "interaction_type": "callback",
                                             "policy": "add_assumption(p(2))",
                                         }

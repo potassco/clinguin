@@ -6,6 +6,7 @@ from .case_converter import CaseConverter
 from .custom_args import CustomArgs
 from .errors import NoModelError, get_server_error_alert
 from .logger import Logger
+from .case_converter import image_to_b64
 
 __all__ = [
     Logger.__name__,
@@ -14,4 +15,5 @@ __all__ = [
     NoModelError.__name__,
     StandardTextProcessing.__name__,
     get_server_error_alert.__name__,
+    image_to_b64.__name__,
 ]

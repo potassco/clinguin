@@ -39,7 +39,6 @@ class ClingraphBackend(ClingoMultishotBackend):
         self._disable_saved_to_file = args.disable_saved_to_file
 
         self._intermediate_format = args.intermediate_format
-        self._encoding = "utf-8"
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph"
 
@@ -245,7 +244,7 @@ class ClingraphBackend(ClingoMultishotBackend):
             raise Exception(exception_string)
 
         ctl.add("base", [], prg)
-        ctl.add("base", [], self._backend_state_prg)
+        ctl.add("base", [], self._clinguin_state)
         ctl.ground([("base", [])], ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))

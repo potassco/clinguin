@@ -4,6 +4,7 @@ Module contains the CaseConverter class.
 
 import base64
 
+
 class CaseConverter:
     """
     The CaseConverter class provides functionality to convert strings from one type-case
@@ -22,8 +23,10 @@ class CaseConverter:
 
         return components[0] + "".join(x.title() for x in components[1:])
 
+
 def image_to_b64(img):
     """
+    Encodes an image in base 64
     """
     encoded = base64.b64encode(img)
     decoded = encoded.decode("utf-8")

@@ -64,7 +64,7 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
     elem(c, canvas, window).
     attr(c, order, 2).
     attr(c, width, 200).
-    attr(c, image_type, clingraph_svg).
+    attr(c, image_type, clingraph).
         
         elem(e(E), svg_edge, c) :- edge(E).
         attr(e(E), clingraph_id, E) :- edge(E).

@@ -1,5 +1,5 @@
 """
-Module which contains the ClinguinBackend.
+Module which contains the AbstractBackend.
 """
 import logging
 
@@ -8,7 +8,7 @@ from clinguin.utils import CustomArgs
 # Like an interface
 
 
-class ClinguinBackend(CustomArgs):
+class AbstractBackend(CustomArgs):
     """
     Root class of all Backends. Sets up the logger, arguments and context.
     """
@@ -21,7 +21,7 @@ class ClinguinBackend(CustomArgs):
         self.args = args
         self.context = []
 
-    def get(self, force_update=False):
+    def get(self):
         """
         Updates the UI and transforms the facts into a JSON.
         This method will be automatically called after executing all the operations.
@@ -33,7 +33,7 @@ class ClinguinBackend(CustomArgs):
         """
         Sets the context
 
-        Args:
+        Arguments:
             context: The context dictionary
         """
         self.context = context
@@ -41,6 +41,6 @@ class ClinguinBackend(CustomArgs):
     @classmethod
     def register_options(cls, parser):
         """
-        Registers options in the command line for a given parser. It is automatically called on start for the provided backends.
+        Registers options in the command line for a given parser.
+        It is automatically called on start for the provided backends.
         """
-        pass

@@ -2,9 +2,8 @@
 Module that contains the EndpointsHelper class.
 """
 import logging
-import traceback
 
-from ...utils import CaseConverter, Logger, get_server_error_alert
+from ...utils import CaseConverter, Logger
 
 
 class EndpointsHelper:
@@ -38,7 +37,6 @@ class EndpointsHelper:
         if found:
             result = function(*args, **kwargs)
             return result
-        else:
-            error_string = "Could not find function " + name + " in backend."
-            logger.error(error_string)
-            raise Exception(error_string)
+        error_string = "Could not find function " + name + " in backend."
+        logger.error(error_string)
+        raise Exception(error_string)

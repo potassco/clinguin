@@ -1,11 +1,14 @@
 """
 Module that contains the default backends ClingoMultishotBackend, ClingraphBackend and TemporalBackend.
 """
+# pylint: disable=cyclic-import
 from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
+from clinguin.server.application.backends.clingo_multishot_backend import (
+    ClingoMultishotBackend,
+)
+from clinguin.server.application.backends.clingodl_backend import ClingoDLBackend
 from clinguin.server.application.backends.clingraph_backend import ClingraphBackend
 from clinguin.server.application.backends.explanation_backend import ExplanationBackend
-from clinguin.server.application.backends.clingodl_backend import ClingoDLBackend
 
 __all__ = [
     ClingoMultishotBackend.__name__,

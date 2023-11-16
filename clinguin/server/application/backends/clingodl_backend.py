@@ -2,17 +2,20 @@
 Module that contains the ClingoDL Backend.
 """
 
-import textwrap
 
-from clingo.script import enable_python
 from pathlib import Path
 
-from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
-from clingodl import ClingoDLTheory
 from clingo import Control
 from clingo.ast import ProgramBuilder, parse_files
+from clingo.script import enable_python
+from clingodl import ClingoDLTheory
+
+from clinguin.server.application.backends.clingo_multishot_backend import (
+    ClingoMultishotBackend,
+)
 
 enable_python()
+# pylint: disable=attribute-defined-outside-init
 
 
 class ClingoDLBackend(ClingoMultishotBackend):
@@ -20,39 +23,39 @@ class ClingoDLBackend(ClingoMultishotBackend):
     Backend for explanations
     """
 
-    def __init__(self, args):
-        super().__init__(args)
-        
-
     # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
-
 
     # ---------------------------------------------
     # Overwrite
     # ---------------------------------------------
 
     def _init_ctl(self):
+
         self._ctl = Control(["0"] + self._constants)
         self._theory = ClingoDLTheory()
         self._theory.register(self._ctl)
 
         existant_file_counter = 0
         with ProgramBuilder(self._ctl) as bld:
-            
             for f in self._domain_files:
                 path = Path(f)
                 if path.is_file():
                     try:
-                        parse_files([f], lambda ast: self._theory.rewrite_ast(ast, bld.add))
+                        parse_files(
+                            [f], lambda ast: self._theory.rewrite_ast(ast, bld.add)
+                        )
                         existant_file_counter += 1
                     except Exception:
                         self._logger.critical(
-                            "Failed to load file %s (there is likely a syntax error in this logic program file).",f,)
+                            "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                            f,
+                        )
                 else:
                     self._logger.critical(
-                        "File %s does not exist, this file is skipped.", f)
+                        "File %s does not exist, this file is skipped.", f
+                    )
 
         if existant_file_counter == 0:
             exception_string = (
@@ -65,15 +68,19 @@ class ClingoDLBackend(ClingoMultishotBackend):
             self._ctl.add("base", [], str(atom) + ".")
 
     def _solve_set_handler(self):
+        # pylint: disable=attribute-defined-outside-init
         self._theory.prepare(self._ctl)
         self._handler = self._ctl.solve(
-                assumptions=[(a, True) for a in self._assumptions], yield_=True
-            )
-    
+            assumptions=[(a, True) for a in self._assumptions], yield_=True
+        )
 
     def _on_model(self, model):
         self._theory.on_model(model)
-        self._assignment = [f'_clinguin_assign({key},{val}).' for key, val in self._theory.assignment(model.thread_id)]
+        # pylint: disable=attribute-defined-outside-init
+        self._assignment = [
+            f"_clinguin_assign({key},{val})."
+            for key, val in self._theory.assignment(model.thread_id)
+        ]
 
     @property
     def _clinguin_state(self):
@@ -83,8 +90,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
         prg = super()._clinguin_state
         prg += " ".join(self._assignment)
         return prg
-    
+
     # ---------------------------------------------
     # Plolicy methods (Overwrite ClingoMultishotBackend)
     # ---------------------------------------------
-

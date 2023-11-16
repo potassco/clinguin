@@ -9,5 +9,5 @@ background-color: hsl(257, 20%, 50%);
 }
 
 div.admonition.example > .admonition-title::before {
-    content: "\f004"; /* the fa-scale icon */
+    content: "\f2a7";
   }

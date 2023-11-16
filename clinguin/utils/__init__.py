@@ -2,11 +2,10 @@
 The utils module of clinguin - contains some useful tools for clinguin.
 """
 from .attribute_types.utils.standard_text_processing import StandardTextProcessing
-from .case_converter import CaseConverter
+from .case_converter import CaseConverter, image_to_b64
 from .custom_args import CustomArgs
 from .errors import NoModelError, get_server_error_alert
 from .logger import Logger
-from .case_converter import image_to_b64
 
 __all__ = [
     Logger.__name__,

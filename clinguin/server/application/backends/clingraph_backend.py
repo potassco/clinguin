@@ -11,19 +11,20 @@ from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
-from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
+from clinguin.server.application.backends.clingo_multishot_backend import (
+    ClingoMultishotBackend,
+)
 from clinguin.server.data.attribute import AttributeDao
 
 # Self defined
-from clinguin.utils import StandardTextProcessing
+from clinguin.utils import StandardTextProcessing, image_to_b64
 
 
 class ClingraphBackend(ClingoMultishotBackend):
     """
-    Extends ClingoMultishotBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin.
-    This can be done by both saving them to a file and by sending them to the client.
-    The process of sending them to the client includes the conversion to a Base64 encoding
-    (so the binary images are encoded as a UTF-8 String) that is then send to the client.
+    Extends ClingoMultishotBackend. With this Backend it is possible to include clingraph images in the UI.
+    The image is rendered based on a visualization encoding every time the UI is updated.
+    Then, they are sent the client as Base64 encoding.
     """
 
     def __init__(self, args):
@@ -42,12 +43,17 @@ class ClingraphBackend(ClingoMultishotBackend):
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph"
 
-
     # ---------------------------------------------
     # Overwrite
     # ---------------------------------------------
 
     def _update_uifb_ui(self):
+        """
+        Updates the ui state with the previously computed domain state.
+        It uses the same domain state as input to the visualization encoding to
+        create clingraph images.
+        Any image is replaced by a b64 representation
+        """
         super()._update_uifb_ui()
         if self._uifb.is_unsat:
             return
@@ -214,6 +220,13 @@ class ClingraphBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     def _compute_clingraph_graphs(self, prg):
+        """
+        Computes all the graphs using the encoding and the domain state
+
+        Arguments:
+
+            prg (str): The model, brave, and cautious consequences (domain-state)
+        """
         fbs = []
         ctl = Control("0")
 
@@ -254,12 +267,20 @@ class ClingraphBackend(ClingoMultishotBackend):
                     raise ValueError(f"Invalid model number selected {m}")
             fbs = [f if i in self._select_model else None for i, f in enumerate(fbs)]
 
-        if len(fbs)>1:
-            self._logger.warning("Multiple clingraph outputs were computed. Only first one considered.")
+        if len(fbs) > 1:
+            self._logger.warning(
+                "Multiple clingraph outputs were computed. Only first one considered."
+            )
         graphs = compute_graphs([fbs[0]], graphviz_type=self._type)
         return graphs
 
     def _save_clingraph_graphs_to_file(self, graphs):
+        """
+        Saves the computed graphs in a file
+
+        Arguments:
+            graphs (dic) The computed graphs
+        """
         if self._select_graph is not None:
             graphs = [
                 {
@@ -277,6 +298,12 @@ class ClingraphBackend(ClingoMultishotBackend):
         self._logger.debug(paths)
 
     def _replace_uifb_with_b64_images_clingraph(self, graphs):
+        """
+        Replaces the clingraph predicates of the UI with the computed graphs.
+
+        Arguments:
+            graphs (dic) The computed graphs
+        """
         attributes = list(self._uifb.get_attributes(key=self._attribute_image_key))
         for attribute in attributes:
             attribute_value = StandardTextProcessing.parse_string_with_quotes(
@@ -289,13 +316,13 @@ class ClingraphBackend(ClingoMultishotBackend):
 
             graph_name = "default"
             split = attribute_value.split("__")
-            if len(split)>1:
-                graph_name== split[1]
+            if len(split) > 1:
+                graph_name = split[1]
 
             # Currently assuming SVG, otherwise b64 encoding necessary!
             image_value = self._create_image_from_graph(graphs, key=graph_name)
             new_image_key = "image"
-            base64_key_image = self._image_to_b64(image_value)
+            base64_key_image = image_to_b64(image_value)
 
             new_attribute = AttributeDao(
                 Raw(Function(str(attribute.id), [])),
@@ -307,6 +334,14 @@ class ClingraphBackend(ClingoMultishotBackend):
             # self._uifb.replace_attribute(attribute, new_attribute)
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
+        """
+        Creates the image of the graph using clingraph
+
+        Arguments:
+            graphs (dic) The computed graphs
+            position (int) The position of the graph to show
+            key (int) The key of the graph to show
+        """
         graphs = graphs[0]
         if position is not None:
             if (len(graphs) - 1) >= position:

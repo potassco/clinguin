@@ -42,7 +42,7 @@ when(window, load, context, (selected_node, X)):- _clinguin_context(selected_nod
     %%%%%%%%%%%%%%%%%%%%%%%%
     elem(c, canvas, window).
     attr(c, order, 2).
-    attr(c, image_type, clingraph_svg).
+    attr(c, image_type, clingraph).
 
         %%%%%%%%%%%%%%%%%%%%%%%%
         % Clingraph nodes

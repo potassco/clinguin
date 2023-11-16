@@ -43,7 +43,7 @@ class Message(RootCmp):
             messagebox.showinfo(title=title, message=message)
         elif PopupTypesType.WARNING == attr_type:
             messagebox.showwarning(title=title, message=message)
-        elif PopupTypesType.ERROR == attr_type or attr_type == "danger":
+        elif attr_type in ["danger", PopupTypesType.ERROR]:
             messagebox.showerror(title=title, message=message)
         else:
             self._logger.warning("Cannot display popup-type %s", attr_type)

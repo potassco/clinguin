@@ -85,7 +85,7 @@ from clingo import String
 def concat(*args):
     """
     Concatenates the given symbols as a string
-    Args:
+    Arguments:
         args: All symbols
     Returns:
         (clingo.Symbol.String) The string concatenating all symbols

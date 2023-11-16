@@ -10,13 +10,15 @@ from clingo.script import enable_python
 from clingo.symbol import Function, String
 from clorm import Raw
 
-from clinguin.server import UIFB, ClinguinBackend, StandardJsonEncoder
+from clinguin.server import UIFB, AbstractBackend, StandardJsonEncoder
 from clinguin.server.data.attribute import AttributeDao
 from clinguin.utils import StandardTextProcessing, image_to_b64
+
 enable_python()
+# pylint: disable=attribute-defined-outside-init
 
 
-class ClingoBackend(ClinguinBackend):
+class ClingoBackend(AbstractBackend):
     """
     The ClingoBackend contains the basic clingo functionality for grounding and solving.
 
@@ -70,9 +72,17 @@ class ClingoBackend(ClinguinBackend):
         """
         Registers options in the command line for the domain files and ui files.
         """
-        parser.add_argument("--domain-files", nargs="+", help="Files with the domain specific encodings and the instances", metavar="")
         parser.add_argument(
-            "--ui-files", nargs="+", help="Files with the encodings that generate the UI predicates: elem, attr and when", metavar=""
+            "--domain-files",
+            nargs="+",
+            help="Files with the domain specific encodings and the instances",
+            metavar="",
+        )
+        parser.add_argument(
+            "--ui-files",
+            nargs="+",
+            help="Files with the encodings that generate the UI predicates: elem, attr and when",
+            metavar="",
         )
         parser.add_argument(
             "-c",
@@ -93,8 +103,9 @@ class ClingoBackend(ClinguinBackend):
 
     def _init_setup(self):
         """
-        Initializes the arguments when the server starts or after a restart. 
-        These arguments include, the handler and intetor for browsing answer sets, as well as the domain control and the atoms.,
+        Initializes the arguments when the server starts or after a restart.
+        These arguments include, the handler and iterator for browsing answer sets,
+        as well as the domain control and the atoms.
         """
         # For browising
         self._handler = None
@@ -106,7 +117,7 @@ class ClingoBackend(ClinguinBackend):
 
     def _init_ctl(self):
         """
-        Initializes the control object (domain-control). 
+        Initializes the control object (domain-control).
         It is used when the server is started or after a restart.
         Uses the provided constants and domain files.
         It adds the atoms.
@@ -120,19 +131,17 @@ class ClingoBackend(ClinguinBackend):
                 try:
                     self._ctl.load(str(f))
                     existant_file_counter += 1
-                except Exception(exception_string):
+                except Exception as e:
                     self._logger.critical(
                         "Failed to load file %s (there is likely a syntax error in this logic program file).",
                         f,
                     )
-                    self._logger.critical(exception_string)
-                    raise Exception(exception_string)
+                    self._logger.critical(str(e))
+                    raise e
 
             else:
-                self._logger.critical(
-                    "File %s does not exist", f
-                )        
-                raise Exception("File %s does not exist", f)
+                self._logger.critical("File %s does not exist", f)
+                raise Exception(f"File {f} does not exist")
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
@@ -141,7 +150,7 @@ class ClingoBackend(ClinguinBackend):
         """
         Grounds the provided program
 
-        Args:
+        Arguments:
             program (str): The name of the program to ground (defaults to "base")
         """
         self._ctl.ground([(program, [])])
@@ -166,7 +175,7 @@ class ClingoBackend(ClinguinBackend):
     def _clinguin_state(self):
         """
         Creates the atoms that will be part of the clinguin state, which is passed to the UI computation.
-        
+
         Includes predicates  _clinguin_browsing/0 and _clinguin_context/2
         """
         state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_context/2. "
@@ -178,7 +187,7 @@ class ClingoBackend(ClinguinBackend):
             value = str(a.value)
             try:
                 symbol = parse_term(value)
-            except:
+            except Exception:
                 symbol = None
             if symbol is None:
                 value = f'"{value}"'
@@ -200,10 +209,9 @@ class ClingoBackend(ClinguinBackend):
         This method is called each time a model is obtained by the domain control.
         It can be used to extend the given model in Theory Solving.
 
-        Args:
+        Arguments:
             model (clingo.Model): The found clingo model
         """
-        pass
 
     def _update_uifb_consequences(self):
         """
@@ -235,22 +243,23 @@ class ClingoBackend(ClinguinBackend):
         """
         Sets the given model in the domain-state
 
-        Args:
+        Arguments:
             model (clingo.Model): The model found by the solving
         """
         self._uifb.set_auto_conseq(model)
 
     def _solve_set_handler(self):
         """
-        Sets the solveng handler by calling the solve method of clingo
+        Sets the solver handler by calling the solve method of clingo
         """
+        # pylint: disable=attribute-defined-outside-init
         self._handler = self._ctl.solve(yield_=True)
 
     def _add_atom(self, predicate_symbol):
         """
         Adds an atom if it hasn't been already aded
 
-        Args:
+        Arguments:
             predicate_symbol (clingo.Symbool): The symbol for the atom
         """
         if predicate_symbol not in self._atoms:
@@ -279,7 +288,6 @@ class ClingoBackend(ClinguinBackend):
                     )
                     self._uifb.replace_attribute(attribute, new_attribute)
 
-
     # ---------------------------------------------
     # Policies
     # ---------------------------------------------
@@ -299,13 +307,15 @@ class ClingoBackend(ClinguinBackend):
         Updates the UI and transforms the output into a JSON.
         """
         self._update_uifb()
-    
-    def download(self, show_prg= None, file_name = "clinguin_download.lp", domain_files = True):
+
+    def download(
+        self, show_prg=None, file_name="clinguin_download.lp", domain_files=True
+    ):
         """
         Downloads the current state of the backend. All added atoms and assumptions
-        are put together as a list of facts. 
+        are put together as a list of facts.
 
-        Args:
+        Arguments:
             show_prg (_type_, optional): Program to filter output using show statements. Defaults to None.
             file_name (str, optional): The name of the file for the download. Defaults to "clinguin_download.lp".
             domain_files (bool, optional): If the domain files should be included. Defaults to True
@@ -316,27 +326,31 @@ class ClingoBackend(ClinguinBackend):
         self._end_browsing()
         self._update_uifb()
         if was_browsing:
-            self._uifb.add_message("Warning", "Browsing was active during download, only selected solutions will be present on the file.", "warning")
+            self._uifb.add_message(
+                "Warning",
+                "Browsing was active during download, only selected solutions will be present on the file.",
+                "warning",
+            )
         if show_prg is not None:
             ctl = Control()
             ctl.add("base", [], prg)
             if domain_files:
                 for f in self._domain_files:
                     ctl.load(f)
-            ctl.add("base", [], show_prg.replace('"',''))
+            ctl.add("base", [], show_prg.replace('"', ""))
             ctl.ground([("base", [])])
             with ctl.solve(yield_=True) as hnd:
                 for m in hnd:
                     atoms = [f"{str(s)}." for s in m.symbols(shown=True)]
-            
+
             prg = "\n".join(atoms)
 
         file_name = file_name.strip('"')
-        with open(file_name, "w") as file:
+        with open(file_name, "w", encoding="UTF-8") as file:
             file.write(prg)
-        self._uifb.add_message("Download successful", f"Information saved in file {file_name}.", "success")
-        
-
+        self._uifb.add_message(
+            "Download successful", f"Information saved in file {file_name}.", "success"
+        )
 
     def clear_atoms(self):
         """
@@ -349,10 +363,14 @@ class ClingoBackend(ClinguinBackend):
         self._ground()
 
         self._update_uifb()
-    
+
     def add_atom(self, predicate):
         """
         Adds an assumption, restarts the control and grounds again
+
+        Arguments:
+
+            predicate (str): The clingo symbol to be added
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._atoms:
@@ -361,10 +379,14 @@ class ClingoBackend(ClinguinBackend):
             self._ground()
             self._end_browsing()
             self._update_uifb()
-    
+
     def remove_atom(self, predicate):
         """
         Removes an assumption, restarts the control and grounds again
+
+        Arguments:
+
+            predicate (str): The clingo symbol to be added
         """
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._atoms:
@@ -378,7 +400,7 @@ class ClingoBackend(ClinguinBackend):
         """
         Obtains the next solution. If a no browsing has been started yet, then it calls solve,
         otherwise it iterates the models in the last call.
-        
+
         Arguments:
             opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """
@@ -407,11 +429,11 @@ class ClingoBackend(ClinguinBackend):
 
     def select(self):
         """
-        Select the current solution during browsing. All atoms in the solution are added as atoms in the backend.
+        Select the current solution during browsing.
+        All atoms in the solution are added as atoms in the backend.
         """
         self._end_browsing()
         last_model_symbols = self._uifb.get_auto_conseq()
         for s in last_model_symbols:  # pylint: disable=E1133
             self._add_atom(s)
         self._update_uifb()
-    

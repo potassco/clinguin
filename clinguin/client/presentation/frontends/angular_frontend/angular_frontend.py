@@ -8,12 +8,10 @@ import json
 import os
 import signal
 import socketserver
-from typing import Any
 import webbrowser
-import logging 
+from typing import Any
 
 from clinguin.client import AbstractFrontend
-
 
 HTML_FILES_RELATIVE_DIRECTORY = "clinguin_angular_frontend"
 SERVED_DIRECTORY = os.path.join(
@@ -31,12 +29,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     Handler for backend, it sets the server directory as ''SERVED_DIRECTORY'',
     which corresponds to ''clinguin_angular_frontend''.
     """
-
+    # pylint: disable=redefined-builtin
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=SERVED_DIRECTORY, **kwargs)
 
     def log_message(self, format: str, *args: Any) -> None:
         pass
+
 
 class AngularFrontend(AbstractFrontend):
     """
@@ -79,7 +78,10 @@ class AngularFrontend(AbstractFrontend):
             config_file.write(str(json.dumps(config_dict)))
 
         with socketserver.TCPServer(("", args.client_port), Handler) as httpd:
-            print(f"\033[1;4m-> -> -> -> -> -> ->  Open the following link in your browser (Should be done automatically): \033[1;34m http://127.0.0.1:{args.client_port}\033[0m")
+            print(
+                f"\033[1;4m-> -> -> -> -> -> ->  Open the following link in your browser: \
+                    \033[1;34m http://127.0.0.1:{args.client_port}\033[0m"
+            )
             webbrowser.open(f"http://127.0.0.1:{args.client_port}", new=2)
 
             try:

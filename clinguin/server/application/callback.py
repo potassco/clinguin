@@ -27,6 +27,4 @@ class CallbackDto:
         """
         Creates a new CallbackDto object with the same properties.
         """
-        return CallbackDto(
-            self.id, self.event, self.interaction_type, self.policy
-        )
+        return CallbackDto(self.id, self.event, self.interaction_type, self.policy)

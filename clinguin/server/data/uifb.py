@@ -8,10 +8,10 @@ from pathlib import Path
 import clorm
 from clingo import Control
 from clingo.symbol import Function, Number, String
+from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
 from clinguin.utils import Logger, NoModelError
-from clingraph.clingo_utils import ClingraphContext
 
 from .attribute import AttributeDao
 from .callback import WhenDao
@@ -117,24 +117,19 @@ class UIFB:
                 try:
                     uictl.load(str(f))
                     existant_file_counter += 1
-                except Exception(exception_string):
+                except Exception as e:
                     self._logger.critical(
                         "Failed to load file %s (there is likely a syntax error in this logic program file).",
                         f,
                     )
-                    self._logger.critical(exception_string)
-                    raise Exception(exception_string)
+                    self._logger.critical(str(e))
+                    raise e
             else:
-                self._logger.critical(
-                    "File %s does not exist", f
-                )
-                raise Exception("File %s does not exist", f)
-
+                self._logger.critical("File %s does not exist", f)
+                raise Exception(f"File {f} does not exist")
 
         if existant_file_counter == 0:
-            exception_string = (
-                "None of the provided ui files exists"
-            )
+            exception_string = "None of the provided ui files exists"
             self._logger.warning(exception_string)
 
         if self._include_unsat_msg:
@@ -161,7 +156,7 @@ class UIFB:
     def set_auto_conseq(self, model, on_model=lambda m: None):
         """
         Sets the auto conseq.
-        Args:
+        Arguments:
             on_model: Optional callback to edit the models (Used for theory extensions)
         """
         on_model(model)
@@ -177,7 +172,7 @@ class UIFB:
     def update_all_consequences(self, ctl, assumptions=None, on_model=lambda m: None):
         """
         Updates all consequences.
-        Args:
+        Arguments:
             on_model: Optional callback to edit the models (Used for theory extensions)
         """
         c_types = ["brave", "cautious", "auto"]
@@ -223,10 +218,12 @@ class UIFB:
 
         return list(model_symbols)
 
-    def update_consequence(self, c_type, ctl, assumptions=None, on_model=lambda m: None):
+    def update_consequence(
+        self, c_type, ctl, assumptions=None, on_model=lambda m: None
+    ):
         """
         Computes for one consequence (brave/cautious/other) all consequences.
-        Args:
+        Arguments:
             on_model: Optional callback to edit the models (Used for theory extensions)
         """
         self._logger.debug("Updating %s consequences", c_type)
@@ -237,13 +234,15 @@ class UIFB:
             ctl.configuration.solve.models = 1
             ctl.configuration.solve.opt_mode = "ignore"
         ctl.configuration.solve.enum_mode = c_type
-        self._conseq[c_type] = self._compute_consequences(ctl, assumptions, on_model=on_model)
+        self._conseq[c_type] = self._compute_consequences(
+            ctl, assumptions, on_model=on_model
+        )
 
     def add_message(self, title, message, attribute_type="info"):
         """
         Adds a ''Message'' (aka. Notification/Pop-Up) for the user with a certain title and message.
         """
-        mid = f'{hash(message)}'
+        mid = f"{hash(message)}"
         self.add_element(mid, "message", "window")
         self.add_attribute(mid, "title", title)
         self.add_attribute(mid, "message", message)

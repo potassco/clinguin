@@ -2,19 +2,19 @@
 Module for the Endpoints class.
 """
 import logging
-from importlib.metadata import metadata
 import traceback
+from importlib.metadata import metadata
 
 import clingo
 from fastapi import APIRouter
 
 from clinguin.utils import Logger
 
+from ...utils import get_server_error_alert
 from .backend_policy_dto import BackendPolicyDto
 
 # Self Defined
 from .endpoints_helper import EndpointsHelper
-from ...utils import get_server_error_alert
 
 
 class Endpoints:
@@ -72,7 +72,7 @@ class Endpoints:
             self._logger.error("Handling global exception in endpoint")
             self._logger.error(e)
             self._logger.error(traceback.format_exc())
-            return get_server_error_alert( str(e), self.last_response)
+            return get_server_error_alert(str(e), self.last_response)
 
     async def policy_executor(self, backend_call_string: BackendPolicyDto):
         """
@@ -83,19 +83,19 @@ class Endpoints:
         For example: {'function':'add_assumption(p(1))'}
         """
         self._logger.debug("Got endpoint")
-        
-        try:
 
+        try:
             try:
                 symbol = clingo.parse_term(backend_call_string.function)
-            except Exception:
+            except Exception as exc:
                 msg = f"Could not parse {backend_call_string.function} into an atom."
                 self._logger.error(msg)
-                raise Exception(msg)
-            
+                raise Exception(msg) from exc
+
             if symbol.type != clingo.SymbolType.Function:
                 raise Exception(f"Policy {symbol} is not a function")
 
+            # pylint: disable=protected-access
             if hasattr(backend_call_string, "context"):
                 self._backend._set_context(backend_call_string.context)
             else:
@@ -103,7 +103,7 @@ class Endpoints:
 
             function_name = symbol.name
             policies = []
-            if function_name=="":
+            if function_name == "":
                 policies = symbol.arguments
                 self._logger.info("Calling multiple policies")
             else:
@@ -111,9 +111,8 @@ class Endpoints:
 
             for p in policies:
                 function_name = p.name
-                
-                function_arguments = list(map(str, p.arguments))
 
+                function_arguments = list(map(str, p.arguments))
 
                 call_args = ",".join(function_arguments)
                 self._logger.info(
@@ -126,13 +125,12 @@ class Endpoints:
                 EndpointsHelper.call_function(
                     self._backend, function_name, function_arguments, {}
                 )
-            
+
             self.last_response = self._backend.get()
             return self.last_response
-        
+
         except Exception as e:
             self._logger.error("Handling global exception in endpoint")
             self._logger.error(e)
             self._logger.error(traceback.format_exc())
             return get_server_error_alert(str(e), self.last_response)
-

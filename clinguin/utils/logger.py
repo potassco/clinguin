@@ -8,20 +8,24 @@ import os
 BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
 
 COLOR_NAMES = {
-    "YELLOW":YELLOW,
-    "GREEN":GREEN,
-    "BLUE":BLUE,
-    "RED":RED,
-    "GRAY":MAGENTA,
+    "YELLOW": YELLOW,
+    "GREEN": GREEN,
+    "BLUE": BLUE,
+    "RED": RED,
+    "GRAY": MAGENTA,
 }
 
 RESET_SEQ = "\033[0m"
 COLOR_SEQ = "\033[1;%dm"
 BOLD_SEQ = "\033[1m"
 
+
 def colored_text(txt, color):
+    """
+    Adds a color to the given text
+    """
     return COLOR_SEQ % (30 + COLOR_NAMES[color]) + txt + RESET_SEQ
-    
+
 
 class Logger:
     """
@@ -57,17 +61,13 @@ class Logger:
         "CRITICAL": logging.CRITICAL,
     }
 
-    
-
     @classmethod
     def formatter_message(cls, message, use_color=True):
         """
         Formats certain aspects of the messages (color).
         """
         if use_color:
-            message = message.replace("$RESET", RESET_SEQ).replace(
-                "$BOLD", BOLD_SEQ
-            )
+            message = message.replace("$RESET", RESET_SEQ).replace("$BOLD", BOLD_SEQ)
         else:
             message = message.replace("$RESET", "").replace("$BOLD", "")
         return message

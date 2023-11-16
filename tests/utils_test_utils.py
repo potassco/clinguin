@@ -9,7 +9,9 @@ import httpx
 
 from clinguin import args_to_dict_converter
 from clinguin.parse_input import ArgumentParser
-from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
+from clinguin.server.application.backends.clingo_multishot_backend import (
+    ClingoMultishotBackend,
+)
 
 
 class UtilsTestUtils:

@@ -6,14 +6,18 @@ import textwrap
 
 from clingo.script import enable_python
 
-from clinguin.server.application.backends.clingo_multishot_backend import ClingoMultishotBackend
+from clinguin.server.application.backends.clingo_multishot_backend import (
+    ClingoMultishotBackend,
+)
 
 enable_python()
 
 
 class ExplanationBackend(ClingoMultishotBackend):
     """
-    Backend for explanations
+    Extends ClingoMultishotBackend. This backend will treat an UNSAT result by adding the
+    Minimal Unsatisfiable Core (MUC) to the domain-state, thus allowing the UI to show
+    the faulty assumptions.
     """
 
     def __init__(self, args):
@@ -41,10 +45,20 @@ class ExplanationBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     def _add_symbol_to_dict(self, symbol):
+        """
+        Adds a list of symbols to the mapping of symbols to literals
+        """
         lit = self._ctl.symbolic_atoms[symbol].literal
         self._lit2symbol[lit] = symbol
 
     def _solve_core(self, assumptions):
+        """
+        Solves and gets the core with the basic faulty assumptions.
+
+        Arguments:
+
+            assumptions (list[int]): List of assumption literals
+        """
         with self._ctl.solve(
             assumptions=[(a, True) for a in assumptions], yield_=True
         ) as solve_handle:
@@ -53,6 +67,13 @@ class ExplanationBackend(ClingoMultishotBackend):
         return satisfiable, core
 
     def _get_minimum_uc(self, different_assumptions):
+        """
+        Computes the MUC from the assumptions
+
+        Arguments:
+
+            different_assumptions (list[int]): List of assumption literals that is being minimized
+        """
         sat, _ = self._solve_core(assumptions=different_assumptions)
 
         if sat:
@@ -75,7 +96,8 @@ class ExplanationBackend(ClingoMultishotBackend):
     @property
     def _clinguin_state(self):
         """
-        Additional program to pass to the UI computation. It represents to the state of the backend
+        Creates the atoms that will be part of the clinguin state, which is passed to the UI computation.
+        Enhances the ClingoMultishotBackend state with predicate `_muc/1` with the assumptions in the UNSAT CORE
         """
         prg = super()._clinguin_state
         if self._uifb.is_unsat:
@@ -92,6 +114,9 @@ class ExplanationBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     def _add_assumption(self, predicate_symbol):
+        """
+        Adds an assumption by also including in the mapping to literals.
+        """
         self._add_symbol_to_dict(predicate_symbol)
         self._assumptions.add(predicate_symbol)
 
@@ -117,6 +142,9 @@ class ExplanationBackend(ClingoMultishotBackend):
         )
 
     def clear_assumptions(self):
+        """
+        Removes all assumptions.
+        """
         self._end_browsing()
         self._assumptions = self._mc_base_assumptions.copy()
         self._update_uifb()

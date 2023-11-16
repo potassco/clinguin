@@ -127,8 +127,12 @@ class RootCmp:
 
     def _fill_callbacks(self):
         for callback in self._json_callbacks:
-            if callback["interaction_type"] not in ["call","callback"]:
-                self._logger.warning(f"Only interaction type call and callback are available in the Tkinter frontend. Interactivity: '{callback['interaction_type']}' was ignored")
+            if callback["interaction_type"] not in ["call", "callback"]:
+                self._logger.warning(
+                    "Only interaction type call and callback are available in the Tkinter frontend.\
+                    Interactivity: '%s' was ignored",
+                    callback['interaction_type']
+                )
             key = callback["event"]
             value = callback["policy"]
             if key in self._callbacks and "policy_type" in self._callbacks[key]:

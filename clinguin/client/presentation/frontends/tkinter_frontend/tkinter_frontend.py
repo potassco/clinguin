@@ -6,9 +6,7 @@ import networkx as nx
 from clinguin.client import AbstractFrontend
 from clinguin.show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 from clinguin.utils.attribute_types.child_layout import ChildLayoutType
-from clinguin.utils.attribute_types.child_layout import ChildLayoutType
 from clinguin.utils.logger import colored_text
-
 
 from .tkinter_elements import (
     Button,
@@ -60,20 +58,24 @@ class TkinterFrontend(AbstractFrontend):
                         # General lesser priority
                         description = description + "      Description: "
                         description = (
-                            description + ": " + colored_text(AttributeNames.descriptions[key],"GRAY")
+                            description
+                            + ": "
+                            + colored_text(AttributeNames.descriptions[key], "GRAY")
                         )
                         description = description + "\n"
                     elif key in CallbackNames.descriptions:
                         description = description + "      Description: "
                         description = (
-                            description + ": " + colored_text(CallbackNames.descriptions[key],"GRAY")
+                            description
+                            + ": "
+                            + colored_text(CallbackNames.descriptions[key], "GRAY")
                         )
                         description = description + "\n"
 
                     if type_name in d[key]:
                         description = description + "      Possible-Values: "
-                        description = (
-                            description + colored_text(d[key][type_name].description() + "\n","GRAY")
+                        description = description + colored_text(
+                            d[key][type_name].description() + "\n", "GRAY"
                         )
 
             return description
@@ -82,7 +84,7 @@ class TkinterFrontend(AbstractFrontend):
             "Here one finds the supported attributes and events of the TkinterFrontend "
             + "The following list shows for each the possible attributes and events."
             + "See the documentation for more details on the syntax.\n"
-         )
+        )
 
         class_list = RootCmp.__subclasses__()
 

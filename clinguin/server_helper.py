@@ -14,7 +14,10 @@ def start(args):
     Function that starts the uvicorn server.
     """
 
-    app = FastAPI()
+    app = FastAPI(
+        description="clinguin",
+        description="Build UIs with ASP"
+    )
 
     # Disable CORS
     app.add_middleware(

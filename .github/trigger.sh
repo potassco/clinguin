@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repo=clingo
+repo=clinguin
 
 function list() {
     curl \
@@ -95,8 +95,8 @@ case "$action" in
     dev)
         branch="${@:$OPTIND+1:1}"
         # .github/workflows/conda-dev.yml
-        dispatch 6893514605 "$wip" "$branch"
+        dispatch 76358545 "$wip" "$branch"
         # .github/workflows/pip-dev.yml
-        dispatch 6893514662 "$wip" "$branch"
+        dispatch 76358546 "$wip" "$branch"
         ;;
 esac

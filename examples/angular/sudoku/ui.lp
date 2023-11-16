@@ -32,7 +32,7 @@ elem(w,window,root).
             attr(remove(X,Y), icon, ("fa-ban";"text-info")):-pos(X,Y).
             when(remove(X,Y), click, call, remove_assumption_signature(sudoku(X,Y,any))):-pos(X,Y).
 
-            elem(ddi(X,Y,V),dropdown_menu_item,pos(X,Y)):-pos(X,Y), val(V).
+            elem(ddi(X,Y,V),dropdown_menu_item,dd(X,Y)):-pos(X,Y), val(V).
             attr(ddi(X,Y,V),label,V):-pos(X,Y), val(V).
             attr(ddi(X,Y,V),class,("text-danger";"disabled")):-pos(X,Y), val(V), not _b(sudoku(X,Y,V)).
             when(ddi(X,Y,V),click,call,add_assumption(sudoku(X,Y,V))):-pos(X,Y), val(V).

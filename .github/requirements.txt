@@ -2,7 +2,7 @@ clingo>=5.6.0
 clorm>=1.4.1
 clingo-dl
 httpx==0.20.0
-fastapi
+fastapi==0.103.0
 pydantic
 networkx
 uvicorn

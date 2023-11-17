@@ -13,13 +13,11 @@ from typing import Any
 
 from clinguin.client import AbstractFrontend
 
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+
 HTML_FILES_RELATIVE_DIRECTORY = "clinguin_angular_frontend"
 SERVED_DIRECTORY = os.path.join(
-    "clinguin",
-    "client",
-    "presentation",
-    "frontends",
-    "angular_frontend",
+    _ROOT,
     HTML_FILES_RELATIVE_DIRECTORY,
 )
 

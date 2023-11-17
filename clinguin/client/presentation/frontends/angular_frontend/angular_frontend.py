@@ -27,6 +27,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     Handler for backend, it sets the server directory as ''SERVED_DIRECTORY'',
     which corresponds to ''clinguin_angular_frontend''.
     """
+
     # pylint: disable=redefined-builtin
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=SERVED_DIRECTORY, **kwargs)
@@ -75,6 +76,7 @@ class AngularFrontend(AbstractFrontend):
         ) as config_file:
             config_file.write(str(json.dumps(config_dict)))
 
+        socketserver.TCPServer.allow_reuse_address = True
         with socketserver.TCPServer(("", args.client_port), Handler) as httpd:
             print(
                 f"\033[1;4m-> -> -> -> -> -> ->  Open the following link in your browser: \

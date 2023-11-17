@@ -1,10 +1,10 @@
 """
 Module that contains the API-Class
 """
+import json
 import logging
 import traceback
-
-import httpx
+from urllib.request import Request, URLError, urlopen
 
 from clinguin.utils import Logger
 
@@ -29,10 +29,16 @@ class Api:
         """
         try:
             self._logger.info("<-- GET to %s%s", str(self.base_url), str(endpoint))
-            r = httpx.get(self.base_url + endpoint, timeout=10000)
-            self._logger.debug(r.json())
-            return (r.status_code, r.json())
-        except httpx.ConnectError:
+            url = self.base_url + endpoint
+            with urlopen(url) as response:
+                body = response.read()
+                status = response.getcode()
+            response_json = json.loads(body)
+            print("Is new")
+            self._logger.debug("Is new")
+            self._logger.debug(response_json)
+            return (status, response_json)
+        except URLError:
             return (-1, "")
         except Exception:
             self._logger.error("Some other connection-error occured.")
@@ -54,11 +60,19 @@ class Api:
             )
 
             data = body.to_JSON()
-            r = httpx.post(self.base_url + endpoint, data=data, timeout=10000)
-            self._logger.debug(r.json())
-            return (r.status_code, r.json())
-        except httpx.ConnectError:
+            data = data.encode("utf-8")
+            req = Request(self.base_url + endpoint, data=data)
+            req.add_header("Content-Type", "application/json")
+            with urlopen(req) as response:
+                body = response.read()
+                status = response.getcode()
+            response_json = json.loads(body)
+
+            self._logger.debug(response_json)
+            return (status, response_json)
+        except URLError as e:
             self._logger.warning("Https-connect-error occured.")
+            print(e)
             return (-1, "")
         except Exception:
             self._logger.error("Some other connection-error occured.")

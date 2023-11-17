@@ -4,8 +4,7 @@ import re
 import subprocess
 import time
 from datetime import datetime
-
-import httpx
+from urllib.request import Request, URLError, urlopen
 
 from clinguin import args_to_dict_converter
 from clinguin.parse_input import ArgumentParser
@@ -18,13 +17,16 @@ class UtilsTestUtils:
     @classmethod
     def assert_get_request(self, uri, should_output, should_status_code=200):
         try:
-            r = httpx.get(uri, timeout=1000)
-            assert r.status_code == should_status_code
+            with urlopen(uri) as response:
+                body = response.read()
+                status = response.getcode()
 
-            received_by_request = str(r.json())
-            assert received_by_request == should_output
+            assert status == should_status_code
+            response_json = json.loads(body)
 
-        except httpx.ConnectError:
+            assert json.dumps(response_json) == should_output
+
+        except URLError:
             assert False
         except Exception as ex:
             print(ex)
@@ -33,15 +35,19 @@ class UtilsTestUtils:
     @classmethod
     def assert_post_request(self, uri, should_output, data, should_status_code=200):
         try:
-            r = httpx.post(uri, content=data, timeout=1000)
+            data = data.encode("utf-8")
+            req = Request(uri, data=data)
+            req.add_header("Content-Type", "application/json")
+            with urlopen(req) as response:
+                body = response.read()
+                status = response.getcode()
+            response_json = json.loads(body)
 
-            assert r.status_code == should_status_code
+            assert status == should_status_code
 
-            received_by_request = str(r.json())
+            assert json.dumps(response_json) == should_output
 
-            assert received_by_request == should_output
-
-        except httpx.ConnectError:
+        except URLError:
             assert False
         except Exception as ex:
             print(ex)

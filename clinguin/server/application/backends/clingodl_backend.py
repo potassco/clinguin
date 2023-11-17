@@ -32,7 +32,6 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     def _init_ctl(self):
-
         self._ctl = Control(["0"] + self._constants)
         self._theory = ClingoDLTheory()
         self._theory.register(self._ctl)

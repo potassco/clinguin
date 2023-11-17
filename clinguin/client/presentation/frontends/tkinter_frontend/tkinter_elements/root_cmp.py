@@ -131,7 +131,7 @@ class RootCmp:
                 self._logger.warning(
                     "Only interaction type call and callback are available in the Tkinter frontend.\
                     Interactivity: '%s' was ignored",
-                    callback['interaction_type']
+                    callback["interaction_type"],
                 )
             key = callback["event"]
             value = callback["policy"]

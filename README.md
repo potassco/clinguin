@@ -3,7 +3,7 @@
 Clinguin enables ASP developers to **create interactive User Interface** (UI) prototypes **using only ASP**.
 UIs are defined as sets of facts,  which are then rendered by a fronted to provide continuous interaction with ASP solvers based on user-triggered events.
 
-Your UI definition would look like this!
+***Your UI definition would look like this!***
 
 ```prolog
 elem(w, window, root).
@@ -20,7 +20,11 @@ Look at our [documentation page](https://clinguin.readthedocs.io/en/latest/) to 
 
 Our **[examples folder](https://github.com/potassco/clinguin/tree/master/examples)** shows how to use the range of functionalities in different applications.
 
-![](./examples/angular/placement/out1.png)
+
+<img src="./examples/angular/placement/out1.png" height="150">
+<img src="./examples/angular/graph_coloring/out2.png" height="150">
+<img src="./examples/angular/sudoku/out1.png" height="150">
+<img src="./examples/angular/jobshop/out.png" height="150">
 
 
 ### Extensions

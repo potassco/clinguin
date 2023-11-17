@@ -20,9 +20,11 @@ conda:
         - 'ubuntu-latest'
     channels_release:
         - 'potassco'
+        - 'conda-forge'
     channels_dev:
         - 'potassco/label/dev'
         - 'potassco'
+        - 'conda-forge'
     version: |
         version = None
         with open('setup.cfg') as fh:

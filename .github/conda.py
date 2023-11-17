@@ -38,10 +38,10 @@ def run():
     args = parser.parse_args()
     if args.release:
         label = None
-        channels = ['potassco']
+        channels = ['potassco', 'conda-forge']
     else:
         label = "dev"
-        channels = ['potassco/label/dev', 'potassco']
+        channels = ['potassco/label/dev', 'potassco', 'conda-forge']
 
     version = None
     with open('setup.cfg') as fh:

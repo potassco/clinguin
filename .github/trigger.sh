@@ -95,7 +95,7 @@ case "$action" in
     dev)
         branch="${@:$OPTIND+1:1}"
         # .github/workflows/conda-dev.yml
-        dispatch 76358545 "$wip" "$branch"
+        # dispatch 76358545 "$wip" "$branch"
         # .github/workflows/pip-dev.yml
         dispatch 76358546 "$wip" "$branch"
         ;;

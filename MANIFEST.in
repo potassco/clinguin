@@ -1,0 +1,6 @@
+include clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend/*.js
+include clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend/*.txt
+include clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend/*.ico
+include clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend/*.css
+include clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend/*.html
+include clinguin/client/presentation/frontends/angular_frontend/clinguin_angular_frontend/assets/*.json

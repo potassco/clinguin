@@ -15,8 +15,7 @@ def start(args):
     """
 
     app = FastAPI(
-        description="clinguin",
-        description="Build UIs with ASP"
+        description="clinguin"
     )
 
     # Disable CORS

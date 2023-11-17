@@ -57,6 +57,7 @@ For a more detailed explanation on how this code works take a look at the :ref:`
    clinguin/reference
    clinguin/frontends
    clinguin/backends
+   clinguin/development
 
 
 

@@ -22,7 +22,6 @@ class UtilsTestUtils:
             assert r.status_code == should_status_code
 
             received_by_request = str(r.json())
-
             assert received_by_request == should_output
 
         except httpx.ConnectError:

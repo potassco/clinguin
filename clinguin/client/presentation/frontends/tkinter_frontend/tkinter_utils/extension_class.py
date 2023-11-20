@@ -1,20 +1,24 @@
 """
 This module contains the ExtensionClass
 """
-from clinguin.utils.attribute_types import *
-from .attribute_names import AttributeNames
-from .callback_names import CallbackNames
+
 
 class ExtensionClass:
     """
-    If a class is a subtype of the ExtensionClass it resembles a set of attributes/callbacks that can be applied to elements.
+    If a class is a subtype of the ExtensionClass it resembles a set of attributes/callbacks
+    that can be applied to elements.
     """
 
     @classmethod
-    def get_attributes(cls, attributes = None):
+    def get_attributes(cls, attributes=None):  # pylint: disable=W0613
+        """
+        Has to be implemented by children.
+        """
         return {}
 
     @classmethod
-    def get_callbacks(cls, attributes = None):
+    def get_callbacks(cls, attributes=None):  # pylint: disable=W0613
+        """
+        Has to be implemented by children.
+        """
         return {}
-

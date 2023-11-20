@@ -1,0 +1,30 @@
+
+<div class="row">
+    <div class="col left" style="flex-grow:1;">
+        <label>OPTIONS</label>
+        <br>
+        <form [formGroup]="optionsForm" (ngSubmit)="submitForm()">
+            <div *ngFor="let option of optionsList">
+                <label>{{option.name}}</label>
+                <br>
+                <textarea id="{{option.name + '_' + this.currID}}" *ngIf="option.type == 'textarea'"
+                    [formControlName]="option.name"></textarea>
+                <input id="{{option.name + '_checkbox' + '_' + this.currID}}" *ngIf="option.type == 'checkbox'" type="checkbox"
+                    [formControlName]="option.name" (click)="checkClick($event)" />
+                <input id="{{option.name + '_' + this.currID}}"
+                    *ngIf="option.type != 'textarea' && option.type != 'checkbox' && option.type != 'select'"
+                    [type]="option.type" [formControlName]="option.name" />
+                <select id="{{option.name + '_' + this.currID}}" *ngIf="option.type == 'select'"
+                    [formControlName]="option.name">
+                    <option *ngFor="let val of retrieveSelectOptions(option)" value="{{val}}">{{val}}</option>
+                </select>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="col right" style="overflow:scroll; flex-grow: 10;">
+        <h2 *ngIf="errStr.length > 0" style="color: red;">{{errStr}}</h2>
+        <div #svgContainer (click)="handleNodeClick($event)"></div>
+        <h2 *ngIf="svgString.length <= 0">No graph was created from your request.</h2>
+    </div>
+</div>

@@ -3,7 +3,8 @@ This module features the MenuBar class.
 """
 import tkinter as tk
 
-from .root_cmp import *
+from .root_cmp import RootCmp
+
 
 class MenuBar(RootCmp):
     """
@@ -19,5 +20,3 @@ class MenuBar(RootCmp):
 
     def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self
-
-

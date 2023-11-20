@@ -1,0 +1,8 @@
+clingo>=5.6.0
+clorm>=1.4.1
+clingo-dl
+fastapi==0.103.*
+networkx
+uvicorn
+clingraph
+Pillow

@@ -1,0 +1,21 @@
+<div>
+    <form [formGroup]="optionsForm" (ngSubmit)="submitForm()">
+        <div *ngFor="let option of optionsList">
+            <label>{{option.name}}</label>
+            <br>
+            <textarea id="{{option.name + '_' + this.compID}}" *ngIf="option.type == 'textarea'"
+                [formControlName]="option.name"></textarea>
+            <input id="{{option.name + '_' + this.compID}}" *ngIf="option.type == 'checkbox'" type="checkbox"
+                [formControlName]="option.name" />
+            <input id="{{option.name + '_' + this.compID}}"
+                *ngIf="option.type != 'textarea' && option.type != 'checkbox' && option.type != 'select'"
+                [type]="option.type" [formControlName]="option.name" />
+            <select id="{{option.name + '_' + this.compID}}" *ngIf="option.type == 'select'"
+                [formControlName]="option.name">
+                <option *ngFor="let val of retrieveSelectOptions(option)" value="{{val}}">{{val}}</option>
+            </select>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+
+</div>

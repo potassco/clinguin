@@ -1,0 +1,3 @@
+<ngb-alert *ngIf="visible == 'shown'" [type]="attrType" [dismissible]="true" (closed)="messageClosed()" >
+    <strong>{{attrTitle}}</strong> {{attrMessage}}
+</ngb-alert>

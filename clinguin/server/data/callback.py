@@ -1,19 +1,23 @@
+# pylint: disable=R0903
 """
 Module that contains the CallbackDao.
 """
 from clorm import Predicate, RawField
 
-class CallbackDao(Predicate):
+
+class WhenDao(Predicate):
     """
-    Class for CLORM (clingo-object-relational-mapping), i.e. for accessing callbacks in a factbase.
+    Class for CLORM (clingo-object-relational-mapping), i.e. for accessing 'when' in a factbase.
     """
 
     id = RawField
-    action = RawField
+    event = RawField
+    interaction_type = RawField
     policy = RawField
 
     class Meta:
         """
         Meta class
         """
-        name = "callback"
+
+        name = "when"

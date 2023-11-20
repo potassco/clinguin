@@ -1,32 +1,30 @@
+# pylint: disable=R0801
 """
 Module that contains the ClingraphBackend.
 """
-import copy
-import base64
-
 import textwrap
+from pathlib import Path
 
 from clingo import Control
 from clingo.symbol import Function, String
-
-import clorm
-from clorm import Raw
-
 from clingraph import Factbase, compute_graphs, render
 from clingraph.clingo_utils import ClingraphContext
+from clorm import Raw
+
+from clinguin.server.application.backends.clingo_multishot_backend import (
+    ClingoMultishotBackend,
+)
+from clinguin.server.data.attribute import AttributeDao
 
 # Self defined
-from clinguin.utils import StandardTextProcessing
-from clinguin.server.data.attribute import AttributeDao
-from clinguin.server.data.clinguin_model import ClinguinModel
-from clinguin.server import StandardJsonEncoder
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clinguin.utils import NoModelError
+from clinguin.utils import StandardTextProcessing, image_to_b64
 
-class ClingraphBackend(ClingoBackend):
+
+class ClingraphBackend(ClingoMultishotBackend):
     """
-    Extends ClingoBackend. With this Backend it is possible to create Clingraph-graphs by Clinguin. This can be done by both saving them to a file and by sending them to the client.
-    The process of sending them to the client includes the conversion to a Base64 encoding (so the binary images are encoded as a UTF-8 String) that is then send to the client.
+    Extends ClingoMultishotBackend. With this Backend it is possible to include clingraph images in the UI.
+    The image is rendered based on a visualization encoding every time the UI is updated.
+    Then, they are sent the client as Base64 encoding.
     """
 
     def __init__(self, args):
@@ -41,216 +39,312 @@ class ClingraphBackend(ClingoBackend):
         self._engine = args.engine
         self._disable_saved_to_file = args.disable_saved_to_file
 
-        self._intermediate_format = 'png'
-        self._encoding = 'utf-8'
-        self._attribute_image_key = 'image'
-        self._attribute_image_value = 'clingraph'
-        self._attribute_image_value_seperator = '__'
-
-        self._filled_model = None
+        self._intermediate_format = args.intermediate_format
+        self._attribute_image_key = "image_type"
+        self._attribute_image_value = "clingraph"
 
     # ---------------------------------------------
     # Overwrite
     # ---------------------------------------------
 
-    def _update_model(self):
-        try:
-            prg = ClinguinModel.get_cautious_brave(self._ctl,self._assumptions)
-            self._model = ClinguinModel.from_ui_file_and_program(self._ctl,self._ui_files,prg,self._assumptions)
-
-            graphs = self._compute_clingraph_graphs(prg)
-
-            if not self._disable_saved_to_file:
-                self._save_clingraph_graphs_to_file(graphs)
-
-            self._filled_model = self._get_mode_filled_with_base_64_images_from_graphs(graphs)
-
-        except NoModelError:
-            self._model.add_message("Error","This operation can't be performed")
-
-    def get(self):
+    def _update_uifb_ui(self):
         """
-        Overwritten from ClingoBackend. Difference: Converts the _filled_model to Json instead of the _model, as the _filled_model contains the Base64 encoded images.
+        Updates the ui state with the previously computed domain state.
+        It uses the same domain state as input to the visualization encoding to
+        create clingraph images.
+        Any image is replaced by a b64 representation
         """
-        if not self._filled_model:
-            self._update_model()
-            
-        json_structure = StandardJsonEncoder.encode(self._filled_model)
-        return json_structure
+        super()._update_uifb_ui()
+        if self._uifb.is_unsat:
+            return
+        graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
+        if not self._disable_saved_to_file:
+            self._save_clingraph_graphs_to_file(graphs)
 
-
+        self._replace_uifb_with_b64_images_clingraph(graphs)
 
     @classmethod
-    def register_options(cls, parser):     
+    def register_options(cls, parser):
         """
         Registers command line options for ClingraphBackend.
         """
-        ClingoBackend.register_options(parser)
+        ClingoMultishotBackend.register_options(parser)
 
-        parser.add_argument('--clingraph-files',
-                        help = textwrap.dedent('''\
+        parser.add_argument(
+            "--clingraph-files",
+            help=textwrap.dedent(
+                """\
                             A visualization encoding that will be used to generate the graph facts
                             by calling clingo with the input.
-                            This encoding is expected to have only one stable model.'''),
-                        # type=argparse.FileType('r'),
-                        nargs='+',
-                        metavar='')
+                            This encoding is expected to have only one stable model."""
+            ),
+            # type=argparse.FileType('r'),
+            nargs="+",
+            metavar="",
+        )
 
-        parser.add_argument('--prefix',
-                        default = '',
-                        help = textwrap.dedent('''\
+        parser.add_argument(
+            "--prefix",
+            default="",
+            help=textwrap.dedent(
+                """\
                             Prefix expected in all the considered facts.
-                            Example: --prefix=viz_ will look for predicates named viz_node, viz_edge etc.'''),
-                        type=str,
-                        metavar='')
+                            Example: --prefix=viz_ will look for predicates named viz_node, viz_edge etc."""
+            ),
+            type=str,
+            metavar="",
+        )
 
-        parser.add_argument('--default-graph',
-                        default = 'default',
-                        help = textwrap.dedent('''\
+        parser.add_argument(
+            "--default-graph",
+            default="default",
+            help=textwrap.dedent(
+                """\
                         The name of the default graph.
                         All nodes and edges with arity 1 will be assigned to this graph
-                            (default: %(default)s)'''),
-                        type=str,
-                        metavar='')
+                            (default: %(default)s)"""
+            ),
+            type=str,
+            metavar="",
+        )
 
-        parser.add_argument('--select-graph',
-                help = textwrap.dedent('''\
+        parser.add_argument(
+            "--select-graph",
+            help=textwrap.dedent(
+                """\
                     Select one of the graphs by name.
-                    Can appear multiple times to select multiple graphs'''),
-                type=str,
-                action='append',
-                nargs='?',
-                metavar="")
+                    Can appear multiple times to select multiple graphs"""
+            ),
+            type=str,
+            action="append",
+            nargs="?",
+            metavar="",
+        )
 
-        parser.add_argument('--select-model',
-                help = textwrap.dedent('''\
+        parser.add_argument(
+            "--select-model",
+            help=textwrap.dedent(
+                """\
                     Select only one of the models when using a json input.
                     Defined by a number starting in index 0.
-                    Can appear multiple times to select multiple models.'''),
-                type=int,
-                action='append',
-                nargs='?',
-                metavar="")
+                    Can appear multiple times to select multiple models."""
+            ),
+            type=int,
+            action="append",
+            nargs="?",
+            metavar="",
+        )
 
-        parser.add_argument('--name-format',
-                    help = textwrap.dedent('''\
+        parser.add_argument(
+            "--name-format",
+            help=textwrap.dedent(
+                """\
                         An optional string to format the name when saving multiple files,
                         this string can reference parameters `{graph_name}` and `{model_number}`.
                         Example `new_version-{graph_name}-{model_number}`
                         (default: `{graph_name}` or
-                                `{model_number}/{graph_name}` for multi model functionality from json)'''),
-                    type=str,
-                    metavar='')
+                                `{model_number}/{graph_name}` for multi model functionality from json)"""
+            ),
+            type=str,
+            metavar="",
+        )
 
-        parser.add_argument('--dir',
-                        default = 'out',
-                        help = textwrap.dedent('''\
+        parser.add_argument(
+            "--dir",
+            default="out",
+            help=textwrap.dedent(
+                """\
                             Directory for writing the output files
-                                (default: %(default)s)'''),
-                        type=str,
-                        metavar='')
+                                (default: %(default)s)"""
+            ),
+            type=str,
+            metavar="",
+        )
 
-        parser.add_argument('--type',
-                    default = 'graph',
-                    choices=['graph', 'digraph'],
-                    help = textwrap.dedent('''\
+        parser.add_argument(
+            "--type",
+            default="graph",
+            choices=["graph", "digraph"],
+            help=textwrap.dedent(
+                """\
                         The type of the graph
                         {graph|digraph}
-                            (default: %(default)s)'''),
-                    type=str,
-                    metavar='')
+                            (default: %(default)s)"""
+            ),
+            type=str,
+            metavar="",
+        )
 
-        parser.add_argument('--engine',
-                        default = 'dot',
-                        choices=["dot","neato","twopi","circo","fdp","osage","patchwork","sfdp"],
-                        help = textwrap.dedent('''\
+        parser.add_argument(
+            "--engine",
+            default="dot",
+            choices=[
+                "dot",
+                "neato",
+                "twopi",
+                "circo",
+                "fdp",
+                "osage",
+                "patchwork",
+                "sfdp",
+            ],
+            help=textwrap.dedent(
+                """\
                             Layout command used by graphviz
                             {dot|neato|twopi|circo|fdp|osage|patchwork|sfdp}
-                                (default: %(default)s)'''),
-                        type=str,
-                        metavar="")
+                                (default: %(default)s)"""
+            ),
+            type=str,
+            metavar="",
+        )
 
-        parser.add_argument('--disable-saved-to-file',
-                    action='store_true',
-                    help='Disable image saved to file')
- 
+        parser.add_argument(
+            "--disable-saved-to-file",
+            action="store_true",
+            help="Disable image saved to file",
+        )
+
+        parser.add_argument(
+            "--intermediate-format",
+            default="svg",
+            type=str,
+            choices=[
+                "png",
+                "svg",
+            ],
+            help="Intermediate format. Use 'svg' for angular fronted and 'png' tkinter. (default: %(default)s)",
+        )
 
     # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
 
-    def _compute_clingraph_graphs(self,prg):
+    def _compute_clingraph_graphs(self, prg):
+        """
+        Computes all the graphs using the encoding and the domain state
+
+        Arguments:
+
+            prg (str): The model, brave, and cautious consequences (domain-state)
+        """
         fbs = []
         ctl = Control("0")
+
+        existant_file_counter = 0
         for f in self._clingraph_files:
-            ctl.load(f)
-        ctl.add("base",[],prg)
-        ctl.ground([("base",[])],ClingraphContext())
+            path = Path(f)
+            if path.is_file():
+                try:
+                    ctl.load(str(f))
+                    existant_file_counter += 1
+                except Exception:
+                    self._logger.critical(
+                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                        f,
+                    )
+            else:
+                self._logger.critical(
+                    "File %s does not exist, this file is skipped.", f
+                )
+
+        if existant_file_counter == 0:
+            exception_string = (
+                "None of the provided clingraph files exists, but at least one syntactically"
+                + "valid clingraph file must be specified. Exiting!"
+            )
+
+            self._logger.critical(exception_string)
+            raise Exception(exception_string)
+
+        ctl.add("base", [], prg)
+        ctl.add("base", [], self._clinguin_state)
+        ctl.ground([("base", [])], ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))
         if self._select_model is not None:
             for m in self._select_model:
-                if m>=len(fbs):
+                if m >= len(fbs):
                     raise ValueError(f"Invalid model number selected {m}")
-            fbs = [f if i in self._select_model else None
-                        for i, f in enumerate(fbs) ]
+            fbs = [f if i in self._select_model else None for i, f in enumerate(fbs)]
 
-        
-
-        graphs = compute_graphs(fbs, graphviz_type=self._type)
-
+        if len(fbs) > 1:
+            self._logger.warning(
+                "Multiple clingraph outputs were computed. Only first one considered."
+            )
+        graphs = compute_graphs([fbs[0]], graphviz_type=self._type)
         return graphs
 
-    def _save_clingraph_graphs_to_file(self,graphs):
+    def _save_clingraph_graphs_to_file(self, graphs):
+        """
+        Saves the computed graphs in a file
+
+        Arguments:
+            graphs (dic) The computed graphs
+        """
         if self._select_graph is not None:
-            graphs = [{g_name:g for g_name, g in graph.items() if g_name in self._select_graph} for graph in graphs]
-        write_arguments = {"directory":self._dir, "name_format":self._name_format}
-        paths = render(graphs,
-                format='png',
-                engine=self._engine,
-                view=False,
-                **write_arguments)
+            graphs = [
+                {
+                    g_name: g
+                    for g_name, g in graph.items()
+                    if g_name in self._select_graph
+                }
+                for graph in graphs
+            ]
+        write_arguments = {"directory": self._dir, "name_format": self._name_format}
+        paths = render(
+            graphs, format="png", engine=self._engine, view=False, **write_arguments
+        )
         self._logger.debug("Clingraph saved images:")
         self._logger.debug(paths)
 
-    
-    def _get_mode_filled_with_base_64_images_from_graphs(self,graphs):
-        model = self._model
+    def _replace_uifb_with_b64_images_clingraph(self, graphs):
+        """
+        Replaces the clingraph predicates of the UI with the computed graphs.
 
-        kept_symbols = list(model.get_elements()) + list(model.get_callbacks())
+        Arguments:
+            graphs (dic) The computed graphs
+        """
+        attributes = list(self._uifb.get_attributes(key=self._attribute_image_key))
+        for attribute in attributes:
+            attribute_value = StandardTextProcessing.parse_string_with_quotes(
+                str(attribute.value)
+            )
+            is_cg_image = attribute_value.startswith(self._attribute_image_value)
 
-        filled_attributes = []
-    
-        # TODO - Improve efficiency of filling attributes
-        for attribute in model.get_attributes():
-            if str(attribute.key) == self._attribute_image_key:
-                attribute_value = StandardTextProcessing.parse_string_with_quotes(str(attribute.value))
+            if not is_cg_image:
+                continue
 
-                if attribute_value.startswith(self._attribute_image_value) and attribute_value != "clingraph":
-                    splits = attribute_value.split(self._attribute_image_value_seperator)
-                    splits.pop(0)
-                    rest = ""   
-                    for split in splits:
-                        rest = rest + split
+            graph_name = "default"
+            split = attribute_value.split("__")
+            if len(split) > 1:
+                graph_name = split[1]
 
-                    key_image = self._create_image_from_graph(graphs, key = rest)
+            # Currently assuming SVG, otherwise b64 encoding necessary!
+            image_value = self._create_image_from_graph(graphs, key=graph_name)
+            new_image_key = "image"
+            base64_key_image = image_to_b64(image_value)
 
-                    base64_key_image = self._convertImageToBase64String(key_image)
+            new_attribute = AttributeDao(
+                Raw(Function(str(attribute.id), [])),
+                Raw(Function(str(new_image_key), [])),
+                Raw(String(str(base64_key_image))),
+            )
+            self._uifb.add_attribute_direct(new_attribute)
 
-                    filled_attributes.append(AttributeDao(Raw(Function(str(attribute.id),[])), Raw(Function(str(attribute.key),[])), Raw(String(str(base64_key_image)))))
-                else:
-                    filled_attributes.append(attribute)
-            else:
-                filled_attributes.append(attribute)
+            # self._uifb.replace_attribute(attribute, new_attribute)
 
-        return ClinguinModel(clorm.FactBase(copy.deepcopy(kept_symbols + filled_attributes)))
+    def _create_image_from_graph(self, graphs, position=None, key=None):
+        """
+        Creates the image of the graph using clingraph
 
-
-    def _create_image_from_graph(self, graphs, position = None, key = None):
+        Arguments:
+            graphs (dic) The computed graphs
+            position (int) The position of the graph to show
+            key (int) The key of the graph to show
+        """
         graphs = graphs[0]
-
-        if position is not None: 
-            if (len(graphs)-1) >= position:
+        if position is not None:
+            if (len(graphs) - 1) >= position:
                 graph = graphs[list(graphs.keys())[position]]
             else:
                 self._logger.error("Attempted to access not valid position")
@@ -269,12 +363,3 @@ class ClingraphBackend(ClingoBackend):
         img = graph.pipe(engine=self._engine)
 
         return img
-
-    def _convertImageToBase64String(self, img):
-        encoded = base64.b64encode(img)
-        decoded = encoded.decode(self._encoding)    
-        return decoded
-
-
-
-

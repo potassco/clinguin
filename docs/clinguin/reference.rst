@@ -147,6 +147,7 @@ ui-state
             * ``ACTION`` = ``update`` The operation will be a tuple of size three ``(ID', KEY, VALUE)`` where ``ID'`` is the identifier of the element whose value for attribute ``KEY`` will be updated to ``VALUE``. Notice that ``ID'`` might be different than ``ID``.
             * ``ACTION`` = ``context`` The operation will be a tuple ``(KEY, VALUE)``, which will update the key ``KEY`` in the context dictionary to ``VALUE``. See the :ref:`Context` section for detail information on how to use the context.
 
+        
         **Multiple actions**
 
             If multiple occurrences of the predicate ``when`` are present for the same element and event. All of them will be executed. First, the updates will be performed, followed by context changes and finally server calls. Within each type of action, no order can be assured. 

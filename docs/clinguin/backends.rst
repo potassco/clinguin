@@ -135,6 +135,10 @@ ClingraphBackend
 
             The interactive feature only work in web based frontends, not in Tkinter.
 
+        .. note::
+
+            ``update`` actions applied to clingraph elements (`svg_nodes`) will update the html style, not the graphviz properties. 
+            Therefore, it can be used to set things like visibility and opacity but not internal clingraph values. 
 
 
     .. autoclass:: ClingraphBackend

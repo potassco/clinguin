@@ -20,11 +20,8 @@ requirements:
   - clorm>=1.4.1
   - clingo-dl
   - fastapi==0.103.*
-  - pydantic
   - networkx
   - uvicorn
-  - httpcore
-  - h11
   - clingraph
   - Pillow
 

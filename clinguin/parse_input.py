@@ -13,6 +13,12 @@ from .client import AbstractFrontend
 from .server import AbstractBackend
 from .show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 
+if sys.version_info[1] < 8:
+    import importlib_metadata as metadata  # nocoverage
+else:
+    from importlib import metadata  # nocoverage
+
+VERSION = metadata.version("clinguin")
 
 class ArgumentParser:
     """
@@ -53,6 +59,9 @@ class ArgumentParser:
             description=self._clinguin_description(process),
             add_help=True,
             formatter_class=argparse.RawTextHelpFormatter,
+        )
+        parser.add_argument(
+            "--version", "-v", action="version", version=f"%(prog)s {VERSION}"
         )
         subparsers = parser.add_subparsers(
             title="Process type",

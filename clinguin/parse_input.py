@@ -20,6 +20,7 @@ else:
 
 VERSION = metadata.version("clinguin")
 
+
 class ArgumentParser:
     """
     ArgumentParser-Class, Responsible for parsing the command line attributes

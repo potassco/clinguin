@@ -230,31 +230,19 @@ class ClingraphBackend(ClingoMultishotBackend):
         fbs = []
         ctl = Control("0")
 
-        existant_file_counter = 0
         for f in self._clingraph_files:
             path = Path(f)
-            if path.is_file():
-                try:
-                    ctl.load(str(f))
-                    existant_file_counter += 1
-                except Exception:
-                    self._logger.critical(
-                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                        f,
-                    )
-            else:
+            if not path.is_file():
+                self._logger.critical("File %s does not exist", f)
+                raise Exception(f"File {f} does not exist")
+            try:
+                ctl.load(str(f))
+            except Exception as e:
                 self._logger.critical(
-                    "File %s does not exist, this file is skipped.", f
+                    "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                    f,
                 )
-
-        if existant_file_counter == 0:
-            exception_string = (
-                "None of the provided clingraph files exists, but at least one syntactically"
-                + "valid clingraph file must be specified. Exiting!"
-            )
-
-            self._logger.critical(exception_string)
-            raise Exception(exception_string)
+                raise e
 
         ctl.add("base", [], prg)
         ctl.add("base", [], self._clinguin_state)

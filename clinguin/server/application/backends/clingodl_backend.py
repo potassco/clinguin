@@ -36,32 +36,21 @@ class ClingoDLBackend(ClingoMultishotBackend):
         self._theory = ClingoDLTheory()
         self._theory.register(self._ctl)
 
-        existant_file_counter = 0
         with ProgramBuilder(self._ctl) as bld:
             for f in self._domain_files:
                 path = Path(f)
-                if path.is_file():
-                    try:
-                        parse_files(
-                            [f], lambda ast: self._theory.rewrite_ast(ast, bld.add)
-                        )
-                        existant_file_counter += 1
-                    except Exception:
-                        self._logger.critical(
-                            "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                            f,
-                        )
-                else:
-                    self._logger.critical(
-                        "File %s does not exist, this file is skipped.", f
+                if not path.is_file():
+                    self._logger.critical("File %s does not exist", f)
+                    raise Exception(f"File {f} does not exist")
+                try:
+                    parse_files(
+                        [f], lambda ast: self._theory.rewrite_ast(ast, bld.add)
                     )
-
-        if existant_file_counter == 0:
-            exception_string = (
-                "None of the provided domain files exists or they can't be parsed by clingo. At least one syntactically"
-                + "valid domain file must be specified."
-            )
-            raise Exception(exception_string)
+                except Exception as a:
+                    self._logger.critical(
+                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                        f)
+                    raise a
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")

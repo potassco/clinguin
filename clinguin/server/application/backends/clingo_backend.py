@@ -124,24 +124,22 @@ class ClingoBackend(AbstractBackend):
         """
         self._ctl = Control(["0"] + self._constants)
 
-        existant_file_counter = 0
         for f in self._domain_files:
             path = Path(f)
-            if path.is_file():
-                try:
-                    self._ctl.load(str(f))
-                    existant_file_counter += 1
-                except Exception as e:
-                    self._logger.critical(
-                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                        f,
-                    )
-                    self._logger.critical(str(e))
-                    raise e
-
-            else:
+            if not path.is_file():
                 self._logger.critical("File %s does not exist", f)
                 raise Exception(f"File {f} does not exist")
+
+            try:
+                self._ctl.load(str(f))
+            except Exception as e:
+                self._logger.critical(
+                    "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                    f,
+                )
+                self._logger.critical(str(e))
+                raise e
+
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
@@ -157,7 +155,7 @@ class ClingoBackend(AbstractBackend):
 
     def _end_browsing(self):
         """
-        Any current interation in the models wil be terminated by canceling the search and removing the iterator
+        Any current interaction in the models wil be terminated by canceling the search and removing the iterator
         """
         if self._handler:
             self._handler.cancel()

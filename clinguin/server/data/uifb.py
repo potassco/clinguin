@@ -110,27 +110,20 @@ class UIFB:
         """
         uictl = Control(["0", "--warn=none"] + self._constants)
 
-        existant_file_counter = 0
         for f in self._ui_files:
             path = Path(f)
-            if path.is_file():
-                try:
-                    uictl.load(str(f))
-                    existant_file_counter += 1
-                except Exception as e:
-                    self._logger.critical(
-                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                        f,
-                    )
-                    self._logger.critical(str(e))
-                    raise e
-            else:
+            if not path.is_file():
                 self._logger.critical("File %s does not exist", f)
                 raise Exception(f"File {f} does not exist")
-
-        if existant_file_counter == 0:
-            exception_string = "None of the provided ui files exists"
-            self._logger.warning(exception_string)
+            try:
+                uictl.load(str(f))
+            except Exception as e:
+                self._logger.critical(
+                    "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                    f,
+                )
+                self._logger.critical(str(e))
+                raise e
 
         if self._include_unsat_msg:
             uictl.add("base", [], UIFB.get_unsat_messages_ui_encoding())

@@ -20,15 +20,17 @@ enable_python()
 
 class ClingoDLBackend(ClingoMultishotBackend):
     """
-    Backend for explanations
+    Backend that allows programs using clingodl theory atoms as input.
+    It also includes the assignment in the domain state.
     """
 
-    # ---------------------------------------------
-    # Private methods
-    # ---------------------------------------------
+    def __init__(self, args):
+        super().__init__(args)
+
+        self._add_domain_state_constructor("_ds_assign")
 
     # ---------------------------------------------
-    # Overwrite
+    # Setups
     # ---------------------------------------------
 
     def _init_ctl(self):
@@ -43,42 +45,49 @@ class ClingoDLBackend(ClingoMultishotBackend):
                     self._logger.critical("File %s does not exist", f)
                     raise Exception(f"File {f} does not exist")
                 try:
-                    parse_files(
-                        [f], lambda ast: self._theory.rewrite_ast(ast, bld.add)
-                    )
+                    parse_files([f], lambda ast: self._theory.rewrite_ast(ast, bld.add))
                 except Exception as a:
                     self._logger.critical(
                         "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                        f)
+                        f,
+                    )
                     raise a
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
 
-    def _solve_set_handler(self):
+    def _outdate(self):
+        """
+        Outdates all the dynamic values when a change has been made.
+        Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+        """
+        super()._outdate()
+        self._assignment = []
+
+    # ---------------------------------------------
+    # Solving
+    # ---------------------------------------------
+
+    def _prepare(self):
         # pylint: disable=attribute-defined-outside-init
         self._theory.prepare(self._ctl)
-        self._handler = self._ctl.solve(
-            assumptions=[(a, True) for a in self._assumptions], yield_=True
-        )
 
     def _on_model(self, model):
         self._theory.on_model(model)
         # pylint: disable=attribute-defined-outside-init
-        self._assignment = [
-            f"_clinguin_assign({key},{val})."
-            for key, val in self._theory.assignment(model.thread_id)
-        ]
+        self._assignment = list(
+            (key, val) for key, val in self._theory.assignment(model.thread_id))
+
+    # ---------------------------------------------
+    # Domain state
+    # ---------------------------------------------
 
     @property
-    def _clinguin_state(self):
+    def _ds_assign(self):
         """
-        Additional program to pass to the UI computation. It represents to the state of the backend
+        Additional program to pass to the UI computation with assignments
         """
-        prg = super()._clinguin_state
-        prg += " ".join(self._assignment)
+        prg = ""
+        for key, val in self._assignment:
+            prg += f"_clinguin_assign({key},{val})."
         return prg
-
-    # ---------------------------------------------
-    # Plolicy methods (Overwrite ClingoMultishotBackend)
-    # ---------------------------------------------

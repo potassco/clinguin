@@ -74,7 +74,7 @@ Development
 This process shows changes made on the `angular_fronted` folder in real time.
 
 1. Start the server
-    - Replace  ``clinguin client-server`` by ``python start.py server`` and remove argument ``--frontend=AngularFrontend`` from the command line of the desired example
+    - Replace  ``clinguin client-server`` by ``python start.py server`` on the desired example
 2. Start the web client
     - Open a new tab
     - Navigate to the folder `/angular_frontend`. 

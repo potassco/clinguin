@@ -8,7 +8,7 @@ Clingraph encodings are provided in the command line. Notice that the intermedia
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/tkinter/graph_coloring/encoding.lp --ui-files examples/tkinter/graph_coloring/ui.lp  --backend=ClingraphBackend --clingraph-files=examples/tkinter/graph_coloring/viz.lp --intermediate-format png
+clinguin client-server --domain-files examples/tkinter/graph_coloring/encoding.lp --ui-files examples/tkinter/graph_coloring/ui.lp  --backend=ClingraphBackend --clingraph-files=examples/tkinter/graph_coloring/viz.lp --intermediate-format png --frontend=TkinterFrontend
 ```
 
 ![](out.png)

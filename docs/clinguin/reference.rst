@@ -31,7 +31,7 @@ Server
     
 
         The part of the server that defines the control and functionality, allowing users to interact with the clingo control in different ways.
-        It offers the option to define and overwrite operations, as well as customize how the UI is updated and the contextual information in the :ref:`clinguin-state`.
+        It offers the option to define and overwrite operations, as well as customize how the UI is updated and the contextual information in the :ref:`domain-state`.
         Users can create their own Backend to increase functionality (:ref:`Creating your own backend`).
         
         We provide the following :ref:`Backends` with the system:
@@ -143,7 +143,7 @@ ui-state
 
         * ``OPERATION`` The operation accounts for the information that the action requires for its execution.
 
-            * ``ACTION`` = ``call`` The operation corresponds to a function available in the :ref:`Backend`. The function call is represented as a predicate, for instance ``add_assumption(a)`` or ``next_solution``.
+            * ``ACTION`` = ``call`` The operation corresponds to a function available in the :ref:`Backends`. The function call is represented as a predicate, for instance ``add_assumption(a)`` or ``next_solution``.
             * ``ACTION`` = ``update`` The operation will be a tuple of size three ``(ID', KEY, VALUE)`` where ``ID'`` is the identifier of the element whose value for attribute ``KEY`` will be updated to ``VALUE``. Notice that ``ID'`` might be different than ``ID``.
             * ``ACTION`` = ``context`` The operation will be a tuple ``(KEY, VALUE)``, which will update the key ``KEY`` in the context dictionary to ``VALUE``. See the :ref:`Context` section for detail information on how to use the context.
 
@@ -174,60 +174,21 @@ ui-state
 
                 .. code-block:: 
 
-                    when(button1, click, call, (add_assumption(a), next_solution)).
-                
-
-**************
-clinguin-state
-**************
-
-    A set of facts defined by the backend that give an overview of the current state of clinguin. Each backend can extend or overwrite these facts, (see :ref:`ExplanationBackend` for an example). The provided :ref:`backends` include the following elements as part of the :ref:`clinguin state`. 
-
-    ``_clinguin_browsing/0``
-
-        This constant is present when the user is browsing models, meaning that the ``next()`` operation has been requested. It can be used to decide whether the UI must show the current model.
-        
-        .. admonition:: Example
-            :class: example
-
-            In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Basic Usage`, the following lines define the selected value of a dropdown menu. When browsing is active, the value of the cell in the given model ``sudoku(X,Y,V)`` defines the selected value, otherwise, a selected option will be defined only for values that are forced by the encoding ``_c`` (see :ref:`domain-state`).
-
-            .. code-block::
-                
-                attr(dd(X,Y),selected,V):-_c(sudoku(X,Y,V)).
-                attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
-
-    ``_clinguin_unsat/0``
-
-     This constant is present if the :ref:`domain-control` gave an unsatisfiable response. 
-
-
-    ``_clinguin_assume/1``
-
-        These atoms give information about what has been assumed by the user via the backend instructions.  
-        
-        .. admonition:: Example
-            :class: example
-
-            In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Basic Usage`, the following lines define the color of the selected value of a dropdown menu. When the value was set by the user, which we can know if ``_clinguin_assume(sudoku(X,Y,V))`` is part of the :ref:`clinguin-state`, then we show it using the primary color (blue). Otherwise, the value was inferred by the system and we show it using the info color (gray).
-
-            .. code-block::
-
-                attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
-                attr(dd(X,Y),class,("text-info")):-_c(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
-
-    ``_clinguin_assume/2``
-
-        These atoms provide access to the context information available in the frontend when the :ref:`clinguin-state` is generated. The first argument is the key, and the second one is the value. For more information check the :ref:`Context` section.
+                    when(button1, click, call, (add_assumption(a), next_solution)).            
 
 ************
 domain-state
 ************
 
-    A set of facts defining the state of the domain, which will be used as input to the :ref:`ui-files`. These facts are a combination of the :ref:`clinguin-state` and output generated from the :ref:`domain-control` by doing multiple calls to the solver. These calls will provide a model and some useful reasoning information;
+    A set of facts defining the state of the domain, which will be used as input to the :ref:`ui-files`.
+    These facts are generated by multiple domain-state constructors defined by the backend. 
+    Each backend will define its own domain-state constructors which can involve solve calls or any other information.
+    The domain-state constructors can be found in :ref:`backends`.
+    In what follows we explain in detail the list of base constructors used in the :ref:`ClingoMultishotBackend`
+    
+    The domain state of :ref:`ClingoMultishotBackend` will provide a model and some useful reasoning information;
     when creating a UI one usually needs to reason with what is still *possibly* part of the solution and what is *necessarily* in the solution.
     In ASP terms, we use the following brave and cautious reasoning to provide this information as explained below.
-
 
     **Model**
 
@@ -279,6 +240,46 @@ domain-state
 
                 _c(p(1)).
 
+
+
+    **_clinguin_browsing/0**
+
+        This constant is present when the user is browsing models, meaning that the ``next()`` operation has been requested. It can be used to decide whether the UI must show the current model.
+        
+        .. admonition:: Example
+            :class: example
+
+            In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Basic Usage`, the following lines define the selected value of a dropdown menu. When browsing is active, the value of the cell in the given model ``sudoku(X,Y,V)`` defines the selected value, otherwise, a selected option will be defined only for values that are forced by the encoding ``_c`` (see :ref:`domain-state`).
+
+            .. code-block::
+                
+                attr(dd(X,Y),selected,V):-_c(sudoku(X,Y,V)).
+                attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
+
+    **_clinguin_unsat/0**
+
+        This constant is present if the :ref:`domain-control` gave an unsatisfiable response. 
+
+
+    **_clinguin_assume/1**
+
+        These atoms give information about what has been assumed by the user via the backend instructions.  
+        
+        .. admonition:: Example
+            :class: example
+
+            In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Basic Usage`, the following lines define the color of the selected value of a dropdown menu.
+            When the value was set by the user, which we can know if ``_clinguin_assume(sudoku(X,Y,V))`` is part of the :ref:`domain-state`, then we show it using the primary color (blue). Otherwise, the value was inferred by the system and we show it using the info color (gray).
+
+            .. code-block::
+
+                attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
+                attr(dd(X,Y),class,("text-info")):-_c(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+
+    **_clinguin_conext/2**
+
+        These atoms provide access to the context information available in the frontend when the :ref:`domain-state` is generated. The first argument is the key, and the second one is the value. For more information check the :ref:`Context` section.
+
 ------------------------------------------------------------------------------------
 
 Control
@@ -302,8 +303,8 @@ ui-control
 
 ---------------------------------------------------------------------------------
 
-Other
-#####
+Communication
+#############
 
 
 ********
@@ -350,12 +351,13 @@ Context
             The key `selected_node` is set open clicking on a node and then this information is sustituted on the next line when the server is called to add an atom, which yeilds operation ``add_atom(show_children(X,true)))`` after the substitution, with ``X`` being the selected node.
 
             .. code-block:: 
+
                 when(node(X), click, context, (selected_node, X)):- node(X).
                 when(button1, click, call, add_atom(show_children(_context_value(selected_node),true))).
 
     **Access**
 
-        All calls to the server will include the context as an argument. All backends will have access to this dictionary and can use its values for any operation. The provadided backends include the context information as part of the :ref:`clinguin-state` via predicate ``_clinguin_context(KEY,VALUE)``. Thus, giving the UI encoding access to the context at the time the call was made. Beware that changes in the context are not reflected in the UI encoding imidiatley, but only after calling the server and calculating the UI again. 
+        All calls to the server will include the context as an argument. All backends will have access to this dictionary and can use its values for any operation. The provadided backends include the context information as part of the :ref:`domain-state` via predicate ``_clinguin_context(KEY,VALUE)``. Thus, giving the UI encoding access to the context at the time the call was made. Beware that changes in the context are not reflected in the UI encoding imidiatley, but only after calling the server and calculating the UI again. 
         
         
         .. warning::

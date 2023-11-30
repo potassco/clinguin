@@ -1,4 +1,1 @@
-{
-    "serverUrl":"http://localhost",
-    "serverPort":"8000"
-}
+{"serverPort": 8000, "serverUrl": "http://localhost"}

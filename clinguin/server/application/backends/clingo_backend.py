@@ -2,25 +2,23 @@
 """
 Module that contains the ClingoMultishotBackend.
 """
-import os
+import logging
+from functools import cached_property
 from pathlib import Path
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
-from clingo.symbol import Function, String
-from clorm import Raw
 
-from clinguin.server import UIFB, AbstractBackend, StandardJsonEncoder
-from clinguin.server.data.attribute import AttributeDao
-from clinguin.utils import StandardTextProcessing, image_to_b64
+from clinguin.server import StandardJsonEncoder, UIState
+from clinguin.server.data.domain_state import solve, tag
 
 enable_python()
 # pylint: disable=attribute-defined-outside-init
 
 
-class ClingoBackend(AbstractBackend):
+class ClingoBackend:
     """
-    The ClingoBackend contains the basic clingo functionality for grounding and solving.
+    The ClingoBackend contains the basic clingo functionality for a backend using clingo.
 
     When started it sets up all the arguments provided via the command line,
     and creates a control object (domain-control) with the provided domain files.
@@ -28,49 +26,49 @@ class ClingoBackend(AbstractBackend):
     """
 
     def __init__(self, args):
-        super().__init__(args)
+        """
+        Creates the Backend with the given arguments. It will setup the context, files and constants.
+        It will define all domain-state constructors and their cache.
+        Finally, it calls all the setup methods: (_init_setup, _outdate,_init_ctl) and grounds the control
+
+        Arguments:
+            args (ArgumentParser): The arguments from the argument parser that are given for the registered options.
+        """
+        self._logger = logging.getLogger(args.log_args["name"])
+        self.context = []
+        self.args = args
 
         self._domain_files = [] if args.domain_files is None else args.domain_files
         self._ui_files = args.ui_files
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
+        self._include_unsat_msg = not args.ignore_unsat_msg
+
+        self._domain_state_constructors = []
+        self._backup_ds_cache = {}
 
         self._init_setup()
-        self._end_browsing()
+        self._outdate()
         self._init_ctl()
         self._ground()
 
-        include_unsat_msg = not args.ignore_unsat_msg
-        self._uifb = UIFB(
-            self._ui_files,
-            self._constants,
-            include_unsat_msg=include_unsat_msg,
-        )
-
-        self._encoding = "utf-8"
-        self._attribute_image_key = "image"
+        self._add_domain_state_constructor("_ds_context")
+        self._add_domain_state_constructor("_ds_brave")
+        self._add_domain_state_constructor("_ds_cautious")
+        self._add_domain_state_constructor("_ds_model")
+        self._add_domain_state_constructor("_ds_unsat")
+        self._add_domain_state_constructor("_ds_browsing")
 
     # ---------------------------------------------
-    # Required methods
+    # Class methods
     # ---------------------------------------------
-
-    def get(self):
-        """
-        Updates the UI and transforms the facts into a JSON.
-        This method will be automatically called after executing all the operations.
-        Thus, it needs to be implemented by all backends.
-
-        The UI is only updated if there are any changes.
-        """
-        if self._uifb.is_empty:
-            self._update_uifb()
-        self._logger.debug(self._uifb)
-        json_structure = StandardJsonEncoder.encode(self._uifb)
-        return json_structure
 
     @classmethod
     def register_options(cls, parser):
         """
         Registers options in the command line for the domain files and ui files.
+
+        Arguments:
+            parser (ArgumentParser): A group of the argparse argument parser
         """
         parser.add_argument(
             "--domain-files",
@@ -98,7 +96,20 @@ class ClingoBackend(AbstractBackend):
         )
 
     # ---------------------------------------------
-    # Private methods
+    # Context
+    # ---------------------------------------------
+
+    def _set_context(self, context):
+        """
+        Sets the context
+
+        Arguments:
+            context: The context dictionary
+        """
+        self.context = context
+
+    # ---------------------------------------------
+    # Setups
     # ---------------------------------------------
 
     def _init_setup(self):
@@ -114,6 +125,13 @@ class ClingoBackend(AbstractBackend):
         # To make static linters happy
         self._atoms = set()
         self._ctl = None
+
+        self._model = None
+        self._assumptions = set()
+        self._unsat_core = None
+
+        self._ui_state = None
+        self._messages = []
 
     def _init_ctl(self):
         """
@@ -140,9 +158,31 @@ class ClingoBackend(AbstractBackend):
                 self._logger.critical(str(e))
                 raise e
 
-
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
+
+    def _outdate(self):
+        """
+        Outdates all the dynamic values when a change has been made.
+        Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+        """
+        if self._handler:
+            self._handler.cancel()
+            self._handler = None
+        self._iterator = None
+        self._model = None
+        self._clear_cache()
+
+    @property
+    def _is_browsing(self):
+        """
+        Property to tell if clinguin is in browsing mode.
+        """
+        return self._iterator is not None
+
+    # ---------------------------------------------
+    # Solving
+    # ---------------------------------------------
 
     def _ground(self, program="base"):
         """
@@ -153,54 +193,10 @@ class ClingoBackend(AbstractBackend):
         """
         self._ctl.ground([(program, [])])
 
-    def _end_browsing(self):
+    def _prepare(self):
         """
-        Any current interaction in the models wil be terminated by canceling the search and removing the iterator
+        Does any preparation before a solve call.
         """
-        if self._handler:
-            self._handler.cancel()
-            self._handler = None
-        self._iterator = None
-
-    @property
-    def _is_browsing(self):
-        """
-        Checks if clinguin is in browsing mode.
-        """
-        return self._iterator is not None
-
-    @property
-    def _clinguin_state(self):
-        """
-        Creates the atoms that will be part of the clinguin state, which is passed to the UI computation.
-
-        Includes predicates  _clinguin_browsing/0 and _clinguin_context/2
-        """
-        state_prg = "#defined _clinguin_browsing/0. #defined _clinguin_context/2. "
-        if self._is_browsing:
-            state_prg += "_clinguin_browsing."
-        if self._uifb.is_unsat:
-            state_prg += "_clinguin_unsat."
-        for a in self.context:
-            value = str(a.value)
-            try:
-                symbol = parse_term(value)
-            except Exception:
-                symbol = None
-            if symbol is None:
-                value = f'"{value}"'
-            state_prg += f"_clinguin_context({str(a.key)},{value})."
-        return state_prg
-
-    @property
-    def _output_prg(self):
-        """
-        Generates the output program used when downloading into a file
-        """
-        prg = ""
-        for a in self._atoms:
-            prg = prg + f"{str(a)}.\n"
-        return prg
 
     def _on_model(self, model):
         """
@@ -210,48 +206,6 @@ class ClingoBackend(AbstractBackend):
         Arguments:
             model (clingo.Model): The found clingo model
         """
-
-    def _update_uifb_consequences(self):
-        """
-        Updates the brave and cautious consequences of the domain state.
-        """
-        self._uifb.update_all_consequences(self._ctl, [], self._on_model)
-        if self._uifb.is_unsat:
-            self._logger.error(
-                "Domain files are UNSAT. Setting _clinguin_unsat to true"
-            )
-
-    def _update_uifb_ui(self):
-        """
-        Updates the ui state with the previously computed domain state.
-        Any image is replaced by a b64 representation
-        """
-        self._uifb.update_ui(self._clinguin_state)
-
-        self._replace_uifb_with_b64_images()
-
-    def _update_uifb(self):
-        """
-        Updates the domain-state (brave and cautious consequences) and the ui-state
-        """
-        self._update_uifb_consequences()
-        self._update_uifb_ui()
-
-    def _set_auto_conseq(self, model):
-        """
-        Sets the given model in the domain-state
-
-        Arguments:
-            model (clingo.Model): The model found by the solving
-        """
-        self._uifb.set_auto_conseq(model)
-
-    def _solve_set_handler(self):
-        """
-        Sets the solver handler by calling the solve method of clingo
-        """
-        # pylint: disable=attribute-defined-outside-init
-        self._handler = self._ctl.solve(yield_=True)
 
     def _add_atom(self, predicate_symbol):
         """
@@ -263,48 +217,242 @@ class ClingoBackend(AbstractBackend):
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
 
-    def _replace_uifb_with_b64_images(self):
-        """
-        Replaces all images in the ui-state by b64
-        """
-        attributes = list(self._uifb.get_attributes())
-        for attribute in attributes:
-            if str(attribute.key) != self._attribute_image_key:
-                continue
+    # ---------------------------------------------
+    # UI update
+    # ---------------------------------------------
 
-            attribute_value = StandardTextProcessing.parse_string_with_quotes(
-                str(attribute.value)
+    def _update_ui_state(self):
+        """
+        Updates the UI state by calling all domain state methods
+        and creating a new control object (ui_control) using the ui_files provided
+        """
+        domain_state = self._domain_state
+        self._ui_state = UIState(
+            self._ui_files, domain_state, self._constants, self._include_unsat_msg
+        )
+        self._ui_state.update_ui_state()
+        self._ui_state.replace_images_with_b64()
+        for m in self._messages:
+            self._ui_state.add_message(m[0], m[1], m[2])
+        self._messages = []
+
+    # ---------------------------------------------
+    # Domain state
+    # ---------------------------------------------
+
+    def _add_domain_state_constructor(self, method: str):
+        """
+        Adds a method name to the domain constructors.
+        This method needs to be annotated with ``@property`` or ``@cached_property``
+
+        Arguments:
+            method (str): Name of the property method
+        """
+
+        self._domain_state_constructors.append(method)
+
+    def _clear_cache(self, methods=None):
+        """
+        Clears the cache of domain state constructor methods
+
+        Arguments:
+            methods (list, optional): A list with the methods to remove the cache from.
+                If no value is passed then all cache is removed
+        """
+        if methods is None:
+            methods = self._domain_state_constructors
+        for m in methods:
+            if m in self.__dict__:
+                self._backup_ds_cache[m] = self.__dict__[m]
+                del self.__dict__[m]
+
+    @property
+    def _domain_state(self):
+        """
+        Gets the domain state by calling all the domain constructor methods
+        """
+        ds = ""
+        for f in self._domain_state_constructors:
+            ds += getattr(self, f)
+        return ds
+
+    # -------- Domain state methods
+
+    @property
+    def _ds_context(self):
+        """
+        Gets the context as facts ``_clinguin_context(KEY, VALUE)``
+        """
+        prg = ""
+        for a in self.context:
+            value = str(a.value)
+            try:
+                symbol = parse_term(value)
+            except Exception:
+                symbol = None
+            if symbol is None:
+                value = f'"{value}"'
+            prg += f"_clinguin_context({str(a.key)},{value})."
+        return prg
+
+    @cached_property
+    def _ds_brave(self):
+        """
+        Computes brave consequences adds them as predicates ``_b/1``.
+
+        It uses a cache that is erased after an operation makes changes in the control.
+        """
+        if self._is_browsing:
+            return (
+                self._backup_ds_cache["_ds_brave"]
+                if "_ds_brave" in self._backup_ds_cache
+                else ""
             )
+        self._ctl.configuration.solve.models = 0
+        self._ctl.configuration.solve.opt_mode = "ignore"
+        self._ctl.configuration.solve.enum_mode = "brave"
+        self._prepare()
+        symbols, ucore = solve(
+            self._ctl, [(a, True) for a in self._assumptions], self._on_model
+        )
+        self._unsat_core = ucore
+        if symbols is None:
+            self._logger.warning("Got an UNSAT result with the given domain encoding.")
+            return (
+                self._backup_ds_cache["_ds_brave"]
+                if "_ds_brave" in self._backup_ds_cache
+                else ""
+            )
+        return "\n".join([str(s) + "." for s in list(tag(symbols, "_b"))])
 
-            if os.path.isfile(attribute_value):
-                with open(attribute_value, "rb") as image_file:
-                    encoded_string = image_to_b64(image_file.read())
-                    new_attribute = AttributeDao(
-                        Raw(Function(str(attribute.id), [])),
-                        Raw(Function(str(attribute.key), [])),
-                        Raw(String(str(encoded_string))),
-                    )
-                    self._uifb.replace_attribute(attribute, new_attribute)
+    @cached_property
+    def _ds_cautious(self):
+        """
+        Computes cautious consequences adds them as predicates ``_c/1``.
+
+        It uses a cache that is erased after an operation makes changes in the control.
+        """
+        if self._is_browsing:
+            return (
+                self._backup_ds_cache["_ds_cautious"]
+                if "_ds_cautious" in self._backup_ds_cache
+                else ""
+            )
+        self._ctl.configuration.solve.models = 0
+        self._ctl.configuration.solve.opt_mode = "ignore"
+        self._ctl.configuration.solve.enum_mode = "cautious"
+        self._prepare()
+        symbols, ucore = solve(
+            self._ctl, [(a, True) for a in self._assumptions], self._on_model
+        )
+        self._unsat_core = ucore
+        if symbols is None:
+            self._logger.warning("Got an UNSAT result with the given domain encoding.")
+            return (
+                self._backup_ds_cache["_ds_cautious"]
+                if "_ds_cautious" in self._backup_ds_cache
+                else ""
+            )
+        return "\n".join([str(s) + "." for s in list(tag(symbols, "_c"))])
+
+    @cached_property
+    def _ds_model(self):
+        """
+        Computes a model if one has not been set yet.
+        When the model is being iterated by the user, the current model is returned.
+        It uses a cache that is erased after an operation makes changes in the control.
+        """
+        if self._model is None:
+            self._ctl.configuration.solve.models = 1
+            self._ctl.configuration.solve.opt_mode = "ignore"
+            self._ctl.configuration.solve.enum_mode = "auto"
+            self._prepare()
+            symbols, ucore = solve(
+                self._ctl, [(a, True) for a in self._assumptions], self._on_model
+            )
+            self._unsat_core = ucore
+            if symbols is None:
+                self._logger.warning(
+                    "Got an UNSAT result with the given domain encoding."
+                )
+                return (
+                    self._backup_ds_cache["_ds_model"]
+                    if "_ds_model" in self._backup_ds_cache
+                    else ""
+                )
+            self._model = symbols
+
+        return "\n".join([str(s) + "." for s in self._model])
+
+    @property
+    def _ds_unsat(self):
+        """
+        Adds information about the statisfiablity of the domain control
+
+        Includes predicate ``_clinguin_unsat/0`` if the domain control is unsat
+        """
+        prg = "#defined _clinguin_unsat/0."
+        if self._unsat_core:
+            prg += "_clinguin_unsat."
+        return prg
+
+    @property
+    def _ds_browsing(self):
+        """
+        Adds information about the browsing state
+
+        Includes predicate  ``_clinguin_browsing/0`` if the user is browsing solutions
+        """
+        prg = "#defined _clinguin_browsing/0."
+        if self._is_browsing:
+            prg += "_clinguin_browsing."
+        return prg
 
     # ---------------------------------------------
-    # Policies
+    # Output
     # ---------------------------------------------
+
+    @property
+    def _output_prg(self):
+        """
+        Generates the output program used when downloading into a file
+        """
+        prg = ""
+        for a in self._atoms:
+            prg = prg + f"{str(a)}.\n"
+        return prg
+
+    ########################################################################################################
+
+    # ---------------------------------------------
+    # Public operations
+    # ---------------------------------------------
+
+    def get(self):
+        """
+        Updates the UI and transforms the facts into a JSON.
+        This method will be automatically called after executing all the operations.
+        Thus, it needs to be implemented by all backends.
+        """
+        self._update_ui_state()
+        self._logger.debug(self._ui_state)
+        json_structure = StandardJsonEncoder.encode(self._ui_state)
+        return json_structure
 
     def restart(self):
         """
         Restarts the backend by initializing parameters, controls, ending the browsing grounding and updating the UI
         """
         self._init_setup()
-        self._end_browsing()
+        self._outdate()
         self._init_ctl()
         self._ground()
-        self._update_uifb()
 
     def update(self):
         """
         Updates the UI and transforms the output into a JSON.
         """
-        self._update_uifb()
+        self._clear_cache()
 
     def download(
         self, show_prg=None, file_name="clinguin_download.lp", domain_files=True
@@ -321,13 +469,14 @@ class ClingoBackend(AbstractBackend):
         """
         prg = self._output_prg
         was_browsing = self._is_browsing
-        self._end_browsing()
-        self._update_uifb()
+        self._outdate()
         if was_browsing:
-            self._uifb.add_message(
-                "Warning",
-                "Browsing was active during download, only selected solutions will be present on the file.",
-                "warning",
+            self._messages.append(
+                (
+                    "Warning",
+                    "Browsing was active during download, only selected solutions will be present on the file.",
+                    "warning",
+                )
             )
         if show_prg is not None:
             ctl = Control()
@@ -346,8 +495,12 @@ class ClingoBackend(AbstractBackend):
         file_name = file_name.strip('"')
         with open(file_name, "w", encoding="UTF-8") as file:
             file.write(prg)
-        self._uifb.add_message(
-            "Download successful", f"Information saved in file {file_name}.", "success"
+        self._messages.append(
+            (
+                "Download successful",
+                f"Information saved in file {file_name}.",
+                "success",
+            )
         )
 
     def clear_atoms(self):
@@ -355,12 +508,10 @@ class ClingoBackend(AbstractBackend):
         Removes all atoms and resets the backend (i.e. it regrounds, etc.)
         and finally updates the model and returns the updated gui as a Json structure.
         """
-        self._end_browsing()
+        self._outdate()
         self._atoms = set()
         self._init_ctl()
         self._ground()
-
-        self._update_uifb()
 
     def add_atom(self, predicate):
         """
@@ -375,8 +526,7 @@ class ClingoBackend(AbstractBackend):
             self._add_atom(predicate_symbol)
             self._init_ctl()
             self._ground()
-            self._end_browsing()
-            self._update_uifb()
+            self._outdate()
 
     def remove_atom(self, predicate):
         """
@@ -391,8 +541,7 @@ class ClingoBackend(AbstractBackend):
             self._atoms.remove(predicate_symbol)
             self._init_ctl()
             self._ground()
-            self._end_browsing()
-            self._update_uifb()
+            self._outdate()
 
     def next_solution(self, opt_mode="ignore"):
         """
@@ -404,34 +553,39 @@ class ClingoBackend(AbstractBackend):
         """
         if self._ctl.configuration.solve.opt_mode != opt_mode:
             self._logger.debug("Ended browsing since opt mode changed")
-            self._end_browsing()
+            self._outdate()
         optimizing = opt_mode in ["optN", "opt"]
         if not self._iterator:
             self._ctl.configuration.solve.enum_mode = "auto"
             self._ctl.configuration.solve.opt_mode = opt_mode
             self._ctl.configuration.solve.models = 0
-            self._solve_set_handler()
+            self._prepare()
+            self._handler = self._ctl.solve(
+                [(a, True) for a in self._assumptions], yield_=True
+            )
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)
             while optimizing and not model.optimality_proven:
                 self._logger.info("Skipping non-optimal model")
                 model = next(self._iterator)
-            self._set_auto_conseq(model)
-            self._update_uifb_ui()
+            self._clear_cache(["_ds_model"])
+            self._on_model(model)
+            self._model = model.symbols(shown=True, atoms=True)
         except StopIteration:
             self._logger.info("No more solutions")
-            self._end_browsing()
-            self._update_uifb()
-            self._uifb.add_message("Browsing Information", "No more solutions")
+            self._outdate()
+            self._messages.append(("Browsing Information", "No more solutions", "info"))
 
     def select(self):
         """
         Select the current solution during browsing.
         All atoms in the solution are added as atoms in the backend.
         """
-        self._end_browsing()
-        last_model_symbols = self._uifb.get_auto_conseq()
-        for s in last_model_symbols:  # pylint: disable=E1133
+        self._outdate()
+        if self._model is None:
+            self._messages.append(
+                "No solution", "There is no solution to be selected", "danger"
+            )
+        for s in self._model:  # pylint: disable=E1133
             self._add_atom(s)
-        self._update_uifb()

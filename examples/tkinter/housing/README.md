@@ -9,7 +9,7 @@ Includes the option to browse optimal solutions in order.
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/tkinter/housing/instance.lp examples/tkinter/housing/encoding.lp --ui-files examples/tkinter/housing/ui.lp
+clinguin client-server --domain-files examples/tkinter/housing/instance.lp examples/tkinter/housing/encoding.lp --ui-files examples/tkinter/housing/ui.lp --frontend=TkinterFrontend
 ```
 
 ![](out.png)

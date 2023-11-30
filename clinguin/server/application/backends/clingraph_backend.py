@@ -7,7 +7,7 @@ from pathlib import Path
 
 from clingo import Control
 from clingo.symbol import Function, String
-from clingraph import Factbase, compute_graphs, render
+from clingraph import Factbase, compute_graphs
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
@@ -37,31 +37,14 @@ class ClingraphBackend(ClingoMultishotBackend):
         self._dir = args.dir
         self._name_format = args.name_format
         self._engine = args.engine
-        self._disable_saved_to_file = args.disable_saved_to_file
 
         self._intermediate_format = args.intermediate_format
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph"
 
     # ---------------------------------------------
-    # Overwrite
+    # Class methods
     # ---------------------------------------------
-
-    def _update_uifb_ui(self):
-        """
-        Updates the ui state with the previously computed domain state.
-        It uses the same domain state as input to the visualization encoding to
-        create clingraph images.
-        Any image is replaced by a b64 representation
-        """
-        super()._update_uifb_ui()
-        if self._uifb.is_unsat:
-            return
-        graphs = self._compute_clingraph_graphs(self._uifb.conseq_facts)
-        if not self._disable_saved_to_file:
-            self._save_clingraph_graphs_to_file(graphs)
-
-        self._replace_uifb_with_b64_images_clingraph(graphs)
 
     @classmethod
     def register_options(cls, parser):
@@ -199,12 +182,6 @@ class ClingraphBackend(ClingoMultishotBackend):
         )
 
         parser.add_argument(
-            "--disable-saved-to-file",
-            action="store_true",
-            help="Disable image saved to file",
-        )
-
-        parser.add_argument(
             "--intermediate-format",
             default="svg",
             type=str,
@@ -216,48 +193,49 @@ class ClingraphBackend(ClingoMultishotBackend):
         )
 
     # ---------------------------------------------
+    # UI update
+    # ---------------------------------------------
+
+    def _update_ui_state(self):
+        """
+        Updates the UI state by calling all domain state methods
+        and creating a new control object (ui_control) using the ui_files provided
+        """
+        super()._update_ui_state()
+        domain_state = self._domain_state
+        graphs = self._compute_clingraph_graphs(domain_state)
+        self._replace_uifb_with_b64_images_clingraph(graphs)
+
+    # ---------------------------------------------
     # Private methods
     # ---------------------------------------------
 
-    def _compute_clingraph_graphs(self, prg):
+    def _compute_clingraph_graphs(self, domain_state):
         """
         Computes all the graphs using the encoding and the domain state
 
         Arguments:
 
-            prg (str): The model, brave, and cautious consequences (domain-state)
+            domain_state (str): The model, brave, and cautious consequences (domain-state)
         """
         fbs = []
         ctl = Control("0")
 
-        existant_file_counter = 0
         for f in self._clingraph_files:
             path = Path(f)
-            if path.is_file():
-                try:
-                    ctl.load(str(f))
-                    existant_file_counter += 1
-                except Exception:
-                    self._logger.critical(
-                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                        f,
-                    )
-            else:
+            if not path.is_file():
+                self._logger.critical("File %s does not exist", f)
+                raise Exception(f"File {f} does not exist")
+            try:
+                ctl.load(str(f))
+            except Exception as e:
                 self._logger.critical(
-                    "File %s does not exist, this file is skipped.", f
+                    "Failed to load file %s (there is likely a syntax error in this logic program file).",
+                    f,
                 )
+                raise e
 
-        if existant_file_counter == 0:
-            exception_string = (
-                "None of the provided clingraph files exists, but at least one syntactically"
-                + "valid clingraph file must be specified. Exiting!"
-            )
-
-            self._logger.critical(exception_string)
-            raise Exception(exception_string)
-
-        ctl.add("base", [], prg)
-        ctl.add("base", [], self._clinguin_state)
+        ctl.add("base", [], domain_state)
         ctl.ground([("base", [])], ClingraphContext())
 
         ctl.solve(on_model=lambda m: fbs.append(Factbase.from_model(m)))
@@ -274,29 +252,6 @@ class ClingraphBackend(ClingoMultishotBackend):
         graphs = compute_graphs([fbs[0]], graphviz_type=self._type)
         return graphs
 
-    def _save_clingraph_graphs_to_file(self, graphs):
-        """
-        Saves the computed graphs in a file
-
-        Arguments:
-            graphs (dic) The computed graphs
-        """
-        if self._select_graph is not None:
-            graphs = [
-                {
-                    g_name: g
-                    for g_name, g in graph.items()
-                    if g_name in self._select_graph
-                }
-                for graph in graphs
-            ]
-        write_arguments = {"directory": self._dir, "name_format": self._name_format}
-        paths = render(
-            graphs, format="png", engine=self._engine, view=False, **write_arguments
-        )
-        self._logger.debug("Clingraph saved images:")
-        self._logger.debug(paths)
-
     def _replace_uifb_with_b64_images_clingraph(self, graphs):
         """
         Replaces the clingraph predicates of the UI with the computed graphs.
@@ -304,7 +259,7 @@ class ClingraphBackend(ClingoMultishotBackend):
         Arguments:
             graphs (dic) The computed graphs
         """
-        attributes = list(self._uifb.get_attributes(key=self._attribute_image_key))
+        attributes = list(self._ui_state.get_attributes(key=self._attribute_image_key))
         for attribute in attributes:
             attribute_value = StandardTextProcessing.parse_string_with_quotes(
                 str(attribute.value)
@@ -319,7 +274,6 @@ class ClingraphBackend(ClingoMultishotBackend):
             if len(split) > 1:
                 graph_name = split[1]
 
-            # Currently assuming SVG, otherwise b64 encoding necessary!
             image_value = self._create_image_from_graph(graphs, key=graph_name)
             new_image_key = "image"
             base64_key_image = image_to_b64(image_value)
@@ -329,9 +283,7 @@ class ClingraphBackend(ClingoMultishotBackend):
                 Raw(Function(str(new_image_key), [])),
                 Raw(String(str(base64_key_image))),
             )
-            self._uifb.add_attribute_direct(new_attribute)
-
-            # self._uifb.replace_attribute(attribute, new_attribute)
+            self._ui_state.add_attribute_direct(new_attribute)
 
     def _create_image_from_graph(self, graphs, position=None, key=None):
         """

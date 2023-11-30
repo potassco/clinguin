@@ -10,7 +10,7 @@ import textwrap
 import traceback
 
 from .client import AbstractFrontend
-from .server import AbstractBackend
+from .server.application.backends.clingo_backend import ClingoBackend
 from .show_frontend_syntax_enum import ShowFrontendSyntaxEnum
 
 if sys.version_info[1] < 8:
@@ -30,7 +30,7 @@ class ArgumentParser:
     default_frontend_exec_string = "from .client.presentation.frontends import *"
 
     default_backend = "ClingoMultishotBackend"
-    default_frontend = "TkinterFrontend"
+    default_frontend = "AngularFrontend"
 
     def __init__(self) -> None:
         self.frontend_name = None
@@ -258,7 +258,7 @@ class ArgumentParser:
         self._add_default_arguments_to_backend_parser(parser_server)
         self.backend = self._select_subclass_and_add_custom_arguments(
             parser_server,
-            AbstractBackend,
+            ClingoBackend,
             self.backend_name,
             ArgumentParser.default_backend,
         )
@@ -298,7 +298,7 @@ class ArgumentParser:
         self._add_default_arguments_to_backend_parser(parser_server_client)
         self.backend = self._select_subclass_and_add_custom_arguments(
             parser_server_client,
-            AbstractBackend,
+            ClingoBackend,
             self.backend_name,
             ArgumentParser.default_backend,
         )
@@ -306,7 +306,7 @@ class ArgumentParser:
         return parser_server_client
 
     def _add_default_arguments_to_backend_parser(self, parser):
-        sub_classes = self._get_sub_classes(AbstractBackend)
+        sub_classes = self._get_sub_classes(ClingoBackend)
         sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
         sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
         parser.add_argument(

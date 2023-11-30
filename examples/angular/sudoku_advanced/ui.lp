@@ -18,9 +18,9 @@ elem(window,window,root).
         attr(pos(X,Y),grid_column,X):-pos(X,Y).
         attr(pos(X,Y),grid_row,Y):-pos(X,Y).
         attr(pos(X,Y),class,"border-dark"):-pos(X,Y).
-        attr(pos(X,Y),class,"bg-primary"):-pos(X,Y), not _muc(sudoku(X,Y,_)), not _muc(initial(X,Y,_)).
-        attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _muc(sudoku(X,Y,_)).
-        attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _muc(initial(X,Y,_)).
+        attr(pos(X,Y),class,"bg-primary"):-pos(X,Y), not _clinguin_muc(sudoku(X,Y,_)), not _clinguin_muc(initial(X,Y,_)).
+        attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _clinguin_muc(sudoku(X,Y,_)).
+        attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _clinguin_muc(initial(X,Y,_)).
         attr(pos(X,Y),class,"bg-opacity-10"):-subgrid(X,Y,S), S\2==0.
         attr(pos(X,Y),class,"bg-opacity-50"):-subgrid(X,Y,S), S\2!=0.
         attr(pos(X,Y),class,("opacity-100";"disabled";"fw-bold";"text-dark")):-initial(X,Y,V).

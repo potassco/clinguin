@@ -10,7 +10,7 @@ The `ignore-unsat-msg` flag is necessary to exclude the usual way of handling UN
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/tkinter/sudoku_explained/instance.lp examples/tkinter/sudoku_explained/encoding.lp --ui-files examples/tkinter/sudoku_explained/ui.lp --assumption-signature=initial,3 --ignore-unsat-msg --backend ExplanationBackend
+clinguin client-server --domain-files examples/tkinter/sudoku_explained/instance.lp examples/tkinter/sudoku_explained/encoding.lp --ui-files examples/tkinter/sudoku_explained/ui.lp --assumption-signature=initial,3 --ignore-unsat-msg --backend ExplanationBackend --frontend=TkinterFrontend
 ```
 
 ![](out1.png)

@@ -10,7 +10,7 @@ These encoding was presented in the article [1]
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/tkinter/study_regulations/instance.lp examples/tkinter/study_regulations/encoding.lp -c n=4 --ui-files examples/tkinter/study_regulations/ui.lp
+clinguin client-server --domain-files examples/tkinter/study_regulations/instance.lp examples/tkinter/study_regulations/encoding.lp -c n=4 --ui-files examples/tkinter/study_regulations/ui.lp --frontend=TkinterFrontend
 ```
 
 ![](out.png)

@@ -34,8 +34,6 @@ class Api:
                 body = response.read()
                 status = response.getcode()
             response_json = json.loads(body)
-            print("Is new")
-            self._logger.debug("Is new")
             self._logger.debug(response_json)
             return (status, response_json)
         except URLError:

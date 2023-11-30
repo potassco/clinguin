@@ -24,12 +24,12 @@ attr(window, child_layout, grid).
 
 
     % Grid cells
-    muc_cell(X,Y):- _muc(initial(X,Y,_)).
-    muc_cell(X,Y):- _muc(sudoku(X,Y,_)).
+    muc_cell(X,Y):- _clinguin_clinguin_muc(initial(X,Y,_)).
+    muc_cell(X,Y):- _clinguin_muc(sudoku(X,Y,_)).
     cell_color(X,Y,gray):-subgrid(X,Y,S), S\2==0, not muc_cell(X,Y).
     cell_color(X,Y,white):-subgrid(X,Y,S), S\2!=0, not muc_cell(X,Y).
-    cell_color(X,Y,red):-_muc(initial(X,Y,_)).
-    cell_color(X,Y,orange):-_muc(sudoku(X,Y,_)).
+    cell_color(X,Y,red):-_clinguin_muc(initial(X,Y,_)).
+    cell_color(X,Y,orange):-_clinguin_muc(sudoku(X,Y,_)).
 
     menu(X,Y):-pos(X,Y), not initial(X,Y,_).
     elem(c(X,Y), container, window) :- pos(X,Y).
@@ -49,7 +49,7 @@ attr(window, child_layout, grid).
         elem(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
         attr(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
         attr(m(X,Y), selected, V) :- menu(X,Y), _clinguin_assume(sudoku(X,Y,V)).
-        attr(m(X,Y), selected, V) :- menu(X,Y), _muc(sudoku(X,Y,V)).
+        attr(m(X,Y), selected, V) :- menu(X,Y), _clinguin_muc(sudoku(X,Y,V)).
         attr(m(X,Y), selected, V) :- sudoku(X,Y,V), _clinguin_browsing.
         when(m(X,Y), clear, call, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,Y).
 

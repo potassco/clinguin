@@ -18,12 +18,13 @@ class ClingoMultishotBackend(ClingoBackend):
     It is selected as the default Backend
     """
 
-    # ---------------------------------------------
-    # Required methods
-    # ---------------------------------------------
+    def __init__(self, args):
+        super().__init__(args)
+
+        self._add_domain_state_constructor("_ds_assume")
 
     # ---------------------------------------------
-    # Private methods
+    # Setups
     # ---------------------------------------------
 
     def _init_setup(self):
@@ -34,21 +35,37 @@ class ClingoMultishotBackend(ClingoBackend):
         """
         super()._init_setup()
         # To make static linters happy
-        self._assumptions = set()
         self._externals = {"true": set(), "false": set(), "released": set()}
 
-    @property
-    def _clinguin_state(self):
-        """
-        Creates the atoms that will be part of the clinguin state, which is passed to the UI computation.
+    # ---------------------------------------------
+    # Solving
+    # ---------------------------------------------
 
-        Includes predicates  _clinguin_browsing/0, _clinguin_context/2 and _clinguin_assume/1
+    def _add_assumption(self, predicate_symbol):
         """
-        prg = super()._clinguin_state
-        state_prg = "#defined _clinguin_assume/1."
+        Adds an assumption to the set
+        """
+        self._assumptions.add(predicate_symbol)
+
+    # ---------------------------------------------
+    # Domain state
+    # ---------------------------------------------
+
+    @property
+    def _ds_assume(self):
+        """
+        Adds information about the assumptions
+
+        Includes predicate  ``_clinguin_assume/1`` for every atom that was assumed.
+        """
+        prg = "#defined _clinguin_assume/1."
         for a in self._assumptions:
-            state_prg += f"_clinguin_assume({str(a)})."
-        return prg + state_prg
+            prg += f"_clinguin_assume({str(a)})."
+        return prg
+
+    # ---------------------------------------------
+    # Output
+    # ---------------------------------------------
 
     @property
     def _output_prg(self):
@@ -61,44 +78,19 @@ class ClingoMultishotBackend(ClingoBackend):
             prg = prg + f"{str(a)}.\n"
         return prg
 
-    def _solve_set_handler(self):
-        """
-        Sets the solver handler by calling the solve method of clingo with the selected assumptions
-        """
-        # pylint: disable=attribute-defined-outside-init
-        self._handler = self._ctl.solve(
-            assumptions=[(a, True) for a in self._assumptions], yield_=True
-        )
-
-    def _add_assumption(self, predicate_symbol):
-        """
-        Adds an assumption to the set
-        """
-        self._assumptions.add(predicate_symbol)
-
-    def _update_uifb_consequences(self):
-        """
-        Updates the brave and cautious consequences of the domain state, by calling clingo with the assumptions
-        """
-        self._uifb.update_all_consequences(self._ctl, self._assumptions, self._on_model)
-        if self._uifb.is_unsat:
-            self._logger.error(
-                "domain files are UNSAT. Setting _clinguin_unsat to true"
-            )
+    ########################################################################################################
 
     # ---------------------------------------------
-    # Policies
+    # Public operations
     # ---------------------------------------------
 
     def clear_assumptions(self):
         """
         Removes all assumptions.
         """
-        self._end_browsing()
         # pylint: disable=attribute-defined-outside-init
+        self._outdate()
         self._assumptions = set()
-
-        self._update_uifb()
 
     def add_assumption(self, predicate):
         """
@@ -111,8 +103,7 @@ class ClingoMultishotBackend(ClingoBackend):
         predicate_symbol = parse_term(predicate)
         if predicate_symbol not in self._assumptions:
             self._add_assumption(predicate_symbol)
-            self._end_browsing()
-            self._update_uifb()
+            self._outdate()
 
     def remove_assumption(self, predicate):
         """
@@ -125,8 +116,7 @@ class ClingoMultishotBackend(ClingoBackend):
         predicate_symbol = parse_term(predicate)
         if predicate_symbol in self._assumptions:
             self._assumptions.remove(predicate_symbol)
-            self._end_browsing()
-            self._update_uifb()
+            self._outdate()
 
     def remove_assumption_signature(self, predicate):
         """
@@ -153,8 +143,7 @@ class ClingoMultishotBackend(ClingoBackend):
         for s in to_remove:
             self._assumptions.remove(s)
         if len(to_remove) > 0:
-            self._end_browsing()
-            self._update_uifb()
+            self._outdate()
 
     def set_external(self, predicate, value):
         """
@@ -167,7 +156,7 @@ class ClingoMultishotBackend(ClingoBackend):
         """
         symbol = parse_term(predicate)
         name = value
-        self._end_browsing()
+        self._outdate()
 
         if name == "release":
             self._ctl.release_external(parse_term(predicate))
@@ -198,18 +187,22 @@ class ClingoMultishotBackend(ClingoBackend):
                 f"Invalid external value {name}. Must be true, false or relase"
             )
 
-        self._update_uifb()
-
     def select(self):
         """
         Select the current solution during browsing.
         All atoms in the solution are added as assumptions in the backend.
         """
-        self._end_browsing()
-        last_model_symbols = self._uifb.get_auto_conseq()
-        symbols_to_ignore = self._externals["true"]
-        symbols_to_ignore.union(self._externals["false"])
-        for s in last_model_symbols:  # pylint: disable=E1133
-            if s not in symbols_to_ignore:
-                self._add_assumption(s)
-        self._update_uifb()
+        if self._model is None:
+            self._messages.append(
+                ("No solution", "There is no solution to be selected", "danger")
+            )
+            self._logger.error(
+                "No solution. No model has been computed that can be selected"
+            )
+        else:
+            symbols_to_ignore = self._externals["true"]
+            symbols_to_ignore.union(self._externals["false"])
+            for s in self._model:  # pylint: disable=E1133
+                if s not in symbols_to_ignore:
+                    self._add_assumption(s)
+        self._outdate()

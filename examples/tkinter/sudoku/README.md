@@ -6,7 +6,7 @@
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/tkinter/sudoku/instance.lp examples/tkinter/sudoku/encoding.lp --ui-files examples/tkinter/sudoku/ui.lp
+clinguin client-server --domain-files examples/tkinter/sudoku/instance.lp examples/tkinter/sudoku/encoding.lp --ui-files examples/tkinter/sudoku/ui.lp --frontend=TkinterFrontend
 ```
 
 ![](out.png)

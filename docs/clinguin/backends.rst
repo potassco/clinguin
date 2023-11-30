@@ -8,24 +8,12 @@ Notice that all backends will also include the functionalities of the ones they 
 
 The source code for the backends can be found  in `github <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends>`_.
 
-AbstractBackend
----------------
-
-    Serves as the must basic class for creating a custom backend.
-    This class does not have any clingo functionalities.
-
-    .. currentmodule:: clinguin.server.application.abstract_backend
-
-    .. autoclass:: AbstractBackend
-        :members:
-        :exclude-members: register_options
-
 .. currentmodule:: clinguin.server.application.backends
 
 ClingoBackend
 ---------------
 
-    Exteds :ref:`AbstractBackend` with basic clingo functionality for single-shot solving.
+    Implements all basic clingo functionality for single-shot solving.
 
     .. admonition:: Examples
         :class: example
@@ -39,7 +27,21 @@ ClingoBackend
         :noindex:
         :exclude-members: register_options, get
 
+    **Domain state constructors**    
 
+        The domain state also inclues domain constructors from the parent class.
+
+        .. automethod:: ClingoBackend._ds_context
+
+        .. automethod:: ClingoBackend._ds_brave
+
+        .. automethod:: ClingoBackend._ds_cautious
+        
+        .. automethod:: ClingoBackend._ds_model
+        
+        .. automethod:: ClingoBackend._ds_unsat
+        
+        .. automethod:: ClingoBackend._ds_browsing
 
 
 ClingoMultishotBackend
@@ -60,12 +62,20 @@ ClingoMultishotBackend
         :noindex:
         :exclude-members: register_options
 
+    **Domain state constructors**    
 
+        The domain state also inclues domain constructors from the parent class.
+
+        .. automethod:: ClingoMultishotBackend._ds_assume
 
 ClingraphBackend
 ----------------
 
     Extends :ref:`ClingoMultishotBackend` with functionality to render and interact with `clingraph <https://clingraph.readthedocs.io/en/latest/>`_ images.
+
+    .. warning::
+    
+        To use this backend you might need to manually install Graphviz. See the `clingraph instalaltion <https://clingraph.readthedocs.io/en/latest/>`_ for details.
 
     .. admonition:: Examples
         :class: example
@@ -90,7 +100,7 @@ ClingraphBackend
 
     .. note:: 
 
-        To use this backend with the :ref:`TkinterFrotned`, you must provide the option ``--intermediate-format=png``.
+        To use this backend with the :ref:`TkinterFrotend`, you must provide the option ``--intermediate-format=png``.
 
     .. admonition:: Examples
         :class: example
@@ -176,11 +186,11 @@ ExplanationBackend
 
         .. code-block:: 
 
-            attr(pos(X,Y),class,"bg-primary"):-pos(X,Y), not _muc(sudoku(X,Y,_)), not _muc(initial(X,Y,_)).
-            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _muc(sudoku(X,Y,_)).
-            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _muc(initial(X,Y,_)).
+            attr(pos(X,Y),class,"bg-primary"):-pos(X,Y), not _clinguin_muc(sudoku(X,Y,_)), not _clinguin_muc(initial(X,Y,_)).
+            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _clinguin_muc(sudoku(X,Y,_)).
+            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _clinguin_muc(initial(X,Y,_)).
     
-    The :ref:`clinguin-state` is then enhanced by the MUC using predicate ``muc/1``.
+    The :ref:`domain-state` is then enhanced by the MUC using predicate ``muc/1``.
     
     .. admonition:: Examples
         :class: example
@@ -189,9 +199,9 @@ ExplanationBackend
 
         .. code-block:: 
 
-            attr(pos(X,Y),class,"bg-primary"):-pos(X,Y), not _muc(sudoku(X,Y,_)), not _muc(initial(X,Y,_)).
-            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _muc(sudoku(X,Y,_)).
-            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _muc(initial(X,Y,_)).
+            attr(pos(X,Y),class,"bg-primary"):-pos(X,Y), not _clinguin_muc(sudoku(X,Y,_)), not _clinguin_muc(initial(X,Y,_)).
+            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _clinguin_muc(sudoku(X,Y,_)).
+            attr(pos(X,Y),class,"bg-danger"):-pos(X,Y), _clinguin_muc(initial(X,Y,_)).
 
 
     .. autoclass:: ExplanationBackend
@@ -200,10 +210,204 @@ ExplanationBackend
         :exclude-members: register_options
 
 
+    **Domain state constructors**    
+
+        The domain state also inclues domain constructors from the parent class.
+
+        .. automethod:: ExplanationBackend._ds_muc
+
+ClingoDLBackend
+---------------
+
+    Extends :ref:`ClingoMultishotBackend` with functionality to accept clingo-dl programs as input.
+
+    .. admonition:: Examples
+        :class: example
+
+        * `jobshop <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop>`_
+
+    
+    The :ref:`domain-state` is then enhanced by predicate ``_clinguin_assign/2``.
+
+    
+    .. admonition:: Examples
+        :class: example
+
+        In the jobshop example, the assignment is used for the label of the job.
+
+        .. code-block:: 
+
+            elem(tctime(T,ST), label, tc(T,ST)):- _clinguin_assign((T,ST),Start).
+            attr(tctime(T,ST), label, @concat("","@",Start,"-",Start+ET)):- _clinguin_assign((T,ST),Start), executionTime(T,ST,ET).
+            attr(tctime(T,ST), class, "fw-light"):- _clinguin_assign((T,ST),Start).
+            attr(tctime(T,ST), fontSize, "8px"):- _clinguin_assign((T,ST),Start).
+
+    .. warning::
+
+        Notice that asisgnments are not part of the brave or cautious consequences
+
+
+    .. autoclass:: ClingoDLBackend
+        :members:
+        :noindex:
+        :exclude-members: register_options
+
+
+    **Domain state constructors**    
+
+        The domain state also inclues domain constructors from the parent class.
+
+        .. automethod:: ClingoDLBackend._ds_assign
 
 Creating your own backend
 -------------------------
 
-    .. warning::
-        Under construction. Sorry :)
+    By creating your own backend you can extend functionality and edit the existing server workflow. 
+    If you are using clingo, we highly recomend extending the  :ref:`ClingoMultishotBackend` to create your own. 
+    This backend contains multiple functionalities already built in wich can be overwritten and extended. 
+    The following explanation assumes that this is the backend that is being extended. 
+
+    .. note::
+
+        If you will not use multi-shot functionalities, assumptions and exterals
+        you can also extend the :ref:`ClingoBackend`.
+
+    .. note:: **Using your backend**
+
+        To make your custom backend avaliable to clinguin, you must provide the path via the command line argument ``--custom-classes``.
+
+    In what follows we divide the possible extensions. For more implementation details, look at the 
+    `source code <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingo_multishot_backend>`_
+    All the presented methods can be overwritten to your desire. 
+
     
+    **Constructor**
+        
+        In the constructor one can add custom arguments and new domain-state constructors. 
+
+        .. admonition:: Examples
+            :class: example
+
+            * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
+            * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
+            * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
+
+        .. automethod:: ClingoMultishotBackend.__init__
+
+
+    **Register options**
+
+        By overwritting this class method, one can add new arguments to the command line.
+        These options will be added under a group for the created backend.
+
+        .. admonition:: Examples
+            :class: example
+
+            * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
+            * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
+
+        .. automethod:: ClingoMultishotBackend.register_options
+
+    **Setups**
+
+        These methods will handle the arguments depending on the clinguin state.
+        Some are called at the start after a restart or when a change is done in the solving.
+        When a custom argument is added to the backend if will likely need to be handled here.
+
+        .. admonition:: Examples
+            :class: example
+
+            * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
+            * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
+
+
+        .. automethod:: ClingoMultishotBackend._init_setup
+        
+        .. automethod:: ClingoMultishotBackend._init_ctl
+        
+        .. automethod:: ClingoMultishotBackend._outdate
+        
+        .. automethod:: ClingoMultishotBackend._is_browsing
+
+
+    **Solving**
+
+        These methods are involved on how the domain control is solved.
+        They can be ovweritten for theory extensions among other things.
+
+        .. admonition:: Examples
+            :class: example
+
+            * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
+            * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
+
+        .. automethod:: ClingoMultishotBackend._ground
+
+        .. automethod:: ClingoMultishotBackend._prepare
+        
+        .. automethod:: ClingoMultishotBackend._on_model
+        
+        .. automethod:: ClingoMultishotBackend._add_atom
+
+
+    **UI updates**
+
+        If any changes want to be made in how the UI state is computed they
+        can be made by overwritting this method. 
+
+         .. admonition:: Examples
+            :class: example
+
+            * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
+
+
+        .. automethod:: ClingoMultishotBackend._update_ui_state
+
+    
+    **Domain state**
+
+        These methods take care of generating the :ref:`domain-state`.
+        When new information wants to be added a domain state constructor can be included. 
+        These domain constructors will be automatically called by the `_domain_state` property.
+        But, they need to be previously registered in the constructor using the functions below.
+
+         .. admonition:: Examples
+            :class: example
+
+            * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
+            * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
+            * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
+
+        .. note::
+
+            Some of the domain constructors involve extra work so they are handled as ``@cache_property``.
+
+        .. warning::
+
+            Make sure any domain constructor added is a property with anotation ``@property``
+            
+        .. automethod:: ClingoMultishotBackend._add_domain_state_constructor
+
+        .. automethod:: ClingoMultishotBackend._clear_cache
+
+        .. note::
+
+            Domain state constructors for this backend are showed in the section above.
+            These constructors can also be overwritten if necessary.
+
+    **Output**
+
+        The propery method below is used to generate an output program for downloads 
+
+        .. automethod:: ClingoMultishotBackend._output_prg
+
+
+    **Public operations**
+
+        Each backend can define any number public operations or overwrite the existing ones.
+        These operations are any public method of the class and will be accessible to the UI.
+    
+        .. admonition:: Examples
+            :class: example
+
+            * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_

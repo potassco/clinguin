@@ -38,7 +38,7 @@ Running clinguin
 
     The source and ui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the problem one is working on, and after that create a ui for the problem, to showcase, debug, etc.
 
-    When running the server one can further specify the *Backend* that should be used. See the :ref:`Customize Guide` for more information.
+    When running the server one can further specify the *Backend* that should be used. See the :ref:`Backends` for more information.
 
 **Client**
 
@@ -48,13 +48,13 @@ Running clinguin
 
     The client does not need any files as input since it will ask the server for the information.
 
-    When running the client one can further specify the *Frontend* that should be used. See the :ref:`Customize Guide` for more information. See the :ref:`Customize Guide` for more information.
+    When running the client one can further specify the *Frontend* that should be used. See the :ref:`Backends` for more information. See the :ref:`Backends` for more information.
 
 
 Understanding the UI encoding 
 -----------------------------
 
-Let's adress the UI `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_ by sections. For details on the sytax and the creation of elements see the :ref:`Syntax` section.
+Let's adress the UI `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_ by sections. For details on the sytax and the creation of elements see the :ref:`ui-state` section.
 
 Each UI encoding file must contain exactly one element of type ``window``. The encoding below creates a windon element identified by ``w`` inside the ``root``.
 
@@ -72,7 +72,7 @@ Then, inside the window we create a container which is identified by ``sudoku`` 
     attr(sudoku,height,100).
 
 In the container we create a dropdown menu for each position in the sudoku and identify it by ``dd(X,Y)``. 
-The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the clinguin state (which can be extended by the Backend). Then, we use the predicate ``_c`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the sudoku encoding is infering, either by a user assumption or due to the domain constraints.
+The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_c`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the sudoku encoding is infering, either by a user assumption or due to the domain constraints.
 
 .. code-block::
 
@@ -102,6 +102,7 @@ As part of the dropdown we add the different drowdown menu items for all possibl
 We add an additional item in each dropdown menu to clear any previous selection.
 
 .. code-block::
+
     elem(remove(X,Y), dropdown_menu_item, dd(X,Y)):-pos(X,Y).
     attr(remove(X,Y), icon, ("fa-ban";"text-info")):-pos(X,Y).
     when(remove(X,Y), click, call, remove_assumption_signature(sudoku(X,Y,any))):-pos(X,Y).

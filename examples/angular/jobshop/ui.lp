@@ -33,8 +33,8 @@ attr(window, class, ("column-reverse";"justify-content-between")).
         attr(ctasks(M), order, 2):- machine(M).
         attr(ctasks(M), flex_direction, row):- machine(M).
 
-            task_not_fixed((T,ST)):-  assign(T,ST,M), assign(T2,ST2,M), seq((T2,ST2),(T,ST),_), _b(seq((T,ST),(T2,ST2),_)).
-            task_not_fixed((T,ST)):-  assign(T,ST,M), assign(T2,ST2,M), seq((T,ST),(T2,ST2),_), _b(seq((T2,ST2),(T,ST),_)).
+            task_not_fixed((T,ST)):-  assign(T,ST,M), assign(T2,ST2,M), seq((T2,ST2),(T,ST),_), _any(seq((T,ST),(T2,ST2),_)).
+            task_not_fixed((T,ST)):-  assign(T,ST,M), assign(T2,ST2,M), seq((T,ST),(T2,ST2),_), _any(seq((T2,ST2),(T,ST),_)).
 
             %%%%%%%%%%%%%%%%%%%%%%%%
             % Task
@@ -71,7 +71,7 @@ attr(window, class, ("column-reverse";"justify-content-between")).
                 attr(tcbtn(T,ST), icon, "fa-left-long"):- assign(T,ST,M), task_not_fixed((T,ST)).
                 attr(tcbtn(T,ST), icon, "fa-ban"):- assign(T,ST,M), not task_not_fixed((T,ST)), _clinguin_assume(seq((T,ST),_,_)).
                 attr(tcbtn(T,ST), class, "disabled"):- assign(T,ST,M), not task_not_fixed((T,ST)), not _clinguin_assume(seq((T,ST),_,_)).
-                when(tcbtn(T,ST), click, call, add_assumption(seq((T,ST),(T2,ST2),Time))):- task_not_fixed((T,ST)), assign(T,ST,M), assign(T2,ST2,M), executionTime(T,ST,Time), (T,ST)!=(T2,ST2), _b(seq((T,ST),(T2,ST2),_)).
+                when(tcbtn(T,ST), click, call, add_assumption(seq((T,ST),(T2,ST2),Time))):- task_not_fixed((T,ST)), assign(T,ST,M), assign(T2,ST2,M), executionTime(T,ST,Time), (T,ST)!=(T2,ST2), _any(seq((T,ST),(T2,ST2),_)).
                 when(tcbtn(T,ST), click, call, remove_assumption_signature((seq((T,ST),any,any)))):- _clinguin_assume(seq((T,ST),_,_)), assign(T,ST,M).
 
 

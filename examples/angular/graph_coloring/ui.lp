@@ -13,10 +13,10 @@ elem(window, window, root).
     % Context menu
     %%%%%%%%%%%%%%%%%%%%%%%%
     elem(context_menu(X), context_menu, window) :- node(X).
-        elem(bcm(X,C), button, context_menu(X)) :- color(C), node(X), _b(assign(X,C)).
+        elem(bcm(X,C), button, context_menu(X)) :- color(C), node(X), _any(assign(X,C)).
         attr(bcm(X,C), label, C) :- color(C), node(X).
-        % attr(bcm(X,C), class, "disabled") :- color(C), node(X), not _b(assign(X,C)).
-        when(bcm(X,C), click, callback, add_assumption(assign(X,C))) :- _b(assign(X,C)).
+        % attr(bcm(X,C), class, "disabled") :- color(C), node(X), not _any(assign(X,C)).
+        when(bcm(X,C), click, callback, add_assumption(assign(X,C))) :- _any(assign(X,C)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Clingraph image

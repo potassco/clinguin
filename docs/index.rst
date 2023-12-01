@@ -28,11 +28,11 @@ Clinguin will use this encoding and the following ui encoding to construct the U
     attr(dd(X,Y), grid_row, Y) :- pos(X,Y).
     attr(dd(X,Y), class, ("border-dark";"bg-primary")) :- pos(X,Y).
     attr(dd(X,Y), class, "bg-opacity-50") :- subgrid(X,Y,S),  S\2!=0.
-    attr(dd(X,Y), selected, V) :- _c(sudoku(X,Y, V)).
+    attr(dd(X,Y), selected, V) :- _all(sudoku(X,Y, V)).
 
-        elem(ddv(X,Y, V), dropdown_menu_item, dd(X,Y)) :- _b(sudoku(X,Y, V)).
-        attr(ddv(X,Y, V), label, V) :- _b(sudoku(X,Y, V)).
-        when(ddv(X,Y, V), click, call, add_assumption(sudoku(X,Y, V))) :- _b(sudoku(X,Y, V)).
+        elem(ddv(X,Y, V), dropdown_menu_item, dd(X,Y)) :- _any(sudoku(X,Y, V)).
+        attr(ddv(X,Y, V), label, V) :- _any(sudoku(X,Y, V)).
+        when(ddv(X,Y, V), click, call, add_assumption(sudoku(X,Y, V))) :- _any(sudoku(X,Y, V)).
 
 
 

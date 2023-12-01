@@ -42,15 +42,15 @@ attr(window, child_layout, grid).
         % Option Menu
         menu(X,Y):-pos(X,Y), not initial(X,Y,_).
         elem(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
-        attr(m(X,Y), selected, V) :- menu(X,Y), _c(sudoku(X,Y,V)).
+        attr(m(X,Y), selected, V) :- menu(X,Y), _all(sudoku(X,Y,V)).
         attr(m(X,Y), selected, V) :- menu(X,Y), sudoku(X,Y,V), _clinguin_browsing.
         attr(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
         when(m(X,Y), clear, call, remove_assumption_signature(sudoku(X,Y,any))) :- menu(X,Y).
 
             % Option menu Item
-            elem(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _b(sudoku(X,Y,V)).
-            attr(mi(X,Y,V), label, @concat("S",V)) :- menu(X,Y), _b(sudoku(X,Y,V)).
-            when(mi(X,Y,V), click, call, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _b(sudoku(X,Y,V)).
+            elem(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _any(sudoku(X,Y,V)).
+            attr(mi(X,Y,V), label, @concat("S",V)) :- menu(X,Y), _any(sudoku(X,Y,V)).
+            when(mi(X,Y,V), click, call, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _any(sudoku(X,Y,V)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Menu Bar

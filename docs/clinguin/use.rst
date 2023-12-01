@@ -72,7 +72,7 @@ Then, inside the window we create a container which is identified by ``sudoku`` 
     attr(sudoku,height,100).
 
 In the container we create a dropdown menu for each position in the sudoku and identify it by ``dd(X,Y)``. 
-The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_c`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the sudoku encoding is infering, either by a user assumption or due to the domain constraints.
+The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_all`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the sudoku encoding is infering, either by a user assumption or due to the domain constraints.
 
 .. code-block::
 
@@ -86,8 +86,8 @@ The first four lines will set the size and position of the dropdown. The special
     attr(dd(X,Y),class,"bg-opacity-50"):-subgrid(X,Y,S), S\2!=0.
     attr(dd(X,Y),class,("opacity-100";"disabled";"fw-bold";"text-dark")):-initial(X,Y,V).
     attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
-    attr(dd(X,Y),class,("text-info")):-_c(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
-    attr(dd(X,Y),selected,V):-_c(sudoku(X,Y,V)).
+    attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+    attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
     attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
 As part of the dropdown we add the different drowdown menu items for all possible values the cell can take. In this case we all all values as items byt using the ``class`` attributem those that are not part of the brave consequences will apear in red and disabled. When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
@@ -96,7 +96,7 @@ As part of the dropdown we add the different drowdown menu items for all possibl
 
     elem(ddi(X,Y,V),dropdown_menu_item,dd(X,Y)):-pos(X,Y), val(V).
     attr(ddi(X,Y,V),label,V):-pos(X,Y), val(V).
-    attr(ddi(X,Y,V),class,("text-danger";"disabled")):-pos(X,Y), val(V), not _b(sudoku(X,Y,V)).
+    attr(ddi(X,Y,V),class,("text-danger";"disabled")):-pos(X,Y), val(V), not _any(sudoku(X,Y,V)).
     when(ddi(X,Y,V),click,call,add_assumption(sudoku(X,Y,V))):-pos(X,Y), val(V).
 
 We add an additional item in each dropdown menu to clear any previous selection.

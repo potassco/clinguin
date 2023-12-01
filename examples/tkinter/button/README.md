@@ -6,7 +6,7 @@
 ### Usage
 
 ```
-clinguin client-server --ui-files examples/tkinter/button/ui.lp
+clinguin client-server --ui-files examples/tkinter/button/ui.lp --frontend=TkinterFrontend
 ```
 
 ![](out.png)

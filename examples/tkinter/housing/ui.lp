@@ -117,7 +117,7 @@ attr(window, child_layout, absstatic).
     attr(button_next, label, "Define rooms") :- not setting_rooms.
     when(button_next, click, call, set_external(setting_rooms,true)) :- not setting_rooms.
 
-    room_assigned :- _c(assign(_,_)).
+    room_assigned :- _all(assign(_,_)).
 
     elem(define_people_button, button, window) :- setting_rooms, not room_assigned.
     attr(define_people_button, height, 40) :- setting_rooms, not room_assigned.
@@ -159,15 +159,15 @@ attr(window, child_layout, absstatic).
         attr(room_title(I), label, T) :- room(I,T).
 
         elem(room_dropdown(B,I), dropdown_menu, room(I)) :- bed(B,I),setting_rooms.
-        attr(room_dropdown(B,I), selected, P) :- _c(assign(bed(B,I),P)).
+        attr(room_dropdown(B,I), selected, P) :- _all(assign(bed(B,I),P)).
         attr(room_dropdown(B,I), height, 30) :- bed(B,I).
         attr(room_dropdown(B,I), selected, P) :- assign(bed(B,I),P), _clinguin_browsing.
         attr(room_dropdown(B,I), width, 100) :- bed(B,I).
         attr(room_dropdown(B,I), pos_y, B*40):- bed(B,I).
         when(room_dropdown(B,I), clear, call, remove_assumption_signature(assign(bed(B,I),any))) :- bed(B,I).
 
-            elem(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _b(assign(bed(B,I),P)),setting_rooms.
-            attr(mi(B,I,P), label, P) :- _b(assign(bed(B,I),P)).
-            when(mi(B,I,P), click, call, add_assumption(assign(bed(B,I),P))) :- _b(assign(bed(B,I),P)).
+            elem(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _any(assign(bed(B,I),P)),setting_rooms.
+            attr(mi(B,I,P), label, P) :- _any(assign(bed(B,I),P)).
+            when(mi(B,I,P), click, call, add_assumption(assign(bed(B,I),P))) :- _any(assign(bed(B,I),P)).
 
 

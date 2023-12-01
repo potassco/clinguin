@@ -34,10 +34,10 @@ attr(w, child_layout, relstatic).
         attr(m, on_hover_background_color, white).
         attr(m, on_hover_foreground_color, black).
 
-            elem(mi(X), dropdown_menu_item, m) :- _b(p(X)).
-            attr(mi(X), label, X) :- _b(p(X)).
-            when(mi(X), click, callback, add_assumption(p(X))) :- _b(p(X)).
-            attr(m, selected, X) :- _c(p(X)).
+            elem(mi(X), dropdown_menu_item, m) :- _any(p(X)).
+            attr(mi(X), label, X) :- _any(p(X)).
+            when(mi(X), click, callback, add_assumption(p(X))) :- _any(p(X)).
+            attr(m, selected, X) :- _all(p(X)).
 
         elem(c4, container, c).
         attr(c4, width, 146).

@@ -53,9 +53,9 @@ attr(window, child_layout, grid).
             attr(sdd(I), width, semester_width-30):-I=1..n.
             attr(sdd(I), selected, "Add module"):-I=1..n.
 
-                elem(ddmi(E,I), dropdown_menu_item, sdd(I)):-_b(in(E,s(I))), not _c(in(E,s(I))).
-                attr(ddmi(E,I), label, E):-_b(in(E,s(I))), not _c(in(E,s(I))).
-                when(ddmi(E,I), click, call, add_assumption(in(E,s(I)))):-_b(in(E,s(I))), not _c(in(E,s(I))).
+                elem(ddmi(E,I), dropdown_menu_item, sdd(I)):-_any(in(E,s(I))), not _all(in(E,s(I))).
+                attr(ddmi(E,I), label, E):-_any(in(E,s(I))), not _all(in(E,s(I))).
+                when(ddmi(E,I), click, call, add_assumption(in(E,s(I)))):-_any(in(E,s(I))), not _all(in(E,s(I))).
 
         %%%%%%%%%%%%%%%%%%%%%%%%
         % SELEETED MODULES
@@ -69,7 +69,7 @@ attr(window, child_layout, grid).
             %%%%%%%%%%%%%%%%%%%%%%%%
             % MODULE
             %%%%%%%%%%%%%%%%%%%%%%%%
-            show_m(in(E,s(I))):-_c(in(E,s(I))).
+            show_m(in(E,s(I))):-_all(in(E,s(I))).
             show_m(in(E,s(I))):-_clinguin_browsing, in(E,s(I)).
             elem(m(E,I), container, sm(I)):-show_m(in(E,s(I))).
             attr(m(E,I), border_width, 1):-show_m(in(E,s(I))).

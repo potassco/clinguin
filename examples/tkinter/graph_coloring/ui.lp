@@ -34,10 +34,10 @@ attr(window, child_layout, grid).
         attr(dmc(N), width, 100):-node(N).
         attr(dmc(N), height, 30):-node(N).
         attr(dmc(N), selected, C):-assign(N,C), _clinguin_browsing.
-        attr(dmc(N), selected, C):-_c(assign(N,C)).
+        attr(dmc(N), selected, C):-_all(assign(N,C)).
         when(dmc(N), clear, call, remove_assumption_signature(assign(N,any))) :- node(N).
 
-            elem(dmi(N,C), dropdown_menu_item, dmc(N)):-_b(assign(N,C)).
-            attr(dmi(N,C), label, C):-_b(assign(N,C)).
-            when(dmi(N,C), click, call, add_assumption(assign(N,C))):-_b(assign(N,C)).
+            elem(dmi(N,C), dropdown_menu_item, dmc(N)):-_any(assign(N,C)).
+            attr(dmi(N,C), label, C):-_any(assign(N,C)).
+            when(dmi(N,C), click, call, add_assumption(assign(N,C))):-_any(assign(N,C)).
 

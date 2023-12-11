@@ -298,7 +298,7 @@ class ClingoBackend:
     @cached_property
     def _ds_brave(self):
         """
-        Computes brave consequences adds them as predicates ``_b/1``.
+        Computes brave consequences adds them as predicates ``_any/1``.
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -323,12 +323,12 @@ class ClingoBackend:
                 if "_ds_brave" in self._backup_ds_cache
                 else ""
             )
-        return "\n".join([str(s) + "." for s in list(tag(symbols, "_b"))])
+        return "\n".join([str(s) + "." for s in list(tag(symbols, "_any"))])
 
     @cached_property
     def _ds_cautious(self):
         """
-        Computes cautious consequences adds them as predicates ``_c/1``.
+        Computes cautious consequences adds them as predicates ``_all/1``.
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -353,7 +353,7 @@ class ClingoBackend:
                 if "_ds_cautious" in self._backup_ds_cache
                 else ""
             )
-        return "\n".join([str(s) + "." for s in list(tag(symbols, "_c"))])
+        return "\n".join([str(s) + "." for s in list(tag(symbols, "_all"))])
 
     @cached_property
     def _ds_model(self):

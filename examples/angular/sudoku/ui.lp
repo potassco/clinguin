@@ -21,8 +21,8 @@ elem(w,window,root).
         attr(dd(X,Y),class,"bg-opacity-50"):-subgrid(X,Y,S), S\2!=0.
         attr(dd(X,Y),class,("opacity-100";"disabled";"fw-bold";"text-dark")):-initial(X,Y,V).
         attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
-        attr(dd(X,Y),class,("text-info")):-_c(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
-        attr(dd(X,Y),selected,V):-_c(sudoku(X,Y,V)).
+        attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+        attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
         attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
             %%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,7 +34,7 @@ elem(w,window,root).
 
             elem(ddi(X,Y,V),dropdown_menu_item,dd(X,Y)):-pos(X,Y), val(V).
             attr(ddi(X,Y,V),label,V):-pos(X,Y), val(V).
-            attr(ddi(X,Y,V),class,("text-danger";"disabled")):-pos(X,Y), val(V), not _b(sudoku(X,Y,V)).
+            attr(ddi(X,Y,V),class,("text-danger";"disabled")):-pos(X,Y), val(V), not _any(sudoku(X,Y,V)).
             when(ddi(X,Y,V),click,call,add_assumption(sudoku(X,Y,V))):-pos(X,Y), val(V).
 
 

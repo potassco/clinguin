@@ -95,11 +95,11 @@ attr(window, flex_direction, row).
                 attr(included_label(P), label, P):- person(P).
                 attr(included_label(P), class, "text-capitalize"):- person(P).
 
-            elem(included_b(P), container, included(P)):- person(P).
-            attr(included_b(P), flex_direction, row):- person(P).
+            elem(included_any(P), container, included(P)):- person(P).
+            attr(included_any(P), flex_direction, row):- person(P).
 
 
-                elem(included_btn_add(P), button, included_b(P)):- person(P).
+                elem(included_btn_add(P), button, included_any(P)):- person(P).
                 attr(included_btn_add(P), class, "btn-sm"):- person(P).
                 attr(included_btn_add(P), class, "btn-outline-dark"):- person(P).
                 attr(included_btn_add(P), class, "m-1"):- person(P).
@@ -147,7 +147,7 @@ attr(window, flex_direction, row).
                 attr(table_seat(S,T), class, "btn-sm"):-seat(S,T).
                 attr(table_seat(S,T), class, "btn-primary"):-seat(S,T).
                 attr(table_seat(S,T), class, "m-1"):-seat(S,T).
-                attr(table_seat(S,T), selected, P):- _c(assign(seat(S,T),P)).
+                attr(table_seat(S,T), selected, P):- _all(assign(seat(S,T),P)).
                 attr(table_seat(S,T), selected, P):- assign(seat(S,T),P), _clinguin_browsing.
 
                     elem(table_seat_remove(S,T), dropdown_menu_item, table_seat(S,T)):-seat(S,T).
@@ -155,10 +155,10 @@ attr(window, flex_direction, row).
                     attr(table_seat_remove(S,T), class, "text-info"):-seat(S,T).
                     when(table_seat_remove(S,T), click, call, remove_assumption_signature(assign(seat(S,T),any))):-seat(S,T).
 
-                    elem(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-_b(assign(seat(S,T),P)).
-                    attr(table_seat_p(T,S,P), label, P):-_b(assign(seat(S,T),P)).
-                    attr(table_seat_p(T,S,P), class, "text-capitalize"):- _b(assign(seat(S,T),P)).
-                    when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P))):- _b(assign(seat(S,T),P)).
+                    elem(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-_any(assign(seat(S,T),P)).
+                    attr(table_seat_p(T,S,P), label, P):-_any(assign(seat(S,T),P)).
+                    attr(table_seat_p(T,S,P), class, "text-capitalize"):- _any(assign(seat(S,T),P)).
+                    when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P))):- _any(assign(seat(S,T),P)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Menu bar

@@ -196,7 +196,7 @@ domain-state
 
     **Brave consequences**
 
-        Atoms that are in any stable models (Union) of the :ref:`domain-control`. These atoms are part of the :ref:`domain-state` enclosed in predicate ``_b``.
+        Atoms that are in any stable models (Union) of the :ref:`domain-control`. These atoms are part of the :ref:`domain-state` enclosed in predicate ``_any``.
         We usually employ brave consequences to create elements where we want to provide the user with all the possible options. For instance, in a dropdown menu. By using brave consequences, we make sure that these selections lead to a valid answer.
 
         .. admonition:: Example
@@ -213,13 +213,13 @@ domain-state
 
             .. code-block::
 
-                _b(p(1)).
-                _b(p(2)).
+                _any(p(1)).
+                _any(p(2)).
         
     
     **Cautious consequences**
 
-        Atoms that are in all stable models (intersection) of the :ref:`domain-control`. These atoms are part of the :ref:`domain-state` enclosed in predicate ``_c``.
+        Atoms that are in all stable models (intersection) of the :ref:`domain-control`. These atoms are part of the :ref:`domain-state` enclosed in predicate ``_all``.
         We usually employ cautious consequences when we want to show the user any inferences done by the solver. For instance, the selected value of a dropdown menu. Naturally, assumptions made by the user will impact these consequences.
 
 
@@ -238,7 +238,7 @@ domain-state
 
             .. code-block::
 
-                _c(p(1)).
+                _all(p(1)).
 
 
 
@@ -249,11 +249,11 @@ domain-state
         .. admonition:: Example
             :class: example
 
-            In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Basic Usage`, the following lines define the selected value of a dropdown menu. When browsing is active, the value of the cell in the given model ``sudoku(X,Y,V)`` defines the selected value, otherwise, a selected option will be defined only for values that are forced by the encoding ``_c`` (see :ref:`domain-state`).
+            In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Basic Usage`, the following lines define the selected value of a dropdown menu. When browsing is active, the value of the cell in the given model ``sudoku(X,Y,V)`` defines the selected value, otherwise, a selected option will be defined only for values that are forced by the encoding ``_all`` (see :ref:`domain-state`).
 
             .. code-block::
                 
-                attr(dd(X,Y),selected,V):-_c(sudoku(X,Y,V)).
+                attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
                 attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
     **_clinguin_unsat/0**
@@ -274,7 +274,7 @@ domain-state
             .. code-block::
 
                 attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
-                attr(dd(X,Y),class,("text-info")):-_c(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+                attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
 
     **_clinguin_conext/2**
 

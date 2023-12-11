@@ -13,7 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
-autodoc_mock_imports = ["clingo","clorm","networkx","graphviz","jsonschema","fastapi","httpx","uvicorn","clingodl"]
+autodoc_mock_imports = ["clingo","clorm","networkx","graphviz","jsonschema","fastapi","httpx","uvicorn","clingodl","clingraph"]
 
 # -- Project information -----------------------------------------------------
 

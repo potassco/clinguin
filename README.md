@@ -35,7 +35,7 @@ Clinguin includes a wide range of [clingo](https://potassco.org/clingo/) functio
 
 ***Is clinguin missing something for your application?***
 
-No worries! Clinguin can be extended with different functionalities and even frontend languages, take a look [at this guide](https://clinguin.readthedocs.io/en/latest/clinguin/backends).
+No worries! Clinguin can be extended with different functionalities and even frontend languages, take a look [at this guide](https://clinguin.readthedocs.io/en/latest/clinguin/backends.html#creating-your-own-backend).
 
 
 ## Installation

@@ -100,7 +100,7 @@ ClingraphBackend
 
     .. note:: 
 
-        To use this backend with the :ref:`TkinterFrotend`, you must provide the option ``--intermediate-format=png``.
+        To use this backend with the :ref:`TkinterFrontend`, you must provide the option ``--intermediate-format=png``.
 
     .. admonition:: Examples
         :class: example

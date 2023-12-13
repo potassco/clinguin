@@ -330,30 +330,28 @@ Communication
 ****
 GET
 ****
-
-    When the UI is first loaded and in every reload, the client will do a ``GET`` request which will update the UI.
-
-
     .. figure:: ../get.png
 
+    When the UI is first loaded and in every reload, the client will do a ``GET`` request which will update the UI.
 
 ****
 POST
 ****
 
+    .. figure:: ../post.png
+    
     When the user triggers as event that is associiated with a ``call`` action, the client will do a ``POST`` request.
     This request will include the selected operations and the context.
     
-    .. figure:: ../post.png
 
 **********
 Operations
 **********
 
+    .. figure:: ../operation.png
+
     The operations are defined by the backend. These operations will interact with the domain control while performing all the required changes. 
     Each backend will define an available list of operations. These lists can be found in :ref:`Backends`.
-
-    .. figure:: ../operation.png
 
 
 ********

@@ -9,6 +9,9 @@ uvicorn
 Pillow
 sphinx>=4.5.0
 sphinx-rtd-theme==0.5.2
+sphinx_copybutton
 nbsphinx>=0.8.8
 jinja2>=3.0.3
 clingo-dl
+furo
+

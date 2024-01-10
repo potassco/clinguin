@@ -1,4 +1,4 @@
-## Placement
+## Jobshop
 
 - **Backend**:   `ClingoDLBackend`
 - **Frontend**:   `AngularFrontend`

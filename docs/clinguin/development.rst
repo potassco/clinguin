@@ -1,5 +1,5 @@
-Development
-===========
+Contributing
+============
 
 Angular Frontend Development
 ++++++++++++++++++++++++++++
@@ -15,9 +15,9 @@ For instance to create new element types.
 Requirements
 ------------
 
-    - `NPM <https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>`_
-    - `NODE <https://nodejs.org/en/download>`_
-    - `Angular <https://angular.io/guide/setup-local>`_
+- `NPM <https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>`_
+- `NODE <https://nodejs.org/en/download>`_
+- `Angular <https://angular.io/guide/setup-local>`_
 
 Usage
 -----

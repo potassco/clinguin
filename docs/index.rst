@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking,  but it should at least
    contain the root `toctree` directive.
 
-Clinguin: Building User Interfaces in ASP
+Clinguin: Building UIs in ASP
 =========================================
 
 Clinguin enables ASP developers to create interactive User Interface (UI) prototypes using only ASP.
@@ -43,20 +43,19 @@ Clinguin will use this encoding and the following ui encoding to construct the U
 .. image:: ../examples/angular/sudoku_basic/out3.png
    :width: 30%
 
-For a more detailed explanation on how this code works take a look at the :ref:`Basic Usage` section.
+For a more detailed explanation on how this code works take a look at the :ref:`Quick Start` section.
 
 
 .. note:: Clinguin is part the Potassco umbrella (which is the home of Clingo and the other ASP tools)
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :hidden:
 
    clinguin/installation
    clinguin/use.rst
-   clinguin/reference
-   clinguin/frontends
-   clinguin/backends
+   clinguin/reference/index.rst
+   clinguin/frontends/index.rst
+   clinguin/backends/index.rst
    clinguin/development
 
 

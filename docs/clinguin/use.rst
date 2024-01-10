@@ -1,8 +1,8 @@
 
-Basic Usage
+Quick Start
 ===========
 
-We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_ , and run it using the `ClingoMultishotBackend` and the `AngularFrontend`.
+We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_ , and run it using the :ref:`ClingoMultishotBackend` and the :ref:`AngularFrontend`.
 
 
 .. image:: ../../examples/angular/sudoku/out1.png
@@ -18,37 +18,37 @@ Running clinguin
 
 **Client-Server**
 
-    To run `clinguin` one can the execute the following command:
+To run `clinguin` one can the execute the following command:
 
-    .. code-block:: bash
+.. code-block:: bash
 
-        $ clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp --frontend AngularFrontend
+    $ clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp --frontend AngularFrontend
 
-    After the execution, a Sudoku window in your browser should open, where one can play a round of Sudoku.
+After the execution, a Sudoku window in your browser should open, where one can play a round of Sudoku.
 
 
 
-    The `client-server` option provided in the command line, states that both client and server shall be started at the same time, so it has the look and feel of a single program. If one wants to seperate `client` and `server`, one could start them in two shells.
+The `client-server` option provided in the command line, states that both client and server shall be started at the same time, so it has the look and feel of a single program. If one wants to seperate `client` and `server`, one could start them in two shells.
 
 **Server**
 
-    .. code-block:: bash
+.. code-block:: bash
 
-        $ clinguin server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
+    $ clinguin server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
 
-    The source and ui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the problem one is working on, and after that create a ui for the problem, to showcase, debug, etc.
+The source and ui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the problem one is working on, and after that create a ui for the problem, to showcase, debug, etc.
 
-    When running the server one can further specify the *Backend* that should be used. See the :ref:`Backends` for more information.
+When running the server one can further specify the *Backend* that should be used. See the :ref:`Backends` for more information.
 
 **Client**
 
-    .. code-block:: bash
+.. code-block:: bash
 
-        $ clinguin client --frontend AngularFrontend
+    $ clinguin client --frontend AngularFrontend
 
-    The client does not need any files as input since it will ask the server for the information.
+The client does not need any files as input since it will ask the server for the information.
 
-    When running the client one can further specify the *Frontend* that should be used. See the :ref:`Backends` for more information. See the :ref:`Backends` for more information.
+When running the client one can further specify the *Frontend* that should be used. See the :ref:`Backends` for more information. See the :ref:`Backends` for more information.
 
 
 Understanding the UI encoding 

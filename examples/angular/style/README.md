@@ -1,4 +1,4 @@
-## Placement
+## Style
 
 - **Backend**:   `ClingoMultishotBackend`
 - **Frontend**:   `AngularFrontend`

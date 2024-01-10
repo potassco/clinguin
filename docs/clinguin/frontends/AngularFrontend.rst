@@ -7,7 +7,7 @@ Thus, providing beautiful components out of the box by giving access to Bootstra
 For contributing with new components take a look at the :ref:`Development` section.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `Angular Examples <https://github.com/krr-up/clinguin/tree/master/examples/angular>`_
 

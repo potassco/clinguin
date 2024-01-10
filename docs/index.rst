@@ -54,11 +54,6 @@ For a more detailed explanation on how this code works take a look at the :ref:`
    clinguin/installation
    clinguin/use.rst
    clinguin/reference/index.rst
-
-.. toctree::
-   :hidden:
-   :caption: Development:
-
    clinguin/frontends/index.rst
    clinguin/backends/index.rst
    clinguin/development

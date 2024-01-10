@@ -39,7 +39,8 @@ Context
 The context can be used to store information provided by the user before calling the server. For instance, it can store the input of a text field, or the value of a checkbox. Therefore, it is usefull for creating input forms within the UI. Internally, the context is represented by a dictionary in the client and it can be accesed in three ways.
 
 .. warning::
-Context information is only available for web frontends and not for Tkinter.
+    
+    Context information is only available for web frontends and not for Tkinter.
 
 
 **Updates**
@@ -47,7 +48,7 @@ Context information is only available for web frontends and not for Tkinter.
 The context information is updated using predicate ``when`` as described above. 
 
 .. admonition:: Example
-    :class: example
+    
 
     The context would be updated with the key-value pair `(agree, true)` when `button1` is clicked.
 
@@ -58,7 +59,7 @@ The context information is updated using predicate ``when`` as described above.
 To use a value imputed by the user, such as for text fields, the special constant ``_value`` will hold the value of an input event. 
 
 .. admonition:: Example
-    :class: example
+    
 
     .. code-block:: 
         
@@ -70,7 +71,7 @@ To use a value imputed by the user, such as for text fields, the special constan
 The values of the context can be accessed for a direct substitution in the operation of a call. This is done with the special predicates ``_context_value/1`` and ``_context_value_optional/1``. The argument of these predicates is the key which will be substituted by the value before it is processed by the server. While ``_context_value/1`` will show an error in case there is no value for the provided key, ``_context_value_optional/1`` will leave the input optional, and in case there is no value present it is substitued by None.
 
 .. admonition:: Example
-    :class: example
+    
 
     Example from  the `ast example <https://github.com/krr-up/clinguin/tree/master/examples/angular/ast/ui.lp>`_.
     The key `selected_node` is set open clicking on a node and then this information is sustituted on the next line when the server is called to add an atom, which yeilds operation ``add_atom(show_children(X,true)))`` after the substitution, with ``X`` being the selected node.
@@ -137,7 +138,7 @@ The :ref:`ui-state` is represented by a JSON to comunicate between client and se
 
 
 .. admonition:: Example
-    :class: example
+    
 
     The following :ref:`ui-state` the corresponding JSON UI can be found below.
 

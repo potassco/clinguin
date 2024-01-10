@@ -4,7 +4,7 @@ ExplanationBackend
 Extends :ref:`ClingoMultishotBackend` with functionality to compute Minumal Unsatisfiable Cores (MUC) when there is an UNSAT output.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `sudoku_advanced <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku_advanced>`_
     * `sudoku_explained <https://github.com/krr-up/clinguin/tree/master/examples/tkinter/sudoku_explained>`_
@@ -21,7 +21,7 @@ in which the user can select which signatures will be considered as assumptions 
 
 
 .. admonition:: Examples
-    :class: example
+    
 
     The `sudoku_advanced <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku_advanced>`_ example
     provides the argument ``--assumption-signature=initial,3`` so that all the initial values of the sudoku
@@ -36,7 +36,7 @@ in which the user can select which signatures will be considered as assumptions 
 The :ref:`domain-state` is then enhanced by the MUC using predicate ``muc/1``.
 
 .. admonition:: Examples
-    :class: example
+    
 
     In the sudoku, the MUC information will show in red the faulty assumptions.
 

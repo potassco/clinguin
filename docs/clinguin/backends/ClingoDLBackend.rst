@@ -4,7 +4,7 @@ ClingoDLBackend
 Extends :ref:`ClingoMultishotBackend` with functionality to accept clingo-dl programs as input.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `jobshop <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop>`_
 
@@ -13,7 +13,7 @@ The :ref:`domain-state` is then enhanced by predicate ``_clinguin_assign/2``.
 
 
 .. admonition:: Examples
-    :class: example
+    
 
     In the jobshop example, the assignment is used for the label of the job.
 

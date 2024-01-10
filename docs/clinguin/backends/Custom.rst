@@ -26,11 +26,13 @@ Constructor
 In the constructor one can add custom arguments and new domain-state constructors. 
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
     * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
     * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
+
+.. currentmodule:: clinguin.server.application.backends
 
 .. automethod:: ClingoMultishotBackend.__init__
 
@@ -42,7 +44,7 @@ By overwritting this class method, one can add new arguments to the command line
 These options will be added under a group for the created backend.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
     * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
@@ -57,7 +59,7 @@ Some are called at the start after a restart or when a change is done in the sol
 When a custom argument is added to the backend if will likely need to be handled here.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
     * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
@@ -79,7 +81,7 @@ These methods are involved on how the domain control is solved.
 They can be ovweritten for theory extensions among other things.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
     * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
@@ -99,8 +101,8 @@ UI updates
 If any changes want to be made in how the UI state is computed they
 can be made by overwritting this method. 
 
-    .. admonition:: Examples
-    :class: example
+.. admonition:: Examples
+    
 
     * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
 
@@ -117,7 +119,7 @@ These domain constructors will be automatically called by the `_domain_state` pr
 But, they need to be previously registered in the constructor using the functions below.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_
     * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
@@ -155,6 +157,6 @@ Each backend can define any number public operations or overwrite the existing o
 These operations are any public method of the class and will be accessible to the UI.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `explanation_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/explanation_backend.py>`_

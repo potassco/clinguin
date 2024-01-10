@@ -68,7 +68,7 @@ If multiple occurrences of the predicate ``when`` are present for the same eleme
 In the case of multiple appearances of ``call``,  a single call will be placed to the server with the information to execute all actions in any order. 
 
 .. admonition:: Example
-    :class: example
+    
 
     When ``button1`` is clicked, the server will receive the instruction to execute two operations: adding assumption ``a`` and adding assumption ``b`` in any order. For a more evolved example of this feature, see the `jobshop example <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop/ui.lp>`_.
 
@@ -81,7 +81,7 @@ In the case of multiple appearances of ``call``,  a single call will be placed t
 To impose an order, the operation provided must be a tuple, in which case the order of execution is defined by the tuple. 
 
 .. admonition:: Example
-    :class: example
+    
 
     This example below will make sure that assumption ``a`` is added before computing a solution.
 
@@ -115,7 +115,7 @@ Atoms that are in any stable models (Union) of the :ref:`domain-control`. These 
 We usually employ brave consequences to create elements where we want to provide the user with all the possible options. For instance, in a dropdown menu. By using brave consequences, we make sure that these selections lead to a valid answer.
 
 .. admonition:: Example
-    :class: example
+    
 
     Consider the following encoding, where either  ``p(1)`` or ``p(2)`` can be selected.
 
@@ -139,7 +139,7 @@ We usually employ cautious consequences when we want to show the user any infere
 
 
 .. admonition:: Example
-    :class: example
+    
         
     Consider the following encoding, where either  ``p(1)`` or ``p(2)`` can be selected.
 
@@ -162,7 +162,7 @@ We usually employ cautious consequences when we want to show the user any infere
 This constant is present when the user is browsing models, meaning that the ``next()`` operation has been requested. It can be used to decide whether the UI must show the current model.
 
 .. admonition:: Example
-    :class: example
+    
 
     In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Quick Start`, the following lines define the selected value of a dropdown menu. When browsing is active, the value of the cell in the given model ``sudoku(X,Y,V)`` defines the selected value, otherwise, a selected option will be defined only for values that are forced by the encoding ``_all`` (see :ref:`domain-state`).
 
@@ -181,7 +181,7 @@ This constant is present if the :ref:`domain-control` gave an unsatisfiable resp
 These atoms give information about what has been assumed by the user via the backend instructions.  
 
 .. admonition:: Example
-    :class: example
+    
 
     In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Quick Start`, the following lines define the color of the selected value of a dropdown menu.
     When the value was set by the user, which we can know if ``_clinguin_assume(sudoku(X,Y,V))`` is part of the :ref:`domain-state`, then we show it using the primary color (blue). Otherwise, the value was inferred by the system and we show it using the info color (gray).

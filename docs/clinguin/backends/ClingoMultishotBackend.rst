@@ -5,7 +5,7 @@ ClingoMultishotBackend
 Extends :ref:`ClingoBackend` with functionality for multi-shot solving. Adds options to access and store assumptions and externals.
 
 .. admonition:: Examples
-    :class: example
+    
 
     * `sudoku <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_
     * `jobshop <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop>`_

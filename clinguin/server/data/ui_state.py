@@ -28,18 +28,11 @@ class UIState:
 
     unifiers = [ElementDao, AttributeDao, WhenDao]
 
-    def __init__(
-        self,
-        ui_files,
-        domain_state,
-        constants,
-        include_unsat_msg=True,
-    ):
+    def __init__(self, ui_files, domain_state, constants):
         self._factbase = None
         self._ui_files = ui_files
         self._domain_state = domain_state
         self._constants = constants
-        self._include_unsat_msg = include_unsat_msg
 
     def __str__(self):
         s = "\nUI State:\n=========\n"
@@ -78,9 +71,6 @@ class UIState:
                 )
                 log.critical(str(e))
                 raise e
-
-        if self._include_unsat_msg:
-            uictl.add("base", [], UIState.get_unsat_messages_ui_encoding())
 
         uictl.add("base", [], self._domain_state)
         uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
@@ -240,15 +230,3 @@ class UIState:
                         Raw(String(str(encoded_string))),
                     )
                     self.replace_attribute(attribute, new_attribute)
-
-    @classmethod
-    def get_unsat_messages_ui_encoding(cls):
-        """
-        Get the standard unsat encoding for error messages.
-        """
-        return """
-element(message_unsat,message,window):-_clinguin_unsat.
-attribute(message_unsat,title,"Error"):-_clinguin_unsat.
-attribute(message_unsat,message,"Unsatisfiable output."):-_clinguin_unsat.
-attribute(message_unsat,type,error):-_clinguin_unsat.
-"""

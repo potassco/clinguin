@@ -41,7 +41,6 @@ class ClingoBackend:
         self._domain_files = [] if args.domain_files is None else args.domain_files
         self._ui_files = args.ui_files
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
-        self._include_unsat_msg = not args.ignore_unsat_msg
 
         self._domain_state_constructors = []
         self._backup_ds_cache = {}
@@ -88,11 +87,6 @@ class ClingoBackend:
             nargs="+",
             help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
             metavar="",
-        )
-        parser.add_argument(
-            "--ignore-unsat-msg",
-            action="store_true",
-            help="The automatic pop-up message in the UI when the domain files are UNSAT, will be ignored.",
         )
 
     # ---------------------------------------------
@@ -227,9 +221,7 @@ class ClingoBackend:
         and creating a new control object (ui_control) using the ui_files provided
         """
         domain_state = self._domain_state
-        self._ui_state = UIState(
-            self._ui_files, domain_state, self._constants, self._include_unsat_msg
-        )
+        self._ui_state = UIState(self._ui_files, domain_state, self._constants)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
         for m in self._messages:

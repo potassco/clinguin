@@ -43,9 +43,9 @@ attr(window, child_layout, grid).
         % Option Menu
         menu(X,Y):-pos(X,Y), not initial(X,Y,_).
         elem(m(X,Y), dropdown_menu, c(X,Y)) :- menu(X,Y).
-        attr(m(X,Y), selected, @concat("",V,"*")) :- menu(X,Y), _all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+        attr(m(X,Y), selected, @concat(V,"*")) :- menu(X,Y), _all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
         attr(m(X,Y), selected, V) :- menu(X,Y), _clinguin_assume(sudoku(X,Y,V)).
-        attr(m(X,Y), selected, @concat("",V,"+")) :- menu(X,Y), sudoku(X,Y,V), _clinguin_browsing, not _all(sudoku(X,Y,V)).
+        attr(m(X,Y), selected, @concat(V,"+")) :- menu(X,Y), sudoku(X,Y,V), _clinguin_browsing, not _all(sudoku(X,Y,V)).
         attr(m(X,Y), background_color, COLOR) :- menu(X,Y), cell_color(X,Y,COLOR).
         when(m(X,Y), clear, call, remove_atom(sudoku(X,Y,V))) :- menu(X,Y), sudoku(X,Y,V).
 

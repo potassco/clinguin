@@ -274,6 +274,7 @@ class ClingoBackend:
         ds = ""
         for f in self._domain_state_constructors:
             ds += getattr(self, f)
+        self._logger.debug("\nDomain state:\n==========\n %s", str(ds))
         return ds
 
     # -------- Domain state methods
@@ -392,7 +393,7 @@ class ClingoBackend:
         Includes predicate ``_clinguin_unsat/0`` if the domain control is unsat
         """
         prg = "#defined _clinguin_unsat/0."
-        if self._unsat_core:
+        if self._unsat_core is not None:
             prg += "_clinguin_unsat."
         return prg
 

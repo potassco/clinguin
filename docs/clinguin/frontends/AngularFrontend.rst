@@ -384,11 +384,6 @@ A label.
 
     *Values*: String
 
-``icon``
-    *Description*: The icon of the button
-
-    *Values*: `Font awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name
-
 
 ``textfield``
 .............

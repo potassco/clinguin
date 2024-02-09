@@ -191,7 +191,7 @@ These atoms give information about what has been assumed by the user via the bac
         attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
         attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
 
-**_clinguin_conext/2**
+**_clinguin_context/2**
 
 These atoms provide access to the context information available in the frontend when the :ref:`domain-state` is generated. The first argument is the key, and the second one is the value. For more information check the :ref:`Context` section.
 

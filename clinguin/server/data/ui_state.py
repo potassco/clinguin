@@ -42,7 +42,7 @@ class UIState:
         self._include_unsat_msg = include_unsat_msg
 
     def __str__(self):
-        s = "\nUI Factbase:\n=========\n"
+        s = "\nUI State:\n=========\n"
         s += self._factbase.asp_str()
         return s
 
@@ -84,7 +84,7 @@ class UIState:
 
         uictl.add("base", [], self._domain_state)
         uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
-        uictl.ground([("base", [])], ClingraphContext)
+        uictl.ground([("base", [])], ClingraphContext())
 
         return uictl
 

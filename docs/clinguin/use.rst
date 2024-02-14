@@ -48,7 +48,7 @@ When running the server one can further specify the *Backend* that should be use
 
 The client does not need any files as input since it will ask the server for the information.
 
-When running the client one can further specify the *Frontend* that should be used. See the :ref:`Backends` for more information. See the :ref:`Backends` for more information.
+When running the client one can further specify the *Frontend* that should be used. See the :ref:`Frontends` for more information.
 
 
 Understanding the UI encoding 
@@ -56,7 +56,7 @@ Understanding the UI encoding
 
 Let's adress the UI `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_ by sections. For details on the sytax and the creation of elements see the :ref:`ui-state` section.
 
-Each UI encoding file must contain exactly one element of type ``window``. The encoding below creates a windon element identified by ``w`` inside the ``root``.
+Each UI encoding file must contain exactly one element of type ``window``. The encoding below creates a window element identified by ``w`` inside the ``root``.
 
 .. code-block::
 
@@ -90,7 +90,7 @@ The first four lines will set the size and position of the dropdown. The special
     attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
     attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
-As part of the dropdown we add the different drowdown menu items for all possible values the cell can take. In this case we all all values as items byt using the ``class`` attributem those that are not part of the brave consequences will apear in red and disabled. When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
+As part of the dropdown we add the different dropdown menu items for all possible values the cell can take. In this case we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will apear in red and disabled. When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
 
 .. code-block::
 

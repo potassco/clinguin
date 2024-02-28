@@ -41,7 +41,6 @@ class ClingoBackend:
         self._domain_files = [] if args.domain_files is None else args.domain_files
         self._ui_files = args.ui_files
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
-        self._include_unsat_msg = not args.ignore_unsat_msg
 
         self._domain_state_constructors = []
         self._backup_ds_cache = {}
@@ -51,10 +50,10 @@ class ClingoBackend:
         self._init_ctl()
         self._ground()
 
-        self._add_domain_state_constructor("_ds_context")
+        self._add_domain_state_constructor("_ds_model")
         self._add_domain_state_constructor("_ds_brave")
         self._add_domain_state_constructor("_ds_cautious")
-        self._add_domain_state_constructor("_ds_model")
+        self._add_domain_state_constructor("_ds_context")
         self._add_domain_state_constructor("_ds_unsat")
         self._add_domain_state_constructor("_ds_browsing")
 
@@ -88,11 +87,6 @@ class ClingoBackend:
             nargs="+",
             help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
             metavar="",
-        )
-        parser.add_argument(
-            "--ignore-unsat-msg",
-            action="store_true",
-            help="The automatic pop-up message in the UI when the domain files are UNSAT, will be ignored.",
         )
 
     # ---------------------------------------------
@@ -227,9 +221,7 @@ class ClingoBackend:
         and creating a new control object (ui_control) using the ui_files provided
         """
         domain_state = self._domain_state
-        self._ui_state = UIState(
-            self._ui_files, domain_state, self._constants, self._include_unsat_msg
-        )
+        self._ui_state = UIState(self._ui_files, domain_state, self._constants)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
         for m in self._messages:
@@ -274,6 +266,7 @@ class ClingoBackend:
         ds = ""
         for f in self._domain_state_constructors:
             ds += getattr(self, f)
+        self._logger.debug("\nDomain state:\n==========\n %s", str(ds))
         return ds
 
     # -------- Domain state methods
@@ -283,7 +276,7 @@ class ClingoBackend:
         """
         Gets the context as facts ``_clinguin_context(KEY, VALUE)``
         """
-        prg = ""
+        prg = "#defined _clinguin_context/2. "
         for a in self.context:
             value = str(a.value)
             try:
@@ -293,7 +286,7 @@ class ClingoBackend:
             if symbol is None:
                 value = f'"{value}"'
             prg += f"_clinguin_context({str(a.key)},{value})."
-        return prg
+        return prg + "\n"
 
     @cached_property
     def _ds_brave(self):
@@ -323,7 +316,7 @@ class ClingoBackend:
                 if "_ds_brave" in self._backup_ds_cache
                 else ""
             )
-        return "\n".join([str(s) + "." for s in list(tag(symbols, "_any"))])
+        return "\n".join([str(s) + "." for s in list(tag(symbols, "_any"))]) + "\n"
 
     @cached_property
     def _ds_cautious(self):
@@ -353,7 +346,7 @@ class ClingoBackend:
                 if "_ds_cautious" in self._backup_ds_cache
                 else ""
             )
-        return "\n".join([str(s) + "." for s in list(tag(symbols, "_all"))])
+        return "\n".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
 
     @cached_property
     def _ds_model(self):
@@ -377,12 +370,13 @@ class ClingoBackend:
                 )
                 return (
                     self._backup_ds_cache["_ds_model"]
+                    + "\n".join([str(a) + "." for a in self._atoms])
                     if "_ds_model" in self._backup_ds_cache
                     else ""
                 )
             self._model = symbols
 
-        return "\n".join([str(s) + "." for s in self._model])
+        return "\n".join([str(s) + "." for s in self._model]) + "\n"
 
     @property
     def _ds_unsat(self):
@@ -391,10 +385,10 @@ class ClingoBackend:
 
         Includes predicate ``_clinguin_unsat/0`` if the domain control is unsat
         """
-        prg = "#defined _clinguin_unsat/0."
-        if self._unsat_core:
+        prg = "#defined _clinguin_unsat/0. "
+        if self._unsat_core is not None:
             prg += "_clinguin_unsat."
-        return prg
+        return prg + "\n"
 
     @property
     def _ds_browsing(self):
@@ -403,10 +397,10 @@ class ClingoBackend:
 
         Includes predicate  ``_clinguin_browsing/0`` if the user is browsing solutions
         """
-        prg = "#defined _clinguin_browsing/0."
+        prg = "#defined _clinguin_browsing/0. "
         if self._is_browsing:
             prg += "_clinguin_browsing."
-        return prg
+        return prg + "\n"
 
     # ---------------------------------------------
     # Output

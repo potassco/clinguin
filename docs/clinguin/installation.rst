@@ -5,7 +5,7 @@ Clinguin requires a Python version between 3.8 and 3.10 (recomend 3.10)
 
 You can check a successfull instalaltion by running
 
-.. code-block:: bash
+.. code-block:: console
 
     $ clinguin -h
 
@@ -14,7 +14,7 @@ Installing with pip
 
 The python clinguin package can be found `here <https://pypi.org/project/clinguin/>`_.
 
-.. code-block:: bash
+.. code-block:: console
 
     $ pip install clinguin
 
@@ -24,7 +24,7 @@ The following dependencies used in `clinguin` are optional.
 
 To include them in the installation use:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ pip install clinguin[tkinter]
 
@@ -43,7 +43,7 @@ also be installed from source. We recommend this only for development purposes.
 
 Execute the following command in the top level clinguin directory:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ git clone https://github.com/potassco/clinguin
     $ cd clinguin
@@ -89,7 +89,7 @@ This allows to use the AngularFrontend by passing the ``--frontend`` argument to
 
 Be sure that you have `make` and all the dev-tools for the web-frontend installed (`Angular`), as detailed below! Then type:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ make angular
 

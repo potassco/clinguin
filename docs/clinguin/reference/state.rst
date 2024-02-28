@@ -114,6 +114,15 @@ The atoms of the first computed model are added directly to the :ref:`domain-sta
 Atoms that are in any stable models (Union) of the :ref:`domain-control`. These atoms are part of the :ref:`domain-state` enclosed in predicate ``_any``.
 We usually employ brave consequences to create elements where we want to provide the user with all the possible options. For instance, in a dropdown menu. By using brave consequences, we make sure that these selections lead to a valid answer.
 
+.. warning:: 
+    
+    **Show statements**
+
+    The show statements in your :ref:`domain-files` will impact the atoms present in these consequences. 
+    If you are using show statements, and you want to use ``_any(a)`` for an atom ``a``, that is not part of your show statements,
+    then you have to add ``#project a.`` to your :ref:`domain-files` to get the desired output.
+
+
 .. admonition:: Example
     
 
@@ -137,6 +146,13 @@ We usually employ brave consequences to create elements where we want to provide
 Atoms that are in all stable models (intersection) of the :ref:`domain-control`. These atoms are part of the :ref:`domain-state` enclosed in predicate ``_all``.
 We usually employ cautious consequences when we want to show the user any inferences done by the solver. For instance, the selected value of a dropdown menu. Naturally, assumptions made by the user will impact these consequences.
 
+.. warning:: 
+    
+    **Show statements**
+
+    The show statements in your :ref:`domain-files` will impact the atoms present in these consequences. 
+    If you are using show statements, and you want to use ``_all(a)`` for an atom ``a``, that is not part of your show statements,
+    then you have to add ``#project a.`` to your :ref:`domain-files` to get the desired output.
 
 .. admonition:: Example
     
@@ -191,7 +207,7 @@ These atoms give information about what has been assumed by the user via the bac
         attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
         attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
 
-**_clinguin_conext/2**
+**_clinguin_context/2**
 
 These atoms provide access to the context information available in the frontend when the :ref:`domain-state` is generated. The first argument is the key, and the second one is the value. For more information check the :ref:`Context` section.
 

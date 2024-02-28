@@ -22,7 +22,7 @@ attr(window, class, ("column-reverse";"justify-content-between")).
         % Title
         %%%%%%%%%%%%%%%%%%%%%%%%
         elem(ctitle(M), label, c(M)):- machine(M).
-        attr(ctitle(M), label, @concat("", "Machine ", M)):- machine(M).
+        attr(ctitle(M), label, @concat( "Machine ", M)):- machine(M).
         attr(ctitle(M), class, "fw-bold"):- machine(M).
         attr(ctitle(M), order, 1):- machine(M).
 
@@ -52,7 +52,7 @@ attr(window, class, ("column-reverse";"justify-content-between")).
                 % Time
                 %%%%%%%%%%%%%%%%%%%%%%%%
                 elem(tctime(T,ST), label, tc(T,ST)):- _clinguin_assign((T,ST),Start).
-                attr(tctime(T,ST), label, @concat("","@",Start,"-",Start+ET)):- _clinguin_assign((T,ST),Start), executionTime(T,ST,ET).
+                attr(tctime(T,ST), label, @concat("@",Start,"-",Start+ET)):- _clinguin_assign((T,ST),Start), executionTime(T,ST,ET).
                 attr(tctime(T,ST), class, "fw-light"):- _clinguin_assign((T,ST),Start).
                 attr(tctime(T,ST), fontSize, "8px"):- _clinguin_assign((T,ST),Start).
                 

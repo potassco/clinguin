@@ -58,10 +58,10 @@ class ClingoMultishotBackend(ClingoBackend):
 
         Includes predicate  ``_clinguin_assume/1`` for every atom that was assumed.
         """
-        prg = "#defined _clinguin_assume/1."
+        prg = "#defined _clinguin_assume/1. "
         for a in self._assumptions:
-            prg += f"_clinguin_assume({str(a)})."
-        return prg
+            prg += f"_clinguin_assume({str(a)}). "
+        return prg + "\n"
 
     # ---------------------------------------------
     # Output

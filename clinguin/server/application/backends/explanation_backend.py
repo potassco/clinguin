@@ -29,18 +29,19 @@ class ExplanationBackend(ClingoMultishotBackend):
 
         self._add_domain_state_constructor("_ds_muc")
 
-        for a in args.assumption_signature:
-            try:
-                name = a.split(",")[0]
-                arity = int(a.split(",")[1])
-            except Exception as ex:
-                raise ValueError(
-                    "Argument assumption_signature must have format name,arity"
-                ) from ex
-            for s in self._ctl.symbolic_atoms:
-                if s.symbol.match(name, arity):
-                    self._mc_base_assumptions.add(s.symbol)
-                    self._add_symbol_to_dict(s.symbol)
+        if args.assumption_signature:
+            for a in args.assumption_signature:
+                try:
+                    name = a.split(",")[0]
+                    arity = int(a.split(",")[1])
+                except Exception as ex:
+                    raise ValueError(
+                        "Argument assumption_signature must have format name,arity"
+                    ) from ex
+                for s in self._ctl.symbolic_atoms:
+                    if s.symbol.match(name, arity):
+                        self._mc_base_assumptions.add(s.symbol)
+                        self._add_symbol_to_dict(s.symbol)
         self._assumptions = self._mc_base_assumptions.copy()
 
     # ---------------------------------------------
@@ -87,6 +88,18 @@ class ExplanationBackend(ClingoMultishotBackend):
         super()._add_assumption(predicate_symbol)
         self._add_symbol_to_dict(predicate_symbol)
 
+    def _ground(self, program: str = "base"):
+        """
+        Grounds the provided program, takes care of finding the new literals for the assumptions
+
+        Arguments:
+            program (str): The name of the program to ground (defaults to "base")
+        """
+        self._lit2symbol = {}
+        super()._ground(program=program)
+        for a in self._assumptions:
+            self._add_symbol_to_dict(a)
+
     # ---------------------------------------------
     # Domain state
     # ---------------------------------------------
@@ -98,14 +111,14 @@ class ExplanationBackend(ClingoMultishotBackend):
         Includes predicate ``_clinguin_muc/1`` for every assumption in the MUC
         It uses a cache that is erased after an operation makes changes in the control.
         """
-        prg = "#defined _clinguin_muc/1."
+        prg = "#defined _clinguin_muc/1. "
         if self._unsat_core is not None:
             self._logger.info("UNSAT Answer, will add explanation")
             clingo_core = self._unsat_core
             clingo_core_symbols = [self._lit2symbol[s] for s in clingo_core if s != -1]
             muc_core = self._get_minimum_uc(clingo_core_symbols)
             for s in muc_core:
-                prg = prg + f"_clinguin_muc({str(s)})."
+                prg = prg + f"_clinguin_muc({str(s)}).\n"
         return prg
 
     # ---------------------------------------------
@@ -116,8 +129,13 @@ class ExplanationBackend(ClingoMultishotBackend):
         """
         Adds a list of symbols to the mapping of symbols to literals
         """
-        lit = self._ctl.symbolic_atoms[symbol].literal
-        self._lit2symbol[lit] = symbol
+        try:
+            lit = self._ctl.symbolic_atoms[symbol].literal
+            self._lit2symbol[lit] = symbol
+        except Exception:
+            self._logger.error(
+                "Could not find symbol %s literal in control. Symbol ignored,", symbol
+            )
 
     def _solve_core(self, assumptions):
         """

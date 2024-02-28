@@ -20,7 +20,7 @@ Running clinguin
 
 To run `clinguin` one can the execute the following command:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp --frontend AngularFrontend
 
@@ -32,7 +32,7 @@ The `client-server` option provided in the command line, states that both client
 
 **Server**
 
-.. code-block:: bash
+.. code-block:: console
 
     $ clinguin server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
 
@@ -42,7 +42,7 @@ When running the server one can further specify the *Backend* that should be use
 
 **Client**
 
-.. code-block:: bash
+.. code-block:: console
 
     $ clinguin client --frontend AngularFrontend
 

@@ -40,7 +40,7 @@ This allows to use the AngularFrontend by passing the ``--frontend`` argument to
 
 Be sure that you have `make` and all the dev-tools for the web-frontend installed (`Angular`), as detailed below! Then type:
 
-.. code-block:: bash
+.. code-block:: console
 
     $ make angular
 

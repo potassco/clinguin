@@ -3,7 +3,9 @@
 - **Backend**:   `ExplanationBackend`
 - **Frontend**:   `AngularFrontend`
 
-An advanced version of the sudoku where all values are listed as possibilities but when an invalid one is chosen, the explanation is highlighted
+An advanced version of the sudoku where all values are listed as possibilities but when an invalid one is chosen, the explanation is highlighted.
+
+Notice that the instances uses choices on predicate `initial/3`. This way they can be used as assumptions and be included in the `_clinguin_muc` predicate by the `ExplanationBackend`. The option `--assumption-signature initial,3` adds all these atoms as true assumptions.
 
 ### Usage
 

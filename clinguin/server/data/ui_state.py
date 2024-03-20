@@ -85,11 +85,15 @@ class UIState:
         log.debug("Computing UI state\n")
         uictl = self.ui_control()
 
+        defined = False
         with uictl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True, atoms=True)
+                defined = True
                 break
-
+        if not defined:
+            log.critical("UI encoding was UNSATISFIABLE")
+            raise RuntimeError("UI encoding was UNSATISFIABLE")
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
 
     def add_message(self, title, message, attribute_type="info"):

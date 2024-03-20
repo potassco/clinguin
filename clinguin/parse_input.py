@@ -1,6 +1,7 @@
 """
 Responsible for parsing the command line attributes
 """
+
 import argparse
 import importlib
 import inspect
@@ -306,7 +307,7 @@ class ArgumentParser:
         return parser_server_client
 
     def _add_default_arguments_to_backend_parser(self, parser):
-        sub_classes = self._get_sub_classes(ClingoBackend)
+        sub_classes = [ClingoBackend] + self._get_sub_classes(ClingoBackend)
         sub_class_as_options = "|".join([s.__name__ for s in sub_classes])
         sub_classes_str = "=>  Available options: {" + sub_class_as_options + "}"
         parser.add_argument(
@@ -411,7 +412,7 @@ class ArgumentParser:
     def _select_subclass_and_add_custom_arguments(
         self, parser, parent, class_name, default_class
     ):
-        sub_classes = self._get_sub_classes(parent)
+        sub_classes = [parent] + self._get_sub_classes(parent)
 
         selected_class = None
 

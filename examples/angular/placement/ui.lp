@@ -12,6 +12,7 @@ attr(window, flex_direction, row).
 
     elem(modal, modal, window).
     attr(modal, title, "Add person").
+    attr(modal, size, "xl").
 
         elem(c1, container, modal).
         attr(c1, child_layout, flex).

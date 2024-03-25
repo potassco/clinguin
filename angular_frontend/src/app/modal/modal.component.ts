@@ -46,6 +46,8 @@ export class ModalComponent {
     let visibility = this.attributeService.findAttribute("visible", attributes)
 
     let modalTitle = this.attributeService.findAttribute("title", attributes)
+    let modalSize = this.attributeService.findAttribute("size", attributes)
+
     if (modalTitle != null) {
       this.modalTitle = modalTitle.value
     }
@@ -53,8 +55,19 @@ export class ModalComponent {
     if (visibility != null && this.element != null) {
 
       if ((visibility.value == "shown" || visibility.value == "visible") && (this.modalRef == null)) {
-    
-        this.modalRef = this.modalService.open(this.content, { ariaLabelledBy: 'modal-basic-title' })
+        
+        if (modalSize != null) {
+          console.log(modalSize.value)
+        }
+
+        let ngbModalOptions = null
+        if (modalSize != null) {
+          ngbModalOptions = { ariaLabelledBy: 'modal-basic-title', size: modalSize.value } 
+        } else {
+          ngbModalOptions = { ariaLabelledBy: 'modal-basic-title' } 
+        }
+
+        this.modalRef = this.modalService.open(this.content, ngbModalOptions)
 
         this.modalRefService.registerModal(this.element.id, this.modalRef)
 

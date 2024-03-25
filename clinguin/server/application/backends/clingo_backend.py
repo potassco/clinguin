@@ -346,6 +346,7 @@ class ClingoBackend:
                 if "_ds_cautious" in self._backup_ds_cache
                 else ""
             )
+
         return "\n".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
 
     @cached_property

@@ -84,7 +84,7 @@ class ClingoBackend:
         parser.add_argument(
             "-c",
             "--const",
-            nargs="+",
+            action="append",
             help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
             metavar="",
         )

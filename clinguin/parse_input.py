@@ -436,4 +436,8 @@ class ArgumentParser:
                     sys.exit()
 
                 selected_class = sub_class
+
+        if not selected_class:
+            raise RuntimeError(f"Invalid class name provided: {class_name}")
+
         return selected_class

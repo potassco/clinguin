@@ -39,6 +39,8 @@ class ClingoBackend:
         self.args = args
 
         self._domain_files = [] if args.domain_files is None else args.domain_files
+        if not args.ui_files:
+            raise RuntimeError("UI files need to be provided under --ui-files")
         self._ui_files = args.ui_files
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
 
@@ -221,6 +223,7 @@ class ClingoBackend:
         and creating a new control object (ui_control) using the ui_files provided
         """
         domain_state = self._domain_state
+        print(self._ui_files)
         self._ui_state = UIState(self._ui_files, domain_state, self._constants)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
@@ -430,7 +433,6 @@ class ClingoBackend:
         Thus, it needs to be implemented by all backends.
         """
         self._update_ui_state()
-        self._logger.debug(self._ui_state)
         json_structure = StandardJsonEncoder.encode(self._ui_state)
         return json_structure
 

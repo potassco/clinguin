@@ -40,7 +40,7 @@ elem(window, window, root).
         attr(c1, class, "align-items-end").
 
             elem(b1, button, c1).
-            when(b1, click, call, download(_context_value_optional(show_download))).
+            when(b1, click, call, download(_context_value(show_download,str,"#show assign/2."))).
             attr(b1, label, "Download").
             attr(b1, class, "m-1").
             attr(b1, class, "btn-success").

@@ -177,32 +177,51 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 
 }
 
-function replaceContext(policy_string: string, optional: boolean) {
+function replaceContext(policy_string: string) {
   let contextService = LocatorService.injector.get(ContextService)
-  let regex = /_context_value\(([^)]*)\)/
-  if (optional) {
-    regex = /_context_value_optional\(([^)]*)\)/
-  }
-
+  let regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
+  // ^(\w+)$|^(\w+\(\s*(?:"[^"]*"|\w+)\s*\))
+  let regex_const = /^(\w+)$|^(\w+\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))((?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?)*\))$/
   let match = regex.exec(policy_string)
   while (match != null) {
-    let match_group = match[1]
+
+    let match_instance = match[0]
+    let match_group = match[1] || match[2] || match[3]
+    let match_type = match[4] || match[5] || match[6]
+    let match_default = match[7] || match[8] || match[9]
 
     let new_value = contextService.retrieveContextValue(match_group)
-    if (new_value.length == 0 && !optional) {
-      throw new Error("Missing required value for " + match_group);
-    }
-    function isNumber(s: string) {
-      return /^[0-9]*$/.test(s);
+    if (new_value == null) {
+      if (!match_default == null) {
+        throw new Error("Missing required value for " + match_group);
+      }
+      new_value = match_default
     }
 
-    if (!isNumber(new_value) && new_value.length > 0) {
-      if (new_value[0] === new_value[0].toUpperCase() && new_value[0] != '"') {
+    let isNumber = /^[0-9]*$/.test(new_value);
+
+    let isConst = regex_const.test(new_value);
+
+    let mustBeQuoted = !isNumber && !isConst
+
+    if (match_type != null) {
+      if (match_type != "str" && match_type != "int" && match_type != "const") {
+        throw new Error("Not a valid type " + match_type + ". Should be str, int or const.");
+      }
+      if (match_type == "str") {
         new_value = '"' + new_value + '"'
       }
+      else if (match_type == "int" && !isNumber) {
+        throw new Error("Expected a number but got " + new_value);
+      }
+      if (match_type == "const" && !isConst) {
+        throw new Error("Expected a constant that can be parsed to an atom, but got: " + new_value);
+      }
     }
-    policy_string = policy_string.replace(regex, new_value)
-
+    if (match_type == null && mustBeQuoted) {
+      new_value = '"' + new_value + '"'
+    }
+    policy_string = policy_string.replace(match_instance, new_value)
     match = regex.exec(policy_string)
   }
   return policy_string
@@ -213,8 +232,8 @@ function handleCallback(when: WhenDto, event: Event | null) {
 
   let policy_string = when.policy
 
-  policy_string = replaceContext(policy_string, true)
-  policy_string = replaceContext(policy_string, false)
+
+  policy_string = replaceContext(policy_string)
 
   when.policy = policy_string
 
@@ -224,10 +243,7 @@ function handleCallback(when: WhenDto, event: Event | null) {
 function handleContext(when: WhenDto, event: Event | null) {
   let contextService = LocatorService.injector.get(ContextService)
   let policy = when.policy
-
-  policy = replaceContext(policy, true)
-  policy = replaceContext(policy, false)
-
+  policy = replaceContext(policy)
   if (policy[0] == '(') {
     policy = policy.substring(1)
     policy = policy.slice(0, -1)
@@ -309,10 +325,8 @@ export class CallBackHelperService {
         allEvents.push(when)
       }
     })
-    console.log("Handle event")
     if (allEvents.length > 0 && htmlEventName != "") {
       if (supportedAttributeName == "load") {
-        console.log("Load")
 
         allEvents.forEach((when: WhenDto) => {
           if (when.interactionType == "context") {

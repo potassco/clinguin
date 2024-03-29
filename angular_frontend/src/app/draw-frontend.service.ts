@@ -10,11 +10,11 @@ import { ServerRequest } from './types/server-request';
 import { ContextService } from './context.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DrawFrontendService {
 
-    frontendJson : Subject<ElementDto> = new Subject()
+    frontendJson: Subject<ElementDto> = new Subject()
     menuBar: Subject<ElementDto> = new Subject()
     messageLists: Subject<ElementDto[]> = new Subject()
     contextMenus: Subject<ElementDto[]> = new Subject()
@@ -26,36 +26,41 @@ export class DrawFrontendService {
     constructor(private httpService: HttpService, private httpClient: HttpClient, private contextService: ContextService) {
     }
 
-    initialGet() : void {
+    initialGet(): void {
         this.httpService.get().subscribe(
-        {next: (data:ElementDto) => {
-            this.lastData = data
-            this.frontendJson.next(data)
-        }})
+            {
+                next: (data: ElementDto) => {
+                    this.lastData = data
+                    this.frontendJson.next(data)
+                }
+            })
     }
 
-    policyPost(callback: WhenDto) : void {
+    policyPost(callback: WhenDto): void {
 
         let context = this.contextService.getContext()
-
         this.httpService.post(callback.policy, context).subscribe(
-        {next: (data:ElementDto) => {
-            this.lastData = data
-            this.frontendJson.next(data)
-        }})
+            {
+                next: (data: ElementDto) => {
+                    this.lastData = data
+                    this.frontendJson.next(data)
+                }
+            })
     }
 
-    uncheckedPost(serverRequest: ServerRequest) : void {
+    uncheckedPost(serverRequest: ServerRequest): void {
 
         this.httpClient.post<ElementDto>(this.backend_URI + "/backend", serverRequest).subscribe(
-        //this.httpService.post(serverRequest.function).subscribe(
-        {next: (data:ElementDto) => {
-            this.lastData = data
-            this.frontendJson.next(data)
-        }})
+            //this.httpService.post(serverRequest.function).subscribe(
+            {
+                next: (data: ElementDto) => {
+                    this.lastData = data
+                    this.frontendJson.next(data)
+                }
+            })
     }
 
-    detectCreateMenuBar(element:ElementDto) {
+    detectCreateMenuBar(element: ElementDto) {
         if (element.type == "menu_bar") {
             this.menuBar.next(element)
         } else {
@@ -65,7 +70,7 @@ export class DrawFrontendService {
         }
     }
 
-    getAllMessagesContextMenus(element:ElementDto, messageList:ElementDto[], contextMenuList: ElementDto[]) {
+    getAllMessagesContextMenus(element: ElementDto, messageList: ElementDto[], contextMenuList: ElementDto[]) {
 
         if (element.type == "message") {
             messageList.push(element)
@@ -78,12 +83,12 @@ export class DrawFrontendService {
         }
     }
 
-    postMessage(message:string, type:string="danger"){
-        let messageList : ElementDto[] = [this.getErrorMessage(message)]
+    postMessage(message: string, type: string = "danger") {
+        let messageList: ElementDto[] = [this.getErrorMessage(message)]
         this.messageLists.next(messageList)
     }
-    
-    getErrorMessage(message:string, type:string="danger"){
+
+    getErrorMessage(message: string, type: string = "danger") {
         let messageElement: ElementDto = {
             "id": "client_error",
             "type": "message",
@@ -92,7 +97,7 @@ export class DrawFrontendService {
                 {
                     "id": "client_error",
                     "key": "message",
-                    "value": message 
+                    "value": message
                 },
                 {
                     "id": "client_error",

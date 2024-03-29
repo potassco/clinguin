@@ -1,6 +1,7 @@
 """
 Module for the Endpoints class.
 """
+
 import logging
 import traceback
 from importlib.metadata import metadata
@@ -116,7 +117,7 @@ class Endpoints:
 
                 call_args = ",".join(function_arguments)
                 self._logger.info(
-                    "--> %s:   %s(%s))",
+                    "--> %s:   %s(%s)",
                     self._backend.__class__.__name__,
                     function_name,
                     call_args,

@@ -223,7 +223,6 @@ class ClingoBackend:
         and creating a new control object (ui_control) using the ui_files provided
         """
         domain_state = self._domain_state
-        print(self._ui_files)
         self._ui_state = UIState(self._ui_files, domain_state, self._constants)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
@@ -481,7 +480,12 @@ class ClingoBackend:
             if domain_files:
                 for f in self._domain_files:
                     ctl.load(f)
-            ctl.add("base", [], show_prg.replace('"', ""))
+            try:
+                ctl.add("base", [], show_prg.replace('"', ""))
+            except RuntimeError:
+                raise Exception(
+                    "Show program can't be parsed. Make sure it is a valid clingo program."
+                )
             ctl.ground([("base", [])])
             with ctl.solve(yield_=True) as hnd:
                 for m in hnd:

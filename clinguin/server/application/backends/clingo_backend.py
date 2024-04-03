@@ -590,3 +590,9 @@ class ClingoBackend:
             )
         for s in self._model:  # pylint: disable=E1133
             self._add_atom(s)
+
+    def stop_browsing(self):
+        """
+        Stops the current browsing
+        """
+        self._outdate()

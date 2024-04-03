@@ -182,8 +182,11 @@ function replaceContext(policy_string: string) {
   let regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
   // ^(\w+)$|^(\w+\(\s*(?:"[^"]*"|\w+)\s*\))
   let regex_const = /^(\w+)$|^(\w+\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))((?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?)*\))$/
+  console.log("Replacing context")
+  console.log(policy_string)
   let match = regex.exec(policy_string)
   while (match != null) {
+    // console.log("A match")
 
     let match_instance = match[0]
     let match_group = match[1] || match[2] || match[3]
@@ -202,13 +205,20 @@ function replaceContext(policy_string: string) {
 
     let isConst = regex_const.test(new_value);
 
-    let mustBeQuoted = !isNumber && !isConst
+    // console.log("new value!", new_value)
+
+    let isQuoted = new_value.length > 1 && new_value[0] == '"' && new_value.slice(-1) == '"';
+    // console.log("isQuoted", isQuoted)
+    // console.log("isQuoted x", new_value[0])
+    // console.log("isQuoted x", new_value.slice(-1))
+    let mustBeQuoted = !isNumber && !isConst && !isQuoted
 
     if (match_type != null) {
       if (match_type != "str" && match_type != "int" && match_type != "const") {
         throw new Error("Not a valid type " + match_type + ". Should be str, int or const.");
       }
-      if (match_type == "str") {
+      if (match_type == "str" && !isQuoted) {
+        // console.log("Adding quotes 1")
         new_value = '"' + new_value + '"'
       }
       else if (match_type == "int" && !isNumber) {
@@ -219,9 +229,14 @@ function replaceContext(policy_string: string) {
       }
     }
     if (match_type == null && mustBeQuoted) {
+      // console.log("Adding quotes 2")
       new_value = '"' + new_value + '"'
     }
+    // console.log("Will replace ", match_instance, " by ", new_value)
     policy_string = policy_string.replace(match_instance, new_value)
+    // console.log(policy_string)
+    regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
+
     match = regex.exec(policy_string)
   }
   return policy_string

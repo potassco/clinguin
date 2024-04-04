@@ -182,8 +182,8 @@ function replaceContext(policy_string: string) {
   let regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
   // ^(\w+)$|^(\w+\(\s*(?:"[^"]*"|\w+)\s*\))
   let regex_const = /^(\w+)$|^(\w+\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))((?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?)*\))$/
-  console.log("Replacing context")
-  console.log(policy_string)
+  // console.log("Replacing context")
+  // console.log(policy_string)
   let match = regex.exec(policy_string)
   while (match != null) {
     // console.log("A match")

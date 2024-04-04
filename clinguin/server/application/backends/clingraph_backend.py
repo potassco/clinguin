@@ -313,5 +313,4 @@ class ClingraphBackend(ClingoMultishotBackend):
 
         graph.format = self._intermediate_format
         img = graph.pipe(engine=self._engine)
-
         return img

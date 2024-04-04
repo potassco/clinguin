@@ -212,7 +212,12 @@ class ClingoMultishotBackend(ClingoBackend):
             else:
                 model = []
                 ctl = Control(["--warn=none"])
-                ctl.add("base", [], show_prg.strip('"'))
+                try:
+                    ctl.add("base", [], show_prg.strip('"'))
+                except RuntimeError as exc:
+                    raise Exception(
+                        "Show program can't be parsed. Make sure it is a valid clingo program."
+                    ) from exc
                 prg = "\n".join([f"{str(s)}." for s in self._model])
                 ctl.add("base", [], prg)
                 ctl.ground([("base", [])])

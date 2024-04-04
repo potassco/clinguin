@@ -27,7 +27,7 @@ def solve(ctl, assumptions, on_model=lambda m: None):
         model_symbols = None
         for m in result:
             on_model(m)
-            model_symbols = m.symbols(shown=True, atoms=True)
+            model_symbols = m.symbols(shown=True, atoms=True, theory=True)
         if model_symbols is None:
             return None, result.core()
     return model_symbols, None

@@ -1,6 +1,7 @@
 """
 Module that contains the EndpointsHelper class.
 """
+
 import logging
 
 from ...utils import CaseConverter, Logger
@@ -37,6 +38,6 @@ class EndpointsHelper:
         if found:
             result = function(*args, **kwargs)
             return result
-        error_string = "Could not find function " + name + " in backend."
+        error_string = "Could not find function '" + name + "' in backend."
         logger.error(error_string)
         raise Exception(error_string)

@@ -68,7 +68,14 @@ To use a value imputed by the user, such as for text fields, the special constan
 
 **Substitution**
 
-The values of the context can be accessed for a direct substitution in the operation of a call. This is done with the special predicates ``_context_value/1`` and ``_context_value_optional/1``. The argument of these predicates is the key which will be substituted by the value before it is processed by the server. While ``_context_value/1`` will show an error in case there is no value for the provided key, ``_context_value_optional/1`` will leave the input optional, and in case there is no value present it is substitued by None.
+The values of the context can be accessed for a direct substitution in the operation of a call. This is done with the special predicate ``_context_value`` with arity 1, 2 or 3.
+
+- The first argument of this predicate is the key which will be substituted by the value before it is processed by the server.
+- The second argument is an optional type, which should be ``str``, ``int`` or ``const``. Using this type will type check the input and transform in into the correct type. 
+If the user provides as input a number 1, it will be trated as a number unless the type is ``str`` in which case it will be transformed to ``"1"``.
+If the user provides as input a string that can be an constant, such as ``open``, it will be passed without quotes unless the type is ``str``.
+However, if the input is a string that can't be a constant, such as ``Open``, it will quoted even if no type is provided.
+- The third argument is an optional default value, this value is taken whenever the key is not present.
 
 .. admonition:: Example
     
@@ -81,10 +88,20 @@ The values of the context can be accessed for a direct substitution in the opera
         when(node(X), click, context, (selected_node, X)):- node(X).
         when(button1, click, call, add_atom(show_children(_context_value(selected_node),true))).
 
+.. admonition:: Example
+    
+
+    Example from  the `ast example <https://github.com/krr-up/clinguin/tree/master/examples/angular/graph_coloring/ui.lp>`_.
+    When this button is clicked, the value of the key ``show_download`` will be accessed and transfoermed into a string. If no value is provided then it is substituted by "#show assign/2.".
+
+    .. code-block:: 
+
+        when(b1, click, call, download(_context_value(show_download, str, "#show assign/2."))).
+
 **Access**
 
 All calls to the server will include the context as an argument. All backends will have access to this dictionary and can use its values for any operation. The provadided backends include the context information as part of the :ref:`domain-state` via predicate ``_clinguin_context(KEY,VALUE)``. Thus, giving the UI encoding access to the context at the time the call was made. Beware that changes in the context are not reflected in the UI encoding imidiatley, but only after calling the server and calculating the UI again. 
-
+Notice that the _clinguin_context predicate will only include things after a server call, but not the moment they are set.
 
 .. warning::
     The context is erased after every call to the server.

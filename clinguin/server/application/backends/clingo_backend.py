@@ -39,6 +39,8 @@ class ClingoBackend:
         self.args = args
 
         self._domain_files = [] if args.domain_files is None else args.domain_files
+        if not args.ui_files:
+            raise RuntimeError("UI files need to be provided under --ui-files")
         self._ui_files = args.ui_files
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
 
@@ -84,7 +86,7 @@ class ClingoBackend:
         parser.add_argument(
             "-c",
             "--const",
-            nargs="+",
+            action="append",
             help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
             metavar="",
         )
@@ -346,6 +348,7 @@ class ClingoBackend:
                 if "_ds_cautious" in self._backup_ds_cache
                 else ""
             )
+
         return "\n".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
 
     @cached_property
@@ -429,7 +432,6 @@ class ClingoBackend:
         Thus, it needs to be implemented by all backends.
         """
         self._update_ui_state()
-        self._logger.debug(self._ui_state)
         json_structure = StandardJsonEncoder.encode(self._ui_state)
         return json_structure
 
@@ -478,7 +480,12 @@ class ClingoBackend:
             if domain_files:
                 for f in self._domain_files:
                     ctl.load(f)
-            ctl.add("base", [], show_prg.replace('"', ""))
+            try:
+                ctl.add("base", [], show_prg.replace('"', ""))
+            except RuntimeError as exc:
+                raise Exception(
+                    "Show program can't be parsed. Make sure it is a valid clingo program."
+                ) from exc
             ctl.ground([("base", [])])
             with ctl.solve(yield_=True) as hnd:
                 for m in hnd:
@@ -583,3 +590,9 @@ class ClingoBackend:
             )
         for s in self._model:  # pylint: disable=E1133
             self._add_atom(s)
+
+    def stop_browsing(self):
+        """
+        Stops the current browsing
+        """
+        self._outdate()

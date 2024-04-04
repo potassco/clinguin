@@ -2,7 +2,6 @@
 Module that contains the ClingoDL Backend.
 """
 
-
 from pathlib import Path
 
 from clingo import Control
@@ -26,6 +25,11 @@ class ClingoDLBackend(ClingoMultishotBackend):
 
     def __init__(self, args):
         super().__init__(args)
+
+        # Model should be the last call so that the on_model takes the assignment of the model
+        # and not of the cautious consequences
+        self._domain_state_constructors.remove("_ds_model")
+        self._add_domain_state_constructor("_ds_model")
 
         self._add_domain_state_constructor("_ds_assign")
 
@@ -76,7 +80,8 @@ class ClingoDLBackend(ClingoMultishotBackend):
         self._theory.on_model(model)
         # pylint: disable=attribute-defined-outside-init
         self._assignment = list(
-            (key, val) for key, val in self._theory.assignment(model.thread_id))
+            (key, val) for key, val in self._theory.assignment(model.thread_id)
+        )
 
     # ---------------------------------------------
     # Domain state

@@ -97,6 +97,7 @@ class ExplanationBackend(ClingoMultishotBackend):
         """
         self._lit2symbol = {}
         super()._ground(program=program)
+        self._assumptions = self._assumptions.union(self._mc_base_assumptions.copy())
         for a in self._assumptions:
             self._add_symbol_to_dict(a)
 

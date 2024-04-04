@@ -482,10 +482,10 @@ class ClingoBackend:
                     ctl.load(f)
             try:
                 ctl.add("base", [], show_prg.replace('"', ""))
-            except RuntimeError:
+            except RuntimeError as exc:
                 raise Exception(
                     "Show program can't be parsed. Make sure it is a valid clingo program."
-                )
+                ) from exc
             ctl.ground([("base", [])])
             with ctl.solve(yield_=True) as hnd:
                 for m in hnd:

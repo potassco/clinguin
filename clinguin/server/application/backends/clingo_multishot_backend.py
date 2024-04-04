@@ -3,7 +3,7 @@
 Module that contains the ClingoMultishotBackend.
 """
 
-from clingo import parse_term
+from clingo import parse_term, Control
 from clingo.script import enable_python
 
 from clinguin.server.application.backends import ClingoBackend
@@ -187,10 +187,15 @@ class ClingoMultishotBackend(ClingoBackend):
                 f"Invalid external value {name}. Must be true, false or relase"
             )
 
-    def select(self):
+    def select(self, show_prg: str = ""):
         """
         Select the current solution during browsing.
         All atoms in the solution are added as assumptions in the backend.
+
+        Arguments:
+
+            show_program (str): An optional show program to filter atoms
+
         """
         if self._model is None:
             self._messages.append(
@@ -202,7 +207,22 @@ class ClingoMultishotBackend(ClingoBackend):
         else:
             symbols_to_ignore = self._externals["true"]
             symbols_to_ignore.union(self._externals["false"])
-            for s in self._model:  # pylint: disable=E1133
+            if show_prg == "":
+                model = self._model
+            else:
+                model = []
+                ctl = Control(["--warn=none"])
+                ctl.add("base", [], show_prg.strip('"'))
+                prg = "\n".join([f"{str(s)}." for s in self._model])
+                ctl.add("base", [], prg)
+                ctl.ground([("base", [])])
+
+                def add_shown(m):
+                    for s in m.symbols(shown=True):
+                        model.append(s)
+
+                ctl.solve(on_model=add_shown)
+            for s in model:  # pylint: disable=E1133
                 if s not in symbols_to_ignore:
                     self._add_assumption(s)
         self._outdate()

@@ -572,7 +572,7 @@ class ClingoBackend:
                 model = next(self._iterator)
             self._clear_cache(["_ds_model"])
             self._on_model(model)
-            self._model = model.symbols(shown=True, atoms=True)
+            self._model = model.symbols(shown=True, atoms=True, theory=True)
         except StopIteration:
             self._logger.info("No more solutions")
             self._outdate()

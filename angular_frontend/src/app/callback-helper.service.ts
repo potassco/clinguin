@@ -192,9 +192,11 @@ function replaceContext(policy_string: string) {
     let match_group = match[1] || match[2] || match[3]
     let match_type = match[4] || match[5] || match[6]
     let match_default = match[7] || match[8] || match[9]
-
+    // console.log(match_group)
     let new_value = contextService.retrieveContextValue(match_group)
-    if (new_value == null) {
+    // console.log(new_value)
+    if (new_value == null || new_value == "") {
+      // console.log("Is null")
       if (!match_default == null) {
         throw new Error("Missing required value for " + match_group);
       }

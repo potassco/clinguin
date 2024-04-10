@@ -63,21 +63,6 @@ class ClingoMultishotBackend(ClingoBackend):
             prg += f"_clinguin_assume({str(a)}).\n"
         return prg + "\n"
 
-    # ---------------------------------------------
-    # Output
-    # ---------------------------------------------
-
-    @property
-    def _output_prg(self):
-        """
-        Generates the output program used when downloading into a file.
-        Includes all assumptions as facts.
-        """
-        prg = super()._output_prg
-        for a in self._assumptions:
-            prg = prg + f"{str(a)}.\n"
-        return prg
-
     ########################################################################################################
 
     # ---------------------------------------------

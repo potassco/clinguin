@@ -405,20 +405,6 @@ class ClingoBackend:
             prg += "_clinguin_browsing."
         return prg + "\n"
 
-    # ---------------------------------------------
-    # Output
-    # ---------------------------------------------
-
-    @property
-    def _output_prg(self):
-        """
-        Generates the output program used when downloading into a file
-        """
-        prg = ""
-        for a in self._atoms:
-            prg = prg + f"{str(a)}.\n"
-        return prg
-
     ########################################################################################################
 
     # ---------------------------------------------
@@ -450,52 +436,35 @@ class ClingoBackend:
         """
         self._clear_cache()
 
-    def download(
-        self, show_prg=None, file_name="clinguin_download.lp", domain_files=True
-    ):
+    def download(self, show_prg=None, file_name="clinguin_download.lp"):
         """
-        Downloads the current state of the backend. All added atoms and assumptions
-        are put together as a list of facts.
+        Downloads the current model.
 
         Arguments:
             show_prg (_type_, optional): Program to filter output using show statements. Defaults to None.
             file_name (str, optional): The name of the file for the download. Defaults to "clinguin_download.lp".
-            domain_files (bool, optional): If the domain files should be included. Defaults to True
-
         """
-        prg = self._output_prg
-        was_browsing = self._is_browsing
-        self._outdate()
-        if was_browsing:
-            self._messages.append(
-                (
-                    "Warning",
-                    "Browsing was active during download, only selected solutions will be present on the file.",
-                    "warning",
-                )
-            )
-        if show_prg is not None:
-            ctl = Control()
-            ctl.add("base", [], prg)
-            if domain_files:
-                for f in self._domain_files:
-                    ctl.load(f)
-            try:
-                ctl.add("base", [], show_prg.replace('"', ""))
-            except RuntimeError as exc:
-                raise Exception(
-                    "Show program can't be parsed. Make sure it is a valid clingo program."
-                ) from exc
-            ctl.ground([("base", [])])
-            with ctl.solve(yield_=True) as hnd:
-                for m in hnd:
-                    atoms = [f"{str(s)}." for s in m.symbols(shown=True)]
+        if self._model is None:
+            raise RuntimeError("Cant download when there is no model")
+        prg = "\n".join([f"{s}." for s in self._model])
+        ctl = Control()
+        ctl.add("base", [], prg)
+        try:
+            ctl.add("base", [], show_prg.replace('"', ""))
+        except RuntimeError as exc:
+            raise Exception(
+                "Show program can't be parsed. Make sure it is a valid clingo program."
+            ) from exc
+        ctl.ground([("base", [])])
+        with ctl.solve(yield_=True) as hnd:
+            for m in hnd:
+                atoms = [f"{str(s)}." for s in m.symbols(shown=True)]
 
-            prg = "\n".join(atoms)
+        final_prg = "\n".join(atoms)
 
         file_name = file_name.strip('"')
         with open(file_name, "w", encoding="UTF-8") as file:
-            file.write(prg)
+            file.write(final_prg)
         self._messages.append(
             (
                 "Download successful",

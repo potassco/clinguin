@@ -297,6 +297,7 @@ class ClingoBackend:
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
+        self._logger.debug("Getting Brave...")
         if self._is_browsing:
             return (
                 self._backup_ds_cache["_ds_brave"]
@@ -327,6 +328,7 @@ class ClingoBackend:
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
+        self._logger.debug("Getting Cautious...")
         if self._is_browsing:
             return (
                 self._backup_ds_cache["_ds_cautious"]
@@ -358,6 +360,7 @@ class ClingoBackend:
         When the model is being iterated by the user, the current model is returned.
         It uses a cache that is erased after an operation makes changes in the control.
         """
+        self._logger.debug("Getting Model...")
         if self._model is None:
             self._ctl.configuration.solve.models = 1
             self._ctl.configuration.solve.opt_mode = "ignore"

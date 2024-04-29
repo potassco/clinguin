@@ -1,9 +1,14 @@
-<div id={{window_id}} *ngIf="window != null" #parent style="margin-top: 5px; margin-bottom: 10px;margin-right: 10px;margin-left: 15px;">
+<div id={{window_id}} *ngIf="window != null" #parent
+    style="margin-top: 5px; margin-bottom: 10px;margin-right: 10px;margin-left: 15px;">
     <ng-template #child></ng-template>
 
+</div>
+<div id=loader class="myspinner clearfix p-3">
+    <div class="spinner-border text-info float-end" role="status">
+    </div>
 </div>
 <div style="position: fixed; bottom:0;" *ngIf="window != null">
     <app-message *ngFor="let message of messageList" [element]="message"></app-message>
 </div>
-<app-context-menu *ngFor="let contextMenu of contextMenuList" [id]="contextMenu.id" [element]="contextMenu" style="display: none; position: absolute;"></app-context-menu>
- 
+<app-context-menu *ngFor="let contextMenu of contextMenuList" [id]="contextMenu.id" [element]="contextMenu"
+    style="display: none; position: absolute;"></app-context-menu>

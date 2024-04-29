@@ -524,9 +524,6 @@ class ClingoBackend:
         Arguments:
             opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """
-        import time
-
-        time.sleep(2)
         if self._ctl.configuration.solve.opt_mode != opt_mode:
             self._logger.debug("Ended browsing since opt mode changed")
             self._outdate()

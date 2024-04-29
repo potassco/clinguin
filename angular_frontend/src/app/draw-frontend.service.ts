@@ -8,6 +8,8 @@ import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { ServerRequest } from './types/server-request';
 import { ContextService } from './context.service';
+import { LocatorService } from './locator.service';
+import { ElementLookupDto, ElementLookupService } from './element-lookup.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,25 +29,36 @@ export class DrawFrontendService {
     }
 
     initialGet(): void {
+        let loader = document.getElementById("loader")
+
+        loader?.removeAttribute("hidden")
+
         this.httpService.get().subscribe(
             {
                 next: (data: ElementDto) => {
                     this.lastData = data
                     this.frontendJson.next(data)
+                    loader?.setAttribute("hidden", "true")
                 }
             })
+
     }
 
     policyPost(callback: WhenDto): void {
 
         let context = this.contextService.getContext()
+        let loader = document.getElementById("loader")
+        loader?.removeAttribute("hidden")
+
         this.httpService.post(callback.policy, context).subscribe(
             {
                 next: (data: ElementDto) => {
                     this.lastData = data
                     this.frontendJson.next(data)
+                    loader?.setAttribute("hidden", "true")
                 }
             })
+
     }
 
     uncheckedPost(serverRequest: ServerRequest): void {

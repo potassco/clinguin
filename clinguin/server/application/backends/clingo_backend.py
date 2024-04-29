@@ -524,6 +524,9 @@ class ClingoBackend:
         Arguments:
             opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
         """
+        import time
+
+        time.sleep(2)
         if self._ctl.configuration.solve.opt_mode != opt_mode:
             self._logger.debug("Ended browsing since opt mode changed")
             self._outdate()
@@ -540,7 +543,7 @@ class ClingoBackend:
         try:
             model = next(self._iterator)
             while optimizing and not model.optimality_proven:
-                self._logger.info("Skipping non-optimal model")
+                self._logger.info("Skipping non-optimal model!")
                 model = next(self._iterator)
             self._clear_cache(["_ds_model"])
             self._on_model(model)

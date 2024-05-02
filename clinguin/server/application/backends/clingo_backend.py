@@ -43,6 +43,7 @@ class ClingoBackend:
             raise RuntimeError("UI files need to be provided under --ui-files")
         self._ui_files = args.ui_files
         self._constants = [f"-c {v}" for v in args.const] if args.const else []
+        self._clingo_ctl_arg = args.clingo_ctl_arg if args.clingo_ctl_arg else []
 
         self._domain_state_constructors = []
         self._backup_ds_cache = {}
@@ -88,6 +89,13 @@ class ClingoBackend:
             "--const",
             action="append",
             help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
+            metavar="",
+        )
+        parser.add_argument(
+            "--clingo-ctl-arg",
+            action="append",
+            help="""Argument that will be passed to clingo control object for the domain.
+            Should have format <name>=<value>, for example parallel-mode=2 will become --parallel-mode=2.""",
             metavar="",
         )
 
@@ -136,7 +144,8 @@ class ClingoBackend:
         Uses the provided constants and domain files.
         It adds the atoms.
         """
-        self._ctl = Control(["0"] + self._constants)
+        args = ["0"] + self._constants + [f"--{o}" for o in self._clingo_ctl_arg]
+        self._ctl = Control(args)
 
         for f in self._domain_files:
             path = Path(f)

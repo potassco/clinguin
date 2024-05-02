@@ -59,7 +59,7 @@ class ExplanationBackend(ClingoMultishotBackend):
             "--assumption-signature",
             help=textwrap.dedent(
                 """\
-                            Signatures that will be considered as assumtions. Must be have format name,arity"""
+                            Signatures that will be considered as true assumptions. Must be have format name,arity"""
             ),
             nargs="+",
             metavar="",

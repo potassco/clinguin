@@ -139,10 +139,7 @@ class ClingoBackend:
 
     def _init_ctl(self):
         """
-        Initializes the control object (domain-control).
-        It is used when the server is started or after a restart.
-        Uses the provided constants and domain files.
-        It adds the atoms.
+        Creates the control and loads the files
         """
         self._create_ctl()
         self._load_and_add()
@@ -203,12 +200,6 @@ class ClingoBackend:
         self._model = None
         self._clear_cache()
 
-    def _get_assumptions(self):
-        """
-        Gets the set of assumptions used for solving
-        """
-        return self._assumptions
-
     @property
     def _is_browsing(self):
         """
@@ -252,6 +243,12 @@ class ClingoBackend:
         """
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
+
+    def _get_assumptions(self):
+        """
+        Gets the set of assumptions used for solving
+        """
+        return self._assumptions
 
     # ---------------------------------------------
     # UI update

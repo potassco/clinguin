@@ -67,7 +67,11 @@ When a custom argument is added to the backend if will likely need to be handled
 
 .. automethod:: ClingoMultishotBackend._init_setup
 
-.. automethod:: ClingoMultishotBackend._init_ctl
+.. automethod:: ClingoMultishotBackend._create_ctl
+
+.. automethod:: ClingoMultishotBackend._load_and_add
+
+.. automethod:: ClingoMultishotBackend._load_file
 
 .. automethod:: ClingoMultishotBackend._outdate
 
@@ -93,6 +97,8 @@ They can be ovweritten for theory extensions among other things.
 .. automethod:: ClingoMultishotBackend._on_model
 
 .. automethod:: ClingoMultishotBackend._add_atom
+
+.. automethod:: ClingoMultishotBackend._get_assumptions
 
 
 UI updates

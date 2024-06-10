@@ -77,49 +77,53 @@ class ClingoMultishotBackend(ClingoBackend):
         self._outdate()
         self._assumptions = set()
 
-    def add_assumption(self, predicate):
+    def add_assumption(self, atom):
         """
-        Adds an assumption
+        Adds an atom `a` as an assumption.
+        This assumption can be considered as an integrity constraint:
+        `:- not a.` forcing the program to entail the given atom.
 
         Arguments:
 
-            predicate (str): The clingo symbol to be added
+            atom (str): The clingo symbol to be added as a true assumption
         """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol not in self._assumptions:
-            self._add_assumption(predicate_symbol)
+        atom_symbol = parse_term(atom)
+        if atom_symbol not in self._assumptions:
+            self._add_assumption(atom_symbol)
             self._outdate()
 
-    def remove_assumption(self, predicate):
+    def remove_assumption(self, atom):
         """
-        Removes an assumption
+        Removes an atom from the assumptions list.
 
         Arguments:
 
-            predicate (str): The clingo symbol to be removed
+            atom (str): The clingo symbol to be removed
         """
-        predicate_symbol = parse_term(predicate)
-        if predicate_symbol in self._assumptions:
-            self._assumptions.remove(predicate_symbol)
+        atom_symbol = parse_term(atom)
+        if atom_symbol in self._assumptions:
+            self._assumptions.remove(atom_symbol)
             self._outdate()
 
-    def remove_assumption_signature(self, predicate):
+    def remove_assumption_signature(self, atom):
         """
-        Removes predicates matching the predicate description.
+        Removes from the list of assumptions those matching the given atom.
+        Unlike function remove_assumption, this one allows for partial matches using the
+        placeholder constant `any`
 
         Arguments:
 
-            predicate (str): The predicate description as a symbol,
+            atom (str): The atom description as a symbol,
                 where the reserver word `any` is used to state that anything can
                 take part of that position. For instance, `person(anna,any)`,
-                will remove all assumptions of predicate person, where the first argument is anna.
+                will remove all assumptions of atom person, where the first argument is anna.
         """
-        predicate_symbol = parse_term(predicate)
-        arity = len(predicate_symbol.arguments)
+        atom_symbol = parse_term(atom)
+        arity = len(atom_symbol.arguments)
         to_remove = []
         for s in self._assumptions:
-            if s.match(predicate_symbol.name, arity):
-                for i, a in enumerate(predicate_symbol.arguments):
+            if s.match(atom_symbol.name, arity):
+                for i, a in enumerate(atom_symbol.arguments):
                     if str(a) != "any" and s.arguments[i] != a:
                         break
                 else:
@@ -130,21 +134,22 @@ class ClingoMultishotBackend(ClingoBackend):
         if len(to_remove) > 0:
             self._outdate()
 
-    def set_external(self, predicate, value):
+    def set_external(self, atom, value):
         """
-        Sets the value of an external.
+        Sets the value of an external. Externals must be defined in the domain files using `#external`.
+        The truth value of external atoms can then be provided by the user via this function.
 
         Arguments:
 
-            predicate (str): The clingo symbol to be set
+            atom (str): The clingo symbol to be set
             value (str): The value (release, true or false)
         """
-        symbol = parse_term(predicate)
+        symbol = parse_term(atom)
         name = value
         self._outdate()
 
         if name == "release":
-            self._ctl.release_external(parse_term(predicate))
+            self._ctl.release_external(parse_term(atom))
             self._externals["released"].add(symbol)
 
             if symbol in self._externals["true"]:
@@ -154,14 +159,14 @@ class ClingoMultishotBackend(ClingoBackend):
                 self._externals["false"].remove(symbol)
 
         elif name == "true":
-            self._ctl.assign_external(parse_term(predicate), True)
+            self._ctl.assign_external(parse_term(atom), True)
             self._externals["true"].add(symbol)
 
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
         elif name == "false":
-            self._ctl.assign_external(parse_term(predicate), False)
+            self._ctl.assign_external(parse_term(atom), False)
             self._externals["false"].add(symbol)
 
             if symbol in self._externals["true"]:

@@ -37,29 +37,24 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # Setups
     # ---------------------------------------------
 
-    def _init_ctl(self):
-        args = ["0"] + self._constants + [f"--{o}" for o in self._clingo_ctl_arg]
-        self._ctl = Control(args)
+    def _create_ctl(self):
+        """
+        Initializes the control object (domain-control).
+        It is used when the server is started or after a restart.
+        """
+        super()._create_ctl()
         self._theory = ClingoDLTheory()
         self._theory.register(self._ctl)
 
-        with ProgramBuilder(self._ctl) as bld:
-            for f in self._domain_files:
-                path = Path(f)
-                if not path.is_file():
-                    self._logger.critical("File %s does not exist", f)
-                    raise Exception(f"File {f} does not exist")
-                try:
-                    parse_files([f], lambda ast: self._theory.rewrite_ast(ast, bld.add))
-                except Exception as a:
-                    self._logger.critical(
-                        "Failed to load file %s (there is likely a syntax error in this logic program file).",
-                        f,
-                    )
-                    raise a
+    def _load_file(self, f):
+        """
+        Loads a file into the control. Uses the program builder to rewrite and add.
 
-        for atom in self._atoms:
-            self._ctl.add("base", [], str(atom) + ".")
+        Arguments:
+            f (str): The file path
+        """
+        with ProgramBuilder(self._ctl) as bld:
+            parse_files([f], lambda ast: self._theory.rewrite_ast(ast, bld.add))
 
     def _outdate(self):
         """

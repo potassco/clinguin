@@ -6,6 +6,9 @@ import textwrap
 from functools import cached_property
 
 from clingo.script import enable_python
+from clingexplaid.transformers import AssumptionTransformer
+from clingexplaid.mus import CoreComputer
+
 
 from clinguin.server.application.backends.clingo_multishot_backend import (
     ClingoMultishotBackend,
@@ -22,27 +25,35 @@ class ExplanationBackend(ClingoMultishotBackend):
     """
 
     def __init__(self, args):
-        self._muc = None
-        self._lit2symbol = {}
+        self._mus = None
         self._mc_base_assumptions = set()
+        self._parse_assumption_signature(args)
+        self._assumption_transformer = AssumptionTransformer(
+            signatures=self._assumption_sig
+        )
         super().__init__(args)
+        self._transformer_assumptions = self._assumption_transformer.get_assumptions(
+            self._ctl, symbols=True
+        )
 
-        self._add_domain_state_constructor("_ds_muc")
+        self._add_domain_state_constructor("_ds_mus")
 
-        if args.assumption_signature:
-            for a in args.assumption_signature:
-                try:
-                    name = a.split(",")[0]
-                    arity = int(a.split(",")[1])
-                except Exception as ex:
-                    raise ValueError(
-                        "Argument assumption_signature must have format name,arity"
-                    ) from ex
-                for s in self._ctl.symbolic_atoms:
-                    if s.symbol.match(name, arity):
-                        self._mc_base_assumptions.add(s.symbol)
-                        self._add_symbol_to_dict(s.symbol)
-        self._assumptions = self._mc_base_assumptions.copy()
+    # ---------------------------------------------
+    # Private methods
+    # ---------------------------------------------
+
+    def _parse_assumption_signature(self, args):
+        """
+        Parse assumption signatures in the arguments
+        """
+        self._assumption_sig = []
+        for a in args.assumption_signature:
+            try:
+                self._assumption_sig.append((a.split(",")[0], int(a.split(",")[1])))
+            except Exception as ex:
+                raise ValueError(
+                    "Argument assumption_signature must have format name,arity"
+                ) from ex
 
     # ---------------------------------------------
     # Class methods
@@ -69,127 +80,49 @@ class ExplanationBackend(ClingoMultishotBackend):
     # Setups
     # ---------------------------------------------
 
+    def _load_file(self, f):
+        """
+        Loads a file into the control. Transforms the program to add choices around assumption signatures.
+
+        Arguments:
+            f (str): The file path
+        """
+
+        transformed_program = self._assumption_transformer.parse_files([f])
+        self._ctl.add("base", [], transformed_program)
+
+    def _get_assumptions(self):
+        """
+        Gets the set of assumptions used for solving
+        """
+
+        return self._assumptions.union(self._transformer_assumptions)
+
     def _outdate(self):
         """
         Outdates all the dynamic values when a change has been made.
         Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
         """
         super()._outdate()
-        self._clear_cache(["_ds_muc"])
-
-    # ---------------------------------------------
-    # Solving
-    # ---------------------------------------------
-
-    def _add_assumption(self, predicate_symbol):
-        """
-        Adds an assumption by also including in the mapping to literals.
-        """
-        super()._add_assumption(predicate_symbol)
-        self._add_symbol_to_dict(predicate_symbol)
-
-    def _ground(self, program: str = "base"):
-        """
-        Grounds the provided program, takes care of finding the new literals for the assumptions
-
-        Arguments:
-            program (str): The name of the program to ground (defaults to "base")
-        """
-        self._lit2symbol = {}
-        super()._ground(program=program)
-        self._assumptions = self._assumptions.union(self._mc_base_assumptions.copy())
-        for a in self._assumptions:
-            self._add_symbol_to_dict(a)
+        self._clear_cache(["_ds_mus"])
 
     # ---------------------------------------------
     # Domain state
     # ---------------------------------------------
 
     @cached_property
-    def _ds_muc(self):
+    def _ds_mus(self):
         """
-        Adds information about the Minimal Unsat Core (MUC)
-        Includes predicate ``_clinguin_muc/1`` for every assumption in the MUC
+        Adds information about the Minimal Unsatisfiable Set (MUS)
+        Includes predicate ``_clinguin_mus/1`` for every assumption in the MUC
         It uses a cache that is erased after an operation makes changes in the control.
         """
-        prg = "#defined _clinguin_muc/1. "
+        prg = "#defined _clinguin_mus/1.\n"
         if self._unsat_core is not None:
             self._logger.info("UNSAT Answer, will add explanation")
-            clingo_core = self._unsat_core
-            clingo_core_symbols = [self._lit2symbol[s] for s in clingo_core if s != -1]
-            muc_core = self._get_minimum_uc(clingo_core_symbols)
-            for s in muc_core:
-                prg = prg + f"_clinguin_muc({str(s)}).\n"
+            cc = CoreComputer(self._ctl, [(a, True) for a in self._get_assumptions()])
+            cc.shrink()
+            mus_core = cc.minimal
+            for s, v in mus_core:
+                prg = prg + f"_clinguin_mus({str(s)}).\n"
         return prg
-
-    # ---------------------------------------------
-    # Private methods
-    # ---------------------------------------------
-
-    def _add_symbol_to_dict(self, symbol):
-        """
-        Adds a list of symbols to the mapping of symbols to literals
-        """
-        try:
-            lit = self._ctl.symbolic_atoms[symbol].literal
-            self._lit2symbol[lit] = symbol
-        except Exception:
-            self._logger.error(
-                "Could not find symbol %s literal in control. Symbol ignored,", symbol
-            )
-
-    def _solve_core(self, assumptions):
-        """
-        Solves and gets the core with the basic faulty assumptions.
-
-        Arguments:
-
-            assumptions (list[int]): List of assumption literals
-        """
-        with self._ctl.solve(
-            assumptions=[(a, True) for a in assumptions], yield_=True
-        ) as solve_handle:
-            satisfiable = solve_handle.get().satisfiable
-            core = [self._lit2symbol[s] for s in solve_handle.core() if s != -1]
-        return satisfiable, core
-
-    def _get_minimum_uc(self, different_assumptions):
-        """
-        Computes the MUC from the assumptions
-
-        Arguments:
-
-            different_assumptions (list[int]): List of assumption literals that is being minimized
-        """
-        sat, _ = self._solve_core(assumptions=different_assumptions)
-
-        if sat:
-            return []
-
-        assumption_set = different_assumptions
-        probe_set = []
-
-        for i, assumption in enumerate(assumption_set):
-            working_set = assumption_set[i + 1 :]
-            sat, _ = self._solve_core(assumptions=working_set + probe_set)
-            if sat:
-                probe_set.append(assumption)
-
-                if not self._solve_core(assumptions=probe_set)[0]:
-                    break
-
-        return probe_set
-
-    ########################################################################################################
-
-    # ---------------------------------------------
-    # Public operations
-    # ---------------------------------------------
-
-    def clear_assumptions(self):
-        """
-        Removes all assumptions. Overwrites the parent method by keeping as assumptions
-        the ones provided as input via the command line.
-        """
-        self._outdate()
-        self._assumptions = self._mc_base_assumptions.copy()

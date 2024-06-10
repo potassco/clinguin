@@ -42,7 +42,7 @@ class ClingoBackend:
         if not args.ui_files:
             raise RuntimeError("UI files need to be provided under --ui-files")
         self._ui_files = args.ui_files
-        self._constants = [f"-c {v}" for v in args.const] if args.const else []
+        self._constants = args.const if args.const else []
         self._clingo_ctl_arg = args.clingo_ctl_arg if args.clingo_ctl_arg else []
 
         self._domain_state_constructors = []
@@ -53,9 +53,9 @@ class ClingoBackend:
         self._init_ctl()
         self._ground()
 
-        self._add_domain_state_constructor("_ds_model")
         self._add_domain_state_constructor("_ds_brave")
         self._add_domain_state_constructor("_ds_cautious")
+        self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
         self._add_domain_state_constructor("_ds_context")
         self._add_domain_state_constructor("_ds_unsat")
         self._add_domain_state_constructor("_ds_browsing")
@@ -144,9 +144,25 @@ class ClingoBackend:
         Uses the provided constants and domain files.
         It adds the atoms.
         """
-        args = ["0"] + self._constants + [f"--{o}" for o in self._clingo_ctl_arg]
+        self._create_ctl()
+        self._load_and_add()
+
+    def _create_ctl(self):
+        """
+        Initializes the control object (domain-control).
+        It is used when the server is started or after a restart.
+        """
+        args = (
+            ["0"]
+            + [f"-c {v}" for v in self._constants]
+            + [f"--{o}" for o in self._clingo_ctl_arg]
+        )
         self._ctl = Control(args)
 
+    def _load_and_add(self):
+        """
+        Loads domain files and atoms into the control
+        """
         for f in self._domain_files:
             path = Path(f)
             if not path.is_file():
@@ -154,7 +170,7 @@ class ClingoBackend:
                 raise Exception(f"File {f} does not exist")
 
             try:
-                self._ctl.load(str(f))
+                self._load_file(f)
             except Exception as e:
                 self._logger.critical(
                     "Failed to load file %s (there is likely a syntax error in this logic program file).",
@@ -165,6 +181,15 @@ class ClingoBackend:
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
+
+    def _load_file(self, f):
+        """
+        Loads a file into the control. This method can be overwritten if any pre-processing is needed.
+
+        Arguments:
+            f (str): The file path
+        """
+        self._ctl.load(str(f))
 
     def _outdate(self):
         """
@@ -177,6 +202,12 @@ class ClingoBackend:
         self._iterator = None
         self._model = None
         self._clear_cache()
+
+    def _get_assumptions(self):
+        """
+        Gets the set of assumptions used for solving
+        """
+        return self._assumptions
 
     @property
     def _is_browsing(self):
@@ -318,7 +349,7 @@ class ClingoBackend:
         self._ctl.configuration.solve.enum_mode = "brave"
         self._prepare()
         symbols, ucore = solve(
-            self._ctl, [(a, True) for a in self._assumptions], self._on_model
+            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -349,7 +380,7 @@ class ClingoBackend:
         self._ctl.configuration.solve.enum_mode = "cautious"
         self._prepare()
         symbols, ucore = solve(
-            self._ctl, [(a, True) for a in self._assumptions], self._on_model
+            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -376,7 +407,7 @@ class ClingoBackend:
             self._ctl.configuration.solve.enum_mode = "auto"
             self._prepare()
             symbols, ucore = solve(
-                self._ctl, [(a, True) for a in self._assumptions], self._on_model
+                self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
             )
             self._unsat_core = ucore
             if symbols is None:
@@ -543,7 +574,7 @@ class ClingoBackend:
             self._ctl.configuration.solve.models = 0
             self._prepare()
             self._handler = self._ctl.solve(
-                [(a, True) for a in self._assumptions], yield_=True
+                [(a, True) for a in self._get_assumptions()], yield_=True
             )
             self._iterator = iter(self._handler)
         try:

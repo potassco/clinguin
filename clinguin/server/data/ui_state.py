@@ -55,7 +55,7 @@ class UIState:
         Generates a ClingoControl Object to compute the UI state
 
         """
-        uictl = Control(["0", "--warn=none"] + self._constants)
+        uictl = Control(["0", "--warn=none"] + [f"-c {v}" for v in self._constants])
 
         for f in self._ui_files:
             path = Path(f)

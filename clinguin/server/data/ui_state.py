@@ -17,6 +17,7 @@ from clinguin.utils import StandardTextProcessing, image_to_b64
 from .attribute import AttributeDao
 from .callback import WhenDao
 from .element import ElementDao
+from ...utils.logger import uictl_log
 
 log = logging.getLogger("clinguin_server")
 
@@ -56,7 +57,11 @@ class UIState:
 
         """
         uictl = Control(["0", "--warn=none"] + [f"-c {v}" for v in self._constants])
-
+        log.debug(
+            uictl_log(
+                f'uictl = Control(["0", "--warn=none"] + {[f"-c v" for v in self._constants]})'
+            )
+        )
         for f in self._ui_files:
             path = Path(f)
             if not path.is_file():
@@ -73,9 +78,16 @@ class UIState:
                 raise e
 
         uictl.add("base", [], self._domain_state)
+        log.debug(uictl_log(f'uictl.add("base", [], {self._domain_state})'))
         uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
-        uictl.ground([("base", [])], ClingraphContext())
+        log.debug(
+            uictl_log(
+                'uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")'
+            )
+        )
 
+        uictl.ground([("base", [])], ClingraphContext())
+        log.debug(uictl_log('uictl.ground([("base", [])], ClingraphContext())'))
         return uictl
 
     def update_ui_state(self):
@@ -91,6 +103,7 @@ class UIState:
                 model_symbols = m.symbols(shown=True, atoms=True)
                 defined = True
                 break
+        log.debug(uictl_log("uictl.solve(yield_=True)"))
         if not defined:
             log.critical("UI encoding was UNSATISFIABLE")
             raise RuntimeError("UI encoding was UNSATISFIABLE")

@@ -430,7 +430,7 @@ class ClingoBackend:
             self._ctl.configuration.solve.opt_mode = "ignore"
             self._ctl.configuration.solve.enum_mode = "auto"
             self._logger.debug(
-                domctl_log('domctl.configuration.solve.enum_mode = "auto"')
+                domctl_log('domctlconfiguration.solve.enum_mode = "auto"')
             )
 
             self._prepare()
@@ -606,7 +606,7 @@ class ClingoBackend:
             self._ctl.configuration.solve.opt_mode = opt_mode
             self._ctl.configuration.solve.models = 0
             self._logger.debug(
-                domctl_log(f"domctl.configuration.solve.opt_mode = {opt_mode}")
+                domctl_log(f"domctlconfiguration.solve.opt_mode = {opt_mode}")
             )
 
             self._prepare()
@@ -615,7 +615,7 @@ class ClingoBackend:
             )
             self._logger.debug(
                 domctl_log(
-                    f"domctl.solve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
+                    f"domctlsolve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
                 )
             )
 

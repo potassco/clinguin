@@ -12,6 +12,8 @@ from clingo.script import enable_python
 from clinguin.server import StandardJsonEncoder, UIState
 from clinguin.server.data.domain_state import solve, tag
 
+from ....utils.logger import domctl_log
+
 enable_python()
 # pylint: disable=attribute-defined-outside-init
 
@@ -155,6 +157,7 @@ class ClingoBackend:
             + [f"--{o}" for o in self._clingo_ctl_arg]
         )
         self._ctl = Control(args)
+        self._logger.debug(domctl_log(f"domain_ctl = Control({args})"))
 
     def _load_and_add(self):
         """
@@ -178,6 +181,7 @@ class ClingoBackend:
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
+            self._logger.debug(fdomctl_log('domctl.add("base", [], {str(atom)} + ".")'))
 
     def _load_file(self, f):
         """
@@ -187,6 +191,7 @@ class ClingoBackend:
             f (str): The file path
         """
         self._ctl.load(str(f))
+        self._logger.debug(domctl_log(f"domctlload({str(f)})"))
 
     def _outdate(self):
         """
@@ -219,6 +224,7 @@ class ClingoBackend:
             program (str): The name of the program to ground (defaults to "base")
         """
         self._ctl.ground([(program, [])])
+        self._logger.debug(domctl_log(f"domctl.ground([({program}, [])])"))
 
     def _prepare(self):
         """
@@ -305,7 +311,6 @@ class ClingoBackend:
         ds = ""
         for f in self._domain_state_constructors:
             ds += getattr(self, f)
-        self._logger.debug("\nDomain state:\n==========\n %s", str(ds))
         return ds
 
     # -------- Domain state methods
@@ -344,9 +349,15 @@ class ClingoBackend:
         self._ctl.configuration.solve.models = 0
         self._ctl.configuration.solve.opt_mode = "ignore"
         self._ctl.configuration.solve.enum_mode = "brave"
+        self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
         self._prepare()
         symbols, ucore = solve(
             self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
+        )
+        self._logger.debug(
+            domctl_log(
+                f"ctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+            )
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -356,7 +367,7 @@ class ClingoBackend:
                 if "_ds_brave" in self._backup_ds_cache
                 else ""
             )
-        return "\n".join([str(s) + "." for s in list(tag(symbols, "_any"))]) + "\n"
+        return " ".join([str(s) + "." for s in list(tag(symbols, "_any"))]) + "\n"
 
     @cached_property
     def _ds_cautious(self):
@@ -375,9 +386,17 @@ class ClingoBackend:
         self._ctl.configuration.solve.models = 0
         self._ctl.configuration.solve.opt_mode = "ignore"
         self._ctl.configuration.solve.enum_mode = "cautious"
+        self._logger.debug(
+            domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
+        )
         self._prepare()
         symbols, ucore = solve(
             self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
+        )
+        self._logger.debug(
+            domctl_log(
+                f"ctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+            )
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -388,7 +407,7 @@ class ClingoBackend:
                 else ""
             )
 
-        return "\n".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
+        return " ".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
 
     @cached_property
     def _ds_model(self):
@@ -402,9 +421,18 @@ class ClingoBackend:
             self._ctl.configuration.solve.models = 1
             self._ctl.configuration.solve.opt_mode = "ignore"
             self._ctl.configuration.solve.enum_mode = "auto"
+            self._logger.debug(
+                domctl_log('domctl.configuration.solve.enum_mode = "auto"')
+            )
+
             self._prepare()
             symbols, ucore = solve(
                 self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
+            )
+            self._logger.debug(
+                domctl_log(
+                    f"ctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+                )
             )
             self._unsat_core = ucore
             if symbols is None:
@@ -419,7 +447,7 @@ class ClingoBackend:
                 )
             self._model = symbols
 
-        return "\n".join([str(s) + "." for s in self._model]) + "\n"
+        return " ".join([str(s) + "." for s in self._model]) + "\n"
 
     @property
     def _ds_unsat(self):
@@ -569,10 +597,20 @@ class ClingoBackend:
             self._ctl.configuration.solve.enum_mode = "auto"
             self._ctl.configuration.solve.opt_mode = opt_mode
             self._ctl.configuration.solve.models = 0
+            self._logger.debug(
+                domctl_log(f"domctl.configuration.solve.opt_mode = {opt_mode}")
+            )
+
             self._prepare()
             self._handler = self._ctl.solve(
                 [(a, True) for a in self._get_assumptions()], yield_=True
             )
+            self._logger.debug(
+                domctl_log(
+                    f"domctl.solve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
+                )
+            )
+
             self._iterator = iter(self._handler)
         try:
             model = next(self._iterator)

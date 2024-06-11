@@ -1,6 +1,7 @@
 """
 Contains the tkinter-gui class.
 """
+
 import networkx as nx
 
 from clinguin.client import AbstractFrontend
@@ -60,7 +61,7 @@ class TkinterFrontend(AbstractFrontend):
                         description = (
                             description
                             + ": "
-                            + colored_text(AttributeNames.descriptions[key], "GRAY")
+                            + colored_text(AttributeNames.descriptions[key], "MAGENTA")
                         )
                         description = description + "\n"
                     elif key in CallbackNames.descriptions:
@@ -68,14 +69,14 @@ class TkinterFrontend(AbstractFrontend):
                         description = (
                             description
                             + ": "
-                            + colored_text(CallbackNames.descriptions[key], "GRAY")
+                            + colored_text(CallbackNames.descriptions[key], "MAGENTA")
                         )
                         description = description + "\n"
 
                     if type_name in d[key]:
                         description = description + "      Possible-Values: "
                         description = description + colored_text(
-                            d[key][type_name].description() + "\n", "GRAY"
+                            d[key][type_name].description() + "\n", "MAGENTA"
                         )
 
             return description

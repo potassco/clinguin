@@ -9,6 +9,7 @@ from clingo.script import enable_python
 from clingexplaid.transformers import AssumptionTransformer
 from clingexplaid.mus import CoreComputer
 
+from ....utils.logger import domctl_log
 
 from clinguin.server.application.backends.clingo_multishot_backend import (
     ClingoMultishotBackend,
@@ -90,6 +91,7 @@ class ExplanationBackend(ClingoMultishotBackend):
 
         transformed_program = self._assumption_transformer.parse_files([f])
         self._ctl.add("base", [], transformed_program)
+        self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
 
     def _get_assumptions(self):
         """

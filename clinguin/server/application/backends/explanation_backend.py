@@ -33,8 +33,10 @@ class ExplanationBackend(ClingoMultishotBackend):
             signatures=self._assumption_sig
         )
         super().__init__(args)
-        self._transformer_assumptions = self._assumption_transformer.get_assumptions(
-            self._ctl, symbols=True
+        self._transformer_assumptions = (
+            self._assumption_transformer.get_assumption_symbols(
+                self._ctl, arguments=self._ctl_arguments_list
+            )
         )
 
         self._add_domain_state_constructor("_ds_mus")

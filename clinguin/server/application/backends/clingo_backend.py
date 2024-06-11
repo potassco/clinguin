@@ -146,18 +146,26 @@ class ClingoBackend:
         self._create_ctl()
         self._load_and_add()
 
+    @property
+    def _ctl_arguments_list(self):
+        """
+        Gets the list of arguments used for creating a control object
+        """
+        return (
+            ["0"]
+            + [f"-c {v}" for v in self._constants]
+            + [f"--{o}" for o in self._clingo_ctl_arg]
+        )
+
     def _create_ctl(self):
         """
         Initializes the control object (domain-control).
         It is used when the server is started or after a restart.
         """
-        args = (
-            ["0"]
-            + [f"-c {v}" for v in self._constants]
-            + [f"--{o}" for o in self._clingo_ctl_arg]
+        self._ctl = Control(self._ctl_arguments_list)
+        self._logger.debug(
+            domctl_log(f"domain_ctl = Control({self._ctl_arguments_list})")
         )
-        self._ctl = Control(args)
-        self._logger.debug(domctl_log(f"domain_ctl = Control({args})"))
 
     def _load_and_add(self):
         """

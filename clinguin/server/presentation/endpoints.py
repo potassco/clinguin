@@ -12,6 +12,7 @@ from fastapi import APIRouter
 from clinguin.utils import Logger
 
 from ...utils import get_server_error_alert
+from ...utils.logger import colored_text
 from .backend_policy_dto import BackendPolicyDto
 
 # Self Defined
@@ -64,11 +65,11 @@ class Endpoints:
         calls the get() method of the respective backend (clinguin/clingo/clingraph/etc.).
         The get() method is implemented by every backend.
         """
-        self._logger.info("--> %s:   get()", self._backend.__class__.__name__)
+        self._logger.info(colored_text("=>=>=>=>=>=>=>=>=> GET", "GREEN"))
+        self._logger.info(colored_text("-->", "GREEN") + " get()")
         try:
             json = self._backend.get()
             self.last_response = json
-            self._logger.info("<-- Responded")
             return json
         except Exception as e:
             self._logger.error("Handling global exception in endpoint")
@@ -84,7 +85,8 @@ class Endpoints:
         including arguments.
         For example: {'function':'add_assumption(p(1))'}
         """
-        self._logger.debug("Got endpoint")
+
+        self._logger.info(colored_text("=>=>=>=>=>=>=>=>=> POST", "GREEN"))
 
         try:
             try:
@@ -107,7 +109,6 @@ class Endpoints:
             policies = []
             if function_name == "":
                 policies = symbol.arguments
-                self._logger.info("Calling multiple policies")
             else:
                 policies = [symbol]
 
@@ -118,8 +119,7 @@ class Endpoints:
 
                 call_args = ",".join(function_arguments)
                 self._logger.info(
-                    "--> %s:   %s(%s)",
-                    self._backend.__class__.__name__,
+                    colored_text("-->", "GREEN") + " %s(%s)",
                     function_name,
                     call_args,
                 )
@@ -128,8 +128,9 @@ class Endpoints:
                     self._backend, function_name, function_arguments, {}
                 )
 
+            self._logger.info(colored_text("-->", "GREEN") + " get()")
+
             self.last_response = self._backend.get()
-            self._logger.info("<-- Responded")
             return self.last_response
 
         except Exception as e:

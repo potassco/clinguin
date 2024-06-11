@@ -8,6 +8,8 @@ from clingo.script import enable_python
 
 from clinguin.server.application.backends import ClingoBackend
 
+from ....utils.logger import domctl_log
+
 enable_python()
 
 
@@ -58,9 +60,9 @@ class ClingoMultishotBackend(ClingoBackend):
 
         Includes predicate  ``_clinguin_assume/1`` for every atom that was assumed.
         """
-        prg = "#defined _clinguin_assume/1.\n"
+        prg = "#defined _clinguin_assume/1. "
         for a in self._get_assumptions():
-            prg += f"_clinguin_assume({str(a)}).\n"
+            prg += f"_clinguin_assume({str(a)}). "
         return prg + "\n"
 
     ########################################################################################################
@@ -149,7 +151,8 @@ class ClingoMultishotBackend(ClingoBackend):
         self._outdate()
 
         if name == "release":
-            self._ctl.release_external(parse_term(atom))
+            self._ctl.release_external(symbol)
+            self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))
             self._externals["released"].add(symbol)
 
             if symbol in self._externals["true"]:
@@ -159,14 +162,16 @@ class ClingoMultishotBackend(ClingoBackend):
                 self._externals["false"].remove(symbol)
 
         elif name == "true":
-            self._ctl.assign_external(parse_term(atom), True)
+            self._ctl.assign_external(symbol, True)
+            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, True)"))
             self._externals["true"].add(symbol)
 
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
         elif name == "false":
-            self._ctl.assign_external(parse_term(atom), False)
+            self._ctl.assign_external(symbol, False)
+            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, False)"))
             self._externals["false"].add(symbol)
 
             if symbol in self._externals["true"]:

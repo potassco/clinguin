@@ -12,7 +12,8 @@ COLOR_NAMES = {
     "GREEN": GREEN,
     "BLUE": BLUE,
     "RED": RED,
-    "GRAY": MAGENTA,
+    "MAGENTA": MAGENTA,
+    "CYAN": CYAN,
 }
 
 RESET_SEQ = "\033[0m"
@@ -25,6 +26,14 @@ def colored_text(txt, color):
     Adds a color to the given text
     """
     return COLOR_SEQ % (30 + COLOR_NAMES[color]) + txt + RESET_SEQ
+
+
+def uictl_log(text):
+    return colored_text(text, "CYAN")
+
+
+def domctl_log(text):
+    return colored_text(text, "MAGENTA")
 
 
 class Logger:
@@ -154,3 +163,6 @@ class Logger:
             cls._add_shell_handler_to_logger(logger, log_arg_dict)
         if log_arg_dict["file_enabled"]:
             cls._add_file_handler_to_logger(logger, log_arg_dict, log_file_path)
+
+    def print_domctl_log(self, call):
+        self.debug(colored_text(call), "CYAN")

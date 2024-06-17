@@ -10,7 +10,7 @@ import { ElementLookupService } from '../element-lookup.service';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
-  @ViewChild("theButton",{static:false}) theButton! : ElementRef
+  @ViewChild("theButton", { static: false }) theButton!: ElementRef
 
   @Input() element: ElementDto | null = null
   @Input() parentLayout: string = ""
@@ -19,7 +19,7 @@ export class ButtonComponent {
   disabledAttribute: boolean = false
   // class: string = ""
 
-  constructor (private  cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {}
+  constructor(private cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) { }
 
   ngAfterViewInit(): void {
 
@@ -34,37 +34,37 @@ export class ButtonComponent {
     }
   }
 
-  setAttributes(attributes : AttributeDto[]) {
-      this.buttonLabel = this.attributeService.findGetAttributeValue("label",attributes,"")
-      // this.class = this.attributeService.findGetAttributeValue("class", attributes, "")
+  setAttributes(attributes: AttributeDto[]) {
+    this.buttonLabel = this.attributeService.findGetAttributeValue("label", attributes, "")
+    // this.class = this.attributeService.findGetAttributeValue("class", attributes, "")
 
-      let htmlDdbut = this.theButton.nativeElement
+    let htmlDdbut = this.theButton.nativeElement
 
-      this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
-      this.attributeService.addAttributes(htmlDdbut, attributes)
-      this.attributeService.textAttributes(htmlDdbut, attributes)
-      this.attributeService.addClasses(htmlDdbut, attributes, ["btn"], ["btn-info"])
-      this.attributeService.addGeneralAttributes(htmlDdbut, attributes)
+    this.attributeService.setAttributesDirectly(htmlDdbut, attributes)
+    this.attributeService.addAttributes(htmlDdbut, attributes)
+    this.attributeService.textAttributes(htmlDdbut, attributes)
+    this.attributeService.addClasses(htmlDdbut, attributes, ["btn"], ["btn-info"])
+    this.attributeService.addGeneralAttributes(htmlDdbut, attributes)
 
-      if (this.element != null) {
-        this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
-      }
+    if (this.element != null) {
+      this.attributeService.setAbsoulteRelativePositions(this.parentLayout, htmlDdbut, this.element)
+    }
 
-      let icon = htmlDdbut.children.item(0)
-      
-      this.attributeService.addClasses(icon, attributes, ["fa"], [], 'icon')
+    let icon = htmlDdbut.children.item(0)
 
-      let stringDisabled = this.attributeService.findGetAttributeValue("disabled", attributes, "false")
-      if (stringDisabled == "false") {
-        this.disabledAttribute = false
-      } else if (stringDisabled == "true") {
-        this.disabledAttribute = true
-      } else {
-        console.log("NOT SUPPORTED VALUE FOR DISABLED (assuming not disabled): ")
-        console.log(stringDisabled)
-        this.disabledAttribute = false
-      }
+    this.attributeService.addClasses(icon, attributes, ["fa"], [], 'icon')
 
-      this.cd.detectChanges()
+    let stringDisabled = this.attributeService.findGetAttributeValue("disabled", attributes, "false")
+    if (stringDisabled == "false") {
+      this.disabledAttribute = false
+    } else if (stringDisabled == "true") {
+      this.disabledAttribute = true
+    } else {
+      console.log("NOT SUPPORTED VALUE FOR DISABLED (assuming not disabled): ")
+      console.log(stringDisabled)
+      this.disabledAttribute = false
+    }
+
+    this.cd.detectChanges()
   }
 }

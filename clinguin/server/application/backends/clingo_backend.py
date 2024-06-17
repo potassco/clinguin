@@ -189,7 +189,7 @@ class ClingoBackend:
 
         for atom in self._atoms:
             self._ctl.add("base", [], str(atom) + ".")
-            self._logger.debug(fdomctl_log('domctl.add("base", [], {str(atom)} + ".")'))
+            self._logger.debug(domctl_log('domctl.add("base", [], {str(atom)} + ".")'))
 
     def _load_file(self, f):
         """

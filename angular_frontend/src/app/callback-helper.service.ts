@@ -120,7 +120,7 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 
   let id = splits[0]
   let key = splits[1]
-  let value = splits[2]
+  let value = splits[2].replaceAll('"', '')
 
   let elementLookup: ElementLookupDto | null = elementLookupService.getElement(id)
 
@@ -155,6 +155,7 @@ function handleUpdate(when: WhenDto, event: Event | null) {
     if (elementLookup.object != null) {
       if ("setAttributes" in elementLookup.object) {
         if (elementLookup.object.setAttributes != undefined && typeof elementLookup.object.setAttributes === 'function') {
+
           elementLookup.object.setAttributes(tmpAttributes)
         }
       }
@@ -165,6 +166,7 @@ function handleUpdate(when: WhenDto, event: Event | null) {
     }
     if (elementLookup.tagHtml != null) {
       let childBearerService = LocatorService.injector.get(ChildBearerService)
+
 
       childBearerService.setChildTagAttributes(elementLookup.tagHtml, elementLookup.element)
     }
@@ -178,6 +180,7 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 }
 
 function replaceContext(policy_string: string) {
+
   let contextService = LocatorService.injector.get(ContextService)
   let regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
   // ^(\w+)$|^(\w+\(\s*(?:"[^"]*"|\w+)\s*\))
@@ -185,7 +188,9 @@ function replaceContext(policy_string: string) {
   // console.log("Replacing context")
   // console.log(policy_string)
   let match = regex.exec(policy_string)
+
   while (match != null) {
+
     // console.log("A match")
 
     let match_instance = match[0]
@@ -196,20 +201,21 @@ function replaceContext(policy_string: string) {
     let new_value = contextService.retrieveContextValue(match_group)
     // console.log(new_value)
     if (new_value == null || new_value == "") {
-      // console.log("Is null")
-      if (!match_default == null) {
+      if (match_default == null) {
         throw new Error("Missing required value for " + match_group);
       }
+
       new_value = match_default
     }
+
 
     let isNumber = /^[0-9]*$/.test(new_value);
 
     let isConst = regex_const.test(new_value);
 
     // console.log("new value!", new_value)
-
     let isQuoted = new_value.length > 1 && new_value[0] == '"' && new_value.slice(-1) == '"';
+
     // console.log("isQuoted", isQuoted)
     // console.log("isQuoted x", new_value[0])
     // console.log("isQuoted x", new_value.slice(-1))
@@ -230,6 +236,8 @@ function replaceContext(policy_string: string) {
         throw new Error("Expected a constant that can be parsed to an atom, but got: " + new_value);
       }
     }
+    console.log("out");
+
     if (match_type == null && mustBeQuoted) {
       // console.log("Adding quotes 2")
       new_value = '"' + new_value + '"'
@@ -248,7 +256,6 @@ function handleCallback(when: WhenDto, event: Event | null) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
 
   let policy_string = when.policy
-
 
   policy_string = replaceContext(policy_string)
 

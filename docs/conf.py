@@ -25,6 +25,7 @@ autodoc_mock_imports = [
     "uvicorn",
     "clingodl",
     "clingraph",
+    "clingexplaid",
 ]
 
 # -- Project information -----------------------------------------------------

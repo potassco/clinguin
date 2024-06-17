@@ -16,7 +16,7 @@ pip:
 conda:
     package_name:
         'clinguin'
-    os: 
+    os:
         - 'ubuntu-latest'
     channels_release:
         - 'potassco'
@@ -48,6 +48,7 @@ conda:
           - uvicorn
           - clingraph
           - Pillow
+          - clingexplaid
 
       build:
         noarch: python

@@ -6,3 +6,4 @@ networkx
 uvicorn
 clingraph
 Pillow
+clingexplaid

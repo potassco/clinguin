@@ -6,7 +6,7 @@ class Health:
     def get_reference_json(cls):
         json_dict = {
             "name": "clinguin",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "description": "An interactive visualizer for clingo",
         }
 

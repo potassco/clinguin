@@ -2,69 +2,69 @@ import { Attribute, Injectable } from '@angular/core';
 import { AttributeDto, ElementDto } from './types/json-response.dto';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AttributeHelperService {
 
-  constructor() { }
+    constructor() { }
 
-    attrBackgroundColor(html:HTMLElement, attribute: AttributeDto) {
+    attrBackgroundColor(html: HTMLElement, attribute: AttributeDto) {
         let value = attribute.value
 
         html.style.backgroundColor = value
     }
 
-    attrHeight(html:HTMLElement, attribute: AttributeDto) {
+    attrHeight(html: HTMLElement, attribute: AttributeDto) {
         let value = attribute.value + "px"
         html.style.height = value
     }
 
-    attrWidth(html:HTMLElement, attribute: AttributeDto) {
+    attrWidth(html: HTMLElement, attribute: AttributeDto) {
         let value = attribute.value + "px"
         html.style.width = value
     }
 
 
-    setBorderHelper(html:HTMLElement, attributes: AttributeDto[]) {
+    setBorderHelper(html: HTMLElement, attributes: AttributeDto[]) {
 
         let borderWidth = Number(this.findGetAttributeValue("border_width", attributes, "0"))
-        let borderColor = this.findGetAttributeValue("border_color",attributes, "black")
+        let borderColor = this.findGetAttributeValue("border_color", attributes, "black")
         let borderStyle = "solid"
 
         this.setBorder(html, borderWidth, borderColor, borderStyle)
     }
 
-    setBorder(html:HTMLElement, borderWidth: number, borderColor: string, borderStyle: string) {
+    setBorder(html: HTMLElement, borderWidth: number, borderColor: string, borderStyle: string) {
         if (borderWidth > 0) {
             html.style.border = String(borderWidth) + "px " + borderStyle + " " + borderColor
         }
 
     }
 
-    addAttributes(html:HTMLElement, attributes : AttributeDto[]) {
+    addAttributes(html: HTMLElement, attributes: AttributeDto[]) {
 
         let attr_dict = [
-            {key:"background_color",value:this.attrBackgroundColor},
-            {key:"height", value:this.attrHeight},
-            {key:"width", value:this.attrWidth},
+            { key: "background_color", value: this.attrBackgroundColor },
+            { key: "height", value: this.attrHeight },
+            { key: "width", value: this.attrWidth },
         ]
 
         attributes.forEach(attribute => {
             let index = attr_dict.findIndex(item => item.key == attribute.key)
             if (index >= 0) {
-                attr_dict[index].value(html,attribute)
+                attr_dict[index].value(html, attribute)
             }
         })
 
         this.setHover(html, attributes)
     }
 
-    addGeneralAttributes(html:HTMLElement, attributes: AttributeDto[]) {
-        this.setGrid(html,attributes)
+    addGeneralAttributes(html: HTMLElement, attributes: AttributeDto[]) {
+        this.setGrid(html, attributes)
         this.setBorderHelper(html, attributes)
     }
 
-    setGrid(html: HTMLElement, attributes:AttributeDto[]) {
+    setGrid(html: HTMLElement, attributes: AttributeDto[]) {
 
         let gridRowStart = this.findAttribute("grid_row", attributes)
         let gridRowSpan = this.findAttribute("grid_row_span", attributes)
@@ -86,7 +86,7 @@ export class AttributeHelperService {
 
             html.style.gridRow = String(gridRowStartN) + "/" + "span " + String(gridRowSpanN)
         }
-        
+
         if (gridColumnStart != null) {
             let gridColumnStartN = Number(gridColumnStart.value) + 1
 
@@ -94,16 +94,16 @@ export class AttributeHelperService {
         }
     }
 
-    setHover(html: HTMLElement, attributes:AttributeDto[]) {
+    setHover(html: HTMLElement, attributes: AttributeDto[]) {
 
-        let onHover = this.findGetAttributeValue("on_hover", attributes,"false")
-        let onHoverBackgroundColor = this.findGetAttributeValue("on_hover_background_color", attributes,"white")
-        let onHoverForegroundColor = this.findGetAttributeValue("on_hover_foreground_color", attributes,"black")
-        let onHoverBorderColor = this.findGetAttributeValue("on_hover_border_color", attributes,"white")
-        let backgroundColor = this.findGetAttributeValue("background_color", attributes,"white")
-        let foregroundColor = this.findGetAttributeValue("foreground_color", attributes,"black")
+        let onHover = this.findGetAttributeValue("on_hover", attributes, "false")
+        let onHoverBackgroundColor = this.findGetAttributeValue("on_hover_background_color", attributes, "white")
+        let onHoverForegroundColor = this.findGetAttributeValue("on_hover_foreground_color", attributes, "black")
+        let onHoverBorderColor = this.findGetAttributeValue("on_hover_border_color", attributes, "white")
+        let backgroundColor = this.findGetAttributeValue("background_color", attributes, "white")
+        let foregroundColor = this.findGetAttributeValue("foreground_color", attributes, "black")
         let borderWidth = Number(this.findGetAttributeValue("border_width", attributes, "0"))
-        let borderColor = this.findGetAttributeValue("border_color",attributes, "black")
+        let borderColor = this.findGetAttributeValue("border_color", attributes, "black")
         let borderStyle = "solid"
 
         if (onHover == "true") {
@@ -124,7 +124,7 @@ export class AttributeHelperService {
 
     }
 
-    textAttributes(html: HTMLElement, attributes : AttributeDto[]) {
+    textAttributes(html: HTMLElement, attributes: AttributeDto[]) {
         // NOw IS SUPPOSED TO BE SET WITH THE CLASSES
 
 
@@ -133,66 +133,67 @@ export class AttributeHelperService {
         // let index = attributes.findIndex(item => item.key == "foreground_color")
         // if (index >= 0) {
         //     color = String(attributes[index].value)
-        // }       
-        // html.style.color = color 
+        // }
+        // html.style.color = color
 
         // let fontSize = String(12) + "px"
         // let index = attributes.findIndex(item => item.key == "font_size")
         // if (index >= 0) {
         //     fontSize = String(attributes[index].value)
-        // }       
+        // }
         // html.style.fontSize = fontSize
 
     }
 
-    addClasses(html: Element, attributes : AttributeDto[], base_classes:string[], default_classes:string[], attrName: string ='class' ) {
+    addClasses(html: Element, attributes: AttributeDto[], base_classes: string[], default_classes: string[], attrName: string = 'class') {
 
-        base_classes.forEach(function (c){
+        html.className = ""
+        base_classes.forEach(function (c) {
             html.classList.add(c)
         })
         let added = false
-        attributes.forEach(function (item){
-            if (item.key==attrName){
+        attributes.forEach(function (item) {
+            if (item.key == attrName) {
                 added = true
                 let c = String(item.value)
                 html.classList.add(c)
             }
         })
 
-        if (!added){
-            default_classes.forEach(function (c){
+        if (!added) {
+            default_classes.forEach(function (c) {
                 html.classList.add(c)
             })
         }
-        
+
 
     }
 
     setAttributesDirectly(html: HTMLElement, attributes: AttributeDto[]) {
-        attributes.forEach((attr : AttributeDto) => {
+        attributes.forEach((attr: AttributeDto) => {
             (<any>html.style)[attr.key] = attr.value
         })
     }
 
-    findAttribute(key:string, attributes: AttributeDto[]) : AttributeDto | null {
-      let value = null
-      let index = attributes.findIndex(attr => attr.key == key)
-      if (index >= 0) {
-        value = attributes[index]
-      }
-      return value
+    findAttribute(key: string, attributes: AttributeDto[]): AttributeDto | null {
+        let value = null
+        let index = attributes.findIndex(attr => attr.key == key)
+        if (index >= 0) {
+            value = attributes[index]
+        }
+        return value
     }
 
     findGetAttributeValue(key: string, attributes: AttributeDto[], defaultValue: string) {
-      let value = defaultValue
-      let index = attributes.findIndex(attr => attr.key == key)
-      if (index >= 0) {
-        value = attributes[index].value
-      }
-      return value
+        let value = defaultValue
+        let index = attributes.findIndex(attr => attr.key == key)
+        if (index >= 0) {
+            value = attributes[index].value
+        }
+        return value
     }
 
-    setAbsoulteRelativePositions(parentChildLayout:string, html:HTMLElement, child:ElementDto) {
+    setAbsoulteRelativePositions(parentChildLayout: string, html: HTMLElement, child: ElementDto) {
 
         let posX = Number(this.findGetAttributeValue("pos_x", child.attributes, "-1"))
         let posY = Number(this.findGetAttributeValue("pos_y", child.attributes, "-1"))
@@ -225,7 +226,7 @@ export class AttributeHelperService {
 
     }
 
-    setChildLayout(html:HTMLElement, attributes: AttributeDto[]) {
+    setChildLayout(html: HTMLElement, attributes: AttributeDto[]) {
         let attribute = this.findAttribute("child_layout", attributes)
         let flex_direction = this.findAttribute("flex_direction", attributes)
 
@@ -251,16 +252,16 @@ export class AttributeHelperService {
             }
         } else {
             html.style.display = "flex"
-            if (flex_direction != null){
+            if (flex_direction != null) {
                 html.style.flexDirection = flex_direction.value
 
-            }else {
+            } else {
                 html.style.flexDirection = "column"
             }
         }
     }
 
-    setVisibility(html:HTMLElement, attributes:AttributeDto[]) {
+    setVisibility(html: HTMLElement, attributes: AttributeDto[]) {
         let visibilityAttribute = this.findAttribute("visibility", attributes)
         if (visibilityAttribute != null) {
             if (visibilityAttribute.value == "hidden" || visibilityAttribute.value == "collapse") {

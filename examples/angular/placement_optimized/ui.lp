@@ -25,8 +25,8 @@ attr(window, flex_direction, row).
             when(t1, input, context, (t1_content, _value)).
 
             elem(b1, button, c1).
-            when(b1, click, call, (add_atom(person(_context_value(t1_content))),
-                                    set_external(include(_context_value(t1_content)),true))).
+            when(b1, click, call, (add_atom(person(_context_value(t1_content,str))),
+                                    set_external(include(_context_value(t1_content,str)),true))).
             attr(b1, label, "Add").
             attr(b1, class, "m-1").
             attr(b1, class, "btn-secondary").
@@ -150,6 +150,10 @@ attr(window, flex_direction, row).
                 attr(table_seat(S,T), class, "m-1"):-seat(S,T).
                 attr(table_seat(S,T), selected, P):- _all(assign(seat(S,T),P)).
                 attr(table_seat(S,T), selected, P):- assign(seat(S,T),P), _clinguin_browsing.
+
+                attr(table_seat(S,T), selected, P):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+                attr(table_seat(S,T), class, "text-success"):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+                attr(table_seat(S,T), class, "text-opacity-50"):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
 
                     elem(table_seat_remove(S,T), dropdown_menu_item, table_seat(S,T)):-seat(S,T).
                     attr(table_seat_remove(S,T), icon, "fa-ban"):-seat(S,T).

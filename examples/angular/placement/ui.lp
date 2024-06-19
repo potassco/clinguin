@@ -25,8 +25,8 @@ attr(window, flex_direction, row).
             when(t1, input, context, (t1_content, _value)).
 
             elem(b1, button, c1).
-            when(b1, click, call, (add_atom(person(_context_value(t1_content))),
-                                    set_external(include(_context_value(t1_content)),true))).
+            when(b1, click, call, (add_atom(person(_context_value(t1_content,str))),
+                                    set_external(include(_context_value(t1_content,str)),true))).
             attr(b1, label, "Add").
             attr(b1, class, "m-1").
             attr(b1, class, "btn-secondary").
@@ -83,7 +83,7 @@ attr(window, flex_direction, row).
             elem(included_l(P), container, included(P)):- person(P).
             attr(included_l(P), class, "w-75"):- person(P).
             attr(included_l(P), flex_direction, row):- person(P).
-            
+
                 elem(included_btn(P), button, included_l(P)):- person(P).
                 attr(included_btn(P), class, "btn-sm"):- person(P).
                 attr(included_btn(P), class, "rounded-circle"):- person(P).
@@ -91,7 +91,7 @@ attr(window, flex_direction, row).
                 attr(included_btn(P), icon, "fa-circle-xmark"):- person(P), not include(P).
                 attr(included_btn(P), class, "text-success"):- person(P), include(P).
                 attr(included_btn(P), class, "text-danger"):- person(P), not include(P).
-            
+
                 elem(included_label(P), label, included_l(P)):- person(P).
                 attr(included_label(P), label, P):- person(P).
                 attr(included_label(P), class, "text-capitalize"):- person(P).

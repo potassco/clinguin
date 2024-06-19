@@ -323,7 +323,9 @@ class ClingoBackend:
                 self._backup_ds_cache[m] = self.__dict__[m]
                 del self.__dict__[m]
 
-    def _call_solver_with_cache(self, ds_id: str, ds_tag: str = None):
+    def _call_solver_with_cache(
+        self, ds_id: str, ds_tag: str, models: int, opt_mode: str, enum_mode: str
+    ):
         """
         Generic function to call the using exiting cache on browsing.
         Un UNSAT it returns the output saved in the cache
@@ -334,9 +336,20 @@ class ClingoBackend:
             The program tagged
         """
         if self._is_browsing:
+            self._logger.debug(f"Returning cache for {ds_id}")
             return (
                 self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
             )
+        self._ctl.configuration.solve.models = models
+        self._ctl.configuration.solve.opt_mode = opt_mode
+        self._ctl.configuration.solve.enum_mode = enum_mode
+        self._logger.debug(domctl_log(f'domctl.configuration.solve.models = {models}"'))
+        self._logger.debug(
+            domctl_log(f'domctl.configuration.solve.opt_mode = {opt_mode}"')
+        )
+        self._logger.debug(
+            domctl_log(f'domctl.configuration.solve.enum_mode = {enum_mode}"')
+        )
         self._prepare()
         symbols, ucore = solve(
             self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
@@ -352,8 +365,6 @@ class ClingoBackend:
             return (
                 self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
             )
-        if ds_tag is None:
-            return " ".join([str(s) + "." for s in symbols]) + "\n"
         return " ".join([str(s) + "." for s in list(tag(symbols, ds_tag))]) + "\n"
 
     @functools.lru_cache(maxsize=None)
@@ -368,6 +379,10 @@ class ClingoBackend:
         transformer = UsesSignatureTransformer(name, arity)
         self._logger.debug(f"Transformer parsing UI files to find {name}/{arity}")
         transformer.parse_files(self._ui_files)
+        if not transformer.contained:
+            self._logger.debug(
+                "Predicate NOT contained. Domain constructor will be skipped"
+            )
         return transformer.contained
 
     @property
@@ -400,6 +415,41 @@ class ClingoBackend:
         return prg + "\n"
 
     @cached_property
+    def _ds_model(self):
+        """
+        Computes model
+
+        When the model is being iterated by the user, the current model is returned.
+        It uses a cache that is erased after an operation makes changes in the control.
+        """
+        if self._model is None:
+            self._ctl.configuration.solve.models = 1
+            self._ctl.configuration.solve.opt_mode = "ignore"
+            self._ctl.configuration.solve.enum_mode = "auto"
+            self._logger.debug(
+                domctl_log('domctl.configuration.solve.enum_mode = "auto"')
+            )
+
+            self._prepare()
+            symbols, ucore = solve(
+                self._ctl, [(a, True) for a in self._assumptions], self._on_model
+            )
+            self._unsat_core = ucore
+            if symbols is None:
+                self._logger.warning(
+                    "Got an UNSAT result with the given domain encoding."
+                )
+                return (
+                    self._backup_ds_cache["_ds_model"]
+                    + "\n".join([str(a) + "." for a in self._atoms])
+                    if "_ds_model" in self._backup_ds_cache
+                    else ""
+                )
+            self._model = symbols
+
+        return " ".join([str(s) + "." for s in self._model]) + "\n"
+
+    @cached_property
     def _ds_brave(self):
         """
         Computes brave consequences adds them as predicates ``_any/1``.
@@ -409,11 +459,7 @@ class ClingoBackend:
         if not self._ui_uses_predicate("_any", 1):
             return ""
 
-        self._ctl.configuration.solve.models = 0
-        self._ctl.configuration.solve.opt_mode = "ignore"
-        self._ctl.configuration.solve.enum_mode = "brave"
-        self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
-        return self._call_solver_with_cache("_ds_brave", "_any")
+        return self._call_solver_with_cache("_ds_brave", "_any", 0, "ignore", "brave")
 
     @cached_property
     def _ds_cautious(self):
@@ -425,26 +471,9 @@ class ClingoBackend:
         if not self._ui_uses_predicate("_all", 1):
             return ""
 
-        self._ctl.configuration.solve.models = 0
-        self._ctl.configuration.solve.opt_mode = "ignore"
-        self._ctl.configuration.solve.enum_mode = "cautious"
-        self._logger.debug(
-            domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
+        return self._call_solver_with_cache(
+            "_ds_cautious", "_all", 0, "ignore", "cautious"
         )
-        return self._call_solver_with_cache("_ds_cautious", "_all")
-
-    @cached_property
-    def _ds_model(self):
-        """
-        Computes model
-
-        It uses a cache that is erased after an operation makes changes in the control.
-        """
-        self._ctl.configuration.solve.models = 0
-        self._ctl.configuration.solve.opt_mode = "ignore"
-        self._ctl.configuration.solve.enum_mode = "auto"
-        self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "auto"'))
-        return self._call_solver_with_cache("_ds_model")
 
     @cached_property
     def _ds_brave_optimal(self):
@@ -456,12 +485,9 @@ class ClingoBackend:
         if not self._ui_uses_predicate("_any_opt", 1):
             return ""
 
-        self._ctl.configuration.solve.models = 0
-        self._ctl.configuration.solve.opt_mode = "optN"
-        self._ctl.configuration.solve.enum_mode = "brave"
-        self._logger.debug(domctl_log('domctl.configuration.solve.opt_mode = "optN"'))
-        self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
-        return self._call_solver_with_cache("_ds_brave_optimal", "_any_opt")
+        return self._call_solver_with_cache(
+            "_ds_brave_optimal", "_any_opt", 0, "optN", "brave"
+        )
 
     @cached_property
     def _ds_cautious_optimal(self):
@@ -473,14 +499,9 @@ class ClingoBackend:
         if not self._ui_uses_predicate("_all_opt", 1):
             return ""
 
-        self._ctl.configuration.solve.models = 0
-        self._ctl.configuration.solve.opt_mode = "optN"
-        self._ctl.configuration.solve.enum_mode = "cautious"
-        self._logger.debug(domctl_log('domctl.configuration.solve.opt_mode = "optN"'))
-        self._logger.debug(
-            domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
+        return self._call_solver_with_cache(
+            "_ds_cautious_optimal", "_all_opt", 0, "optN", "cautious"
         )
-        return self._call_solver_with_cache("_ds_cautious_optimal", "_all_opt")
 
     @property
     def _ds_unsat(self):
@@ -511,15 +532,16 @@ class ClingoBackend:
         """
         Additional program to pass to the UI with optimality info
         """
-        prg = "#defined _clinguin_cost/2.\n#defined _clinguin_cost/1.\n#defined _clinguin_optimal/1.\n"
-        prg += f"_clinguin_cost({tuple(self._cost)}).\n"
+        prg = "#defined _clinguin_cost/2. #defined _clinguin_cost/1. #defined _clinguin_optimal/1. "
 
         for i, c in enumerate(self._cost):
-            prg += f"_clinguin_cost({i},{c}).\n"
+            prg += f"_clinguin_cost({i},{c}). "
         if self._optimal:
-            prg += "_clinguin_optimal.\n"
+            prg += "_clinguin_optimal. "
         if self._optimizing:
-            prg += "_clinguin_optimizing.\n"
+            prg += "_clinguin_optimizing. "
+
+        prg += f"_clinguin_cost({tuple(self._cost)}).\n"
         return prg
 
     ########################################################################################################
@@ -647,7 +669,7 @@ class ClingoBackend:
             self._ctl.configuration.solve.opt_mode = opt_mode
             self._ctl.configuration.solve.models = 0
             self._logger.debug(
-                domctl_log(f"domctlconfiguration.solve.opt_mode = {opt_mode}")
+                domctl_log(f"domctl.configuration.solve.opt_mode = {opt_mode}")
             )
 
             self._prepare()
@@ -656,7 +678,7 @@ class ClingoBackend:
             )
             self._logger.debug(
                 domctl_log(
-                    f"domctlsolve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
+                    f"domctl.solve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
                 )
             )
 
@@ -666,6 +688,7 @@ class ClingoBackend:
             while optimizing and not model.optimality_proven:
                 self._logger.info("Skipping non-optimal model!")
                 model = next(self._iterator)
+
             self._clear_cache(["_ds_model"])
             self._on_model(model)
             self._model = model.symbols(shown=True, atoms=True, theory=True)

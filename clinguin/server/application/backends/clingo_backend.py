@@ -5,6 +5,7 @@ Module that contains the ClingoMultishotBackend.
 import logging
 from functools import cached_property
 from pathlib import Path
+import functools
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
@@ -13,6 +14,7 @@ from clinguin.server import StandardJsonEncoder, UIState
 from clinguin.server.data.domain_state import solve, tag
 
 from ....utils.logger import domctl_log
+from ....utils.transformer import UsesSignatureTransformer
 
 enable_python()
 # pylint: disable=attribute-defined-outside-init
@@ -55,12 +57,15 @@ class ClingoBackend:
         self._init_ctl()
         self._ground()
 
-        self._add_domain_state_constructor("_ds_brave")
-        self._add_domain_state_constructor("_ds_cautious")
-        self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
         self._add_domain_state_constructor("_ds_context")
+        self._add_domain_state_constructor("_ds_opt")
         self._add_domain_state_constructor("_ds_unsat")
         self._add_domain_state_constructor("_ds_browsing")
+        self._add_domain_state_constructor("_ds_cautious_optimal")
+        self._add_domain_state_constructor("_ds_brave_optimal")
+        self._add_domain_state_constructor("_ds_cautious")
+        self._add_domain_state_constructor("_ds_brave")
+        self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
 
     # ---------------------------------------------
     # Class methods
@@ -139,6 +144,10 @@ class ClingoBackend:
         self._ui_state = None
         self._messages = []
 
+        self._cost = []  # Set in on_model
+        self._optimal = False  # Set in on_model
+        self._optimizing = False  # Set in on_model
+
     def _init_ctl(self):
         """
         Creates the control and loads the files
@@ -199,7 +208,7 @@ class ClingoBackend:
             f (str): The file path
         """
         self._ctl.load(str(f))
-        self._logger.debug(domctl_log(f"domctlload({str(f)})"))
+        self._logger.debug(domctl_log(f"domctl.load({str(f)})"))
 
     def _outdate(self):
         """
@@ -247,6 +256,9 @@ class ClingoBackend:
         Arguments:
             model (clingo.Model): The found clingo model
         """
+        self._optimizing = len(model.cost) > 0
+        self._optimal = model.optimality_proven
+        self._cost = model.cost
 
     def _add_atom(self, predicate_symbol):
         """
@@ -311,6 +323,50 @@ class ClingoBackend:
                 self._backup_ds_cache[m] = self.__dict__[m]
                 del self.__dict__[m]
 
+    def _call_solver_with_cache(self, ds_id: str):
+        """
+        Generic function to call the using exiting cache on browsing
+
+        Arguments:
+            ds_id: Identifier used in the cache
+        Returns:
+            A list of symbols
+        """
+        if self._is_browsing:
+            return (
+                self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
+            )
+        self._prepare()
+        symbols, ucore = solve(
+            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
+        )
+        self._logger.debug(
+            domctl_log(
+                f"domctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+            )
+        )
+        self._unsat_core = ucore
+        if symbols is None:
+            self._logger.warning("Got an UNSAT result with the given domain encoding.")
+            return (
+                self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
+            )
+        return symbols
+
+    @functools.lru_cache(maxsize=None)
+    def _ui_uses_predicate(self, name: str, arity: int):
+        """
+        Returns a truth value of weather the ui_files contain the given signature.
+
+        Args:
+            name (str): Predicate name
+            arity (int): Predicate arity
+        """
+        transformer = UsesSignatureTransformer(name, arity)
+        self._logger.debug(f"Transformer parsing UI files to find {name}/{arity}")
+        transformer.parse_files(self._ui_files)
+        return transformer.contained
+
     @property
     def _domain_state(self):
         """
@@ -347,34 +403,14 @@ class ClingoBackend:
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
-        self._logger.debug("Getting Brave...")
-        if self._is_browsing:
-            return (
-                self._backup_ds_cache["_ds_brave"]
-                if "_ds_brave" in self._backup_ds_cache
-                else ""
-            )
+        if not self._ui_uses_predicate("_any", 1):
+            return ""
+
         self._ctl.configuration.solve.models = 0
         self._ctl.configuration.solve.opt_mode = "ignore"
         self._ctl.configuration.solve.enum_mode = "brave"
         self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
-        self._prepare()
-        symbols, ucore = solve(
-            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
-        )
-        self._logger.debug(
-            domctl_log(
-                f"ctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
-            )
-        )
-        self._unsat_core = ucore
-        if symbols is None:
-            self._logger.warning("Got an UNSAT result with the given domain encoding.")
-            return (
-                self._backup_ds_cache["_ds_brave"]
-                if "_ds_brave" in self._backup_ds_cache
-                else ""
-            )
+        symbols = self._call_solver_with_cache("_ds_brave")
         return " ".join([str(s) + "." for s in list(tag(symbols, "_any"))]) + "\n"
 
     @cached_property
@@ -384,78 +420,69 @@ class ClingoBackend:
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
-        self._logger.debug("Getting Cautious...")
-        if self._is_browsing:
-            return (
-                self._backup_ds_cache["_ds_cautious"]
-                if "_ds_cautious" in self._backup_ds_cache
-                else ""
-            )
+        if not self._ui_uses_predicate("_all", 1):
+            return ""
+
         self._ctl.configuration.solve.models = 0
         self._ctl.configuration.solve.opt_mode = "ignore"
         self._ctl.configuration.solve.enum_mode = "cautious"
         self._logger.debug(
             domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
         )
-        self._prepare()
-        symbols, ucore = solve(
-            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
-        )
-        self._logger.debug(
-            domctl_log(
-                f"ctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
-            )
-        )
-        self._unsat_core = ucore
-        if symbols is None:
-            self._logger.warning("Got an UNSAT result with the given domain encoding.")
-            return (
-                self._backup_ds_cache["_ds_cautious"]
-                if "_ds_cautious" in self._backup_ds_cache
-                else ""
-            )
-
+        symbols = self._call_solver_with_cache("_ds_cautious")
         return " ".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
 
     @cached_property
     def _ds_model(self):
         """
-        Computes a model if one has not been set yet.
-        When the model is being iterated by the user, the current model is returned.
+        Computes model
+
         It uses a cache that is erased after an operation makes changes in the control.
         """
-        self._logger.debug("Getting Model...")
-        if self._model is None:
-            self._ctl.configuration.solve.models = 1
-            self._ctl.configuration.solve.opt_mode = "ignore"
-            self._ctl.configuration.solve.enum_mode = "auto"
-            self._logger.debug(
-                domctl_log('domctlconfiguration.solve.enum_mode = "auto"')
-            )
+        self._ctl.configuration.solve.models = 0
+        self._ctl.configuration.solve.opt_mode = "ignore"
+        self._ctl.configuration.solve.enum_mode = "auto"
+        self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "auto"'))
+        symbols = self._call_solver_with_cache("_ds_model")
+        return " ".join([str(s) + "." for s in symbols]) + "\n"
 
-            self._prepare()
-            symbols, ucore = solve(
-                self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
-            )
-            self._logger.debug(
-                domctl_log(
-                    f"ctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
-                )
-            )
-            self._unsat_core = ucore
-            if symbols is None:
-                self._logger.warning(
-                    "Got an UNSAT result with the given domain encoding."
-                )
-                return (
-                    self._backup_ds_cache["_ds_model"]
-                    + "\n".join([str(a) + "." for a in self._atoms])
-                    if "_ds_model" in self._backup_ds_cache
-                    else ""
-                )
-            self._model = symbols
+    @cached_property
+    def _ds_brave_optimal(self):
+        """
+        Computes brave consequences for only optimal solutions adds them as predicates ``_any_opt/1``.
 
-        return " ".join([str(s) + "." for s in self._model]) + "\n"
+        It uses a cache that is erased after an operation makes changes in the control.
+        """
+        if not self._ui_uses_predicate("_any_opt", 1):
+            return ""
+
+        self._ctl.configuration.solve.models = 0
+        self._ctl.configuration.solve.opt_mode = "optN"
+        self._ctl.configuration.solve.enum_mode = "brave"
+        self._logger.debug(domctl_log('domctl.configuration.solve.opt_mode = "optN"'))
+        self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
+        symbols = self._call_solver_with_cache("_ds_brave_optimal")
+        return " ".join([str(s) + "." for s in list(tag(symbols, "_any_opt"))]) + "\n"
+
+    @cached_property
+    def _ds_cautious_optimal(self):
+        """
+        Computes cautious consequences adds them as predicates ``_all_opt/1``.
+
+        It uses a cache that is erased after an operation makes changes in the control.
+        """
+        if not self._ui_uses_predicate("_all_opt", 1):
+            return ""
+
+        self._ctl.configuration.solve.models = 0
+        self._ctl.configuration.solve.opt_mode = "optN"
+        self._ctl.configuration.solve.enum_mode = "cautious"
+        self._logger.debug(domctl_log('domctl.configuration.solve.opt_mode = "optN"'))
+        self._logger.debug(
+            domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
+        )
+        symbols = self._call_solver_with_cache("_ds_cautious_optimal")
+        return " ".join([str(s) + "." for s in list(tag(symbols, "_all_opt"))]) + "\n"
 
     @property
     def _ds_unsat(self):
@@ -480,6 +507,22 @@ class ClingoBackend:
         if self._is_browsing:
             prg += "_clinguin_browsing."
         return prg + "\n"
+
+    @property
+    def _ds_opt(self):
+        """
+        Additional program to pass to the UI with optimality info
+        """
+        prg = "#defined _clinguin_cost/2.\n#defined _clinguin_cost/1.\n#defined _clinguin_optimal/1.\n"
+        prg += f"_clinguin_cost({tuple(self._cost)}).\n"
+
+        for i, c in enumerate(self._cost):
+            prg += f"_clinguin_cost({i},{c}).\n"
+        if self._optimal:
+            prg += "_clinguin_optimal.\n"
+        if self._optimizing:
+            prg += "_clinguin_optimizing.\n"
+        return prg
 
     ########################################################################################################
 

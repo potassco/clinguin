@@ -10,9 +10,6 @@ from clinguin.server.application.backends.clingo_multishot_backend import (
 from clinguin.server.application.backends.clingodl_backend import ClingoDLBackend
 from clinguin.server.application.backends.clingraph_backend import ClingraphBackend
 from clinguin.server.application.backends.explanation_backend import ExplanationBackend
-from clinguin.server.application.backends.clingo_optimize_backend import (
-    ClingoOptimizeBackend,
-)
 
 __all__ = [
     ClingoMultishotBackend.__name__,
@@ -20,5 +17,4 @@ __all__ = [
     ExplanationBackend.__name__,
     ClingoBackend.__name__,
     ClingoDLBackend.__name__,
-    ClingoOptimizeBackend.__name__,
 ]

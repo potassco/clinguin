@@ -4,6 +4,7 @@ Module that contains the ClingraphBackend.
 """
 import textwrap
 from pathlib import Path
+import functools
 
 from clingo import Control
 from clingo.symbol import Function, String
@@ -18,6 +19,7 @@ from clinguin.server.data.attribute import AttributeDao
 
 # Self defined
 from clinguin.utils import StandardTextProcessing, image_to_b64
+from ....utils.transformer import UsesSignatureTransformer
 
 
 class ClingraphBackend(ClingoMultishotBackend):
@@ -191,6 +193,20 @@ class ClingraphBackend(ClingoMultishotBackend):
             ],
             help="Intermediate format. Use 'svg' for angular fronted and 'png' tkinter. (default: %(default)s)",
         )
+
+    @functools.lru_cache(maxsize=None)
+    def _ui_uses_predicate(self, name: str, arity: int):
+        """
+        Returns a truth value of weather the ui_files contain the given signature.
+
+        Args:
+            name (str): Predicate name
+            arity (int): Predicate arity
+        """
+        transformer = UsesSignatureTransformer(name, arity)
+        self._logger.debug(f"Transformer parsing UI files to find {name}/{arity}")
+        transformer.parse_files(self._ui_files + self._clingraph_files)
+        return transformer.contained
 
     # ---------------------------------------------
     # UI update

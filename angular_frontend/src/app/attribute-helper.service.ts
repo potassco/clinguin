@@ -147,8 +147,10 @@ export class AttributeHelperService {
 
     addClasses(html: Element, attributes: AttributeDto[], base_classes: string[], default_classes: string[], attrName: string = 'class') {
 
-        html.className = ""
         base_classes.forEach(function (c) {
+            if (html.classList.contains(c)) {
+                html.classList.remove(c)
+            }
             html.classList.add(c)
         })
         let added = false

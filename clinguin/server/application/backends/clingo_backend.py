@@ -323,14 +323,15 @@ class ClingoBackend:
                 self._backup_ds_cache[m] = self.__dict__[m]
                 del self.__dict__[m]
 
-    def _call_solver_with_cache(self, ds_id: str):
+    def _call_solver_with_cache(self, ds_id: str, ds_tag: str = None):
         """
-        Generic function to call the using exiting cache on browsing
+        Generic function to call the using exiting cache on browsing.
+        Un UNSAT it returns the output saved in the cache
 
         Arguments:
             ds_id: Identifier used in the cache
         Returns:
-            A list of symbols
+            The program tagged
         """
         if self._is_browsing:
             return (
@@ -351,7 +352,9 @@ class ClingoBackend:
             return (
                 self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
             )
-        return symbols
+        if ds_tag is None:
+            return " ".join([str(s) + "." for s in symbols]) + "\n"
+        return " ".join([str(s) + "." for s in list(tag(symbols, ds_tag))]) + "\n"
 
     @functools.lru_cache(maxsize=None)
     def _ui_uses_predicate(self, name: str, arity: int):
@@ -410,8 +413,7 @@ class ClingoBackend:
         self._ctl.configuration.solve.opt_mode = "ignore"
         self._ctl.configuration.solve.enum_mode = "brave"
         self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
-        symbols = self._call_solver_with_cache("_ds_brave")
-        return " ".join([str(s) + "." for s in list(tag(symbols, "_any"))]) + "\n"
+        return self._call_solver_with_cache("_ds_brave", "_any")
 
     @cached_property
     def _ds_cautious(self):
@@ -429,8 +431,7 @@ class ClingoBackend:
         self._logger.debug(
             domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
         )
-        symbols = self._call_solver_with_cache("_ds_cautious")
-        return " ".join([str(s) + "." for s in list(tag(symbols, "_all"))]) + "\n"
+        return self._call_solver_with_cache("_ds_cautious", "_all")
 
     @cached_property
     def _ds_model(self):
@@ -443,8 +444,7 @@ class ClingoBackend:
         self._ctl.configuration.solve.opt_mode = "ignore"
         self._ctl.configuration.solve.enum_mode = "auto"
         self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "auto"'))
-        symbols = self._call_solver_with_cache("_ds_model")
-        return " ".join([str(s) + "." for s in symbols]) + "\n"
+        return self._call_solver_with_cache("_ds_model")
 
     @cached_property
     def _ds_brave_optimal(self):
@@ -461,8 +461,7 @@ class ClingoBackend:
         self._ctl.configuration.solve.enum_mode = "brave"
         self._logger.debug(domctl_log('domctl.configuration.solve.opt_mode = "optN"'))
         self._logger.debug(domctl_log('domctl.configuration.solve.enum_mode = "brave"'))
-        symbols = self._call_solver_with_cache("_ds_brave_optimal")
-        return " ".join([str(s) + "." for s in list(tag(symbols, "_any_opt"))]) + "\n"
+        return self._call_solver_with_cache("_ds_brave_optimal", "_any_opt")
 
     @cached_property
     def _ds_cautious_optimal(self):
@@ -481,8 +480,7 @@ class ClingoBackend:
         self._logger.debug(
             domctl_log('domctl.configuration.solve.enum_mode = "cautious"')
         )
-        symbols = self._call_solver_with_cache("_ds_cautious_optimal")
-        return " ".join([str(s) + "." for s in list(tag(symbols, "_all_opt"))]) + "\n"
+        return self._call_solver_with_cache("_ds_cautious_optimal", "_all_opt")
 
     @property
     def _ds_unsat(self):

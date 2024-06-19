@@ -8,6 +8,8 @@ from pathlib import Path
 
 import clorm
 from clingo import Control
+
+
 from clingo.symbol import Function, Number, String
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw

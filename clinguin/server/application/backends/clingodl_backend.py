@@ -3,6 +3,7 @@ Module that contains the ClingoDL Backend.
 """
 
 from pathlib import Path
+import textwrap
 
 from clingo import Control
 from clingo.ast import ProgramBuilder, parse_files
@@ -24,12 +25,10 @@ class ClingoDLBackend(ClingoMultishotBackend):
     """
 
     def __init__(self, args):
-        super().__init__(args)
+        dl_config = [a.split("=") for a in args.dl_config] if args.dl_config else []
+        self._dl_conf = [(a[0], a[1]) for a in dl_config]
 
-        # Model should be the last call so that the on_model takes the assignment of the model
-        # and not of the cautious consequences
-        self._domain_state_constructors.remove("_ds_model")
-        self._add_domain_state_constructor("_ds_model")
+        super().__init__(args)
 
         self._add_domain_state_constructor("_ds_assign")
 
@@ -44,6 +43,8 @@ class ClingoDLBackend(ClingoMultishotBackend):
         """
         super()._create_ctl()
         self._theory = ClingoDLTheory()
+        for k, v in self._dl_conf:
+            self._theory.configure(k, v)
         self._theory.register(self._ctl)
 
     def _load_file(self, f):
@@ -73,10 +74,32 @@ class ClingoDLBackend(ClingoMultishotBackend):
         self._theory.prepare(self._ctl)
 
     def _on_model(self, model):
+        super()._on_model(model)
         self._theory.on_model(model)
         # pylint: disable=attribute-defined-outside-init
         self._assignment = list(
             (key, val) for key, val in self._theory.assignment(model.thread_id)
+        )
+
+    # ---------------------------------------------
+    # Class methods
+    # ---------------------------------------------
+
+    @classmethod
+    def register_options(cls, parser):
+        """
+        Registers command line options.
+        """
+        ClingoMultishotBackend.register_options(parser)
+
+        parser.add_argument(
+            "--dl-config",
+            help=textwrap.dedent(
+                """\
+                    Clingo-dl options list of <parameter>=<value>.
+                 """
+            ),
+            nargs="*",
         )
 
     # ---------------------------------------------
@@ -88,6 +111,8 @@ class ClingoDLBackend(ClingoMultishotBackend):
         """
         Additional program to pass to the UI computation with assignments
         """
+        if not self._ui_uses_predicate("_clinguin_assign", 2):
+            return ""
         prg = ""
         for key, val in self._assignment:
             prg += f"_clinguin_assign({key},{val})."

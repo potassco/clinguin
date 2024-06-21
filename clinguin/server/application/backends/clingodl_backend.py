@@ -112,7 +112,8 @@ class ClingoDLBackend(ClingoMultishotBackend):
         Additional program to pass to the UI computation with assignments
         """
         if not self._ui_uses_predicate("_clinguin_assign", 2):
-            return ""
+            return "% NOT USED\n"
+
         prg = ""
         for key, val in self._assignment:
             prg += f"_clinguin_assign({key},{val})."

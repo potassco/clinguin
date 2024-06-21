@@ -394,6 +394,7 @@ class ClingoBackend:
         """
         ds = ""
         for f in self._domain_state_constructors:
+            ds += f"\n%%%%%%%% {f} %%%%%%%\n"
             ds += getattr(self, f)
         return ds
 
@@ -459,7 +460,7 @@ class ClingoBackend:
         It uses a cache that is erased after an operation makes changes in the control.
         """
         if not self._ui_uses_predicate("_any", 1):
-            return ""
+            return "% NOT USED\n"
 
         return self._call_solver_with_cache("_ds_brave", "_any", 0, "ignore", "brave")
 
@@ -471,7 +472,7 @@ class ClingoBackend:
         It uses a cache that is erased after an operation makes changes in the control.
         """
         if not self._ui_uses_predicate("_all", 1):
-            return ""
+            return "% NOT USED\n"
 
         return self._call_solver_with_cache(
             "_ds_cautious", "_all", 0, "ignore", "cautious"
@@ -485,7 +486,7 @@ class ClingoBackend:
         It uses a cache that is erased after an operation makes changes in the control.
         """
         if not self._ui_uses_predicate("_any_opt", 1):
-            return ""
+            return "% NOT USED\n"
 
         return self._call_solver_with_cache(
             "_ds_brave_optimal", "_any_opt", 0, "optN", "brave"
@@ -499,7 +500,7 @@ class ClingoBackend:
         It uses a cache that is erased after an operation makes changes in the control.
         """
         if not self._ui_uses_predicate("_all_opt", 1):
-            return ""
+            return "% NOT USED\n"
 
         return self._call_solver_with_cache(
             "_ds_cautious_optimal", "_all_opt", 0, "optN", "cautious"

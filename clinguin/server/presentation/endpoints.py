@@ -70,6 +70,7 @@ class Endpoints:
         try:
             json = self._backend.get()
             self.last_response = json
+            self._logger.info(colored_text("--------------------", "GREEN"))
             return json
         except Exception as e:
             self._logger.error("Handling global exception in endpoint")
@@ -131,6 +132,7 @@ class Endpoints:
             self._logger.info(colored_text("-->", "GREEN") + " get()")
 
             self.last_response = self._backend.get()
+            self._logger.info(colored_text("--------------------", "GREEN"))
             return self.last_response
 
         except Exception as e:

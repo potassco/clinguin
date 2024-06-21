@@ -48,7 +48,7 @@ class ClingoBackend:
         self._ui_files = args.ui_files
         self._constants = args.const if args.const else []
         self._clingo_ctl_arg = args.clingo_ctl_arg if args.clingo_ctl_arg else []
-
+        self._default_opt_mode = "ignore"
         self._domain_state_constructors = []
         self._backup_ds_cache = {}
 
@@ -257,6 +257,8 @@ class ClingoBackend:
             model (clingo.Model): The found clingo model
         """
         self._optimizing = len(model.cost) > 0
+        if len(model.cost) > 0:
+            self._logger.debug("       Cost: %s", model.cost)
         self._optimal = model.optimality_proven
         self._cost = model.cost
 
@@ -424,7 +426,7 @@ class ClingoBackend:
         """
         if self._model is None:
             self._ctl.configuration.solve.models = 1
-            self._ctl.configuration.solve.opt_mode = "ignore"
+            self._ctl.configuration.solve.opt_mode = self._default_opt_mode
             self._ctl.configuration.solve.enum_mode = "auto"
             self._logger.debug(
                 domctl_log('domctl.configuration.solve.enum_mode = "auto"')

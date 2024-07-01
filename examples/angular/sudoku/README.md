@@ -6,7 +6,7 @@
 ### Usage
 
 ```
-clinguin client-server --frontend AngularFrontend --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
+clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
 ```
 
 ![](out1.png)

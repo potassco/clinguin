@@ -10,7 +10,7 @@ Notice that web browser might need to be resized to see the clingraph image.
 ### Usage
 
 ```
-clinguin client-server --frontend AngularFrontend --domain-files examples/angular/tree_browser/encoding.lp examples/angular/tree_browser/instance.lp --ui-files examples/angular/tree_browser/ui.lp   --backend=ClingraphBackend --clingraph-files=examples/angular/tree_browser/viz.lp
+clinguin client-server --domain-files examples/angular/tree_browser/encoding.lp examples/angular/tree_browser/instance.lp --ui-files examples/angular/tree_browser/ui.lp   --backend=ClingraphBackend --clingraph-files=examples/angular/tree_browser/viz.lp
 ```
 
 ![](out1.png)

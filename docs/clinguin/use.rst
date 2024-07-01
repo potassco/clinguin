@@ -22,7 +22,7 @@ To run `clinguin` one can the execute the following command:
 
 .. code-block:: console
 
-    $ clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp --frontend AngularFrontend
+    $ clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
 
 After the execution, a Sudoku window in your browser should open, where one can play a round of Sudoku.
 
@@ -44,7 +44,7 @@ When running the server one can further specify the *Backend* that should be use
 
 .. code-block:: console
 
-    $ clinguin client --frontend AngularFrontend
+    $ clinguin client
 
 The client does not need any files as input since it will ask the server for the information.
 

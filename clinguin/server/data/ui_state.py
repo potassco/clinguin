@@ -60,7 +60,7 @@ class UIState:
         """
         log.debug(
             uictl_log(
-                f'uictl = Control(["0", "--warn=none"] + {[f"-c v" for v in self._constants]})'
+                f'uictl = Control(["0", "--warn=none"] + {[f"-c {v}" for v in self._constants]})'
             )
         )
         uictl = Control(["0", "--warn=none"] + [f"-c {v}" for v in self._constants])
@@ -80,7 +80,14 @@ class UIState:
                 raise e
 
         log.debug(uictl_log(f'uictl.add("base", [], {self._domain_state})'))
-        uictl.add("base", [], self._domain_state)
+        try:
+            uictl.add("base", [], self._domain_state)
+        except RuntimeError as e:
+            message = """The domain state is not well constructed.\
+ Make sure there are no #show statements in the domain files that have tuples as output (without function name).\
+ Consider turing on the debug logs with server-log-level=DEBUG to inspect the domain state"""
+            log.critical(message)
+            raise e
         log.debug(
             uictl_log(
                 'uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")'

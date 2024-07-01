@@ -151,8 +151,8 @@ class ClingoMultishotBackend(ClingoBackend):
         self._outdate()
 
         if name == "release":
-            self._ctl.release_external(symbol)
             self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))
+            self._ctl.release_external(symbol)
             self._externals["released"].add(symbol)
 
             if symbol in self._externals["true"]:
@@ -162,16 +162,16 @@ class ClingoMultishotBackend(ClingoBackend):
                 self._externals["false"].remove(symbol)
 
         elif name == "true":
-            self._ctl.assign_external(symbol, True)
             self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, True)"))
+            self._ctl.assign_external(symbol, True)
             self._externals["true"].add(symbol)
 
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
         elif name == "false":
-            self._ctl.assign_external(symbol, False)
             self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, False)"))
+            self._ctl.assign_external(symbol, False)
             self._externals["false"].add(symbol)
 
             if symbol in self._externals["true"]:

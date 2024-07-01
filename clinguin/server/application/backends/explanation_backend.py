@@ -92,8 +92,8 @@ class ExplanationBackend(ClingoMultishotBackend):
         """
 
         transformed_program = self._assumption_transformer.parse_files([f])
-        self._ctl.add("base", [], transformed_program)
         self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
+        self._ctl.add("base", [], transformed_program)
 
     def _get_assumptions(self):
         """

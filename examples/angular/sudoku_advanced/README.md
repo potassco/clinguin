@@ -10,7 +10,7 @@ Notice that the instances uses choices on predicate `initial/3`. This way they c
 ### Usage
 
 ```
-clinguin client-server --frontend AngularFrontend --domain-files examples/angular/sudoku_advanced/instance.lp examples/angular/sudoku_advanced/encoding.lp --ui-files examples/angular/sudoku_advanced/ui.lp --backend ExplanationBackend  --assumption-signature initial,3
+clinguin client-server --domain-files examples/angular/sudoku_advanced/instance.lp examples/angular/sudoku_advanced/encoding.lp --ui-files examples/angular/sudoku_advanced/ui.lp --backend ExplanationBackend  --assumption-signature initial,3
 ```
 
 ![](out1.png)

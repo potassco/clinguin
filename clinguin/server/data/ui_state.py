@@ -58,12 +58,12 @@ class UIState:
         Generates a ClingoControl Object to compute the UI state
 
         """
-        uictl = Control(["0", "--warn=none"] + [f"-c {v}" for v in self._constants])
         log.debug(
             uictl_log(
                 f'uictl = Control(["0", "--warn=none"] + {[f"-c v" for v in self._constants]})'
             )
         )
+        uictl = Control(["0", "--warn=none"] + [f"-c {v}" for v in self._constants])
         for f in self._ui_files:
             path = Path(f)
             if not path.is_file():
@@ -79,17 +79,17 @@ class UIState:
                 log.critical(str(e))
                 raise e
 
-        uictl.add("base", [], self._domain_state)
         log.debug(uictl_log(f'uictl.add("base", [], {self._domain_state})'))
-        uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
+        uictl.add("base", [], self._domain_state)
         log.debug(
             uictl_log(
                 'uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")'
             )
         )
+        uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
 
-        uictl.ground([("base", [])], ClingraphContext())
         log.debug(uictl_log('uictl.ground([("base", [])], ClingraphContext())'))
+        uictl.ground([("base", [])], ClingraphContext())
         return uictl
 
     def update_ui_state(self):
@@ -100,12 +100,12 @@ class UIState:
         uictl = self.ui_control()
 
         defined = False
+        log.debug(uictl_log("uictl.solve(yield_=True)"))
         with uictl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True, atoms=True)
                 defined = True
                 break
-        log.debug(uictl_log("uictl.solve(yield_=True)"))
         if not defined:
             log.critical("UI encoding was UNSATISFIABLE")
             raise RuntimeError("UI encoding was UNSATISFIABLE")

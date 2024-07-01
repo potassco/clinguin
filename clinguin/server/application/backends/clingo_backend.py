@@ -58,7 +58,6 @@ class ClingoBackend:
         self._ground()
 
         self._add_domain_state_constructor("_ds_context")
-        self._add_domain_state_constructor("_ds_opt")
         self._add_domain_state_constructor("_ds_unsat")
         self._add_domain_state_constructor("_ds_browsing")
         self._add_domain_state_constructor("_ds_cautious_optimal")
@@ -66,6 +65,7 @@ class ClingoBackend:
         self._add_domain_state_constructor("_ds_cautious")
         self._add_domain_state_constructor("_ds_brave")
         self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
+        self._add_domain_state_constructor("_ds_opt")
 
     # ---------------------------------------------
     # Class methods
@@ -171,10 +171,10 @@ class ClingoBackend:
         Initializes the control object (domain-control).
         It is used when the server is started or after a restart.
         """
-        self._ctl = Control(self._ctl_arguments_list)
         self._logger.debug(
             domctl_log(f"domain_ctl = Control({self._ctl_arguments_list})")
         )
+        self._ctl = Control(self._ctl_arguments_list)
 
     def _load_and_add(self):
         """
@@ -197,8 +197,8 @@ class ClingoBackend:
                 raise e
 
         for atom in self._atoms:
-            self._ctl.add("base", [], str(atom) + ".")
             self._logger.debug(domctl_log('domctl.add("base", [], {str(atom)} + ".")'))
+            self._ctl.add("base", [], str(atom) + ".")
 
     def _load_file(self, f):
         """
@@ -207,8 +207,8 @@ class ClingoBackend:
         Arguments:
             f (str): The file path
         """
-        self._ctl.load(str(f))
         self._logger.debug(domctl_log(f"domctl.load({str(f)})"))
+        self._ctl.load(str(f))
 
     def _outdate(self):
         """
@@ -240,8 +240,8 @@ class ClingoBackend:
         Arguments:
             program (str): The name of the program to ground (defaults to "base")
         """
-        self._ctl.ground([(program, [])])
         self._logger.debug(domctl_log(f"domctl.ground([({program}, [])])"))
+        self._ctl.ground([(program, [])])
 
     def _prepare(self):
         """
@@ -342,9 +342,6 @@ class ClingoBackend:
             return (
                 self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
             )
-        self._ctl.configuration.solve.models = models
-        self._ctl.configuration.solve.opt_mode = opt_mode
-        self._ctl.configuration.solve.enum_mode = enum_mode
         self._logger.debug(domctl_log(f'domctl.configuration.solve.models = {models}"'))
         self._logger.debug(
             domctl_log(f'domctl.configuration.solve.opt_mode = {opt_mode}"')
@@ -352,14 +349,17 @@ class ClingoBackend:
         self._logger.debug(
             domctl_log(f'domctl.configuration.solve.enum_mode = {enum_mode}"')
         )
+        self._ctl.configuration.solve.models = models
+        self._ctl.configuration.solve.opt_mode = opt_mode
+        self._ctl.configuration.solve.enum_mode = enum_mode
         self._prepare()
-        symbols, ucore = solve(
-            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
-        )
         self._logger.debug(
             domctl_log(
                 f"domctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
             )
+        )
+        symbols, ucore = solve(
+            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -426,12 +426,12 @@ class ClingoBackend:
         It uses a cache that is erased after an operation makes changes in the control.
         """
         if self._model is None:
-            self._ctl.configuration.solve.models = 1
-            self._ctl.configuration.solve.opt_mode = self._default_opt_mode
-            self._ctl.configuration.solve.enum_mode = "auto"
             self._logger.debug(
                 domctl_log('domctl.configuration.solve.enum_mode = "auto"')
             )
+            self._ctl.configuration.solve.models = 1
+            self._ctl.configuration.solve.opt_mode = self._default_opt_mode
+            self._ctl.configuration.solve.enum_mode = "auto"
 
             self._prepare()
             symbols, ucore = solve(
@@ -668,21 +668,21 @@ class ClingoBackend:
             self._outdate()
         optimizing = opt_mode in ["optN", "opt"]
         if not self._iterator:
-            self._ctl.configuration.solve.enum_mode = "auto"
-            self._ctl.configuration.solve.opt_mode = opt_mode
-            self._ctl.configuration.solve.models = 0
             self._logger.debug(
                 domctl_log(f"domctl.configuration.solve.opt_mode = {opt_mode}")
             )
+            self._ctl.configuration.solve.enum_mode = "auto"
+            self._ctl.configuration.solve.opt_mode = opt_mode
+            self._ctl.configuration.solve.models = 0
 
             self._prepare()
-            self._handler = self._ctl.solve(
-                [(a, True) for a in self._get_assumptions()], yield_=True
-            )
             self._logger.debug(
                 domctl_log(
                     f"domctl.solve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
                 )
+            )
+            self._handler = self._ctl.solve(
+                [(a, True) for a in self._get_assumptions()], yield_=True
             )
 
             self._iterator = iter(self._handler)

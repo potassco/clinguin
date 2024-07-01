@@ -3,7 +3,7 @@ Quick Start
 ===========
 
 We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_ , and run it using the :ref:`ClingoMultishotBackend` and the :ref:`AngularFrontend`.
-
+The ASP files defining the `instance <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/instance.lp>`_ and `instance <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/encoding.lp>`_ for the sudoku are considered the :ref:`domain-files`.
 
 .. image:: ../../examples/angular/sudoku/out1.png
    :width: 45%
@@ -13,7 +13,7 @@ We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/
    :align: right
 
 
-Running clinguin 
+Running clinguin
 ----------------
 
 **Client-Server**
@@ -51,7 +51,7 @@ The client does not need any files as input since it will ask the server for the
 When running the client one can further specify the *Frontend* that should be used. See the :ref:`Frontends` for more information.
 
 
-Understanding the UI encoding 
+Understanding the UI encoding
 -----------------------------
 
 Let's adress the UI `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_ by sections. For details on the sytax and the creation of elements see the :ref:`ui-state` section.
@@ -71,7 +71,7 @@ Then, inside the window we create a container which is identified by ``sudoku`` 
     attr(sudoku,width,100).
     attr(sudoku,height,100).
 
-In the container we create a dropdown menu for each position in the sudoku and identify it by ``dd(X,Y)``. 
+In the container we create a dropdown menu for each position in the sudoku and identify it by ``dd(X,Y)``.
 The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_all`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the sudoku encoding is infering, either by a user assumption or due to the domain constraints.
 
 .. code-block::
@@ -107,7 +107,7 @@ We add an additional item in each dropdown menu to clear any previous selection.
     attr(remove(X,Y), icon, ("fa-ban";"text-info")):-pos(X,Y).
     when(remove(X,Y), click, call, remove_assumption_signature(sudoku(X,Y,any))):-pos(X,Y).
 
-Finally, we use the menu bar component type to add the title and different operations in the top of the UI. Those options include, removing all assumptions and browsing the solutions. 
+Finally, we use the menu bar component type to add the title and different operations in the top of the UI. Those options include, removing all assumptions and browsing the solutions.
 
 .. code-block::
 

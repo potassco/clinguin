@@ -11,6 +11,7 @@ from clingo import Control
 
 
 from clingo.symbol import Function, Number, String
+from clingo import parse_term
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
@@ -251,7 +252,7 @@ class UIState:
                 with open(attribute_value, "rb") as image_file:
                     encoded_string = image_to_b64(image_file.read())
                     new_attribute = AttributeDao(
-                        Raw(Function(str(attribute.id), [])),
+                        Raw(parse_term(str(attribute.id))),
                         Raw(Function(str(attribute.key), [])),
                         Raw(String(str(encoded_string))),
                     )

@@ -8,6 +8,7 @@ import { CanvasComponent } from './canvas/canvas.component';
 import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
 import { TextfieldComponent } from './textfield/textfield.component';
 import { ModalComponent } from './modal/modal.component';
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,8 @@ export class ComponentCreationService {
           {key:"canvas", value:CanvasComponent},
           {key:"clingraph_interactive", value: MainPageComponent},
           {key:"textfield", value: TextfieldComponent},
-          {key:"modal", value: ModalComponent}
+          {key:"modal", value: ModalComponent},
+          {key:"checkbox", value: CheckboxComponent}
         ]
 
         let component = null

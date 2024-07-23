@@ -50,6 +50,8 @@ class ExplanationBackend(ClingoMultishotBackend):
         Parse assumption signatures in the arguments
         """
         self._assumption_sig = []
+        if args.assumption_signature is None:
+            return
         for a in args.assumption_signature:
             try:
                 self._assumption_sig.append((a.split(",")[0], int(a.split(",")[1])))

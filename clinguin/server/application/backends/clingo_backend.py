@@ -359,7 +359,9 @@ class ClingoBackend:
             )
         )
         symbols, ucore = solve(
-            self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
+            self._ctl,
+            [(a, True) for a in self._get_assumptions()],
+            self._on_model,
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -434,8 +436,14 @@ class ClingoBackend:
             self._ctl.configuration.solve.enum_mode = "auto"
 
             self._prepare()
+            self._logger.debug(
+                domctl_log(
+                    f"domctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+                )
+            )
+
             symbols, ucore = solve(
-                self._ctl, [(a, True) for a in self._assumptions], self._on_model
+                self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
             )
             self._unsat_core = ucore
             if symbols is None:

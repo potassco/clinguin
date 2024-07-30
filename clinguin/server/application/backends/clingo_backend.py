@@ -697,7 +697,19 @@ class ClingoBackend:
         try:
             model = next(self._iterator)
             while optimizing and not model.optimality_proven:
-                self._logger.info("Skipping non-optimal model!")
+                if len(model.cost) == 0:
+                    self._messages.append(
+                        (
+                            "Browsing Error",
+                            "No optimization provided",
+                            "error",
+                        )
+                    )
+                    self._logger.error(
+                        "No optimization statement provided in encoding but optimization condition provided in 'next_solution' operation. Exiting browsing."
+                    )
+                    raise StopIteration
+                self._logger.debug("Skipping non-optimal model!")
                 model = next(self._iterator)
 
             self._clear_cache(["_ds_model"])

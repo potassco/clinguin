@@ -9,7 +9,7 @@ Showcases multiple features of the web fronted in the form of a smart seat place
 ### Usage
 
 ```
-clinguin client-server --domain-files examples/angular/placement_optimized/instance.lp examples/angular/placement_optimized/encoding.lp --ui-files examples/angular/placement/ui.lp
+clinguin client-server --domain-files examples/angular/placement_optimized/instance.lp examples/angular/placement_optimized/encoding.lp --ui-files examples/angular/placement_optimized/ui.lp
 ```
 
 ![](out1.png)

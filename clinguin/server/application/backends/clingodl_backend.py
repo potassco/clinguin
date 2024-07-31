@@ -24,17 +24,26 @@ class ClingoDLBackend(ClingoMultishotBackend):
     It also includes the assignment in the domain state.
     """
 
-    def __init__(self, args):
-        dl_config = [a.split("=") for a in args.dl_config] if args.dl_config else []
-        self._dl_conf = [(a[0], a[1]) for a in dl_config]
-
-        super().__init__(args)
-
-        self._add_domain_state_constructor("_ds_assign")
-
     # ---------------------------------------------
     # Setups
     # ---------------------------------------------
+
+    def _init_command_line(self):
+        """
+        Initializes the command line.
+        """
+        super()._init_command_line()
+        dl_config = (
+            [a.split("=") for a in self._args.dl_config] if self._args.dl_config else []
+        )
+        self._dl_conf = [(a[0], a[1]) for a in dl_config]
+
+    def _init_ds_constructors(self):
+        """
+        Initializes the domain state constructors.
+        """
+        super()._init_ds_constructors()
+        self._add_domain_state_constructor("_ds_assign")
 
     def _create_ctl(self):
         """

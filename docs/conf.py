@@ -28,6 +28,7 @@ autodoc_mock_imports = [
     "clingexplaid",
 ]
 
+
 # -- Project information -----------------------------------------------------
 
 project = "clinguin"

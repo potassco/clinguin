@@ -32,11 +32,11 @@ class UIState:
 
     unifiers = [ElementDao, AttributeDao, WhenDao]
 
-    def __init__(self, ui_files, domain_state, constants):
+    def __init__(self, ui_files, domain_state, constants_arg_list):
         self._factbase = None
         self._ui_files = ui_files
         self._domain_state = domain_state
-        self._constants = constants
+        self._constants_arg_list = constants_arg_list
 
     def __str__(self):
         s = "\nUI State:\n=========\n"
@@ -61,10 +61,10 @@ class UIState:
         """
         log.debug(
             uictl_log(
-                f'uictl = Control(["0", "--warn=none"] + {[f"-c {v}" for v in self._constants]})'
+                f'uictl = Control(["0", "--warn=none"] + {self._constants_arg_list})'
             )
         )
-        uictl = Control(["0", "--warn=none"] + [f"-c {v}" for v in self._constants])
+        uictl = Control(["0", "--warn=none"] + self._constants_arg_list)
         for f in self._ui_files:
             path = Path(f)
             if not path.is_file():

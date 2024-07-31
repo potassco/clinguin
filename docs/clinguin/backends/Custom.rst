@@ -65,7 +65,15 @@ When a custom argument is added to the backend if will likely need to be handled
     * `clingodl_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingodl_backend.py>`_
 
 
-.. automethod:: ClingoMultishotBackend._init_setup
+.. automethod:: ClingoMultishotBackend._restart
+
+.. automethod:: ClingoMultishotBackend._init_ds_constructors
+
+.. automethod:: ClingoMultishotBackend._init_command_line
+
+.. automethod:: ClingoMultishotBackend._init_interactive
+
+.. automethod:: ClingoMultishotBackend._init_ctl
 
 .. automethod:: ClingoMultishotBackend._create_ctl
 
@@ -97,8 +105,6 @@ They can be ovweritten for theory extensions among other things.
 .. automethod:: ClingoMultishotBackend._on_model
 
 .. automethod:: ClingoMultishotBackend._add_atom
-
-.. automethod:: ClingoMultishotBackend._get_assumptions
 
 
 UI updates

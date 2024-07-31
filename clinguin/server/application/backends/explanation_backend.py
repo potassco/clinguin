@@ -97,12 +97,14 @@ class ExplanationBackend(ClingoMultishotBackend):
         self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
         self._ctl.add("base", [], transformed_program)
 
-    def _get_assumptions(self):
+    @property
+    def _assumption_list(self):
         """
-        Gets the set of assumptions used for solving
+        Gets the set of assumptions used for solving. It includes the assumptions from the assumption signatures provided.
         """
-
-        return self._assumptions.union(self._transformer_assumptions)
+        return [
+            (a, True) for a in self._assumptions.union(self._transformer_assumptions)
+        ]
 
     def _outdate(self):
         """
@@ -126,7 +128,7 @@ class ExplanationBackend(ClingoMultishotBackend):
         prg = "#defined _clinguin_mus/1.\n"
         if self._unsat_core is not None:
             self._logger.info("UNSAT Answer, will add explanation")
-            cc = CoreComputer(self._ctl, [(a, True) for a in self._get_assumptions()])
+            cc = CoreComputer(self._ctl, self._assumption_list)
             cc.shrink()
             mus_core = cc.minimal
             for s, v in mus_core:

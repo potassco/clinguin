@@ -6,6 +6,7 @@ import logging
 from functools import cached_property
 from pathlib import Path
 import functools
+from typing import Any
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
@@ -31,41 +32,25 @@ class ClingoBackend:
 
     def __init__(self, args):
         """
-        Creates the Backend with the given arguments. It will setup the context, files and constants.
-        It will define all domain-state constructors and their cache.
-        Finally, it calls all the setup methods: (_init_setup, _outdate,_init_ctl) and grounds the control
+        Creates the Backend with the given arguments.
+        It will setup all attributes by calling :func:`~_init_ds_constructors()` and :func:`~_restart()`.
+
+        Generally this method should NOT be overwritten by custom backends.
+        Instead, custom backends should overwrite specialized methods.
 
         Arguments:
             args (ArgumentParser): The arguments from the argument parser that are given for the registered options.
+
         """
+        self._args = args
+
         self._logger = logging.getLogger(args.log_args["name"])
-        self.context = []
-        self.args = args
 
-        self._domain_files = [] if args.domain_files is None else args.domain_files
-        if not args.ui_files:
-            raise RuntimeError("UI files need to be provided under --ui-files")
-        self._ui_files = args.ui_files
-        self._constants = args.const if args.const else []
-        self._clingo_ctl_arg = args.clingo_ctl_arg if args.clingo_ctl_arg else []
-        self._default_opt_mode = "ignore"
-        self._domain_state_constructors = []
-        self._backup_ds_cache = {}
+        # Setup static attributes that might be changed by custom backends and must be preserved after restarts
+        self._init_ds_constructors()
 
-        self._init_setup()
-        self._outdate()
-        self._init_ctl()
-        self._ground()
-
-        self._add_domain_state_constructor("_ds_context")
-        self._add_domain_state_constructor("_ds_unsat")
-        self._add_domain_state_constructor("_ds_browsing")
-        self._add_domain_state_constructor("_ds_cautious_optimal")
-        self._add_domain_state_constructor("_ds_brave_optimal")
-        self._add_domain_state_constructor("_ds_cautious")
-        self._add_domain_state_constructor("_ds_brave")
-        self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
-        self._add_domain_state_constructor("_ds_opt")
+        # Restart the backend to initialize all attributes
+        self._restart()
 
     # ---------------------------------------------
     # Class methods
@@ -74,7 +59,23 @@ class ClingoBackend:
     @classmethod
     def register_options(cls, parser):
         """
-        Registers options in the command line for the domain files and ui files.
+        Registers options in the command line.
+
+        It can be extended by custom backends to add custom command-line options.
+
+        Example:
+
+            .. code-block:: python
+
+                @classmethod
+                def register_options(cls, parser):
+                    ClingoMultishotBackend.register_options(parser)
+
+                    parser.add_argument(
+                        "--my-custom-option",
+                        help="Help message",
+                        nargs="*",
+                    )
 
         Arguments:
             parser (ArgumentParser): A group of the argparse argument parser
@@ -105,80 +106,230 @@ class ClingoBackend:
             Should have format <name>=<value>, for example parallel-mode=2 will become --parallel-mode=2.""",
             metavar="",
         )
+        parser.add_argument(
+            "--default-opt-mode",
+            type=str,
+            help="Default optimization mode for computing a model",
+            default="ignore",
+            metavar="",
+        )
 
     # ---------------------------------------------
-    # Context
+    # Properties
     # ---------------------------------------------
-
-    def _set_context(self, context):
-        """
-        Sets the context
-
-        Arguments:
-            context: The context dictionary
-        """
-        self.context = context
-
-    # ---------------------------------------------
-    # Setups
-    # ---------------------------------------------
-
-    def _init_setup(self):
-        """
-        Initializes the arguments when the server starts or after a restart.
-        These arguments include, the handler and iterator for browsing answer sets,
-        as well as the domain control and the atoms.
-        """
-        # For browising
-        self._handler = None
-        self._iterator = None
-
-        # To make static linters happy
-        self._atoms = set()
-        self._ctl = None
-
-        self._model = None
-        self._assumptions = set()
-        self._unsat_core = None
-
-        self._ui_state = None
-        self._messages = []
-
-        self._cost = []  # Set in on_model
-        self._optimal = False  # Set in on_model
-        self._optimizing = False  # Set in on_model
-
-    def _init_ctl(self):
-        """
-        Creates the control and loads the files
-        """
-        self._create_ctl()
-        self._load_and_add()
 
     @property
-    def _ctl_arguments_list(self):
+    def _is_browsing(self):
+        """
+        Property to tell if clinguin is in browsing mode.
+        """
+        return self._iterator is not None
+
+    @property
+    def _constants_argument_list(self) -> list:
+        """
+        Gets the constants as a list of strings in the format "-c <name>=<value>"
+        """
+        return [f"-c {k}={v}" for k, v in self._constants.items()]
+
+    @property
+    def _ctl_arguments_list(self) -> list:
         """
         Gets the list of arguments used for creating a control object
         """
         return (
             ["0"]
-            + [f"-c {v}" for v in self._constants]
+            + self._constants_argument_list
             + [f"--{o}" for o in self._clingo_ctl_arg]
         )
 
-    def _create_ctl(self):
+    @property
+    def _assumption_list(self) -> list:
+        """
+        A list of assumptions in the format [(a, True)]
+        """
+        return [(a, True) for a in self._assumptions]
+
+    # ---------------------------------------------
+    # Setups
+    # ---------------------------------------------
+
+    def _restart(self):
+        """
+        Restarts the backend by setting all attributes,
+        initializing controls and grounding.
+
+        Calls: :func:`~_init_command_line`, :func:`~_init_interactive`, :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
+        """
+        self._init_command_line()
+        self._init_interactive()
+        self._outdate()
+        self._init_ctl()
+        self._ground()
+
+    def _init_ds_constructors(self):
+        """
+        This method initializes the domain state constructors list and the backup cache dictionary.
+        It also adds the default domain state constructors to the list.
+        This method is called only when the server starts.
+
+        Attributes:
+            _domain_state_constructors (list): A list to store the domain state constructors.
+            _backup_ds_cache (dict): A dictionary to store the backup domain state cache.
+
+
+        It can be extended by custom backends to add/edit domain state constructors.
+        Adding a domain state constructor should be done by calling :func:`~_add_domain_state_constructor()`.
+
+        Example:
+
+            .. code-block:: python
+
+                @property
+                def _ds_my_custom_constructor(self):
+                    # Creates custom program
+                    return "my_custom_program."
+
+                def _init_ds_constructors(self):
+                    super()._init_ds_constructors()
+                    self._add_domain_state_constructor("_ds_my_custom_constructor")
+
+        """
+        self._domain_state_constructors = []
+        self._backup_ds_cache = {}
+        self._add_domain_state_constructor("_ds_context")
+        self._add_domain_state_constructor("_ds_unsat")
+        self._add_domain_state_constructor("_ds_browsing")
+        self._add_domain_state_constructor("_ds_cautious_optimal")
+        self._add_domain_state_constructor("_ds_brave_optimal")
+        self._add_domain_state_constructor("_ds_cautious")
+        self._add_domain_state_constructor("_ds_brave")
+        self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
+        self._add_domain_state_constructor("_ds_opt")
+
+    def _init_command_line(self):
+        """
+        Initializes the attributes based on the command-line arguments provided.
+        This method is called when the server starts or after a restart.
+
+        Attributes:
+
+            _domain_files (list): The list of domain files provided via command line.
+            _ui_files (list): The list of UI files provided via command line.
+            _constants (dict): The dictionary of constants provided via command line.
+            _clingo_ctl_arg (list): The list of clingo control arguments provided via command line.
+
+        If any command line arguments are added in :func:`~register_options`, they should be initialized here.
+
+        Example:
+
+            .. code-block:: python
+
+                    def _init_command_line(self):
+                        super()._init_command_line()
+                        self._my_custom_attr = self._args.my_custom_option
+
+
+        """
+
+        self._domain_files = self._args.domain_files or []
+
+        if not self._args.ui_files:
+            raise RuntimeError("UI files need to be provided under --ui-files")
+        self._ui_files = self._args.ui_files
+
+        self._constants = {}
+        if self._args.const is not None:
+            for c in self._args.const:
+                if "=" not in c:
+                    raise ValueError("Invalid constant format. Expected name=value.")
+                name, value = c.split("=")
+                self._constants[name] = value
+
+        self._clingo_ctl_arg = self._args.clingo_ctl_arg or []
+
+        self._default_opt_mode = self._args.default_opt_mode
+
+    def _init_interactive(self):
+        """
+        Initializes the attributes that will change during the interaction.
+        This method is called when the server starts or after a restart.
+
+        Attributes:
+            _context (list): A list to store the context set by the general handler of requests.
+            _handler (clingo.SolveHandle): The handler set while browsing in the `next_solution` operation.
+            _iterator (iter): The iterator set while browsing in the `next_solution` operation.
+            _ctl (clingo.Control): The domain control set in `_init_ctl`.
+            _ui_state (:class:`UIState`): A UIState object used to handle the UI construction, set in every call to `_update_ui_state`.
+            _atoms (set[str]): A set to store the atoms set dynamically in operations during the interaction.
+            _assumptions (set[str]): A set to store the assumptions set dynamically in operations during the interaction.
+            _externals (dict): A dictionary with true, false and released sets of external atoms
+            _model (list[clingo.Symbol]): The model set in `on_model`.
+            _unsat_core (list[int]): The unsatisfiable core set in `on_model`.
+            _cost (list): A list to store the cost set in `on_model`.
+            _optimal (bool): A boolean indicating if the solution is optimal, set in `on_model`.
+            _optimizing (bool): A boolean indicating if the solver is currently optimizing, set in `on_model`.
+            _messages (list[tuple[str,str,str]]): A list to store the messages (title, content, type) to be shown in the UI, set dynamically in operations during the interaction.
+        """
+        # Context: Set by the general handler of requests
+        self._context = []
+
+        # Domain Control: Set in _init_ctl
+        self._ctl = None
+
+        # UIState object to handle the UI construction: Set in every time in _update_ui_state
+        self._ui_state = None
+
+        # Atoms and assumptions: Set dynamically in operations during the interaction
+        self._atoms = set()
+        self._assumptions = set()
+        self._externals = {"true": set(), "false": set(), "released": set()}
+
+        # Handler and Iterator: Set while browsing in next_solution operation
+        self._handler = None
+        self._iterator = None
+
+        # Attributes from the model: Set in on_model
+        self._model = None
+        self._unsat_core = None
+        self._cost = []
+        self._optimal = False
+        self._optimizing = False
+
+        # Messages to be shown in the UI: Set dynamically in operations during the interaction
+        self._messages = []
+
+    def _init_ctl(self):
+        """
+        Creates the domain control and loads the domain files.
+
+        Calls: :func:`~_create_ctl`, :func:`~_load_and_add`
+        """
+        self._create_ctl()
+        self._load_and_add()
+
+    def _create_ctl(self) -> None:
         """
         Initializes the control object (domain-control).
         It is used when the server is started or after a restart.
+
+        Calls: :func:`~_load_file`
         """
         self._logger.debug(
             domctl_log(f"domain_ctl = Control({self._ctl_arguments_list})")
         )
         self._ctl = Control(self._ctl_arguments_list)
 
-    def _load_and_add(self):
+    def _load_and_add(self) -> None:
         """
-        Loads domain files and atoms into the control
+        Loads domain files and atoms into the control.
+
+        This method iterates over the domain files and atoms specified in the instance and loads them into the control.
+        It raises an exception if a domain file does not exist or if there is a syntax error in the logic program file.
+
+        Raises:
+            Exception: If a domain file does not exist or if there is a syntax error in the logic program file.
+
         """
         for f in self._domain_files:
             path = Path(f)
@@ -210,10 +361,41 @@ class ClingoBackend:
         self._logger.debug(domctl_log(f"domctl.load({str(f)})"))
         self._ctl.load(str(f))
 
+    def _set_context(self, context):
+        """
+        Sets the context. Used by general endpoint handler after a request.
+
+        Arguments:
+            context: The context dictionary
+        """
+        self._context = context
+
+    def _set_constant(self, name: str, value: Any) -> None:
+        """
+        Sets a constant in the backend and restarts the control.
+
+        Calls:  :fun:`~_init_interactive`, :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
+
+        Args:
+            name (str): name of the constant
+            value (Any): value of the constant
+        """
+        self._constants[name] = value
+        name = name.strip('"')
+        value = str(value).strip('"')
+        self._constants[name] = value
+        self._logger.debug(f"Constant {name} updated successfully to {value}")
+        self._init_interactive()
+        self._outdate()
+        self._init_ctl()
+        self._ground()
+
     def _outdate(self):
         """
         Outdates all the dynamic values when a change has been made.
         Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+
+        Calls: :func:`~_clear_cache`
         """
         if self._handler:
             self._handler.cancel()
@@ -221,13 +403,6 @@ class ClingoBackend:
         self._iterator = None
         self._model = None
         self._clear_cache()
-
-    @property
-    def _is_browsing(self):
-        """
-        Property to tell if clinguin is in browsing mode.
-        """
-        return self._iterator is not None
 
     # ---------------------------------------------
     # Solving
@@ -247,11 +422,13 @@ class ClingoBackend:
         """
         Does any preparation before a solve call.
         """
+        pass
 
     def _on_model(self, model):
         """
         This method is called each time a model is obtained by the domain control.
-        It can be used to extend the given model in Theory Solving.
+        It sets the model, and optimization attributes.
+        It can be extended to add custom features of the model.
 
         Arguments:
             model (clingo.Model): The found clingo model
@@ -264,7 +441,7 @@ class ClingoBackend:
 
     def _add_atom(self, predicate_symbol):
         """
-        Adds an atom if it hasn't been already aded
+        Adds an atom if it hasn't been already added
 
         Arguments:
             predicate_symbol (clingo.Symbool): The symbol for the atom
@@ -272,23 +449,19 @@ class ClingoBackend:
         if predicate_symbol not in self._atoms:
             self._atoms.add(predicate_symbol)
 
-    def _get_assumptions(self):
-        """
-        Gets the set of assumptions used for solving
-        """
-        return self._assumptions
-
     # ---------------------------------------------
-    # UI update
+    # UI state
     # ---------------------------------------------
 
     def _update_ui_state(self):
         """
         Updates the UI state by calling all domain state methods
-        and creating a new control object (ui_control) using the ui_files provided
+        and creating a new control object (ui_control) using the UI files provided
         """
         domain_state = self._domain_state
-        self._ui_state = UIState(self._ui_files, domain_state, self._constants)
+        self._ui_state = UIState(
+            self._ui_files, domain_state, self._constants_argument_list
+        )
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
         for m in self._messages:
@@ -302,7 +475,7 @@ class ClingoBackend:
     def _add_domain_state_constructor(self, method: str):
         """
         Adds a method name to the domain constructors.
-        This method needs to be annotated with ``@property`` or ``@cached_property``
+        The provided method needs to be annotated with ``@property`` or ``@cached_property``
 
         Arguments:
             method (str): Name of the property method
@@ -355,12 +528,12 @@ class ClingoBackend:
         self._prepare()
         self._logger.debug(
             domctl_log(
-                f"domctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+                f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"
             )
         )
         symbols, ucore = solve(
             self._ctl,
-            [(a, True) for a in self._get_assumptions()],
+            self._assumption_list,
             self._on_model,
         )
         self._unsat_core = ucore
@@ -393,6 +566,8 @@ class ClingoBackend:
     def _domain_state(self):
         """
         Gets the domain state by calling all the domain constructor methods
+
+        Some domain state constructors might skip the computation if the UI does not require them.
         """
         ds = ""
         for f in self._domain_state_constructors:
@@ -405,10 +580,12 @@ class ClingoBackend:
     @property
     def _ds_context(self):
         """
-        Gets the context as facts ``_clinguin_context(KEY, VALUE)``
+        Adds context information from the client.
+
+        Includes predicate  ``_clinguin_context/2`` indicating each key and value in the context.
         """
         prg = "#defined _clinguin_context/2. "
-        for a in self.context:
+        for a in self._context:
             value = str(a.value)
             try:
                 symbol = parse_term(value)
@@ -422,9 +599,9 @@ class ClingoBackend:
     @cached_property
     def _ds_model(self):
         """
-        Computes model
-
+        Computes model and adds all atoms as facts.
         When the model is being iterated by the user, the current model is returned.
+
         It uses a cache that is erased after an operation makes changes in the control.
         """
         if self._model is None:
@@ -438,13 +615,11 @@ class ClingoBackend:
             self._prepare()
             self._logger.debug(
                 domctl_log(
-                    f"domctl.solve(assumptions={[(str(a), True) for a in self._get_assumptions()]}, yield_=True)"
+                    f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"
                 )
             )
 
-            symbols, ucore = solve(
-                self._ctl, [(a, True) for a in self._get_assumptions()], self._on_model
-            )
+            symbols, ucore = solve(self._ctl, self._assumption_list, self._on_model)
             self._unsat_core = ucore
             if symbols is None:
                 self._logger.warning(
@@ -464,6 +639,8 @@ class ClingoBackend:
     def _ds_brave(self):
         """
         Computes brave consequences adds them as predicates ``_any/1``.
+        This are atoms that appear in some model.
+        If it is not used in the UI files then the computation is not performed.
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -476,6 +653,8 @@ class ClingoBackend:
     def _ds_cautious(self):
         """
         Computes cautious consequences adds them as predicates ``_all/1``.
+        This are atoms that appear in all models.
+        If it is not used in the UI files then the computation is not performed.
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -490,6 +669,8 @@ class ClingoBackend:
     def _ds_brave_optimal(self):
         """
         Computes brave consequences for only optimal solutions adds them as predicates ``_any_opt/1``.
+        This are atoms that appear in some optimal model.
+        If it is not used in the UI files then the computation is not performed.
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -503,7 +684,9 @@ class ClingoBackend:
     @cached_property
     def _ds_cautious_optimal(self):
         """
-        Computes cautious consequences adds them as predicates ``_all_opt/1``.
+        Computes cautious consequences of optimal models adds them as predicates ``_all_opt/1``.
+        This are atoms that appear in all optimal models.
+        If it is not used in the UI files then the computation is not performed.
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -541,7 +724,13 @@ class ClingoBackend:
     @property
     def _ds_opt(self):
         """
-        Additional program to pass to the UI with optimality info
+        Adds program to pass with optimality information.
+
+        Includes predicates:
+         - ``_clinguin_cost/1``: With a single tuple indicating the cost
+         - ``_clinguin_cost/2``: With the index and cost value, linearizing predicate ``_clinguin_cost/1``
+         - ``_clinguin_optimal/0``: If the solution is optimal
+         - ``_clinguin_optimizing/0``: If there is an optimization in the program
         """
         prg = "#defined _clinguin_cost/2. #defined _clinguin_cost/1. #defined _clinguin_optimal/1. "
 
@@ -555,6 +744,18 @@ class ClingoBackend:
         prg += f"_clinguin_cost({tuple(self._cost)}).\n"
         return prg
 
+    @property
+    def _ds_constants(self):
+        """
+        Adds constants to the domain state.
+
+        Includes predicate ``_clinguin_const/2`` for each constant provided in the command line and used in the domain files
+        """
+        prg = "#defined _clinguin_const/2. "
+        for k, v in self._constants.items():
+            prg += f"_clinguin_const({k},{v})."
+        return prg + "\n"
+
     ########################################################################################################
 
     # ---------------------------------------------
@@ -565,7 +766,6 @@ class ClingoBackend:
         """
         Updates the UI and transforms the facts into a JSON.
         This method will be automatically called after executing all the operations.
-        Thus, it needs to be implemented by all backends.
         """
         self._update_ui_state()
         json_structure = StandardJsonEncoder.encode(self._ui_state)
@@ -573,16 +773,13 @@ class ClingoBackend:
 
     def restart(self):
         """
-        Restarts the backend by initializing parameters, controls, ending the browsing grounding and updating the UI
+        Restarts the backend by initializing all parameters, controls, ending the browsing and grounding
         """
-        self._init_setup()
-        self._outdate()
-        self._init_ctl()
-        self._ground()
+        self._restart()
 
     def update(self):
         """
-        Updates the UI and transforms the output into a JSON.
+        Updates the UI by clearing the cache.
         """
         self._clear_cache()
 
@@ -635,7 +832,7 @@ class ClingoBackend:
 
     def add_atom(self, predicate):
         """
-        Adds an assumption, restarts the control and grounds again
+        Adds an atom, restarts the control and grounds
 
         Arguments:
 
@@ -650,7 +847,7 @@ class ClingoBackend:
 
     def remove_atom(self, predicate):
         """
-        Removes an assumption, restarts the control and grounds again
+        Removes an atom (if present), restarts the control and grounds again
 
         Arguments:
 
@@ -686,12 +883,10 @@ class ClingoBackend:
             self._prepare()
             self._logger.debug(
                 domctl_log(
-                    f"domctl.solve({[(a, True) for a in self._get_assumptions()]}, yield_=True)"
+                    f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"
                 )
             )
-            self._handler = self._ctl.solve(
-                [(a, True) for a in self._get_assumptions()], yield_=True
-            )
+            self._handler = self._ctl.solve(self._assumption_list, yield_=True)
 
             self._iterator = iter(self._handler)
         try:
@@ -735,6 +930,12 @@ class ClingoBackend:
 
     def stop_browsing(self):
         """
-        Stops the current browsing
+        Stops the current browsing.
         """
         self._outdate()
+
+    def set_constant(self, name: str, value: Any):
+        """
+        Sets a constant value reinitialize the control and grounds
+        """
+        self._set_constant(name, value)

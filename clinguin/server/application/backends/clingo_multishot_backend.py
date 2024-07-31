@@ -20,33 +20,19 @@ class ClingoMultishotBackend(ClingoBackend):
     It is selected as the default Backend
     """
 
-    def __init__(self, args):
-        super().__init__(args)
-
-        self._add_domain_state_constructor("_ds_assume")
-
     # ---------------------------------------------
     # Setups
     # ---------------------------------------------
 
-    def _init_setup(self):
-        """
-        Initializes the arguments when the server starts or after a restart.
-        These arguments include, the handler and iterator for browsing answer sets,
-        as well as the domain control, the atoms, assumptions and externals
-        """
-        super()._init_setup()
-        # To make static linters happy
-        self._externals = {"true": set(), "false": set(), "released": set()}
+    def _init_ds_constructors(self):
+        super()._init_ds_constructors()
+        self._add_domain_state_constructor("_ds_assume")
 
     # ---------------------------------------------
     # Solving
     # ---------------------------------------------
 
     def _add_assumption(self, predicate_symbol):
-        """
-        Adds an assumption to the set
-        """
         self._assumptions.add(predicate_symbol)
 
     # ---------------------------------------------
@@ -61,7 +47,7 @@ class ClingoMultishotBackend(ClingoBackend):
         Includes predicate  ``_clinguin_assume/1`` for every atom that was assumed.
         """
         prg = "#defined _clinguin_assume/1. "
-        for a in self._get_assumptions():
+        for a, _ in self._assumption_list:
             prg += f"_clinguin_assume({str(a)}). "
         return prg + "\n"
 

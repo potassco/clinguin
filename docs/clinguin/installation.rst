@@ -1,5 +1,5 @@
-Installation
-############
+|:gear:| Installation
+#####################
 
 Clinguin requires a Python version between 3.8 and 3.10 (recomend 3.10)
 
@@ -18,12 +18,11 @@ The python clinguin package can be found `here <https://pypi.org/project/clingui
 
     $ pip install clinguin
 
-The following dependencies used in `clinguin` are optional.
 
-#. `tkinter`: For using the tkinter fronted.
+.. note::
 
-To include them in the installation use:
+    If you wish to use tkinter instead of angluar, install as follows.
 
-.. code-block:: console
+    .. code-block:: console
 
-    $ pip install clinguin[tkinter]
+        $ pip install clinguin[tkinter]

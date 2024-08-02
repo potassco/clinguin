@@ -1,9 +1,11 @@
 
-Quick Start
-===========
+.. _Quick Start:
 
-We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_ , and run it using the :ref:`ClingoMultishotBackend` and the :ref:`AngularFrontend`.
-The ASP files defining the `instance <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/instance.lp>`_ and `instance <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/encoding.lp>`_ for the sudoku are considered the :ref:`domain-files`.
+|:rocket:| Quick Start
+======================
+
+We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_.
+The ASP files defining the `instance <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/instance.lp>`_ and `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/encoding.lp>`_ for the sudoku are considered the :ref:`domain-files`.
 
 .. image:: ../../examples/angular/sudoku/out1.png
    :width: 45%
@@ -90,7 +92,9 @@ The first four lines will set the size and position of the dropdown. The special
     attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
     attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
-As part of the dropdown we add the different dropdown menu items for all possible values the cell can take. In this case we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will apear in red and disabled. When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
+As part of the dropdown we add the different dropdown menu items for all possible values the cell can take. In this case we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will apear in red and disabled.
+When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
+The avaliable operations are defined by the selected backend, in this case we use the :ref:`ClingoMultishotBackend` which is the default, and recomended one.
 
 .. code-block::
 

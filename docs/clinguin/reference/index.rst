@@ -1,6 +1,7 @@
-===============
-Reference Guide
-===============
+.. _reference guide:
+
+|:book:| Reference Guide
+========================
 
 This guide explains the internal workflow of `clinguin` and all its concepts.
 The full workflow of the system is shown in the figure below.

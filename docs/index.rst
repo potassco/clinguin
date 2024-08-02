@@ -9,7 +9,13 @@ Clinguin: Building UIs in ASP
 Clinguin enables ASP developers to create interactive User Interface (UI) prototypes using only ASP.
 UIs are defined as sets of facts,  which are then rendered by a fronted to provide continuous interaction with ASP solvers based on user-triggered events.
 
-This and more examples are available in our `examples folder <https://github.com/potassco/clinguin/tree/master/examples>`_!
+- :ref:`Quick Start`: Step-by-step guide on how to use clinguin using the sudoku.
+- :ref:`Reference Guide`: Explanation of the concepts and components of clinguin.
+- :ref:`Frontends`: Elements and attributes available to crate your UI.
+- :ref:`Backends`: Available operations and the predicates that will be available to create the UI.
+- :ref:`Customization`: Create your own backend or contribute with the *clinguin* project.
+- :ref:`Help`: If you are having trouble.
+- :ref:`&#x1F4A1; Examples`: To get inspiration for your UI.
 
 **Here is a motivation example:**
 
@@ -43,8 +49,6 @@ Clinguin will use this encoding and the following ui encoding to construct the U
 .. image:: ../examples/angular/sudoku_basic/out3.png
    :width: 30%
 
-For a more detailed explanation on how this code works take a look at the :ref:`Quick Start` section.
-
 
 .. note:: Clinguin is part the Potassco umbrella (which is the home of Clingo and the other ASP tools)
 
@@ -52,11 +56,13 @@ For a more detailed explanation on how this code works take a look at the :ref:`
    :hidden:
 
    clinguin/installation
-   clinguin/use.rst
-   clinguin/reference/index.rst
-   clinguin/frontends/index.rst
-   clinguin/backends/index.rst
-   clinguin/development/index.rst
+   clinguin/use
+   clinguin/reference/index
+   clinguin/frontends/index
+   clinguin/backends/index
+   clinguin/development/index
+   clinguin/examples_readme
+   clinguin/help
 
 
 

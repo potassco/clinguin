@@ -7,7 +7,11 @@ from clorm import Predicate, RawField
 
 class AttributeDao(Predicate):
     """
-    Class for CLORM (clingo-object-relational-mapping), i.e. for accessing attributes in a factbase.
+    Attributes define the style of the UI.
+
+    - id: Identifier of the element that the attribute will be set to.
+    - key: The name of the attribute. Available attributes depend on the element type and the frontend.
+    - value: The value of the attribute.
     """
 
     id = RawField

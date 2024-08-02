@@ -1,7 +1,7 @@
 # Clinguin
 
 Clinguin enables ASP developers to **create interactive User Interface** (UI) prototypes **using only ASP**.
-UIs are defined as sets of facts,  which are then rendered by a fronted to provide continuous interaction with ASP solvers based on user-triggered events.
+UIs are defined as sets of facts,  which are then rendered to provide continuous interaction with the ASP solver *clingo* based on user-triggered events.
 
 ***Your UI definition would look like this!***
 
@@ -35,7 +35,7 @@ Clinguin includes a wide range of [clingo](https://potassco.org/clingo/) functio
 
 ***Is clinguin missing something for your application?***
 
-No worries! Clinguin can be extended with different functionalities and even frontend languages, take a look [at this guide](https://clinguin.readthedocs.io/en/latest/clinguin/backends.html#creating-your-own-backend).
+No worries! Clinguin can be extended with different functionalities and even frontend languages, take a look [at this guide](https://clinguin.readthedocs.io/en/latest/clinguin/development/customBackend.html).
 
 
 ## Installation

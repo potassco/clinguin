@@ -6,6 +6,7 @@ Module that contains the ClingoMultishotBackend.
 from clingo import parse_term, Control
 from clingo.script import enable_python
 
+from clinguin.utils.annotations import overwrites, extends
 from clinguin.server.application.backends import ClingoBackend
 
 from ....utils.logger import domctl_log
@@ -21,19 +22,65 @@ class ClingoMultishotBackend(ClingoBackend):
     """
 
     # ---------------------------------------------
-    # Setups
+    # Initialization
     # ---------------------------------------------
-
+    @extends(ClingoBackend)
     def _init_ds_constructors(self):
         super()._init_ds_constructors()
         self._add_domain_state_constructor("_ds_assume")
 
     # ---------------------------------------------
-    # Solving
+    # Setters
     # ---------------------------------------------
 
-    def _add_assumption(self, predicate_symbol):
-        self._assumptions.add(predicate_symbol)
+    def _set_external(self, symbol, name):
+        """
+        Sets the external value of a symbol.
+
+        Args:
+            symbol (clingo.Symbol): The clingo symbol to be set
+            name (str): Either "true", "false" or "release"
+        """
+        if name == "release":
+            self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))
+            self._ctl.release_external(symbol)
+            self._externals["released"].add(symbol)
+
+            if symbol in self._externals["true"]:
+                self._externals["true"].remove(symbol)
+
+            if symbol in self._externals["false"]:
+                self._externals["false"].remove(symbol)
+
+        elif name == "true":
+            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, True)"))
+            self._ctl.assign_external(symbol, True)
+            self._externals["true"].add(symbol)
+
+            if symbol in self._externals["false"]:
+                self._externals["false"].remove(symbol)
+
+        elif name == "false":
+            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, False)"))
+            self._ctl.assign_external(symbol, False)
+            self._externals["false"].add(symbol)
+
+            if symbol in self._externals["true"]:
+                self._externals["true"].remove(symbol)
+
+        else:
+            raise ValueError(
+                f"Invalid external value {name}. Must be true, false or relase"
+            )
+
+    def _add_assumption(self, symbol):
+        """
+        Adds an assumption to the list of assumptions.
+
+        Args:
+            symbol (clingo.Symbol): The clingo symbol to be added as a True assumption
+        """
+        self._assumptions.add(symbol)
 
     # ---------------------------------------------
     # Domain state
@@ -136,38 +183,9 @@ class ClingoMultishotBackend(ClingoBackend):
         name = value
         self._outdate()
 
-        if name == "release":
-            self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))
-            self._ctl.release_external(symbol)
-            self._externals["released"].add(symbol)
+        self._set_external(symbol, name)
 
-            if symbol in self._externals["true"]:
-                self._externals["true"].remove(symbol)
-
-            if symbol in self._externals["false"]:
-                self._externals["false"].remove(symbol)
-
-        elif name == "true":
-            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, True)"))
-            self._ctl.assign_external(symbol, True)
-            self._externals["true"].add(symbol)
-
-            if symbol in self._externals["false"]:
-                self._externals["false"].remove(symbol)
-
-        elif name == "false":
-            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, False)"))
-            self._ctl.assign_external(symbol, False)
-            self._externals["false"].add(symbol)
-
-            if symbol in self._externals["true"]:
-                self._externals["true"].remove(symbol)
-
-        else:
-            raise ValueError(
-                f"Invalid external value {name}. Must be true, false or relase"
-            )
-
+    @overwrites(ClingoBackend)
     def select(self, show_prg: str = ""):
         """
         Select the current solution during browsing.

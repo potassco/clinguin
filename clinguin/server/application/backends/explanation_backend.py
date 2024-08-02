@@ -14,6 +14,7 @@ from ....utils.logger import domctl_log
 from clinguin.server.application.backends.clingo_multishot_backend import (
     ClingoMultishotBackend,
 )
+from clinguin.utils.annotations import extends
 
 enable_python()
 
@@ -25,46 +26,103 @@ class ExplanationBackend(ClingoMultishotBackend):
     the faulty assumptions.
     """
 
-    def __init__(self, args):
+    # ---------------------------------------------
+    # Properties
+    # ---------------------------------------------
+
+    @property
+    def _assumption_list(self):
+        """
+        Gets the set of assumptions used for solving. It includes the assumptions from the assumption signatures provided.
+
+        Warning:
+
+            Overwrites :meth:`ClingoBackend._assumption_list`
+        """
+        return [
+            (a, True) for a in self._assumptions.union(self._assumptions_from_signature)
+        ]
+
+    # ---------------------------------------------
+    # Initialization
+    # ---------------------------------------------
+
+    @extends(ClingoMultishotBackend)
+    def _init_interactive(self):
+        """
+        Adds the MUS property
+
+        Attributes:
+            _mus (str): The list of assumptions in the MUS property
+        """
+        super()._init_interactive()
         self._mus = None
-        self._mc_base_assumptions = set()
-        self._parse_assumption_signature(args)
-        self._assumption_transformer = AssumptionTransformer(
-            signatures=self._assumption_sig
-        )
-        super().__init__(args)
-        self._transformer_assumptions = (
-            self._assumption_transformer.get_assumption_symbols(
-                self._ctl, arguments=self._ctl_arguments_list
-            )
-        )
 
-        self._add_domain_state_constructor("_ds_mus")
-
-    # ---------------------------------------------
-    # Private methods
-    # ---------------------------------------------
-
-    def _parse_assumption_signature(self, args):
+    @extends(ClingoMultishotBackend)
+    def _init_command_line(self):
         """
-        Parse assumption signatures in the arguments
+        Sets the assumption signature and the transformer used for the input files
+
+        Attributes:
+            _assumption_sig (List[Tuple[str, int]]): The list of assumption signatures
+            _assumption_transformer (clingexplaid.AssumptionTransformer): The transformer used for the input files
         """
+        super()._init_command_line()
         self._assumption_sig = []
-        if args.assumption_signature is None:
-            return
-        for a in args.assumption_signature:
+        for a in self._args.assumption_signature or []:
             try:
                 self._assumption_sig.append((a.split(",")[0], int(a.split(",")[1])))
             except Exception as ex:
                 raise ValueError(
                     "Argument assumption_signature must have format name,arity"
                 ) from ex
+        self._assumption_transformer = AssumptionTransformer(
+            signatures=self._assumption_sig
+        )
+
+    @extends(ClingoMultishotBackend)
+    def _init_ds_constructors(self):
+        super()._init_ds_constructors()
+        self._add_domain_state_constructor("_ds_mus")
+
+    @extends(ClingoMultishotBackend)
+    def _load_file(self, f):
+        """
+        Loads a file into the control. Transforms the program to add choices around assumption signatures.
+
+        Arguments:
+            f (str): The file path
+
+        """
+
+        transformed_program = self._assumption_transformer.parse_files([f])
+        self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
+        self._ctl.add("base", [], transformed_program)
+
+    # ---------------------------------------------
+    # Solving
+    # ---------------------------------------------
+    @extends(ClingoMultishotBackend)
+    def _ground(self):
+        """
+        Sets the list of assumptions that were taken from the input files using the assumption_signature.
+
+        Attributes:
+            _assumptions_from_signature (Set[clingo.Symbol]): The set of assumptions from the assumption signatures
+        """
+        super()._ground()
+        self._assumptions_from_signature = (
+            self._assumption_transformer.get_assumption_symbols(
+                self._ctl, arguments=self._ctl_arguments_list
+            )
+        )
 
     # ---------------------------------------------
     # Class methods
     # ---------------------------------------------
 
     @classmethod
+    @extends(ClingoMultishotBackend)
     def register_options(cls, parser):
         """
         Registers command line options for ClingraphBackend.
@@ -81,38 +139,16 @@ class ExplanationBackend(ClingoMultishotBackend):
             metavar="",
         )
 
-    # ---------------------------------------------
-    # Setups
-    # ---------------------------------------------
+    # def _outdate(self):
+    #     """
+    #     Outdates all the dynamic values when a change has been made.
+    #     Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+    #     It also clears the cache for the MUS.
 
-    def _load_file(self, f):
-        """
-        Loads a file into the control. Transforms the program to add choices around assumption signatures.
-
-        Arguments:
-            f (str): The file path
-        """
-
-        transformed_program = self._assumption_transformer.parse_files([f])
-        self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
-        self._ctl.add("base", [], transformed_program)
-
-    @property
-    def _assumption_list(self):
-        """
-        Gets the set of assumptions used for solving. It includes the assumptions from the assumption signatures provided.
-        """
-        return [
-            (a, True) for a in self._assumptions.union(self._transformer_assumptions)
-        ]
-
-    def _outdate(self):
-        """
-        Outdates all the dynamic values when a change has been made.
-        Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
-        """
-        super()._outdate()
-        self._clear_cache(["_ds_mus"])
+    #     Calls: :func:`~_clear_cache`
+    #     """
+    #     super()._outdate()
+    #     self._clear_cache(["_ds_mus"])
 
     # ---------------------------------------------
     # Domain state

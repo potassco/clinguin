@@ -11,24 +11,37 @@ Implements all basic clingo functionality for single-shot solving.
 .. currentmodule:: clinguin.server.application.backends
 
 
+Public operations
++++++++++++++++++
+
+Can be used as `OPERATION` in the actions of the :ref:`ui-state`
+
 .. autoclass:: ClingoBackend
     :members:
     :noindex:
-    :exclude-members: register_options, get
+    :exclude-members: register_options, get, __init__
+
 
 Domain state constructors
-+++++++++++++++++++++++++  
++++++++++++++++++++++++++
 
-The domain state also inclues domain constructors from the parent class.
 
-.. automethod:: ClingoBackend._ds_context
+.. autoproperty:: ClingoBackend._ds_context
 
-.. automethod:: ClingoBackend._ds_brave
+.. autoproperty:: ClingoBackend._ds_model
 
-.. automethod:: ClingoBackend._ds_cautious
+.. autoproperty:: ClingoBackend._ds_brave
 
-.. automethod:: ClingoBackend._ds_model
+.. autoproperty:: ClingoBackend._ds_cautious
 
-.. automethod:: ClingoBackend._ds_unsat
+.. autoproperty:: ClingoBackend._ds_brave_optimal
 
-.. automethod:: ClingoBackend._ds_browsing
+.. autoproperty:: ClingoBackend._ds_cautious_optimal
+
+.. autoproperty:: ClingoBackend._ds_opt
+
+.. autoproperty:: ClingoBackend._ds_unsat
+
+.. autoproperty:: ClingoBackend._ds_browsing
+
+.. autoproperty:: ClingoBackend._ds_constants

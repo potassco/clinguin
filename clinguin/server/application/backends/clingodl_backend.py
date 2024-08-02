@@ -13,6 +13,7 @@ from clingodl import ClingoDLTheory
 from clinguin.server.application.backends.clingo_multishot_backend import (
     ClingoMultishotBackend,
 )
+from clinguin.utils.annotations import extends
 
 enable_python()
 # pylint: disable=attribute-defined-outside-init
@@ -28,9 +29,10 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # Setups
     # ---------------------------------------------
 
+    @extends(ClingoMultishotBackend)
     def _init_command_line(self):
         """
-        Initializes the command line.
+        Sets the dl configuration
         """
         super()._init_command_line()
         dl_config = (
@@ -38,17 +40,26 @@ class ClingoDLBackend(ClingoMultishotBackend):
         )
         self._dl_conf = [(a[0], a[1]) for a in dl_config]
 
+    @extends(ClingoMultishotBackend)
+    def _init_interactive(self):
+        """
+        Initializes the list of the assignments
+
+        Attributes:
+            _assignment (List[Tuple[str, int]]): The list of assignments
+        """
+        super()._init_interactive()
+        self._assignment = []
+
+    @extends(ClingoMultishotBackend)
     def _init_ds_constructors(self):
-        """
-        Initializes the domain state constructors.
-        """
         super()._init_ds_constructors()
         self._add_domain_state_constructor("_ds_assign")
 
+    @extends(ClingoMultishotBackend)
     def _create_ctl(self):
         """
-        Initializes the control object (domain-control).
-        It is used when the server is started or after a restart.
+        Registers the ClingoDLTheory.
         """
         super()._create_ctl()
         self._theory = ClingoDLTheory()
@@ -56,20 +67,18 @@ class ClingoDLBackend(ClingoMultishotBackend):
             self._theory.configure(k, v)
         self._theory.register(self._ctl)
 
+    @extends(ClingoMultishotBackend)
     def _load_file(self, f):
         """
-        Loads a file into the control. Uses the program builder to rewrite and add.
-
-        Arguments:
-            f (str): The file path
+        Uses the program builder to rewrite the theory atoms.
         """
         with ProgramBuilder(self._ctl) as bld:
             parse_files([f], lambda ast: self._theory.rewrite_ast(ast, bld.add))
 
+    @extends(ClingoMultishotBackend)
     def _outdate(self):
         """
-        Outdates all the dynamic values when a change has been made.
-        Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+        Sets the assignment to empty.
         """
         super()._outdate()
         self._assignment = []
@@ -77,12 +86,19 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # ---------------------------------------------
     # Solving
     # ---------------------------------------------
-
+    @extends(ClingoMultishotBackend)
     def _prepare(self):
+        """
+        Prepares the theory before solving
+        """
         # pylint: disable=attribute-defined-outside-init
         self._theory.prepare(self._ctl)
 
+    @extends(ClingoMultishotBackend)
     def _on_model(self, model):
+        """
+        Sets the assignment from the model
+        """
         super()._on_model(model)
         self._theory.on_model(model)
         # pylint: disable=attribute-defined-outside-init
@@ -95,9 +111,10 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     @classmethod
+    @extends(ClingoMultishotBackend)
     def register_options(cls, parser):
         """
-        Registers command line options.
+        Adds the `dl-config` option.
         """
         ClingoMultishotBackend.register_options(parser)
 
@@ -118,7 +135,10 @@ class ClingoDLBackend(ClingoMultishotBackend):
     @property
     def _ds_assign(self):
         """
-        Additional program to pass to the UI computation with assignments
+        Adds program with assignments
+
+        Includes predicate ``_clinguin_assign/2`` with the assignments.
+
         """
         if not self._ui_uses_predicate("_clinguin_assign", 2):
             return "% NOT USED\n"

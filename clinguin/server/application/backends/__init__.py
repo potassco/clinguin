@@ -1,5 +1,5 @@
 """
-Module that contains the default backends ClingoMultishotBackend, ClingraphBackend and TemporalBackend.
+Module that contains the backends
 """
 
 # pylint: disable=cyclic-import

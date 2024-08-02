@@ -53,7 +53,11 @@ so that all facts for atoms matching the signatures provided in this arguments a
     of the sudoku are transfored into choices and enforced by considering them as assumptions.
     This way, they are also considered in unsatisfiable set and shown to the user.
 
+Public operations
++++++++++++++++++
 
+Can be used as `OPERATION` in the actions of the :ref:`ui-state`.
+Also includes all public operations from the :ref:`ClingoMultishotBackend`.
 
 .. autoclass:: ExplanationBackend
     :members:
@@ -61,8 +65,10 @@ so that all facts for atoms matching the signatures provided in this arguments a
     :exclude-members: register_options
 
 
-**Domain state constructors**
+Domain state constructors
++++++++++++++++++++++++++
 
-The domain state also inclues domain constructors from the parent class.
+The domain state also inclues domain constructors from the :ref:`ClingoMultishotBackend`
 
-.. automethod:: ExplanationBackend._ds_mus
+.. autoproperty:: ExplanationBackend._ds_mus
+

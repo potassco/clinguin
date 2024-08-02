@@ -20,6 +20,7 @@ from clinguin.server.data.attribute import AttributeDao
 # Self defined
 from clinguin.utils import StandardTextProcessing, image_to_b64
 from ....utils.transformer import UsesSignatureTransformer
+from clinguin.utils.annotations import extends, overwrites
 
 
 class ClingraphBackend(ClingoMultishotBackend):
@@ -29,18 +30,22 @@ class ClingraphBackend(ClingoMultishotBackend):
     Then, they are sent the client as Base64 encoding.
     """
 
-    def __init__(self, args):
-        super().__init__(args)
+    @extends(ClingoMultishotBackend)
+    def _init_command_line(self):
+        """
+        Sets the arguments for computing clingraph images.
+        """
+        super()._init_command_line()
+        self._clingraph_files = self._args.clingraph_files
+        self._select_model = self._args.select_model
+        self._type = self._args.type
+        self._select_graph = self._args.select_graph
+        self._dir = self._args.dir
+        self._name_format = self._args.name_format
+        self._engine = self._args.engine
 
-        self._clingraph_files = args.clingraph_files
-        self._select_model = args.select_model
-        self._type = args.type
-        self._select_graph = args.select_graph
-        self._dir = args.dir
-        self._name_format = args.name_format
-        self._engine = args.engine
+        self._intermediate_format = self._args.intermediate_format
 
-        self._intermediate_format = args.intermediate_format
         self._attribute_image_key = "image_type"
         self._attribute_image_value = "clingraph"
 
@@ -195,6 +200,7 @@ class ClingraphBackend(ClingoMultishotBackend):
         )
 
     @functools.lru_cache(maxsize=None)
+    @overwrites(ClingoMultishotBackend)
     def _ui_uses_predicate(self, name: str, arity: int):
         """
         Returns a truth value of weather the ui_files contain the given signature.
@@ -212,6 +218,7 @@ class ClingraphBackend(ClingoMultishotBackend):
     # UI update
     # ---------------------------------------------
 
+    @extends(ClingoMultishotBackend)
     def _update_ui_state(self):
         """
         Updates the UI state by calling all domain state methods

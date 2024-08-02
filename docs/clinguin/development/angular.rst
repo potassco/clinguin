@@ -1,38 +1,9 @@
-Contributing
-============
-
-To improve code quality, we use nox to run linters, type checkers, unit
-tests, documentation and more. We recommend installing nox using pipx to have
-it available globally.
-
-.. code-block:: console
-
-    # install
-    python -m pip install pipx
-    python -m pipx install nox
-
-    # run all sessions
-    nox
-
-    # list all sessions
-    nox -l
-
-    # run individual session
-    nox -s session_name
-
-    # run individual session (reuse install)
-    nox -Rs session_name
-
-Note that the nox sessions create [editable] installs. In case there are issues,
-try recreating environments by dropping the `-R` option. If your project is
-incompatible with editable installs, adjust the `noxfile.py` to disable them.
-
-
 Angular Frontend Development
-++++++++++++++++++++++++++++
+============================
 
 This section is for development and contribution in the AngularFrontend.
-For instance to create new element types.
+For instance to create new element types. Unlike the custom backends, this changes must be done inside the source code of *clinguin*.
+Make sure you have installed from source.
 
 
 .. warning::
@@ -42,17 +13,17 @@ For instance to create new element types.
 Requirements
 ------------
 
-- `NPM <https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>`_
-- `NODE <https://nodejs.org/en/download>`_
-- `Angular <https://angular.io/guide/setup-local>`_
+    - `NPM <https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>`_
+    - `NODE <https://nodejs.org/en/download>`_
+    - `Angular <https://angular.io/guide/setup-local>`_
 
-Usage
------
+How to run changes
+------------------
 
 This process shows changes made on the `angular_fronted` folder in real time.
 
 1. Start the server
-    - Replace  ``clinguin client-server`` by ``python start.py server`` and remove argument ``--frontend=AngularFrontend`` from the command line of the desired example
+    - Replace  ``clinguin client-server`` by ``python start.py server`` on the desired example
 2. Start the web client
     - Open a new tab
     - Navigate to the folder `/angular_frontend`.
@@ -72,6 +43,8 @@ Be sure that you have `make` and all the dev-tools for the web-frontend installe
     $ make angular
 
 This builds the frontend, and then installs `clinguin`.
+
+
 
 Internal Workflow
 -----------------

@@ -23,11 +23,7 @@ enable_python()
 
 class ClingoBackend:
     """
-    The ClingoBackend contains the basic clingo functionality for a backend using clingo.
-
-    When started it sets up all the arguments provided via the command line,
-    and creates a control object (domain-control) with the provided domain files.
-    It grounds the program and creates an empty UI state.
+    This backend contains the basic clingo functionality for a backend using clingo.
     """
 
     def __init__(self, args):
@@ -63,6 +59,9 @@ class ClingoBackend:
 
         It can be extended by custom backends to add custom command-line options.
 
+        Arguments:
+            parser (ArgumentParser): A group of the argparse argument parser
+
         Example:
 
             .. code-block:: python
@@ -77,8 +76,6 @@ class ClingoBackend:
                         nargs="*",
                     )
 
-        Arguments:
-            parser (ArgumentParser): A group of the argparse argument parser
         """
         parser.add_argument(
             "--domain-files",
@@ -151,15 +148,17 @@ class ClingoBackend:
         return [(a, True) for a in self._assumptions]
 
     # ---------------------------------------------
-    # Setups
+    # Initialization
     # ---------------------------------------------
 
     def _restart(self):
         """
         Restarts the backend by setting all attributes,
         initializing controls and grounding.
+        It is automatically called when the server starts.
 
-        Calls: :func:`~_init_command_line`, :func:`~_init_interactive`, :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
+        See Also:
+            :func:`~_init_command_line`, :func:`~_init_interactive`, :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
         """
         self._init_command_line()
         self._init_interactive()
@@ -219,7 +218,7 @@ class ClingoBackend:
             _constants (dict): The dictionary of constants provided via command line.
             _clingo_ctl_arg (list): The list of clingo control arguments provided via command line.
 
-        If any command line arguments are added in :func:`~register_options`, they should be initialized here.
+        If any command line arguments are added in :meth:`~ClingoBackend.register_options`, they should be initialized here.
 
         Example:
 
@@ -303,7 +302,8 @@ class ClingoBackend:
         """
         Creates the domain control and loads the domain files.
 
-        Calls: :func:`~_create_ctl`, :func:`~_load_and_add`
+        See Also:
+            :func:`~_create_ctl`, :func:`~_load_and_add`
         """
         self._create_ctl()
         self._load_and_add()
@@ -313,7 +313,8 @@ class ClingoBackend:
         Initializes the control object (domain-control).
         It is used when the server is started or after a restart.
 
-        Calls: :func:`~_load_file`
+        See Also:
+            :func:`~_load_file`
         """
         self._logger.debug(
             domctl_log(f"domain_ctl = Control({self._ctl_arguments_list})")
@@ -330,6 +331,8 @@ class ClingoBackend:
         Raises:
             Exception: If a domain file does not exist or if there is a syntax error in the logic program file.
 
+        See Also:
+            :func:`~_load_file`
         """
         for f in self._domain_files:
             path = Path(f)
@@ -361,6 +364,36 @@ class ClingoBackend:
         self._logger.debug(domctl_log(f"domctl.load({str(f)})"))
         self._ctl.load(str(f))
 
+    def _outdate(self):
+        """
+        Outdates all the dynamic values when a change has been made.
+        Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+
+        See Also:
+            :func:`~_clear_cache`
+        """
+        if self._handler:
+            self._handler.cancel()
+            self._handler = None
+        self._iterator = None
+        self._model = None
+        self._clear_cache()
+
+    # ---------------------------------------------
+    # Setters
+    # ---------------------------------------------
+
+    def _add_domain_state_constructor(self, method: str):
+        """
+        Adds a method name to the domain constructors.
+        The provided method needs to be annotated with ``@property`` or ``@cached_property``
+
+        Arguments:
+            method (str): Name of the property method
+        """
+
+        self._domain_state_constructors.append(method)
+
     def _set_context(self, context):
         """
         Sets the context. Used by general endpoint handler after a request.
@@ -374,8 +407,6 @@ class ClingoBackend:
         """
         Sets a constant in the backend and restarts the control.
 
-        Calls:  :fun:`~_init_interactive`, :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
-
         Args:
             name (str): name of the constant
             value (Any): value of the constant
@@ -385,24 +416,16 @@ class ClingoBackend:
         value = str(value).strip('"')
         self._constants[name] = value
         self._logger.debug(f"Constant {name} updated successfully to {value}")
-        self._init_interactive()
-        self._outdate()
-        self._init_ctl()
-        self._ground()
 
-    def _outdate(self):
+    def _add_atom(self, predicate_symbol):
         """
-        Outdates all the dynamic values when a change has been made.
-        Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
+        Adds an atom if it hasn't been already added
 
-        Calls: :func:`~_clear_cache`
+        Arguments:
+            predicate_symbol (clingo.Symbool): The symbol for the atom
         """
-        if self._handler:
-            self._handler.cancel()
-            self._handler = None
-        self._iterator = None
-        self._model = None
-        self._clear_cache()
+        if predicate_symbol not in self._atoms:
+            self._atoms.add(predicate_symbol)
 
     # ---------------------------------------------
     # Solving
@@ -439,16 +462,6 @@ class ClingoBackend:
         self._optimal = model.optimality_proven
         self._cost = model.cost
 
-    def _add_atom(self, predicate_symbol):
-        """
-        Adds an atom if it hasn't been already added
-
-        Arguments:
-            predicate_symbol (clingo.Symbool): The symbol for the atom
-        """
-        if predicate_symbol not in self._atoms:
-            self._atoms.add(predicate_symbol)
-
     # ---------------------------------------------
     # UI state
     # ---------------------------------------------
@@ -471,17 +484,6 @@ class ClingoBackend:
     # ---------------------------------------------
     # Domain state
     # ---------------------------------------------
-
-    def _add_domain_state_constructor(self, method: str):
-        """
-        Adds a method name to the domain constructors.
-        The provided method needs to be annotated with ``@property`` or ``@cached_property``
-
-        Arguments:
-            method (str): Name of the property method
-        """
-
-        self._domain_state_constructors.append(method)
 
     def _clear_cache(self, methods=None):
         """
@@ -601,6 +603,7 @@ class ClingoBackend:
         """
         Computes model and adds all atoms as facts.
         When the model is being iterated by the user, the current model is returned.
+        It will use as optimality the mode set in the command line as `default-opt-mode` (`ignore` by default).
 
         It uses a cache that is erased after an operation makes changes in the control.
         """
@@ -747,9 +750,9 @@ class ClingoBackend:
     @property
     def _ds_constants(self):
         """
-        Adds constants to the domain state.
+        Adds constants  values.
 
-        Includes predicate ``_clinguin_const/2`` for each constant provided in the command line and used in the domain files
+        Includes predicate ``_clinguin_const/2`` for each constant provided in the command line and used in the domain files.
         """
         prg = "#defined _clinguin_const/2. "
         for k, v in self._constants.items():
@@ -773,19 +776,20 @@ class ClingoBackend:
 
     def restart(self):
         """
-        Restarts the backend by initializing all parameters, controls, ending the browsing and grounding
+        Restarts the backend. It will initialize all attributes, remove atoms, assumptions and externals,
+        restart the control object by initializing all parameters, controls, ending the browsing and grounding.
         """
         self._restart()
 
     def update(self):
         """
-        Updates the UI by clearing the cache.
+        Updates the UI by clearing the cache and computing the models again.
         """
         self._clear_cache()
 
     def download(self, show_prg=None, file_name="clinguin_download.lp"):
         """
-        Downloads the current model.
+        Downloads the current model. It must be selected first via :func:`~select` .
 
         Arguments:
             show_prg (_type_, optional): Program to filter output using show statements. Defaults to None.
@@ -793,6 +797,7 @@ class ClingoBackend:
         """
         if self._model is None:
             raise RuntimeError("Cant download when there is no model")
+        show_prg = show_prg or ""
         prg = "\n".join([f"{s}." for s in self._model])
         ctl = Control()
         ctl.add("base", [], prg)
@@ -822,7 +827,7 @@ class ClingoBackend:
 
     def clear_atoms(self):
         """
-        Removes all atoms and resets the backend (i.e. it regrounds, etc.)
+        Removes all atoms and resets the backend.
         and finally updates the model and returns the updated gui as a Json structure.
         """
         self._outdate()
@@ -863,7 +868,7 @@ class ClingoBackend:
     def next_solution(self, opt_mode="ignore"):
         """
         Obtains the next solution. If a no browsing has been started yet, then it calls solve,
-        otherwise it iterates the models in the last call.
+        otherwise it iterates the models in the last call. To keep the atoms shown in the solution, use :func:`~select`.
 
         Arguments:
             opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
@@ -936,6 +941,10 @@ class ClingoBackend:
 
     def set_constant(self, name: str, value: Any):
         """
-        Sets a constant value reinitialize the control and grounds
+        Sets a constant value. Will reinitialize the control, ground and set arguments
         """
         self._set_constant(name, value)
+        self._init_interactive()
+        self._outdate()
+        self._init_ctl()
+        self._ground()

@@ -17,7 +17,7 @@ Consider an ASP encoding that solves the sudoku puzzle where cells are defined b
 Clinguin will use this encoding and the following ui encoding to construct the UI shown bellow.
 
 .. code-block::
-   
+
   elem(window, window, root).
   attr(window, child_layout, grid).
 
@@ -56,7 +56,7 @@ For a more detailed explanation on how this code works take a look at the :ref:`
    clinguin/reference/index.rst
    clinguin/frontends/index.rst
    clinguin/backends/index.rst
-   clinguin/development
+   clinguin/development/index.rst
 
 
 

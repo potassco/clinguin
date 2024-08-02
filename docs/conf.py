@@ -28,6 +28,8 @@ autodoc_mock_imports = [
     "clingexplaid",
 ]
 
+autodoc_typehints = "none"
+autodoc_class_signature = "separated"
 
 # -- Project information -----------------------------------------------------
 
@@ -49,21 +51,29 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.mathjax",
     "sphinx.ext.todo",
-    "sphinx.ext.viewcode",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.intersphinx",
     "furo.sphinxext",
     "sphinx_copybutton",
+    "sphinx.ext.viewcode",
+    "sphinxemoji.sphinxemoji",
     # "sphinx_design",
     # "sphinx_inline_tabs"
 ]
 
 
+# autodoc_default_options = {
+#     "members": True,
+#     "private-members": True,
+# }
+
 napoleon_include_init_with_doc = False
-napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_examples = True
+napoleon_use_admonition_for_notes = True
 napoleon_use_admonition_for_references = True
+napoleon_use_ivar = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

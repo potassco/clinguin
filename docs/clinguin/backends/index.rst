@@ -2,7 +2,7 @@
 Backends
 ########
 
-The backends listed here are provided with clinguin. 
+The backends listed here are provided with clinguin.
 All available functions that can be referenced in the :ref:`ui-state` for each backend are listed below.
 Notice that all backends will also include the functionalities of the ones they extend.
 
@@ -22,11 +22,3 @@ Built-in Backends
     ClingraphBackend.rst
     ExplanationBackend.rst
     ClingoDLBackend.rst
-
-Customization
-+++++++++++++
-
-.. toctree::
-    :maxdepth: 1
-    
-    Custom.rst

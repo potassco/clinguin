@@ -3,6 +3,10 @@ TkinterFrontend
 
 This frontend uses the standard Python interface `tkinter <https://docs.python.org/3/library/tkinter.html>`_ to generate a UI.
 
+.. tip::
+
+    We suggest using the :ref:`AngularFrontend` instead. It is more powerful and has a modern look.
+
 .. admonition:: Examples
 
 
@@ -20,6 +24,3 @@ If one is also interested in what values one might set, one can also look at the
 
     $ clinguin client-server --frontend-syntax-full
 
-.. tip::
-
-    We suggest using the :ref:`AngularFrontend` instead. It is more powerful and has a modern look.

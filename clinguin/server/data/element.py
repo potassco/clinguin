@@ -7,7 +7,12 @@ from clorm import Predicate, RawField
 
 class ElementDao(Predicate):
     """
-    Class for CLORM (clingo-object-relational-mapping), i.e. for accessing elements in a factbase.
+    Elements define building blocks of the UI.
+
+    - id: Identifies the element for further references.
+    - type: The type of element (window, container, button etc).
+    - parent: The id of the parent element. The identifier root is used as the root element of the UI.
+
     """
 
     id = RawField

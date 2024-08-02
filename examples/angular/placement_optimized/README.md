@@ -3,7 +3,7 @@
 - **Backend**:   `ClingoMultishotBackend`
 - **Frontend**:   `AngularFrontend`
 
-Showcases multiple features of the web fronted in the form of a smart seat placement application
+This example show how to use consequences with optimization statements to have user feedback on optimal models.
 
 
 ### Usage

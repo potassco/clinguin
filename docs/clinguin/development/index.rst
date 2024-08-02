@@ -1,6 +1,8 @@
 
-Development
-###########
+.. _customization:
+
+|:woman_technologist:| Customization
+####################################
 
 This section gives detailed information for people that wish to create a customization of *clingun*.
 

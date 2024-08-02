@@ -7,7 +7,7 @@ Thus, providing beautiful components out of the box by giving access to Bootstra
 For contributing with new components take a look at the :ref:`Development` section.
 
 .. admonition:: Examples
-    
+
 
     * `Angular Examples <https://github.com/krr-up/clinguin/tree/master/examples/angular>`_
 
@@ -20,12 +20,12 @@ Atributes
 +++++++++
 
 .. note::
-    
+
     Any attribute that is passed that does not fall under this list or the specific attributes of the element,
     will be set as a plain html style in the component
 
 
-Class 
+Class
 .....
 
 The class atribute ``class`` will add a  `bootstrap class <https://getbootstrap.com/docs/4.0/utilities/borders/>`_
@@ -35,18 +35,33 @@ This attribute can apear multiple times.
 .. tip::
 
     **Simplify, use classes!**
-    
+
     It is encouranged to use classes for styling with the predefined colors.
     Must of the attributes found below can be replaced by a bootstrap class.
 
-    Not only that but you can set multiple classes in the same ASP rule using 
-    
+    Not only that but you can set multiple classes in the same ASP rule using
+
     ``attr(ID,class,(C1;C2;...))``
 
 
 
 Positioning
 ............
+
+.. _Order:
+
+**Order**
+
+``order``
+    *Description*: With this numeric attribute sets the order of appearace for the element inside the parent
+
+    *Values*: Integer
+
+    .. warning::
+
+        Make sure the order is set to all the children of the same parent, otherwise the order will not be respected.
+
+
 
 .. _Child layout:
 
@@ -60,7 +75,7 @@ Positioning
         - ``grid`` (grid-like-specification)
         - ``absstatic`` (if one wants to specify the position with absolute-pixelcoordinates)
         - ``relstatic`` (if one wants to specify the position with relative-pixel coordinates(from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)).
-        
+
         They can either bespecified via a clingo symbol or via a string (string is case-insensitive).
 
 
@@ -70,24 +85,24 @@ Positioning
 
 ``grid_column``
     *Description*: With this attribute one can define in which column the element shall be positioned.
-    
+
     *Values*: Integer
 
 ``grid_row``
     *Description*: With this attribute one can define in which row the element shall be positioned.
-    
+
     *Values*: Integer
 
 ``grid_column_span``
     *Description*: With this attribute one can define, that the elements stretches over several columns.
-    
+
     *Values*: Integer
 
 ``grid_row_span``
     *Description*: With this attribute one can define, that the elements stretches over several rows.
-    
+
     *Values*: Integer
-    
+
 
 
 .. _Relative and Absolute:
@@ -202,7 +217,7 @@ Style
 
     *Values*: Color
 
-.. _Visibility:                
+.. _Visibility:
 
 **Visibility**
 
@@ -289,8 +304,8 @@ All buttons inside this element will apear as options.
 
 
 **Attributes**
-    
-    :ref:`Visibility <Visibility>`
+
+:ref:`Visibility <Visibility>`
 
 ``modal``
 .........
@@ -301,7 +316,7 @@ Implemented using `boostrap modals <https://getbootstrap.com/docs/4.0/components
 It must always be contained in the window element.
 
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`
 
@@ -317,9 +332,10 @@ A container for defining layout.
 Implemented using `boostrap modals <https://getbootstrap.com/docs/4.0/components/modal/>`_.
 
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Child layout <Child layout>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
@@ -341,9 +357,10 @@ A button.
 Implemented using `boostrap buttons <https://getbootstrap.com/docs/4.0/components/buttons/>`_.
 
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
 :ref:`Direction <Direction>`,
@@ -368,9 +385,10 @@ Implemented using `boostrap buttons <https://getbootstrap.com/docs/4.0/component
 A label.
 
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
 :ref:`Direction <Direction>`,
@@ -390,11 +408,12 @@ A label.
 
 A text field. The value of the text field can be stored on the context using the event ``input``.
 See the :ref:`Context` section for more details.
-    
+
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
 :ref:`Direction <Direction>`,
@@ -413,11 +432,12 @@ See the :ref:`Context` section for more details.
 .................
 
 A dropdown menu for single select.
-    
+
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
 :ref:`Direction <Direction>`,
@@ -439,6 +459,7 @@ An item inside a dropdown menu. Must be contained in a dropdown menu.
 
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
 :ref:`Direction <Direction>`,
@@ -459,9 +480,10 @@ A canvas to render images.
 Canvas can be used to render clingraph images, see :ref:`ClingraphBackend` for details.
 
 **Attributes**
-    
+
 :ref:`Class <Class>`,
 :ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
 :ref:`Grid <Grid>`,
 :ref:`Relative and Absolute <Relative and Absolute>`,
 :ref:`Direction <Direction>`

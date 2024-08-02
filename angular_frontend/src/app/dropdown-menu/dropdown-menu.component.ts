@@ -14,15 +14,15 @@ import { CallBackHelperService } from '../callback-helper.service';
 })
 export class DropdownMenuComponent {
   // Why does the dropdown need this?
-  @Input() element : ElementDto | null = null
+  @Input() element: ElementDto | null = null
   @Input() parentLayout: string = ""
 
-  @ViewChild('ddbut', {static:true}) ddbut! : ElementRef
+  @ViewChild('ddbut', { static: true }) ddbut!: ElementRef
 
-  buttonLabel : string = ""
-  dropDownMenuItems : DropdownMenuItemChild[] = []
+  buttonLabel: string = ""
+  dropDownMenuItems: DropdownMenuItemChild[] = []
 
-  constructor(private attributeService: AttributeHelperService, private  cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document, private elementLookupService: ElementLookupService, private callbackHelperService: CallBackHelperService) {
+  constructor(private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, @Inject(DOCUMENT) document: Document, private elementLookupService: ElementLookupService, private callbackHelperService: CallBackHelperService) {
   }
 
 
@@ -33,7 +33,7 @@ export class DropdownMenuComponent {
 
       this.element.children.forEach(child => {
 
-        let childLabel = this.attributeService.findGetAttributeValue("label",child.attributes,"")
+        let childLabel = this.attributeService.findGetAttributeValue("label", child.attributes, "")
 
         let childObject = new DropdownMenuItemChild(childLabel, child)
 
@@ -43,7 +43,7 @@ export class DropdownMenuComponent {
 
         this.cd.detectChanges()
 
-        let htmlChild : HTMLElement | null = document.getElementById(child.id)
+        let htmlChild: HTMLElement | null = document.getElementById(child.id)
         if (htmlChild != null) {
           childObject.setHtmlElement(htmlChild)
           childObject.setAttributes(child.attributes)
@@ -51,18 +51,18 @@ export class DropdownMenuComponent {
           this.callbackHelperService.setCallbacks(htmlChild, child.when)
 
           let icon = htmlChild.children.item(0)
-  
+
           if (icon != null) {
-      
+
             this.attributeService.addClasses(icon, child.attributes, ["fa"], [], 'icon')
           }
-          
+
         }
 
       })
 
       this.cd.detectChanges()
-      
+
       this.setAttributes(this.element.attributes)
     }
   }
@@ -73,7 +73,7 @@ export class DropdownMenuComponent {
     if (buttonLabel != null) {
       this.buttonLabel = buttonLabel.value
     }
-    
+
     let htmlDdbut = this.ddbut.nativeElement
 
     this.attributeService.addAttributes(htmlDdbut, attributes)
@@ -84,20 +84,20 @@ export class DropdownMenuComponent {
     htmlDdbut.style.border_color = this.attributeService.findGetAttributeValue("border_color", attributes, "black")
 
     this.cd.detectChanges()
-  
+
   }
 
   onClick(element: ElementDto) {
 
-    let callback : WhenDto = element.when[0]
+    let callback: WhenDto = element.when[0]
 
-    this.frontendService.policyPost(callback)
+    this.frontendService.operationPost(callback)
   }
 }
 
 class DropdownMenuItemChild {
-  label!:string 
-  element!:ElementDto
+  label!: string
+  element!: ElementDto
   htmlElement: HTMLElement | null = null
 
   constructor(label: string, element: ElementDto) {
@@ -105,7 +105,7 @@ class DropdownMenuItemChild {
     this.element = element
   }
 
-  setHtmlElement(htmlElement : HTMLElement) {
+  setHtmlElement(htmlElement: HTMLElement) {
     this.htmlElement = htmlElement
   }
 
@@ -115,8 +115,8 @@ class DropdownMenuItemChild {
       attributeService.addAttributes(this.htmlElement, attributes)
       attributeService.textAttributes(this.htmlElement, attributes)
       attributeService.setAttributesDirectly(this.htmlElement, attributes)
-      attributeService.addClasses(this.htmlElement, attributes, ["dropdown-item"],[])
-      
+      attributeService.addClasses(this.htmlElement, attributes, ["dropdown-item"], [])
+
     }
   }
 }

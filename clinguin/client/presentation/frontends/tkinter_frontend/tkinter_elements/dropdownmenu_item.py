@@ -41,7 +41,10 @@ class DropdownmenuItem(RootCmp):
         if callbacks is None:
             callbacks = {}
 
-        callbacks[CallbackNames.click] = {"policy": None, "policy_type": SymbolType}
+        callbacks[CallbackNames.click] = {
+            "operation": None,
+            "operation_type": SymbolType,
+        }
 
         return callbacks
 
@@ -52,19 +55,19 @@ class DropdownmenuItem(RootCmp):
                 command=CallBackDefinition(
                     self._id,
                     self._parent,
-                    self._callbacks[key]["policy"],
+                    self._callbacks[key]["operation"],
                     elements,
                     self._dropdownmenuitem_click,
                 ),
             )
 
-    def _dropdownmenuitem_click(self, cid, parent_id, click_policy, elements):
+    def _dropdownmenuitem_click(self, cid, parent_id, click_operation, elements):
         parent = elements[str(parent_id)]
         if hasattr(parent, "get_variable"):
             variable = getattr(parent, "get_variable")()
             variable.set(cid)
-            if click_policy is not None:
-                self._base_engine.post_with_policy(click_policy)
+            if click_operation is not None:
+                self._base_engine.post_with_operation(click_operation)
         else:
             self._logger.warning(
                 "Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s",

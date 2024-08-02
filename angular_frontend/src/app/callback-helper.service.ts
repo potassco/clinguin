@@ -73,7 +73,7 @@ function hideAllContextMenus(): boolean {
   return anyWasOpen
 }
 
-function handleRightClick(policy: string, event: Event) {
+function handleRightClick(operation: string, event: Event) {
   event.preventDefault()
   event.stopPropagation()
 
@@ -83,12 +83,12 @@ function handleRightClick(policy: string, event: Event) {
 
   let contextMenuService = LocatorService.injector.get(ContextMenuService)
 
-  let result = contextMenuService.retrieveContextValue(policy)
+  let result = contextMenuService.retrieveContextValue(operation)
 
   if (result != null) {
     if ("pageX" in event && "pageY" in event && typeof event.pageX == "number" && typeof event.pageY == "number") {
 
-      let contextMenu = document.getElementById(policy)
+      let contextMenu = document.getElementById(operation)
 
       if (contextMenu != null) {
         if (contextMenu.style.display == "block") {
@@ -111,12 +111,12 @@ function handleRightClick(policy: string, event: Event) {
 function handleUpdate(when: WhenDto, event: Event | null) {
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
-  let policy = when.policy
+  let operation = when.operation
 
-  policy = policy.substring(1)
-  policy = policy.slice(0, -1)
+  operation = operation.substring(1)
+  operation = operation.slice(0, -1)
 
-  let splits = aspArgumentSplitter(policy)
+  let splits = aspArgumentSplitter(operation)
 
   let id = splits[0]
   let key = splits[1]
@@ -179,15 +179,15 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 
 }
 
-function replaceContext(policy_string: string) {
+function replaceContext(operation_string: string) {
 
   let contextService = LocatorService.injector.get(ContextService)
   let regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
   // ^(\w+)$|^(\w+\(\s*(?:"[^"]*"|\w+)\s*\))
   let regex_const = /^(\w+)$|^(\w+\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))((?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?)*\))$/
   // console.log("Replacing context")
-  // console.log(policy_string)
-  let match = regex.exec(policy_string)
+  // console.log(operation_string)
+  let match = regex.exec(operation_string)
 
   while (match != null) {
 
@@ -243,35 +243,35 @@ function replaceContext(policy_string: string) {
       new_value = '"' + new_value + '"'
     }
     // console.log("Will replace ", match_instance, " by ", new_value)
-    policy_string = policy_string.replace(match_instance, new_value)
-    // console.log(policy_string)
+    operation_string = operation_string.replace(match_instance, new_value)
+    // console.log(operation_string)
     regex = /_context_value\((?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\)))(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*("[^"]*"|\w+)\s*\))))?(?:,\s*(?:"([^"]*)"|(\w+)|(\w+\(\s*(?:"[^"]*"|\w+)\s*\))))?\)/g
 
-    match = regex.exec(policy_string)
+    match = regex.exec(operation_string)
   }
-  return policy_string
+  return operation_string
 }
 
 function handleCallback(when: WhenDto, event: Event | null) {
   let frontendService = LocatorService.injector.get(DrawFrontendService)
 
-  let policy_string = when.policy
+  let operation_string = when.operation
 
-  policy_string = replaceContext(policy_string)
+  operation_string = replaceContext(operation_string)
 
-  when.policy = policy_string
+  when.operation = operation_string
 
-  frontendService.policyPost(when)
+  frontendService.operationPost(when)
 }
 
 function handleContext(when: WhenDto, event: Event | null) {
   let contextService = LocatorService.injector.get(ContextService)
-  let policy = when.policy
-  policy = replaceContext(policy)
-  if (policy[0] == '(') {
-    policy = policy.substring(1)
-    policy = policy.slice(0, -1)
-    let splits = aspArgumentSplitter(policy)
+  let operation = when.operation
+  operation = replaceContext(operation)
+  if (operation[0] == '(') {
+    operation = operation.substring(1)
+    operation = operation.slice(0, -1)
+    let splits = aspArgumentSplitter(operation)
     if (splits.length >= 2) {
       if (splits.length > 2) {
         console.log("ATTENTION, CONTEXT LENGTH GREATER THAN 2 FOR")
@@ -307,7 +307,7 @@ function handleContext(when: WhenDto, event: Event | null) {
     }
   }
 
-  let message = "The value of context event should be a tuple of size 2, but got " + when.policy
+  let message = "The value of context event should be a tuple of size 2, but got " + when.operation
   console.error(message)
   let frontendService = LocatorService.injector.get(DrawFrontendService)
   frontendService.postMessage(message, "warning")
@@ -424,7 +424,7 @@ export class CallBackHelperService {
         })
 
         if (call.length > 1) {
-          call[0].policy = "(" + call.map(x => { return x.policy }).join(',') + ")"
+          call[0].operation = "(" + call.map(x => { return x.operation }).join(',') + ")"
         }
         call.forEach((when: WhenDto) => {
           try {

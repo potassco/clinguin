@@ -14,10 +14,10 @@ import { CallBackHelperService } from '../callback-helper.service';
   styleUrls: ['./window.component.scss']
 })
 export class WindowComponent {
-  @ViewChild('parent',{static:false}) parent!: ElementRef;
-  @ViewChild('child',{read: ViewContainerRef}) child!: ViewContainerRef;
+  @ViewChild('parent', { static: false }) parent!: ElementRef;
+  @ViewChild('child', { read: ViewContainerRef }) child!: ViewContainerRef;
 
-  element : ElementDto | null = null
+  element: ElementDto | null = null
 
   children: ComponentRef<any>[] = []
 
@@ -27,88 +27,92 @@ export class WindowComponent {
   menuBar: ElementDto | null = null
   messageList: ElementDto[] = []
   contextMenuList: ElementDto[] = []
-  
+
   constructor(private childBearerService: ChildBearerService, private attributeService: AttributeHelperService, private cd: ChangeDetectorRef, private frontendService: DrawFrontendService, private elementLookupService: ElementLookupService, private contextMenuService: ContextMenuService, private callbackService: CallBackHelperService) {
   }
 
   ngAfterViewInit(): void {
 
-    this.frontendService.messageLists.subscribe({next: data => {
-      this.messageList = data
-      this.cd.detectChanges()
-    }})
+    this.frontendService.messageLists.subscribe({
+      next: data => {
+        this.messageList = data
+        this.cd.detectChanges()
+      }
+    })
 
-    this.frontendService.frontendJson.subscribe({next: (data:ElementDto) => {
+    this.frontendService.frontendJson.subscribe({
+      next: (data: ElementDto) => {
 
 
-      this.children.forEach(child => {
-        this.child.clear()
-      })
-      this.children = []
+        this.children.forEach(child => {
+          this.child.clear()
+        })
+        this.children = []
 
-      this.cleanValues(data)
+        this.cleanValues(data)
 
-      this.frontendService.detectCreateMenuBar(data)
+        this.frontendService.detectCreateMenuBar(data)
 
-      let messageList : ElementDto[] = []
-      let contextMenus : ElementDto[] = []
-      this.frontendService.getAllMessagesContextMenus(data, messageList, contextMenus)
-      this.frontendService.messageLists.next(messageList)
+        let messageList: ElementDto[] = []
+        let contextMenus: ElementDto[] = []
+        this.frontendService.getAllMessagesContextMenus(data, messageList, contextMenus)
+        this.frontendService.messageLists.next(messageList)
 
-      this.frontendService.contextMenus.subscribe(data => {
-          data.forEach((item:ElementDto) => {
-              this.contextMenuService.registerContextMenu(item.id, item)
+        this.frontendService.contextMenus.subscribe(data => {
+          data.forEach((item: ElementDto) => {
+            this.contextMenuService.registerContextMenu(item.id, item)
           })
           this.contextMenuList = data
-      })
+        })
 
-      this.frontendService.contextMenus.next(contextMenus)
+        this.frontendService.contextMenus.next(contextMenus)
 
-      let window = data.children[0]
+        let window = data.children[0]
 
-      this.window_id = window.id
+        this.window_id = window.id
 
 
-      this.element = window
-      this.window = window
+        this.element = window
+        this.window = window
 
-      this.cd.detectChanges()
+        this.cd.detectChanges()
 
-      let childLayout = this.attributeService.findGetAttributeValue("child_layout",window.attributes,"flex")
+        let childLayout = this.attributeService.findGetAttributeValue("child_layout", window.attributes, "flex")
 
-      this.elementLookupService.addElementAll(this.window_id, this, this.parent.nativeElement, window)
+        this.elementLookupService.addElementAll(this.window_id, this, this.parent.nativeElement, window)
 
-      window.children.forEach(item => {
-        let my_comp = this.childBearerService.bearChild(this.child, item, childLayout)
-        if (my_comp != null) {
-          this.children.push(my_comp)
-        }
-      })
+        window.children.forEach(item => {
+          let my_comp = this.childBearerService.bearChild(this.child, item, childLayout)
+          if (my_comp != null) {
+            this.children.push(my_comp)
+          }
+        })
 
-      this.setAttributes(window.attributes)
-      this.doCallbacks(window.when)
-      // Prevents Errors
-      this.cd.detectChanges()
-    },
-    error: (err) => console.log(err)})
+        this.setAttributes(window.attributes)
+        this.doCallbacks(window.when)
+        // Prevents Errors
+        this.cd.detectChanges()
+      },
+      error: (err) => console.log(err)
+    })
 
     this.frontendService.initialGet()
   }
 
   setAttributes(attributes: AttributeDto[]) {
-      let parentHTML = this.parent.nativeElement
-      this.attributeService.setChildLayout(parentHTML, attributes)
-      this.attributeService.addAttributes(parentHTML, attributes)
-      this.attributeService.addClasses(parentHTML, attributes,[],[])
-      
-      this.cd.detectChanges()
+    let parentHTML = this.parent.nativeElement
+    this.attributeService.setChildLayout(parentHTML, attributes)
+    this.attributeService.addAttributes(parentHTML, attributes)
+    this.attributeService.addClasses(parentHTML, attributes, [], [])
+
+    this.cd.detectChanges()
   }
 
-  doCallbacks(whens:WhenDto[]) {
+  doCallbacks(whens: WhenDto[]) {
     let parentHTML = this.parent.nativeElement
     this.callbackService.setCallbacks(parentHTML, whens)
   }
-  
+
   cleanValues(element: ElementDto) {
     for (let i = 0; i < element.attributes.length; i++) {
       let value = element.attributes[i].value
@@ -120,7 +124,7 @@ export class WindowComponent {
       element.attributes[i].key = key
 
       if (key != "image") {
-        value = value.replace("\\n","<br>")
+        value = value.replace("\\n", "<br>")
       }
     }
 
@@ -132,9 +136,9 @@ export class WindowComponent {
         element.when[i].interactionType = element.when[i].interaction_type!
       }
 
-      let policy = element.when[i].policy
-      policy = this.stringSanitizer(policy)
-      element.when[i].policy = policy
+      let operation = element.when[i].operation
+      operation = this.stringSanitizer(operation)
+      element.when[i].operation = operation
 
       let action = element.when[i].actionType
       action = this.stringSanitizer(action)
@@ -150,7 +154,7 @@ export class WindowComponent {
     })
   }
 
-  stringSanitizer(value:string) : string {
+  stringSanitizer(value: string): string {
     if (value == null) {
       return value
     }

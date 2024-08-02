@@ -44,13 +44,13 @@ export class DrawFrontendService {
 
     }
 
-    policyPost(callback: WhenDto): void {
+    operationPost(callback: WhenDto): void {
 
         let context = this.contextService.getContext()
         let loader = document.getElementById("loader")
         loader?.removeAttribute("hidden")
 
-        this.httpService.post(callback.policy, context).subscribe(
+        this.httpService.post(callback.operation, context).subscribe(
             {
                 next: (data: ElementDto) => {
                     this.lastData = data

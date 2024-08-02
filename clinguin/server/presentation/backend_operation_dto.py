@@ -1,5 +1,5 @@
 """
-Module that contains the BackendPolicyDto
+Module that contains the BackendOperationDto
 """
 
 from typing import List, Optional
@@ -16,7 +16,7 @@ class ContextDto(BaseModel):
     value: str
 
 
-class BackendPolicyDto(BaseModel):
+class BackendOperationDto(BaseModel):
     """
     Needed by the endpoints to get convert the transported json into something useful for the backend.
     """

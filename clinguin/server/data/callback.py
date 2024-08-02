@@ -22,7 +22,7 @@ class WhenDao(Predicate):
     id = RawField
     event = RawField
     interaction_type = RawField
-    policy = RawField
+    operation = RawField
 
     class Meta:
         """

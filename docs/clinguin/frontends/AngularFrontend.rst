@@ -16,225 +16,6 @@ For contributing with new components take a look at the :ref:`Development` secti
     It implements most of the elements and attributes of the TkinterFrontend.
     So you can also check the Tkinter Syntax as explaned above and try setting those values.
 
-Atributes
-+++++++++
-
-.. note::
-
-    Any attribute that is passed that does not fall under this list or the specific attributes of the element,
-    will be set as a plain html style in the component
-
-
-Class
-.....
-
-The class atribute ``class`` will add a  `bootstrap class <https://getbootstrap.com/docs/4.0/utilities/borders/>`_
-to any element.
-This attribute can apear multiple times.
-
-.. tip::
-
-    **Simplify, use classes!**
-
-    It is encouranged to use classes for styling with the predefined colors.
-    Must of the attributes found below can be replaced by a bootstrap class.
-
-    Not only that but you can set multiple classes in the same ASP rule using
-
-    ``attr(ID,class,(C1;C2;...))``
-
-
-
-Positioning
-............
-
-.. _Order:
-
-**Order**
-
-``order``
-    *Description*: With this numeric attribute sets the order of appearace for the element inside the parent
-
-    *Values*: Integer
-
-    .. warning::
-
-        Make sure the order is set to all the children of the same parent, otherwise the order will not be respected.
-
-
-
-.. _Child layout:
-
-**Child layout**
-
-``child_layout``
-    *Description*: With this attribute one can define the layout of the children, i.e. how they are positioned.
-
-    *Values*: For the child-layout four different options exists:
-        - ``flex`` (default, tries to do it automatically)
-        - ``grid`` (grid-like-specification)
-        - ``absstatic`` (if one wants to specify the position with absolute-pixelcoordinates)
-        - ``relstatic`` (if one wants to specify the position with relative-pixel coordinates(from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)).
-
-        They can either bespecified via a clingo symbol or via a string (string is case-insensitive).
-
-
-.. _Grid:
-
-**Grid**
-
-``grid_column``
-    *Description*: With this attribute one can define in which column the element shall be positioned.
-
-    *Values*: Integer
-
-``grid_row``
-    *Description*: With this attribute one can define in which row the element shall be positioned.
-
-    *Values*: Integer
-
-``grid_column_span``
-    *Description*: With this attribute one can define, that the elements stretches over several columns.
-
-    *Values*: Integer
-
-``grid_row_span``
-    *Description*: With this attribute one can define, that the elements stretches over several rows.
-
-    *Values*: Integer
-
-
-
-.. _Relative and Absolute:
-
-**Relative and Absolute**
-
-``pos_x``
-    *Description*: With this attribute one sets the x-position of the element - it depends on the parents ``child-layout`` how this is defined (either pixels, relative as a percentage, ...).
-
-    *Values*: Integer
-
-``pos_y``
-    *Description*: With this attribute one sets the y-position of the element - it depends on the parents ``child-layout`` how this is defined (either pixels, relative as a percentage, ...).
-
-    *Values*: Integer
-
-
-.. _Direction:
-
-**Direction**
-
-.. tip ::
-
-    Try using `boostrap positioning <https://getbootstrap.com/docs/4.0/utilities/flex/>`_  instead.
-
-
-``flex_direction``
-    *Description*: With this attribute one can set the ``direction`` (i.e., where it gets placed) of anelement which root has a specified flex layout.
-
-    *Values*: For the flex-direction type two possible values exist:
-        - ``column`` (vertical alignment)
-        - ``row`` (horizontal alignment).
-
-Style
-.....
-
-.. _Color:
-
-**Color**
-
-.. tip ::
-
-    Try using `boostrap colors <https://getbootstrap.com/docs/4.0/utilities/colors/>`_  instead.
-
-
-``background_color``
-    *Description*: With this attribute one can define the background-color of the element.
-
-    *Values*: Color
-
-``foreground_color``
-    *Description*: With this attribute one can set the foreground-color of the element.
-
-    *Values*: Color
-
-``border_color``
-    *Description*: With this attribute one may set the border color.
-
-    *Values*: Color
-
-``on_hover``
-    *Description*: With this attribute one can enable or disable on-hover features for the element.
-
-    *Values*: For the boolean type, either true or false are allowed - either as string or as a clingo-symbol. If one provides it as a string, it is case-insensitive.
-
-``on_hover_background_color``
-    *Description*: With this attribute one can set the background color the element shall have, when on_hover is enabled.
-
-    *Values*: Color
-
-``on_hover_foreground_color``
-    *Description*: With this attribute one can set the forground color the element shall have, when on_hover is eneabled.
-
-    *Values*: Color
-
-``on_hover_border_color``
-    *Description*: With this attribute one can set the color the border of the element shall have, when on_hover is enabled.
-
-    *Values*: Color
-
-
-.. _Size:
-
-**Size**
-
-``height``
-    *Description*: With this attribute one can set the height in pixels of the element.
-
-    *Values*: Integer
-
-``width``
-    *Description*: With this attribute one can set the width in pixels of the element.
-
-    *Values*: Integer
-
-
-.. _Border:
-
-**Border**
-
-.. tip ::
-
-    Try using `boostrap borders <https://getbootstrap.com/docs/4.0/utilities/borders/>`_ instead.
-
-``border_width``
-    *Description*: With this attribute one defines the width of the border in pixels.
-
-    *Values*: Integer
-
-``border_color``
-    *Description*: With this attribute one may set the border color.
-
-    *Values*: Color
-
-.. _Visibility:
-
-**Visibility**
-
-``visibility``
-    *Description*: Sets the visibility of an element. It can be used to show things like a modal or a container using the update functionality
-
-    *Values*: The visibility, options are:
-        -  ``visible``: To show the element
-        -  ``hidden``: To hide the element
-
-.. _Text:
-
-**Text**
-
-.. tip ::
-
-    Try using `boostrap text <https://getbootstrap.com/docs/4.0/utilities/text/>`_ style instead.
 
 
 Elements
@@ -492,3 +273,223 @@ Canvas can be used to render clingraph images, see :ref:`ClingraphBackend` for d
     *Description*: The local path to the image
 
     *Values*: String
+
+Atributes
++++++++++
+
+.. note::
+
+    Any attribute that is passed that does not fall under this list or the specific attributes of the element,
+    will be set as a plain html style in the component
+
+
+Class
+.....
+
+The class atribute ``class`` will add a  `bootstrap class <https://getbootstrap.com/docs/4.0/utilities/borders/>`_
+to any element.
+This attribute can apear multiple times.
+
+.. tip::
+
+    **Simplify, use classes!**
+
+    It is encouranged to use classes for styling with the predefined colors.
+    Must of the attributes found below can be replaced by a bootstrap class.
+
+    Not only that but you can set multiple classes in the same ASP rule using
+
+    ``attr(ID,class,(C1;C2;...))``
+
+
+
+Positioning
+............
+
+.. _Order:
+
+**Order**
+
+``order``
+    *Description*: With this numeric attribute sets the order of appearace for the element inside the parent
+
+    *Values*: Integer
+
+    .. warning::
+
+        Make sure the order is set to all the children of the same parent, otherwise the order will not be respected.
+
+
+
+.. _Child layout:
+
+**Child layout**
+
+``child_layout``
+    *Description*: With this attribute one can define the layout of the children, i.e. how they are positioned.
+
+    *Values*: For the child-layout four different options exists:
+        - ``flex`` (default, tries to do it automatically)
+        - ``grid`` (grid-like-specification)
+        - ``absstatic`` (if one wants to specify the position with absolute-pixelcoordinates)
+        - ``relstatic`` (if one wants to specify the position with relative-pixel coordinates(from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)).
+
+        They can either bespecified via a clingo symbol or via a string (string is case-insensitive).
+
+
+.. _Grid:
+
+**Grid**
+
+``grid_column``
+    *Description*: With this attribute one can define in which column the element shall be positioned.
+
+    *Values*: Integer
+
+``grid_row``
+    *Description*: With this attribute one can define in which row the element shall be positioned.
+
+    *Values*: Integer
+
+``grid_column_span``
+    *Description*: With this attribute one can define, that the elements stretches over several columns.
+
+    *Values*: Integer
+
+``grid_row_span``
+    *Description*: With this attribute one can define, that the elements stretches over several rows.
+
+    *Values*: Integer
+
+
+
+.. _Relative and Absolute:
+
+**Relative and Absolute**
+
+``pos_x``
+    *Description*: With this attribute one sets the x-position of the element - it depends on the parents ``child-layout`` how this is defined (either pixels, relative as a percentage, ...).
+
+    *Values*: Integer
+
+``pos_y``
+    *Description*: With this attribute one sets the y-position of the element - it depends on the parents ``child-layout`` how this is defined (either pixels, relative as a percentage, ...).
+
+    *Values*: Integer
+
+
+.. _Direction:
+
+**Direction**
+
+.. tip ::
+
+    Try using `boostrap positioning <https://getbootstrap.com/docs/4.0/utilities/flex/>`_  instead.
+
+
+``flex_direction``
+    *Description*: With this attribute one can set the ``direction`` (i.e., where it gets placed) of anelement which root has a specified flex layout.
+
+    *Values*: For the flex-direction type two possible values exist:
+        - ``column`` (vertical alignment)
+        - ``row`` (horizontal alignment).
+
+Style
+.....
+
+.. _Color:
+
+**Color**
+
+.. tip ::
+
+    Try using `boostrap colors <https://getbootstrap.com/docs/4.0/utilities/colors/>`_  instead.
+
+
+``background_color``
+    *Description*: With this attribute one can define the background-color of the element.
+
+    *Values*: Color
+
+``foreground_color``
+    *Description*: With this attribute one can set the foreground-color of the element.
+
+    *Values*: Color
+
+``border_color``
+    *Description*: With this attribute one may set the border color.
+
+    *Values*: Color
+
+``on_hover``
+    *Description*: With this attribute one can enable or disable on-hover features for the element.
+
+    *Values*: For the boolean type, either true or false are allowed - either as string or as a clingo-symbol. If one provides it as a string, it is case-insensitive.
+
+``on_hover_background_color``
+    *Description*: With this attribute one can set the background color the element shall have, when on_hover is enabled.
+
+    *Values*: Color
+
+``on_hover_foreground_color``
+    *Description*: With this attribute one can set the forground color the element shall have, when on_hover is eneabled.
+
+    *Values*: Color
+
+``on_hover_border_color``
+    *Description*: With this attribute one can set the color the border of the element shall have, when on_hover is enabled.
+
+    *Values*: Color
+
+
+.. _Size:
+
+**Size**
+
+``height``
+    *Description*: With this attribute one can set the height in pixels of the element.
+
+    *Values*: Integer
+
+``width``
+    *Description*: With this attribute one can set the width in pixels of the element.
+
+    *Values*: Integer
+
+
+.. _Border:
+
+**Border**
+
+.. tip ::
+
+    Try using `boostrap borders <https://getbootstrap.com/docs/4.0/utilities/borders/>`_ instead.
+
+``border_width``
+    *Description*: With this attribute one defines the width of the border in pixels.
+
+    *Values*: Integer
+
+``border_color``
+    *Description*: With this attribute one may set the border color.
+
+    *Values*: Color
+
+.. _Visibility:
+
+**Visibility**
+
+``visibility``
+    *Description*: Sets the visibility of an element. It can be used to show things like a modal or a container using the update functionality
+
+    *Values*: The visibility, options are:
+        -  ``visible``: To show the element
+        -  ``hidden``: To hide the element
+
+.. _Text:
+
+**Text**
+
+.. tip ::
+
+    Try using `boostrap text <https://getbootstrap.com/docs/4.0/utilities/text/>`_ style instead.

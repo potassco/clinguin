@@ -40,7 +40,6 @@ author = "Susana Hahn, Alexander Beiser"
 # The full version, including alpha/beta/rc tags
 release = "1.0.17"
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -59,6 +58,7 @@ extensions = [
     "sphinx_copybutton",
     "sphinx.ext.viewcode",
     "sphinxemoji.sphinxemoji",
+    "myst_parser",
     # "sphinx_design",
     # "sphinx_inline_tabs"
 ]
@@ -131,3 +131,8 @@ add_module_names = False  # Class names without full module path
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
+
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}

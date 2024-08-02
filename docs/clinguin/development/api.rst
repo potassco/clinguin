@@ -3,17 +3,11 @@ API
 
 Detailed API for all the classes and functions in the server of the clinguin package.
 
-Backends
---------
-
 .. automodule:: clinguin.server.application.backends
    :members:
    :undoc-members:
    :show-inheritance:
    :private-members:
-
-UI State
---------
 
 .. autoclass:: clinguin.server.data.ui_state.UIState
    :members:

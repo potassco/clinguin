@@ -1,7 +1,7 @@
 .. _CustomBackend:
 
-|:raised_hands:| Creating your own backend
-------------------------------------------
+Creating your own backend
+-------------------------
 
 By creating your own backend you can extend functionality and edit the existing server workflow.
 If you are using *clingo*, we highly recomend extending the  :ref:`ClingoMultishotBackend` to create your own.

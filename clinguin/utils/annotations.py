@@ -13,7 +13,7 @@ def extends(super_cls):
         wrapper.__doc__ = (
             (func.__doc__ or "")
             + f"""
-        Warning:
+        Important:
             Extends :meth:`{super_cls.__name__}.{func.__name__}`
         """
         )
@@ -31,7 +31,7 @@ def overwrites(super_cls):
         wrapper.__doc__ = (
             (func.__doc__ or "")
             + f"""
-        Warning:
+        Important:
             Overwrites :meth:`{super_cls.__name__}.{func.__name__}`
         """
         )

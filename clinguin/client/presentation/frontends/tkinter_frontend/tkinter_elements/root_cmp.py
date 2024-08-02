@@ -134,17 +134,19 @@ class RootCmp:
                     callback["interaction_type"],
                 )
             key = callback["event"]
-            value = callback["policy"]
-            if key in self._callbacks and "policy_type" in self._callbacks[key]:
-                value_type = self._callbacks[key]["policy_type"]
+            value = callback["operation"]
+            if key in self._callbacks and "operation_type" in self._callbacks[key]:
+                value_type = self._callbacks[key]["operation_type"]
             else:
                 value_type = SymbolType
 
-            if key in self._callbacks and "policy" in self._callbacks[key]:
-                self._callbacks[key]["policy"] = value_type.parse(value, self._logger)
+            if key in self._callbacks and "operation" in self._callbacks[key]:
+                self._callbacks[key]["operation"] = value_type.parse(
+                    value, self._logger
+                )
             else:
                 self._logger.warning(
-                    "Undefined Command: %s, or policy item missing in command.", key
+                    "Undefined Command: %s, or operation item missing in command.", key
                 )
 
     def _get_methods(self, start_string):

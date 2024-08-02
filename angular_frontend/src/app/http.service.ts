@@ -46,7 +46,7 @@ export class HttpService {
     return response;
   }
 
-  post(policy: string, context: ContextItem[]): Observable<ElementDto> {
+  post(operation: string, context: ContextItem[]): Observable<ElementDto> {
     let clonedContext: ContextItem[] = []
     context.forEach(val => clonedContext.push(Object.assign({}, val)));
 
@@ -57,9 +57,9 @@ export class HttpService {
 
     let request = null
     if (clonedContext.length > 0) {
-      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy, context: clonedContext })
+      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation, context: clonedContext })
     } else {
-      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: policy })
+      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation })
     }
     return request
   }

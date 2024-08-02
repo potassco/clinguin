@@ -40,7 +40,7 @@ class BasicTest09:
                                             "id": "dmp(1)",
                                             "event": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1))",
                                         }
                                     ],
                                     "children": [],
@@ -57,7 +57,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2))",
                                         }
                                     ],
                                     "children": [],
@@ -93,7 +93,7 @@ class BasicTest09:
                                     "id": "l",
                                     "event": "click",
                                     "interaction_type": "callback",
-                                    "policy": "clear_assumptions",
+                                    "operation": "clear_assumptions",
                                 }
                             ],
                             "children": [],
@@ -145,7 +145,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2))",
                                         }
                                     ],
                                     "children": [],
@@ -181,7 +181,7 @@ class BasicTest09:
                                     "id": "l",
                                     "event": "click",
                                     "interaction_type": "callback",
-                                    "policy": "clear_assumptions",
+                                    "operation": "clear_assumptions",
                                 }
                             ],
                             "children": [],
@@ -233,7 +233,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2))",
                                         }
                                     ],
                                     "children": [],
@@ -269,7 +269,7 @@ class BasicTest09:
                                     "id": "l",
                                     "event": "click",
                                     "interaction_type": "callback",
-                                    "policy": "clear_assumptions",
+                                    "operation": "clear_assumptions",
                                 }
                             ],
                             "children": [],
@@ -319,7 +319,7 @@ class BasicTest09:
                                             "id": "dmp(1)",
                                             "event": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1))",
                                         }
                                     ],
                                     "children": [],
@@ -336,7 +336,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "interaction_type": "callback",
-                                            "policy": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2))",
                                         }
                                     ],
                                     "children": [],
@@ -372,7 +372,7 @@ class BasicTest09:
                                     "id": "l",
                                     "event": "click",
                                     "interaction_type": "callback",
-                                    "policy": "clear_assumptions",
+                                    "operation": "clear_assumptions",
                                 }
                             ],
                             "children": [],

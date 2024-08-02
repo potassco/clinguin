@@ -1,6 +1,7 @@
 """
 Module that contains the API-Class
 """
+
 import json
 import logging
 import traceback
@@ -8,7 +9,7 @@ from urllib.request import Request, URLError, urlopen
 
 from clinguin.utils import Logger
 
-from .frontend_policy_dto import FrontendPolicyDto
+from .frontend_operation_dto import FrontendOperationDto
 
 
 class Api:
@@ -45,7 +46,7 @@ class Api:
             self._logger.error("<<<END-STACKTRACE>>>")
             return (-2, "")
 
-    def post(self, endpoint, body: FrontendPolicyDto):
+    def post(self, endpoint, body: FrontendOperationDto):
         """
         Used for post requests.
         """

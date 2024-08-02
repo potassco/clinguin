@@ -81,17 +81,20 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
         if callbacks is None:
             callbacks = {}
 
-        callbacks[CallbackNames.clear] = {"policy": None, "policy_type": SymbolType}
+        callbacks[CallbackNames.clear] = {
+            "operation": None,
+            "operation_type": SymbolType,
+        }
 
         return callbacks
 
-    def _clear_select(self, cid, parent_id, click_policy, elements):
+    def _clear_select(self, cid, parent_id, click_operation, elements):
         parent = elements[str(parent_id)]
         if hasattr(parent, "get_variable"):
             variable = getattr(parent, "get_variable")()
             variable.set(cid)
-            if click_policy is not None:
-                self._base_engine.post_with_policy(click_policy)
+            if click_operation is not None:
+                self._base_engine.post_with_operation(click_operation)
         else:
             self._logger.warning(
                 "Could not set variable for dropdownmenu. Item id: %s, dropdown-menu-id: %s",
@@ -99,21 +102,21 @@ class Dropdownmenu(RootCmp, LayoutFollower, ConfigureSize):
                 str(parent_id),
             )
 
-    def _dropdown_clear(self, click_policy):
+    def _dropdown_clear(self, click_operation):
         variable = self.get_variable()
         variable.set("")
-        self._base_engine.post_with_policy(click_policy)
+        self._base_engine.post_with_operation(click_operation)
 
     def _define_clear_event(
         self, elements, key=CallbackNames.clear
     ):  # pylint: disable=W0613
-        if self._callbacks[key]["policy"] is None:
+        if self._callbacks[key]["operation"] is None:
             return
 
         def change(*args):  # pylint: disable=W0613
             if self._variable.get() == "":
                 self._logger.info("Will remove previous selections")
-                self._dropdown_clear(self._callbacks[key]["policy"])
+                self._dropdown_clear(self._callbacks[key]["operation"])
 
         self._variable.trace("w", change)
 

@@ -21,7 +21,7 @@ class WhenDao(Predicate):
 
     id = RawField
     event = RawField
-    interaction_type = RawField
+    action = RawField
     operation = RawField
 
     class Meta:

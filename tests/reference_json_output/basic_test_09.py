@@ -39,7 +39,7 @@ class BasicTest09:
                                         {
                                             "id": "dmp(1)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(1))",
                                         }
                                     ],
@@ -56,7 +56,7 @@ class BasicTest09:
                                         {
                                             "id": "dmp(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],
@@ -92,7 +92,7 @@ class BasicTest09:
                                 {
                                     "id": "l",
                                     "event": "click",
-                                    "interaction_type": "callback",
+                                    "action": "callback",
                                     "operation": "clear_assumptions",
                                 }
                             ],
@@ -144,7 +144,7 @@ class BasicTest09:
                                         {
                                             "id": "dmp(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],
@@ -180,7 +180,7 @@ class BasicTest09:
                                 {
                                     "id": "l",
                                     "event": "click",
-                                    "interaction_type": "callback",
+                                    "action": "callback",
                                     "operation": "clear_assumptions",
                                 }
                             ],
@@ -232,7 +232,7 @@ class BasicTest09:
                                         {
                                             "id": "dmp(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],
@@ -268,7 +268,7 @@ class BasicTest09:
                                 {
                                     "id": "l",
                                     "event": "click",
-                                    "interaction_type": "callback",
+                                    "action": "callback",
                                     "operation": "clear_assumptions",
                                 }
                             ],
@@ -318,7 +318,7 @@ class BasicTest09:
                                         {
                                             "id": "dmp(1)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(1))",
                                         }
                                     ],
@@ -335,7 +335,7 @@ class BasicTest09:
                                         {
                                             "id": "dmp(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],
@@ -371,7 +371,7 @@ class BasicTest09:
                                 {
                                     "id": "l",
                                     "event": "click",
-                                    "interaction_type": "callback",
+                                    "action": "callback",
                                     "operation": "clear_assumptions",
                                 }
                             ],

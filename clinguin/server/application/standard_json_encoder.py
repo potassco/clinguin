@@ -92,7 +92,7 @@ class StandardJsonEncoder:
                 element.set_attributes(elem_attributes)
             if element_id in cbs:
                 elem_callbacks = [
-                    CallbackDto(a.id, a.event, a.interaction_type, a.operation)
+                    CallbackDto(a.id, a.event, a.action, a.operation)
                     for a in cbs[element_id]
                 ]
                 element.set_callbacks(elem_callbacks)

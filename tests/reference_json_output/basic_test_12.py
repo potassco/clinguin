@@ -53,7 +53,7 @@ class BasicTest12:
                                         {
                                             "id": "b1",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_atom(name(_context_value(t1_content)))",
                                         }
                                     ],
@@ -74,7 +74,7 @@ class BasicTest12:
                                         {
                                             "id": "t1",
                                             "event": "input",
-                                            "interaction_type": "context",
+                                            "action": "context",
                                             "operation": "(t1_content,_value)",
                                         }
                                     ],

@@ -42,7 +42,7 @@ class BasicTest01:
                                         {
                                             "id": "mi(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],
@@ -59,7 +59,7 @@ class BasicTest01:
                                         {
                                             "id": "mi(1)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(1))",
                                         }
                                     ],
@@ -129,7 +129,7 @@ class BasicTest01:
                                         {
                                             "id": "mi(1)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(1))",
                                         }
                                     ],
@@ -199,7 +199,7 @@ class BasicTest01:
                                         {
                                             "id": "mi(1)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(1))",
                                         }
                                     ],
@@ -269,7 +269,7 @@ class BasicTest01:
                                         {
                                             "id": "mi(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],
@@ -338,7 +338,7 @@ class BasicTest01:
                                         {
                                             "id": "mi(2)",
                                             "event": "click",
-                                            "interaction_type": "callback",
+                                            "action": "callback",
                                             "operation": "add_assumption(p(2))",
                                         }
                                     ],

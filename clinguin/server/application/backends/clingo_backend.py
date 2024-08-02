@@ -3,6 +3,8 @@
 Module that contains the ClingoMultishotBackend.
 """
 import logging
+import time
+import textwrap
 from functools import cached_property
 from pathlib import Path
 import functools
@@ -108,6 +110,18 @@ class ClingoBackend:
             type=str,
             help="Default optimization mode for computing a model",
             default="ignore",
+            metavar="",
+        )
+
+        parser.add_argument(
+            "--opt-timeout",
+            help=textwrap.dedent(
+                """\
+                    Optional timeout for searching for optimal models.
+                    The timeout is not exactly enforced (might take longer) but only checked after each solution is found.
+                 """
+            ),
+            type=int,
             metavar="",
         )
 
@@ -248,6 +262,8 @@ class ClingoBackend:
         self._clingo_ctl_arg = self._args.clingo_ctl_arg or []
 
         self._default_opt_mode = self._args.default_opt_mode
+
+        self._opt_timeout = self._args.opt_timeout
 
     def _init_interactive(self):
         """
@@ -895,25 +911,37 @@ class ClingoBackend:
 
             self._iterator = iter(self._handler)
         try:
+            start = time.time()
             model = next(self._iterator)
+            self._clear_cache(["_ds_model"])
+            self._on_model(model)
+            self._model = model.symbols(shown=True, atoms=True, theory=True)
             while optimizing and not model.optimality_proven:
                 if len(model.cost) == 0:
                     self._messages.append(
                         (
-                            "Browsing Error",
+                            "Browsing Warning",
                             "No optimization provided",
-                            "error",
+                            "warning",
                         )
                     )
-                    self._logger.error(
+                    self._logger.warning(
                         "No optimization statement provided in encoding but optimization condition provided in 'next_solution' operation. Exiting browsing."
                     )
-                    raise StopIteration
+                    break
+                if (
+                    self._opt_timeout is not None
+                    and time.time() - start > self._opt_timeout
+                ):
+                    self._logger.warning(
+                        "Timeout for finding optimal model was reached. Returning model without proving optimality."
+                    )
+                    break
                 self._logger.debug("Skipping non-optimal model!")
                 model = next(self._iterator)
+                self._clear_cache(["_ds_model"])
+                self._on_model(model)
 
-            self._clear_cache(["_ds_model"])
-            self._on_model(model)
             self._model = model.symbols(shown=True, atoms=True, theory=True)
         except StopIteration:
             self._logger.info("No more solutions")

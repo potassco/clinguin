@@ -12,7 +12,7 @@ import { ElementLookupService } from '../element-lookup.service';
 })
 export class MenuBarComponent {
   @Input() element: ElementDto | null = null
-  @ViewChild("titleIcon",{static:false}) titleIcon! : ElementRef
+  @ViewChild("titleIcon", { static: false }) titleIcon!: ElementRef
 
   public isCollapsed = true;
 
@@ -20,7 +20,7 @@ export class MenuBarComponent {
   // menuBarSections: MenuBarSection[] = []
   menuBarButtons: MenuBarButton[] = []
 
-  constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private callBackHelperService:CallBackHelperService) {}
+  constructor(private cd: ChangeDetectorRef, private displayFrontend: DrawFrontendService, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private callBackHelperService: CallBackHelperService) { }
 
   ngAfterViewInit(): void {
 
@@ -33,31 +33,31 @@ export class MenuBarComponent {
         this.menuBarButtons.push(menuBarButtonObject)
       })
       this.cd.detectChanges()
-      
-      this.menuBarButtons.forEach((menuBarButtonObject:MenuBarButton) => {
-        let menuBarButtonHTML : HTMLElement | null = document.getElementById(menuBarButtonObject.id)
+
+      this.menuBarButtons.forEach((menuBarButtonObject: MenuBarButton) => {
+        let menuBarButtonHTML: HTMLElement | null = document.getElementById(menuBarButtonObject.id)
         if (menuBarButtonHTML != null) {
           menuBarButtonObject.setHtmlElement(menuBarButtonHTML)
           menuBarButtonObject.setAttributes(menuBarButtonObject.element.attributes)
-          this.attributeService.addClasses(menuBarButtonHTML, menuBarButtonObject.element.attributes, ["btn-sm","mx-1"],["btn-outline-dark","border-0"])
+          this.attributeService.addClasses(menuBarButtonHTML, menuBarButtonObject.element.attributes, ["btn-sm", "mx-1"], ["btn-outline-dark", "border-0"])
 
           this.callBackHelperService.setCallbacks(menuBarButtonHTML, menuBarButtonObject.element.when)
 
           let icon = menuBarButtonHTML.children.item(0)
 
           if (icon != null) {
-      
+
             this.attributeService.addClasses(icon, menuBarButtonObject.element.attributes, ["fa"], [], 'icon')
           }
         }
       })
 
-    this.setAttributes(this.element.attributes)
+      this.setAttributes(this.element.attributes)
 
-    this.cd.detectChanges()
+      this.cd.detectChanges()
     }
   }
-  
+
   setAttributes(attributes: AttributeDto[]) {
     let title = this.attributeService.findAttribute("title", attributes)
     if (title != null) {
@@ -67,31 +67,31 @@ export class MenuBarComponent {
     let iconHtml = this.titleIcon.nativeElement
     this.attributeService.addClasses(iconHtml, attributes, ["fa"], [], 'icon')
 
-    
+
     this.cd.detectChanges()
 
   }
 
-  policyExecutor(policy: WhenDto | null) {
-    if (policy != null) {
-      this.displayFrontend.policyPost(policy)
+  operationExecutor(operation: WhenDto | null) {
+    if (operation != null) {
+      this.displayFrontend.operationPost(operation)
     }
   }
 }
 
 class MenuBarButton {
-  id:string=""
-  title:string=""
-  element!:ElementDto
-  htmlElement:HTMLElement| null = null
+  id: string = ""
+  title: string = ""
+  element!: ElementDto
+  htmlElement: HTMLElement | null = null
 
-  constructor(id:string, title: string, element: ElementDto) {
+  constructor(id: string, title: string, element: ElementDto) {
     this.id = id
     this.title = title
     this.element = element
   }
 
-  setHtmlElement(htmlElement:HTMLElement) {
+  setHtmlElement(htmlElement: HTMLElement) {
     this.htmlElement = htmlElement
   }
 
@@ -106,18 +106,18 @@ class MenuBarButton {
 }
 
 class MenuBarItem {
-  id:string=""
-  title:string=""
-  element!:ElementDto
-  htmlElement:HTMLElement| null = null
+  id: string = ""
+  title: string = ""
+  element!: ElementDto
+  htmlElement: HTMLElement | null = null
 
-  constructor(id:string, title: string, element: ElementDto) {
+  constructor(id: string, title: string, element: ElementDto) {
     this.id = id
     this.title = title
     this.element = element
   }
 
-  setHtmlElement(htmlElement:HTMLElement) {
+  setHtmlElement(htmlElement: HTMLElement) {
     this.htmlElement = htmlElement
   }
 
@@ -132,25 +132,25 @@ class MenuBarItem {
 }
 
 class MenuBarSection {
-  id : string = "menuBarSection"
-  title:string = ""
-  element!:ElementDto
-  menuBarItems:MenuBarItem[] = []
-  collapsed:boolean = true
-  htmlElement:HTMLElement| null = null
+  id: string = "menuBarSection"
+  title: string = ""
+  element!: ElementDto
+  menuBarItems: MenuBarItem[] = []
+  collapsed: boolean = true
+  htmlElement: HTMLElement | null = null
 
-  constructor(id: string, title:string, menuBarItems:MenuBarItem[], element: ElementDto) {
+  constructor(id: string, title: string, menuBarItems: MenuBarItem[], element: ElementDto) {
     this.id = id
     this.title = title
     this.menuBarItems = menuBarItems
     this.element = element
   }
 
-  toggleCollapsed() : void {
-    this.collapsed = !this.collapsed 
+  toggleCollapsed(): void {
+    this.collapsed = !this.collapsed
   }
 
-  setHtmlElement(htmlElement:HTMLElement) {
+  setHtmlElement(htmlElement: HTMLElement) {
     this.htmlElement = htmlElement
   }
 
@@ -162,5 +162,5 @@ class MenuBarSection {
       this.title = ""
     }
   }
-  
+
 }

@@ -1,11 +1,12 @@
 """
 Module that contains the ClientBase class
 """
+
 import logging
 import time
 
 from clinguin.client.api.api import Api
-from clinguin.client.api.frontend_policy_dto import FrontendPolicyDto
+from clinguin.client.api.frontend_operation_dto import FrontendOperationDto
 from clinguin.utils import CaseConverter, Logger
 
 
@@ -24,7 +25,7 @@ class ClientBase:
         self.api = Api()
         self.connected = False
 
-        self.solve_dto = FrontendPolicyDto("solve")
+        self.solve_dto = FrontendOperationDto("solve")
 
         self.frontend_generator = args.frontend(self, args)
 
@@ -99,11 +100,13 @@ class ClientBase:
             else:
                 self._logger.error("Could not find element type: %s", child["type"])
 
-    def post_with_policy(self, click_policy):
+    def post_with_operation(self, click_operation):
         """
         Prepare post request for API.
         """
-        (status_code, json) = self.api.post("backend", FrontendPolicyDto(click_policy))
+        (status_code, json) = self.api.post(
+            "backend", FrontendOperationDto(click_operation)
+        )
         if status_code == 200:
             self.draw(json)
         else:

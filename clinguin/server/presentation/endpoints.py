@@ -13,7 +13,7 @@ from clinguin.utils import Logger
 
 from ...utils import get_server_error_alert
 from ...utils.logger import colored_text
-from .backend_policy_dto import BackendPolicyDto
+from .backend_operation_dto import BackendOperationDto
 
 # Self Defined
 from .endpoints_helper import EndpointsHelper
@@ -28,7 +28,7 @@ class Endpoints:
     Methods:
         health -> Json : Returns name, version and description of clinguin.
         standard_executor -> Json : Returns the default GUI representation as Json that the Backend provides.
-        policy_executor -> Json : Executes a policy defined by the Json passed with the Post request.
+        operation_executor -> Json : Executes a operation defined by the Json passed with the Post request.
     """
 
     last_response = None
@@ -42,7 +42,7 @@ class Endpoints:
         # Definition of endpoints
         self.router.add_api_route("/health", self.health, methods=["GET"])
         self.router.add_api_route("/", self.standard_executor, methods=["GET"])
-        self.router.add_api_route("/backend", self.policy_executor, methods=["POST"])
+        self.router.add_api_route("/backend", self.operation_executor, methods=["POST"])
 
         self._backend = args.backend(args)
 
@@ -78,7 +78,7 @@ class Endpoints:
             self._logger.error(traceback.format_exc())
             return get_server_error_alert(str(e), self.last_response)
 
-    async def policy_executor(self, backend_call_string: BackendPolicyDto):
+    async def operation_executor(self, backend_call_string: BackendOperationDto):
         """
         Post endpoint (/backend) of the server-backend,
         which can be used to call specific methods/functions of the backend.
@@ -98,7 +98,7 @@ class Endpoints:
                 raise Exception(msg) from exc
 
             if symbol.type != clingo.SymbolType.Function:
-                raise Exception(f"Policy {symbol} is not a function")
+                raise Exception(f"Operation {symbol} is not a function")
 
             # pylint: disable=protected-access
             if hasattr(backend_call_string, "context"):

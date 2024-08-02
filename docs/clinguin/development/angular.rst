@@ -79,5 +79,5 @@ Important services and their description:
 * **ContextMenuService**: Data-store (non-RXJS type) for the context-menus. Needed to ensure the context-menus are closed/opened properly (indirectly) Implements useful methods that are needed for the context.
 * **ConfigService**: Reads the configuration file, where the *server-url* and *server-port* is stored.
 * **LocatorService**: Helper service for injecting services into functions.
-* **CallbackHelperService**: Handles that the correct event-listener is created for the correct event. Currently handled do-policy-types are *update*, *context*, *call*/*callback*, and *show_context_menu*.
+* **CallbackHelperService**: Handles that the correct event-listener is created for the correct event. Currently handled do-operation-types are *update*, *context*, *call*/*callback*, and *show_context_menu*.
 * **AttributeHelperService**: This service ensures a translation between commonly used attributes in clinguin and their corresponding part in *CSS*. Note that it is possible to set **CSS styles directly**, via the *setAttributesDirectly* method. This method is by default always called for all attributes, just note that the attribute-keys have to be in **camelCase** notation (e.g., *align-items* to *alignItems*).

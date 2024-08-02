@@ -101,7 +101,7 @@ class TkinterFrontend(AbstractFrontend):
             callbacks = c.get_callbacks()
             if len(callbacks.keys()) > 0:
                 description = description + colored_text("  events\n", "YELLOW")
-                description = append_dict(description, callbacks, "policy_type")
+                description = append_dict(description, callbacks, "operation_type")
             description = description + "--------------------------------\n"
 
         return description
@@ -247,10 +247,10 @@ class TkinterFrontend(AbstractFrontend):
 
         if pack:
             if AttributeNames.child_layout in attributes:
-                policy = cur_element.get_attributes_list()[AttributeNames.child_layout][
-                    "value"
-                ]
-                if policy == ChildLayoutType.FLEX:
+                operation = cur_element.get_attributes_list()[
+                    AttributeNames.child_layout
+                ]["value"]
+                if operation == ChildLayoutType.FLEX:
                     cur_element.get_element().pack_propagate(0)
             else:
                 cur_element.get_element().pack_propagate(0)

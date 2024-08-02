@@ -1,10 +1,11 @@
 """
-Module contains the FrontendPolicyDto class
+Module contains the FrontendOperationDto class
 """
+
 import json
 
 
-class FrontendPolicyDto:
+class FrontendOperationDto:
     """
     Dto class for encapsulating the json that shall be sent to the backend that handles the callbacks.
     """

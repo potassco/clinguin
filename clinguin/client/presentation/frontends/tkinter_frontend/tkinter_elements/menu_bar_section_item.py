@@ -66,7 +66,10 @@ class MenuBarSectionItem(RootCmp):
         if callbacks is None:
             callbacks = {}
 
-        callbacks[CallbackNames.click] = {"policy": None, "policy_type": SymbolType}
+        callbacks[CallbackNames.click] = {
+            "operation": None,
+            "operation_type": SymbolType,
+        }
 
         return callbacks
 
@@ -74,11 +77,11 @@ class MenuBarSectionItem(RootCmp):
         key = CallbackNames.click
         text = self._attributes[AttributeNames.label]["value"]
         accelerator = self._attributes[AttributeNames.accelerator]["value"]
-        if self._callbacks[key] and self._callbacks[key]["policy"]:
+        if self._callbacks[key] and self._callbacks[key]["operation"]:
             cb = CallBackDefinition(
                 self._id,
                 self._parent,
-                self._callbacks[key]["policy"],
+                self._callbacks[key]["operation"],
                 elements,
                 self._menubar_item_click,
             )
@@ -91,13 +94,13 @@ class MenuBarSectionItem(RootCmp):
         else:
             self._element.add_command(label=text)
 
-    def _menubar_item_click(self, cid, parent, click_policy, elements):
+    def _menubar_item_click(self, cid, parent, click_operation, elements):
         self._logger.debug(str(cid))
         self._logger.debug(str(parent))
         self._logger.debug(str(elements))
 
-        if click_policy is not None:
-            self._base_engine.post_with_policy(click_policy)
+        if click_operation is not None:
+            self._base_engine.post_with_operation(click_operation)
 
     def _add_component_to_elements(self, elements):
         elements[str(self._id)] = self

@@ -81,7 +81,10 @@ class Button(
         if callbacks is None:
             callbacks = {}
 
-        callbacks[CallbackNames.click] = {"policy": None, "policy_type": SymbolType}
+        callbacks[CallbackNames.click] = {
+            "operation": None,
+            "operation_type": SymbolType,
+        }
 
         return callbacks
 
@@ -142,11 +145,11 @@ class Button(
     def _define_click_event(self, elements):
         self._logger.debug(str(elements))
         key = CallbackNames.click
-        if self._callbacks[key] and self._callbacks[key]["policy"]:
+        if self._callbacks[key] and self._callbacks[key]["operation"]:
 
             def click_event(event):
                 self._logger.debug(str(event))
-                self._base_engine.post_with_policy(self._callbacks[key]["policy"])
+                self._base_engine.post_with_operation(self._callbacks[key]["operation"])
 
             self._button.bind("<Button-1>", click_event)
 

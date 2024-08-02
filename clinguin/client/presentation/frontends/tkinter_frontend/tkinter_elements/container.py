@@ -59,7 +59,7 @@ class Container(
         if callbacks is None:
             callbacks = {}
 
-        callbacks["click"] = {"policy": None, "policy_type": SymbolType}
+        callbacks["click"] = {"operation": None, "operation_type": SymbolType}
 
         return callbacks
 
@@ -110,10 +110,10 @@ class Container(
 
     def _define_click_event(self, elements, key=CallbackNames.click):
         self._logger.debug(str(elements))
-        if self._callbacks[key] and self._callbacks[key]["policy"]:
+        if self._callbacks[key] and self._callbacks[key]["operation"]:
 
             def dropdown_menu_item_click(event):
                 self._logger.debug(str(event))
-                self._base_engine.assume(self._callbacks[key]["policy"])
+                self._base_engine.assume(self._callbacks[key]["operation"])
 
             self._element.bind("<Button-1>", dropdown_menu_item_click)

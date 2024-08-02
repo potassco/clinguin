@@ -146,7 +146,7 @@ The :ref:`ui-state` is represented by a JSON to comunicate between client and se
                 {
                     "id": <the id of the element>,
                     "event": <the event>,
-                    "interaction_type": <the interaction type>,
+                    "action": <the interaction type>,
                     "operation": <the operation>
                 }
             ],
@@ -199,7 +199,7 @@ The :ref:`ui-state` is represented by a JSON to comunicate between client and se
                             {
                                 "id":"b1",
                                 "event":"click",
-                                "interaction_type":"call",
+                                "action":"call",
                                 "operation":"next_solution"
                             }
                         ],

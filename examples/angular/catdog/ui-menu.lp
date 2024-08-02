@@ -12,3 +12,27 @@ attr(seat_dd(S), class, "text-success"):- _clinguin_browsing,
                         assign(P,S), not _all(assign(P,S)).
 attr(seat_dd(S), class, "opacity-75"):- _all(assign(P,S)),
                         not _clinguin_assume(assign(P,S)).
+
+
+
+%------------------------------
+% Extension from the paper
+% -----------------------------
+
+% Messages and use of domain state _clinguin_unsat (Could be removed but this might be reached when adding more people than seats)
+elem(message_unsat,message,w):-_clinguin_unsat.
+attr(message_unsat, title, "Error"):-_clinguin_unsat.
+attr(message_unsat, message, "Unsatisfiable output."):-_clinguin_unsat.
+attr(message_unsat, type, error):-_clinguin_unsat.
+
+% Download action for instance (We can remove it and just comment that can be used)
+elem(menu_bar_download, button, menu_bar).
+attr(menu_bar_download, label, "Download instance").
+attr(menu_bar_download, icon, "fa-download").
+when(menu_bar_download, click, call, (download("#show person/2.","listings/dl_instance.lp"))).
+
+% Download action for solution and multiple actions for call
+elem(menu_bar_download_solution, button, menu_bar).
+attr(menu_bar_download_solution, label, "Download solution").
+attr(menu_bar_download_solution, icon, "fa-download").
+when(menu_bar_download_solution, click, call, download("#show assign/2.","listings/dl_solution.lp")).

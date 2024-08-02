@@ -36,4 +36,4 @@ attr(add_btn(dog), class, ("m-1";"btn-warning";"ml-auto")):- pet(O).
 attr(add_btn(O), icon, @concat("","fa-",O)):- pet(O).
 when(add_btn(O), click, context, (pet, O)):- pet(O).
 when(add_btn(O), click, call,
-     add_atom(person(_context_value(name), _context_value(pet)))):- pet(O).
+     add_atom(person(_context_value(name,str), _context_value(pet)))):- pet(O).

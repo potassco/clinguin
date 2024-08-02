@@ -75,7 +75,7 @@ class BasicTest04:
                                                 {
                                                     "id": "ms1i2",
                                                     "event": "click",
-                                                    "interaction_type": "callback",
+                                                    "action": "callback",
                                                     "operation": "clear_assumptions",
                                                 }
                                             ],
@@ -317,7 +317,7 @@ class BasicTest04:
                                 {
                                     "id": "b",
                                     "event": "click",
-                                    "interaction_type": "callback",
+                                    "action": "callback",
                                     "operation": "clear_assumptions",
                                 }
                             ],

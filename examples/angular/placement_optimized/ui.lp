@@ -207,11 +207,13 @@ attr(window, flex_direction, row).
         when(menu_bar_select, click, call, select).
 
         elem(menu_bar_next_opt, button, menu_bar).
-        attr(menu_bar_next_opt, label, "Next Optimal").
+        attr(menu_bar_next_opt, label, "Next").
         attr(menu_bar_next_opt, icon, "fa-forward-fast").
         when(menu_bar_next_opt, click, call, next_solution(optN)).
 
-        elem(menu_bar_next, button, menu_bar).
-        attr(menu_bar_next, label, "Next").
-        attr(menu_bar_next, icon, "fa-forward-step").
-        when(menu_bar_next, click, call, next_solution).
+        elem(m, message, window):-_clinguin_optimizing.
+        attr(m, title, "Optimality information"):-_clinguin_optimizing.
+        attr(m, message, "Optimal!"):- _clinguin_optimizing, _clinguin_optimal.
+        attr(m, message, "Optimality not proven"):- _clinguin_optimizing, not _clinguin_optimal.
+        attr(m, type, success):- _clinguin_optimizing, _clinguin_optimal.
+        attr(m, type, warning):- _clinguin_optimizing, not _clinguin_optimal.

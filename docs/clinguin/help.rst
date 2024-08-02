@@ -40,26 +40,27 @@
         If the problem is finding an optimal model you can pass a timeout to the server in the command line with the flag ``--out-timeout 10``.
         This will make the server stop searching for models with a bette cost after ``10`` seconds. Note that the response time might be larget than this timeout
         if the solver is already searching when the timeout is reached. If you pass a timeout of ``0`` the server will only get the first model, you can then keep calling the operation ``next_solution(optN)`` to improve the cost, one at a time.
+        Check out the `placement_optimized example <https://github.com/potassco/clinguin/tree/master/examples/angular/placement_optimized>`_.
 
 
 .. admonition:: **Can't manage to place or style things in my UI**
     :class: tip
 
-    If you are having trouble placing or styling elements in your UI, first make sure that they are part of your UI state in the command line.
+    If you are having trouble placing or styling elements in your UI, first make sure that they are part of your UI state by checking the logs in the command line.
 
-    make sure you are using the correct attributes.
-    The ``grid_row`` and ``grid_column`` attributes are used to place elements in a grid layout.
-    The ``width`` and ``height`` attributes are used to set the size of the element.
-    The ``class`` attribute is used to set the style of the element.
+    *Not in my ui-state*
+        If your expected attribute is not in the :ref:`ui-state`, then you have to check your :ref:`ui-files` to make sure the atom is generated.
+        If you are using the ``;`` operator for the ``class`` attribute, make sure you did not make a mistake and have ``attr(elem,class,(c1,c2);`` instead of ``attr(elem,class,(c1;c2).``.
 
-    If you are using the ``class`` attribute, make sure you are using the correct syntax for the style you want to apply.
-    The syntax is a list of strings, each string is a class that will be applied to the element.
-    For example, ``class,("border-dark";"bg-primary")`` will apply the classes ``border-dark`` and ``bg-primary`` to the element.
+    *Is part of my ui-state*
+        Then we recomend you use the browser's developer tools to inspect the elements and see if the styles are being applied.
+        You can also move the HTML directly in your browser to find the right settings. Once you found them you can copy them to your :ref:`ui-files`.
 
-    If you are using the ``class`` attribute to apply a style that is not working, make sure the style is defined in the ``ui.lp`` file.
-    If you are using a style that is not defined in the ``ui.lp`` file, the element will not be styled as expected.
-- Inspect in the browser
 
-- Raise an issue in github
+
+.. admonition:: **Still need help**
+    :class: warning
+
+    If none of the above tips help you solve your problem, please open an issue in the `clinguin repository <https://github.com/potassco/clinguin/issues>`_.
 
 

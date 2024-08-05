@@ -1,6 +1,7 @@
 """
 The utils module of clinguin - contains some useful tools for clinguin.
 """
+
 from .attribute_types.utils.standard_text_processing import StandardTextProcessing
 from .case_converter import CaseConverter, image_to_b64
 from .custom_args import CustomArgs

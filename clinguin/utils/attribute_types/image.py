@@ -1,6 +1,7 @@
 """
 This module contains the ImageType class.
 """
+
 import base64
 
 from .type import Type

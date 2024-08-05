@@ -1,6 +1,7 @@
 """
 This module features the MenuBar class.
 """
+
 import tkinter as tk
 
 from .root_cmp import RootCmp

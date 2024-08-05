@@ -1,6 +1,7 @@
 """
 Module contains the AttributeDto class.
 """
+
 import json
 
 

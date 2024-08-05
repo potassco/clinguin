@@ -2,9 +2,9 @@
 """
 Module that contains the ClingraphBackend.
 """
+import functools
 import textwrap
 from pathlib import Path
-import functools
 
 from clingo import Control
 from clingo.symbol import Function, String
@@ -19,8 +19,9 @@ from clinguin.server.data.attribute import AttributeDao
 
 # Self defined
 from clinguin.utils import StandardTextProcessing, image_to_b64
-from ....utils.transformer import UsesSignatureTransformer
 from clinguin.utils.annotations import extends, overwrites
+
+from ....utils.transformer import UsesSignatureTransformer
 
 
 class ClingraphBackend(ClingoMultishotBackend):
@@ -36,6 +37,7 @@ class ClingraphBackend(ClingoMultishotBackend):
         Sets the arguments for computing clingraph images.
         """
         super()._init_command_line()
+        # pylint: disable= attribute-defined-outside-init
         self._clingraph_files = self._args.clingraph_files
         self._select_model = self._args.select_model
         self._type = self._args.type
@@ -199,7 +201,7 @@ class ClingraphBackend(ClingoMultishotBackend):
             help="Intermediate format. Use 'svg' for angular fronted and 'png' tkinter. (default: %(default)s)",
         )
 
-    @functools.lru_cache(maxsize=None)
+    @functools.lru_cache(maxsize=None)  # pylint: disable=[method-cache-max-size-none]
     @overwrites(ClingoMultishotBackend)
     def _ui_uses_predicate(self, name: str, arity: int):
         """
@@ -210,7 +212,7 @@ class ClingraphBackend(ClingoMultishotBackend):
             arity (int): Predicate arity
         """
         transformer = UsesSignatureTransformer(name, arity)
-        self._logger.debug(f"Transformer parsing UI files to find {name}/{arity}")
+        self._logger.debug("Transformer parsing UI files to find %s/%s", name, arity)
         transformer.parse_files(self._ui_files + self._clingraph_files)
         return transformer.contained
 

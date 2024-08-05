@@ -5,16 +5,16 @@ Module that contains the Explanation Backend.
 import textwrap
 from functools import cached_property
 
-from clingo.script import enable_python
-from clingexplaid.transformers import AssumptionTransformer
 from clingexplaid.mus import CoreComputer
-
-from ....utils.logger import domctl_log
+from clingexplaid.transformers import AssumptionTransformer
+from clingo.script import enable_python
 
 from clinguin.server.application.backends.clingo_multishot_backend import (
     ClingoMultishotBackend,
 )
 from clinguin.utils.annotations import extends
+
+from ....utils.logger import domctl_log
 
 enable_python()
 
@@ -33,7 +33,8 @@ class ExplanationBackend(ClingoMultishotBackend):
     @property
     def _assumption_list(self):
         """
-        Gets the set of assumptions used for solving. It includes the assumptions from the assumption signatures provided.
+        Gets the set of assumptions used for solving.
+        It includes the assumptions from the assumption signatures provided.
 
         Warning:
 
@@ -56,6 +57,7 @@ class ExplanationBackend(ClingoMultishotBackend):
             _mus (str): The list of assumptions in the MUS property
         """
         super()._init_interactive()
+        # pylint: disable= attribute-defined-outside-init
         self._mus = None
 
     @extends(ClingoMultishotBackend)
@@ -68,6 +70,7 @@ class ExplanationBackend(ClingoMultishotBackend):
             _assumption_transformer (clingexplaid.AssumptionTransformer): The transformer used for the input files
         """
         super()._init_command_line()
+        # pylint: disable= attribute-defined-outside-init
         self._assumption_sig = []
         for a in self._args.assumption_signature or []:
             try:
@@ -103,14 +106,15 @@ class ExplanationBackend(ClingoMultishotBackend):
     # Solving
     # ---------------------------------------------
     @extends(ClingoMultishotBackend)
-    def _ground(self):
+    def _ground(self, program="base"):
         """
         Sets the list of assumptions that were taken from the input files using the assumption_signature.
 
         Attributes:
             _assumptions_from_signature (Set[clingo.Symbol]): The set of assumptions from the assumption signatures
         """
-        super()._ground()
+        super()._ground(program)
+        # pylint: disable= attribute-defined-outside-init
         self._assumptions_from_signature = (
             self._assumption_transformer.get_assumption_symbols(
                 self._ctl, arguments=self._ctl_arguments_list
@@ -167,6 +171,6 @@ class ExplanationBackend(ClingoMultishotBackend):
             cc = CoreComputer(self._ctl, self._assumption_list)
             cc.shrink()
             mus_core = cc.minimal
-            for s, v in mus_core:
+            for s, _ in mus_core:
                 prg = prg + f"_clinguin_mus({str(s)}).\n"
         return prg

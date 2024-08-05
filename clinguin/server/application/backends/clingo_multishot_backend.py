@@ -3,11 +3,11 @@
 Module that contains the ClingoMultishotBackend.
 """
 
-from clingo import parse_term, Control
+from clingo import Control, parse_term
 from clingo.script import enable_python
 
-from clinguin.utils.annotations import overwrites, extends
 from clinguin.server.application.backends import ClingoBackend
+from clinguin.utils.annotations import extends, overwrites
 
 from ....utils.logger import domctl_log
 

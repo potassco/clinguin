@@ -1,6 +1,7 @@
 """
 Module that contains the PopupTypesType.
 """
+
 from enum import auto
 
 from .enum import EnumType

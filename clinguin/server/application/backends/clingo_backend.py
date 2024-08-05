@@ -2,12 +2,12 @@
 """
 Module that contains the ClingoMultishotBackend.
 """
+import functools
 import logging
-import time
 import textwrap
+import time
 from functools import cached_property
 from pathlib import Path
-import functools
 from typing import Any
 
 from clingo import Control, parse_term
@@ -118,7 +118,8 @@ class ClingoBackend:
             help=textwrap.dedent(
                 """\
                     Optional timeout for searching for optimal models.
-                    The timeout is not exactly enforced (might take longer) but only checked after each solution is found.
+                    The timeout is not exactly enforced (might take longer)
+                    but only checked after each solution is found.
                  """
             ),
             type=int,
@@ -172,7 +173,8 @@ class ClingoBackend:
         It is automatically called when the server starts.
 
         See Also:
-            :func:`~_init_command_line`, :func:`~_init_interactive`, :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
+            :func:`~_init_command_line`, :func:`~_init_interactive`,
+            :func:`~_outdate`, :func:`~_init_ctl`, :func:`~_ground`
         """
         self._init_command_line()
         self._init_interactive()
@@ -232,7 +234,8 @@ class ClingoBackend:
             _constants (dict): The dictionary of constants provided via command line.
             _clingo_ctl_arg (list): The list of clingo control arguments provided via command line.
 
-        If any command line arguments are added in :meth:`~ClingoBackend.register_options`, they should be initialized here.
+        If any command line arguments are added in :meth:`~ClingoBackend.register_options`,
+        they should be initialized here.
 
         Example:
 
@@ -275,16 +278,19 @@ class ClingoBackend:
             _handler (clingo.SolveHandle): The handler set while browsing in the `next_solution` operation.
             _iterator (iter): The iterator set while browsing in the `next_solution` operation.
             _ctl (clingo.Control): The domain control set in `_init_ctl`.
-            _ui_state (:class:`UIState`): A UIState object used to handle the UI construction, set in every call to `_update_ui_state`.
+            _ui_state (:class:`UIState`): A UIState object used to handle the UI construction,
+            set in every call to `_update_ui_state`.
             _atoms (set[str]): A set to store the atoms set dynamically in operations during the interaction.
-            _assumptions (set[str]): A set to store the assumptions set dynamically in operations during the interaction.
+            _assumptions (set[str]): A set to store the assumptions set dynamically in operations during the
+            interaction.
             _externals (dict): A dictionary with true, false and released sets of external atoms
             _model (list[clingo.Symbol]): The model set in `on_model`.
             _unsat_core (list[int]): The unsatisfiable core set in `on_model`.
             _cost (list): A list to store the cost set in `on_model`.
             _optimal (bool): A boolean indicating if the solution is optimal, set in `on_model`.
             _optimizing (bool): A boolean indicating if the solver is currently optimizing, set in `on_model`.
-            _messages (list[tuple[str,str,str]]): A list to store the messages (title, content, type) to be shown in the UI, set dynamically in operations during the interaction.
+            _messages (list[tuple[str,str,str]]): A list to store the messages (title, content, type) to be shown in
+            the UI, set dynamically in operations during the interaction.
         """
         # Context: Set by the general handler of requests
         self._context = []
@@ -431,7 +437,7 @@ class ClingoBackend:
         name = name.strip('"')
         value = str(value).strip('"')
         self._constants[name] = value
-        self._logger.debug(f"Constant {name} updated successfully to {value}")
+        self._logger.debug("Constant %s updated successfully to %s", name, value)
 
     def _add_atom(self, predicate_symbol):
         """
@@ -461,7 +467,6 @@ class ClingoBackend:
         """
         Does any preparation before a solve call.
         """
-        pass
 
     def _on_model(self, model):
         """
@@ -529,7 +534,7 @@ class ClingoBackend:
             The program tagged
         """
         if self._is_browsing:
-            self._logger.debug(f"Returning cache for {ds_id}")
+            self._logger.debug("Returning cache for %s", ds_id)
             return (
                 self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
             )
@@ -562,7 +567,7 @@ class ClingoBackend:
             )
         return " ".join([str(s) + "." for s in list(tag(symbols, ds_tag))]) + "\n"
 
-    @functools.lru_cache(maxsize=None)
+    @functools.lru_cache(maxsize=None)  # pylint: disable=[method-cache-max-size-none]
     def _ui_uses_predicate(self, name: str, arity: int):
         """
         Returns a truth value of weather the ui_files contain the given signature.
@@ -572,7 +577,7 @@ class ClingoBackend:
             arity (int): Predicate arity
         """
         transformer = UsesSignatureTransformer(name, arity)
-        self._logger.debug(f"Transformer parsing UI files to find {name}/{arity}")
+        self._logger.debug("Transformer parsing UI files to find %s/%s", name, arity)
         transformer.parse_files(self._ui_files)
         if not transformer.contained:
             self._logger.debug(
@@ -768,7 +773,8 @@ class ClingoBackend:
         """
         Adds constants  values.
 
-        Includes predicate ``_clinguin_const/2`` for each constant provided in the command line and used in the domain files.
+        Includes predicate ``_clinguin_const/2`` for each constant provided
+        in the command line and used in the domain files.
         """
         prg = "#defined _clinguin_const/2. "
         for k, v in self._constants.items():
@@ -926,7 +932,8 @@ class ClingoBackend:
                         )
                     )
                     self._logger.warning(
-                        "No optimization statement provided in encoding but optimization condition provided in 'next_solution' operation. Exiting browsing."
+                        "No optimization statement provided in encoding but optimization condition provided\
+                            in 'next_solution' operation. Exiting browsing."
                     )
                     break
                 if (

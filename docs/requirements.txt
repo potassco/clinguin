@@ -15,4 +15,5 @@ jinja2>=3.0.3
 clingo-dl
 furo
 clingexplaid
+sphinxemoji
 

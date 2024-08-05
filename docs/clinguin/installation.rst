@@ -21,7 +21,7 @@ The python clinguin package can be found `here <https://pypi.org/project/clingui
 
 .. note::
 
-    If you wish to use tkinter instead of angluar, install as follows.
+    If you wish to use tkinter instead of angluar (discouraged), install as follows.
 
     .. code-block:: console
 

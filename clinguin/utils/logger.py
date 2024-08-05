@@ -29,10 +29,16 @@ def colored_text(txt, color):
 
 
 def uictl_log(text):
+    """
+    Adds the color of the ui control to the given text for logging
+    """
     return colored_text(text, "CYAN")
 
 
 def domctl_log(text):
+    """
+    Adds the color of the domain control to the given text for logging
+    """
     return colored_text(text, "MAGENTA")
 
 
@@ -163,6 +169,3 @@ class Logger:
             cls._add_shell_handler_to_logger(logger, log_arg_dict)
         if log_arg_dict["file_enabled"]:
             cls._add_file_handler_to_logger(logger, log_arg_dict, log_file_path)
-
-    def print_domctl_log(self, call):
-        self.debug(colored_text(call), "CYAN")

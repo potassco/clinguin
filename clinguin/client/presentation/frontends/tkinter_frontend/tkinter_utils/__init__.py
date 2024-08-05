@@ -1,6 +1,7 @@
 """
 This module contains various utils for tkinter-elements, which reduce code size, etc.
 """
+
 from .attribute_names import AttributeNames
 from .call_back_definition import CallBackDefinition
 from .callback_names import CallbackNames

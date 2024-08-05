@@ -1,6 +1,7 @@
 """
 Server module, contains core-program classes.
 """
+
 from .application.standard_json_encoder import StandardJsonEncoder
 from .data.ui_state import UIState
 from .presentation.endpoints import Endpoints

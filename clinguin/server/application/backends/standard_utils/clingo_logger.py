@@ -2,6 +2,7 @@
 Clingo logger.
 TODO
 """
+
 from clingo import MessageCode
 
 

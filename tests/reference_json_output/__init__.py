@@ -33,5 +33,5 @@ __all__ = [
     BasicTest10.__name__,
     BasicTest11.__name__,
     BasicTest12.__name__,
-    Sudoku.__name__
+    Sudoku.__name__,
 ]

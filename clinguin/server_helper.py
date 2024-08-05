@@ -1,6 +1,7 @@
 """
 Responsible for starting the server
 """
+
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware

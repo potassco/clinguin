@@ -1,6 +1,7 @@
 """
 Module that contains the ElementDto class.
 """
+
 import json
 
 

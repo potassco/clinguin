@@ -2,10 +2,8 @@
 Module that contains the ClingoDL Backend.
 """
 
-from pathlib import Path
 import textwrap
 
-from clingo import Control
 from clingo.ast import ProgramBuilder, parse_files
 from clingo.script import enable_python
 from clingodl import ClingoDLTheory

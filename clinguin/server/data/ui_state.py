@@ -7,20 +7,17 @@ import os
 from pathlib import Path
 
 import clorm
-from clingo import Control
-
-
+from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
-from clingo import parse_term
 from clingraph.clingo_utils import ClingraphContext
 from clorm import Raw
 
 from clinguin.utils import StandardTextProcessing, image_to_b64
 
+from ...utils.logger import uictl_log
 from .attribute import AttributeDao
 from .callback import WhenDao
 from .element import ElementDao
-from ...utils.logger import uictl_log
 
 log = logging.getLogger("clinguin_server")
 

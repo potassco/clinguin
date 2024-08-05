@@ -2,7 +2,6 @@
 Module that contains the FontFamiliesType.
 """
 
-
 from .type import Type
 from .utils.standard_text_processing import StandardTextProcessing
 

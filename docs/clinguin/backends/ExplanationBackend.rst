@@ -68,7 +68,9 @@ Also includes all public operations from the :ref:`ClingoMultishotBackend`.
 Domain state constructors
 +++++++++++++++++++++++++
 
-The domain state also inclues domain constructors from the :ref:`ClingoMultishotBackend`
+.. important::
+
+    The domain state also inclues domain constructors from the :ref:`ClingoMultishotBackend`
 
 .. autoproperty:: ExplanationBackend._ds_mus
 

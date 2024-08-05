@@ -16,3 +16,4 @@ clingo-dl
 furo
 clingexplaid
 sphinxemoji
+myst_parser

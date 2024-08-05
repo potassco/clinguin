@@ -15,6 +15,8 @@ class ElementDao(Predicate):
 
     """
 
+    # pylint: disable=abstract-method
+
     id = RawField
     type = RawField
     parent = RawField

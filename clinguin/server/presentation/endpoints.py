@@ -66,7 +66,7 @@ class Endpoints:
         The get() method is implemented by every backend.
         """
         self._logger.info(colored_text("=>=>=>=>=>=>=>=>=> GET", "GREEN"))
-        self._logger.info(colored_text("-->", "GREEN") + " get()")
+        self._logger.info("%s get()", colored_text("-->", "GREEN"))
         try:
             json = self._backend.get()
             self.last_response = json
@@ -120,16 +120,14 @@ class Endpoints:
 
                 call_args = ",".join(function_arguments)
                 self._logger.info(
-                    colored_text("-->", "GREEN") + " %s(%s)",
-                    function_name,
-                    call_args,
+                    "%s %s(%s)", colored_text("-->", "GREEN"), function_name, call_args
                 )
 
                 EndpointsHelper.call_function(
                     self._backend, function_name, function_arguments, {}
                 )
 
-            self._logger.info(colored_text("-->", "GREEN") + " get()")
+            self._logger.info(" get(%s)", colored_text("-->", "GREEN"))
 
             self.last_response = self._backend.get()
             self._logger.info(colored_text("--------------------", "GREEN"))

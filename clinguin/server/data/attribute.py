@@ -14,6 +14,8 @@ class AttributeDao(Predicate):
     - value: The value of the attribute.
     """
 
+    # pylint: disable=abstract-method
+
     id = RawField
     key = RawField
     value = RawField

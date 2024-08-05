@@ -1,6 +1,7 @@
 """
 Module that contains the ChildLayoutType.
 """
+
 from enum import auto
 
 from .enum import EnumType

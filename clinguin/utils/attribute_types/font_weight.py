@@ -1,6 +1,7 @@
 """
 Module that contains the FontWeightType.
 """
+
 import itertools
 from enum import auto
 

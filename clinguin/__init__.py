@@ -1,6 +1,7 @@
 """
 Clinguin package - package entry point
 """
+
 import copy
 import sys
 import threading

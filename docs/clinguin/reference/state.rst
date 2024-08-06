@@ -105,9 +105,20 @@ The domain state of :ref:`ClingoMultishotBackend` will provide a model and some 
 when creating a UI one usually needs to reason with what is still *possibly* part of the solution and what is *necessarily* in the solution.
 In ASP terms, we use the following brave and cautious reasoning to provide this information as explained below.
 
+Browsing
+--------
+
 **Model**
 
 The atoms of the first computed model are added directly to the :ref:`domain-state`. When the user is browsing the solutions, this model will change accordingly.
+
+**_clinguin_browsing/0**
+
+This constant is present when the user is browsing models, meaning that the ``next()`` operation has been requested. It can be used to decide whether the UI must show the current model.
+These are only of interest if you are using optimization statements in your :ref:`domain-files`.
+
+Consequences
+------------
 
 **Brave consequences**
 
@@ -187,27 +198,14 @@ We usually employ cautious consequences when we want to show the user any infere
         _all(p(1)).
 
 
-
-**_clinguin_browsing/0**
-
-This constant is present when the user is browsing models, meaning that the ``next()`` operation has been requested. It can be used to decide whether the UI must show the current model.
-
-.. admonition:: Example
-
-
-    In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Quick Start`, the following lines define the selected value of a dropdown menu. When browsing is active, the value of the cell in the given model ``sudoku(X,Y,V)`` defines the selected value, otherwise, a selected option will be defined only for values that are forced by the encoding ``_all`` (see :ref:`domain-state`).
-
-    .. code-block::
-
-        attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
-        attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
-
 **_clinguin_unsat/0**
 
 This constant is present if the :ref:`domain-control` gave an unsatisfiable response.
 
+User input
+----------
 
-**_clinguin_assume/1**
+**_clinguin_assume/2**
 
 These atoms give information about what has been assumed by the user via the backend instructions.
 
@@ -215,14 +213,79 @@ These atoms give information about what has been assumed by the user via the bac
 
 
     In the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_, presented in section :ref:`Quick Start`, the following lines define the color of the selected value of a dropdown menu.
-    When the value was set by the user, which we can know if ``_clinguin_assume(sudoku(X,Y,V))`` is part of the :ref:`domain-state`, then we show it using the primary color (blue). Otherwise, the value was inferred by the system and we show it using the info color (gray).
+    When the value was set by the user, which we can know if ``_clinguin_assume(sudoku(X,Y,V), true)`` is part of the :ref:`domain-state`, then we show it using the primary color (blue). Otherwise, the value was inferred by the system and we show it using the info color (gray).
 
     .. code-block::
 
-        attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
-        attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+        attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V), true).
+        attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V), true).
 
 **_clinguin_context/2**
 
 These atoms provide access to the context information available in the frontend when the :ref:`domain-state` is generated. The first argument is the key, and the second one is the value. For more information check the :ref:`Context` section.
 
+
+**_clinguin_const/2**
+
+Includes predicate ``_clinguin_const/2`` for each constant provided in the command line and used in the domain files.
+
+
+Optimization
+------------
+
+**Brave optimal consequences**
+
+These consequences work similar to the brave consequences, but they are the union of all optimal models.
+They are enclosed in predicate ``_any_opt``.
+
+.. warning::
+
+    **Performance**
+
+    To improve performance these atoms are only obtained if the predicate ``_any_opt`` is part of the :ref:`ui-files`.
+
+.. admonition:: Example
+
+
+    In the `placement optimaized example <https://github.com/krr-up/clinguin/tree/master/examples/angular/placement_optimized/ui.lp>`_.
+
+    .. code-block::
+
+        elem(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-seat(S,T), person(P).
+        attr(table_seat_p(T,S,P), class, "text-success"):- _any_opt(assign(seat(S,T),P)).
+
+    Here the text on the dropdown menu item will be highloghted green if there is an optimal solution where the person P is assigned to the seat S at table T.
+
+
+**Cautious optimal consequences**
+
+These consequences work similar to the cautious consequences, but they are the interesection of all optimal models.
+They are enclosed in predicate ``_all_opt``.
+
+.. warning::
+
+    **Performance**
+
+    To improve performance these atoms are only obtained if the predicate ``_any_opt`` is part of the :ref:`ui-files`.
+
+.. admonition:: Example
+
+
+    In the `placement optimaized example <https://github.com/krr-up/clinguin/tree/master/examples/angular/placement_optimized/ui.lp>`_.
+
+    .. code-block::
+
+        attr(table_seat(S,T), selected, P):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+        attr(table_seat(S,T), class, "text-success"):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+
+    Here the text that is selected is the one appearing in all optimal models. This way it can serve as a guide for the user to see what is the best solution found so far.
+
+
+**Optimization state**
+
+The following predicates are used to give the ui information about the current cost of the solution.
+
+- ``_clinguin_cost/1``: With a single tuple indicating the cost of the current model
+- ``_clinguin_cost/2``: With the index and cost value, linearizing predicate ``_clinguin_cost/1``
+- ``_clinguin_optimal/0``: If the solution is optimal
+- ``_clinguin_optimizing/0``: If there is an optimization in the program

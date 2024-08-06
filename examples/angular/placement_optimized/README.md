@@ -1,4 +1,4 @@
-## Placement
+## Placement optimized
 
 - **Backend**:   `ClingoMultishotBackend`
 - **Frontend**:   `AngularFrontend`

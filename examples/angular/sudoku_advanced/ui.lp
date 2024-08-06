@@ -24,10 +24,10 @@ elem(window,window,root).
         attr(pos(X,Y),class,"bg-opacity-10"):-subgrid(X,Y,S), S\2==0.
         attr(pos(X,Y),class,"bg-opacity-50"):-subgrid(X,Y,S), S\2!=0.
         attr(pos(X,Y),class,("opacity-100";"disabled";"fw-bold";"text-dark")):-initial(X,Y,V).
-        attr(pos(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
+        attr(pos(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V),true).
         attr(pos(X,Y),selected,V):-initial(X,Y,V).
         attr(pos(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
-        attr(pos(X,Y),selected,V):-_clinguin_assume(sudoku(X,Y,V)).
+        attr(pos(X,Y),selected,V):-_clinguin_assume(sudoku(X,Y,V),true).
 
             %%%%%%%%%%%%%%%%%%%%%%%%
             % Cell items

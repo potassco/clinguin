@@ -11,7 +11,7 @@ attr(seat_dd(S), selected, P):- assign(P,S), _clinguin_browsing.
 attr(seat_dd(S), class, "text-success"):- _clinguin_browsing,
                         assign(P,S), not _all(assign(P,S)).
 attr(seat_dd(S), class, "opacity-75"):- _all(assign(P,S)),
-                        not _clinguin_assume(assign(P,S)).
+                        not _clinguin_assume(assign(P,S),true).
 
 
 

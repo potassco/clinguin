@@ -56,6 +56,12 @@
         Then we recomend you use the browser's developer tools to inspect the elements and see if the styles are being applied.
         You can also move the HTML directly in your browser to find the right settings. Once you found them you can copy them to your :ref:`ui-files`.
 
+        You can also add a border to all of your containers to see where they are placed, and then remove them once you have the right settings.
+        To do so, just add the following line to your ui encoding:
+
+        .. code-block:: prolog
+
+            attr(E,class,("border-1";"border";"border-dark")):- elem(E, container, _).
 
 
 .. admonition:: **Still need help**

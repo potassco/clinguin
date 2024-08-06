@@ -20,8 +20,8 @@ elem(w,window,root).
         attr(dd(X,Y),class,"bg-opacity-10"):-subgrid(X,Y,S), S\2==0.
         attr(dd(X,Y),class,"bg-opacity-50"):-subgrid(X,Y,S), S\2!=0.
         attr(dd(X,Y),class,("opacity-100";"disabled";"fw-bold";"text-dark")):-initial(X,Y,V).
-        attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V)).
-        attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V)).
+        attr(dd(X,Y),class,("text-primary")):-_clinguin_assume(sudoku(X,Y,V), true).
+        attr(dd(X,Y),class,("text-info")):-_all(sudoku(X,Y,V)), not _clinguin_assume(sudoku(X,Y,V), true).
         attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
         attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 

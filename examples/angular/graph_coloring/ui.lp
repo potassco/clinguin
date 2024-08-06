@@ -7,7 +7,7 @@ elem(window, window, root).
     elem(l, message, window).
     attr(l, message, "Right click on node to select color!").
     attr(l, type, warning).
-    attr(l, visible, hidden):- _clinguin_assume(_).
+    attr(l, visible, hidden):- _clinguin_assume(_,_).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Context menu

@@ -158,9 +158,9 @@ class ClingoBackend:
     @property
     def _assumption_list(self) -> list:
         """
-        A list of assumptions in the format [(a, True)]
+        A list of assumptions in the format of form (a, True) or (a, False)
         """
-        return [(a, True) for a in self._assumptions]
+        return [a for a in self._assumptions]
 
     # ---------------------------------------------
     # Initialization
@@ -213,7 +213,6 @@ class ClingoBackend:
         self._domain_state_constructors = []
         self._backup_ds_cache = {}
         self._add_domain_state_constructor("_ds_context")
-        self._add_domain_state_constructor("_ds_unsat")
         self._add_domain_state_constructor("_ds_browsing")
         self._add_domain_state_constructor("_ds_cautious_optimal")
         self._add_domain_state_constructor("_ds_brave_optimal")
@@ -221,6 +220,7 @@ class ClingoBackend:
         self._add_domain_state_constructor("_ds_brave")
         self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
         self._add_domain_state_constructor("_ds_opt")
+        self._add_domain_state_constructor("_ds_unsat")  # Keep after all solve calls
 
     def _init_command_line(self):
         """
@@ -281,7 +281,7 @@ class ClingoBackend:
             _ui_state (:class:`UIState`): A UIState object used to handle the UI construction,
             set in every call to `_update_ui_state`.
             _atoms (set[str]): A set to store the atoms set dynamically in operations during the interaction.
-            _assumptions (set[str]): A set to store the assumptions set dynamically in operations during the
+            _assumptions (set[(str,bool)]): A set to store the assumptions set dynamically in operations during the
             interaction.
             _externals (dict): A dictionary with true, false and released sets of external atoms
             _model (list[clingo.Symbol]): The model set in `on_model`.
@@ -453,15 +453,19 @@ class ClingoBackend:
     # Solving
     # ---------------------------------------------
 
-    def _ground(self, program="base"):
+    def _ground(self, program="base", arguments=None):
         """
         Grounds the provided program
 
         Arguments:
             program (str): The name of the program to ground (defaults to "base")
+            arguments (list, optional): The list of arguments to ground the program. Defaults to an empty list.
         """
-        self._logger.debug(domctl_log(f"domctl.ground([({program}, [])])"))
-        self._ctl.ground([(program, [])])
+        arguments = arguments or []
+        arguments = [arguments] if not isinstance(arguments, list) else arguments
+        self._logger.debug(domctl_log(f"domctl.ground([({program}, {arguments})])"))
+        arguments_symbols = [parse_term(a) for a in arguments]
+        self._ctl.ground([(program, arguments_symbols)])
 
     def _prepare(self):
         """
@@ -751,7 +755,7 @@ class ClingoBackend:
         Adds program to pass with optimality information.
 
         Includes predicates:
-         - ``_clinguin_cost/1``: With a single tuple indicating the cost
+         - ``_clinguin_cost/1``: With a single tuple indicating the cost of the current model
          - ``_clinguin_cost/2``: With the index and cost value, linearizing predicate ``_clinguin_cost/1``
          - ``_clinguin_optimal/0``: If the solution is optimal
          - ``_clinguin_optimizing/0``: If there is an optimization in the program
@@ -802,6 +806,18 @@ class ClingoBackend:
         restart the control object by initializing all parameters, controls, ending the browsing and grounding.
         """
         self._restart()
+
+    def ground(self, program, arguments=None):
+        """
+        Grounds the given program. Notice that the base program is grounded when the server starts.
+        This operation can be used for grounding encodings with multiple programs in a multi-shot setting.
+
+        Arguments:
+            program (str): The name of the program to ground used in the #program directive
+            arguments (tuple, optional): The list of arguments to ground the program. Defaults to an empty list.
+            These are the arguments of your #program directive. For instance, in #program step(t). the argument is t.
+        """
+        self._ground(program, arguments)
 
     def update(self):
         """

@@ -85,11 +85,11 @@ attr(window, child_layout, grid).
                 %%%%%%%%%%%%%%%%%%%%%%%%
                 % MODULE REMOVE
                 %%%%%%%%%%%%%%%%%%%%%%%%
-                elem(mbutton(E,I), button, m(E,I)):-_clinguin_assume(in(E,s(I))).
-                attr(mbutton(E,I), label, "-"):-_clinguin_assume(in(E,s(I))).
-                attr(mbutton(E,I), grid_column, 1):-_clinguin_assume(in(E,s(I))).
-                attr(mbutton(E,I), foreground_color, red):-_clinguin_assume(in(E,s(I))).
-                when(mbutton(E,I), click, call, remove_assumption(in(E,s(I)))):-_clinguin_assume(in(E,s(I))).
+                elem(mbutton(E,I), button, m(E,I)):-_clinguin_assume(in(E,s(I)),true).
+                attr(mbutton(E,I), label, "-"):-_clinguin_assume(in(E,s(I)),true).
+                attr(mbutton(E,I), grid_column, 1):-_clinguin_assume(in(E,s(I)),true).
+                attr(mbutton(E,I), foreground_color, red):-_clinguin_assume(in(E,s(I)),true).
+                when(mbutton(E,I), click, call, remove_assumption(in(E,s(I)))):-_clinguin_assume(in(E,s(I)),true).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Menu Bar

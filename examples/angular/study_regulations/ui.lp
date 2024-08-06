@@ -39,10 +39,10 @@ attr(w, flex_direction, row).
             elem(s_module_l(I,E), label, s_module(I,E)):-shown_module(E,I).
             attr(s_module_l(I,E), label, E):-shown_module(E,I).
 
-            elem(s_module_b(I,E), button, s_module(I,E)):-_clinguin_assume(in(E,s(I))).
-            attr(s_module_b(I,E), icon, "fa-times"):-_clinguin_assume(in(E,s(I))).
-            attr(s_module_b(I,E), class, ("btn-sm";"btn-outline")):-_clinguin_assume(in(E,s(I))).
-            when(s_module_b(I,E), click, call, remove_assumption(in(E,s(I)))):-_clinguin_assume(in(E,s(I))).
+            elem(s_module_b(I,E), button, s_module(I,E)):-_clinguin_assume(in(E,s(I)),true).
+            attr(s_module_b(I,E), icon, "fa-times"):-_clinguin_assume(in(E,s(I)),true).
+            attr(s_module_b(I,E), class, ("btn-sm";"btn-outline")):-_clinguin_assume(in(E,s(I)),true).
+            when(s_module_b(I,E), click, call, remove_assumption(in(E,s(I)))):-_clinguin_assume(in(E,s(I)),true).
 
 
 elem(menu_bar, menu_bar, w).

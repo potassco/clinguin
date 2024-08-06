@@ -28,6 +28,7 @@ class ClingoMultishotBackend(ClingoBackend):
     def _init_ds_constructors(self):
         super()._init_ds_constructors()
         self._add_domain_state_constructor("_ds_assume")
+        self._add_domain_state_constructor("_ds_external")
 
     # ---------------------------------------------
     # Setters
@@ -73,14 +74,15 @@ class ClingoMultishotBackend(ClingoBackend):
                 f"Invalid external value {name}. Must be true, false or relase"
             )
 
-    def _add_assumption(self, symbol):
+    def _add_assumption(self, symbol, value: bool = True):
         """
         Adds an assumption to the list of assumptions.
 
         Args:
             symbol (clingo.Symbol): The clingo symbol to be added as a True assumption
+            value (bool): The value of the assumption either True or False (Defaults to true)
         """
-        self._assumptions.add(symbol)
+        self._assumptions.add((symbol, value))
 
     # ---------------------------------------------
     # Domain state
@@ -91,11 +93,28 @@ class ClingoMultishotBackend(ClingoBackend):
         """
         Adds information about the assumptions
 
-        Includes predicate  ``_clinguin_assume/1`` for every atom that was assumed.
+        Includes predicate  ``_clinguin_assume/2`` for every atom that was assumed.
         """
-        prg = "#defined _clinguin_assume/1. "
-        for a, _ in self._assumption_list:
-            prg += f"_clinguin_assume({str(a)}). "
+        prg = "#defined _clinguin_assume/2. "
+        for a, v in self._assumption_list:
+            v_str = "true" if v else "false"
+            prg += f"_clinguin_assume({str(a)},{v_str}). "
+        return prg + "\n"
+
+    @property
+    def _ds_external(self):
+        """
+        Adds information about the external atoms
+
+        Includes predicate  ``_clinguin_external/2`` for every external atom that has been set.
+        """
+        prg = "#defined _clinguin_external/2. "
+        for a in self._externals["true"]:
+            prg += f"_clinguin_external({str(a)},true). "
+        for a in self._externals["false"]:
+            prg += f"_clinguin_external({str(a)},false). "
+        for a in self._externals["released"]:
+            prg += f"_clinguin_external({str(a)},release). "
         return prg + "\n"
 
     ########################################################################################################
@@ -112,33 +131,39 @@ class ClingoMultishotBackend(ClingoBackend):
         self._outdate()
         self._assumptions = set()
 
-    def add_assumption(self, atom):
+    def add_assumption(self, atom, value: bool = True):
         """
         Adds an atom `a` as an assumption.
+        If the value is True (which is the default), the atom is assumed to be true.
         This assumption can be considered as an integrity constraint:
         `:- not a.` forcing the program to entail the given atom.
+        If the value is False, the atom is assumed to be false:
+        This assumption can be considered as an integrity constraint:
+        `:- a.` forcing the program to never entail the given atom.
 
         Arguments:
 
             atom (str): The clingo symbol to be added as a true assumption
+            value (bool): The value of the assumption either True or False (Defaults to true)
         """
         atom_symbol = parse_term(atom)
         if atom_symbol not in self._assumptions:
-            self._add_assumption(atom_symbol)
+            self._add_assumption(atom_symbol, value)
             self._outdate()
 
     def remove_assumption(self, atom):
         """
-        Removes an atom from the assumptions list.
+        Removes an atom from the assumptions list regardless of its value.
 
         Arguments:
-
             atom (str): The clingo symbol to be removed
         """
         atom_symbol = parse_term(atom)
-        if atom_symbol in self._assumptions:
-            self._assumptions.remove(atom_symbol)
-            self._outdate()
+        for a, v in self._assumptions:
+            if a == atom_symbol:
+                self._assumptions.remove((a, v))
+                self._outdate()
+                return
 
     def remove_assumption_signature(self, atom):
         """
@@ -156,16 +181,16 @@ class ClingoMultishotBackend(ClingoBackend):
         atom_symbol = parse_term(atom)
         arity = len(atom_symbol.arguments)
         to_remove = []
-        for s in self._assumptions:
+        for s, v in self._assumptions:
             if s.match(atom_symbol.name, arity):
                 for i, a in enumerate(atom_symbol.arguments):
                     if str(a) != "any" and s.arguments[i] != a:
                         break
                 else:
-                    to_remove.append(s)
+                    to_remove.append((s, v))
                     continue
-        for s in to_remove:
-            self._assumptions.remove(s)
+        for a in to_remove:
+            self._assumptions.remove(a)
         if len(to_remove) > 0:
             self._outdate()
 

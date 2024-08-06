@@ -40,9 +40,7 @@ class ExplanationBackend(ClingoMultishotBackend):
 
             Overwrites :meth:`ClingoBackend._assumption_list`
         """
-        return [
-            (a, True) for a in self._assumptions.union(self._assumptions_from_signature)
-        ]
+        return [a for a in self._assumptions.union(self._assumptions_from_signature)]
 
     # ---------------------------------------------
     # Initialization
@@ -111,15 +109,14 @@ class ExplanationBackend(ClingoMultishotBackend):
         Sets the list of assumptions that were taken from the input files using the assumption_signature.
 
         Attributes:
-            _assumptions_from_signature (Set[clingo.Symbol]): The set of assumptions from the assumption signatures
+            _assumptions_from_signature (Set[Tuple(clingo.Symbol,bool)]): The set of assumptions from the assumption signatures
         """
         super()._ground(program)
         # pylint: disable= attribute-defined-outside-init
-        self._assumptions_from_signature = (
-            self._assumption_transformer.get_assumption_symbols(
-                self._ctl, arguments=self._ctl_arguments_list
-            )
+        transformer_assumptions = self._assumption_transformer.get_assumption_symbols(
+            self._ctl, arguments=self._ctl_arguments_list
         )
+        self._assumptions_from_signature = [(a, True) for a in transformer_assumptions]
 
     # ---------------------------------------------
     # Class methods

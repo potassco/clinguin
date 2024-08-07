@@ -1,5 +1,6 @@
 elem(window,window,root).
 attr(window,child_layout,grid).
+attr(window,class,("justify-content-start")).
 
     elem(dd(X,Y),dropdown_menu,window):-pos(X,Y).
     attr(dd(X,Y),width,50):-pos(X,Y).

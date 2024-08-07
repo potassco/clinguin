@@ -1,14 +1,11 @@
-## Style
-
-- **Backend**:   `ClingoBackend`
-- **Frontend**:   `AngularFrontend`
+# Style
 
 Showcases multiple style options from bootstrap
 
-### Usage
+## Usage
 
 ```
-clinguin client-server --domain-files examples/angular/style/encoding.lp --ui-files examples/angular/style/ui.lp
+clinguin client-server --domain-files style/encoding.lp --ui-files style/ui.lp
 ```
 
 ![](out.png)

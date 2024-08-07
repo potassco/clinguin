@@ -1,13 +1,34 @@
-## Sudoku
+# Sudoku
 
-- **Backend**:   `ClingoBackend`
-- **Frontend**:   `AngularFrontend`
+This example uses the well known [sudoku puzzle](https://en.wikipedia.org/wiki/Sudoku).
 
-### Usage
 
+## Usage
+
+```console
+$ clinguin client-server --domain-files sudoku/{encoding.lp,instance.lp} --ui-files sudoku/ui.lp
 ```
-clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
+
+## UI
+
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/sudoku/ui.gif?raw=true">
+
+## Domain Files
+
+```{literalinclude} ../../../examples/angular/sudoku/instance.lp
+  :language: prolog
+  :caption: instance.lp
+```
+```{literalinclude} ../../../examples/angular/sudoku/encoding.lp
+  :language: prolog
+  :caption: encoding.lp
 ```
 
-![](out1.png)
-![](out2.png)
+## UI Files
+
+```{literalinclude} ../../../examples/angular/sudoku/ui.lp
+  :language: prolog
+  :caption: ui.lp
+```
+
+

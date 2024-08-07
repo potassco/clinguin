@@ -25,6 +25,25 @@
     then you have to add ``#project a.`` to your :ref:`domain-files` to get the desired output.
     Furthermore any show statements that output a tuple (function without name) will lead to syntactic issues so thet should be removed.
 
+.. admonition:: **Exception: Could not parse ... **
+    :class: tip
+
+    If you get an exception ``Exception: Could not parse ..``, this is likely from using uppercase names as arguments to an operation which in clingo is a variable.
+    If the arguments come from text that was user input, you can make sure it is transformed into a string when using `_context_value`.
+    See :ref:`context` section for details.
+
+    .. admonition:: Example
+
+        Using the following code you make sure that the input saved in ``name`` is transformed into a string.
+        If the input is ``Ana`` the operation becomes: ``add_assumption("Ana")`` instead of ``add_assumption(Ana)``.
+
+        .. code-block::
+
+            when(b1, click, call, add_assumption(_context_value(name, str))).
+
+
+
+
 .. admonition:: **Long response time**
     :class: tip
 
@@ -40,7 +59,7 @@
         If the problem is finding an optimal model you can pass a timeout to the server in the command line with the flag ``--out-timeout 10``.
         This will make the server stop searching for models with a bette cost after ``10`` seconds. Note that the response time might be larget than this timeout
         if the solver is already searching when the timeout is reached. If you pass a timeout of ``0`` the server will only get the first model, you can then keep calling the operation ``next_solution(optN)`` to improve the cost, one at a time.
-        Check out the `placement_optimized example <https://github.com/potassco/clinguin/tree/master/examples/angular/placement_optimized>`_.
+        Check out the `placement example <https://github.com/potassco/clinguin/tree/master/examples/angular/placement>`_.
 
 
 .. admonition:: **Can't manage to place or style things in my UI**

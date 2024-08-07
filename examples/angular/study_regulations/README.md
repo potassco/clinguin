@@ -1,19 +1,36 @@
-## Study regulations
+# Study regulations
 
-- **Backend**:   `ClingoBackend`
-- **Frontend**:   `Angular`
+Create a study plan based on study regulations.
 
-Create a study plan.
+This encodings are used in the paper for study regulations in [ICLP 2024](https://www.iclp24.utdallas.edu/).
 
-These encoding was presented in the article [1]
 
-### Usage
+## Usage
 
+
+
+```console
+$ clinguin client-server --domain-files study_regulations/{encoding.lp,instance.lp} --ui-files study_regulations/ui.lp -c n=4
 ```
-clinguin client-server --domain-files examples/angular/study_regulations/instance.lp examples/angular/study_regulations/encoding.lp --ui-files examples/angular/study_regulations/ui.lp -c n=4
+
+## UI
+
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/study_regulations/ui.gif?raw=true">
+
+## Domain Files
+
+```{literalinclude} ../../../examples/angular/study_regulations/instance.lp
+  :language: prolog
+  :caption: instance.lp
+```
+```{literalinclude} ../../../examples/angular/study_regulations/encoding.lp
+  :language: prolog
+  :caption: encoding.lp
 ```
 
-![](out.png)
+## UI Files
 
-
-[1] Hahn, S., Martens, C., Nemes, A., Otunuya, H., Romero, J., Schaub, T., & Schellhorn, S. (2023). Reasoning about Study Regulations in Answer Set Programming (Preliminary Report). In ICLP Workshops (Vol. 3437)
+```{literalinclude} ../../../examples/angular/study_regulations/ui.lp
+  :language: prolog
+  :caption: ui.lp
+```

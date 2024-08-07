@@ -151,15 +151,25 @@ attr(window, flex_direction, row).
                 attr(table_seat(S,T), selected, P):- _all(assign(seat(S,T),P)).
                 attr(table_seat(S,T), selected, P):- assign(seat(S,T),P), _clinguin_browsing.
 
+                attr(table_seat(S,T), selected, P):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+                attr(table_seat(S,T), class, "text-success"):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+                attr(table_seat(S,T), class, "text-opacity-50"):- _all_opt(assign(seat(S,T),P)), not _all(assign(seat(S,T),P)).
+
                     elem(table_seat_remove(S,T), dropdown_menu_item, table_seat(S,T)):-seat(S,T).
                     attr(table_seat_remove(S,T), icon, "fa-ban"):-seat(S,T).
                     attr(table_seat_remove(S,T), class, "text-info"):-seat(S,T).
                     when(table_seat_remove(S,T), click, call, remove_assumption_signature(assign(seat(S,T),any))):-seat(S,T).
 
-                    elem(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-_any(assign(seat(S,T),P)).
-                    attr(table_seat_p(T,S,P), label, P):-_any(assign(seat(S,T),P)).
-                    attr(table_seat_p(T,S,P), class, "text-capitalize"):- _any(assign(seat(S,T),P)).
-                    when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P))):- _any(assign(seat(S,T),P)).
+                    elem(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-seat(S,T), person(P).
+                    when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P))):- seat(S,T), person(P).
+                    attr(table_seat_p(T,S,P), class, "text-capitalize"):- seat(S,T), person(P).
+                    attr(table_seat_p(T,S,P), label, P):-seat(S,T), person(P).
+                    attr(table_seat_p(T,S,P), class,( "text-danger";"disabled")):- not _any(assign(seat(S,T),P)), seat(S,T), person(P).
+                    attr(table_seat_p(T,S,P), icon, "fa-face-frown"):- not _any(assign(seat(S,T),P)), seat(S,T), person(P).
+                    attr(table_seat_p(T,S,P), class, "text-warning"):- _any(assign(seat(S,T),P)), not _any_opt(assign(seat(S,T),P)).
+                    attr(table_seat_p(T,S,P), icon, "fa-face-meh"):- _any(assign(seat(S,T),P)), not _any_opt(assign(seat(S,T),P)).
+                    attr(table_seat_p(T,S,P), class, "text-success"):- _any_opt(assign(seat(S,T),P)).
+                    attr(table_seat_p(T,S,P), icon, "fa-face-smile"):- _any_opt(assign(seat(S,T),P)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Menu bar
@@ -197,11 +207,13 @@ attr(window, flex_direction, row).
         when(menu_bar_select, click, call, select).
 
         elem(menu_bar_next_opt, button, menu_bar).
-        attr(menu_bar_next_opt, label, "Next Optimal").
+        attr(menu_bar_next_opt, label, "Next").
         attr(menu_bar_next_opt, icon, "fa-forward-fast").
         when(menu_bar_next_opt, click, call, next_solution(optN)).
 
-        elem(menu_bar_next, button, menu_bar).
-        attr(menu_bar_next, label, "Next").
-        attr(menu_bar_next, icon, "fa-forward-step").
-        when(menu_bar_next, click, call, next_solution).
+        elem(m, message, window):-_clinguin_optimizing.
+        attr(m, title, "Optimality information"):-_clinguin_optimizing.
+        attr(m, message, "Optimal!"):- _clinguin_optimizing, _clinguin_optimal.
+        attr(m, message, "Optimality not proven"):- _clinguin_optimizing, not _clinguin_optimal.
+        attr(m, type, success):- _clinguin_optimizing, _clinguin_optimal.
+        attr(m, type, warning):- _clinguin_optimizing, not _clinguin_optimal.

@@ -20,12 +20,6 @@ Look at our [documentation page](https://clinguin.readthedocs.io/en/latest/) to 
 
 Our **[examples folder](https://github.com/potassco/clinguin/tree/master/examples)** shows how to use the range of functionalities in different applications.
 
-<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/placement/out1.png?raw=true" height="150">
-<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/graph_coloring/out2.png?raw=true" height="150">
-<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/sudoku/out1.png?raw=true" height="150">
-<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/jobshop/out.png?raw=true" height="150">
-
-
 ### Extensions
 
 ***Integration with different applications***

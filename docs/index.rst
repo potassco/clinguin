@@ -15,7 +15,7 @@ UIs are defined as sets of facts,  which are then rendered by a fronted to provi
 - :ref:`Backends`: Available operations and the predicates that will be available to create the UI.
 - :ref:`Customization`: Create your own backend or contribute with the *clinguin* project.
 - :ref:`Help`: If you are having trouble.
-- :ref:`&#x1F4A1; Examples`: To get inspiration for your UI.
+- :ref:`Examples`: To get inspiration for your UI.
 
 **Here is a motivation example:**
 

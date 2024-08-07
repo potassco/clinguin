@@ -1,4 +1,5 @@
 # pylint: disable=R0801
+# pylint: disable=too-many-lines
 """
 Module that contains the ClingoMultishotBackend.
 """
@@ -160,7 +161,7 @@ class ClingoBackend:
         """
         A list of assumptions in the format of form (a, True) or (a, False)
         """
-        return [a for a in self._assumptions]
+        return self._assumptions
 
     # ---------------------------------------------
     # Initialization

@@ -40,7 +40,7 @@ class ExplanationBackend(ClingoMultishotBackend):
 
             Overwrites :meth:`ClingoBackend._assumption_list`
         """
-        return [a for a in self._assumptions.union(self._assumptions_from_signature)]
+        return self._assumptions.union(self._assumptions_from_signature)
 
     # ---------------------------------------------
     # Initialization
@@ -104,14 +104,15 @@ class ExplanationBackend(ClingoMultishotBackend):
     # Solving
     # ---------------------------------------------
     @extends(ClingoMultishotBackend)
-    def _ground(self, program="base"):
+    def _ground(self, program="base", arguments=None):
         """
         Sets the list of assumptions that were taken from the input files using the assumption_signature.
 
         Attributes:
-            _assumptions_from_signature (Set[Tuple(clingo.Symbol,bool)]): The set of assumptions from the assumption signatures
+            _assumptions_from_signature (Set[Tuple(str,bool)]): The set of assumptions from the assumption signatures
+            arguments (list, optional): The list of arguments to ground the program. Defaults to an empty list.
         """
-        super()._ground(program)
+        super()._ground(program, arguments)
         # pylint: disable= attribute-defined-outside-init
         transformer_assumptions = self._assumption_transformer.get_assumption_symbols(
             self._ctl, arguments=self._ctl_arguments_list

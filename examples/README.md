@@ -2,6 +2,12 @@
 
 Our **[examples folder](https://github.com/potassco/clinguin/tree/master/examples)** shows how to use the range of functionalities in different applications. Follow the links and check out their UI encodings in GitHub to get inspiration. All the examples shown here use the AngularFrontend and different backends.
 
+
+```{literalinclude} ../../examples/angular/placement_optimized/ui.lp
+  :language: prolog
+  :caption: ui.lp
+```
+
 ## ClingoMultiShot Backend
 
 ### [knapsack](https://github.com/potassco/clinguin/tree/master/examples/angular/knapsack)
@@ -18,7 +24,6 @@ Our **[examples folder](https://github.com/potassco/clinguin/tree/master/example
 
 ### [elevator](https://github.com/potassco/clinguin/tree/master/examples/angular/elevator)
 
-https://github.com/potassco/clinguin/blob/392bbbb1f74dc5100860608548e9d30f04d05954/examples/angular/sudoku/encoding.lp#L1-L17
 
 <img src="https://github.com/potassco/clinguin/blob/gifs/examples/angular/elevator/ui.gif?raw=true" height="100">
 

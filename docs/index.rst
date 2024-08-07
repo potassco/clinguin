@@ -61,7 +61,7 @@ Clinguin will use this encoding and the following ui encoding to construct the U
    clinguin/frontends/index
    clinguin/backends/index
    clinguin/development/index
-   clinguin/examples_readme
+   clinguin/examples/index
    clinguin/help
 
 

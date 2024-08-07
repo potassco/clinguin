@@ -8,7 +8,7 @@ The option ` --opt-timeout 0` makes sure that one model is computed at a time to
 ## Usage
 
 ```
-clinguin client-server --domain-files placement/{instance.lp,encoding.lp} --ui-files placement/ui.lp --opt-timeout 0
+$ clinguin client-server --domain-files placement/{instance.lp,encoding.lp} --ui-files placement/ui.lp --opt-timeout 0
 ```
 
 

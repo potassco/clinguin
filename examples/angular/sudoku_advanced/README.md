@@ -1,4 +1,4 @@
-## Sudoku Explained
+# Sudoku Explained
 
 - **Backend**:   `ExplanationBackend`
 

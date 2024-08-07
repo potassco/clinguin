@@ -15,7 +15,7 @@ $ clinguin client-server --domain-files examples/angular/catdog/{instance.lp,enc
 
 ## UI
 
-<img src="https://github.com/potassco/clinguin/blob/gifs/examples/angular/catdog/ui.gif?raw=true" height="100">
+<img src="https://github.com/potassco/clinguin/blob/gifs/examples/angular/catdog/ui.gif?raw=true">
 
 ## Domain Files
 

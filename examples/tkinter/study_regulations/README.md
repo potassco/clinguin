@@ -1,6 +1,6 @@
 ## Study regulations
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `TkinterFrontend`
 
 Create a study plan.

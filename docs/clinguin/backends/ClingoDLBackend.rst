@@ -1,7 +1,7 @@
 ClingoDLBackend
 ---------------
 
-Extends :ref:`ClingoMultishotBackend` with functionality to accept clingo-dl programs as input.
+Extends :ref:`ClingoBackend` with functionality to accept clingo-dl programs as input.
 
 .. admonition:: Examples
 
@@ -34,7 +34,7 @@ Public operations
 +++++++++++++++++
 
 Can be used as `OPERATION` in the actions of the :ref:`ui-state`
-Also includes all public operations from the :ref:`ClingoMultishotBackend`.
+Also includes all public operations from the :ref:`ClingoBackend`.
 
 .. autoclass:: ClingoDLBackend
     :members:
@@ -47,6 +47,6 @@ Domain state constructors
 
 .. important::
 
-    The domain state also inclues domain constructors from the :ref:`ClingoMultishotBackend`
+    The domain state also inclues domain constructors from the :ref:`ClingoBackend`
 
 .. autoproperty:: ClingoDLBackend._ds_assign

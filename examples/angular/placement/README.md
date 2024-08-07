@@ -1,6 +1,6 @@
 ## Placement
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `AngularFrontend`
 
 Showcases multiple features of the web fronted in the form of a smart seat placement application

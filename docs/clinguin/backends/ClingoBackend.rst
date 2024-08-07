@@ -1,12 +1,18 @@
 ClingoBackend
 ---------------
 
-Implements all basic clingo functionality for single-shot solving.
+Implements all basic `clingo's API <https://potassco.org/clingo/python-api/current/clingo/>`_ functionality.
+This includes grounding, solving, cautious and brave resoning, use of extenrals and assuptions, and optimization
 
 .. admonition:: Examples
     :class: example
 
-    * `sudoku_single_shot <https://github.com/krr-up/clinguin/tree/master/examples/tkinter/sudoku_basic>`_
+
+    * `sudoku <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_
+    * `jobshop <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop>`_
+    * `placement <https://github.com/krr-up/clinguin/tree/master/examples/angular/placement>`_
+    * `placement_optimized <https://github.com/krr-up/clinguin/tree/master/examples/angular/placement_optimized>`_
+
 
 .. currentmodule:: clinguin.server.application.backends
 
@@ -37,6 +43,10 @@ Domain state constructors
 .. autoproperty:: ClingoBackend._ds_brave_optimal
 
 .. autoproperty:: ClingoBackend._ds_cautious_optimal
+
+.. autoproperty:: ClingoBackend._ds_assume
+
+.. autoproperty:: ClingoBackend._ds_external
 
 .. autoproperty:: ClingoBackend._ds_opt
 

@@ -9,8 +9,8 @@ from clingexplaid.mus import CoreComputer
 from clingexplaid.transformers import AssumptionTransformer
 from clingo.script import enable_python
 
-from clinguin.server.application.backends.clingo_multishot_backend import (
-    ClingoMultishotBackend,
+from clinguin.server.application.backends.clingo_backend import (
+    ClingoBackend,
 )
 from clinguin.utils.annotations import extends
 
@@ -19,9 +19,9 @@ from ....utils.logger import domctl_log
 enable_python()
 
 
-class ExplanationBackend(ClingoMultishotBackend):
+class ExplanationBackend(ClingoBackend):
     """
-    Extends ClingoMultishotBackend. This backend will treat an UNSAT result by adding the
+    Extends ClingoBackend. This backend will treat an UNSAT result by adding the
     Minimal Unsatisfiable Core (MUC) to the domain-state, thus allowing the UI to show
     the faulty assumptions.
     """
@@ -46,7 +46,7 @@ class ExplanationBackend(ClingoMultishotBackend):
     # Initialization
     # ---------------------------------------------
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _init_interactive(self):
         """
         Adds the MUS property
@@ -58,7 +58,7 @@ class ExplanationBackend(ClingoMultishotBackend):
         # pylint: disable= attribute-defined-outside-init
         self._mus = None
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _init_command_line(self):
         """
         Sets the assumption signature and the transformer used for the input files
@@ -81,12 +81,12 @@ class ExplanationBackend(ClingoMultishotBackend):
             signatures=self._assumption_sig
         )
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _init_ds_constructors(self):
         super()._init_ds_constructors()
         self._add_domain_state_constructor("_ds_mus")
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _load_file(self, f):
         """
         Loads a file into the control. Transforms the program to add choices around assumption signatures.
@@ -103,7 +103,7 @@ class ExplanationBackend(ClingoMultishotBackend):
     # ---------------------------------------------
     # Solving
     # ---------------------------------------------
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _ground(self, program="base", arguments=None):
         """
         Sets the list of assumptions that were taken from the input files using the assumption_signature.
@@ -124,12 +124,12 @@ class ExplanationBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     @classmethod
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def register_options(cls, parser):
         """
         Registers command line options for ClingraphBackend.
         """
-        ClingoMultishotBackend.register_options(parser)
+        ClingoBackend.register_options(parser)
 
         parser.add_argument(
             "--assumption-signature",

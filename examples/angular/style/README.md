@@ -1,6 +1,6 @@
 ## Style
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `AngularFrontend`
 
 Showcases multiple style options from bootstrap

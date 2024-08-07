@@ -1,6 +1,6 @@
 ## Test 07
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `TkinterFrontend`
 
 Loads an image in the UI. Note that tkinter loads the image from the path in this configuration, therefore client and server must have access to local files

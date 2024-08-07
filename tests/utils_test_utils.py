@@ -8,8 +8,8 @@ from urllib.request import Request, URLError, urlopen
 
 from clinguin import args_to_dict_converter
 from clinguin.parse_input import ArgumentParser
-from clinguin.server.application.backends.clingo_multishot_backend import (
-    ClingoMultishotBackend,
+from clinguin.server.application.backends.clingo_backend import (
+    ClingoBackend,
 )
 
 
@@ -136,7 +136,7 @@ class UtilsTestUtils:
 
         self.args = args_copy
 
-        return ClingoMultishotBackend(args_copy)
+        return ClingoBackend(args_copy)
 
     @classmethod
     def assert_result(self, should_output, received_by_request):

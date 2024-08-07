@@ -8,8 +8,8 @@ from clingo.ast import ProgramBuilder, parse_files
 from clingo.script import enable_python
 from clingodl import ClingoDLTheory
 
-from clinguin.server.application.backends.clingo_multishot_backend import (
-    ClingoMultishotBackend,
+from clinguin.server.application.backends.clingo_backend import (
+    ClingoBackend,
 )
 from clinguin.utils.annotations import extends
 
@@ -17,7 +17,7 @@ enable_python()
 # pylint: disable=attribute-defined-outside-init
 
 
-class ClingoDLBackend(ClingoMultishotBackend):
+class ClingoDLBackend(ClingoBackend):
     """
     Backend that allows programs using clingodl theory atoms as input.
     It also includes the assignment in the domain state.
@@ -27,7 +27,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # Setups
     # ---------------------------------------------
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _init_command_line(self):
         """
         Sets the dl configuration
@@ -38,7 +38,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
         )
         self._dl_conf = [(a[0], a[1]) for a in dl_config]
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _init_interactive(self):
         """
         Initializes the list of the assignments
@@ -49,12 +49,12 @@ class ClingoDLBackend(ClingoMultishotBackend):
         super()._init_interactive()
         self._assignment = []
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _init_ds_constructors(self):
         super()._init_ds_constructors()
         self._add_domain_state_constructor("_ds_assign")
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _create_ctl(self):
         """
         Registers the ClingoDLTheory.
@@ -65,7 +65,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
             self._theory.configure(k, v)
         self._theory.register(self._ctl)
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _load_file(self, f):
         """
         Uses the program builder to rewrite the theory atoms.
@@ -73,7 +73,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
         with ProgramBuilder(self._ctl) as bld:
             parse_files([f], lambda ast: self._theory.rewrite_ast(ast, bld.add))
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _outdate(self):
         """
         Sets the assignment to empty.
@@ -84,7 +84,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # ---------------------------------------------
     # Solving
     # ---------------------------------------------
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _prepare(self):
         """
         Prepares the theory before solving
@@ -92,7 +92,7 @@ class ClingoDLBackend(ClingoMultishotBackend):
         # pylint: disable=attribute-defined-outside-init
         self._theory.prepare(self._ctl)
 
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def _on_model(self, model):
         """
         Sets the assignment from the model
@@ -109,12 +109,12 @@ class ClingoDLBackend(ClingoMultishotBackend):
     # ---------------------------------------------
 
     @classmethod
-    @extends(ClingoMultishotBackend)
+    @extends(ClingoBackend)
     def register_options(cls, parser):
         """
         Adds the `dl-config` option.
         """
-        ClingoMultishotBackend.register_options(parser)
+        ClingoBackend.register_options(parser)
 
         parser.add_argument(
             "--dl-config",

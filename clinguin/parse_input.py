@@ -30,7 +30,7 @@ class ArgumentParser:
     default_backend_exec_string = "from .server.application.backends import *"
     default_frontend_exec_string = "from .client.presentation.frontends import *"
 
-    default_backend = "ClingoMultishotBackend"
+    default_backend = "ClingoBackend"
     default_frontend = "AngularFrontend"
 
     def __init__(self) -> None:

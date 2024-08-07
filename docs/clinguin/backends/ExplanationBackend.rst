@@ -1,7 +1,7 @@
 ExplanationBackend
 ------------------
 
-Extends :ref:`ClingoMultishotBackend` with functionality to compute Minumal Unsatisfiable Sets (MUS) when there is an UNSAT output.
+Extends :ref:`ClingoBackend` with functionality to compute Minumal Unsatisfiable Sets (MUS) when there is an UNSAT output.
 
 .. admonition:: Examples
 
@@ -57,7 +57,7 @@ Public operations
 +++++++++++++++++
 
 Can be used as `OPERATION` in the actions of the :ref:`ui-state`.
-Also includes all public operations from the :ref:`ClingoMultishotBackend`.
+Also includes all public operations from the :ref:`ClingoBackend`.
 
 .. autoclass:: ExplanationBackend
     :members:
@@ -70,7 +70,7 @@ Domain state constructors
 
 .. important::
 
-    The domain state also inclues domain constructors from the :ref:`ClingoMultishotBackend`
+    The domain state also inclues domain constructors from the :ref:`ClingoBackend`
 
 .. autoproperty:: ExplanationBackend._ds_mus
 

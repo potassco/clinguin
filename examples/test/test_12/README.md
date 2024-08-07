@@ -1,6 +1,6 @@
 ## Test 12
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `Angular`
 
 ### Usage

@@ -1,6 +1,6 @@
 ## Housing
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `TkinterFrontend`
 
 You must select the people and then divide into rooms.

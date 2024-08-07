@@ -1,6 +1,6 @@
 ## Test 09
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `TkinterFrontend`
 
 ### Usage

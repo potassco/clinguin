@@ -19,7 +19,7 @@ Built-in Backends
     :maxdepth: 1
 
     ClingoBackend.rst
-    ClingoMultishotBackend.rst
+    ClingoBackend.rst
     ClingraphBackend.rst
     ExplanationBackend.rst
     ClingoDLBackend.rst

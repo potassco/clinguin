@@ -13,7 +13,9 @@ In this case we use a planning problem and use incremental solving.
 clinguin client-server --domain-files examples/angular/elevator/encoding.lp examples/angular/elevator/instance.lp --ui-files examples/angular/elevator/ui.lp  --server-log-level DEBUG
 ```
 
-![](out1.png)
+![](ui.gif)
+
+<!-- ![](out1.png)
 ![](out2.png)
-![](out3.png)
+![](out3.png) -->
 

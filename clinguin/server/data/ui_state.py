@@ -9,9 +9,9 @@ from pathlib import Path
 import clorm
 from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
-from clinguin.server.data.clinguin_context import ClinguinContext
 from clorm import Raw
 
+from clinguin.server.data.clinguin_context import ClinguinContext
 from clinguin.utils import StandardTextProcessing, image_to_b64
 
 from ...utils.logger import uictl_log

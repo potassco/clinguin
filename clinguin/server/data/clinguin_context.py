@@ -1,3 +1,7 @@
+"""
+Clinguin Context passed to the clingo control object with helper python functions
+"""
+
 from clingo.symbol import String, SymbolType
 
 
@@ -37,7 +41,8 @@ class ClinguinContext:
 
         Args:
             s (str): The string to format, for example "{0} and {1}"
-            args: All symbols that can be accessed by the position starting in 0. If there is a single tuple as an argument, then its arguments are considered one by one.
+            args: All symbols that can be accessed by the position starting in 0.
+                If there is a single tuple as an argument, then its arguments are considered one by one.
         Returns:
             The string obtained by formatting the string with the given arguments
         """

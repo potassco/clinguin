@@ -5,8 +5,6 @@ Implements all basic `clingo's API <https://potassco.org/clingo/python-api/curre
 This includes grounding, solving, cautious and brave resoning, use of extenrals and assuptions, and optimization
 
 .. admonition:: Examples
-    :class: example
-
 
     * `sudoku <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_
     * `jobshop <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop>`_

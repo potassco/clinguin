@@ -25,7 +25,7 @@
     then you have to add ``#project a.`` to your :ref:`domain-files` to get the desired output.
     Furthermore any show statements that output a tuple (function without name) will lead to syntactic issues so thet should be removed.
 
-.. admonition:: **Exception: Could not parse ... **
+.. admonition:: **Exception: Could not parse ...**
     :class: tip
 
     If you get an exception ``Exception: Could not parse ..``, this is likely from using uppercase names as arguments to an operation which in clingo is a variable.
@@ -42,6 +42,11 @@
             when(b1, click, call, add_assumption(_context_value(name, str))).
 
 
+.. admonition:: **Unsure how to use a feature**
+    :class: tip
+
+    If you are unsure how to use a feature, you can check the :ref:`examples` section for inspiration.
+    You can also use the search bar to see which examples use the feature you are interested in.
 
 
 .. admonition:: **Long response time**

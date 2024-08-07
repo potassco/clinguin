@@ -10,8 +10,4 @@ seat(3,3).
 person("Max").
 person("Phil").
 person("Anna").
-%person(sus).
-%person(tobias).
-%person(sven).
-%person(torsten).
 

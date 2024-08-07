@@ -1,5 +1,3 @@
-% %%%%%%%%%%%%%%%%%%%%%%%%% Instance
-
 initial(5,1,8).
 initial(6,2,7).
 initial(7,1,4).
@@ -29,9 +27,3 @@ initial(9,6,6).
 initial(1,7,6).
 initial(5,7,7).
 initial(6,7,8).
-% initial(8,7,9).
-% initial(9,7,4).
-% initial(2,8,7).
-% initial(3,8,3).
-% initial(4,8,6).
-% initial(5,8,9).

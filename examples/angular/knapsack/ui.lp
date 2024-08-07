@@ -11,12 +11,13 @@ attr(objects, class, ("p-2")).
 attr(objects, width, 300).
 
     elem(object(O), container, objects):-object(O).
-    attr(object(O), class, ("m-1";"p-1";"rounded";"d-flex";"flex-row";"justify-content-between";"bg-opacity-50")):-object(O).
+    attr(object(O), class, ("m-1";"p-1";"rounded";"d-flex";"flex-row";"justify-content-between";"bg-opacity-50";"border";"border-1";)):-object(O).
     attr(object(O), class, ("bg-info")):-object(O), not _any_opt(take(O)).
     attr(object(O), class, ("bg-success")):-object(O), _any_opt(take(O)), not taken(O).
     attr(object(O), class, ("bg-secondary")):- taken(O).
     attr(object(O), class, ("bg-danger")):-object(O), _clinguin_assume(take(O),false).
-    attr(object(O), class, ("border";"border-1";"border-dark")):-object(O), _clinguin_assume(take(O),true).
+    attr(object(O), class, ("border-dark")):-object(O), _clinguin_assume(take(O),true).
+    attr(object(O), class, ("border-white")):-object(O), not _clinguin_assume(take(O),true).
 
         elem(object_info(O), container, object(O)):-object(O).
 

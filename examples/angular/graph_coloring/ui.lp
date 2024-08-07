@@ -47,7 +47,7 @@ elem(window, window, root).
             attr(b1, icon, "fa-download").
 
             elem(t1, textfield, c1).
-            attr(t1, placeholder, "Optinal ASP program with #show statements").
+            attr(t1, placeholder, "Optional #show statements").
             attr(t1, width, 450).
             when(t1, input, context, (show_download, _value)).
 

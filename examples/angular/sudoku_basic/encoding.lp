@@ -1,5 +1,3 @@
-% %%%%%%%%%%%%%%%%%%%%%%%%% Encoding
-
 #const dim = 3.
 
 val(1..dim*dim).

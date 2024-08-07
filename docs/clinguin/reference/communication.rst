@@ -28,6 +28,7 @@ Operations
 The operations are defined by the backend. These operations will interact with the domain control while performing all the required changes.
 Each backend will define an available list of operations. These lists can be found in :ref:`Backends`.
 
+.. _context:
 
 ********
 Context
@@ -79,19 +80,16 @@ However, if the input is a string that can't be a constant, such as ``Open``, it
 
 .. admonition:: Example
 
-
-    Example from  the `ast example <https://github.com/krr-up/clinguin/tree/master/examples/angular/ast/ui.lp>`_.
-    The key `selected_node` is set open clicking on a node and then this information is sustituted on the next line when the server is called to add an atom, which yeilds operation ``add_atom(show_children(X,true)))`` after the substitution, with ``X`` being the selected node.
+    The content information is sustituted when the server is called to add an assumption, which yeilds operation ``add_assumption(name)``.
 
     .. code-block::
 
-        when(node(X), click, context, (selected_node, X)):- node(X).
-        when(button1, click, call, add_atom(show_children(_context_value(selected_node),true))).
+        when(b1, click, call, add_assumption(_context_value(t1_content)).
 
 .. admonition:: Example
 
 
-    Example from  the `ast example <https://github.com/krr-up/clinguin/tree/master/examples/angular/graph_coloring/ui.lp>`_.
+    Example from  the `tree_browser example <https://github.com/krr-up/clinguin/tree/master/examples/angular/graph_coloring/ui.lp>`_.
     When this button is clicked, the value of the key ``show_download`` will be accessed and transfoermed into a string. If no value is provided then it is substituted by "#show assign/2.".
 
     .. code-block::
@@ -108,7 +106,7 @@ Notice that the _clinguin_context predicate will only include things after a ser
 
 
 .. tip::
-    If some of the context wants to be preserved between calls to the server, it can be done manually in the UI encoding by using the event ``load`` of the ``window``. An example is provided below, which is used in the `ast example <https://github.com/krr-up/clinguin/tree/master/examples/angular/ast/ui.lp>`_.
+    If some of the context wants to be preserved between calls to the server, it can be done manually in the UI encoding by using the event ``load`` of the ``window``.
 
     .. code-block::
 

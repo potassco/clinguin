@@ -20,12 +20,13 @@ UIs are defined as sets of facts,  which are then rendered by a fronted to provi
 **Here is a motivation example:**
 
 Consider an ASP encoding that solves the sudoku puzzle where cells are defined by prediate  ``pos(X,Y)`` and solutions by ``sudoku(X,Y,V)``
-Clinguin will use this encoding and the following ui encoding to construct the UI shown bellow.
+clinguin will use this encoding and the following UI encoding to construct the UI shown bellow.
 
 .. code-block::
 
   elem(window, window, root).
   attr(window, child_layout, grid).
+  attr(window,class,("justify-content-start")).
 
     elem(dd(X,Y), dropdown_menu, window) :- pos(X,Y).
     attr(dd(X,Y), width, 50)  :- pos(X,Y).
@@ -42,15 +43,10 @@ Clinguin will use this encoding and the following ui encoding to construct the U
 
 
 
-.. image:: ../examples/angular/sudoku_basic/out1.png
-   :width: 30%
-.. image:: ../examples/angular/sudoku_basic/out2.png
-   :width: 30%
-.. image:: ../examples/angular/sudoku_basic/out3.png
-   :width: 30%
+.. image:: ../examples/angular/elevator/ui.gif
 
 
-.. note:: Clinguin is part the Potassco umbrella (which is the home of Clingo and the other ASP tools)
+.. note:: Clinguin is part of the `Potassco umbrella <https://potassco.org/>`_ (which is the home of Clingo and the other ASP tools)
 
 .. toctree::
    :hidden:

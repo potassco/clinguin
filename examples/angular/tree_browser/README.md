@@ -1,19 +1,36 @@
-## Tree Browser
+# Tree Browser
 
 - **Backend**:   `ClingraphBackend`
-- **Frontend**:   `AngularFrontend`
 
-An advanced integration with clingraph where the style of the clingraph nodes is updated using the UI
+An advanced integration with clingraph where the style of the clingraph nodes is updated using the UI.
 
 Notice that web browser might need to be resized to see the clingraph image.
 
-### Usage
+## Usage
 
-```
-clinguin client-server --domain-files examples/angular/tree_browser/encoding.lp examples/angular/tree_browser/instance.lp --ui-files examples/angular/tree_browser/ui.lp   --backend=ClingraphBackend --clingraph-files=examples/angular/tree_browser/viz.lp
+```console
+$ clinguin client-server --domain-files tree_browser/{encoding.lp,instance.lp} --ui-files tree_browser/ui.lp --backend=ClingraphBackend --clingraph-files tree_browser/viz.lp
 ```
 
-![](out1.png)
-![](out2.png)
-![](out3.png)
-![](out4.png)
+## UI
+
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/tree_browser/ui.gif?raw=true">
+
+## Domain Files
+
+```{literalinclude} ../../../examples/angular/tree_browser/instance.lp
+  :language: prolog
+  :caption: instance.lp
+```
+```{literalinclude} ../../../examples/angular/tree_browser/encoding.lp
+  :language: prolog
+  :caption: encoding.lp
+```
+
+## UI Files
+
+```{literalinclude} ../../../examples/angular/tree_browser/ui.lp
+  :language: prolog
+  :caption: ui.lp
+```
+

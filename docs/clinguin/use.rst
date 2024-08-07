@@ -7,12 +7,7 @@
 We will use the `sudoku example <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_.
 The ASP files defining the `instance <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/instance.lp>`_ and `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/encoding.lp>`_ for the sudoku are considered the :ref:`domain-files`.
 
-.. image:: ../../examples/angular/sudoku/out1.png
-   :width: 45%
-   :align: left
-.. image:: ../../examples/angular/sudoku/out2.png
-   :width: 45%
-   :align: right
+.. image:: ../../examples/angular/sudoku/ui.gif
 
 
 Running clinguin

@@ -11,7 +11,6 @@ This includes grounding, solving, cautious and brave resoning, use of extenrals 
     * `sudoku <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku>`_
     * `jobshop <https://github.com/krr-up/clinguin/tree/master/examples/angular/jobshop>`_
     * `placement <https://github.com/krr-up/clinguin/tree/master/examples/angular/placement>`_
-    * `placement_optimized <https://github.com/krr-up/clinguin/tree/master/examples/angular/placement_optimized>`_
 
 
 .. currentmodule:: clinguin.server.application.backends

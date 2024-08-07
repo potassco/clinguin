@@ -36,8 +36,8 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
 
 
             elem(b1, button, c1).
-            when(b1, click, context, (_context_value(t1_content),open)).
-            when(b1, click, call, (add_atom(parent(_context_value(selected_node),_context_value(t1_content))))).
+            when(b1, click, context, (_context_value(t1_content,str),open)).
+            when(b1, click, call, (add_atom(parent(_context_value(selected_node,str),_context_value(t1_content,str))))).
             attr(b1, label, "Add").
             attr(b1, class, "m-1").
             attr(b1, class, "btn-sm").
@@ -48,7 +48,7 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
             attr(t1, placeholder, "Group name").
             attr(t1, width, 250).
             when(t1, input, context, (t1_content, _value)).
-        
+
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Context menu
@@ -65,7 +65,7 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
     attr(c, order, 2).
     attr(c, width, 200).
     attr(c, image_type, clingraph).
-        
+
         elem(e(E), svg_edge, c) :- edge(E).
         attr(e(E), clingraph_id, E) :- edge(E).
 
@@ -92,4 +92,4 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
         elem(menu_bar_download, button, menu_bar).
         attr(menu_bar_download, label, "Save").
         attr(menu_bar_download, icon, "fa-save").
-        when(menu_bar_download, click, call, download("#show parent/2. #show root/1.","examples/angular/tree_browser/instance.lp")).
+        when(menu_bar_download, click, call, download("#show parent/2. #show root/1.","tree_browser/instance.lp")).

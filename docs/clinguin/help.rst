@@ -5,7 +5,7 @@
 ========================
 
 .. admonition:: **Logging**
-    :class: tip
+    :class: important
 
     The first thing to try when things are not working as expected is to turn on the logs and inspect the console.
     The log level can be set to ``DEBUG`` in the command line by adding the flag ``--server-log-level DEBUG``.

@@ -69,4 +69,3 @@
 
     If none of the above tips help you solve your problem, please open an issue in the `clinguin repository <https://github.com/potassco/clinguin/issues>`_.
 
-

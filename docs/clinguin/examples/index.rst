@@ -1,7 +1,9 @@
-Examples
-========
+.. _examples:
+
+|:bulb:| Examples
+=================
 
 .. toctree::
-   :hidden:
 
    elevator
+   catdog

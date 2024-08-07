@@ -14,5 +14,14 @@
 .. toctree::
    :maxdepth: 1
 
-   elevator
+   sudoku
    catdog
+   elevator
+   knapsack
+   placement
+   study_regulations
+   graph_coloring
+   tree_browser
+   sudoku_basic
+   sudoku_advanced
+   jobshop

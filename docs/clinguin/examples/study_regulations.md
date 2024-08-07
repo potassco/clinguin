@@ -1,0 +1,1 @@
+../../../examples/angular/study_regulations/README.md

@@ -8,9 +8,9 @@ This example showcases one way to use clinguin in an incremental multi-shot enco
 $ clinguin client-server --domain-files elevator/{encoding.lp,instance.lp} --ui-files elevator/ui.lp
 ```
 
-## UI
 
-<img src="https://github.com/potassco/clinguin/blob/gifs/examples/angular/elevator/ui.gif?raw=true">
+
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/elevator/ui.gif?raw=true">
 
 ## Domain Files
 

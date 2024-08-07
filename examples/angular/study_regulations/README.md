@@ -13,7 +13,7 @@ This encodings are used in the paper for study regulations in [ICLP 2024](https:
 $ clinguin client-server --domain-files study_regulations/{encoding.lp,instance.lp} --ui-files study_regulations/ui.lp -c n=4
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/study_regulations/ui.gif?raw=true">
 

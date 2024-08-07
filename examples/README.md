@@ -20,7 +20,7 @@ To run the example we suggest downloading clinguin source files as a zip. All th
 
 ### [elevator](https://github.com/potassco/clinguin/tree/master/examples/angular/elevator)
 
-<img src="https://github.com/potassco/clinguin/blob/gifs/examples/angular/elevator/ui.gif?raw=true" height="200">
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/elevator/ui.gif?raw=true" height="200">
 
 ### [study_regulations](https://github.com/potassco/clinguin/tree/master/examples/angular/study_regulations)
 

@@ -9,7 +9,7 @@ This example uses the well known [sudoku puzzle](https://en.wikipedia.org/wiki/S
 $ clinguin client-server --domain-files sudoku/{encoding.lp,instance.lp} --ui-files sudoku/ui.lp
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/sudoku/ui.gif?raw=true">
 

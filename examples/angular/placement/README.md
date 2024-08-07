@@ -11,7 +11,7 @@ The option ` --opt-timeout 0` makes sure that one model is computed at a time to
 clinguin client-server --domain-files placement/{instance.lp,encoding.lp} --ui-files placement/ui.lp --opt-timeout 0
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/placement/ui.gif?raw=true">
 

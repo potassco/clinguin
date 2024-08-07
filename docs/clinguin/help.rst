@@ -79,6 +79,7 @@
     *Is part of my ui-state*
         Then we recomend you use the browser's developer tools to inspect the elements and see if the styles are being applied.
         You can also move the HTML directly in your browser to find the right settings. Once you found them you can copy them to your :ref:`ui-files`.
+        We recomend taking a look at  `bootstrap flex <https://getbootstrap.com/docs/5.0/utilities/flex/>`_ for the classes you can use for flexible alignments.
 
         You can also add a border to all of your containers to see where they are placed, and then remove them once you have the right settings.
         To do so, just add the following line to your ui encoding:

@@ -74,15 +74,16 @@ class ClingoMultishotBackend(ClingoBackend):
                 f"Invalid external value {name}. Must be true, false or relase"
             )
 
-    def _add_assumption(self, symbol, value: bool = True):
+    def _add_assumption(self, symbol, value: str = "true"):
         """
         Adds an assumption to the list of assumptions.
 
         Args:
             symbol (clingo.Symbol): The clingo symbol to be added as a True assumption
-            value (bool): The value of the assumption either True or False (Defaults to true)
+            value (true): The value of the assumption either "true" or "false" (Defaults to true)
         """
-        self._assumptions.add((symbol, value))
+        bool_val = value == "true"
+        self._assumptions.add((symbol, bool_val))
 
     # ---------------------------------------------
     # Domain state
@@ -131,7 +132,7 @@ class ClingoMultishotBackend(ClingoBackend):
         self._outdate()
         self._assumptions = set()
 
-    def add_assumption(self, atom, value: bool = True):
+    def add_assumption(self, atom, value: str = "true"):
         """
         Adds an atom `a` as an assumption.
         If the value is True (which is the default), the atom is assumed to be true.
@@ -144,10 +145,10 @@ class ClingoMultishotBackend(ClingoBackend):
         Arguments:
 
             atom (str): The clingo symbol to be added as a true assumption
-            value (bool): The value of the assumption either True or False (Defaults to true)
+            value (str): The value of the assumption either "true" or "false" (Defaults to true)
         """
         atom_symbol = parse_term(atom)
-        if atom_symbol not in self._assumptions:
+        if atom_symbol not in [a[0] for a in self._assumptions]:
             self._add_assumption(atom_symbol, value)
             self._outdate()
 

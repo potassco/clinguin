@@ -9,7 +9,7 @@ from pathlib import Path
 import clorm
 from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
-from clingraph.clingo_utils import ClingraphContext
+from clinguin.server.data.clinguin_context import ClinguinContext
 from clorm import Raw
 
 from clinguin.utils import StandardTextProcessing, image_to_b64
@@ -93,8 +93,8 @@ class UIState:
         )
         uictl.add("base", [], "#show elem/3. #show attr/3. #show when/4.")
 
-        log.debug(uictl_log('uictl.ground([("base", [])], ClingraphContext())'))
-        uictl.ground([("base", [])], ClingraphContext())
+        log.debug(uictl_log('uictl.ground([("base", [])], ClinguinContext())'))
+        uictl.ground([("base", [])], ClinguinContext())
         return uictl
 
     def update_ui_state(self):

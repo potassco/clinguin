@@ -4,15 +4,21 @@ Our **[examples folder](https://github.com/potassco/clinguin/tree/master/example
 
 ## ClingoMultiShot Backend
 
+### [knapsack](https://github.com/potassco/clinguin/tree/master/examples/angular/knapsack)
+
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/knapsack/out2.png?raw=true" height="100">
+
 ### [placement_optimized](https://github.com/potassco/clinguin/tree/master/examples/angular/placement_optimized)
 
-<!-- <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/placement_optimized/out1.png?raw=true" height="100"> -->
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/placement_optimized/out2.png?raw=true" height="100">
-<!-- <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/placement_optimized/out3.png?raw=true" height="100"> -->
 
 ### [sudoku](https://github.com/potassco/clinguin/tree/master/examples/angular/sudoku)
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/sudoku/out1.png?raw=true" height="100">
+
+### [elevator](https://github.com/potassco/clinguin/tree/master/examples/angular/elevator)
+
+<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/elevator/out2.png?raw=true" height="100">
 
 ### [study_regulations](https://github.com/potassco/clinguin/tree/master/examples/angular/study_regulations)
 

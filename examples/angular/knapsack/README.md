@@ -1,6 +1,6 @@
 ## Knapsack
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `AngularFrontend`
 
 Solves the [Knapsack problem](https://developers.google.com/optimization/pack/knapsack#:~:text=In%20the%20knapsack%20problem%2C%20you,can't%20pack%20them%20all.).

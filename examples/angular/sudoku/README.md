@@ -1,6 +1,6 @@
 ## Sudoku
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `AngularFrontend`
 
 ### Usage

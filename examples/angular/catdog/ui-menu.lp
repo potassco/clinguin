@@ -19,11 +19,6 @@ attr(seat_dd(S), class, "opacity-75"):- _all(assign(P,S)),
 % Extension from the paper
 % -----------------------------
 
-% Messages and use of domain state _clinguin_unsat (Could be removed but this might be reached when adding more people than seats)
-elem(message_unsat,message,w):-_clinguin_unsat.
-attr(message_unsat, title, "Error"):-_clinguin_unsat.
-attr(message_unsat, message, "Unsatisfiable output."):-_clinguin_unsat.
-attr(message_unsat, type, error):-_clinguin_unsat.
 
 % Download action for instance (We can remove it and just comment that can be used)
 elem(menu_bar_download, button, menu_bar).

@@ -1,6 +1,6 @@
 ## Test 08
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `TkinterFrontend`
 
 This example is supposed to open several alerts in the system.

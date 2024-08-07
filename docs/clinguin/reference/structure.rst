@@ -24,10 +24,10 @@ Users can create their own Backend to increase functionality (:ref:`CustomBacken
 We provide the following :ref:`Backends` with the system:
 
 * *ClingoBackend*: Basic clingo functionality using single-shot solving
-* *ClingoMultishotBackend*: clingo functionality using multi-shot solving
-* *ClingraphBackend*: ClingoMultishotBackend enhanced with the option to render and interact with Clingraph images
-* *ExplanationBackend*: ClingoMultishotBackend enhanced with explanation functionalities via Minimal Unsatisfiable Cores
-* *ClingoDLBackend*:  ClingoMultishotBackend enhanced with `clingod-dl <https://potassco.org/labs/clingoDL/>`_
+* *ClingoBackend*: clingo functionality using multi-shot solving
+* *ClingraphBackend*: ClingoBackend enhanced with the option to render and interact with Clingraph images
+* *ExplanationBackend*: ClingoBackend enhanced with explanation functionalities via Minimal Unsatisfiable Cores
+* *ClingoDLBackend*:  ClingoBackend enhanced with `clingod-dl <https://potassco.org/labs/clingoDL/>`_
 
 
 

@@ -2,7 +2,7 @@
 ClingraphBackend
 ----------------
 
-Extends :ref:`ClingoMultishotBackend` with functionality to render and interact with `clingraph <https://clingraph.readthedocs.io/en/latest/>`_ images.
+Extends :ref:`ClingoBackend` with functionality to render and interact with `clingraph <https://clingraph.readthedocs.io/en/latest/>`_ images.
 
 .. warning::
 
@@ -90,7 +90,7 @@ Public operations
 +++++++++++++++++
 
 Can be used as `OPERATION` in the actions of the :ref:`ui-state`
-Also includes all public operations from the :ref:`ClingoMultishotBackend`.
+Also includes all public operations from the :ref:`ClingoBackend`.
 
 .. autoclass:: ClingraphBackend
     :members:
@@ -103,6 +103,6 @@ Domain state constructors
 
 .. important::
 
-    The domain state also inclues domain constructors from the :ref:`ClingoMultishotBackend`
+    The domain state also inclues domain constructors from the :ref:`ClingoBackend`
 
 

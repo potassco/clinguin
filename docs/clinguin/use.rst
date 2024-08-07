@@ -94,7 +94,7 @@ The first four lines will set the size and position of the dropdown. The special
 
 As part of the dropdown we add the different dropdown menu items for all possible values the cell can take. In this case we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will apear in red and disabled.
 When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
-The avaliable operations are defined by the selected backend, in this case we use the :ref:`ClingoMultishotBackend` which is the default, and recomended one.
+The avaliable operations are defined by the selected backend, in this case we use the :ref:`ClingoBackend` which is the default, and recomended one.
 
 .. code-block::
 

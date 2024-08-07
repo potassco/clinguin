@@ -1,6 +1,6 @@
 ## Placement optimized
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `AngularFrontend`
 
 This example show how to use consequences with optimization statements to have user feedback on optimal models.

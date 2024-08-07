@@ -4,14 +4,10 @@ Creating your own backend
 -------------------------
 
 By creating your own backend you can extend functionality and edit the existing server workflow.
-If you are using *clingo*, we highly recomend extending the  :ref:`ClingoMultishotBackend` to create your own.
+If you are using *clingo*, we highly recomend extending the  :ref:`ClingoBackend` to create your own.
 This backend contains multiple functionalities already built in wich can be overwritten and extended.
 The following explanation assumes that this is the backend that is being extended.
 
-.. note::
-
-    If you will not use multi-shot functionalities, assumptions and exterals
-    you can also extend the :ref:`ClingoBackend`.
 
 Code structure
 ==============
@@ -26,13 +22,13 @@ Your code strucure with your custom backend must be the following:
     └── encoding.lp
     └── instance.lp
 
-- ``my_backend.py``: Contains the backend class that extends the :ref:`ClingoMultishotBackend`.
+- ``my_backend.py``: Contains the backend class that extends the :ref:`ClingoBackend`.
 
 .. code-block:: python
 
-    from clinguin.server.application.backends import ClingoMultishotBackend
+    from clinguin.server.application.backends import ClingoBackend
 
-    class MyBackend(ClingoMultishotBackend):
+    class MyBackend(ClingoBackend):
         ...
 
 - ``ui.lp``: Contains the UI encoding.
@@ -69,7 +65,7 @@ In what follows we divide the possible extensions for explanability. For more im
 .. autoclass:: ClingoBackend
     :exclude-members: __init__, __new__
 
-.. autoclass:: ClingoMultishotBackend
+.. autoclass:: ClingoBackend
     :exclude-members: __init__, __new__
     :show-inheritance:
 
@@ -108,7 +104,7 @@ These operations are any public method of the class and will be accessible to th
 
     .. code-block::
 
-        class MyBackend(ClingoMultishotBackend):
+        class MyBackend(ClingoBackend):
             ...
 
             def my_operation(self, arg1, arg2)->None:
@@ -193,9 +189,9 @@ These methods will set different attributes of the backend.
 
 .. automethod:: ClingoBackend._add_atom
 
-.. automethod:: ClingoMultishotBackend._set_external
+.. automethod:: ClingoBackend._set_external
 
-.. automethod:: ClingoMultishotBackend._add_assumption
+.. automethod:: ClingoBackend._add_assumption
 
 
 
@@ -254,7 +250,7 @@ But, they need to be previously registered in the constructor using the function
 
 .. note::
 
-    Domain state constructors for this backend are showed in the :ref:`ClingoMultishotBackend` and :ref:`ClingoBackend` sections.
+    Domain state constructors for this backend are showed in the :ref:`ClingoBackend` and :ref:`ClingoBackend` sections.
     These constructors can also be overwritten if necessary.
 
 
@@ -270,7 +266,7 @@ can be made by overwritting this method.
     * `clingraph_backend <https://github.com/krr-up/clinguin/tree/master/clinguin/server/application/backends/clingraph_backend.py>`_
 
 
-.. automethod:: ClingoMultishotBackend._update_ui_state
+.. automethod:: ClingoBackend._update_ui_state
 
 .. currentmodule:: clinguin.server.data.ui_state
 

@@ -1,6 +1,6 @@
 ## Elevator
 
-- **Backend**:   `ClingoMultishotBackend`
+- **Backend**:   `ClingoBackend`
 - **Frontend**:   `AngularFrontend`
 
 This example showcases one way to use clinguin in a multi-shot encoding.

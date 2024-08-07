@@ -18,7 +18,9 @@ Our **[examples folder](https://github.com/potassco/clinguin/tree/master/example
 
 ### [elevator](https://github.com/potassco/clinguin/tree/master/examples/angular/elevator)
 
-<img src="https://github.com/potassco/clinguin/blob/master/examples/angular/elevator/out2.png?raw=true" height="100">
+https://github.com/potassco/clinguin/blob/master/examples/angular/sudoku/encoding.lp#L1-L4
+
+<img src="https://github.com/potassco/clinguin/blob/gifs/examples/angular/elevator/ui.gif?raw=true" height="100">
 
 ### [study_regulations](https://github.com/potassco/clinguin/tree/master/examples/angular/study_regulations)
 

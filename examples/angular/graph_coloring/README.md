@@ -11,7 +11,7 @@ Implements the [graph coloring problem](https://en.wikipedia.org/wiki/Graph_colo
 $ clinguin client-server --domain-files graph_coloring/{encoding.lp,instance.lp} --ui-files graph_coloring/ui.lp --backend=ClingraphBackend --clingraph-files=graph_coloring/viz.lp
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/graph_coloring/ui.gif?raw=true">
 

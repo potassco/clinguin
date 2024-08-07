@@ -10,7 +10,7 @@ By doing so, it showcases the use of optimal consequences and false assumptions.
 $ clinguin client-server --domain-files knapsack/{encoding.lp,instance.lp} --ui-files knapsack/ui.lp
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/knapsack/ui.gif?raw=true">
 

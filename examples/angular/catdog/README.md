@@ -11,7 +11,7 @@ The aim is to place people in tables so that no cat-people are sitting with dog-
 $ clinguin client-server --domain-files catdog/{instance.lp,encoding-explain.lp} --ui-files catdog/{ui-tables.lp,ui-menu.lp,ui-people.lp,ui-explain.lp,ui-explain-msg.lp} --backend ExplanationBackend --assumption-signature cons,2
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/catdog/ui.gif?raw=true">
 

@@ -19,7 +19,7 @@ UIs are defined as sets of facts,  which are then rendered by a fronted to provi
 
 **Here is a motivation example:**
 
-Consider an ASP encoding that solves the sudoku puzzle where cells are defined by prediate  ``pos(X,Y)`` and solutions by ``sudoku(X,Y,V)``
+Consider an ASP encoding that solves the sudoku puzzle (:ref:`sudoku basic`) where cells are defined by prediate  ``pos(X,Y)`` and solutions by ``sudoku(X,Y,V)``
 clinguin will use this encoding and the following UI encoding to construct the UI shown bellow.
 
 .. code-block::
@@ -43,7 +43,7 @@ clinguin will use this encoding and the following UI encoding to construct the U
 
 
 
-.. image:: ../examples/angular/elevator/ui.gif
+.. image:: ../examples/angular/sudoku_basic/ui.gif
 
 
 .. note:: Clinguin is part of the `Potassco umbrella <https://potassco.org/>`_ (which is the home of Clingo and the other ASP tools)

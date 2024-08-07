@@ -1,4 +1,4 @@
-## Sudoku
+## Sudoku Explained
 
 - **Backend**:   `ExplanationBackend`
 
@@ -13,7 +13,7 @@ Notice that the instances uses choices on predicate `initial/3`. This way they c
 $ clinguin client-server --domain-files sudoku_advanced/{encoding.lp,instance.lp} --ui-files sudoku_advanced/ui.lp --backend ExplanationBackend  --assumption-signature initial,3
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/sudoku_advanced/ui.gif?raw=true">
 

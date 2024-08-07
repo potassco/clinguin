@@ -10,7 +10,7 @@ This example is a simple version of the [job-shop scheduling problem](https://en
 $ clinguin client-server --domain-files jobshop/encoding.lp  jobshop/instance.lp --ui-files jobshop/ui.lp  --backend ClingoDLBackend
 ```
 
-## UI
+
 
 <img src="https://github.com/potassco/clinguin/blob/master/examples/angular/jobshop/ui.gif?raw=true">
 

@@ -8,7 +8,7 @@ The aim is to place people in tables so that no cat-people are sitting with dog-
 ## Usage
 
 ```console
-$ clinguin client-server --domain-files catdog/{instance.lp,encoding-explain.lp} --ui-files catdog/{ui-tables.lp,ui-menu.lp,ui-people.lp,ui-explain.lp,ui-explain-msg.lp} --backend ExplanationBackend --assumption-signature cons,2
+$ clinguin client-server --domain-files catdog/{instance.lp,encoding.lp} --ui-files catdog/{ui-tables.lp,ui-menu.lp,ui-people.lp,ui-explain.lp,ui-explain-msg.lp} --backend ExplanationBackend --assumption-signature cons,2
 ```
 
 
@@ -22,9 +22,9 @@ $ clinguin client-server --domain-files catdog/{instance.lp,encoding-explain.lp}
   :caption: instance.lp
 ```
 
-```{literalinclude} ../../../examples/angular/catdog/encoding-explain.lp
+```{literalinclude} ../../../examples/angular/catdog/encoding.lp
   :language: prolog
-  :caption: encoding-explain.lp
+  :caption: encoding.lp
 ```
 
 ## UI Files

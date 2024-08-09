@@ -1,4 +1,4 @@
-# AST
+# Graph coloring
 
 - **Backend**:   `ClingraphBackend`
 

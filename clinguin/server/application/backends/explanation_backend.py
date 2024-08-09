@@ -141,17 +141,6 @@ class ExplanationBackend(ClingoBackend):
             metavar="",
         )
 
-    # def _outdate(self):
-    #     """
-    #     Outdates all the dynamic values when a change has been made.
-    #     Any current interaction in the models wil be terminated by canceling the search and removing the iterator.
-    #     It also clears the cache for the MUS.
-
-    #     Calls: :func:`~_clear_cache`
-    #     """
-    #     super()._outdate()
-    #     self._clear_cache(["_ds_mus"])
-
     # ---------------------------------------------
     # Domain state
     # ---------------------------------------------
@@ -163,12 +152,9 @@ class ExplanationBackend(ClingoBackend):
         Includes predicate ``_clinguin_mus/1`` for every assumption in the MUC
         It uses a cache that is erased after an operation makes changes in the control.
         """
-        prg = "#defined _clinguin_mus/1.\n"
+        prg = "#defined _clinguin_mus/1. "
         if self._unsat_core is not None:
             self._logger.info("UNSAT Answer, will add explanation")
-            cc = CoreComputer(self._ctl, self._assumption_list)
-            cc.shrink()
-            mus_core = cc.minimal
-            for s, _ in mus_core:
-                prg = prg + f"_clinguin_mus({str(s)}).\n"
+            mus_core = CoreComputer(self._ctl, self._assumption_list).shrink()
+            prg += " ".join([f"_clinguin_mus({str(s)})." for s, _ in mus_core]) + "\n"
         return prg

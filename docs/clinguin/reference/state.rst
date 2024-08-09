@@ -58,7 +58,7 @@ Actions define the interactivity of the UI.  Multiple actions are allowed, as ex
     - ``context`` Updates the internal context that will be passed to the server on the following call actions. See :ref:`Context` for more details.
 
 - ``OPERATION`` The operation accounts for the information that the action requires for its execution.
-    - ``ACTION`` = ``call`` The operation corresponds to a public operation from the :ref:`Backends`. The function call is represented as a predicate, for instance ``add_assumption(a)`` or ``next_solution``.
+    - ``ACTION`` = ``call`` The operation corresponds to a public operation from the :ref:`Backends`. The function call is represented as a predicate, for instance ``add_assumption(a,true)`` or ``next_solution``.
     - ``ACTION`` = ``update`` The operation will be a tuple of size three ``(ID', KEY, VALUE)`` where ``ID'`` is the identifier of the element whose value for attribute ``KEY`` will be updated to ``VALUE``. Notice that ``ID'`` might be different than ``ID``.
     - ``ACTION`` = ``context`` The operation will be a tuple ``(KEY, VALUE)``, which will update the key ``KEY`` in the context dictionary to ``VALUE``. See the :ref:`Context` section for detail information on how to use the context.
 
@@ -76,8 +76,8 @@ In the case of multiple appearances of ``call``,  a single call will be placed t
 
     .. code-block::
 
-        when(button1, click, call, add_assumption(a)).
-        when(button1, click, call, add_assumption(b)).
+        when(button1, click, call, add_assumption(a, true)).
+        when(button1, click, call, add_assumption(b, true)).
 
 
 To impose an order, the operation provided must be a tuple, in which case the order of execution is defined by the tuple.
@@ -89,7 +89,7 @@ To impose an order, the operation provided must be a tuple, in which case the or
 
     .. code-block::
 
-        when(button1, click, call, (add_assumption(a), next_solution)).
+        when(button1, click, call, (add_assumption(a, true), next_solution)).
 
 .. tip::
 

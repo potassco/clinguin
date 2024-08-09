@@ -59,12 +59,12 @@ class TestSudoku:
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
         post_calls = [
-            ("add_assumption(sudoku(2,2,5))", Sudoku.post_assumption_1),
-            ("add_assumption(sudoku(5,8,9))", Sudoku.post_assumption_2),
-            ("add_assumption(sudoku(8,8,8))", Sudoku.post_assumption_3),
-            ("add_assumption(sudoku(2,8,7))", Sudoku.post_assumption_4),
-            ("add_assumption(sudoku(6,8,4))", Sudoku.post_assumption_5),
-            ("add_assumption(sudoku(3,8,3))", Sudoku.post_assumption_6),
+            ("add_assumption(sudoku(2,2,5),true)", Sudoku.post_assumption_1),
+            ("add_assumption(sudoku(5,8,9),true)", Sudoku.post_assumption_2),
+            ("add_assumption(sudoku(8,8,8),true)", Sudoku.post_assumption_3),
+            ("add_assumption(sudoku(2,8,7),true)", Sudoku.post_assumption_4),
+            ("add_assumption(sudoku(6,8,4),true)", Sudoku.post_assumption_5),
+            ("add_assumption(sudoku(3,8,3),true)", Sudoku.post_assumption_6),
             ("next_solution", Sudoku.post_assumption_7),
             ("next_solution", Sudoku.post_assumption_8),
             ("clear_assumptions", Sudoku.post_assumption_9),

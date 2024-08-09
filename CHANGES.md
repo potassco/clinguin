@@ -4,6 +4,7 @@
 
   * Incompatible
     * `_clinguin_assume/1` is now `_clinguin_assume/2` where the second argument is either `true` or `false`
+    * Operation `add_assumption/1` is now `add_assumption/2` where the second argument is either `true` or `false`
     * `ClingoMultishotBackend` is now subsumed by `ClingoBackend`
 
   * Additions

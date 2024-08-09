@@ -76,7 +76,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -96,7 +96,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -116,7 +116,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,5))",
+                                                    "operation": "add_assumption(sudoku(8,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -176,7 +176,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,9))",
+                                                    "operation": "add_assumption(sudoku(5,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -196,7 +196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,5))",
+                                                    "operation": "add_assumption(sudoku(5,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -216,7 +216,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -236,7 +236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,1))",
+                                                    "operation": "add_assumption(sudoku(5,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -296,7 +296,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -316,7 +316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -336,7 +336,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,7))",
+                                                    "operation": "add_assumption(sudoku(2,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -356,7 +356,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,5))",
+                                                    "operation": "add_assumption(sudoku(2,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -376,7 +376,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,2))",
+                                                    "operation": "add_assumption(sudoku(2,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -436,7 +436,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,9))",
+                                                    "operation": "add_assumption(sudoku(8,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -456,7 +456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -476,7 +476,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -536,7 +536,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -556,7 +556,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,5))",
+                                                    "operation": "add_assumption(sudoku(5,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -576,7 +576,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,3))",
+                                                    "operation": "add_assumption(sudoku(5,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -596,7 +596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,1))",
+                                                    "operation": "add_assumption(sudoku(5,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -656,7 +656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,9))",
+                                                    "operation": "add_assumption(sudoku(2,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -676,7 +676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -696,7 +696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -716,7 +716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,5))",
+                                                    "operation": "add_assumption(sudoku(2,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -736,7 +736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -796,7 +796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -816,7 +816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -876,7 +876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -896,7 +896,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,5))",
+                                                    "operation": "add_assumption(sudoku(2,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -916,7 +916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -981,7 +981,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1046,7 +1046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1106,7 +1106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,8))",
+                                                    "operation": "add_assumption(sudoku(1,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1126,7 +1126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1146,7 +1146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1166,7 +1166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1226,7 +1226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,8))",
+                                                    "operation": "add_assumption(sudoku(1,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1246,7 +1246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1266,7 +1266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,2))",
+                                                    "operation": "add_assumption(sudoku(1,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1286,7 +1286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1351,7 +1351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1411,7 +1411,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,8))",
+                                                    "operation": "add_assumption(sudoku(2,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1431,7 +1431,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1451,7 +1451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,2))",
+                                                    "operation": "add_assumption(sudoku(2,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1511,7 +1511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1531,7 +1531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,2))",
+                                                    "operation": "add_assumption(sudoku(1,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1596,7 +1596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1656,7 +1656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1676,7 +1676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,4))",
+                                                    "operation": "add_assumption(sudoku(9,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1696,7 +1696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1756,7 +1756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1776,7 +1776,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1796,7 +1796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,3))",
+                                                    "operation": "add_assumption(sudoku(3,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1816,7 +1816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1876,7 +1876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1896,7 +1896,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,4))",
+                                                    "operation": "add_assumption(sudoku(9,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1916,7 +1916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1976,7 +1976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1996,7 +1996,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2016,7 +2016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2036,7 +2036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2101,7 +2101,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2161,7 +2161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2181,7 +2181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2241,7 +2241,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2261,7 +2261,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,5))",
+                                                    "operation": "add_assumption(sudoku(2,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2281,7 +2281,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2341,7 +2341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2361,7 +2361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,3))",
+                                                    "operation": "add_assumption(sudoku(7,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2381,7 +2381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,1))",
+                                                    "operation": "add_assumption(sudoku(7,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2441,7 +2441,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,6))",
+                                                    "operation": "add_assumption(sudoku(4,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2461,7 +2461,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2481,7 +2481,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2501,7 +2501,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,1))",
+                                                    "operation": "add_assumption(sudoku(4,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2561,7 +2561,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,6))",
+                                                    "operation": "add_assumption(sudoku(7,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2581,7 +2581,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2601,7 +2601,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2661,7 +2661,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2681,7 +2681,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,5))",
+                                                    "operation": "add_assumption(sudoku(4,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2701,7 +2701,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,2))",
+                                                    "operation": "add_assumption(sudoku(4,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2721,7 +2721,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,1))",
+                                                    "operation": "add_assumption(sudoku(4,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2786,7 +2786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2851,7 +2851,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2911,7 +2911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,5))",
+                                                    "operation": "add_assumption(sudoku(6,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2931,7 +2931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2951,7 +2951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,3))",
+                                                    "operation": "add_assumption(sudoku(6,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2971,7 +2971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3031,7 +3031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,5))",
+                                                    "operation": "add_assumption(sudoku(6,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3051,7 +3051,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3071,7 +3071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,3))",
+                                                    "operation": "add_assumption(sudoku(6,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3091,7 +3091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3151,7 +3151,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3171,7 +3171,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3191,7 +3191,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,1))",
+                                                    "operation": "add_assumption(sudoku(4,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3251,7 +3251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,5))",
+                                                    "operation": "add_assumption(sudoku(6,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3271,7 +3271,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3331,7 +3331,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3351,7 +3351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,3))",
+                                                    "operation": "add_assumption(sudoku(5,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3416,7 +3416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3476,7 +3476,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,5))",
+                                                    "operation": "add_assumption(sudoku(5,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3496,7 +3496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3516,7 +3516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,1))",
+                                                    "operation": "add_assumption(sudoku(5,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3576,7 +3576,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,5))",
+                                                    "operation": "add_assumption(sudoku(4,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3596,7 +3596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3656,7 +3656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3676,7 +3676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,4))",
+                                                    "operation": "add_assumption(sudoku(2,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3736,7 +3736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3756,7 +3756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,2))",
+                                                    "operation": "add_assumption(sudoku(6,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3816,7 +3816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,5))",
+                                                    "operation": "add_assumption(sudoku(1,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3836,7 +3836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3856,7 +3856,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3916,7 +3916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3936,7 +3936,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,2))",
+                                                    "operation": "add_assumption(sudoku(9,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -3996,7 +3996,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,4))",
+                                                    "operation": "add_assumption(sudoku(3,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4016,7 +4016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4036,7 +4036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4101,7 +4101,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4161,7 +4161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,4))",
+                                                    "operation": "add_assumption(sudoku(5,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4181,7 +4181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4241,7 +4241,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4261,7 +4261,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4326,7 +4326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4391,7 +4391,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4456,7 +4456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4516,7 +4516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4536,7 +4536,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,1))",
+                                                    "operation": "add_assumption(sudoku(6,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4596,7 +4596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,2))",
+                                                    "operation": "add_assumption(sudoku(5,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4616,7 +4616,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4681,7 +4681,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -4746,7 +4746,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6071,7 +6071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6091,7 +6091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6111,7 +6111,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,5))",
+                                                    "operation": "add_assumption(sudoku(8,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6176,7 +6176,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,9))",
+                                                    "operation": "add_assumption(sudoku(5,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6196,7 +6196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,5))",
+                                                    "operation": "add_assumption(sudoku(5,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6216,7 +6216,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6236,7 +6236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,1))",
+                                                    "operation": "add_assumption(sudoku(5,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6301,7 +6301,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6321,7 +6321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6341,7 +6341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,7))",
+                                                    "operation": "add_assumption(sudoku(2,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6361,7 +6361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,5))",
+                                                    "operation": "add_assumption(sudoku(2,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6381,7 +6381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,2))",
+                                                    "operation": "add_assumption(sudoku(2,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6446,7 +6446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,9))",
+                                                    "operation": "add_assumption(sudoku(8,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6466,7 +6466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6486,7 +6486,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6551,7 +6551,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6571,7 +6571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,5))",
+                                                    "operation": "add_assumption(sudoku(5,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6591,7 +6591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,3))",
+                                                    "operation": "add_assumption(sudoku(5,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6611,7 +6611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,1))",
+                                                    "operation": "add_assumption(sudoku(5,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6676,7 +6676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,9))",
+                                                    "operation": "add_assumption(sudoku(2,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6696,7 +6696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6716,7 +6716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6736,7 +6736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,5))",
+                                                    "operation": "add_assumption(sudoku(2,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6756,7 +6756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6821,7 +6821,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6841,7 +6841,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6906,7 +6906,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6926,7 +6926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,5))",
+                                                    "operation": "add_assumption(sudoku(2,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -6946,7 +6946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7011,7 +7011,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7076,7 +7076,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7141,7 +7141,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,8))",
+                                                    "operation": "add_assumption(sudoku(1,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7161,7 +7161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7181,7 +7181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7201,7 +7201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7266,7 +7266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,8))",
+                                                    "operation": "add_assumption(sudoku(1,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7286,7 +7286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7306,7 +7306,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,2))",
+                                                    "operation": "add_assumption(sudoku(1,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7326,7 +7326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7391,7 +7391,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7456,7 +7456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,8))",
+                                                    "operation": "add_assumption(sudoku(2,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7476,7 +7476,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7496,7 +7496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,2))",
+                                                    "operation": "add_assumption(sudoku(2,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7561,7 +7561,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7581,7 +7581,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,2))",
+                                                    "operation": "add_assumption(sudoku(1,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7646,7 +7646,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7711,7 +7711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7731,7 +7731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,4))",
+                                                    "operation": "add_assumption(sudoku(9,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7751,7 +7751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7816,7 +7816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7836,7 +7836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7856,7 +7856,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,3))",
+                                                    "operation": "add_assumption(sudoku(3,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7876,7 +7876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7941,7 +7941,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7961,7 +7961,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,4))",
+                                                    "operation": "add_assumption(sudoku(9,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -7981,7 +7981,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8046,7 +8046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8066,7 +8066,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8086,7 +8086,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8106,7 +8106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8171,7 +8171,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8236,7 +8236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8256,7 +8256,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8321,7 +8321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8341,7 +8341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,5))",
+                                                    "operation": "add_assumption(sudoku(2,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8361,7 +8361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8426,7 +8426,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8446,7 +8446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,3))",
+                                                    "operation": "add_assumption(sudoku(7,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8466,7 +8466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,1))",
+                                                    "operation": "add_assumption(sudoku(7,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8531,7 +8531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,6))",
+                                                    "operation": "add_assumption(sudoku(4,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8551,7 +8551,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8571,7 +8571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8591,7 +8591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,1))",
+                                                    "operation": "add_assumption(sudoku(4,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8656,7 +8656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,6))",
+                                                    "operation": "add_assumption(sudoku(7,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8676,7 +8676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8696,7 +8696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8761,7 +8761,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8781,7 +8781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,5))",
+                                                    "operation": "add_assumption(sudoku(4,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8801,7 +8801,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,2))",
+                                                    "operation": "add_assumption(sudoku(4,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8821,7 +8821,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,1))",
+                                                    "operation": "add_assumption(sudoku(4,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8886,7 +8886,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -8951,7 +8951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9016,7 +9016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,5))",
+                                                    "operation": "add_assumption(sudoku(6,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9036,7 +9036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9056,7 +9056,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,3))",
+                                                    "operation": "add_assumption(sudoku(6,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9076,7 +9076,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9141,7 +9141,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,5))",
+                                                    "operation": "add_assumption(sudoku(6,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9161,7 +9161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9181,7 +9181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,3))",
+                                                    "operation": "add_assumption(sudoku(6,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9201,7 +9201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9266,7 +9266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9286,7 +9286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9306,7 +9306,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,1))",
+                                                    "operation": "add_assumption(sudoku(4,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9371,7 +9371,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,5))",
+                                                    "operation": "add_assumption(sudoku(6,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9391,7 +9391,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9456,7 +9456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9476,7 +9476,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,3))",
+                                                    "operation": "add_assumption(sudoku(5,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9541,7 +9541,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9606,7 +9606,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,5))",
+                                                    "operation": "add_assumption(sudoku(5,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9626,7 +9626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9646,7 +9646,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,1))",
+                                                    "operation": "add_assumption(sudoku(5,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9711,7 +9711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,5))",
+                                                    "operation": "add_assumption(sudoku(4,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9731,7 +9731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9796,7 +9796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9816,7 +9816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,4))",
+                                                    "operation": "add_assumption(sudoku(2,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9881,7 +9881,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9901,7 +9901,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,2))",
+                                                    "operation": "add_assumption(sudoku(6,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9966,7 +9966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,5))",
+                                                    "operation": "add_assumption(sudoku(1,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -9986,7 +9986,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10006,7 +10006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10071,7 +10071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10091,7 +10091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,2))",
+                                                    "operation": "add_assumption(sudoku(9,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10156,7 +10156,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,4))",
+                                                    "operation": "add_assumption(sudoku(3,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10176,7 +10176,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10196,7 +10196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10261,7 +10261,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10326,7 +10326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,4))",
+                                                    "operation": "add_assumption(sudoku(5,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10346,7 +10346,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10411,7 +10411,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10431,7 +10431,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10496,7 +10496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10561,7 +10561,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10626,7 +10626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10691,7 +10691,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10711,7 +10711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,1))",
+                                                    "operation": "add_assumption(sudoku(6,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10776,7 +10776,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,2))",
+                                                    "operation": "add_assumption(sudoku(5,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10796,7 +10796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10861,7 +10861,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -10926,7 +10926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12251,7 +12251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12271,7 +12271,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12291,7 +12291,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,5))",
+                                                    "operation": "add_assumption(sudoku(8,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12356,7 +12356,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,9))",
+                                                    "operation": "add_assumption(sudoku(5,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12376,7 +12376,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,5))",
+                                                    "operation": "add_assumption(sudoku(5,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12396,7 +12396,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12416,7 +12416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,1))",
+                                                    "operation": "add_assumption(sudoku(5,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12481,7 +12481,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12501,7 +12501,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12521,7 +12521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,7))",
+                                                    "operation": "add_assumption(sudoku(2,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12541,7 +12541,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,5))",
+                                                    "operation": "add_assumption(sudoku(2,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12561,7 +12561,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,2))",
+                                                    "operation": "add_assumption(sudoku(2,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12626,7 +12626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,9))",
+                                                    "operation": "add_assumption(sudoku(8,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12646,7 +12646,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12666,7 +12666,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12731,7 +12731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12751,7 +12751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,5))",
+                                                    "operation": "add_assumption(sudoku(5,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12771,7 +12771,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,3))",
+                                                    "operation": "add_assumption(sudoku(5,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12791,7 +12791,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,1))",
+                                                    "operation": "add_assumption(sudoku(5,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12856,7 +12856,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,9))",
+                                                    "operation": "add_assumption(sudoku(2,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12876,7 +12876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12896,7 +12896,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12916,7 +12916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,5))",
+                                                    "operation": "add_assumption(sudoku(2,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -12936,7 +12936,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13001,7 +13001,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13021,7 +13021,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13086,7 +13086,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13106,7 +13106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,5))",
+                                                    "operation": "add_assumption(sudoku(2,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13126,7 +13126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13191,7 +13191,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13256,7 +13256,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13321,7 +13321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,8))",
+                                                    "operation": "add_assumption(sudoku(1,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13341,7 +13341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13361,7 +13361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13381,7 +13381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13446,7 +13446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,8))",
+                                                    "operation": "add_assumption(sudoku(1,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13466,7 +13466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13486,7 +13486,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,2))",
+                                                    "operation": "add_assumption(sudoku(1,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13506,7 +13506,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13571,7 +13571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13636,7 +13636,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,8))",
+                                                    "operation": "add_assumption(sudoku(2,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13656,7 +13656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13676,7 +13676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,2))",
+                                                    "operation": "add_assumption(sudoku(2,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13741,7 +13741,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13761,7 +13761,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,2))",
+                                                    "operation": "add_assumption(sudoku(1,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13826,7 +13826,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13891,7 +13891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13911,7 +13911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,4))",
+                                                    "operation": "add_assumption(sudoku(9,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13931,7 +13931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -13996,7 +13996,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14016,7 +14016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14036,7 +14036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,3))",
+                                                    "operation": "add_assumption(sudoku(3,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14056,7 +14056,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14121,7 +14121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14141,7 +14141,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,4))",
+                                                    "operation": "add_assumption(sudoku(9,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14161,7 +14161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14226,7 +14226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14246,7 +14246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14266,7 +14266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14286,7 +14286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14351,7 +14351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14416,7 +14416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14436,7 +14436,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14501,7 +14501,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14521,7 +14521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,5))",
+                                                    "operation": "add_assumption(sudoku(2,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14541,7 +14541,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14606,7 +14606,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14626,7 +14626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,3))",
+                                                    "operation": "add_assumption(sudoku(7,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14646,7 +14646,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,1))",
+                                                    "operation": "add_assumption(sudoku(7,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14711,7 +14711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,6))",
+                                                    "operation": "add_assumption(sudoku(4,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14731,7 +14731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14751,7 +14751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14771,7 +14771,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,1))",
+                                                    "operation": "add_assumption(sudoku(4,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14836,7 +14836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,6))",
+                                                    "operation": "add_assumption(sudoku(7,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14856,7 +14856,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14876,7 +14876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14941,7 +14941,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14961,7 +14961,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,5))",
+                                                    "operation": "add_assumption(sudoku(4,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -14981,7 +14981,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,2))",
+                                                    "operation": "add_assumption(sudoku(4,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15001,7 +15001,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,1))",
+                                                    "operation": "add_assumption(sudoku(4,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15066,7 +15066,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15131,7 +15131,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15196,7 +15196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,5))",
+                                                    "operation": "add_assumption(sudoku(6,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15216,7 +15216,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15236,7 +15236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,3))",
+                                                    "operation": "add_assumption(sudoku(6,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15256,7 +15256,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15321,7 +15321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,5))",
+                                                    "operation": "add_assumption(sudoku(6,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15341,7 +15341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15361,7 +15361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,3))",
+                                                    "operation": "add_assumption(sudoku(6,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15381,7 +15381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15446,7 +15446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15466,7 +15466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15486,7 +15486,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,1))",
+                                                    "operation": "add_assumption(sudoku(4,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15551,7 +15551,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,5))",
+                                                    "operation": "add_assumption(sudoku(6,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15571,7 +15571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15636,7 +15636,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15656,7 +15656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,3))",
+                                                    "operation": "add_assumption(sudoku(5,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15721,7 +15721,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15786,7 +15786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,5))",
+                                                    "operation": "add_assumption(sudoku(5,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15806,7 +15806,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15826,7 +15826,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,1))",
+                                                    "operation": "add_assumption(sudoku(5,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15891,7 +15891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,5))",
+                                                    "operation": "add_assumption(sudoku(4,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15911,7 +15911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15976,7 +15976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -15996,7 +15996,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,4))",
+                                                    "operation": "add_assumption(sudoku(2,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16061,7 +16061,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16081,7 +16081,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,2))",
+                                                    "operation": "add_assumption(sudoku(6,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16146,7 +16146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,5))",
+                                                    "operation": "add_assumption(sudoku(1,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16166,7 +16166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16186,7 +16186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16251,7 +16251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16271,7 +16271,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,2))",
+                                                    "operation": "add_assumption(sudoku(9,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16336,7 +16336,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,4))",
+                                                    "operation": "add_assumption(sudoku(3,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16356,7 +16356,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16376,7 +16376,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16441,7 +16441,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16506,7 +16506,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,4))",
+                                                    "operation": "add_assumption(sudoku(5,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16526,7 +16526,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16591,7 +16591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16611,7 +16611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16676,7 +16676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16741,7 +16741,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16806,7 +16806,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16871,7 +16871,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16891,7 +16891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,1))",
+                                                    "operation": "add_assumption(sudoku(6,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16956,7 +16956,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,2))",
+                                                    "operation": "add_assumption(sudoku(5,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -16976,7 +16976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -17041,7 +17041,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -17106,7 +17106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18426,7 +18426,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18446,7 +18446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18466,7 +18466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,5))",
+                                                    "operation": "add_assumption(sudoku(8,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18526,7 +18526,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,9))",
+                                                    "operation": "add_assumption(sudoku(5,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18546,7 +18546,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,5))",
+                                                    "operation": "add_assumption(sudoku(5,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18566,7 +18566,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18586,7 +18586,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,1))",
+                                                    "operation": "add_assumption(sudoku(5,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18646,7 +18646,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18666,7 +18666,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18686,7 +18686,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,7))",
+                                                    "operation": "add_assumption(sudoku(2,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18706,7 +18706,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,5))",
+                                                    "operation": "add_assumption(sudoku(2,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18726,7 +18726,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,2))",
+                                                    "operation": "add_assumption(sudoku(2,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18786,7 +18786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,9))",
+                                                    "operation": "add_assumption(sudoku(8,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18806,7 +18806,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18826,7 +18826,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18886,7 +18886,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18906,7 +18906,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,5))",
+                                                    "operation": "add_assumption(sudoku(5,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18926,7 +18926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,3))",
+                                                    "operation": "add_assumption(sudoku(5,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -18946,7 +18946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,1))",
+                                                    "operation": "add_assumption(sudoku(5,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19006,7 +19006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,9))",
+                                                    "operation": "add_assumption(sudoku(2,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19026,7 +19026,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19046,7 +19046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19066,7 +19066,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,5))",
+                                                    "operation": "add_assumption(sudoku(2,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19086,7 +19086,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19146,7 +19146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19166,7 +19166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19226,7 +19226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19246,7 +19246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,5))",
+                                                    "operation": "add_assumption(sudoku(2,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19266,7 +19266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19331,7 +19331,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19396,7 +19396,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19456,7 +19456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,8))",
+                                                    "operation": "add_assumption(sudoku(1,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19476,7 +19476,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19496,7 +19496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19516,7 +19516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19576,7 +19576,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,8))",
+                                                    "operation": "add_assumption(sudoku(1,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19596,7 +19596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19616,7 +19616,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,2))",
+                                                    "operation": "add_assumption(sudoku(1,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19636,7 +19636,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19701,7 +19701,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19761,7 +19761,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,8))",
+                                                    "operation": "add_assumption(sudoku(2,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19781,7 +19781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19801,7 +19801,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,2))",
+                                                    "operation": "add_assumption(sudoku(2,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19861,7 +19861,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19881,7 +19881,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,2))",
+                                                    "operation": "add_assumption(sudoku(1,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -19946,7 +19946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20006,7 +20006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20026,7 +20026,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,4))",
+                                                    "operation": "add_assumption(sudoku(9,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20046,7 +20046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20106,7 +20106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20126,7 +20126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20146,7 +20146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,3))",
+                                                    "operation": "add_assumption(sudoku(3,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20166,7 +20166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20226,7 +20226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20246,7 +20246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,4))",
+                                                    "operation": "add_assumption(sudoku(9,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20266,7 +20266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20326,7 +20326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20346,7 +20346,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20366,7 +20366,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20386,7 +20386,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20451,7 +20451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20511,7 +20511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20531,7 +20531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20591,7 +20591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20611,7 +20611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,5))",
+                                                    "operation": "add_assumption(sudoku(2,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20631,7 +20631,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20691,7 +20691,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20711,7 +20711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,3))",
+                                                    "operation": "add_assumption(sudoku(7,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20731,7 +20731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,1))",
+                                                    "operation": "add_assumption(sudoku(7,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20791,7 +20791,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,6))",
+                                                    "operation": "add_assumption(sudoku(4,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20811,7 +20811,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20831,7 +20831,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20851,7 +20851,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,1))",
+                                                    "operation": "add_assumption(sudoku(4,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20911,7 +20911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,6))",
+                                                    "operation": "add_assumption(sudoku(7,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20931,7 +20931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -20951,7 +20951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21011,7 +21011,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21031,7 +21031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,5))",
+                                                    "operation": "add_assumption(sudoku(4,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21051,7 +21051,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,2))",
+                                                    "operation": "add_assumption(sudoku(4,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21071,7 +21071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,1))",
+                                                    "operation": "add_assumption(sudoku(4,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21136,7 +21136,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21201,7 +21201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21261,7 +21261,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,5))",
+                                                    "operation": "add_assumption(sudoku(6,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21281,7 +21281,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21301,7 +21301,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,3))",
+                                                    "operation": "add_assumption(sudoku(6,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21321,7 +21321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21381,7 +21381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,5))",
+                                                    "operation": "add_assumption(sudoku(6,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21401,7 +21401,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21421,7 +21421,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,3))",
+                                                    "operation": "add_assumption(sudoku(6,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21441,7 +21441,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21501,7 +21501,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21521,7 +21521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21541,7 +21541,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,1))",
+                                                    "operation": "add_assumption(sudoku(4,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21601,7 +21601,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,5))",
+                                                    "operation": "add_assumption(sudoku(6,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21621,7 +21621,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21681,7 +21681,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21701,7 +21701,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,3))",
+                                                    "operation": "add_assumption(sudoku(5,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21766,7 +21766,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21826,7 +21826,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,5))",
+                                                    "operation": "add_assumption(sudoku(5,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21846,7 +21846,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21866,7 +21866,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,1))",
+                                                    "operation": "add_assumption(sudoku(5,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21926,7 +21926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,5))",
+                                                    "operation": "add_assumption(sudoku(4,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -21946,7 +21946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22006,7 +22006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22026,7 +22026,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,4))",
+                                                    "operation": "add_assumption(sudoku(2,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22086,7 +22086,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22106,7 +22106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,2))",
+                                                    "operation": "add_assumption(sudoku(6,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22166,7 +22166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,5))",
+                                                    "operation": "add_assumption(sudoku(1,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22186,7 +22186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22206,7 +22206,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22266,7 +22266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22286,7 +22286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,2))",
+                                                    "operation": "add_assumption(sudoku(9,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22346,7 +22346,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,4))",
+                                                    "operation": "add_assumption(sudoku(3,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22366,7 +22366,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22386,7 +22386,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22451,7 +22451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22511,7 +22511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,4))",
+                                                    "operation": "add_assumption(sudoku(5,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22531,7 +22531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22591,7 +22591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22611,7 +22611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22676,7 +22676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22741,7 +22741,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22806,7 +22806,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22866,7 +22866,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22886,7 +22886,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,1))",
+                                                    "operation": "add_assumption(sudoku(6,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22946,7 +22946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,2))",
+                                                    "operation": "add_assumption(sudoku(5,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -22966,7 +22966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -23031,7 +23031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -23096,7 +23096,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24416,7 +24416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24436,7 +24436,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24456,7 +24456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,5))",
+                                                    "operation": "add_assumption(sudoku(8,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24516,7 +24516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,9))",
+                                                    "operation": "add_assumption(sudoku(5,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24536,7 +24536,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24596,7 +24596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24616,7 +24616,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24636,7 +24636,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,7))",
+                                                    "operation": "add_assumption(sudoku(2,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24656,7 +24656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,2))",
+                                                    "operation": "add_assumption(sudoku(2,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24716,7 +24716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,9))",
+                                                    "operation": "add_assumption(sudoku(8,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24736,7 +24736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24756,7 +24756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24816,7 +24816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24836,7 +24836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,3))",
+                                                    "operation": "add_assumption(sudoku(5,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24896,7 +24896,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,9))",
+                                                    "operation": "add_assumption(sudoku(2,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24916,7 +24916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24936,7 +24936,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -24956,7 +24956,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25016,7 +25016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25036,7 +25036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25096,7 +25096,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25116,7 +25116,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25181,7 +25181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25246,7 +25246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25311,7 +25311,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25376,7 +25376,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25441,7 +25441,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25501,7 +25501,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25521,7 +25521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25581,7 +25581,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25601,7 +25601,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25621,7 +25621,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,3))",
+                                                    "operation": "add_assumption(sudoku(3,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25641,7 +25641,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25701,7 +25701,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25721,7 +25721,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25781,7 +25781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25801,7 +25801,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25821,7 +25821,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25841,7 +25841,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25906,7 +25906,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25966,7 +25966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -25986,7 +25986,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26046,7 +26046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26066,7 +26066,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26126,7 +26126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26146,7 +26146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,3))",
+                                                    "operation": "add_assumption(sudoku(7,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26166,7 +26166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,1))",
+                                                    "operation": "add_assumption(sudoku(7,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26226,7 +26226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,6))",
+                                                    "operation": "add_assumption(sudoku(4,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26246,7 +26246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26266,7 +26266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26326,7 +26326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,6))",
+                                                    "operation": "add_assumption(sudoku(7,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26346,7 +26346,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26366,7 +26366,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26426,7 +26426,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26446,7 +26446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,5))",
+                                                    "operation": "add_assumption(sudoku(4,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26466,7 +26466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,2))",
+                                                    "operation": "add_assumption(sudoku(4,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26531,7 +26531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26596,7 +26596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26656,7 +26656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26676,7 +26676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26696,7 +26696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26756,7 +26756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26776,7 +26776,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,2))",
+                                                    "operation": "add_assumption(sudoku(1,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26796,7 +26796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26856,7 +26856,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26876,7 +26876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -26941,7 +26941,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27006,7 +27006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27071,7 +27071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27136,7 +27136,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27196,7 +27196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27216,7 +27216,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27276,7 +27276,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27296,7 +27296,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27361,7 +27361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27426,7 +27426,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27491,7 +27491,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27556,7 +27556,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27616,7 +27616,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27636,7 +27636,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27696,7 +27696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27716,7 +27716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27781,7 +27781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27846,7 +27846,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27911,7 +27911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -27976,7 +27976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28041,7 +28041,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28106,7 +28106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28166,7 +28166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28186,7 +28186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28251,7 +28251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28316,7 +28316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28381,7 +28381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -28446,7 +28446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -29766,7 +29766,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -29786,7 +29786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -29846,7 +29846,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -29866,7 +29866,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -29931,7 +29931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -29991,7 +29991,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30011,7 +30011,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30071,7 +30071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30091,7 +30091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30156,7 +30156,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30221,7 +30221,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30281,7 +30281,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30301,7 +30301,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30361,7 +30361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30381,7 +30381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30401,7 +30401,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30466,7 +30466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30531,7 +30531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30596,7 +30596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30656,7 +30656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30676,7 +30676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30736,7 +30736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30756,7 +30756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30776,7 +30776,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30836,7 +30836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30856,7 +30856,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30916,7 +30916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30936,7 +30936,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30956,7 +30956,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -30976,7 +30976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31041,7 +31041,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31101,7 +31101,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31121,7 +31121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31181,7 +31181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31201,7 +31201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31266,7 +31266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31331,7 +31331,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31396,7 +31396,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31461,7 +31461,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31521,7 +31521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31541,7 +31541,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31601,7 +31601,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31621,7 +31621,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31641,7 +31641,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31701,7 +31701,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31721,7 +31721,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31781,7 +31781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31801,7 +31801,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31866,7 +31866,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31931,7 +31931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -31996,7 +31996,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32061,7 +32061,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32121,7 +32121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32141,7 +32141,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32201,7 +32201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32221,7 +32221,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32286,7 +32286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32351,7 +32351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32416,7 +32416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32481,7 +32481,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32546,7 +32546,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32606,7 +32606,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32626,7 +32626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32686,7 +32686,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32706,7 +32706,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32766,7 +32766,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32786,7 +32786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32851,7 +32851,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32916,7 +32916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -32981,7 +32981,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33046,7 +33046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33111,7 +33111,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33176,7 +33176,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33236,7 +33236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33256,7 +33256,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33321,7 +33321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33386,7 +33386,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33451,7 +33451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -33516,7 +33516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -34841,7 +34841,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -34906,7 +34906,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -34971,7 +34971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35036,7 +35036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35101,7 +35101,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35166,7 +35166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35231,7 +35231,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35296,7 +35296,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35361,7 +35361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35426,7 +35426,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35486,7 +35486,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35506,7 +35506,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35566,7 +35566,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35586,7 +35586,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35606,7 +35606,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35666,7 +35666,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35686,7 +35686,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35746,7 +35746,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35766,7 +35766,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35831,7 +35831,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35891,7 +35891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35911,7 +35911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35971,7 +35971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -35991,7 +35991,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36056,7 +36056,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36121,7 +36121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36186,7 +36186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36251,7 +36251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36316,7 +36316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36381,7 +36381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36446,7 +36446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36511,7 +36511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36576,7 +36576,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36641,7 +36641,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36706,7 +36706,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36766,7 +36766,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36786,7 +36786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36846,7 +36846,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36866,7 +36866,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36926,7 +36926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36946,7 +36946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -36966,7 +36966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37031,7 +37031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37096,7 +37096,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37161,7 +37161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37226,7 +37226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37291,7 +37291,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37351,7 +37351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37371,7 +37371,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37431,7 +37431,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37451,7 +37451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37511,7 +37511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37531,7 +37531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37596,7 +37596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37661,7 +37661,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37726,7 +37726,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37786,7 +37786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37806,7 +37806,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37871,7 +37871,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -37936,7 +37936,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38001,7 +38001,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38066,7 +38066,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38126,7 +38126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38146,7 +38146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38211,7 +38211,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38276,7 +38276,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38341,7 +38341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -38406,7 +38406,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -39731,7 +39731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -39796,7 +39796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -39861,7 +39861,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -39926,7 +39926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -39991,7 +39991,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40056,7 +40056,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40121,7 +40121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40186,7 +40186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40251,7 +40251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40316,7 +40316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40381,7 +40381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40446,7 +40446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40511,7 +40511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40576,7 +40576,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40641,7 +40641,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40706,7 +40706,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40771,7 +40771,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40836,7 +40836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40901,7 +40901,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -40966,7 +40966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41031,7 +41031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41096,7 +41096,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41161,7 +41161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41226,7 +41226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41291,7 +41291,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41351,7 +41351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41371,7 +41371,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41431,7 +41431,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41451,7 +41451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41511,7 +41511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41531,7 +41531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41591,7 +41591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41611,7 +41611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41631,7 +41631,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41696,7 +41696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41761,7 +41761,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41826,7 +41826,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41891,7 +41891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -41956,7 +41956,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42016,7 +42016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42036,7 +42036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42096,7 +42096,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42116,7 +42116,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42176,7 +42176,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42196,7 +42196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42261,7 +42261,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42326,7 +42326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42391,7 +42391,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42456,7 +42456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42521,7 +42521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42586,7 +42586,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42651,7 +42651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42716,7 +42716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42781,7 +42781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42846,7 +42846,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42911,7 +42911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -42976,7 +42976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -43041,7 +43041,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -43106,7 +43106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -43171,7 +43171,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44496,7 +44496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44561,7 +44561,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44626,7 +44626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44691,7 +44691,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44756,7 +44756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44821,7 +44821,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44886,7 +44886,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -44951,7 +44951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45016,7 +45016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45081,7 +45081,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45146,7 +45146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45211,7 +45211,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45276,7 +45276,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45341,7 +45341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45406,7 +45406,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45471,7 +45471,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45536,7 +45536,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45601,7 +45601,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45666,7 +45666,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45731,7 +45731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45796,7 +45796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45861,7 +45861,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45926,7 +45926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -45991,7 +45991,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46056,7 +46056,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46121,7 +46121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46186,7 +46186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46251,7 +46251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46316,7 +46316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46381,7 +46381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46446,7 +46446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46511,7 +46511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46571,7 +46571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46591,7 +46591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46651,7 +46651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46671,7 +46671,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46731,7 +46731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46751,7 +46751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46811,7 +46811,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46831,7 +46831,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46896,7 +46896,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -46961,7 +46961,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47026,7 +47026,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47091,7 +47091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47156,7 +47156,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47221,7 +47221,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47286,7 +47286,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47351,7 +47351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47416,7 +47416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47481,7 +47481,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47546,7 +47546,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47611,7 +47611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47676,7 +47676,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47741,7 +47741,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47806,7 +47806,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -47871,7 +47871,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49196,7 +49196,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49261,7 +49261,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49326,7 +49326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49391,7 +49391,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49456,7 +49456,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49521,7 +49521,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49586,7 +49586,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49651,7 +49651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49716,7 +49716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49781,7 +49781,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49846,7 +49846,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49911,7 +49911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -49976,7 +49976,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50041,7 +50041,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50106,7 +50106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50171,7 +50171,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50236,7 +50236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50301,7 +50301,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50366,7 +50366,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50431,7 +50431,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50496,7 +50496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50561,7 +50561,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50626,7 +50626,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50691,7 +50691,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50756,7 +50756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50821,7 +50821,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50886,7 +50886,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -50951,7 +50951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51016,7 +51016,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51081,7 +51081,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51146,7 +51146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51211,7 +51211,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51276,7 +51276,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51341,7 +51341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51406,7 +51406,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51471,7 +51471,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51536,7 +51536,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51601,7 +51601,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51666,7 +51666,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51731,7 +51731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51796,7 +51796,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51861,7 +51861,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51926,7 +51926,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -51991,7 +51991,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52056,7 +52056,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52121,7 +52121,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52186,7 +52186,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52251,7 +52251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52316,7 +52316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52381,7 +52381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52446,7 +52446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -52511,7 +52511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -53836,7 +53836,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -53901,7 +53901,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -53966,7 +53966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54031,7 +54031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54096,7 +54096,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54161,7 +54161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54226,7 +54226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54291,7 +54291,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54356,7 +54356,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54421,7 +54421,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54486,7 +54486,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54551,7 +54551,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54616,7 +54616,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54681,7 +54681,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54746,7 +54746,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54811,7 +54811,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54876,7 +54876,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -54941,7 +54941,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55006,7 +55006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55071,7 +55071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55136,7 +55136,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55201,7 +55201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55266,7 +55266,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55331,7 +55331,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55396,7 +55396,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55461,7 +55461,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55526,7 +55526,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55591,7 +55591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55656,7 +55656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55721,7 +55721,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55786,7 +55786,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55851,7 +55851,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55916,7 +55916,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -55981,7 +55981,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56046,7 +56046,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56111,7 +56111,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56176,7 +56176,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56241,7 +56241,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56306,7 +56306,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56371,7 +56371,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56436,7 +56436,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56501,7 +56501,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56566,7 +56566,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56631,7 +56631,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56696,7 +56696,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56761,7 +56761,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56826,7 +56826,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56891,7 +56891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -56956,7 +56956,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -57021,7 +57021,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -57086,7 +57086,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -57151,7 +57151,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58476,7 +58476,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58541,7 +58541,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58606,7 +58606,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58671,7 +58671,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58736,7 +58736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58801,7 +58801,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58866,7 +58866,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58931,7 +58931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -58996,7 +58996,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59061,7 +59061,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59126,7 +59126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59191,7 +59191,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59256,7 +59256,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59321,7 +59321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59386,7 +59386,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59451,7 +59451,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59516,7 +59516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59581,7 +59581,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59646,7 +59646,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59711,7 +59711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59776,7 +59776,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59841,7 +59841,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59906,7 +59906,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -59971,7 +59971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60036,7 +60036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60101,7 +60101,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60166,7 +60166,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60231,7 +60231,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60296,7 +60296,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60361,7 +60361,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60426,7 +60426,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60491,7 +60491,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60556,7 +60556,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60621,7 +60621,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60686,7 +60686,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60751,7 +60751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60816,7 +60816,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60881,7 +60881,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -60946,7 +60946,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61011,7 +61011,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61076,7 +61076,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61141,7 +61141,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61206,7 +61206,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61271,7 +61271,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61336,7 +61336,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61401,7 +61401,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61466,7 +61466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61531,7 +61531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61596,7 +61596,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61661,7 +61661,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61726,7 +61726,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -61791,7 +61791,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63131,7 +63131,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,9))",
+                                                    "operation": "add_assumption(sudoku(8,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63151,7 +63151,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,8))",
+                                                    "operation": "add_assumption(sudoku(8,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63171,7 +63171,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,9,5))",
+                                                    "operation": "add_assumption(sudoku(8,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63231,7 +63231,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,9))",
+                                                    "operation": "add_assumption(sudoku(5,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63251,7 +63251,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,5))",
+                                                    "operation": "add_assumption(sudoku(5,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63271,7 +63271,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,3))",
+                                                    "operation": "add_assumption(sudoku(5,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63291,7 +63291,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,9,1))",
+                                                    "operation": "add_assumption(sudoku(5,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63351,7 +63351,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,9))",
+                                                    "operation": "add_assumption(sudoku(2,9,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63371,7 +63371,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,8))",
+                                                    "operation": "add_assumption(sudoku(2,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63391,7 +63391,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,7))",
+                                                    "operation": "add_assumption(sudoku(2,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63411,7 +63411,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,5))",
+                                                    "operation": "add_assumption(sudoku(2,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63431,7 +63431,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,9,2))",
+                                                    "operation": "add_assumption(sudoku(2,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63491,7 +63491,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,9))",
+                                                    "operation": "add_assumption(sudoku(8,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63511,7 +63511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,8))",
+                                                    "operation": "add_assumption(sudoku(8,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63531,7 +63531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,8,5))",
+                                                    "operation": "add_assumption(sudoku(8,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63591,7 +63591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,9))",
+                                                    "operation": "add_assumption(sudoku(5,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63611,7 +63611,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,5))",
+                                                    "operation": "add_assumption(sudoku(5,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63631,7 +63631,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,3))",
+                                                    "operation": "add_assumption(sudoku(5,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63651,7 +63651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,8,1))",
+                                                    "operation": "add_assumption(sudoku(5,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63711,7 +63711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,9))",
+                                                    "operation": "add_assumption(sudoku(2,8,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63731,7 +63731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,8))",
+                                                    "operation": "add_assumption(sudoku(2,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63751,7 +63751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,7))",
+                                                    "operation": "add_assumption(sudoku(2,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63771,7 +63771,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,5))",
+                                                    "operation": "add_assumption(sudoku(2,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63791,7 +63791,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,8,2))",
+                                                    "operation": "add_assumption(sudoku(2,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63851,7 +63851,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,9))",
+                                                    "operation": "add_assumption(sudoku(8,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63871,7 +63871,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,7,5))",
+                                                    "operation": "add_assumption(sudoku(8,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63931,7 +63931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,9))",
+                                                    "operation": "add_assumption(sudoku(2,7,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63951,7 +63951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,5))",
+                                                    "operation": "add_assumption(sudoku(2,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -63971,7 +63971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,7,2))",
+                                                    "operation": "add_assumption(sudoku(2,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64036,7 +64036,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,5,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,5,9))",
+                                                    "operation": "add_assumption(sudoku(6,5,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64101,7 +64101,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,1,9)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,1,9))",
+                                                    "operation": "add_assumption(sudoku(4,1,9),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64161,7 +64161,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,8))",
+                                                    "operation": "add_assumption(sudoku(1,9,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64181,7 +64181,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,5))",
+                                                    "operation": "add_assumption(sudoku(1,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64201,7 +64201,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,2))",
+                                                    "operation": "add_assumption(sudoku(1,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64221,7 +64221,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,9,1))",
+                                                    "operation": "add_assumption(sudoku(1,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64281,7 +64281,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,8))",
+                                                    "operation": "add_assumption(sudoku(1,8,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64301,7 +64301,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,5))",
+                                                    "operation": "add_assumption(sudoku(1,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64321,7 +64321,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,2))",
+                                                    "operation": "add_assumption(sudoku(1,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64341,7 +64341,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,8,1))",
+                                                    "operation": "add_assumption(sudoku(1,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64406,7 +64406,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,4,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,4,8))",
+                                                    "operation": "add_assumption(sudoku(9,4,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64466,7 +64466,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,8))",
+                                                    "operation": "add_assumption(sudoku(2,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64486,7 +64486,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,4))",
+                                                    "operation": "add_assumption(sudoku(2,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64506,7 +64506,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,3,2))",
+                                                    "operation": "add_assumption(sudoku(2,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64566,7 +64566,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,8))",
+                                                    "operation": "add_assumption(sudoku(1,3,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64586,7 +64586,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,3,2))",
+                                                    "operation": "add_assumption(sudoku(1,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64651,7 +64651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,2,8)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,2,8))",
+                                                    "operation": "add_assumption(sudoku(7,2,8),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64711,7 +64711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,7))",
+                                                    "operation": "add_assumption(sudoku(9,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64731,7 +64731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,4))",
+                                                    "operation": "add_assumption(sudoku(9,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64751,7 +64751,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,9,2))",
+                                                    "operation": "add_assumption(sudoku(9,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64811,7 +64811,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,7))",
+                                                    "operation": "add_assumption(sudoku(3,9,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64831,7 +64831,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,4))",
+                                                    "operation": "add_assumption(sudoku(3,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64851,7 +64851,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,3))",
+                                                    "operation": "add_assumption(sudoku(3,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64871,7 +64871,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,9,1))",
+                                                    "operation": "add_assumption(sudoku(3,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64931,7 +64931,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,7))",
+                                                    "operation": "add_assumption(sudoku(9,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64951,7 +64951,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,4))",
+                                                    "operation": "add_assumption(sudoku(9,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -64971,7 +64971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,8,2))",
+                                                    "operation": "add_assumption(sudoku(9,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65031,7 +65031,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,7))",
+                                                    "operation": "add_assumption(sudoku(3,8,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65051,7 +65051,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,4))",
+                                                    "operation": "add_assumption(sudoku(3,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65071,7 +65071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,3))",
+                                                    "operation": "add_assumption(sudoku(3,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65091,7 +65091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,8,1))",
+                                                    "operation": "add_assumption(sudoku(3,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65156,7 +65156,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,6,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,6,7))",
+                                                    "operation": "add_assumption(sudoku(4,6,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65216,7 +65216,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,7))",
+                                                    "operation": "add_assumption(sudoku(3,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65236,7 +65236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,1,1))",
+                                                    "operation": "add_assumption(sudoku(3,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65296,7 +65296,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,7)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,7))",
+                                                    "operation": "add_assumption(sudoku(2,1,7),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65316,7 +65316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,5))",
+                                                    "operation": "add_assumption(sudoku(2,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65336,7 +65336,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,1,2))",
+                                                    "operation": "add_assumption(sudoku(2,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65396,7 +65396,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,6))",
+                                                    "operation": "add_assumption(sudoku(7,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65416,7 +65416,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,3))",
+                                                    "operation": "add_assumption(sudoku(7,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65436,7 +65436,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,9,1))",
+                                                    "operation": "add_assumption(sudoku(7,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65496,7 +65496,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,6))",
+                                                    "operation": "add_assumption(sudoku(4,9,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65516,7 +65516,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,5))",
+                                                    "operation": "add_assumption(sudoku(4,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65536,7 +65536,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,2))",
+                                                    "operation": "add_assumption(sudoku(4,9,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65556,7 +65556,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,9,1))",
+                                                    "operation": "add_assumption(sudoku(4,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65616,7 +65616,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,6))",
+                                                    "operation": "add_assumption(sudoku(7,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65636,7 +65636,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,3))",
+                                                    "operation": "add_assumption(sudoku(7,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65656,7 +65656,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,8,1))",
+                                                    "operation": "add_assumption(sudoku(7,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65716,7 +65716,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,6))",
+                                                    "operation": "add_assumption(sudoku(4,8,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65736,7 +65736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,5))",
+                                                    "operation": "add_assumption(sudoku(4,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65756,7 +65756,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,2))",
+                                                    "operation": "add_assumption(sudoku(4,8,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65776,7 +65776,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,8,1))",
+                                                    "operation": "add_assumption(sudoku(4,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65841,7 +65841,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,5,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,5,6))",
+                                                    "operation": "add_assumption(sudoku(5,5,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65906,7 +65906,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,2,6)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,2,6))",
+                                                    "operation": "add_assumption(sudoku(3,2,6),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65966,7 +65966,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,5))",
+                                                    "operation": "add_assumption(sudoku(6,9,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -65986,7 +65986,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,4))",
+                                                    "operation": "add_assumption(sudoku(6,9,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66006,7 +66006,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,3))",
+                                                    "operation": "add_assumption(sudoku(6,9,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66026,7 +66026,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,9,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,9,1))",
+                                                    "operation": "add_assumption(sudoku(6,9,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66086,7 +66086,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,5))",
+                                                    "operation": "add_assumption(sudoku(6,8,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66106,7 +66106,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,4))",
+                                                    "operation": "add_assumption(sudoku(6,8,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66126,7 +66126,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,3))",
+                                                    "operation": "add_assumption(sudoku(6,8,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66146,7 +66146,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,8,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,8,1))",
+                                                    "operation": "add_assumption(sudoku(6,8,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66206,7 +66206,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,5))",
+                                                    "operation": "add_assumption(sudoku(4,7,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66226,7 +66226,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,2))",
+                                                    "operation": "add_assumption(sudoku(4,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66246,7 +66246,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,7,1))",
+                                                    "operation": "add_assumption(sudoku(4,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66306,7 +66306,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,5))",
+                                                    "operation": "add_assumption(sudoku(6,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66326,7 +66326,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,6,3))",
+                                                    "operation": "add_assumption(sudoku(6,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66386,7 +66386,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,5))",
+                                                    "operation": "add_assumption(sudoku(5,6,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66406,7 +66406,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,6,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,6,3))",
+                                                    "operation": "add_assumption(sudoku(5,6,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66471,7 +66471,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,4,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,4,5))",
+                                                    "operation": "add_assumption(sudoku(3,4,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66531,7 +66531,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,5))",
+                                                    "operation": "add_assumption(sudoku(5,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66551,7 +66551,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,4))",
+                                                    "operation": "add_assumption(sudoku(5,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66571,7 +66571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,2,1))",
+                                                    "operation": "add_assumption(sudoku(5,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66631,7 +66631,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,5))",
+                                                    "operation": "add_assumption(sudoku(4,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66651,7 +66651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(4,2,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(4,2,1))",
+                                                    "operation": "add_assumption(sudoku(4,2,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66711,7 +66711,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,5))",
+                                                    "operation": "add_assumption(sudoku(2,2,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66731,7 +66731,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(2,2,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(2,2,4))",
+                                                    "operation": "add_assumption(sudoku(2,2,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66791,7 +66791,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,5))",
+                                                    "operation": "add_assumption(sudoku(6,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66811,7 +66811,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,1,2))",
+                                                    "operation": "add_assumption(sudoku(6,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66871,7 +66871,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,5)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,5))",
+                                                    "operation": "add_assumption(sudoku(1,1,5),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66891,7 +66891,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,2))",
+                                                    "operation": "add_assumption(sudoku(1,1,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66911,7 +66911,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,1,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,1,1))",
+                                                    "operation": "add_assumption(sudoku(1,1,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66971,7 +66971,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,4))",
+                                                    "operation": "add_assumption(sudoku(9,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -66991,7 +66991,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,7,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,7,2))",
+                                                    "operation": "add_assumption(sudoku(9,7,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67051,7 +67051,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,4))",
+                                                    "operation": "add_assumption(sudoku(3,7,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67071,7 +67071,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,3))",
+                                                    "operation": "add_assumption(sudoku(3,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67091,7 +67091,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(3,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(3,7,1))",
+                                                    "operation": "add_assumption(sudoku(3,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67156,7 +67156,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,5,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,5,4))",
+                                                    "operation": "add_assumption(sudoku(1,5,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67216,7 +67216,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,4)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,4))",
+                                                    "operation": "add_assumption(sudoku(5,3,4),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67236,7 +67236,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,3,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,3,2))",
+                                                    "operation": "add_assumption(sudoku(5,3,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67296,7 +67296,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,3))",
+                                                    "operation": "add_assumption(sudoku(7,7,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67316,7 +67316,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,7,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,7,1))",
+                                                    "operation": "add_assumption(sudoku(7,7,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67381,7 +67381,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(1,2,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(1,2,3))",
+                                                    "operation": "add_assumption(sudoku(1,2,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67446,7 +67446,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,1,3)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,1,3))",
+                                                    "operation": "add_assumption(sudoku(9,1,3),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67511,7 +67511,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(7,6,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(7,6,2))",
+                                                    "operation": "add_assumption(sudoku(7,6,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67571,7 +67571,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,2))",
+                                                    "operation": "add_assumption(sudoku(6,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67591,7 +67591,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(6,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(6,4,1))",
+                                                    "operation": "add_assumption(sudoku(6,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67651,7 +67651,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,2)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,2))",
+                                                    "operation": "add_assumption(sudoku(5,4,2),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67671,7 +67671,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(5,4,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(5,4,1))",
+                                                    "operation": "add_assumption(sudoku(5,4,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67736,7 +67736,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(8,5,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(8,5,1))",
+                                                    "operation": "add_assumption(sudoku(8,5,1),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -67801,7 +67801,7 @@ class Sudoku:
                                                 {
                                                     "id": "mi(9,3,1)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(sudoku(9,3,1))",
+                                                    "operation": "add_assumption(sudoku(9,3,1),true)",
                                                 }
                                             ],
                                             "children": [],

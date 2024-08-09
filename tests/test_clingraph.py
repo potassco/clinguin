@@ -41,9 +41,9 @@ class TestClingraph:
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
         post_calls = [
-            ("add_assumption(assign(1,blue))", Coloring.post_assumption_1),
-            ("add_assumption(assign(2,green))", Coloring.post_assumption_2),
-            ("add_assumption(assign(5,blue))", Coloring.post_assumption_3)
+            ("add_assumption(assign(1,blue),true)", Coloring.post_assumption_1),
+            ("add_assumption(assign(2,green),true)", Coloring.post_assumption_2),
+            ("add_assumption(assign(5,blue),true)", Coloring.post_assumption_3)
         ]
 
         for post_call in post_calls:

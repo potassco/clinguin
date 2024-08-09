@@ -43,7 +43,7 @@ class BasicTest01:
                                             "id": "mi(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],
@@ -60,7 +60,7 @@ class BasicTest01:
                                             "id": "mi(1)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1),true)",
                                         }
                                     ],
                                     "children": [],
@@ -130,7 +130,7 @@ class BasicTest01:
                                             "id": "mi(1)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1),true)",
                                         }
                                     ],
                                     "children": [],
@@ -200,7 +200,7 @@ class BasicTest01:
                                             "id": "mi(1)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1),true)",
                                         }
                                     ],
                                     "children": [],
@@ -270,7 +270,7 @@ class BasicTest01:
                                             "id": "mi(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],
@@ -339,7 +339,7 @@ class BasicTest01:
                                             "id": "mi(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],

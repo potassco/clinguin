@@ -7,7 +7,7 @@ attr(dpm, selected, V) :- _all(p(V)).
 
 elem(dmp(V), dropdown_menu_item, dpm) :- _any(p(V)).
 attr(dmp(V), label, V) :- _any(p(V)).
-when(dmp(V), click, callback, add_assumption(p(V))) :- _any(p(V)).
+when(dmp(V), click, callback, add_assumption(p(V),true)) :- _any(p(V)).
 
 elem(l, label, window).
 attr(l, label, "Clear assumptions").

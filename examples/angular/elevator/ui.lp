@@ -38,7 +38,7 @@ attr(elevator, class, ("bg-info";"m-2";"flex-column-reverse";"d-flex")).
 
 
         when(elevator_button(A), click, call,
-            (add_assumption(occ(A,T)),
+            (add_assumption(occ(A,T), true),
             ground(step,(T+1)),
             set_external(query(T), false),
             set_external(query(T+1), true)

@@ -55,7 +55,7 @@ attr(window, child_layout, grid).
 
                 elem(ddmi(E,I), dropdown_menu_item, sdd(I)):-_any(in(E,s(I))), not _all(in(E,s(I))).
                 attr(ddmi(E,I), label, E):-_any(in(E,s(I))), not _all(in(E,s(I))).
-                when(ddmi(E,I), click, call, add_assumption(in(E,s(I)))):-_any(in(E,s(I))), not _all(in(E,s(I))).
+                when(ddmi(E,I), click, call, add_assumption(in(E,s(I)),true)):-_any(in(E,s(I))), not _all(in(E,s(I))).
 
         %%%%%%%%%%%%%%%%%%%%%%%%
         % SELEETED MODULES

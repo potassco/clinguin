@@ -22,7 +22,7 @@ attr(seat_dd(S), selected, P):- _clinguin_assume(assign(P,S),true).
 
 elem(seat_ddi(S,P), dropdown_menu_item, seat_dd(S)):-_any(assign(P,S)).
 attr(seat_ddi(S,P), label, P):- _any(assign(P,S)).
-when(seat_ddi(S,P), click, call, add_assumption(assign(P,S))):-
+when(seat_ddi(S,P), click, call, add_assumption(assign(P,S),true)):-
                      _any(assign(P,S)).
 
 

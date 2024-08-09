@@ -21,7 +21,7 @@ attr(w, flex_direction, row).
 
             elem(s_ddi(I,E), dropdown_menu_item, s_dd(I)):-_any(in(E,s(I))), not _all(in(E,s(I))).
             attr(s_ddi(I,E), label, E):-_any(in(E,s(I))), not _all(in(E,s(I))).
-            when(s_ddi(I,E), click, call, add_assumption(in(E,s(I)))):-_any(in(E,s(I))), not _all(in(E,s(I))).
+            when(s_ddi(I,E), click, call, add_assumption(in(E,s(I)),true)):-_any(in(E,s(I))), not _all(in(E,s(I))).
 
     elem(s_modules(I), container, s(I)):-semester(I).
     attr(s_modules(I), class, ("bg-white")):-semester(I).

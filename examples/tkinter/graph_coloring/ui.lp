@@ -39,5 +39,5 @@ attr(window, child_layout, grid).
 
             elem(dmi(N,C), dropdown_menu_item, dmc(N)):-_any(assign(N,C)).
             attr(dmi(N,C), label, C):-_any(assign(N,C)).
-            when(dmi(N,C), click, call, add_assumption(assign(N,C))):-_any(assign(N,C)).
+            when(dmi(N,C), click, call, add_assumption(assign(N,C),true)):-_any(assign(N,C)).
 

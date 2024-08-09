@@ -80,11 +80,11 @@ However, if the input is a string that can't be a constant, such as ``Open``, it
 
 .. admonition:: Example
 
-    The content information is sustituted when the server is called to add an assumption, which yeilds operation ``add_assumption(name)``.
+    The content information is sustituted when the server is called to add an assumption, which yeilds operation ``add_assumption(name,true)``.
 
     .. code-block::
 
-        when(b1, click, call, add_assumption(_context_value(t1_content)).
+        when(b1, click, call, add_assumption(_context_value(t1_content),true).
 
 .. admonition:: Example
 

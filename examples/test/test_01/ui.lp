@@ -10,7 +10,7 @@ attr(c, selected, mi(X)) :- _all(p(X)).
 
 elem(mi(X), dropdown_menu_item, c) :- _any(p(X)).
 attr(mi(X), label, X) :- _any(p(X)).
-when(mi(X), click, callback, add_assumption(p(X))) :- _any(p(X)).
+when(mi(X), click, callback, add_assumption(p(X),true)) :- _any(p(X)).
 
 elem(c2, container, w).
 attr(c2, width, 100).

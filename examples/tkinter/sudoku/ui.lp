@@ -21,7 +21,7 @@ attr(window, child_layout, grid).
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Sudoku-Grid
     %%%%%%%%%%%%%%%%%%%%%%%%
-    
+
     % Grid cells
     cell_color(X,Y,gray):-subgrid(X,Y,S), S\2==0.
     cell_color(X,Y,white):-subgrid(X,Y,S), S\2!=0.
@@ -50,7 +50,7 @@ attr(window, child_layout, grid).
             % Option menu Item
             elem(mi(X,Y,V), dropdown_menu_item, m(X,Y)) :- menu(X,Y), _any(sudoku(X,Y,V)).
             attr(mi(X,Y,V), label, @concat("S",V)) :- menu(X,Y), _any(sudoku(X,Y,V)).
-            when(mi(X,Y,V), click, call, add_assumption(sudoku(X,Y,V))) :- menu(X,Y), _any(sudoku(X,Y,V)).
+            when(mi(X,Y,V), click, call, add_assumption(sudoku(X,Y,V),true)) :- menu(X,Y), _any(sudoku(X,Y,V)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Menu Bar

@@ -84,7 +84,7 @@ class Endpoints:
         which can be used to call specific methods/functions of the backend.
         It takes a backend_call_string, which is essentially a json defining a function to be called,
         including arguments.
-        For example: {'function':'add_assumption(p(1))'}
+        For example: {'function':'add_assumption(p(1),true)'}
         """
 
         self._logger.info(colored_text("=>=>=>=>=>=>=>=>=> POST", "GREEN"))

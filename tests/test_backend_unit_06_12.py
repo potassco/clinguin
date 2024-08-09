@@ -37,7 +37,7 @@ class TestBackendUnit_06_11:
         received_by_backend = self.backend.get()
         UtilsTestUtils.assert_result(should_output, received_by_backend)
 
-        self.backend.add_assumption("p(2)")
+        self.backend.add_assumption("p(2)", "true")
         received_by_backend = self.backend.get()
         should_output = BasicTest09.post_p_1_reference_json()
         UtilsTestUtils.assert_result(should_output, received_by_backend)

@@ -43,7 +43,7 @@ class TestBasic06_11:
 
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
-        data = '{"function":"add_assumption(p(2))"}'
+        data = '{"function":"add_assumption(p(2),true)"}'
         uri = f"{self.uvicorn_url}/backend"
         received_by_postman = json.dumps(BasicTest09.post_p_1_reference_json())
 

@@ -35,11 +35,11 @@
     .. admonition:: Example
 
         Using the following code you make sure that the input saved in ``name`` is transformed into a string.
-        If the input is ``Ana`` the operation becomes: ``add_assumption("Ana")`` instead of ``add_assumption(Ana)``.
+        If the input is ``Ana`` the operation becomes: ``add_assumption("Ana",true)`` instead of ``add_assumption(Ana,true)``.
 
         .. code-block::
 
-            when(b1, click, call, add_assumption(_context_value(name, str))).
+            when(b1, click, call, add_assumption(_context_value(name, str)), true).
 
 
 .. admonition:: **Unsure how to use a feature**

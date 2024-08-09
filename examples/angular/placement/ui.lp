@@ -161,7 +161,7 @@ attr(window, flex_direction, row).
                     when(table_seat_remove(S,T), click, call, remove_assumption_signature(assign(seat(S,T),any))):-seat(S,T).
 
                     elem(table_seat_p(T,S,P), dropdown_menu_item, table_seat(S,T)):-seat(S,T), person(P).
-                    when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P))):- seat(S,T), person(P).
+                    when(table_seat_p(T,S,P), click, call, add_assumption(assign(seat(S,T),P),true)):- seat(S,T), person(P).
                     attr(table_seat_p(T,S,P), class, "text-capitalize"):- seat(S,T), person(P).
                     attr(table_seat_p(T,S,P), label, P):-seat(S,T), person(P).
                     attr(table_seat_p(T,S,P), class,( "text-danger";"disabled")):- not _any(assign(seat(S,T),P)), seat(S,T), person(P).

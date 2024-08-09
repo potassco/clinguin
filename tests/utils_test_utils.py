@@ -23,6 +23,7 @@ class UtilsTestUtils:
 
             assert status == should_status_code
             response_json = json.loads(body)
+            print(response_json)
             assert json.dumps(response_json) == should_output
 
         except URLError:

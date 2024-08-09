@@ -41,7 +41,7 @@ attr(objects, width, 300).
             attr(object_add(O), class, ("btn-primary")):-object(O).
             attr(object_add(O), class, ("disabled")):-object(O), not _any(take(O)).
             attr(object_add(O), icon, "fa-arrow-right"):-object(O), not _clinguin_assume(take(O), true).
-            when(object_add(O), click, call, add_assumption(take(O))):-object(O), not _clinguin_assume(take(O), true).
+            when(object_add(O), click, call, add_assumption(take(O),true)):-object(O), not _clinguin_assume(take(O), true).
 
             attr(object_add(O), icon, "fa-arrow-left"):-object(O),  _clinguin_assume(take(O), true).
             when(object_add(O), click, call, remove_assumption(take(O))):-object(O),  _clinguin_assume(take(O), true).

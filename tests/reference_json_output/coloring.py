@@ -85,7 +85,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,blue))",
+                                                    "operation": "add_assumption(assign(6,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -105,7 +105,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,green))",
+                                                    "operation": "add_assumption(assign(6,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -125,7 +125,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,red))",
+                                                    "operation": "add_assumption(assign(6,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -209,7 +209,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,blue))",
+                                                    "operation": "add_assumption(assign(5,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -229,7 +229,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,green))",
+                                                    "operation": "add_assumption(assign(5,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -249,7 +249,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,red))",
+                                                    "operation": "add_assumption(assign(5,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -333,7 +333,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,blue))",
+                                                    "operation": "add_assumption(assign(4,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -353,7 +353,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,green))",
+                                                    "operation": "add_assumption(assign(4,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -373,7 +373,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,red))",
+                                                    "operation": "add_assumption(assign(4,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -457,7 +457,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,blue))",
+                                                    "operation": "add_assumption(assign(3,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -477,7 +477,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,green))",
+                                                    "operation": "add_assumption(assign(3,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -497,7 +497,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,red))",
+                                                    "operation": "add_assumption(assign(3,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -581,7 +581,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,blue))",
+                                                    "operation": "add_assumption(assign(2,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -601,7 +601,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,green))",
+                                                    "operation": "add_assumption(assign(2,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -621,7 +621,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,red))",
+                                                    "operation": "add_assumption(assign(2,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -705,7 +705,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(1,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(1,blue))",
+                                                    "operation": "add_assumption(assign(1,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -725,7 +725,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(1,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(1,green))",
+                                                    "operation": "add_assumption(assign(1,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -745,7 +745,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(1,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(1,red))",
+                                                    "operation": "add_assumption(assign(1,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -871,7 +871,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,blue))",
+                                                    "operation": "add_assumption(assign(6,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -891,7 +891,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,green))",
+                                                    "operation": "add_assumption(assign(6,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -911,7 +911,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,red))",
+                                                    "operation": "add_assumption(assign(6,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -995,7 +995,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,blue))",
+                                                    "operation": "add_assumption(assign(5,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1015,7 +1015,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,green))",
+                                                    "operation": "add_assumption(assign(5,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1035,7 +1035,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,red))",
+                                                    "operation": "add_assumption(assign(5,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1124,7 +1124,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(1,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(1,blue))",
+                                                    "operation": "add_assumption(assign(1,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1208,7 +1208,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,green))",
+                                                    "operation": "add_assumption(assign(4,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1228,7 +1228,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,red))",
+                                                    "operation": "add_assumption(assign(4,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1312,7 +1312,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,green))",
+                                                    "operation": "add_assumption(assign(3,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1332,7 +1332,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,red))",
+                                                    "operation": "add_assumption(assign(3,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1416,7 +1416,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,green))",
+                                                    "operation": "add_assumption(assign(2,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1436,7 +1436,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,red))",
+                                                    "operation": "add_assumption(assign(2,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1562,7 +1562,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,blue))",
+                                                    "operation": "add_assumption(assign(6,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1582,7 +1582,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,red))",
+                                                    "operation": "add_assumption(assign(6,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1666,7 +1666,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,blue))",
+                                                    "operation": "add_assumption(assign(5,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1686,7 +1686,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,red))",
+                                                    "operation": "add_assumption(assign(5,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1775,7 +1775,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(1,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(1,blue))",
+                                                    "operation": "add_assumption(assign(1,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1864,7 +1864,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,green))",
+                                                    "operation": "add_assumption(assign(3,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -1953,7 +1953,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,green))",
+                                                    "operation": "add_assumption(assign(2,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2042,7 +2042,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,red))",
+                                                    "operation": "add_assumption(assign(4,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2173,7 +2173,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(5,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(5,blue))",
+                                                    "operation": "add_assumption(assign(5,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2262,7 +2262,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(1,blue)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(1,blue))",
+                                                    "operation": "add_assumption(assign(1,blue),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2351,7 +2351,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(3,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(3,green))",
+                                                    "operation": "add_assumption(assign(3,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2440,7 +2440,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(2,green)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(2,green))",
+                                                    "operation": "add_assumption(assign(2,green),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2529,7 +2529,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(6,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(6,red))",
+                                                    "operation": "add_assumption(assign(6,red),true)",
                                                 }
                                             ],
                                             "children": [],
@@ -2618,7 +2618,7 @@ class Coloring:
                                                 {
                                                     "id": "dmi(4,red)",
                                                     "action": "click",
-                                                    "operation": "add_assumption(assign(4,red))",
+                                                    "operation": "add_assumption(assign(4,red),true)",
                                                 }
                                             ],
                                             "children": [],

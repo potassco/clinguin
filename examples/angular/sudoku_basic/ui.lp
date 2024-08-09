@@ -13,4 +13,4 @@ attr(window,class,("justify-content-start")).
 
         elem(ddv(X,Y,V),dropdown_menu_item,dd(X,Y)):-_any(sudoku(X,Y,V)).
         attr(ddv(X,Y,V),label,V):-_any(sudoku(X,Y,V)).
-        when(ddv(X,Y,V),click,call,add_assumption(sudoku(X,Y,V))):-_any(sudoku(X,Y,V)).
+        when(ddv(X,Y,V),click,call,add_assumption(sudoku(X,Y,V),true)):-_any(sudoku(X,Y,V)).

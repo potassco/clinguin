@@ -16,7 +16,7 @@ elem(window, window, root).
         elem(bcm(X,C), button, context_menu(X)) :- color(C), node(X), _any(assign(X,C)).
         attr(bcm(X,C), label, C) :- color(C), node(X).
         % attr(bcm(X,C), class, "disabled") :- color(C), node(X), not _any(assign(X,C)).
-        when(bcm(X,C), click, callback, add_assumption(assign(X,C))) :- _any(assign(X,C)).
+        when(bcm(X,C), click, callback, add_assumption(assign(X,C),true)) :- _any(assign(X,C)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Clingraph image

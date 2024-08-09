@@ -88,7 +88,7 @@ The first four lines will set the size and position of the dropdown. The special
     attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
 As part of the dropdown we add the different dropdown menu items for all possible values the cell can take. In this case we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will apear in red and disabled.
-When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V))``.
+When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V), true)``.
 The avaliable operations are defined by the selected backend, in this case we use the :ref:`ClingoBackend` which is the default, and recomended one.
 
 .. code-block::
@@ -96,7 +96,7 @@ The avaliable operations are defined by the selected backend, in this case we us
     elem(ddi(X,Y,V),dropdown_menu_item,dd(X,Y)):-pos(X,Y), val(V).
     attr(ddi(X,Y,V),label,V):-pos(X,Y), val(V).
     attr(ddi(X,Y,V),class,("text-danger";"disabled")):-pos(X,Y), val(V), not _any(sudoku(X,Y,V)).
-    when(ddi(X,Y,V),click,call,add_assumption(sudoku(X,Y,V))):-pos(X,Y), val(V).
+    when(ddi(X,Y,V),click,call,add_assumption(sudoku(X,Y,V),true)):-pos(X,Y), val(V).
 
 We add an additional item in each dropdown menu to clear any previous selection.
 

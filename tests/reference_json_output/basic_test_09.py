@@ -40,7 +40,7 @@ class BasicTest09:
                                             "id": "dmp(1)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1),true)",
                                         }
                                     ],
                                     "children": [],
@@ -57,7 +57,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],
@@ -145,7 +145,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],
@@ -233,7 +233,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],
@@ -319,7 +319,7 @@ class BasicTest09:
                                             "id": "dmp(1)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(1))",
+                                            "operation": "add_assumption(p(1),true)",
                                         }
                                     ],
                                     "children": [],
@@ -336,7 +336,7 @@ class BasicTest09:
                                             "id": "dmp(2)",
                                             "event": "click",
                                             "action": "callback",
-                                            "operation": "add_assumption(p(2))",
+                                            "operation": "add_assumption(p(2),true)",
                                         }
                                     ],
                                     "children": [],

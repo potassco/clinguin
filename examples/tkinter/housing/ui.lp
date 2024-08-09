@@ -168,6 +168,6 @@ attr(window, child_layout, absstatic).
 
             elem(mi(B,I,P), dropdown_menu_item, room_dropdown(B,I)) :- _any(assign(bed(B,I),P)),setting_rooms.
             attr(mi(B,I,P), label, P) :- _any(assign(bed(B,I),P)).
-            when(mi(B,I,P), click, call, add_assumption(assign(bed(B,I),P))) :- _any(assign(bed(B,I),P)).
+            when(mi(B,I,P), click, call, add_assumption(assign(bed(B,I),P),true)) :- _any(assign(bed(B,I),P)).
 
 

@@ -50,6 +50,7 @@ attr(elevator, class, ("bg-info";"m-2";"flex-column-reverse";"d-flex")).
 
 elem(floors, container, w).
 attr(floors, class, ("m-2";"flex-column-reverse";"d-flex")).
+
     elem(floor_row(F), container, floors):-floor(F).
     attr(floor_row(F), height, 80):-floor(F).
     attr(floor_row(F), class, ("d-flex";"justify-content-center";"align-items-center";"m-1";"border-1";"border-top";"border-bottom")):-floor(F).
@@ -58,18 +59,48 @@ attr(floors, class, ("m-2";"flex-column-reverse";"d-flex")).
 
     elem(floor_button(F), button, floor_row(F)):-floor(F), time(T).
     attr(floor_button(F), icon, "fa-bell"):-floor(F), time(T).
-    attr(floor_button(F), class, ("btn-success")):-floor(F), holds(called(F),T), time(T).
-    attr(floor_button(F), class, ("btn-outline-success";"border-0";"opacity-50")):-floor(F), not holds(called(F),T), time(T).
-    when(floor_button(F), click, call, set_external(call(F,T), true)):-floor(F), not holds(called(F),T), time(T).
+    attr(floor_button(F), class, ("btn-success")):-floor(F), _any(holds(called(F),T)), time(T).
+    attr(floor_button(F), class, ("btn-outline-success";"border-0";"opacity-50")):-floor(F), not _any(holds(called(F),T)), time(T).
+    when(floor_button(F), click, call, set_external(call(F,T), true)):-floor(F), not _any(holds(called(F),T)), time(T).
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Container with n of floors
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+elem(n_floors, container, w).
+attr(n_floors, class, ("m-4";"flex-row-reverse";"d-flex";"bg-secondary";"bg-opacity-10";"rounded";"align-items-center";"p-2")).
+attr(n_floors, height, 60).
+
+    elem(set_floors_l, label, n_floors).
+    attr(set_floors_l, label, "Number of floors:").
+    attr(set_floors_l, class, ("m-2";"fst-italic")).
+
+    elem(set_floors_i, textfield, n_floors).
+    attr(set_floors_i, placeholder, N):- _clinguin_const(n, N).
+    attr(set_floors_i, width, 80).
+    attr(set_floors_i, class, ("m-2")).
+    when(set_floors_i, input, context, (floors_content, _value)).
+
+    elem(set_floors_b, button, n_floors).
+    attr(set_floors_b, icon, "fa-refresh").
+    attr(set_floors_b, class, ("m-2";"btn-secondary")).
+    when(set_floors_b, click, call, set_constant("n",_context_value(floors_content, int))).
+
+
+    elem(floor_button(F), button, floor_row(F)):-floor(F), time(T).
+    attr(floor_button(F), icon, "fa-bell"):-floor(F), time(T).
+    attr(floor_button(F), class, ("btn-success")):-floor(F), _any(holds(called(F),T)), time(T).
+    attr(floor_button(F), class, ("btn-outline-success";"border-0";"opacity-50")):-floor(F), not _any(holds(called(F),T)), time(T).
+    when(floor_button(F), click, call, set_external(call(F,T), true)):-floor(F), not _any(holds(called(F),T)), time(T).
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Message
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-elem(done, message, w):- goal(_).
-attr(done, message, "No more pending requests"):- goal(_).
-attr(done, title, "Done!"):- goal(_).
-attr(done, type, "success"):- goal(_).
+elem(done, message, w):- _all(goal(_)).
+attr(done, message, "No more pending requests"):- _all(goal(_)).
+attr(done, title, "Done!"):- _all(goal(_)).
+attr(done, type, "success"):- _all(goal(_)).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%

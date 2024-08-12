@@ -88,6 +88,12 @@
 
             attr(E,class,("border-1";"border";"border-dark")):- elem(E, container, _).
 
+.. admonition:: **Try the cache**
+    :class: tip
+
+    If you are still having truble or your browser does not seam to be sending the requests properly, you can try to clear the cache.
+    There is usally an option on the browser to cleat the cache that might help solve the problem.
+
 
 .. admonition:: **Still need help**
     :class: warning

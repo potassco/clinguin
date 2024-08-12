@@ -214,6 +214,7 @@ class ClingoBackend:
         self._domain_state_constructors = []
         self._backup_ds_cache = {}
         self._add_domain_state_constructor("_ds_context")
+        self._add_domain_state_constructor("_ds_constants")
         self._add_domain_state_constructor("_ds_browsing")
         self._add_domain_state_constructor("_ds_cautious_optimal")
         self._add_domain_state_constructor("_ds_brave_optimal")
@@ -1062,7 +1063,7 @@ class ClingoBackend:
         self._outdate()
         self._assumptions = set()
 
-    def add_assumption(self, atom, value):
+    def add_assumption(self, atom, value="true"):
         """
         Adds an atom `a` as an assumption.
         If the value is True, the atom is assumed to be true.

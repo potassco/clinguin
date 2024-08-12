@@ -17,10 +17,12 @@
       * added option to set false assumptions
       * type parsing and defaults for user input in `_context_value`
       * model selection now accepts show statements for filtering
+      * added operation to set a constant
     * Domain constructors
       * added optimization information into domain state
       * added information about externals
       * added automatic check to skip constructors based on `ui files`
+      * added information about the constants
     * Examples
       * New example with incremental solving
       * New examples with optimization and false assumptions

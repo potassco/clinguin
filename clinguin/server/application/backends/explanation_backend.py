@@ -47,18 +47,6 @@ class ExplanationBackend(ClingoBackend):
     # ---------------------------------------------
 
     @extends(ClingoBackend)
-    def _init_interactive(self):
-        """
-        Adds the MUS property
-
-        Attributes:
-            _mus (str): The list of assumptions in the MUS property
-        """
-        super()._init_interactive()
-        # pylint: disable= attribute-defined-outside-init
-        self._mus = None
-
-    @extends(ClingoBackend)
     def _init_command_line(self):
         """
         Sets the assumption signature and the transformer used for the input files
@@ -72,7 +60,8 @@ class ExplanationBackend(ClingoBackend):
         self._assumption_sig = []
         for a in self._args.assumption_signature or []:
             try:
-                self._assumption_sig.append((a.split(",")[0], int(a.split(",")[1])))
+                name, arity = a.split(",")
+                self._assumption_sig.append((name, int(arity)))
             except Exception as ex:
                 raise ValueError(
                     "Argument assumption_signature must have format name,arity"

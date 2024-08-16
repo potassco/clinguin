@@ -1,10 +1,9 @@
-
 .. _customization:
 
 |:woman_technologist:| Customization
 ####################################
 
-This section gives detailed information for people that wish to create a customization of *clingun*.
+This section gives detailed information for people that wish to create a customization of *clinguin*.
 
 .. tip::
 
@@ -15,7 +14,6 @@ This section gives detailed information for people that wish to create a customi
         :maxdepth: 1
 
         api.rst
-
 
 Customizing the Backend
 -----------------------
@@ -30,7 +28,7 @@ Customizations of the backend can be done without any additional installations.
 Angular development
 -------------------
 
-For angular development you must have the source code.
+For Angular development, you must have the source code.
 
 .. toctree::
     :maxdepth: 1

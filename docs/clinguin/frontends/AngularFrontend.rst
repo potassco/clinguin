@@ -2,115 +2,34 @@ AngularFrontend
 ---------------
 
 This frontend was developed using `Angular <https://angular.io/guide/setup-local>`_.
-For styling, it uses the `bootstrap <https://getbootstrap.com/>`_ library with `Angular-Boostrap <https://ng-bootstrap.github.io/#/home>`_.
+For styling, it uses the `bootstrap v5.0 <https://getbootstrap.com/docs/5.0/utilities/flex/>`_ library.
 Thus, providing beautiful components out of the box by giving access to Bootstrap classes for styling.
 For contributing with new components take a look at the :ref:`Development` section.
 
 .. admonition:: Examples
-
 
     * `Angular Examples <https://github.com/krr-up/clinguin/tree/master/examples/angular>`_
 
 .. tip::
 
     It implements most of the elements and attributes of the TkinterFrontend.
-    So you can also check the Tkinter Syntax as explaned above and try setting those values.
-
-
+    So you can also check the Tkinter Syntax as explained above and try setting those values.
 
 Elements
 ++++++++
 
-
 ``window``
 ..........
 
-The main window of the UI. It is necesary to especify exacly one element of this type.
+The main window of the UI. It is necessary to specify exactly one element of this type.
+Behaves as a :ref:`container` element.
 
-``menu-bar``
-............
-
-The menu bar that apear on top.
-Notice that any button which is a children of this element will be placed as part of the menu.
-
-**Attributes**
-
-``icon``
-    *Description*: The main icon of the application
-
-    *Values*: `Font awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name
-
-``title``
-    *Description*: The title shown in the uper lext corner
-
-    *Values*: String
-
-
-``message``
-............
-
-A message shown to the user in the bottom.  Corresponds to a `boostrap alert <https://getbootstrap.com/docs/4.0/components/alerts/>`_.
-It must always be contained in the window element.
-
-This element is also used internally to send messages from the server to the UI.
-
-**Attributes**
-
-:ref:`Visibility <Visibility>`
-
-
-``type``
-    *Description*: With this attribute one can set the look
-
-    *Values*: For the popup-types three different options exists: 'info' (Default information message),'warning' and 'error'
-
-``title``
-    *Description*: With this attribute one can set the title of the alert.
-
-    *Values*: String, can either be specified as a string or if it is simple as a symbol.
-
-``message``
-    *Description*: With this attribute one can set the message of the alert.
-
-    *Values*: String, can either be specified as a string or if it is simple as a symbol.
-
-
-``context-menu``
-................
-
-
-A context menu that will open in the position of the click.
-It must always be contained in the window element.
-All buttons inside this element will apear as options.
-
-
-**Attributes**
-
-:ref:`Visibility <Visibility>`
-
-``modal``
-.........
-
-
-A modal pop-up window.
-Implemented using `boostrap modals <https://getbootstrap.com/docs/4.0/components/modal/>`_.
-It must always be contained in the window element.
-
-**Attributes**
-
-:ref:`Class <Class>`,
-:ref:`Visibility <Visibility>`
-
-``title``
-    *Description*: The title of the modal
-
-    *Values*: String
+.. _container:
 
 ``container``
 .............
 
-A container for defining layout.
-Implemented using `boostrap modals <https://getbootstrap.com/docs/4.0/components/modal/>`_.
+A container for defining layout. See `bootstrap flex <https://getbootstrap.com/docs/5.0/utilities/flex/>`_ for layout ideas.
 
 **Attributes**
 
@@ -126,16 +45,89 @@ Implemented using `boostrap modals <https://getbootstrap.com/docs/4.0/components
 :ref:`Border <Border>`,
 :ref:`Text <Text>`
 
+``menu-bar``
+............
+
+The menu bar that appears on top.
+Any button which is a child of this element will be placed as part of the menu.
+Only :ref:`button` elements are allowed as part of the menu bar.
+Corresponds to a limited version of `bootstrap navbar <https://getbootstrap.com/docs/5.0/components/navbar/>`_.
+
+**Attributes**
+
+``icon``
+    *Description*: The main icon of the application
+
+    *Values*: `Font Awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name
+
+``title``
+    *Description*: The title shown in the upper left corner
+
+    *Values*: String
+
+``message``
+............
+
+A message shown to the user at the bottom.
+It must always be contained in the window element.
+Corresponds to a limited version of `bootstrap alert <https://getbootstrap.com/docs/5.0/components/alerts/>`_.
+
+This element is also used internally to send messages from the server to the UI.
+
+**Attributes**
+
+:ref:`Visibility <Visibility>`
+
+``type``
+    *Description*: With this attribute one can set the look
+
+    *Values*: For the popup-types, three different options exist: 'info' (Default information message), 'warning', and 'error'
+
+``title``
+    *Description*: With this attribute one can set the title of the alert.
+
+    *Values*: String, can either be specified as a string or as a symbol.
+
+``message``
+    *Description*: With this attribute one can set the message of the alert.
+
+    *Values*: String, can either be specified as a string or as a symbol.
+
+``context-menu``
+..................
+
+A context menu that will open in the position of the click.
+It must always be contained in the window element.
+All :ref:`button` elements inside this element will appear as options in a list.
+
+**Attributes**
+
+:ref:`Visibility <Visibility>`
+
+``modal``
+.........
+
+A modal pop-up window.
+It must always be contained in the window element.
+Corresponds to a limited version of `bootstrap modal <https://getbootstrap.com/docs/5.0/components/modal/>`_.
+
+**Attributes**
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`
+
 ``title``
     *Description*: The title of the modal
 
     *Values*: String
 
+.. _button:
+
 ``button``
 ..........
 
 A button.
-Implemented using `boostrap buttons <https://getbootstrap.com/docs/4.0/components/buttons/>`_.
+Corresponds to a limited version of `bootstrap buttons <https://getbootstrap.com/docs/5.0/components/buttons/>`_.
 
 **Attributes**
 
@@ -155,15 +147,15 @@ Implemented using `boostrap buttons <https://getbootstrap.com/docs/4.0/component
 
     *Values*: String
 
-    ``icon``
+``icon``
     *Description*: The icon of the button
 
-    *Values*: `Font awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name
+    *Values*: `Font Awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name
 
 ``label``
 .........
 
-A label.
+A label to show text. See `bootstrap text <https://getbootstrap.com/docs/5.0/utilities/text/>`_ for styling.
 
 **Attributes**
 
@@ -179,15 +171,14 @@ A label.
 :ref:`Text <Text>`
 
 ``label``
-    *Description*: The text inside the button
+    *Description*: The text inside the label
 
     *Values*: String
-
 
 ``textfield``
 .............
 
-A text field. The value of the text field can be stored on the context using the event ``input``.
+A text field to input text. The value of the text field can be stored in the context using the event ``input``.
 See the :ref:`Context` section for more details.
 
 **Attributes**
@@ -204,15 +195,14 @@ See the :ref:`Context` section for more details.
 :ref:`Text <Text>`
 
 ``placeholder``
-    *Description*: The text inside the textfield before it is filled
+    *Description*: The text inside the text field before it is filled
 
     *Values*: String
-
 
 ``dropdown-menu``
 .................
 
-A dropdown menu for single select.
+A dropdown menu for single select. All children should be :ref:`dropdown-menu-item` elements.
 
 **Attributes**
 
@@ -227,9 +217,11 @@ A dropdown menu for single select.
 :ref:`Border <Border>`
 
 ``selected``
-    *Description*: The value apearing as selected
+    *Description*: The value appearing as selected
 
     *Values*: String
+
+.. _dropdown-menu-item:
 
 ``dropdown-menu-item``
 ......................
@@ -258,7 +250,7 @@ An item inside a dropdown menu. Must be contained in a dropdown menu.
 
 A canvas to render images.
 
-Canvas can be used to render clingraph images, see :ref:`ClingraphBackend` for details.
+Canvas can be used to render clingraph images; see :ref:`ClingraphBackend` for details.
 
 **Attributes**
 
@@ -274,34 +266,41 @@ Canvas can be used to render clingraph images, see :ref:`ClingraphBackend` for d
 
     *Values*: String
 
-Atributes
-+++++++++
+Attributes
+++++++++++
 
 .. note::
 
-    Any attribute that is passed that does not fall under this list or the specific attributes of the element,
-    will be set as a plain html style in the component
-
+    Any attribute that does not fall under this list or the specific attributes of the element
+    will be set as a plain HTML style in the component.
 
 Class
 .....
 
-The class atribute ``class`` will add a  `bootstrap class <https://getbootstrap.com/docs/4.0/utilities/borders/>`_
-to any element.
-This attribute can apear multiple times.
+The class attribute ``class`` will add a `bootstrap class <https://getbootstrap.com/docs/5.0>`_
+to most elements.
+This attribute can appear multiple times.
+It can help to style the element with classes defined for each element type or general Bootstrap classes:
+
+-  `Text classes <https://getbootstrap.com/docs/5.0/utilities/text/>`_
+-  `Spacing classes <https://getbootstrap.com/docs/5.0/utilities/spacing/>`_
+-  `Color classes <https://getbootstrap.com/docs/5.0/utilities/colors/>`_
+-  `Border classes <https://getbootstrap.com/docs/5.0/utilities/borders/>`_
+-  `Background classes <https://getbootstrap.com/docs/5.0/utilities/background/>`_
+-  `Display classes <https://getbootstrap.com/docs/5.0/utilities/display/>`_
+-  `Flexible layout classes <https://getbootstrap.com/docs/5.0/utilities/flex/>`_
+-  `Size classes <https://getbootstrap.com/docs/5.0/utilities/sizing/>`_
 
 .. tip::
 
     **Simplify, use classes!**
 
-    It is encouranged to use classes for styling with the predefined colors.
-    Must of the attributes found below can be replaced by a bootstrap class.
+    It is encouraged to use classes for styling with the predefined colors.
+    Many of the attributes found in this guide can be replaced by a Bootstrap class.
 
-    Not only that but you can set multiple classes in the same ASP rule using
+    Not only that but you can set multiple classes in the same attribute using
 
     ``attr(ID,class,(C1;C2;...))``
-
-
 
 Positioning
 ............
@@ -311,86 +310,83 @@ Positioning
 **Order**
 
 ``order``
-    *Description*: With this numeric attribute sets the order of appearace for the element inside the parent
+    *Description*: With this numeric attribute, set the order of appearance for the element inside the parent
 
     *Values*: Integer
 
     .. warning::
 
-        Make sure the order is set to all the children of the same parent, otherwise the order will not be respected.
-
-
+        Make sure the order is set for all children of the same parent; otherwise, the order will not be respected.
 
 .. _Child layout:
 
 **Child layout**
 
+.. tip::
+
+    Try using `bootstrap flex <https://getbootstrap.com/docs/5.0/utilities/flex/>`_ instead.
+
 ``child_layout``
-    *Description*: With this attribute one can define the layout of the children, i.e. how they are positioned.
+    *Description*: With this attribute, one can define the layout of the children, i.e., how they are positioned.
 
-    *Values*: For the child-layout four different options exists:
+    *Values*: For the child-layout, four different options exist:
         - ``flex`` (default, tries to do it automatically)
-        - ``grid`` (grid-like-specification)
-        - ``absstatic`` (if one wants to specify the position with absolute-pixelcoordinates)
-        - ``relstatic`` (if one wants to specify the position with relative-pixel coordinates(from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)).
+        - ``grid`` (grid-like specification)
+        - ``absstatic`` (if one wants to specify the position with absolute-pixel coordinates)
+        - ``relstatic`` (if one wants to specify the position with relative-pixel coordinates (from 0 to 100 percent, where 0 means left/top and 100 means right/bottom)).
 
-        They can either bespecified via a clingo symbol or via a string (string is case-insensitive).
-
+        They can either be specified via a Clingo symbol or via a string (string is case-insensitive).
 
 .. _Grid:
 
 **Grid**
 
 ``grid_column``
-    *Description*: With this attribute one can define in which column the element shall be positioned.
+    *Description*: With this attribute, one can define in which column the element shall be positioned.
 
     *Values*: Integer
 
 ``grid_row``
-    *Description*: With this attribute one can define in which row the element shall be positioned.
+    *Description*: With this attribute, one can define in which row the element shall be positioned.
 
     *Values*: Integer
 
 ``grid_column_span``
-    *Description*: With this attribute one can define, that the elements stretches over several columns.
+    *Description*: With this attribute, one can define that the element stretches over several columns.
 
     *Values*: Integer
 
 ``grid_row_span``
-    *Description*: With this attribute one can define, that the elements stretches over several rows.
+    *Description*: With this attribute, one can define that the element stretches over several rows.
 
     *Values*: Integer
-
-
 
 .. _Relative and Absolute:
 
 **Relative and Absolute**
 
 ``pos_x``
-    *Description*: With this attribute one sets the x-position of the element - it depends on the parents ``child-layout`` how this is defined (either pixels, relative as a percentage, ...).
+    *Description*: With this attribute, one sets the x-position of the element - it depends on the parent's ``child-layout`` how this is defined (either pixels, relative as a percentage, etc.).
 
     *Values*: Integer
 
 ``pos_y``
-    *Description*: With this attribute one sets the y-position of the element - it depends on the parents ``child-layout`` how this is defined (either pixels, relative as a percentage, ...).
+    *Description*: With this attribute, one sets the y-position of the element - it depends on the parent's ``child-layout`` how this is defined (either pixels, relative as a percentage, etc.).
 
     *Values*: Integer
-
 
 .. _Direction:
 
 **Direction**
 
-.. tip ::
+.. tip::
 
-    Try using `boostrap positioning <https://getbootstrap.com/docs/4.0/utilities/flex/>`_  instead.
-
+    Try using `bootstrap flex <https://getbootstrap.com/docs/5.0/utilities/flex/>`_ instead.
 
 ``flex_direction``
-    *Description*: With this attribute one can set the ``direction`` (i.e., where it gets placed) of anelement which root has a specified flex layout.
+    *Description*: With this attribute, one can set the ``direction`` (i.e., where it gets placed) of an element whose root has a specified flex layout.
 
-    *Values*: For the flex-direction type two possible values exist:
+    *Values*: For the flex-direction type, two possible values exist:
         - ``column`` (vertical alignment)
         - ``row`` (horizontal alignment).
 
@@ -401,77 +397,78 @@ Style
 
 **Color**
 
-.. tip ::
+.. tip::
 
-    Try using `boostrap colors <https://getbootstrap.com/docs/4.0/utilities/colors/>`_  instead.
-
+    Try using `bootstrap colors <https://getbootstrap.com/docs/5.0/utilities/colors/>`_ instead.
 
 ``background_color``
-    *Description*: With this attribute one can define the background-color of the element.
+    *Description*: With this attribute, one can define the background color of the element.
 
     *Values*: Color
 
 ``foreground_color``
-    *Description*: With this attribute one can set the foreground-color of the element.
+    *Description*: With this attribute, one can set the foreground color of the element.
 
     *Values*: Color
 
 ``border_color``
-    *Description*: With this attribute one may set the border color.
+    *Description*: With this attribute, one may set the border color.
 
     *Values*: Color
 
 ``on_hover``
-    *Description*: With this attribute one can enable or disable on-hover features for the element.
+    *Description*: With this attribute, one can enable or disable on-hover features for the element.
 
-    *Values*: For the boolean type, either true or false are allowed - either as string or as a clingo-symbol. If one provides it as a string, it is case-insensitive.
+    *Values*: For the boolean type, either true or false are allowed - either as a string or as a Clingo symbol. If provided as a string, it is case-insensitive.
 
 ``on_hover_background_color``
-    *Description*: With this attribute one can set the background color the element shall have, when on_hover is enabled.
+    *Description*: With this attribute, one can set the background color of the element when on_hover is enabled.
 
     *Values*: Color
 
 ``on_hover_foreground_color``
-    *Description*: With this attribute one can set the forground color the element shall have, when on_hover is eneabled.
+    *Description*: With this attribute, one can set the foreground color of the element when on_hover is enabled.
 
     *Values*: Color
 
 ``on_hover_border_color``
-    *Description*: With this attribute one can set the color the border of the element shall have, when on_hover is enabled.
+    *Description*: With this attribute, one can set the border color of the element when on_hover is enabled.
 
     *Values*: Color
 
-
 .. _Size:
+
+.. tip::
+
+    Try using `bootstrap size classes <https://getbootstrap.com/docs/5.0/utilities/sizing/>`_ instead.
 
 **Size**
 
 ``height``
-    *Description*: With this attribute one can set the height in pixels of the element.
+    *Description*: With this attribute, one can set the height in pixels of the element.
 
     *Values*: Integer
 
 ``width``
-    *Description*: With this attribute one can set the width in pixels of the element.
+    *Description*: With this attribute, one can set the width in pixels of the element.
 
     *Values*: Integer
-
 
 .. _Border:
 
 **Border**
 
-.. tip ::
+.. tip::
 
-    Try using `boostrap borders <https://getbootstrap.com/docs/4.0/utilities/borders/>`_ instead.
+    Try using `bootstrap borders <https://getbootstrap.com/docs/5.0/utilities/borders/>`_ instead.
 
 ``border_width``
-    *Description*: With this attribute one defines the width of the border in pixels.
+    *Description*: With this attribute, one defines the width of the border in pixels.
 
     *Values*: Integer
 
 ``border_color``
-    *Description*: With this attribute one may set the border color.
+    *Description*: With this attribute, one may set the border color.
 
     *Values*: Color
 
@@ -480,16 +477,16 @@ Style
 **Visibility**
 
 ``visibility``
-    *Description*: Sets the visibility of an element. It can be used to show things like a modal or a container using the update functionality
+    *Description*: Sets the visibility of an element. It can be used to show things like a modal or a container using the update functionality.
 
-    *Values*: The visibility, options are:
-        -  ``visible``: To show the element
-        -  ``hidden``: To hide the element
+    *Values*: The visibility options are:
+        - ``visible``: To show the element
+        - ``hidden``: To hide the element
 
 .. _Text:
 
 **Text**
 
-.. tip ::
+.. tip::
 
-    Try using `boostrap text <https://getbootstrap.com/docs/4.0/utilities/text/>`_ style instead.
+    Try using `bootstrap text <https://getbootstrap.com/docs/5.0/utilities/text/>`_ style instead.

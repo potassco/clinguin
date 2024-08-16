@@ -3,13 +3,10 @@
 |:art:| Frontends
 #################
 
-The frontends listed here are provided with clinguin. Each frontend allows different element types, arguments, and events.
-
-
+The frontends listed here are provided with Clinguin. Each frontend allows different element types, arguments, and events.
 
 Built-in Frontends
 ++++++++++++++++++
-
 
 .. toctree::
     :maxdepth: 1

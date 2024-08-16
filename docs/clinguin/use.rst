@@ -1,4 +1,3 @@
-
 .. _Quick Start:
 
 |:rocket:| Quick Start
@@ -15,17 +14,15 @@ Running clinguin
 
 **Client-Server**
 
-To run `clinguin` one can the execute the following command:
+To run `clinguin`, you can execute the following command:
 
 .. code-block:: console
 
     $ clinguin client-server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
 
-After the execution, a Sudoku window in your browser should open, where one can play a round of Sudoku.
+After execution, a Sudoku window in your browser should open, where you can play a round of Sudoku.
 
-
-
-The `client-server` option provided in the command line, states that both client and server shall be started at the same time, so it has the look and feel of a single program. If one wants to seperate `client` and `server`, one could start them in two shells.
+The `client-server` option provided in the command line indicates that both client and server will be started simultaneously, giving the appearance of a single program. If you want to separate `client` and `server`, you can start them in two shells.
 
 **Server**
 
@@ -33,9 +30,9 @@ The `client-server` option provided in the command line, states that both client
 
     $ clinguin server --domain-files examples/angular/sudoku/instance.lp examples/angular/sudoku/encoding.lp --ui-files examples/angular/sudoku/ui.lp
 
-The source and ui files are only specified for the server, the client does not need to care about this. As one can see, we have specified three files: ``instance.lp``, ``encoding.lp`` and ``ui.lp``. This is a common separation for `clinguin`, therefore one can at first experiment with the problem one is working on, and after that create a ui for the problem, to showcase, debug, etc.
+The source and UI files are only specified for the server; the client does not need to care about this. As you can see, we have specified three files: ``instance.lp``, ``encoding.lp``, and ``ui.lp``. This is a common separation for `clinguin`, so you can first experiment with the problem you are working on, and then create a UI for the problem to showcase, debug, etc.
 
-When running the server one can further specify the *Backend* that should be used. See the :ref:`Backends` for more information.
+When running the server, you can further specify the *Backend* that should be used. See the :ref:`Backends` for more information.
 
 **Client**
 
@@ -45,13 +42,13 @@ When running the server one can further specify the *Backend* that should be use
 
 The client does not need any files as input since it will ask the server for the information.
 
-When running the client one can further specify the *Frontend* that should be used. See the :ref:`Frontends` for more information.
+When running the client, you can further specify the *Frontend* that should be used. See the :ref:`Frontends` for more information.
 
 
 Understanding the UI encoding
 -----------------------------
 
-Let's adress the UI `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_ by sections. For details on the sytax and the creation of elements see the :ref:`ui-state` section.
+Let's address the UI `encoding <https://github.com/krr-up/clinguin/tree/master/examples/angular/sudoku/ui.lp>`_ by sections. For details on the syntax and the creation of elements, see the :ref:`ui-state` section.
 
 Each UI encoding file must contain exactly one element of type ``window``. The encoding below creates a window element identified by ``w`` inside the ``root``.
 
@@ -59,7 +56,7 @@ Each UI encoding file must contain exactly one element of type ``window``. The e
 
     elem(w, window, root).
 
-Then, inside the window we create a container which is identified by ``sudoku`` and will hold the sudoku grid. The ``attr`` facts will set the layout as a grid and the size of the element.
+Then, inside the window, we create a container identified by ``sudoku`` which will hold the Sudoku grid. The ``attr`` facts will set the layout as a grid and the size of the element.
 
 .. code-block::
 
@@ -68,8 +65,8 @@ Then, inside the window we create a container which is identified by ``sudoku`` 
     attr(sudoku,width,100).
     attr(sudoku,height,100).
 
-In the container we create a dropdown menu for each position in the sudoku and identify it by ``dd(X,Y)``.
-The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_all`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the sudoku encoding is infering, either by a user assumption or due to the domain constraints.
+In the container, we create a dropdown menu for each position in the Sudoku and identify it by ``dd(X,Y)``.
+The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines, we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_all`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the Sudoku encoding is inferring, either by a user assumption or due to the domain constraints.
 
 .. code-block::
 
@@ -87,9 +84,9 @@ The first four lines will set the size and position of the dropdown. The special
     attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
     attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
-As part of the dropdown we add the different dropdown menu items for all possible values the cell can take. In this case we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will apear in red and disabled.
+As part of the dropdown, we add the different dropdown menu items for all possible values the cell can take. In this case, we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will appear in red and disabled.
 When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V), true)``.
-The avaliable operations are defined by the selected backend, in this case we use the :ref:`ClingoBackend` which is the default, and recomended one.
+The available operations are defined by the selected backend, in this case, we use the :ref:`ClingoBackend`, which is the default and recommended one.
 
 .. code-block::
 
@@ -106,7 +103,7 @@ We add an additional item in each dropdown menu to clear any previous selection.
     attr(remove(X,Y), icon, ("fa-ban";"text-info")):-pos(X,Y).
     when(remove(X,Y), click, call, remove_assumption_signature(sudoku(X,Y,any))):-pos(X,Y).
 
-Finally, we use the menu bar component type to add the title and different operations in the top of the UI. Those options include, removing all assumptions and browsing the solutions.
+Finally, we use the menu bar component type to add the title and different operations at the top of the UI. These options include removing all assumptions and browsing the solutions.
 
 .. code-block::
 

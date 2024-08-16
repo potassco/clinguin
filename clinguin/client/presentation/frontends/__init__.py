@@ -11,4 +11,5 @@ try:
 
     __all__ += [TkinterFrontend.__name__]
 except ImportError:
-    print("------> Tkinter needs has to be installed to use the TkinterFronted")
+    # print("------> Tkinter needs has to be installed to use the TkinterFronted")
+    pass

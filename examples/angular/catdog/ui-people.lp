@@ -11,7 +11,7 @@ elem(add_person, button, people).
 attr(add_person, label, "Add person").
 attr(add_person, icon, "fa-user-plus").
 attr(add_person, class, ("btn-info";"m-2")).
-when(add_person, click, update, (add_modal, visible, shown)).
+when(add_person, click, update, (add_modal, visibility, shown)).
 
 elem(add_modal, modal, w).
 attr(add_modal, title, "Add person").

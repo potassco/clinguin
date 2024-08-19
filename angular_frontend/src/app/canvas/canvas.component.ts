@@ -113,7 +113,7 @@ export class CanvasComponent {
           correspondingElementDtoNode = item.value
         } else {
           // if  (svgNodeElement.id.startsWith("edge")){
-          // key = 
+          // key =
           // }
           for (const child of Array.from(svgNodeElement.children)) {
             if (child.tagName == "title") {
@@ -183,9 +183,6 @@ export class CanvasComponent {
     let htmlDdbut = this.theImage.nativeElement
 
     this.attributeService.addAttributes(htmlDdbut, element.attributes)
-    this.attributeService.textAttributes(htmlDdbut, element.attributes)
-    this.attributeService.setAttributesDirectly(htmlDdbut, element.attributes)
-
     this.callbackService.setCallbacks(htmlDdbut, element.when)
 
     let imgPath = this.attributeService.findAttribute("image_path", element.attributes)

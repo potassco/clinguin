@@ -15,12 +15,12 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
     elem(l2, message, window).
     attr(l2, message, "Right click on node to add children").
     attr(l2, type, info).
-    attr(l2, visible, hidden):- _clinguin_context(_,_).
+    attr(l2, visibility, hidden):- _clinguin_context(_,_).
 
     elem(l1, message, window).
     attr(l1, message, "Click on blue node to expland children").
     attr(l1, type, info).
-    attr(l1, visible, hidden):- _clinguin_context(_,_).
+    attr(l1, visibility, hidden):- _clinguin_context(_,_).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % MODAL
@@ -56,7 +56,7 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
     elem(context_menu(X), context_menu, window) :- node(X).
         elem(bcm(X), button, context_menu(X)) :- node(X).
         attr(bcm(X), label, "Add children") :- node(X).
-        when(bcm(X), click, update, (modal,visible, shown)) :- node(X).
+        when(bcm(X), click, update, (modal,visibility, shown)) :- node(X).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Canvas
@@ -72,11 +72,11 @@ when(window, load, context, (X,open)):- _clinguin_context(X,open).
         elem(n(X), svg_node, c) :- node(X).
         attr(n(X), clingraph_id, X) :- node(X).
         when(n(X), right_click, context, (selected_node, X)):- node(X).
-        when(n(X), right_click, update, (context_menu(X),visibility,visible)):- node(X).
+        when(n(X), right_click, update, (context_menu(X),visibility,shown)):- node(X).
         when(n(X), click, context, (selected_node, X)):- node(X).
         when(n(X), click, context, (Y, open)):- node(X), edge((X,Y)).
-        when(n(X), click, update, (n(Y), visibility, visible)):- edge((X,Y)).
-        when(n(X), click, update, (e((X,Y)), visibility, visible)):- edge((X,Y)).
+        when(n(X), click, update, (n(Y), visibility, shown)):- edge((X,Y)).
+        when(n(X), click, update, (e((X,Y)), visibility, shown)):- edge((X,Y)).
         when(n(X), mouseenter, update, (n(X), opacity, "1")):- node(X).
         when(n(X), mouseleave, update, (n(X), opacity, "0.5")):- node(X).
 

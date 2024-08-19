@@ -21,6 +21,7 @@ import { LocatorService } from './locator.service';
 import { TextfieldComponent } from './textfield/textfield.component';
 import { ModalComponent } from './modal/modal.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -49,7 +50,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     GraphOptionsComponent,
     TextfieldComponent,
     ModalComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+	ProgressBarComponent
   ],
   imports: [
     BrowserModule,

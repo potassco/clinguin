@@ -62,7 +62,7 @@ attr(objects, width, 300).
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 elem(knapsack, container, w).
-attr(knapsack, class,("bg-primary";"bg-opacity-25";"m-5";"p-2";"rounded")).
+attr(knapsack, class,("bg-primary";"bg-opacity-25";"m-3";"p-5";"rounded")).
 
     elem(taken_objects, container, knapsack).
     attr(taken_objects, class, ("p-2")).
@@ -93,7 +93,34 @@ attr(knapsack, class,("bg-primary";"bg-opacity-25";"m-5";"p-2";"rounded")).
     attr(knapsack_value, class, ("h8";"fw-light")).
     attr(knapsack_value, order, 2).
 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% Progress bar of the remaining weight
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	elem(limit_progress_container, container, knapsack).
+	attr(limit_progress_container, class,("p-3"; "mt-auto")).
+	attr(limit_progress_container, order, 4).
 
+	% Calculate the percentage of weight used
+	percentage_used(P) :- 
+		#sum{W,O: taken(O), weight(O, W)} = S, 
+		weight_limit(MAX), 
+		P = (S * 100) / MAX.
+
+	elem(limit_progress, progress_bar, limit_progress_container).
+	attr(limit_progress, value, P) :- percentage_used(P).
+	attr(limit_progress, class, "bg-success") :- percentage_used(P), P < 60.
+	attr(limit_progress, class, "bg-warning") :- percentage_used(P), P >= 60, P < 100.
+	attr(limit_progress, class, "bg-danger") :- percentage_used(P), P >= 100.
+	attr(limit_progress, class, ("progress-bar"; "progress-bar-striped")).
+	attr(limit_progress, height, 30).
+	attr(limit_progress, width, 300).
+
+	% The label inside the progress bar showing the remaining weight
+	attr(limit_progress, label, @concat("Remaining weight: ", Remaining, "g")) :-
+		#sum{W,O: taken(O), weight(O, W)} = S, 
+		weight_limit(MAX), 
+		Remaining = MAX - S.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%

@@ -266,8 +266,38 @@ Canvas can be used to render clingraph images; see :ref:`ClingraphBackend` for d
 
     *Values*: String
 
-Attributes
-++++++++++
+``progress-bar``
+................
+
+A progress bar component used to display a percentage of completion. It is implemented using `Bootstrap progress bars <https://getbootstrap.com/docs/5.0/components/progress/>`_ .
+
+
+**Attributes**
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
+:ref:`Grid <Grid>`,
+:ref:`Relative and Absolute <Relative and Absolute>`,
+:ref:`Direction <Direction>`,
+:ref:`Color <Color>`,
+:ref:`Size <Size>`,
+:ref:`Border <Border>`,
+:ref:`Text <Text>`
+
+``value``
+    *Description*: The current value of the progress bar, representing the percentage completed.
+
+    *Values*: Integer (0 to 100)
+
+``label``
+    *Description*: A label displayed inside the progress bar, indicating the status or percentage.
+
+    *Values*: String
+
+
+Atributes
++++++++++
 
 .. note::
 

@@ -1,0 +1,9 @@
+<div class="progress" [style.position]="'relative'" [style.height]="'100%'" [style.display]="'flex'" [style.alignItems]="'center'">
+	<div class="progress-bar" #progress role="progressbar" 
+         [style.width.%]="value > 0 ? value : 1"
+         [attr.aria-valuenow]="value" 
+         aria-valuemin="0" 
+         aria-valuemax="100">
+    </div>
+	<span class="progress-label" style="position: absolute; width: 100%; text-align: center;">{{ label }}</span>
+</div>

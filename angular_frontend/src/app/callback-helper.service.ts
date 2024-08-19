@@ -127,7 +127,7 @@ function handleUpdate(when: WhenDto, event: Event | null) {
   if (elementLookup != null) {
 
     if (elementLookup.element.type == "context_menu" && event != null) {
-      if (key != "visibility" || value != "visible") {
+      if (key != "visibility" || (value != "visible" && value != "shown")) {
         console.error("For updates to context menu only tuples of form (_,visibility,visible) are valid, but got: " + id + "," + key + "," + value)
       } else {
         handleRightClick(id, event)

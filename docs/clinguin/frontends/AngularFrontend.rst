@@ -480,7 +480,7 @@ Style
     *Description*: Sets the visibility of an element. It can be used to show things like a modal or a container using the update functionality.
 
     *Values*: The visibility options are:
-        - ``visible``: To show the element
+        - ``shown``: To show the element
         - ``hidden``: To hide the element
 
 .. _Text:

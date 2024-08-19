@@ -18,6 +18,9 @@
       * type parsing and defaults for user input in `_context_value`
       * model selection now accepts show statements for filtering
       * added operation to set a constant
+    * Attributes
+      * Attribute `visible` is now `visibility` and the values are either `shown` or `hidden`
+      * Attribute regarding style (such as `filter`) for canvas elements with an image path are now applied only to the canvas
     * Domain constructors
       * added optimization information into domain state
       * added information about externals

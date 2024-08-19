@@ -12,8 +12,8 @@ import { ModalRefService } from '../modal-ref.service';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-  @ViewChild('child',{read: ViewContainerRef}) child!: ViewContainerRef;
-  @ViewChild('content',{read: TemplateRef}) content!: TemplateRef<any>;
+  @ViewChild('child', { read: ViewContainerRef }) child!: ViewContainerRef;
+  @ViewChild('content', { read: TemplateRef }) content!: TemplateRef<any>;
 
   @Input() element: ElementDto | null = null
   @Input() parentLayout: string = ""
@@ -22,10 +22,10 @@ export class ModalComponent {
   container: ElementDto | null = null
   modalTitle: string = ""
 
-  modalRef : NgbModalRef | null = null
+  modalRef: NgbModalRef | null = null
 
   closeResult = '';
-  
+
   constructor(private childBearerService: ChildBearerService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private modalService: NgbModal, private modalRefService: ModalRefService) {
   }
 
@@ -43,7 +43,7 @@ export class ModalComponent {
 
   setAttributes(attributes: AttributeDto[]) {
 
-    let visibility = this.attributeService.findAttribute("visible", attributes)
+    let visibility = this.attributeService.findAttribute("visibility", attributes)
 
     let modalTitle = this.attributeService.findAttribute("title", attributes)
     let modalSize = this.attributeService.findAttribute("size", attributes)
@@ -55,16 +55,16 @@ export class ModalComponent {
     if (visibility != null && this.element != null) {
 
       if ((visibility.value == "shown" || visibility.value == "visible") && (this.modalRef == null)) {
-        
+
         if (modalSize != null) {
           console.log(modalSize.value)
         }
 
         let ngbModalOptions = null
         if (modalSize != null) {
-          ngbModalOptions = { ariaLabelledBy: 'modal-basic-title', size: modalSize.value } 
+          ngbModalOptions = { ariaLabelledBy: 'modal-basic-title', size: modalSize.value }
         } else {
-          ngbModalOptions = { ariaLabelledBy: 'modal-basic-title' } 
+          ngbModalOptions = { ariaLabelledBy: 'modal-basic-title' }
         }
 
         this.modalRef = this.modalService.open(this.content, ngbModalOptions)
@@ -88,7 +88,7 @@ export class ModalComponent {
           },
           (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            
+
             if (this.element != null) {
               for (let index = 0; index < this.element.attributes.length; index++) {
                 let attribute = this.element.attributes[index]
@@ -101,10 +101,10 @@ export class ModalComponent {
             if (this.element != null) {
               this.modalRefService.removeModalByKey(this.element.id)
             }
-            
+
             this.modalRef = null
           },
-        );  
+        );
       } else if (this.modalRef != null && (visibility.value == "hidden" || visibility.value == "collapse")) {
         this.modalRef.close()
       }
@@ -113,15 +113,15 @@ export class ModalComponent {
     }
   }
 
-	private getDismissReason(reason: any): string {
-		if (reason === ModalDismissReasons.ESC) {
-			return 'by pressing ESC';
-		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-			return 'by clicking on a backdrop';
-		} else {
-			return `with: ${reason}`;
-		}
-	}
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
 
 }

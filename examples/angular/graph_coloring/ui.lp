@@ -7,7 +7,7 @@ elem(window, window, root).
     elem(l, message, window).
     attr(l, message, "Right click on node to select color!").
     attr(l, type, warning).
-    attr(l, visible, hidden):- _clinguin_assume(_,_).
+    attr(l, visibility, hidden):- _clinguin_assume(_,_).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Context menu
@@ -26,7 +26,7 @@ elem(window, window, root).
 
         elem(n(X), svg_node, c) :- node(X).
         attr(n(X), clingraph_id, X) :- node(X).
-        when(n(X), right_click, update, (context_menu(X),visibility,visible)):- node(X).
+        when(n(X), right_click, update, (context_menu(X),visibility,shown)):- node(X).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Download modal
@@ -67,7 +67,7 @@ attr(menu_bar, icon, "fa-diagram-project").
     elem(menu_bar_download, button, menu_bar).
     attr(menu_bar_download, label, "Download").
     attr(menu_bar_download, icon, "fa-download").
-    when(menu_bar_download, click, update, (modal, visible, shown)).
+    when(menu_bar_download, click, update, (modal, visibility, shown)).
 
 
     elem(menu_bar_select, button, menu_bar).

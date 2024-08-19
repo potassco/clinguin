@@ -49,7 +49,7 @@ attr(window, flex_direction, row).
         attr(add_button, class, "border-info").
         attr(add_button, child_layout, flex).
         attr(add_button, flex_direction, column).
-        when(add_button, click, update, (modal, visible, shown)).
+        when(add_button, click, update, (modal, visibility, shown)).
 
         elem(list_people, container, people).
         attr(tables, class, "w-25").

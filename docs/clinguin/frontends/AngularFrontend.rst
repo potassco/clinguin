@@ -286,14 +286,35 @@ A progress bar component used to display a percentage of completion. It is imple
 :ref:`Text <Text>`
 
 ``value``
-    *Description*: The current value of the progress bar, representing the percentage completed.
+    *Description*: The current value of the progress bar. By default, it is set to 0.
 
-    *Values*: Integer (0 to 100)
+    *Values*: Integer
+
+``min``
+    *Description*: The minimum value of the progress bar. By default, it is set to 0.
+
+    *Values*: Integer
+
+``max``
+    *Description*: The maximum value of the progress bar. By default, it is set to 100.
+
+    *Values*: Integer
 
 ``label``
-    *Description*: A label displayed inside the progress bar, indicating the status or percentage.
+    *Description*: A label displayed inside the progress bar.
 
     *Values*: String
+
+``out_label``
+    *Description*: A label displayed outside the progress bar.
+
+    *Values*: String
+
+.. tip::
+
+   If you wish to use percentages, you can pass an interget between 0 and 100 to the value attribute
+   and use the default values for min and max; 0 and 100 respectively.
+
 
 
 Atributes

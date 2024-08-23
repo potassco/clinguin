@@ -65,8 +65,9 @@ elem(knapsack, container, w).
 attr(knapsack, class,("bg-primary";"bg-opacity-25";"m-3";"p-5";"rounded")).
 
     elem(taken_objects, container, knapsack).
-    attr(taken_objects, class, ("p-2")).
-    attr(taken_objects, order, 3).
+    attr(taken_objects, class, ("p-2";"m-3")).
+    attr(taken_objects, width, 200).
+    attr(taken_objects, order, 4).
 
         taken(O):- _all(take(O)).
         taken(O):- take(O), _clinguin_browsing.
@@ -83,10 +84,6 @@ attr(knapsack, class,("bg-primary";"bg-opacity-25";"m-3";"p-5";"rounded")).
     attr(knapsack_label, class, ("h4")).
     attr(knapsack_label, order, 1).
 
-    elem(knapsack_weight, label, knapsack).
-    attr(knapsack_weight, label, @format("Weigth: {}g",S)):- #sum{W,O: taken(O), weight(O, W)}=S.
-    attr(knapsack_weight, class, ("h8";"fw-light")).
-    attr(knapsack_weight, order, 2).
 
     elem(knapsack_value, label, knapsack).
     attr(knapsack_value, label, @format("Value: {}€",S)):- #sum{W,O: taken(O), value(O, W)}=S.
@@ -96,31 +93,23 @@ attr(knapsack, class,("bg-primary";"bg-opacity-25";"m-3";"p-5";"rounded")).
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	% Progress bar of the remaining weight
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
-	elem(limit_progress_container, container, knapsack).
-	attr(limit_progress_container, class,("p-3"; "mt-auto")).
-	attr(limit_progress_container, order, 4).
 
-	% Calculate the percentage of weight used
-	percentage_used(P) :- 
-		#sum{W,O: taken(O), weight(O, W)} = S, 
-		weight_limit(MAX), 
-		P = (S * 100) / MAX.
 
-	elem(limit_progress, progress_bar, limit_progress_container).
-	attr(limit_progress, value, P) :- percentage_used(P).
-	attr(limit_progress, class, "bg-success") :- percentage_used(P), P < 60.
-	attr(limit_progress, class, "bg-warning") :- percentage_used(P), P >= 60, P < 100.
-	attr(limit_progress, class, "bg-danger") :- percentage_used(P), P >= 100.
-	attr(limit_progress, class, ("progress-bar"; "progress-bar-striped")).
-	attr(limit_progress, height, 30).
-	attr(limit_progress, width, 300).
+	elem(weight_progress_bar, progress_bar, knapsack).
+	attr(weight_progress_bar, order, 3).
+	attr(weight_progress_bar, value, S) :- #sum{W,O: taken(O), weight(O, W)} = S.
+	attr(weight_progress_bar, min, 0).
+	attr(weight_progress_bar, max, MAX) :- weight_limit(MAX).
+	attr(weight_progress_bar, class, ("progress-bar-striped")).
+	attr(weight_progress_bar, height, 30).
+	attr(weight_progress_bar, width, 300).
 
-	% The label inside the progress bar showing the remaining weight
-	attr(limit_progress, label, @concat("Remaining weight: ", Remaining, "g")) :-
-		#sum{W,O: taken(O), weight(O, W)} = S, 
-		weight_limit(MAX), 
+	attr(weight_progress_bar, out_label, @concat(Remaining, "g")) :-
+		#sum{W,O: taken(O), weight(O, W)} = S,
+		weight_limit(MAX),
 		Remaining = MAX - S.
+    attr(weight_progress_bar, label, @concat(S, "g")) :-
+		#sum{W,O: taken(O), weight(O, W)} = S.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%

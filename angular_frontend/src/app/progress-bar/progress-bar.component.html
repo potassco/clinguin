@@ -1,9 +1,8 @@
-<div class="progress" [style.position]="'relative'" [style.height]="'100%'" [style.display]="'flex'" [style.alignItems]="'center'">
-	<div class="progress-bar" #progress role="progressbar" 
-         [style.width.%]="value > 0 ? value : 1"
-         [attr.aria-valuenow]="value" 
-         aria-valuemin="0" 
-         aria-valuemax="100">
+<div class="progress" [style.position]="'relative'" [style.height]="'100%'" [style.display]="'flex'"
+    [style.alignItems]="'center'" #progress>
+    <div class="progress-bar" #progressBar role="progressbar" [style.width.%]="percentage"
+        [style.height]="progress.offsetHeight + 'px'" [attr.aria-valuenow]="value" aria-valuemin="min"
+        aria-valuemax="max">{{label}}
     </div>
-	<span class="progress-label" style="position: absolute; width: 100%; text-align: center;">{{ label }}</span>
+    <span class="progress-label" [style.width.%]="100 - percentage" style="text-align: center;">{{ out_label }}</span>
 </div>

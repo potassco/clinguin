@@ -493,7 +493,7 @@ class ClingoBackend:
                 f"Invalid external value {name}. Must be true, false or relase"
             )
 
-    def _add_assumption(self, symbol, value: "true"):
+    def _add_assumption(self, symbol, value="true"):
         """
         Adds an assumption to the list of assumptions.
 

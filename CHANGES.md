@@ -21,6 +21,8 @@
     * Attributes
       * Attribute `visible` is now `visibility` and the values are either `shown` or `hidden`
       * Attribute regarding style (such as `filter`) for canvas elements with an image path are now applied only to the canvas
+    * Components
+      * New component `progress_bar`
     * Domain constructors
       * added optimization information into domain state
       * added information about externals

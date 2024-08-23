@@ -6,4 +6,4 @@ networkx
 uvicorn
 clingraph
 Pillow
-clingexplaid
+clingexplaid>=1.0.14

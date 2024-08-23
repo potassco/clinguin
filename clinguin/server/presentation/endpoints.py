@@ -107,13 +107,13 @@ class Endpoints:
                 self._backend._set_context([])
 
             function_name = symbol.name
-            policies = []
+            operations = []
             if function_name == "":
-                policies = symbol.arguments
+                operations = symbol.arguments
             else:
-                policies = [symbol]
+                operations = [symbol]
 
-            for p in policies:
+            for p in operations:
                 function_name = p.name
 
                 function_arguments = list(map(str, p.arguments))

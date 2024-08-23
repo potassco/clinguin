@@ -24,7 +24,7 @@ requirements:
   - uvicorn
   - clingraph
   - Pillow
-  - clingexplaid
+  - clingexplaid>=1.0.14
 
 build:
   number: {{ build }}

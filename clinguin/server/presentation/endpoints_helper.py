@@ -28,6 +28,15 @@ class EndpointsHelper:
         snake_case_name = name
         camel_case_name = CaseConverter.snake_case_to_camel_case(snake_case_name)
 
+        public_functions = [
+            str(func) for func in dir(backend) if not func.startswith("_")
+        ]
+        if snake_case_name.startswith("_"):
+            error_string = "Cannot call private functions '" + name + "' in backend."
+            logger.error(error_string)
+            logger.error("Available operations: \n\t%s", "\n\t".join(public_functions))
+            raise Exception(error_string)
+
         if hasattr(backend, snake_case_name):
             function = getattr(backend, snake_case_name)
             found = True
@@ -38,6 +47,7 @@ class EndpointsHelper:
         if found:
             result = function(*args, **kwargs)
             return result
-        error_string = "Could not find function '" + name + "' in backend."
+        error_string = "Could not find operation '" + name + "' in backend."
         logger.error(error_string)
+        logger.error("Available operations: \n\t%s", "\n\t".join(public_functions))
         raise Exception(error_string)

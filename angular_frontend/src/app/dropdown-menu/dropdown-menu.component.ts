@@ -55,6 +55,9 @@ export class DropdownMenuComponent {
           if (icon != null) {
 
             this.attributeService.addClasses(icon, child.attributes, ["fa"], [], 'icon')
+            if (this.attributeService.findGetAttributeValue("icon", child.attributes, "") !== "") {
+              childObject.label = " " + childObject.label;
+            }
           }
 
         }

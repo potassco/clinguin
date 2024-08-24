@@ -236,7 +236,7 @@ function replaceContext(operation_string: string) {
         throw new Error("Expected a constant that can be parsed to an atom, but got: " + new_value);
       }
     }
-    console.log("out");
+    // console.log("out");
 
     if (match_type == null && mustBeQuoted) {
       // console.log("Adding quotes 2")
@@ -360,7 +360,7 @@ export class CallBackHelperService {
             handleUpdate(when, null)
           }
           if (when.interactionType == "call" || when.interactionType == "callback") {
-            console.log("call")
+            // console.log("call")
             try {
               handleCallback(when, null)
             } catch (error: any) {

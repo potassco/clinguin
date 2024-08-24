@@ -22,10 +22,11 @@ import { TextfieldComponent } from './textfield/textfield.component';
 import { ModalComponent } from './modal/modal.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 function initialize() {
   return (): Promise<boolean> => {
-    return new Promise<boolean>((resolve: (a:boolean) => void): void => {resolve(true);})
+    return new Promise<boolean>((resolve: (a: boolean) => void): void => { resolve(true); })
   }
 }
 
@@ -51,7 +52,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     TextfieldComponent,
     ModalComponent,
     ContextMenuComponent,
-	ProgressBarComponent
+    ProgressBarComponent,
+    CheckboxComponent
   ],
   imports: [
     BrowserModule,
@@ -76,4 +78,4 @@ export class AppModule {
   constructor(private injector: Injector) {
     LocatorService.injector = injector
   }
- }
+}

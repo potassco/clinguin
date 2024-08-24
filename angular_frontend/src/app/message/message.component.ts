@@ -38,7 +38,6 @@ export class MessageComponent {
     let attrMessage = this.attributeService.findGetAttributeValue("message", attributes, "")
 
     this.visibility = this.attributeService.findGetAttributeValue("visibility", attributes, "shown")
-    console.log("visibility: " + this.visibility);
 
     if (attrType == "error") {
       attrType = "danger"

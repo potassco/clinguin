@@ -12,7 +12,7 @@ attr(window, flex_direction, row).
 
     elem(modal, modal, window).
     attr(modal, title, "Add person").
-    attr(modal, size, "xl").
+    attr(modal, size, "s").
 
         elem(c1, container, modal).
         attr(c1, child_layout, flex).
@@ -34,78 +34,30 @@ attr(window, flex_direction, row).
 
 
     %%%%%%%%%%%%%%%%%%%%%%%%
-    % ALL PEOPLE
-    %%%%%%%%%%%%%%%%%%%%%%%%
-
-    elem(people, container, window).
-    attr(people, class, "w-25").
-    attr(people, child_layout, "flex").
-    attr(people, flex_direction, "row").
-
-        elem(add_button, button, people).
-        attr(add_button, icon, "fa-user-plus").
-        attr(add_button, class, "btn-secondary").
-        attr(add_button, class, "bg-opacity-50").
-        attr(add_button, class, "border-info").
-        attr(add_button, child_layout, flex).
-        attr(add_button, flex_direction, column).
-        when(add_button, click, update, (modal, visibility, shown)).
-
-        elem(list_people, container, people).
-        attr(tables, class, "w-25").
-        attr(tables, order, 1).
-        attr(list_people, class, "rounded").
-        attr(list_people, class, "bg-secondary").
-        attr(list_people, class, "bg-opacity-50").
-        attr(list_people, class, "p-4").
-        attr(list_people, class, "align-items-start").
-
-            elem(person_l(P), label, list_people):- person(P).
-            attr(person_l(P), label, P):- person(P).
-            attr(person_l(P), class, "text-capitalize"):- person(P).
-
-    %%%%%%%%%%%%%%%%%%%%%%%%
     % PEOPLE INCLUDED
     %%%%%%%%%%%%%%%%%%%%%%%%
 
     elem(included, container, window).
-    attr(included, class, "bg-info").
-    attr(included, class, "w-25").
-    attr(included, class, "p-4").
-    attr(included, class, "rounded").
-    attr(included, order, 2).
-    attr(included, child_layout, "flex").
+    attr(included, class, ("bg-secondary";"bg-opacity-50";"w-25";"p-4";"rounded";"d-flex";"flex-column-reverse";"justify-content-end")).
+    attr(included, order, 1).
 
-        elem(included(P), container, included):- person(P).
-        attr(included(P), flex_direction, row):- person(P).
-        attr(included(P), class, "align-items-center"):- person(P).
+        elem(add_button, button, included).
+        attr(add_button, icon, "fa-user-plus").
+        attr(add_button, order, 1).
+        attr(add_button, class, ("btn-secondary";"bg-opacity-50")).
+        when(add_button, click, update, (modal, visibility, shown)).
 
-            elem(included_l(P), container, included(P)):- person(P).
-            attr(included_l(P), class, "w-75"):- person(P).
-            attr(included_l(P), flex_direction, row):- person(P).
+        elem(people, container, included).
+            elem(included(P), container, people):- person(P).
 
-                elem(included_btn(P), button, included_l(P)):- person(P).
-                attr(included_btn(P), class, "btn-sm"):- person(P).
-                attr(included_btn(P), class, "rounded-circle"):- person(P).
-                attr(included_btn(P), icon, "fa-circle-check"):- person(P), include(P).
-                attr(included_btn(P), icon, "fa-circle-xmark"):- person(P), not include(P).
-                attr(included_btn(P), class, "text-success"):- person(P), include(P).
-                attr(included_btn(P), class, "text-danger"):- person(P), not include(P).
-
-                elem(included_label(P), label, included_l(P)):- person(P).
-                attr(included_label(P), label, P):- person(P).
-                attr(included_label(P), class, "text-capitalize"):- person(P).
-
-            elem(included_any(P), container, included(P)):- person(P).
-            attr(included_any(P), flex_direction, row):- person(P).
+                elem(included_cb(P), checkbox, included(P)):- person(P).
+                attr(included_cb(P), checked, true):- include(P).
+                when(included_cb(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
+                when(included_cb(P), click, call, set_external(include(P),false)) :- person(P), include(P).
+                attr(included_cb(P), label, P):- person(P).
+                attr(included_cb(P), class, ("text-capitalize";"h6";"m-2")):- person(P).
 
 
-                elem(included_btn_add(P), button, included_any(P)):- person(P).
-                attr(included_btn_add(P), class, "btn-sm"):- person(P).
-                attr(included_btn_add(P), class, "btn-outline-dark"):- person(P).
-                attr(included_btn_add(P), class, "m-1"):- person(P).
-                attr(included_btn_add(P), label, "Add"):- person(P), not include(P).
-                attr(included_btn_add(P), label, "Remove"):- person(P), include(P).
                 when(included_btn_add(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
                 when(included_btn_add(P), click, call, set_external(include(P),false)) :- person(P), include(P).
 
@@ -117,7 +69,7 @@ attr(window, flex_direction, row).
 
 
     elem(tables, container, window).
-    attr(tables, order, 3).
+    attr(tables, order, 2).
     attr(tables, class, "w-50").
 
 
@@ -136,8 +88,7 @@ attr(window, flex_direction, row).
 
                 elem(table_label(T), label, table_label_container(T)):-table(T,_).
                 attr(table_label(T), label, L):-table(T,L).
-                attr(table_label(T), class, "font-weight-bold"):-table(T,L).
-                attr(table_label(T), "font-size", "20px"):-table(T,L).
+                attr(table_label(T), class, ("font-weight-bold";"h5")):-table(T,L).
                 attr(table_label(T), class, "align-middle"):-table(T,L).
 
             elem(table_dropdowns(T), container, table(T)):-table(T,_).
@@ -145,9 +96,7 @@ attr(window, flex_direction, row).
             attr(table_dropdowns(T), class, "m-2"):-table(T,_).
 
                 elem(table_seat(S,T), dropdown_menu, table_dropdowns(T)):-seat(S,T).
-                attr(table_seat(S,T), class, "btn-sm"):-seat(S,T).
-                attr(table_seat(S,T), class, "btn-primary"):-seat(S,T).
-                attr(table_seat(S,T), class, "m-1"):-seat(S,T).
+                attr(table_seat(S,T), class, ("btn-primary";"m-1";"btn-sm";"text-capitalize")):-seat(S,T).
                 attr(table_seat(S,T), selected, P):- _all(assign(seat(S,T),P)).
                 attr(table_seat(S,T), selected, P):- assign(seat(S,T),P), _clinguin_browsing.
 

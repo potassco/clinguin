@@ -21,8 +21,8 @@ Can be used as `OPERATION` in the actions of the :ref:`ui-state`
 
 .. autoclass:: ClingoBackend
     :members:
-    :noindex:
     :exclude-members: register_options, get, __init__
+    :show-inheritance: False
 
 
 Domain state constructors

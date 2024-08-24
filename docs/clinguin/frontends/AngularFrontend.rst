@@ -121,6 +121,12 @@ Corresponds to a limited version of `bootstrap modal <https://getbootstrap.com/d
 
     *Values*: String
 
+``size``
+
+    *Description*: The size of the modal
+
+    *Values*: String. Can be ``sm`` for small, ``m`` for medium, ``lg`` for large, or ``xl`` for extra large.
+
 .. _button:
 
 ``button``
@@ -221,6 +227,10 @@ A dropdown menu for single select. All children should be :ref:`dropdown-menu-it
 
     *Values*: String
 
+.. tip::
+
+    For multi select, try using a :ref:`checkbox` insted.
+
 .. _dropdown-menu-item:
 
 ``dropdown-menu-item``
@@ -269,7 +279,7 @@ Canvas can be used to render clingraph images; see :ref:`ClingraphBackend` for d
 ``progress-bar``
 ................
 
-A progress bar component used to display a percentage of completion. It is implemented using `Bootstrap progress bars <https://getbootstrap.com/docs/5.0/components/progress/>`_ .
+A progress bar component used to display a percentage of completion. Corresponds to a limited version of `Bootstrap progress bars <https://getbootstrap.com/docs/5.0/components/progress/>`_ .
 
 
 **Attributes**
@@ -312,9 +322,87 @@ A progress bar component used to display a percentage of completion. It is imple
 
 .. tip::
 
-   If you wish to use percentages, you can pass an interget between 0 and 100 to the value attribute
-   and use the default values for min and max; 0 and 100 respectively.
+    **Percentage**
 
+    If you wish to use percentages, you can pass an interget between 0 and 100 to the value attribute
+    and use the default values for min and max; 0 and 100 respectively.
+
+
+.. _checkbox:
+
+``checkbox``
+............
+
+A checkbox component used to display a boolean value. Corresponds to a limited version of `Bootstrap form-check <https://getbootstrap.com/docs/5.0/forms/checks-radios/>`_ .
+
+
+**Attributes**
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
+:ref:`Grid <Grid>`,
+:ref:`Relative and Absolute <Relative and Absolute>`,
+:ref:`Direction <Direction>`,
+:ref:`Color <Color>`,
+:ref:`Size <Size>`,
+:ref:`Border <Border>`,
+:ref:`Text <Text>`
+
+
+``checked``
+    *Description*: The current value of the checkbox. By default, it is set to false.
+
+    *Values*: Boolean. Any value is considered as true. Leaving the attribute undefied defaults to false
+
+``label``
+    *Description*: A label displayed next to the checkbox.
+
+    *Values*: String
+
+``disabled``
+    *Description*: Disables the checkbox.
+
+    *Values*: Boolean
+
+``type``
+    *Description*: The type of the checkbox. By default, it is set to 'checkbox'.
+
+    *Values*: String. Can be 'checkbox' or 'radio'
+
+.. important::
+
+    **Keep checkbox checked**
+
+    When a checkbox is clicked, if an operation is called, the attribute ``checked`` needs to be updated in the encoding to reflect the new value.
+
+    .. admonition:: Example
+
+        .. code-block:: prolog
+
+            elem(check(P), checkbox, included(P)):- person(P).
+            attr(check(P), checked, true):- include(P).
+            when(check(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
+            when(check(P), click, call, set_external(include(P),false)) :- person(P), include(P).
+
+.. tip::
+
+    **Radio buttons**
+
+    If you wish to use a radio button, you can set the type attribute to 'radio'.
+    To have a radio-like behavior, you should make sure the condition for the checked attribute is exclusive for each radio button.
+
+    .. admonition:: Example
+
+        The last rule in the following example ensures that only one radio button is checked at a time.
+
+        .. code-block:: prolog
+
+            elem(radio(P), checkbox, included(P)):- person(P).
+            attr(radio(P), type, radio):- person(P).
+            attr(radio(P), checked, true):- include(P).
+            when(radio(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
+            when(radio(P), click, call, set_external(include(P'),false)) :- person(P), not include(P), person(P'), P'!=P.
 
 
 Atributes

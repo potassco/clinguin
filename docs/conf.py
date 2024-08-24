@@ -33,6 +33,9 @@ autodoc_class_signature = "separated"
 
 # -- Project information -----------------------------------------------------
 
+toc_object_entries_show_parents = "hide"
+add_function_parentheses = False
+
 project = "clinguin"
 copyright = "2022, Susana Hahn, Alexander Beiser"
 author = "Susana Hahn, Alexander Beiser"

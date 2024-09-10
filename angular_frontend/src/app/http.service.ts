@@ -32,8 +32,15 @@ export class HttpService {
     let frontendService = LocatorService.injector.get(DrawFrontendService)
 
 
-    const response = this.http.get<ElementDto>(this.backend_URI,)
+    let headers = new HttpHeaders({
+        'ngrok-skip-browser-warning': '1234'
+    });
+    let options = {
+        headers: headers
+    }
 
+
+    const response = this.http.get<ElementDto>(this.backend_URI, options)
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
           console.error('Error occurred during the HTTP request:', error);

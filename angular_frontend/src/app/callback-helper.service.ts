@@ -109,6 +109,8 @@ function handleRightClick(operation: string, event: Event) {
 
 
 function handleUpdate(when: WhenDto, event: Event | null) {
+  console.log("---- Handling update", when)
+
   let elementLookupService = LocatorService.injector.get(ElementLookupService)
 
   let operation = when.operation
@@ -265,6 +267,7 @@ function handleCallback(when: WhenDto, event: Event | null) {
 }
 
 function handleContext(when: WhenDto, event: Event | null) {
+  console.log("---- Handling context", when)
   let contextService = LocatorService.injector.get(ContextService)
   let operation = when.operation
   operation = replaceContext(operation)

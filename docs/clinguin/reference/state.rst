@@ -50,7 +50,14 @@ Actions define the interactivity of the UI.  Multiple actions are allowed, as ex
 
 - ``ID`` Identifier of the element that the user interacted with.
 
-- ``EVENT`` The event that is being triggered, such as ``click``, ``hover``,  ``input``, etc. Each element type allows different events.
+- ``EVENT`` The event that is being triggered:
+    - ``click`` The user clicked on the element.
+    - ``input`` The user typed something in the element.
+    - ``right_click`` The user right-clicked on the element.
+    - ``mouseenter`` The user moved the mouse over the element.
+    - ``mouseleave`` The user moved the mouse out of the element.
+    - ``load`` The element was loaded.
+    - ``dblclick`` The user double-clicked on the element.
 
 - ``ACTION`` The action performed.
     - ``call`` Calls the server to perform an operation.

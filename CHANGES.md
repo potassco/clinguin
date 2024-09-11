@@ -1,5 +1,12 @@
 # Changes
 
+## clinguin 2.0.1
+
+  * Bug fix
+    * Message elements now on top
+  * Docs
+    * Added documentation for mouse events
+
 ## clinguin 2.0.0
 
 

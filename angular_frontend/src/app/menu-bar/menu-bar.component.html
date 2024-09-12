@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand  bg-light justify-content-between ">
+<nav class="navbar navbar-expand-exp navbar-light justify-content-between bg-light fixed-top">
   <a class="navbar-brand mx-3 text-dark">
-    <i #titleIcon ></i>
+    <i #titleIcon></i>
     {{title}}
   </a>
   <div>
-  <button *ngFor="let button of menuBarButtons" type="button" id={{button.id}} class="btn" ><i #icon></i> {{button.title}}</button>
+    <button *ngFor="let button of menuBarButtons" type="button" id={{button.id}} class="btn"><i #icon></i>
+      {{button.title}}</button>
   </div>
-</nav>
-  
+</nav>navbar navbar-expand navbar-light bg-light fixed-top

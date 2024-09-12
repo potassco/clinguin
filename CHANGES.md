@@ -1,5 +1,11 @@
 # Changes
 
+## clinguin 2.0.2
+
+  * Bug fix
+    * Menu bar fixed to top
+
+
 ## clinguin 2.0.1
 
   * Bug fix

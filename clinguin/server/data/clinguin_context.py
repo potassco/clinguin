@@ -78,6 +78,25 @@ class ClinguinContext:
             val = val[0].upper() + val[1:]
         return String(val)
 
+    def upper(self, s):
+        """
+        Turns a value into upper case
+
+        Example:
+            .. code-block:: prolog
+
+                attr(s_l(I), label, @upper(semester_1)). # Semester 1
+
+            Label will be `SEMESTER 1`
+
+        Args:
+            s: The value to transform
+        Returns:
+            The string without _
+        """
+        val = str(s).strip('"')
+        return String(val.upper())
+
     def __getattr__(self, name):
         # pylint: disable=import-outside-toplevel
 

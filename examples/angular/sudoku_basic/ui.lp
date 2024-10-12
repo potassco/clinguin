@@ -1,3 +1,4 @@
+#const dim=2.
 elem(window,window,root).
 attr(window,child_layout,grid).
 attr(window,class,("justify-content-start")).
@@ -8,7 +9,7 @@ attr(window,class,("justify-content-start")).
     attr(dd(X,Y),grid_column,X):-pos(X,Y).
     attr(dd(X,Y),grid_row,Y):-pos(X,Y).
     attr(dd(X,Y),class,("border-dark";"bg-primary")):-pos(X,Y).
-    attr(dd(X,Y),class,"bg-opacity-50"):-subgrid(X,Y,S), S\2!=0.
+    attr(dd(X,Y),class,"bg-opacity-50"):-pos(X,Y), (((X-1)/dim)+((Y-1)/dim))\2==0.
     attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
 
         elem(ddv(X,Y,V),dropdown_menu_item,dd(X,Y)):-_any(sudoku(X,Y,V)).

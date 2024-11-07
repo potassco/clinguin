@@ -116,7 +116,7 @@ class UIState:
             raise RuntimeError("UI encoding was UNSATISFIABLE")
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
         # log.debug(uictl_log(". ".join([str(s) for s in model_symbols])))
-        log.debug(uictl_log(self._factbase.asp_str(width=100000, commented=True)))
+        # log.debug(uictl_log(self._factbase.asp_str(width=100000, commented=True)))
 
     def add_message(self, title, message, attribute_type="info"):
         """

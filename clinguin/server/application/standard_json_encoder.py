@@ -57,6 +57,15 @@ class StandardJsonEncoder:
         for w in ui_state.get_elements():
             elements_info[w.id] = {"parent": w.parent, "type": w.type}
             dependency.append((w.id, w.parent))
+        for w in ui_state.get_elements():
+            if str(w.parent) != "root" and w.parent not in elements_info:
+                msg = "Error in %s. Parent element (ID: %s) undefined."
+                logger.critical(
+                    msg,
+                    str(w),
+                    str(w.parent),
+                )
+                raise Exception(msg % (str(w), str(w.parent)))
 
         directed_graph = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(directed_graph))))
@@ -72,14 +81,10 @@ class StandardJsonEncoder:
 
             if element_id not in elements_info:
                 logger.critical(
-                    "The provided element id (ID : %s) could not be found!",
+                    " The ID : '%s' was used as parent in an elem/3 predicate, could not be found!",
                     str(element_id),
                 )
-                raise Exception(
-                    "The provided element id (ID : "
-                    + str(element_id)
-                    + ") could not be found!"
-                )
+                raise Exception(" The ID : " + str(element_id) + " could not be found!")
 
             element_type = elements_info[element_id]["type"]
             parent = elements_info[element_id]["parent"]

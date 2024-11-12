@@ -461,6 +461,7 @@ class ClingoBackend:
             symbol (clingo.Symbol): The clingo symbol to be set
             name (str): Either "true", "false" or "release"
         """
+        name = name.strip('"')
         if name == "release":
             self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))
             self._ctl.release_external(symbol)

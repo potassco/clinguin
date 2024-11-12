@@ -33,13 +33,11 @@ export class HttpService {
 
 
     let headers = new HttpHeaders({
-        'ngrok-skip-browser-warning': '1234'
+      'ngrok-skip-browser-warning': '1234'
     });
     let options = {
-        headers: headers
+      headers: headers
     }
-
-
     const response = this.http.get<ElementDto>(this.backend_URI, options)
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
@@ -56,6 +54,7 @@ export class HttpService {
   post(operation: string, context: ContextItem[]): Observable<ElementDto> {
     let clonedContext: ContextItem[] = []
     context.forEach(val => clonedContext.push(Object.assign({}, val)));
+    let frontendService = LocatorService.injector.get(DrawFrontendService)
 
     this.modalRefService.closeRemoveAllModals()
     this.elementLookupService.clearElementLookupDict()
@@ -66,7 +65,13 @@ export class HttpService {
     if (clonedContext.length > 0) {
       request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation, context: clonedContext })
     } else {
-      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation })
+      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation }).pipe(
+        catchError((error: HttpErrorResponse, caught) => {
+          console.error('Error occurred during the HTTP request:', error);
+          frontendService.postMessage("error connection")
+          return throwError(() => new Error(error.error));
+        })
+      );
     }
     return request
   }

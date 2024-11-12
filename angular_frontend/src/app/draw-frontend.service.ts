@@ -33,7 +33,19 @@ export class DrawFrontendService {
 
         loader?.removeAttribute("hidden")
 
-        this.httpService.get().subscribe(
+        let errorIcon = document.getElementById("error")
+
+        errorIcon?.setAttribute("hidden", "true");
+
+        this.httpService.get().pipe(
+            catchError((error: HttpErrorResponse) => {
+                this.postMessage(`Connection Error`);
+                loader?.setAttribute("hidden", "true");
+                errorIcon?.removeAttribute("hidden");
+                return throwError(() => new Error(error.error));
+
+            })
+        ).subscribe(
             {
                 next: (data: ElementDto) => {
                     this.lastData = data
@@ -50,7 +62,19 @@ export class DrawFrontendService {
         let loader = document.getElementById("loader")
         loader?.removeAttribute("hidden")
 
-        this.httpService.post(callback.operation, context).subscribe(
+        let errorIcon = document.getElementById("error")
+
+        errorIcon?.setAttribute("hidden", "true");
+
+        this.httpService.post(callback.operation, context).pipe(
+            catchError((error: HttpErrorResponse) => {
+                this.postMessage(`Connection Error`);
+                loader?.setAttribute("hidden", "true");
+                errorIcon?.removeAttribute("hidden");
+                return throwError(() => new Error(error.error));
+
+            })
+        ).subscribe(
             {
                 next: (data: ElementDto) => {
                     this.lastData = data

@@ -52,6 +52,8 @@ The menu bar that appears on top.
 Any button which is a child of this element will be placed as part of the menu.
 Only :ref:`button` elements are allowed as part of the menu bar.
 Corresponds to a limited version of `bootstrap navbar <https://getbootstrap.com/docs/5.0/components/navbar/>`_.
+Menu bar buttons can use the attribute :ref:`Order <Order>`, to set the order of appearance.
+
 
 **Attributes**
 

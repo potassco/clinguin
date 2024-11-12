@@ -28,11 +28,16 @@ export class MenuBarComponent {
       this.elementLookupService.addElementObject(this.element.id, this, this.element)
       this.element.children.forEach(menuBarButton => {
         let menuBarButtonTitle = this.attributeService.findGetAttributeValue("label", menuBarButton.attributes, "")
-        let menuBarButtonObject = new MenuBarButton(menuBarButton.id, menuBarButtonTitle, menuBarButton)
+        let menuBarButtonOrder = this.attributeService.findGetAttributeValue("order", menuBarButton.attributes, "0")
+        let menuBarButtonObject = new MenuBarButton(menuBarButton.id, menuBarButtonTitle, menuBarButton, menuBarButtonOrder)
         this.elementLookupService.addElementObject(menuBarButton.id, menuBarButtonObject, menuBarButton)
         this.menuBarButtons.push(menuBarButtonObject)
       })
       this.cd.detectChanges()
+
+      this.menuBarButtons.sort((a: MenuBarButton, b: MenuBarButton) => {
+        return a.order - b.order
+      })
 
       this.menuBarButtons.forEach((menuBarButtonObject: MenuBarButton) => {
         let menuBarButtonHTML: HTMLElement | null = document.getElementById(menuBarButtonObject.id)
@@ -83,12 +88,14 @@ class MenuBarButton {
   id: string = ""
   title: string = ""
   element!: ElementDto
+  order: number = 0
   htmlElement: HTMLElement | null = null
 
-  constructor(id: string, title: string, element: ElementDto) {
+  constructor(id: string, title: string, element: ElementDto, order: string | null) {
     this.id = id
     this.title = title
     this.element = element
+    this.order = order != null ? parseInt(order) : 0
   }
 
   setHtmlElement(htmlElement: HTMLElement) {

@@ -3,7 +3,18 @@
 ## clinguin 2.1.1
 
   * Bug fix
-    * Menu bar fixed to top
+    * Message elements on top of other elements
+    * Keep headers for sharing
+    * Menu bar fix
+    * Operation set_external also accepts values with quotes
+  * Docs
+    * Included list of possible events
+  * Additions
+    * Version for fastapi package was relaxed in requirements
+    * Improved error messages for missing elements
+    * Added error messages for connection issues
+    * Buttons on the menu bar can now have a specific order using attribute `order`
+
 
 
 ## clinguin 2.0.1

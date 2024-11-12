@@ -11,7 +11,7 @@ pip:
     build_depends_release: |
         python3 -m pip install --user -r .github/requirements.txt
     build_depends_dev: |
-        python3 -m pip install --user --extra-index-url https://test.pypi.org/simple/ -r .github/requirements.txt
+        python3 -m pip install --user -r .github/requirements.txt
 
 conda:
     package_name:

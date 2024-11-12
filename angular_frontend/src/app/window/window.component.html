@@ -7,6 +7,9 @@
     <div class="spinner-border text-black float-end" role="status">
     </div>
 </div>
+<div id=error class="myspinner text-danger clearfix text-lg p-3 fs-1 float-end">
+    <i class="fa-solid fa-circle-exclamation"></i>
+</div>
 <div style="z-index: 9999; position: fixed; bottom:0;" *ngIf="window != null">
     <app-message *ngFor="let message of messageList" [element]="message"></app-message>
 </div>

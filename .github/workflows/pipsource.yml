@@ -27,7 +27,7 @@ jobs:
     - name: Install prerequisites (wip)
       if: ${{ github.event.inputs.wip == 'true' }}
       run: |
-        python3 -m pip install --user --extra-index-url https://test.pypi.org/simple/ -r .github/requirements.txt
+        python3 -m pip install --user -r .github/requirements.txt
 
     - name: Install prerequisites (release)
       if: ${{ github.event.inputs.wip == 'false' }}

@@ -14,6 +14,8 @@ max-public-methods=20
 max-returns=10
 max-statements=50
 min-public-methods=1
+max-positional-arguments=7
+
 
 [SIMILARITIES]
 

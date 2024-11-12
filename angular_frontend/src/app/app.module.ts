@@ -14,8 +14,6 @@ import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { MessageComponent } from './message/message.component';
-import { MainPageComponent } from './clingraphviz/main-page/main-page.component';
-import { GraphOptionsComponent } from './clingraphviz/graph-options/graph-options.component';
 import { ConfigService } from './config.service';
 import { LocatorService } from './locator.service';
 import { TextfieldComponent } from './textfield/textfield.component';
@@ -47,8 +45,6 @@ export function appConfigInit(appConfigService: ConfigService) {
     ButtonComponent,
     CanvasComponent,
     MessageComponent,
-    MainPageComponent,
-    GraphOptionsComponent,
     TextfieldComponent,
     ModalComponent,
     ContextMenuComponent,

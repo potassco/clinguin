@@ -85,18 +85,6 @@ export class DrawFrontendService {
 
     }
 
-    uncheckedPost(serverRequest: ServerRequest): void {
-
-        this.httpClient.post<ElementDto>(this.backend_URI + "/backend", serverRequest).subscribe(
-            //this.httpService.post(serverRequest.function).subscribe(
-            {
-                next: (data: ElementDto) => {
-                    this.lastData = data
-                    this.frontendJson.next(data)
-                }
-            })
-    }
-
     detectCreateMenuBar(element: ElementDto) {
         if (element.type == "menu_bar") {
             this.menuBar.next(element)

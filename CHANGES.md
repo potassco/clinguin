@@ -1,6 +1,6 @@
 # Changes
 
-## clinguin 2.0.2
+## clinguin 2.1.1
 
   * Bug fix
     * Menu bar fixed to top

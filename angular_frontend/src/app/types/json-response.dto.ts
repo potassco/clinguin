@@ -1,4 +1,3 @@
-import { NodeOptions } from "../clingraphviz/types/options"
 
 
 export interface JsonResponse {

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ClinGraphViz": {
+    "ClinguinAngular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -32,8 +32,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -66,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ClinGraphViz:build:production"
+              "browserTarget": "ClinguinAngular:build:production"
             },
             "development": {
-              "browserTarget": "ClinGraphViz:build:development"
+              "browserTarget": "ClinguinAngular:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ClinGraphViz:build"
+            "browserTarget": "ClinguinAngular:build"
           }
         },
         "test": {

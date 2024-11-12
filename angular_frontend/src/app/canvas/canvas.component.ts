@@ -67,10 +67,8 @@ export class CanvasComponent {
     let svgNodeElements = this.svgContainer.nativeElement.querySelectorAll(".node, .edge")
     // let svgEdgeElements = this.svgContainer.nativeElement.querySelectorAll(".edge")
 
-    // console.log(svgNodeElements)
     let nodeIdNodeElementLookup: { "key": string, "value": ElementDto }[] = []
     element.children.forEach(child => {
-      // console.log(child)
       let id_attr = this.attributeService.findAttribute("clingraph_id", child.attributes)
 
       if (id_attr != null) {
@@ -99,25 +97,17 @@ export class CanvasComponent {
 
   generateSvgNodeUiNodeAssociationList(svgNodeElements: any, nodeIdNodeElementLookup: { "key": string, "value": ElementDto }[]) {
 
-    // console.log(nodeIdNodeElementLookup)
     let svgNodeUiNodeAssociationList: { "svg": HTMLElement, "ui": ElementDto }[] = []
 
     svgNodeElements.forEach((svgNodeElement: HTMLElement) => {
-      // svgNodeElement.tooltip('hide')
       let correspondingElementDtoNode: null | ElementDto = null
-      // console.error("----")
-      // console.error(svgNodeElement.id)
       nodeIdNodeElementLookup.forEach((item: { "key": string, "value": ElementDto }) => {
 
         if (svgNodeElement.id == item.key) {
           correspondingElementDtoNode = item.value
         } else {
-          // if  (svgNodeElement.id.startsWith("edge")){
-          // key =
-          // }
           for (const child of Array.from(svgNodeElement.children)) {
             if (child.tagName == "title") {
-              // console.log(child.innerHTML)
               if (child.innerHTML == item.key) {
                 correspondingElementDtoNode = item.value
               }
@@ -131,7 +121,7 @@ export class CanvasComponent {
         svgNodeUiNodeAssociationList.push({ "svg": svgNodeElement, "ui": correspondingElementDtoNode })
 
       } else {
-        console.log("Warning: Could not find for the following svgElement a corresponding clingraph node or edge!")
+        console.debug("Warning: No svgElement defined for clingraph element", svgNodeElement.id)
       }
     })
 
@@ -145,32 +135,7 @@ export class CanvasComponent {
       let clickRelatedDoList: WhenDto[] = []
       this.callbackService.setCallbacks(elem.svg, elem.ui.when)
 
-      /*
-      uiElement.when.forEach((do_: WhenDto) => {
-        if (do_.actionType == "click") {
-          clickRelatedDoList.push(do_)
-        }
-      })
 
-      elem.svg.addEventListener("click",function(){
-        clickRelatedDoList.forEach((do_:WhenDto) => {
-          if (do_.interactionType == "update") {
-
-
-            let searchedElement : null | HTMLElement = document.getElementById(id)
-            if (searchedElement != null) {
-              if (key == "visibility") {
-                if (value == "hidden") {
-                  searchedElement.style.visibility = "hidden"
-                } else if (value == "shown") {
-                  searchedElement.style.visibility = "visible"
-                }
-              }
-            }
-          }
-        })
-      })
-      */
     })
   }
 

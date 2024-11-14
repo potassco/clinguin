@@ -22,12 +22,13 @@ class StandardJsonEncoder:
         pass
 
     @classmethod
-    def encode(cls, ui_state):
+    def encode(cls, ui_state, ds_dict):
         """
         Public easy to access wrapper for the _generate_hierarchy method.
 
         Arguments:
             ui_state : UIState
+            ds_dict : Dict
         """
         elements_dict = {}
 
@@ -35,7 +36,7 @@ class StandardJsonEncoder:
         elements_dict[str(root.id)] = root
 
         cls._generate_hierarchy(ui_state, root, elements_dict)
-        return root
+        return {"ui": root, "ds": ds_dict}
 
     @classmethod
     def _generate_hierarchy(cls, ui_state, hierarchy_root, elements_dict):

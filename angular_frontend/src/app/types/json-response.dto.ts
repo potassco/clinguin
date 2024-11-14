@@ -1,7 +1,7 @@
 
 
 export interface JsonResponse {
-    root: ElementDto
+    ui: ElementDto
 }
 
 export interface ElementDto {

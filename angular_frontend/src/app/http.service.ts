@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { ElementDto } from './types/json-response.dto';
+import { JsonResponse } from './types/json-response.dto';
 import { ConfigService } from './config.service';
 import { ContextItem, ContextService } from './context.service';
 import { ModalRefService } from './modal-ref.service';
@@ -24,7 +24,7 @@ export class HttpService {
 
   private backend_URI = "http://localhost:8000"
 
-  get(): Observable<ElementDto> {
+  get(): Observable<JsonResponse> {
     this.modalRefService.closeRemoveAllModals()
     this.elementLookupService.clearElementLookupDict()
     this.contextService.clearContext()
@@ -38,7 +38,7 @@ export class HttpService {
     let options = {
       headers: headers
     }
-    const response = this.http.get<ElementDto>(this.backend_URI, options)
+    const response = this.http.get<JsonResponse>(this.backend_URI, options)
       .pipe(
         catchError((error: HttpErrorResponse, caught) => {
           console.error('Error occurred during the HTTP request:', error);
@@ -51,7 +51,7 @@ export class HttpService {
     return response;
   }
 
-  post(operation: string, context: ContextItem[]): Observable<ElementDto> {
+  post(operation: string, context: ContextItem[]): Observable<JsonResponse> {
     let clonedContext: ContextItem[] = []
     context.forEach(val => clonedContext.push(Object.assign({}, val)));
     let frontendService = LocatorService.injector.get(DrawFrontendService)
@@ -63,9 +63,9 @@ export class HttpService {
 
     let request = null
     if (clonedContext.length > 0) {
-      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation, context: clonedContext })
+      request = this.http.post<JsonResponse>(this.backend_URI + "/backend", { function: operation, context: clonedContext })
     } else {
-      request = this.http.post<ElementDto>(this.backend_URI + "/backend", { function: operation }).pipe(
+      request = this.http.post<JsonResponse>(this.backend_URI + "/backend", { function: operation }).pipe(
         catchError((error: HttpErrorResponse, caught) => {
           console.error('Error occurred during the HTTP request:', error);
           frontendService.postMessage("error connection")

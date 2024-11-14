@@ -36,8 +36,8 @@ class ClientBase:
         self.connect()
         (status_code, response) = self.api.get("")
         if status_code == 200:
-            self.draw(response)
-            self.frontend_generator.draw(response["children"][0]["id"])
+            self.draw(response["ui"])
+            self.frontend_generator.draw(response["ui"]["children"][0]["id"])
         else:
             self._logger.error("Connection error, status code: %s", str(status_code))
 
@@ -64,7 +64,7 @@ class ClientBase:
         self.base_engine(response)
         if len(response["children"]) == 0:
             raise Exception("Empty UI! check the logs and the provided files.")
-        self.frontend_generator.draw_postprocessing(response["children"][0]["id"])
+        self.frontend_generator.draw_postprocessing(response["ui"]["children"][0]["id"])
 
     def base_engine(self, response):
         """
@@ -108,7 +108,7 @@ class ClientBase:
             "backend", FrontendOperationDto(click_operation)
         )
         if status_code == 200:
-            self.draw(json)
+            self.draw(json["ui"])
         else:
             self._logger.error("Connection error, status code: %s", str(status_code))
 

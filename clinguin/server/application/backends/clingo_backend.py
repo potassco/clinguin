@@ -658,6 +658,26 @@ class ClingoBackend:
             ds += getattr(self, f)
         return ds
 
+    @property
+    def _domain_state_dict(self):
+        """
+        Gets the domain state as a dictionary for the response of the server.
+
+        Some domain state constructors might skip the computation if the UI does not require them.
+        """
+        ds = {}
+        for f in self._domain_state_constructors:
+            prg = getattr(self, f)
+            ctl = Control(["0"])
+            ctl.add("base", [], prg)
+            ctl.ground([("base", [])])
+            symbols = []
+            with ctl.solve(yield_=True) as handle:
+                for m in handle:
+                    symbols = [str(a).replace('"', "'") for a in m.symbols(shown=True)]
+            ds[f] = symbols
+        return ds
+
     # -------- Domain state methods
 
     @property
@@ -883,7 +903,9 @@ class ClingoBackend:
         This method will be automatically called after executing all the operations.
         """
         self._update_ui_state()
-        json_structure = StandardJsonEncoder.encode(self._ui_state)
+        json_structure = StandardJsonEncoder.encode(
+            self._ui_state, self._domain_state_dict
+        )
         return json_structure
 
     def restart(self):

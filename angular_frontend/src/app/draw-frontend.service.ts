@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { WhenDto, ElementDto } from './types/json-response.dto';
+import { WhenDto, ElementDto, JsonResponse } from './types/json-response.dto';
 import { Subject } from 'rxjs';
 import { HttpService } from './http.service';
 import { ServerRequest } from './types/server-request';
@@ -47,9 +47,9 @@ export class DrawFrontendService {
             })
         ).subscribe(
             {
-                next: (data: ElementDto) => {
-                    this.lastData = data
-                    this.frontendJson.next(data)
+                next: (data: JsonResponse) => {
+                    this.lastData = data.ui
+                    this.frontendJson.next(data.ui)
                     loader?.setAttribute("hidden", "true")
                 }
             })
@@ -76,9 +76,9 @@ export class DrawFrontendService {
             })
         ).subscribe(
             {
-                next: (data: ElementDto) => {
-                    this.lastData = data
-                    this.frontendJson.next(data)
+                next: (data: JsonResponse) => {
+                    this.lastData = data.ui
+                    this.frontendJson.next(data.ui)
                     loader?.setAttribute("hidden", "true")
                 }
             })

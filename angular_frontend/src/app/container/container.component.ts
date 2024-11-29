@@ -4,14 +4,17 @@ import { ComponentCreationService } from '../component-creation.service';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ChildBearerService } from '../child-bearer.service';
+import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
   selector: 'app-container',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent{
-  @ViewChild('child',{read: ViewContainerRef}) child!: ViewContainerRef;
+export class ContainerComponent {
+  @ViewChild('child', { read: ViewContainerRef }) childContainerRef!: ViewContainerRef;
+  @ViewChild('child', { read: ElementRef }) childElementRef!: ElementRef;
+
   @Input() element: ElementDto | null = null
   @Input() parentLayout: string = ""
 
@@ -19,8 +22,8 @@ export class ContainerComponent{
   container: ElementDto | null = null
 
   children: any = []
-  
-  constructor(private childBearerService: ChildBearerService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService) {
+
+  constructor(private childBearerService: ChildBearerService, private cd: ChangeDetectorRef, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private callbackHelperService: CallBackHelperService) {
   }
 
   ngAfterViewInit(): void {
@@ -32,11 +35,11 @@ export class ContainerComponent{
 
 
 
-      let childLayout = this.attributeService.findGetAttributeValue("child_layout",this.element.attributes,"flex")
+      let childLayout = this.attributeService.findGetAttributeValue("child_layout", this.element.attributes, "flex")
 
       this.element.children.forEach(item => {
 
-        let my_comp = this.childBearerService.bearChild(this.child, item, childLayout)
+        let my_comp = this.childBearerService.bearChild(this.childContainerRef, item, childLayout)
         if (my_comp != null) {
 
           this.children.push(my_comp)
@@ -44,8 +47,10 @@ export class ContainerComponent{
       })
 
       this.cd.detectChanges()
+
+
     }
   }
 
-  
+
 }

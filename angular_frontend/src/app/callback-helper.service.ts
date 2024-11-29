@@ -181,6 +181,40 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 
 }
 
+function replaceDragged(operation_string: string, event: Event | null) {
+  console.log(operation_string);
+  let regex = /_value/g
+  console.log(event);
+  if (event instanceof DragEvent) {
+    console.log(event.dataTransfer);
+    console.log(event.dataTransfer?.getData("dragged-id"));
+    var draggedid = event.dataTransfer?.getData("dragged-id")
+    if (draggedid != null) {
+      operation_string = operation_string.replace("_dragged", draggedid)
+    }
+    else {
+      console.log("No dragged id found");
+    }
+  }
+
+  // let eventTarget: EventTarget | null = event.target
+
+  // if (eventTarget != null && "value" in eventTarget) {
+  //   let match = value.match(regex)
+
+  //   if (match != null && typeof eventTarget.value === "string") {
+  //     if (eventTarget.value == "") {
+  //       console.log("EVENT TARGET IS EMPTY")
+  //       // DO NOTHING IF EMPTY!
+  //       return
+  //     }
+  //     value = value.replace("_value", eventTarget.value)
+  //   }
+  // }
+
+  return operation_string
+}
+
 function replaceContext(operation_string: string) {
 
   let contextService = LocatorService.injector.get(ContextService)
@@ -255,11 +289,14 @@ function replaceContext(operation_string: string) {
 }
 
 function handleCallback(when: WhenDto, event: Event | null) {
+  console.log("---- Handling callback", when)
+
   let frontendService = LocatorService.injector.get(DrawFrontendService)
 
   let operation_string = when.operation
 
   operation_string = replaceContext(operation_string)
+  operation_string = replaceDragged(operation_string, event)
 
   when.operation = operation_string
 
@@ -284,7 +321,7 @@ function handleContext(when: WhenDto, event: Event | null) {
       let value = splits[1]
 
       if (event != null) {
-
+        // ====== Value for input
         let regex = /_value/g
         let eventTarget: EventTarget | null = event.target
 
@@ -300,6 +337,8 @@ function handleContext(when: WhenDto, event: Event | null) {
             value = value.replace("_value", eventTarget.value)
           }
         }
+        // Value for dragged
+
       }
 
       for (let index = 2; index < splits.length; index++) {
@@ -343,10 +382,12 @@ export class CallBackHelperService {
     this.handleEvent(html, dos, "mouseleave", "mouseleave")
     this.handleEvent(html, dos, "load", "load")
     this.handleEvent(html, dos, "dblclick", "dblclick")
+    this.handleEvent(html, dos, "drop", "drop")
   }
 
   handleEvent(html: HTMLElement, dos: WhenDto[], supportedAttributeName: string = "", htmlEventName: string = "") {
     let allEvents: WhenDto[] = []
+
     dos.forEach((when: WhenDto) => {
       if (when.actionType == supportedAttributeName) {
         allEvents.push(when)
@@ -374,8 +415,15 @@ export class CallBackHelperService {
         })
         return
       }
+
       if (supportedAttributeName == "click") {
         html.style.cursor = "pointer"
+      }
+      if (supportedAttributeName == "drop") {
+        // console.log("Setting drop");
+        // html.style.cursor = "grab"
+
+        // html.style.cursor = "pointer"
       }
       html.addEventListener(htmlEventName, function (event: Event) {
         allEvents.sort(function (a, b) {

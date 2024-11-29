@@ -24,6 +24,60 @@ export class AttributeHelperService {
         html.style.width = value
     }
 
+    setDrag(html: HTMLElement, attributes: AttributeDto[]) {
+
+        let draggable = this.findGetAttributeValue("draggable", attributes, "false")
+        let draggable_bool = false
+        if (draggable == "true") {
+            draggable_bool = true
+            html.style.cursor = "grab"
+        }
+        html.draggable = draggable_bool
+        html.addEventListener("dragstart", (event) => {
+            console.log("dragstart");
+            if (event.dataTransfer) {
+                event.dataTransfer.setData('dragged-id', html.id);
+                // event.dataTransfer.setData('draggable', '');
+            }
+            html.style.opacity = "0.5";
+            // document.documentElement.style.cursor = "grabbing";
+            // store a ref. on the dragged elem
+            // if (event.dataTransfer != null) {
+            //     event.dataTransfer.effectAllowed = "copyMove";
+            // }
+
+        });
+        html.addEventListener("dragend", (event) => {
+            console.log("dragend");
+            html.style.opacity = "1";
+            // document.documentElement.style.cursor = "default";
+        });
+        html.addEventListener("dragover", (event) => {
+            console.log("dragover");
+            // if (event.dataTransfer != null) {
+            //     console.log("not null");
+            //     event.dataTransfer.dropEffect = "copy";
+            // }
+            // document.documentElement.style.cursor = "grab";
+
+            // prevent default to allow drop
+            event.preventDefault();
+            // if (event.dataTransfer != null) {
+            //     event.dataTransfer.effectAllowed = "copy";
+            // }
+        });
+        html.addEventListener("leave", (event) => {
+            console.log("leave");
+            // html.style.opacity = "1";
+            document.documentElement.style.cursor = "grab";
+
+            // prevent default to allow drop
+            event.preventDefault();
+            // if (event.dataTransfer != null) {
+            //     event.dataTransfer.effectAllowed = "copy";
+            // }
+        });
+    }
 
     setBorderHelper(html: HTMLElement, attributes: AttributeDto[]) {
 
@@ -62,6 +116,7 @@ export class AttributeHelperService {
     addGeneralAttributes(html: HTMLElement, attributes: AttributeDto[]) {
         this.setGrid(html, attributes)
         this.setBorderHelper(html, attributes)
+        this.setDrag(html, attributes)
     }
 
     setGrid(html: HTMLElement, attributes: AttributeDto[]) {

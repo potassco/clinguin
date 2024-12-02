@@ -19,87 +19,87 @@ class TestBackendUnit_00_05:
     def test_basic_05(self):
         should_output = BasicTest05.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_04(self):
         should_output = BasicTest04.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_03_order_04(self):
         should_output = BasicTest03.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         self.backend.add_assumption("p(1)", "true")
         received_by_backend = self.backend.get()
         should_output = BasicTest03.post_p_1_reference_json()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         self.backend.clear_assumptions()
         received_by_backend = self.backend.get()
         should_output = BasicTest03.post_p_3_reference_json()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_03_order_03(self):
         should_output = BasicTest03.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         self.backend.clear_assumptions()
         received_by_backend = self.backend.get()
         should_output = BasicTest03.post_p_2_reference_json()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_03_order_02(self):
         should_output = BasicTest03.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         self.backend.add_assumption("p(1)", "true")
         received_by_backend = self.backend.get()
         should_output = BasicTest03.post_p_1_reference_json()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_03_order_01(self):
         should_output = BasicTest03.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_02(self):
         should_output = BasicTest02.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_01_order_02(self):
         should_output = BasicTest01.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         self.backend.add_assumption("p(2)", "true")
         received_by_backend = self.backend.get()
         should_output = BasicTest01.post_p_2_reference_json()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         should_output = BasicTest01.get_p_2_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_basic_01_order_01(self):
         should_output = BasicTest01.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         self.backend.add_assumption("p(1)", "true")
         received_by_backend = self.backend.get()
         should_output = BasicTest01.post_p_1_reference_json()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
         should_output = BasicTest01.get_p_1_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])
 
     def test_get_method(self):
         should_output = BasicTest00.get_reference_json()
         received_by_backend = self.backend.get()
-        UtilsTestUtils.assert_result(should_output, received_by_backend)
+        UtilsTestUtils.assert_result(should_output, received_by_backend["ui"])

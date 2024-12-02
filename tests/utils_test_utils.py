@@ -23,7 +23,8 @@ class UtilsTestUtils:
 
             assert status == should_status_code
             response_json = json.loads(body)
-            print(response_json)
+            if "ui" in json.loads(body):
+                response_json = response_json["ui"]
             assert json.dumps(response_json) == should_output
 
         except URLError:
@@ -41,7 +42,7 @@ class UtilsTestUtils:
             with urlopen(req) as response:
                 body = response.read()
                 status = response.getcode()
-            response_json = json.loads(body)
+            response_json = json.loads(body)["ui"]
 
             assert status == should_status_code
 

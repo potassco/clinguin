@@ -1,7 +1,7 @@
 # Knapsack
 
 Solves the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem).
-By doing so, it showcases the use of optimal consequences and false assumptions.
+By doing so, it showcases the use of optimal consequences and false assumptions as well as drag and drop.
 
 
 ## Usage

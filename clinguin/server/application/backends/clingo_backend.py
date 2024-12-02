@@ -1075,9 +1075,18 @@ class ClingoBackend:
 
             self._model = model.symbols(shown=True, atoms=True, theory=True)
         except StopIteration:
-            self._logger.info("No more solutions")
+            print(
+                "optimizing",
+            )
+            print(optimizing)
+            if optimizing:
+                m = "No more optimal solutions"
+            else:
+                m = "No more solutions"
+
+            self._logger.info(m)
             self._outdate()
-            self._messages.append(("Browsing Information", "No more solutions", "info"))
+            self._messages.append(("Browsing Information", m, "info"))
 
     def clear_assumptions(self):
         """

@@ -51,7 +51,6 @@ export class AttributeHelperService {
 
         let draggable_as = this.findGetAttributeValue("draggable_as", attributes, "00")
         let drop_targets = this.findAttributeList("drop_target", attributes)
-        console.log(drop_targets);
         // console.log(draggable_as);
 
         let draggable = draggable_as != "00"
@@ -67,6 +66,7 @@ export class AttributeHelperService {
                 drop_targets.forEach(targetId => {
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
+                        targetElement.classList.add("my-drop-valid-target");
                         targetElement.addEventListener("dragover", this.handleStartDrag);
                         targetElement.addEventListener("dragleave", this.handleEndDrag);
                     }
@@ -78,7 +78,7 @@ export class AttributeHelperService {
                 drop_targets.forEach(targetId => {
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
-                        console.log("Will remove");
+                        targetElement.classList.remove("my-drop-valid-target");
 
                         targetElement.removeEventListener("dragover", this.handleStartDrag);
                         targetElement.removeEventListener("dragleave", this.handleEndDrag);

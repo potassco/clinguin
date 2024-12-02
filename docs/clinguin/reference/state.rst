@@ -58,6 +58,7 @@ Actions define the interactivity of the UI.  Multiple actions are allowed, as ex
     - ``mouseleave`` The user moved the mouse out of the element.
     - ``load`` The element was loaded.
     - ``dblclick`` The user double-clicked on the element.
+    - ``drop`` The user dropped something on the element. See the :ref:`Drag and Drop <Drag>` section.
 
 - ``ACTION`` The action performed.
     - ``call`` Calls the server to perform an operation.

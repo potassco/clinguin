@@ -631,3 +631,41 @@ Style
 .. tip::
 
     Try using `bootstrap text <https://getbootstrap.com/docs/5.0/utilities/text/>`_ style instead.
+
+
+Drag and Drop
+.............
+
+.. _Drag:
+
+**Drag**
+
+
+``draggable_as``
+    *Description*: This attribute states that the element is draggable. Moreover, the value of this attribute is the data that will be passed to the drop event.
+    This value will replace the placeholder ``_dragged`` which can appear in a ``when`` predicate.
+
+    *Values*: Atom
+
+``drop_target``
+    *Description*: The values passed in this attribute are the possible target-elements where the current element can be dropped. The value must be the identifier of the target element.
+    The dragged element will only be allowed to be dropped on the elements specified in this attribute.
+
+    *Values*: Atom
+
+.. admonition:: Example
+
+    * A more elaborate example can be found in :ref:`Knapsack <Knapsack>`.
+
+    Element  ``a`` can be dragged into elements ``b`` and ``c``. When ``a`` is dropped into ``b``, the assumption ``use(a)`` is added with the value ``true``.
+    When ``a`` is dropped into ``c``, the assumption ``use(a)`` is added with the value ``false``.
+
+    .. code-block::
+
+        elem((a;b;c), container, w).
+        attr(a, draggable_as, a).
+        attr(a, drop_target, b).
+        attr(a, drop_target, c).
+        when(b, drop, call, add_assumption(use(_dragged),true)).
+        when(c, drop, call, add_assumption(use(_dragged),false)).
+

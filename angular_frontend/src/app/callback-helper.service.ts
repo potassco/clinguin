@@ -182,12 +182,8 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 }
 
 function replaceDragged(operation_string: string, event: Event | null) {
-  // console.log(operation_string);
   let regex = /_value/g
-  // console.log(event);
   if (event instanceof DragEvent) {
-    // console.log(event.dataTransfer);
-    // console.log(event.dataTransfer?.getData("dragged-id"));
     var dragged_id = event.dataTransfer?.getData("dragged-id")
     if (dragged_id != null) {
       operation_string = operation_string.replace(/_dragged/g, dragged_id)
@@ -196,21 +192,6 @@ function replaceDragged(operation_string: string, event: Event | null) {
       console.error("No dragged id found in data");
     }
   }
-
-  // let eventTarget: EventTarget | null = event.target
-
-  // if (eventTarget != null && "value" in eventTarget) {
-  //   let match = value.match(regex)
-
-  //   if (match != null && typeof eventTarget.value === "string") {
-  //     if (eventTarget.value == "") {
-  //       console.log("EVENT TARGET IS EMPTY")
-  //       // DO NOTHING IF EMPTY!
-  //       return
-  //     }
-  //     value = value.replace("_value", eventTarget.value)
-  //   }
-  // }
 
   return operation_string
 }
@@ -419,23 +400,7 @@ export class CallBackHelperService {
       if (supportedAttributeName == "click") {
         html.style.cursor = "pointer"
       }
-      // if (supportedAttributeName == "drop") {
 
-      //   // html.addEventListener("dragover", (event) => {
-      //   //   console.log(event.dataTransfer);
-
-      //   //   var drop_target = event.dataTransfer?.getData("drop_target")
-      //   //   console.log("In over");
-      //   //   console.log(drop_target);
-
-      //   //   html.classList.add("my-drop-target")
-      //   //   event.preventDefault();
-
-      //   // });
-      //   // html.addEventListener("dragleave", (event) => {
-      //   //   html.classList.remove("my-drop-target")
-      //   // });
-      // }
       html.addEventListener(htmlEventName, function (event: Event) {
         allEvents.sort(function (a, b) {
           if (a.interactionType < b.interactionType) {
@@ -450,22 +415,7 @@ export class CallBackHelperService {
         const updates = allEvents.filter((w) => w.interactionType == "update")
         const context = allEvents.filter((w) => w.interactionType == "context")
         const call = allEvents.filter((w) => w.interactionType == "call" || w.interactionType == "callback")
-        // const context_menu = allEvents.filter((w) => w.interactionType == "show_context_menu" )
 
-        // context_menu.forEach((when:WhenDto) => {
-        //   try{
-        //     if (when.interactionType == "update") {
-        //       handleUpdate(when, event)
-        //     } else if (when.interactionType == "context") {
-        //       handleContext(when, event)
-        //     } else if (when.interactionType == "call" || when.interactionType == "callback") {
-        //       handleCallback(when, event)
-        //     }
-        //   }catch(error:any){
-        //     let frontendService = LocatorService.injector.get(DrawFrontendService)
-        //     frontendService.postMessage(error.message,"warning")
-        //   }
-        // })
 
         updates.forEach((when: WhenDto) => {
           try {

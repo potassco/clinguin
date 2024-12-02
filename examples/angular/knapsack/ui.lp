@@ -22,11 +22,6 @@ elem(category_objects_c(C), container, category(C)):-category(C).
 attr(category_objects_c(C), order, 2):-category(C).
 
 
-when(category(taken), drop, call, (remove_assumption(take(_dragged)),add_assumption(take(_dragged),true))).
-when(category(not_available), drop, call, (remove_assumption(take(_dragged)),add_assumption(take(_dragged),false))).
-when(category(available), drop, call, remove_assumption(take(_dragged))).
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Labels
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,11 +74,15 @@ object(O, available):- object(O), not object(O, taken), not object(O, not_availa
 
 elem(object(O), container, category_objects_c(C)):-object(O, C).
 attr(object(O), class, ("m-1";"p-1";"bg-primary";"border-primary";"rounded";"d-flex";"flex-row";"justify-content-between";"bg-opacity-50";"border";"border-1")):-object(O).
+
+% Drag and drop
 attr(object(O), draggable_as, O):-object(O, _).
 attr(object(O), drop_target, category(taken)):-object(O, available), _any(take(O)).
 attr(object(O), drop_target, category(not_available)):-object(O).
-attr(object(O), drop_target, category(available)):-object(O).
-% attr(object(O), draggable_as, O):-object(O, available), _any(take(O)).
+attr(object(O), drop_target, category(available)):-object(O,T), T!=available.
+when(category(taken), drop, call, (remove_assumption(take(_dragged)),add_assumption(take(_dragged),true))).
+when(category(not_available), drop, call, (remove_assumption(take(_dragged)),add_assumption(take(_dragged),false))).
+when(category(available), drop, call, remove_assumption(take(_dragged))).
 
     elem(object_info(O), container, object(O)):-object(O).
     attr(object_info(O), class, ("ps-4")):-object(O).
@@ -103,7 +102,7 @@ attr(object(O), drop_target, category(available)):-object(O).
             attr(object(weigth, O), class, ("fw-light")):-weight(O,W).
 
     elem(object_star(O), button, object(O)):-object(O,available), _any_opt(take(O)).
-    attr(object_star(O), icon, "fa-star"):-object(O,available), _any_opt(take(O)).
+    attr(object_star(O), icon, "fa-medal"):-object(O,available), _any_opt(take(O)).
     attr(object_star(O), class, ("disabled";"border"; "border-0")):-object(O,available), _any_opt(take(O)).
 
 

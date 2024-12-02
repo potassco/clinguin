@@ -24,59 +24,68 @@ export class AttributeHelperService {
         html.style.width = value
     }
 
+    handleStartDrag(event: DragEvent) {
+        if (event.target) {
+            const targetElement = document.getElementById((event.target as HTMLElement).id) as HTMLElement;
+            event.preventDefault();
+            // console.log(event.target);
+            // console.log((event.target as HTMLElement).id);
+            // console.log(targetElement);
+            if (targetElement) {
+                targetElement.classList.add("my-drop-target");
+            }
+        }
+    }
+
+    handleEndDrag(event: DragEvent) {
+        if (event.target) {
+            const targetElement = document.getElementById((event.target as HTMLElement).id) as HTMLElement;
+            if (targetElement) {
+                targetElement.classList.remove("my-drop-target");
+            }
+        }
+    }
+
+
     setDrag(html: HTMLElement, attributes: AttributeDto[]) {
 
-        let draggable = this.findGetAttributeValue("draggable", attributes, "false")
-        let draggable_bool = false
-        if (draggable == "true") {
-            draggable_bool = true
+        let draggable_as = this.findGetAttributeValue("draggable_as", attributes, "00")
+        let drop_targets = this.findAttributeList("drop_target", attributes)
+        console.log(drop_targets);
+        // console.log(draggable_as);
+
+        let draggable = draggable_as != "00"
+        if (draggable) {
             html.style.cursor = "grab"
+            html.draggable = true
+            html.addEventListener("dragstart", (event) => {
+
+                if (event.dataTransfer) {
+                    event.dataTransfer.setData('dragged-id', draggable_as);
+                }
+                html.classList.add("my-drag-target");
+                drop_targets.forEach(targetId => {
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.addEventListener("dragover", this.handleStartDrag);
+                        targetElement.addEventListener("dragleave", this.handleEndDrag);
+                    }
+                });
+
+            });
+            html.addEventListener("dragend", (event) => {
+                html.classList.remove("my-drag-target");
+                drop_targets.forEach(targetId => {
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        console.log("Will remove");
+
+                        targetElement.removeEventListener("dragover", this.handleStartDrag);
+                        targetElement.removeEventListener("dragleave", this.handleEndDrag);
+                    }
+                });
+            });
         }
-        html.draggable = draggable_bool
-        html.addEventListener("dragstart", (event) => {
-            console.log("dragstart");
-            if (event.dataTransfer) {
-                event.dataTransfer.setData('dragged-id', html.id);
-                // event.dataTransfer.setData('draggable', '');
-            }
-            html.style.opacity = "0.5";
-            // document.documentElement.style.cursor = "grabbing";
-            // store a ref. on the dragged elem
-            // if (event.dataTransfer != null) {
-            //     event.dataTransfer.effectAllowed = "copyMove";
-            // }
-
-        });
-        html.addEventListener("dragend", (event) => {
-            console.log("dragend");
-            html.style.opacity = "1";
-            // document.documentElement.style.cursor = "default";
-        });
-        html.addEventListener("dragover", (event) => {
-            console.log("dragover");
-            // if (event.dataTransfer != null) {
-            //     console.log("not null");
-            //     event.dataTransfer.dropEffect = "copy";
-            // }
-            // document.documentElement.style.cursor = "grab";
-
-            // prevent default to allow drop
-            event.preventDefault();
-            // if (event.dataTransfer != null) {
-            //     event.dataTransfer.effectAllowed = "copy";
-            // }
-        });
-        html.addEventListener("leave", (event) => {
-            console.log("leave");
-            // html.style.opacity = "1";
-            document.documentElement.style.cursor = "grab";
-
-            // prevent default to allow drop
-            event.preventDefault();
-            // if (event.dataTransfer != null) {
-            //     event.dataTransfer.effectAllowed = "copy";
-            // }
-        });
     }
 
     setBorderHelper(html: HTMLElement, attributes: AttributeDto[]) {
@@ -240,6 +249,11 @@ export class AttributeHelperService {
         }
         return value
     }
+    findAttributeList(key: string, attributes: AttributeDto[]): string[] {
+        return attributes.filter(attr => attr.key === key).map(attr => attr.value);
+    }
+
+
 
     findGetAttributeValue(key: string, attributes: AttributeDto[], defaultValue: string) {
         let value = defaultValue

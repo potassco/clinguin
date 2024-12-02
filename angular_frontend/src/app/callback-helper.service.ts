@@ -182,18 +182,18 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 }
 
 function replaceDragged(operation_string: string, event: Event | null) {
-  console.log(operation_string);
+  // console.log(operation_string);
   let regex = /_value/g
-  console.log(event);
+  // console.log(event);
   if (event instanceof DragEvent) {
-    console.log(event.dataTransfer);
-    console.log(event.dataTransfer?.getData("dragged-id"));
-    var draggedid = event.dataTransfer?.getData("dragged-id")
-    if (draggedid != null) {
-      operation_string = operation_string.replace("_dragged", draggedid)
+    // console.log(event.dataTransfer);
+    // console.log(event.dataTransfer?.getData("dragged-id"));
+    var dragged_id = event.dataTransfer?.getData("dragged-id")
+    if (dragged_id != null) {
+      operation_string = operation_string.replace(/_dragged/g, dragged_id)
     }
     else {
-      console.log("No dragged id found");
+      console.error("No dragged id found in data");
     }
   }
 
@@ -419,12 +419,23 @@ export class CallBackHelperService {
       if (supportedAttributeName == "click") {
         html.style.cursor = "pointer"
       }
-      if (supportedAttributeName == "drop") {
-        // console.log("Setting drop");
-        // html.style.cursor = "grab"
+      // if (supportedAttributeName == "drop") {
 
-        // html.style.cursor = "pointer"
-      }
+      //   // html.addEventListener("dragover", (event) => {
+      //   //   console.log(event.dataTransfer);
+
+      //   //   var drop_target = event.dataTransfer?.getData("drop_target")
+      //   //   console.log("In over");
+      //   //   console.log(drop_target);
+
+      //   //   html.classList.add("my-drop-target")
+      //   //   event.preventDefault();
+
+      //   // });
+      //   // html.addEventListener("dragleave", (event) => {
+      //   //   html.classList.remove("my-drop-target")
+      //   // });
+      // }
       html.addEventListener(htmlEventName, function (event: Event) {
         allEvents.sort(function (a, b) {
           if (a.interactionType < b.interactionType) {

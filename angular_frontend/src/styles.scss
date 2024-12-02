@@ -35,6 +35,12 @@ $light: #F4F5F7;
     filter: opacity(0.5);
 }
 
+.my-drop-valid-target {
+    border-style: dashed;
+    border-color: black;
+}
+
+
 .my-drag-target {
     filter: opacity(0.2);
 }

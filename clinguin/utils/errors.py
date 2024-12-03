@@ -25,7 +25,7 @@ def get_server_error_alert(message="", last_response=None):
             {
                 "id": "server_error",
                 "key": "message",
-                "value": message + " Check the server logs for more details.",
+                "value": message + " (Check the server logs for more details).",
             },
             {"id": "server_error", "key": "title", "value": "Server error"},
             {"id": "server_error", "key": "type", "value": "danger"},
@@ -36,22 +36,25 @@ def get_server_error_alert(message="", last_response=None):
 
     if last_response is None:
         return {
-            "id": "root",
-            "type": "root",
-            "parent": "root",
-            "attributes": [],
-            "when": [],
-            "children": [
-                {
-                    "id": "window",
-                    "type": "window",
-                    "parent": "root",
-                    "attributes": [],
-                    "when": [],
-                    "children": [error_alert],
-                }
-            ],
+            "ui": {
+                "id": "root",
+                "type": "root",
+                "parent": "root",
+                "attributes": [],
+                "when": [],
+                "children": [
+                    {
+                        "id": "window",
+                        "type": "window",
+                        "parent": "root",
+                        "attributes": [],
+                        "when": [],
+                        "children": [error_alert],
+                    }
+                ],
+            },
+            "ds": {},
         }
 
-    last_response.children[0].children.append(error_alert)
+    last_response["ui"].children[0].children.append(error_alert)
     return last_response

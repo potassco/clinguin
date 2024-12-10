@@ -415,6 +415,67 @@ Atributes
     Any attribute that does not fall under this list or the specific attributes of the element
     will be set as a plain HTML style in the component.
 
+
+``collapse``
+.............
+
+A collapsible element. Corresponds to a limited version of `Bootstrap collapse <https://getbootstrap.com/docs/5.0/components/collapse/>`_.
+
+**Attributes**
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
+:ref:`Child layout <Child layout>`,
+:ref:`Direction <Direction>`,
+:ref:`Icon <Icon>`,
+:ref:`Label <Label>
+
+``collapsed``
+	*Description*: The initial state of the collapse
+
+	*Values*: Boolean (`true` for collapsed, `false` for expanded)
+
+``label``
+	*Description*: The label of the collapse
+
+	*Values*: String
+
+``icon``
+	*Description*: Sets the same icon for both the collapsed and expanded states
+
+	*Values*: `Font Awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name or ``none``
+
+``collapsed_icon``
+	*Description*: The icon when the collapse is collapsed
+
+	*Values*: `Font Awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name or ``none``
+
+``expanded_icon``
+	*Description*: The icon when the collapse is expanded
+
+	*Values*: `Font Awesome <https://fontawesome.com/search?o=r&m=free>`_ symbol name or ``none``
+
+
+.. important::
+	**Child Elements**
+
+	All elements intended to appear inside the `collapse` component **must** be defined as its children. These can include various UI elements.
+
+.. admonition:: Example
+
+	In this example a ``collapse`` component ``c`` contains an element ``cont`` as its child. The component toggles between expanded and collapsed states when the user interacts with it.
+
+	.. code-block:: prolog
+
+		elem(c, colapse, w).
+		attr(c, label, "Collapse").
+		attr(c, collapsed_icon, "fa-solid;fa-arrow-right").
+		attr(c, expanded_icon, "fa-solid;fa-arrow-down").
+		attr(c, collapsed, true).
+		elem(cont, container, c).
+
+
 Class
 .....
 

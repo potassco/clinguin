@@ -36,29 +36,54 @@ attr(window, flex_direction, row).
     % PEOPLE INCLUDED
     %%%%%%%%%%%%%%%%%%%%%%%%
 
-    elem(included, container, window).
-    attr(included, class, ("bg-secondary";"bg-opacity-50";"w-25";"p-4";"rounded";"d-flex";"flex-column-reverse";"justify-content-end")).
-    attr(included, order, 1).
+	elem(label_included, collapse, window).
+	attr(label_included, label, "People").
+	attr(label_included, class, (
+		"bg-secondary"; 
+		"bg-opacity-50"; 
+		"rounded"; 
+		"d-flex"; 
+		"align-items-center"; 
+		"p-4";
+		"m-2";
+		"fw-bold"; 
+		"justify-content-between";
+		"border-0")).
+	attr(label_included, order, 1).
 
-        elem(add_button, button, included).
-        attr(add_button, icon, "fa-user-plus").
-        attr(add_button, order, 1).
-        attr(add_button, class, ("btn-secondary";"bg-opacity-50")).
-        when(add_button, click, update, (modal, visibility, shown)).
+		elem(included_content, container, label_included).
+		attr(included_content, class, (
+			"bg-secondary"; 
+			"bg-opacity-25";
+			"rounded";
+			"pt-3";
+			"m-2";
+			"mt-0";
+			"d-flex"; 
+			"flex-column"; 
+			"gap-2"; "align-items-center")).
+	attr(included_content, order, 1).
 
-        elem(people, container, included).
-            elem(included(P), container, people):- person(P).
+			elem(add_button, button, included_content).
+			attr(add_button, icon, "fa-user-plus").
+			attr(add_button, order, 1).
+			attr(add_button, class, ("btn-secondary";"bg-opacity-50")).
+			when(add_button, click, update, (modal, visibility, shown)).
 
-                elem(included_cb(P), checkbox, included(P)):- person(P).
-                attr(included_cb(P), checked, true):- include(P).
-                when(included_cb(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
-                when(included_cb(P), click, call, set_external(include(P),false)) :- person(P), include(P).
-                attr(included_cb(P), label, P):- person(P).
-                attr(included_cb(P), class, ("text-capitalize";"h6";"m-2")):- person(P).
+			elem(people, container, included_content).
+			attr(people, order, 2).
+				elem(included(P), container, people):- person(P).
+
+					elem(included_cb(P), checkbox, included(P)):- person(P).
+					attr(included_cb(P), checked, true):- include(P).
+					when(included_cb(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
+					when(included_cb(P), click, call, set_external(include(P),false)) :- person(P), include(P).
+					attr(included_cb(P), label, P):- person(P).
+					attr(included_cb(P), class, ("text-capitalize";"h6")):- person(P).
 
 
-                when(included_btn_add(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
-                when(included_btn_add(P), click, call, set_external(include(P),false)) :- person(P), include(P).
+					when(included_btn_add(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
+					when(included_btn_add(P), click, call, set_external(include(P),false)) :- person(P), include(P).
 
 
 

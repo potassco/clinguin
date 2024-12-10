@@ -36,8 +36,9 @@ $light: #F4F5F7;
 }
 
 .my-drop-valid-target {
-    border-style: dashed;
-    border-color: black;
+    border-style: dashed !important;
+    ;
+    border-color: black !important;
 }
 
 

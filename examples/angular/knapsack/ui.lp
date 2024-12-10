@@ -71,16 +71,13 @@ object(O, taken):- object(O), _clinguin_assume(take(O),true).
 object(O, taken):- _clinguin_browsing, object(O), take(O).
 object(O, not_available):- object(O), _clinguin_assume(take(O),false).
 object(O, available):- object(O), not object(O, taken), not object(O, not_available).
-object(O, X):- object(O), _clinguin_context(move_from(X),O).
 
 elem(object(O), container, category_objects_c(C)):-object(O, C).
 attr(object(O), class, ("m-1";"p-1";"bg-primary";"border-primary";"rounded";"d-flex";"flex-row";"justify-content-between";"bg-opacity-50";"border";"border-1")):-object(O).
-attr(object(O), filter, "opacity(0.8)"):-object(O), not _clinguin_context(move_from(_),O).
 
-% Drag and drop
-attr(object(O), "box-shadow", "0 2px 2px 2px #00000070" ):- object(O), _clinguin_context(move_from(_),O).
-attr(object(O), draggable_as, O):-object(O, _), _clinguin_context(move_from(_),O).
+% --- Drag and drop
 
+attr(object(O), draggable_as, O):-object(O, _).
 attr(object(O), drop_target, category(taken)):-object(O, _), _any(take(O)).
 attr(object(O), drop_target, category(not_available)):-object(O).
 attr(object(O), drop_target, category(available)):-object(O,T), T!=available.
@@ -109,17 +106,37 @@ when(category(available), drop, call, remove_assumption(take(_dragged))).
     attr(object_star(O), icon, "fa-medal"):-object(O,available), _any_opt(take(O)).
     attr(object_star(O), class, ("disabled";"border"; "border-0")):-object(O,available), _any_opt(take(O)).
 
-    elem(object_move(O), button, object(O)):-object(O,_).
-    attr(object_move(O), icon, "fa-lock"):-object(O,_), not _clinguin_context(move_from(_),O).
-    attr(object_move(O), icon, "fa-lock-open"):-_clinguin_context(move_from(_),O).
-    attr(object_move(O), class, ("btn-sm";"btn-outline-primary";"border"; "border-0")):-object(O,_).
 
-    when(object_move(O), click, call, remove_assumption(take(O))):-object(O, _), not _clinguin_context(move_from(_),O).
-    when(object_move(O), click, context, (move_from(X),O)):-object(O, X), not _clinguin_context(move_from(_),O).
+        % ---- Unlock to drag an object
+        % This allows an intermediate call that will remove assumptions to get available destination using the _any/2 predicate
+        % Make sure the line `attr(object(O), draggable_as, O):-object(O, _).` above is removed
 
-    when(object_move(O), click, call, get):-object(O, _), _clinguin_context(move_from(available),O).
-    when(object_move(O), click, call, add_assumption(take(O),true)):-object(O, _), _clinguin_context(move_from(taken),O).
-    when(object_move(O), click, call, add_assumption(take(O),false)):-object(O, _), _clinguin_context(move_from(not_available),O).
+
+        % % Unlocked objects will appear in the original column
+        % object(O, X):- object(O), _clinguin_context(unlocked(O),X).
+
+        % % Unlocked objects are draggable and stand out
+        % attr(object(O), filter, "opacity(0.8)"):-object(O), not _clinguin_context(unlocked(O),_).
+        % attr(object(O), "box-shadow", "0 2px 2px 2px #00000070" ):- object(O), _clinguin_context(unlocked(O),_).
+        % attr(object(O), draggable_as, O):-object(O, _), _clinguin_context(unlocked(O),_).
+
+        % % Button to lock and unlock objects
+        % elem(object_move(O), button, object(O)):-object(O,_).
+        % attr(object_move(O), icon, "fa-lock"):-object(O,_), not _clinguin_context(unlocked(O),_).
+        % attr(object_move(O), icon, "fa-lock-open"):-_clinguin_context(unlocked(O),_).
+        % attr(object_move(O), class, ("btn-sm";"btn-outline-primary";"border"; "border-0")):-object(O,_).
+        % % When unlocking the assumption is removed and the context is updated
+        % when(object_move(O), click, call, remove_assumption(take(O))):-object(O, _), not _clinguin_context(unlocked(O),_).
+        % when(object_move(O), click, context, (unlocked(O),X)):-object(O, X), not _clinguin_context(unlocked(O),_).
+
+        % % Dummy event for locking an object
+        % when(object_move(O), click, call, get):-_clinguin_context(unlocked(O),_).
+
+        % % Any action, if something was unlocked then it is put back
+        % when(O', E, call, get):- when(O', E, call, _), E!=drop, _clinguin_context(unlocked(O),available).
+        % when(O', E, call, add_assumption(take(O),true)):- when(O', E, call, _), E!=drop, _clinguin_context(unlocked(O),taken).
+        % when(O', E, call, add_assumption(take(O),false)):- when(O', E, call, _), E!=drop, _clinguin_context(unlocked(O),not_available).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Menu bar

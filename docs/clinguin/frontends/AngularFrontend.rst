@@ -669,3 +669,48 @@ Drag and Drop
         when(b, drop, call, add_assumption(use(_dragged),true)).
         when(c, drop, call, add_assumption(use(_dragged),false)).
 
+
+.. admonition:: **Calculating dragging targets**
+    :class: important
+
+    In some cases, the possible targets for a draggable elements want to be obtained from ``_any/2``.
+    These atoms, however, might not be available because of the restrictions imposed by previous selections (assumptions).
+    When this is the case. An intermediate call can be made to remove the assumptions and get the available targets using the ``_any/2`` predicate.
+    This means one can add a lock/unlock button to the draggable elements which will remove the previous assumption to obtain the options while storing in the context the previous selection.
+
+    .. admonition:: Example
+
+        This example extends the Knapsack problem and with the following code:
+
+        Make sure the line ``attr(object(O), draggable_as, O):-object(O, _).`` is commented out.
+
+        .. code-block:: prolog
+
+            % ---- Unlock to drag an object
+            % This allows an intermediate call that will remove assumptions to get available destination using the _any/2 predicate
+
+
+            % Unlocked objects will appear in the original column
+            object(O, X):- object(O), _clinguin_context(unlocked(O),X).
+
+            % Unlocked objects are draggable and stand out
+            attr(object(O), filter, "opacity(0.8)"):-object(O), not _clinguin_context(unlocked(O),_).
+            attr(object(O), "box-shadow", "0 2px 2px 2px #00000070" ):- object(O), _clinguin_context(unlocked(O),_).
+            attr(object(O), draggable_as, O):-object(O, _), _clinguin_context(unlocked(O),_).
+
+            % Button to lock and unlock objects
+            elem(object_move(O), button, object(O)):-object(O,_).
+            attr(object_move(O), icon, "fa-lock"):-object(O,_), not _clinguin_context(unlocked(O),_).
+            attr(object_move(O), icon, "fa-lock-open"):-_clinguin_context(unlocked(O),_).
+            attr(object_move(O), class, ("btn-sm";"btn-outline-primary";"border"; "border-0")):-object(O,_).
+            % When unlocking the assumption is removed and the context is updated
+            when(object_move(O), click, call, remove_assumption(take(O))):-object(O, _), not _clinguin_context(unlocked(O),_).
+            when(object_move(O), click, context, (unlocked(O),X)):-object(O, X), not _clinguin_context(unlocked(O),_).
+
+            % Dummy event for locking an object
+            when(object_move(O), click, call, get):-_clinguin_context(unlocked(O),_).
+
+            % Any action, if something was unlocked then it is put back
+            when(O', E, call, get):- when(O', E, call, _), E!=drop, _clinguin_context(unlocked(O),available).
+            when(O', E, call, add_assumption(take(O),true)):- when(O', E, call, _), E!=drop, _clinguin_context(unlocked(O),taken).
+            when(O', E, call, add_assumption(take(O),false)):- when(O', E, call, _), E!=drop, _clinguin_context(unlocked(O),not_available).

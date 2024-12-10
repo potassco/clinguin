@@ -9,6 +9,7 @@ import { TextfieldComponent } from './textfield/textfield.component';
 import { ModalComponent } from './modal/modal.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { CollapseComponent } from './collapse/collapse.component';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,9 @@ export class ComponentCreationService {
       { key: "textfield", value: TextfieldComponent },
       { key: "modal", value: ModalComponent },
       { key: "progress_bar", value: ProgressBarComponent },
-      { key: "checkbox", value: CheckboxComponent }
+      { key: "checkbox", value: CheckboxComponent },
+	  { key: "collapse", value: CollapseComponent }
+
     ]
 
     let component = null

@@ -3,6 +3,7 @@
 Solves the [Knapsack problem](https://en.wikipedia.org/wiki/Knapsack_problem).
 By doing so, it showcases the use of optimal consequences and false assumptions as well as drag and drop.
 
+For a version with the option to lock and unlock drag and drop, check the commented code.
 
 ## Usage
 

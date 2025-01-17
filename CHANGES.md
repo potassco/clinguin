@@ -1,5 +1,10 @@
 # Changes
 
+## clinguin 2.2.1
+
+  * Additions
+    * Collapse container
+
 ## clinguin 2.2.0
 
   * Additions

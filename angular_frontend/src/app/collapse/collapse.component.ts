@@ -12,6 +12,7 @@ import { ChildBearerService } from '../child-bearer.service';
 export class CollapseComponent {
   @ViewChild('toggleButton', { static: false }) toggleButton!: ElementRef;
   @ViewChild('icon', { static: false }) icon!: ElementRef;
+  @ViewChild('iconCollapse', { static: false }) iconCollapse!: ElementRef;
   @ViewChild('collapseContent', { static: false }) collapseContent!: ElementRef;
   @ViewChild('childContainer', { read: ViewContainerRef }) childContainer!: ViewContainerRef;
   @ViewChild(NgbCollapse) ngbCollapse!: NgbCollapse;
@@ -23,15 +24,15 @@ export class CollapseComponent {
   label: string = ""; // Label for the collapse button
 
   // Default icons
-  defaultCollapsedIcon: string = "fa fa-caret-right"; // Default collapsed icon class
-  defaultExpandedIcon: string = "fa fa-caret-down"; // Default expanded icon class
+  defaultCollapsedIcon: string = "fa-caret-down"; // Default collapsed icon class
+  defaultExpandedIcon: string = "fa-caret-up"; // Default expanded icon class
 
   constructor(
     private cd: ChangeDetectorRef,
     private attributeService: AttributeHelperService,
     private elementLookupService: ElementLookupService,
     private childBearerService: ChildBearerService
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     if (this.element != null) {
@@ -61,10 +62,9 @@ export class CollapseComponent {
     this.isCollapsed = initialState === "true";
 
     let htmlButton = this.toggleButton.nativeElement;
-    let htmlIcon = this.icon.nativeElement;
 
     this.attributeService.addAttributes(htmlButton, attributes);
-    this.attributeService.addClasses(htmlButton, attributes, [], []);
+    this.attributeService.addClasses(htmlButton, attributes, ["btn"], []);
     this.attributeService.addGeneralAttributes(htmlButton, attributes);
 
     this.updateIcon(attributes);
@@ -86,32 +86,20 @@ export class CollapseComponent {
 
   // Update icon based on collapse state
   updateIcon(attributes: AttributeDto[]) {
-	const htmlIcon = this.icon.nativeElement;
-	htmlIcon.className = "icon";
-  
-	// Check for collapsed/expanded specific icons
-	const iconAttrName = this.isCollapsed ? "collapsed_icon" : "expanded_icon";
-  
-	// Check for the icon for both states
-	const specificIcon = this.attributeService.findGetAttributeValue(iconAttrName, attributes, "");
-	const generalIcon = this.attributeService.findGetAttributeValue("icon", attributes, "");
-  
-	// Determine which icon to use
-	let iconClass = specificIcon || generalIcon;
-  
-	// Handle 'none' case to hide the icon
-	if (iconClass.toLowerCase() === "none") {
-	  htmlIcon.style.display = "none"; // Hide the icon element
-	} else {
-	  htmlIcon.style.display = ""; // Ensure the icon is visible
-	  if (iconClass) {
-		htmlIcon.classList.add(...iconClass.split(" "));
-	  } else {
-		const defaultIcon = this.isCollapsed ? this.defaultCollapsedIcon : this.defaultExpandedIcon;
-		htmlIcon.classList.add(...defaultIcon.split(" "));
-	  }
+    const htmlIconCollapse = this.iconCollapse.nativeElement;
+    htmlIconCollapse.className = "";
+    htmlIconCollapse.style.paddingLeft = "6px";
+    if (this.isCollapsed) {
+      console.log("collapsed");
+      htmlIconCollapse.classList.add("fa");
+      htmlIconCollapse.classList.add(this.defaultCollapsedIcon);
+      this.attributeService.addClasses(htmlIconCollapse, attributes, ["fa"], [this.defaultCollapsedIcon], 'collapsed_icon');
+    } else {
+      console.log("expanded");
+      this.attributeService.addClasses(htmlIconCollapse, attributes, ["fa"], [this.defaultExpandedIcon], 'expanded_icon');
+    }
 
-	  htmlIcon.style.paddingRight = "8px";
-	}
+    const htmlIconCustom = this.icon.nativeElement;
+    this.attributeService.addClasses(htmlIconCustom, attributes, ["fa", "sm"], [], 'icon');
   }
 }

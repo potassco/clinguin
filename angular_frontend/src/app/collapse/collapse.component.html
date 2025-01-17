@@ -1,9 +1,10 @@
 <div>
 	<button #toggleButton (click)="toggle()">
-	  <span #icon class="icon"></span>
-	  {{label}}
+		<i #icon class="icon"></i>
+		{{label}}
+		<i #iconCollapse class="icon"></i>
 	</button>
 	<div #collapseContent [ngbCollapse]="isCollapsed">
-	  <div #childContainer></div>
+		<div #childContainer></div>
 	</div>
-  </div>
+</div>

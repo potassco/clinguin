@@ -1,5 +1,11 @@
 # Changes
 
+## clinguin 2.2.0
+
+  * Additions
+    * Drag and Drop
+
+
 ## clinguin 2.1.1
 
   * Bug fix

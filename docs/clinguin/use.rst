@@ -66,7 +66,13 @@ Then, inside the window, we create a container identified by ``sudoku`` which wi
     attr(sudoku,height,100).
 
 In the container, we create a dropdown menu for each position in the Sudoku and identify it by ``dd(X,Y)``.
-The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to, and if it is an initial value. In the last lines, we use the following special predicates. First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend). Then, we use the predicate ``_all`` for accessing atoms that are in all models (see :ref:`domain-state`). By doing so, the last two lines define the selected value of the dropdown as the value that the Sudoku encoding is inferring, either by a user assumption or due to the domain constraints.
+The first four lines will set the size and position of the dropdown. The special angular attribute ``class`` will set the style of the dropdown depending on the subgrid it belongs to,
+and if it is an initial value.
+In the last lines, we use the following special predicates.
+First, ``_clinguin_assume``, and ``_clinguin_browsing`` are part of the domain state (which can be extended by the Backend).
+Then, we use the predicate ``_all`` for accessing atoms that are in all models (see :ref:`domain-state`).
+By doing so, the last two lines define the selected value of the dropdown as the value that the Sudoku encoding is inferring,
+either by a user assumption (which makes sure the value is derived by the encoding) or due to the domain constraints.
 
 .. code-block::
 
@@ -84,7 +90,8 @@ The first four lines will set the size and position of the dropdown. The special
     attr(dd(X,Y),selected,V):-_all(sudoku(X,Y,V)).
     attr(dd(X,Y),selected,V):-sudoku(X,Y,V), _clinguin_browsing.
 
-As part of the dropdown, we add the different dropdown menu items for all possible values the cell can take. In this case, we add all values as items by using the ``class`` attribute; those that are not part of the brave consequences will appear in red and disabled.
+As part of the dropdown, we add the different dropdown menu items for all possible values the cell can take. In this case, we add all values as items by using the ``class`` attribute;
+those that are not part of the brave consequences (union of all stable models) will appear in red and disabled.
 When a click is performed on the item, the server will be called and instructed to perform the operation ``add_assumption(sudoku(X,Y,V), true)``.
 The available operations are defined by the selected backend, in this case, we use the :ref:`ClingoBackend`, which is the default and recommended one.
 

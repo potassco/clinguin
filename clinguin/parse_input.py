@@ -123,7 +123,7 @@ class ArgumentParser:
             "Clinguin is a GUI language extension for a logic program that uses Clingo."
         )
         if process not in ["server", "client", "client-server"]:
-            ascci = f"{self._clinguin_title}{description}"
+            ascci = f"{self._clinguin_title}"
             return_value = f"{inspect.cleandoc(ascci)}\n\n{description}"
         else:
             ascci = f"{self._clinguin_title}{self.titles[process]}"

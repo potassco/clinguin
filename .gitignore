@@ -1,17 +1,37 @@
-out/
-.idea/
-__pycache__/
+# Editors
 .vscode/
-*.DS_Store
-*.ipynb_checkpoints
-docs/_build
-clinguin.egg-info*
-build
+*~
+\#*\#
+.\#*
+
+# Mac/OSX
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.pytest_cache/
+
+# pyenv
+.python-version
+
+# mypy
 .mypy_cache/
-dist/
-logs/*
+.dmypy.json
+dmypy.json
+*egg-info*
 
-.angular/
-node_modules/
-package-lock.json
-
+# unclassified
+dist
+build
+.coverage
+_build
+_autosummary
+site

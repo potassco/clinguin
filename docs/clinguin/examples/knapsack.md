@@ -1,1 +1,0 @@
-../../../examples/angular/knapsack/README.md

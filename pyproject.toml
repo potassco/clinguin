@@ -1,5 +1,73 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "clinguin"
+authors = [{ name = "Susana Hahn", email = "hahnmartinlu@uni-potsdam.de" }]
+description = "A template project."
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+dynamic = ["version"]
+readme = "README.md"
 
+[project.urls]
+Homepage = "https://github.com/krr-up/clinguin.git/"
+
+[project.optional-dependencies]
+format = ["black", "isort", "autoflake"]
+lint_pylint = ["pylint"]
+typecheck = ["types-setuptools", "mypy"]
+test = ["coverage[toml]"]
+doc = ["mkdocs", "mkdocs-material", "mkdocstrings[python]"]
+dev = ["clinguin[test,typecheck,lint_pylint]"]
+
+[project.scripts]
+clinguin = "clinguin.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+version_scheme = "python-simplified-semver"
+local_scheme = "no-local-version"
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.black]
+line-length = 120
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.design]
+max-args = 10
+max-attributes = 7
+max-bool-expr = 5
+max-branches = 12
+max-locals = 30
+max-parents = 7
+max-public-methods = 20
+max-returns = 10
+max-statements = 50
+min-public-methods = 1
+
+[tool.pylint.similarities]
+ignore-comments = true
+ignore-docstrings = true
+ignore-imports = true
+ignore-signatures = true
+
+[tool.pylint.basic]
+argument-rgx = "^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$"
+variable-rgx = "^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$"
+good-names = ["_"]
+
+[tool.coverage.run]
+source = ["clinguin", "tests"]
+omit = ["*/clinguin/__main__.py"]
+
+[tool.coverage.report]
+exclude_lines = ["assert", "nocoverage"]

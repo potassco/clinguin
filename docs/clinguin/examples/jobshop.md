@@ -1,1 +1,0 @@
-../../../examples/angular/jobshop/README.md

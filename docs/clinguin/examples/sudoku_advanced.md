@@ -1,1 +1,0 @@
-../../../examples/angular/sudoku_advanced/README.md

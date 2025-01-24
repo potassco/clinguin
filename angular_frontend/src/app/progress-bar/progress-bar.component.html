@@ -1,8 +1,0 @@
-<div class="progress" [style.position]="'relative'" [style.height]="'100%'" [style.display]="'flex'"
-    [style.alignItems]="'center'" #progress>
-    <div class="progress-bar" #progressBar role="progressbar" [style.width.%]="percentage"
-        [style.height]="progress.offsetHeight + 'px'" [attr.aria-valuenow]="value" aria-valuemin="min"
-        aria-valuemax="max">{{label}}
-    </div>
-    <span class="progress-label" [style.width.%]="100 - percentage" style="text-align: center;">{{ out_label }}</span>
-</div>

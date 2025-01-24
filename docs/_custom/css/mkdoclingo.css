@@ -1,0 +1,49 @@
+code.doc-clingo-symbol-encoding::after {
+    content: "ASP";
+    color: var(--md-primary-fg-color);
+}
+
+
+code.doc-clingo-symbol-predicate::after {
+    content: "predicate";
+    color: #ca91bf
+}
+
+
+:root {
+    --md-admonition-icon--asp-doc: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.59 7.41 9 12l4.59 4.6L15 15.18 11.82 12 15 8.82M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>');
+    --md-admonition-icon--asp-doc-ref: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 7h5.5L15 1.5zM8 0h8l6 6v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2M4 4v18h16v2H4a2 2 0 0 1-2-2V4z"/></svg>')
+}
+
+.md-typeset .admonition.asp-doc,
+.md-typeset details.asp-doc {
+    border-color: var(--md-primary-fg-color);
+}
+
+.md-typeset .admonition.asp-doc-ref,
+.md-typeset details.asp-doc-ref {
+    border-color: #ca91bf;
+}
+
+.md-typeset .asp-doc>.admonition-title,
+.md-typeset .asp-doc>summary {
+    background-color: #1669B810;
+}
+
+.md-typeset .asp-doc-ref>.admonition-title,
+.md-typeset .asp-doc-ref>summary {
+    background-color: #ca91bf10;
+}
+
+.md-typeset .asp-doc>.admonition-title::before,
+.md-typeset .asp-doc>summary::before {
+    background-color: var(--md-primary-fg-color);
+    -webkit-mask-image: var(--md-admonition-icon--asp-doc);
+    mask-image: var(--md-admonition-icon--asp-doc);
+}
+
+.md-typeset .asp-doc-ref>summary::before {
+    background-color: #ca91bf;
+    -webkit-mask-image: var(--md-admonition-icon--asp-doc-ref);
+    mask-image: var(--md-admonition-icon--asp-doc-ref);
+}

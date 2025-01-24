@@ -1,0 +1,50 @@
+code.doc-section-title {
+    font-weight: bold;
+}
+
+code.doc-symbol-parameter::after {
+    content: "P";
+}
+
+code.doc-symbol-attribute::after {
+    content: "A";
+}
+
+code.doc-symbol-function::after {
+    content: "F";
+}
+
+code.doc-symbol-method::after {
+    content: "M";
+}
+
+code.doc-symbol-class::after {
+    content: "C";
+}
+
+code.doc-symbol-module::after {
+    content: "M";
+}
+
+:root {
+    --doc-symbol-parameter-fg-color: #df50af;
+    --doc-symbol-attribute-fg-color: #0079ff;
+    --doc-symbol-function-fg-color: #00dfa2;
+    --doc-symbol-method-fg-color: #00dfa2;
+    --doc-symbol-class-fg-color: #d1b619;
+    --doc-symbol-module-fg-color: #ff0060;
+
+    --doc-symbol-parameter-bg-color: #df50af1a;
+    --doc-symbol-attribute-bg-color: #0079ff1a;
+    --doc-symbol-function-bg-color: #00dfa21a;
+    --doc-symbol-method-bg-color: #00dfa21a;
+    --doc-symbol-class-bg-color: #d1b6191a;
+    --doc-symbol-module-bg-color: #ff00601a;
+}
+
+
+.cssClass>rect {
+    fill: #ff0000;
+    stroke: #ffff00;
+    stroke-width: 4px;
+}

@@ -1,1 +1,0 @@
-../../../examples/angular/placement/README.md

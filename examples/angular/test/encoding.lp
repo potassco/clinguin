@@ -1,2 +1,0 @@
-object(a).
-object(b).

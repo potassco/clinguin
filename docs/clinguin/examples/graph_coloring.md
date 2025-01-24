@@ -1,1 +1,0 @@
-../../../examples/angular/graph_coloring/README.md

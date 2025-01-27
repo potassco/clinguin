@@ -104,6 +104,39 @@ export class AttributeHelperService {
 
     }
 
+	setCustomTooltip(html: HTMLElement, attributes: AttributeDto[]) {
+		const tooltipAttribute = this.findAttribute("tooltip", attributes);
+		if (tooltipAttribute) {
+			// Create a tooltip element
+			const tooltip = document.createElement("div");
+			tooltip.innerText = tooltipAttribute.value;
+			tooltip.style.position = "absolute";
+			tooltip.style.backgroundColor = "black";
+			tooltip.style.color = "white";
+			tooltip.style.padding = "5px";
+			tooltip.style.borderRadius = "3px";
+			tooltip.style.fontSize = "12px";
+			tooltip.style.visibility = "hidden";
+	
+			// Append the tooltip to the parent element
+			html.appendChild(tooltip);
+	
+			// Show and position the tooltip on hover
+			html.onmouseenter = (event) => {
+				tooltip.style.visibility = "visible";
+				tooltip.style.top = `${event.clientY + 10}px`;
+				tooltip.style.left = `${event.clientX + 10}px`;
+			};
+			html.onmousemove = (event) => {
+				tooltip.style.top = `${event.clientY + 10}px`;
+				tooltip.style.left = `${event.clientX + 10}px`;
+			};
+			html.onmouseleave = () => {
+				tooltip.style.visibility = "hidden";
+			};
+		}
+	}
+
     addAttributes(html: HTMLElement, attributes: AttributeDto[]) {
 
         let attr_dict = [
@@ -120,6 +153,7 @@ export class AttributeHelperService {
         })
 
         this.setHover(html, attributes)
+		this.setCustomTooltip(html, attributes)
     }
 
     addGeneralAttributes(html: HTMLElement, attributes: AttributeDto[]) {

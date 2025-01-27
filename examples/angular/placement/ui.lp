@@ -45,6 +45,7 @@ attr(window, flex_direction, row).
         attr(add_button, order, 1).
         attr(add_button, class, ("btn-secondary";"bg-opacity-50")).
         when(add_button, click, update, (modal, visibility, shown)).
+		attr(add_button, tooltip, "Add a new person").
 
         elem(people, container, included).
         attr(people, order, 2).
@@ -57,6 +58,7 @@ attr(window, flex_direction, row).
                 when(included_cb(P), click, call, set_external(include(P),false)) :- person(P), include(P).
                 attr(included_cb(P), label, P):- person(P).
                 attr(included_cb(P), class, ("text-capitalize";"h6";"m-2")):- person(P).
+				attr(included(P), tooltip, "Click the checkbox to assign/unassign"):- person(P).
 
 
                 when(included_btn_add(P), click, call, set_external(include(P),true)) :- person(P), not include(P).
@@ -105,10 +107,12 @@ attr(window, flex_direction, row).
                 attr(table_label(T), label, L):-table(T,L).
                 attr(table_label(T), class, ("font-weight-bold";"h5")):-table(T,L).
                 attr(table_label(T), class, "align-middle"):-table(T,L).
+				attr(table_label(T), tooltip, L) :-table(T,L).
 
             elem(table_dropdowns(T), container, table(T)):-table(T,_).
             attr(table_dropdowns(T), order, 2):-table(T,_).
             attr(table_dropdowns(T), class, "m-2"):-table(T,_).
+			attr(table_dropdowns(T), tooltip, "Click to assign a person to a seat"):-table(T,_).
 
                 elem(table_seat(S,T), dropdown_menu, table_dropdowns(T)):-seat(S,T).
                 attr(table_seat(S,T), class, ("btn-primary";"m-1";"btn-sm";"text-capitalize")):-seat(S,T).

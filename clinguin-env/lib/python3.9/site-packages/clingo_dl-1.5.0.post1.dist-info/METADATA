@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: clingo-dl
+Version: 1.5.0.post1
+Summary: CFFI-based bindings to the clingo-dl solver.
+Home-page: https://github.com/potassco/clingo-dl
+Author: Roland Kaminski
+Author-email: kaminski@cs.uni-potsdam.de
+License: MIT
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: cffi
+Requires-Dist: clingo
+
+This package allows for adding the clingo-dl propagator as a
+theory to clingo.
+
+It can also be used as a clingo-dl solver running:
+
+    python -m clingodl CLINGODL_ARGUMENTS

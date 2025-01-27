@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: clingo
+Version: 5.7.1
+Summary: CFFI-based bindings to the clingo solver.
+Home-page: https://github.com/potassco/clingo
+Author: Roland Kaminski
+Author-email: kaminski@cs.uni-potsdam.de
+License: MIT
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: cffi
+
+This package provides CFFI-based bindings to the clingo solver.
+
+Clingo is part of the [Potassco](https://potassco.org) project for *Answer Set Programming* (ASP).
+ASP offers a simple and powerful modeling language to describe combinatorial problems as *logic programs*.
+The *clingo* system then takes such a logic program and computes *answer sets* representing solutions to the given problem.
+To get an idea, check our [Getting Started](https://potassco.org/doc/start/) page and the [online version](https://potassco.org/clingo/run/) of clingo.
+
+Please check the the [API documentation](https://potassco.org/clingo/python-api/current/clingo/) on how to use this module.

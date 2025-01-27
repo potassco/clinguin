@@ -1,0 +1,2 @@
+[console_scripts]
+clingraph = clingraph:main

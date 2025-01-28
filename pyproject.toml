@@ -10,6 +10,8 @@ requires-python = ">=3.9"
 license = { file = "LICENSE" }
 dynamic = ["version"]
 readme = "README.md"
+dependencies = ["fastapi", "httpx", "websockets", "uvicorn"]
+
 
 [project.urls]
 Homepage = "https://github.com/krr-up/clinguin.git/"

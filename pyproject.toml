@@ -20,7 +20,7 @@ Homepage = "https://github.com/krr-up/clinguin.git/"
 format = ["black", "isort", "autoflake"]
 lint_pylint = ["pylint"]
 typecheck = ["types-setuptools", "mypy"]
-test = ["coverage[toml]"]
+test = ["pytest", "pytest-asyncio", "coverage[toml]"]
 doc = ["mkdocs", "mkdocs-material", "mkdocstrings[python]"]
 dev = ["clinguin[test,typecheck,lint_pylint]"]
 
@@ -68,8 +68,18 @@ variable-rgx = "^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$"
 good-names = ["_"]
 
 [tool.coverage.run]
+data_file = ".coverage"
 source = ["clinguin", "tests"]
 omit = ["*/clinguin/__main__.py"]
+branch = true
+parallel = true
+concurrency = ["multiprocessing"]
+
 
 [tool.coverage.report]
 exclude_lines = ["assert", "nocoverage"]
+
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

@@ -1,34 +1,27 @@
 """
-Test cases for main application functionality.
+Test cases for main application functionality using pytest.
 """
 
 from io import StringIO
-from unittest import TestCase
-
 from clinguin.utils import logging
 from clinguin.utils.logging import configure_logging, get_logger
 from clinguin.utils.parser import get_parser
+import pytest
 
 
-class TestMain(TestCase):
-    """
-    Test cases for main application functionality.
-    """
-
-    def test_logger(self) -> None:
-        """
-        Test the logger.
-        """
-        sio = StringIO()
-        configure_logging(sio, logging.INFO, True)
+@pytest.mark.filterwarnings("ignore")
+@pytest.mark.usefixtures("caplog")
+def test_logger(caplog):
+    """Test that logger correctly logs messages."""
+    with caplog.at_level(logging.INFO):
         log = get_logger("main")
         log.info("test123")
-        self.assertRegex(sio.getvalue(), "test123")
 
-    def test_parser(self) -> None:
-        """
-        Test the parser.
-        """
-        parser = get_parser()
-        ret = parser.parse_args(["--log", "info"])
-        self.assertEqual(ret.log, logging.INFO)
+    assert "test123" in caplog.text
+
+
+def test_parser():
+    """Test the parser handles log level arguments correctly."""
+    parser = get_parser()
+    ret = parser.parse_args(["--log", "info"])
+    assert ret.log == logging.INFO

@@ -1,7 +1,8 @@
 import os
 import sys
-
+import glob
 import nox
+import time
 
 nox.options.sessions = "lint_pylint", "typecheck", "test"
 
@@ -67,19 +68,22 @@ def typecheck(session):
 
 @nox.session(python=PYTHON_VERSIONS)
 def test(session):
-    """
-    Run the tests.
+    """Run tests with proper coverage tracking inside Nox."""
 
-    Accepts an additional arguments which are passed to the unittest module.
-    This can for example be used to selectively run test cases.
-    """
-
+    # Install dependencies
     args = [".[test]"]
     if EDITABLE_TESTS:
         args.insert(0, "-e")
     session.install(*args)
-    if session.posargs:
-        session.run("coverage", "run", "-m", "unittest", session.posargs[0], "-v")
-    else:
-        session.run("coverage", "run", "-m", "unittest", "discover", "-v")
-        session.run("coverage", "report", "-m", "--fail-under=100")
+
+    # Run coverage tests
+    session.run("coverage", "run", "-m", "pytest")
+
+    # Wait for subprocesses to fully exit so that coverage is saved
+    time.sleep(2)
+
+    coverage_files = glob.glob(".coverage*")
+    if coverage_files:
+        session.run("coverage", "combine", "--quiet", *coverage_files)
+
+    session.run("coverage", "report", "-m", "--fail-under=100")

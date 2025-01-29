@@ -52,8 +52,8 @@ def configure_logging(stream: TextIO, level: int, use_color: bool) -> None:
 
     def format_str(color: str) -> str:
         if use_color:
-            return f"{COLORS[color]}%(levelname)s:{COLORS['GREY']}  - %(message)s{COLORS['NORMAL']}"
-        return "%(levelname)s:  - %(message)s"  # nocoverage
+            return f"{COLORS[color]}%(levelname).4s:{COLORS['GREY']} (%(module)s)  - %(message)s{COLORS['NORMAL']}"
+        return "%(levelname).4s:  - %(message)s"  # nocoverage
 
     def make_handler(level: int, color: str) -> "logging.StreamHandler[TextIO]":
         handler = logging.StreamHandler(stream)
@@ -77,3 +77,13 @@ def get_logger(name: str) -> logging.Logger:
     Get a logger with the given name.
     """
     return logging.getLogger(name)
+
+
+def colored(s: str, color: str) -> str:
+    """
+    Returns the string colored by the given color.
+
+    Args:
+        color (str): A color name: GREY, BLUE, GREEN, YELLOW, RED
+    """
+    return f"{COLORS[color.upper()]}{s}{COLORS['NORMAL']}"

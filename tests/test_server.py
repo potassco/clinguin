@@ -1,90 +1,173 @@
-import unittest
+import pytest
 import asyncio
 import websockets
 import json
 import multiprocessing
 import time
 import httpx
-from clinguin.server.server import Server
+import atexit
+from coverage import Coverage
+from clinguin.server import Server
+import os
+import sys
+import signal
+
+websockets_uri = "ws://127.0.0.1:8000/ws"
+http_url = "http://127.0.0.1:8000"
 
 
 def start_server():  # nocoverage
-    """Function to start the server process."""
-    server = Server(port=8000, host="127.0.0.1", mode="single")
-    server.run()
+    """Start the server process with coverage tracking."""
+    cov = Coverage(data_file=f".coverage.{os.getpid()}")
+    cov.start()
 
-class TestServer(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        # Start the server in a subprocess
-        cls.server_process = multiprocessing.Process(target=start_server, daemon=True)
-        cls.server_process.start()
+    def stop_coverage():
+        """Ensure coverage data is saved before process exits."""
+        cov.stop()
+        cov.save()
 
-        # Wait for the server to initialize
-        time.sleep(1)  # Allow time for the server to start
+    # Handle termination signals (SIGTERM, SIGINT)
+    def handle_signal(signum, frame):
+        stop_coverage()
+        sys.exit(0)
 
-        # Initialize an HTTP client
-        cls.http_client = httpx.Client(base_url="http://127.0.0.1:8000")
+    # Register signal handlers
+    signal.signal(signal.SIGTERM, handle_signal)
+    signal.signal(signal.SIGINT, handle_signal)
 
-    @classmethod
-    def tearDownClass(cls):
-        # Terminate the server subprocess
-        cls.server_process.terminate()
-        cls.server_process.join()
-        cls.http_client.close()
+    # Ensure coverage saves before process exits
+    atexit.register(stop_coverage)
 
-    def test_info_endpoint(self):
-        """Test the /info endpoint."""
-        response = self.http_client.get("/info")
-        self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["status"], "running")
-        self.assertEqual(data["version"], 1)
-        self.assertEqual(data["active_sessions"], 0)
-
-    def test_operation_endpoint(self):
-        """Test the /operation endpoint."""
-        request_data = {"operation": "test_operation", "client_version": 1}
-        response = self.http_client.post("/operation", json=request_data)
-        self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertIn("result", data)
-        self.assertIn("version", data)
-        self.assertEqual(data["version"], 2)
-
-    async def websocket_test_logic(self):
-        """Test WebSocket interactions."""
-        uri = "ws://127.0.0.1:8000/ws"
-        async with websockets.connect(uri) as ws1, websockets.connect(uri) as ws2:
-            # Receive initial connection messages
-            msg1 = await ws1.recv()
-            msg2 = await ws2.recv()
-
-            data1 = json.loads(msg1)
-            data2 = json.loads(msg2)
-
-            self.assertIn("session_id", data1)
-            self.assertIn("session_id", data2)
-
-            # Perform an operation using the HTTP client
-            request_data = {"operation": "test_operation", "client_version": 2}
-            response = self.http_client.post("/operation", json=request_data)
-            self.assertEqual(response.status_code, 200)
-
-            # Both clients should receive a version update
-            update1 = await ws1.recv()
-            update2 = await ws2.recv()
-
-            update_data1 = json.loads(update1)
-            update_data2 = json.loads(update2)
-
-            self.assertEqual(update_data1["type"], "version_update")
-            self.assertEqual(update_data1["new_version"], 3)
-            self.assertEqual(update_data2["type"], "version_update")
-            self.assertEqual(update_data2["new_version"], 3)
-
-    def test_websocket_notifications(self):
-        """Run the asynchronous WebSocket test logic."""
-        asyncio.run(self.websocket_test_logic())
+    try:
+        server = Server(port=8000, host="127.0.0.1", mode="single")
+        server.run()
+    finally:
+        stop_coverage()  # Ensure we always save before exit
+        sys.exit(0)  # Ensure a clean exit
 
 
+@pytest.fixture(scope="module")
+def server():
+    """Starts the server in a separate process before tests."""
+    process = multiprocessing.Process(target=start_server, daemon=True)
+    process.start()
+    time.sleep(3)  # Allow time for the server to start
+    yield process
+    process.terminate()
+    process.join()
+
+
+@pytest.fixture
+def client():
+    """Provides an HTTP client with a timeout."""
+    with httpx.Client(base_url=http_url, timeout=5) as client:
+        yield client
+
+
+def test_info_endpoint(server, client):
+    """Test the /info endpoint."""
+    response = client.get("/info")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "running"
+    assert data["version"] == 1
+    assert data["active_sessions"] == 0
+
+
+@pytest.mark.asyncio
+async def test_websocket_operation():
+    """Test WebSocket connection with debug logging."""
+    async with websockets.connect(websockets_uri) as ws:
+        msg = await asyncio.wait_for(ws.recv(), timeout=5)
+        data = json.loads(msg)
+        assert "session_id" in data
+        headers = {"session-id": data["session_id"]}
+
+        # Send a test operation
+        async with httpx.AsyncClient(timeout=5) as client:
+
+            response = await asyncio.wait_for(
+                client.post(
+                    f"{http_url}/operation",
+                    json={"operation": "test_operation", "client_version": 1},
+                    headers=headers,
+                ),
+                timeout=5,
+            )
+            data = response.json()
+
+            assert response.status_code == 200
+            assert "result" in data
+            assert "version" in data
+            assert data["version"] == 2
+
+
+@pytest.mark.asyncio
+async def test_websocket_version_notifications():
+    """Test WebSocket version update notification."""
+    async with websockets.connect(websockets_uri) as ws1, websockets.connect(websockets_uri) as ws2:
+        # Receive initial connection messages
+        msg1 = await asyncio.wait_for(ws1.recv(), timeout=5)
+        msg2 = await asyncio.wait_for(ws2.recv(), timeout=5)
+
+        data1 = json.loads(msg1)
+        data2 = json.loads(msg2)
+
+        assert "session_id" in data1
+        assert "session_id" in data2
+
+        headers1 = {"session-id": data1["session_id"]}
+
+        # Perform an operation using the HTTP client
+        async with httpx.AsyncClient(timeout=5) as client:
+            response = await asyncio.wait_for(
+                client.post(
+                    f"{http_url}/operation", json={"operation": "test_operation", "client_version": 2}, headers=headers1
+                ),
+                timeout=5,
+            )
+            assert response.status_code == 200
+
+        # The second WebSocket should receive a version update notification
+        update2 = await asyncio.wait_for(ws2.recv(), timeout=5)
+        update_data2 = json.loads(update2)
+        assert update_data2["type"] == "version_update"
+        assert update_data2["new_version"] == 3
+
+        # Make a request without session id and get 400
+        async with httpx.AsyncClient(timeout=5) as client:
+            response = await asyncio.wait_for(
+                client.post(f"{http_url}/operation", json={"operation": "test_operation", "client_version": 3}),
+                timeout=5,
+            )
+            assert response.status_code == 400
+
+            # Make an outdated request and get 409
+            response = await asyncio.wait_for(
+                client.post(
+                    f"{http_url}/operation", json={"operation": "test_operation", "client_version": 2}, headers=headers1
+                ),
+                timeout=5,
+            )
+            assert response.status_code == 409
+
+
+@pytest.mark.asyncio
+async def test_websocket_disconnect():
+    """Test that the WebSocket disconnects properly and is handled by the server."""
+    async with websockets.connect(websockets_uri) as ws:
+        msg = await asyncio.wait_for(ws.recv(), timeout=5)  # Receive initial connection message
+        data = json.loads(msg)
+        assert "session_id" in data  # Ensure the session ID is received
+
+    # Allow time for server to process the disconnect
+    await asyncio.sleep(1)  # Prevents race conditions
+
+    # Now, reconnect and check if the server has removed the old session
+    async with websockets.connect(websockets_uri) as ws2:
+        msg2 = await asyncio.wait_for(ws2.recv(), timeout=5)  # Get session info
+        data2 = json.loads(msg2)
+        assert "session_id" in data2  # Ensure new session is assigned
+
+        # The new session should be different if the old one was removed properly
+        assert data["session_id"] != data2["session_id"]

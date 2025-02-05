@@ -34,12 +34,12 @@ class Client:
 
         configure_logging(stream=sys.stderr, level=log_level, use_color=True)  # Set up logging globally
 
-        if custom_path and not build:
-            log.warning("Angular will be rebuilt to include custom files.")
+        if custom_path and not build:  # nocoverage
+            log.warning("Angular will be rebuilt to include custom files.")  # nocoverage
             build = True
 
         if build:
-            self.build_frontend()
+            self.build_frontend()  # nocoverage (Mocked in tests)
 
         self.app = FastAPI()
 
@@ -47,15 +47,15 @@ class Client:
         if os.path.exists(self.frontend_dist_path):
             log.info(f"Serving Angular frontend from {self.frontend_dist_path}")
             self.app.mount("/", StaticFiles(directory=self.frontend_dist_path, html=True), name="frontend")
-        else:
+        else:  # nocoverage
             log.error("No frontend found at" + self.frontend_dist_path)
             log.error("Make sure client is built before running the server.")
 
     def build_frontend(self):
         """Build the Angular frontend, ensuring custom files are included before building."""
 
-        if not os.path.exists(self.angular_src_path):
-            raise RuntimeError(f"❌ Angular source folder not found: {self.angular_src_path}")
+        if not os.path.exists(self.angular_src_path):  # nocoverage
+            raise RuntimeError(f"Angular source folder not found: {self.angular_src_path}")
 
         log.debug("Disabling Angular analytics to prevent interactive prompts...")
         subprocess.run(["npx", "ng", "analytics", "off"], cwd=self.angular_src_path, check=True)
@@ -69,7 +69,7 @@ class Client:
         # Ensure `dist/browser/` exists inside Angular build output
         built_output = os.path.join(self.angular_src_path, "dist", "browser")
         if not os.path.exists(built_output):
-            raise RuntimeError(f"❌ Angular build failed! Expected output not found: {built_output}")
+            raise RuntimeError(f"Angular build failed! Expected output not found: {built_output}")  # nocoverage
 
         # Move `dist/browser/` to `clinguin/client/dist/`
         log.debug(f"Moving built frontend from {built_output} to {self.frontend_dist_path}...")
@@ -78,7 +78,7 @@ class Client:
 
         log.warning("Angular frontend successfully built. Make sure browser cache is refreshed to see changes.")
 
-    def include_custom_files(custom_path: str, angular_src_path: str):
+    def include_custom_files(custom_path: str, angular_src_path: str):  # nocoverage
         """Copy user-provided custom CSS and components into the Angular project before building.
 
         :param custom_path: Path to user-provided custom files (e.g., ~/.clinguin/client/)

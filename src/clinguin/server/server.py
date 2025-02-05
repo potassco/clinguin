@@ -33,6 +33,23 @@ class Server:
         self.app.post("/operation")(self.execute_operation)
         self.app.websocket("/ws")(self.websocket_endpoint)
 
+    def run(self):
+        import uvicorn
+
+        uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
+
+    async def log_requests(self, request: Request, call_next):
+        """Middleware to log details of every request."""
+        log.info(colored(f"=>=>=>=>=>=>=> {request.method}", "green"))
+        start_time = time.time()
+        response = await call_next(request)
+        duration = time.time() - start_time
+        log.debug(f"Completed in {duration:.2f}s with status {response.status_code}")
+        log.info(colored(f"<------------- {response.status_code}", "green"))
+        return response
+
+    # ---------- HTTP endpoints ----------
+
     async def get_info(self):
         """Retrieve server status or session information."""
         return {
@@ -66,6 +83,8 @@ class Server:
         await self.notify_clients(exclude_session_id=initiator_session_id)
 
         return {"result": operation_result, "version": self.version}
+
+    # ---------- WebSocket endpoint ----------
 
     async def websocket_endpoint(self, websocket: WebSocket):
         """Handle WebSocket connections for session management."""
@@ -108,18 +127,3 @@ class Server:
         # Remove disconnected sessions
         for session_id in disconnected_sessions:
             del self.sessions[session_id]  # nocoverage
-
-    def run(self):
-        import uvicorn
-
-        uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
-
-    async def log_requests(self, request: Request, call_next):
-        """Middleware to log details of every request."""
-        log.info(colored(f"=>=>=>=>=>=>=> {request.method}", "green"))
-        start_time = time.time()
-        response = await call_next(request)
-        duration = time.time() - start_time
-        log.debug(f"Completed in {duration:.2f}s with status {response.status_code}")
-        log.info(colored(f"<------------- {response.status_code}", "green"))
-        return response

@@ -2,16 +2,16 @@
 Test cases for main application functionality using pytest.
 """
 
-from io import StringIO
-from clinguin.utils import logging
-from clinguin.utils.logging import configure_logging, get_logger
-from clinguin.utils.parser import get_parser
 import pytest
+
+from clinguin.utils import logging
+from clinguin.utils.logging import get_logger
+from clinguin.utils.parser import get_parser
 
 
 @pytest.mark.filterwarnings("ignore")
 @pytest.mark.usefixtures("caplog")
-def test_logger(caplog):
+def test_logger(caplog: pytest.LogCaptureFixture):
     """Test that logger correctly logs messages."""
     with caplog.at_level(logging.INFO):
         log = get_logger("main")

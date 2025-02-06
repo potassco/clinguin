@@ -1,30 +1,39 @@
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+"""Client module for serving the Angular frontend."""
+
+import logging
 import os
 import shutil
 import subprocess
-import logging
 import sys
+from typing import Optional
+
+import uvicorn
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+from ..utils.logging import configure_logging
 
 log = logging.getLogger(__name__)
-from ..utils.logging import configure_logging
 
 
 class Client:
-    def __init__(
+    """FastAPI client for serving the Angular frontend."""
+
+    def __init__(  # pylint: disable=R0917
         self,
         port: int,
         host: str = "127.0.0.1",
         build: bool = False,
-        custom_path: str = None,
+        custom_path: Optional[str] = None,
         log_level: int = logging.INFO,
     ):
         """
         Initialize the client.
 
-        :param port: Port to serve the client.
-        :param host: Host to bind to.
-        :param build: Whether to rebuild the frontend on startup.
+        Args:
+            port (int): Port to serve the client.
+            host (str): Host to bind to.
+            build (bool): Whether to rebuild the frontend on startup.
         """
         self.port = port
         self.host = host
@@ -45,14 +54,17 @@ class Client:
 
         # Ensure `dist/browser/` exists before serving
         if os.path.exists(self.frontend_dist_path):
-            log.info(f"Serving Angular frontend from {self.frontend_dist_path}")
+            log.info("Serving Angular frontend from %s", self.frontend_dist_path)
             self.app.mount("/", StaticFiles(directory=self.frontend_dist_path, html=True), name="frontend")
         else:  # nocoverage
-            log.error("No frontend found at" + self.frontend_dist_path)
+            log.error("No frontend found at %s", self.frontend_dist_path)
             log.error("Make sure client is built before running the server.")
 
-    def build_frontend(self):
-        """Build the Angular frontend, ensuring custom files are included before building."""
+    def build_frontend(self) -> None:
+        """
+        Build the Angular frontend, ensuring custom files are included before building.
+        This generates files that can be used by other users without the need to install angular.
+        """
 
         if not os.path.exists(self.angular_src_path):  # nocoverage
             raise RuntimeError(f"Angular source folder not found: {self.angular_src_path}")
@@ -72,25 +84,27 @@ class Client:
             raise RuntimeError(f"Angular build failed! Expected output not found: {built_output}")  # nocoverage
 
         # Move `dist/browser/` to `clinguin/client/dist/`
-        log.debug(f"Moving built frontend from {built_output} to {self.frontend_dist_path}...")
+        log.debug("Moving built frontend from %s to %s...", built_output, self.frontend_dist_path)
         shutil.rmtree(self.frontend_dist_path, ignore_errors=True)
         shutil.move(built_output, self.frontend_dist_path)
 
         log.warning("Angular frontend successfully built. Make sure browser cache is refreshed to see changes.")
 
-    def include_custom_files(custom_path: str, angular_src_path: str):  # nocoverage
-        """Copy user-provided custom CSS and components into the Angular project before building.
+    def include_custom_files(self, custom_path: str, angular_src_path: str) -> None:  # nocoverage
+        """
+        Copy user-provided custom CSS and components into the Angular project before building.
 
-        :param custom_path: Path to user-provided custom files (e.g., ~/.clinguin/client/)
-        :param angular_src_path: Path to the Angular project (e.g., clinguin/client/angular/)
+        Args:
+            custom_path (str): Path to user-provided custom files (e.g., ~/.clinguin/client/)
+            angular_src_path (str): Path to the Angular project (e.g., clinguin/client/angular/)
         """
         custom_path = os.path.expanduser(custom_path)  # Expand `~` in path
 
         if not os.path.exists(custom_path):
-            log.info(f"No custom files found at {custom_path}. Skipping customization.")
+            log.info("No custom files found at %s. Skipping customization.", custom_path)
             return
 
-        log.info(f"Copying user customizations from {custom_path} to {angular_src_path}/src/custom/")
+        log.info("Copying user customizations from %s to %s/src/custom/", custom_path, angular_src_path)
 
         for item in os.listdir(custom_path):
             src_item = os.path.join(custom_path, item)
@@ -103,8 +117,7 @@ class Client:
 
         log.info("Custom files successfully included.")
 
-    def run(self):
+    def run(self) -> None:
         """Run the client."""
-        import uvicorn
 
         uvicorn.run(self.app, host=self.host, port=self.port, log_level="info")

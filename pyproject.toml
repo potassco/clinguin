@@ -55,6 +55,7 @@ max-public-methods = 20
 max-returns = 10
 max-statements = 50
 min-public-methods = 1
+max-positional-arguments = 10
 
 [tool.pylint.similarities]
 ignore-comments = true
@@ -83,3 +84,10 @@ exclude_lines = ["assert", "nocoverage"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
+
+[tool.mypy]
+strict = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true

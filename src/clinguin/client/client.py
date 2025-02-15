@@ -23,25 +23,28 @@ class Client:
         self,
         port: int,
         host: str = "127.0.0.1",
+        server_url: str = "http://127.0.0.1:8000",
         build: bool = False,
         custom_path: Optional[str] = None,
-        log_level: int = logging.INFO,
+        log_level: Optional[int] = None,
     ):
         """
         Initialize the client.
 
         Args:
             port (int): Port to serve the client.
-            host (str): Host to bind to.
+            host (str): Host to bind the client to. Use 0.0.0.0 for external access.
             build (bool): Whether to rebuild the frontend on startup.
         """
         self.port = port
         self.host = host
+        self.server_url = server_url
         self.angular_src_path = os.path.abspath("src/clinguin/client/angular")  # Angular project location
         self.frontend_dist_path = os.path.abspath("src/clinguin/client/dist/browser")  # Serve the `browser/` subfolder
         self.custom_path = custom_path or os.path.expanduser("~/.clinguin/client/")  # User-provided customizations
 
-        configure_logging(stream=sys.stderr, level=log_level, use_color=True)  # Set up logging globally
+        if log_level is not None:
+            configure_logging(stream=sys.stderr, level=log_level, use_color=True)  # Set up logging globally
 
         if custom_path and not build:  # nocoverage
             log.warning("Angular will be rebuilt to include custom files.")  # nocoverage
@@ -59,6 +62,13 @@ class Client:
         else:  # nocoverage
             log.error("No frontend found at %s", self.frontend_dist_path)
             log.error("Make sure client is built before running the server.")
+
+    def run(self) -> None:
+        """Run the client."""
+        log.info("🚀 Starting client on %s:%s", self.host, self.port)
+        log.info("Frontend will call server at: {args.%s}", self.server_url)
+
+        uvicorn.run(self.app, host=self.host, port=self.port, log_level="info")
 
     def build_frontend(self) -> None:
         """
@@ -116,8 +126,3 @@ class Client:
                 shutil.copy(src_item, dest_item)
 
         log.info("Custom files successfully included.")
-
-    def run(self) -> None:
-        """Run the client."""
-
-        uvicorn.run(self.app, host=self.host, port=self.port, log_level="info")

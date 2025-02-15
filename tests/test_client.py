@@ -7,6 +7,7 @@ import os
 import shutil
 from unittest.mock import patch
 
+import logging
 import pytest
 from clinguin.client import Client
 
@@ -18,7 +19,7 @@ ANGULAR_DIST_PATH = os.path.join(ANGULAR_SRC_PATH, "dist/browser")  # Expected o
 @pytest.fixture
 def client():
     """Provides a Client instance with a test configuration."""
-    return Client(port=8001, build=False)  # Don't trigger build immediately
+    return Client(port=8001, build=False, log_level=logging.INFO)  # Don't trigger build immediately
 
 
 @patch("subprocess.run")  # Mock subprocess calls

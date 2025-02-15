@@ -26,22 +26,25 @@ class OperationRequest(BaseModel):
 class Server:
     """FastAPI server for handling HTTP and WebSocket connections."""
 
-    def __init__(self, port: int, host: str, mode: str, log_level: int = logging.INFO):
+    def __init__(self, port: int = 8000, host: str = "127.0.0.1", multi: bool = False, log_level: int | None = None):
         """Initialize the server with the given port and host.
         Args:
-            port (int): The port to run the server on.
-            host (str): The host to run the server on.
-            mode (str): The mode of the server, either "multi" or "single".
+            port (int): The port to run the server on (8000 by default).
+            host (str): The host to run the server on (Local host by default, pass 0.0.0.0 to allow external access).
+            multi (bool): Uses one backend instance per client if True.
             log_level (int): The log level for the server
         """
         self.port = port
         self.host = host
-        self.mode = mode  # "multi" or "single"
+        self.multi = multi
         self.app = FastAPI()
         self.sessions: dict[str, WebSocket] = {}
         self.version = 1
 
-        configure_logging(stream=sys.stderr, level=log_level, use_color=True)  # Set up logging globally
+        if log_level is not None:
+            configure_logging(
+                stream=sys.stderr, level=log_level, use_color=True
+            )  # Set up logging globally # nocoverage
 
         # Add middleware for request logging
         self.app.middleware("http")(self.log_requests)
@@ -52,6 +55,7 @@ class Server:
 
     def run(self) -> None:
         """Run the FastAPI server."""
+        log.info("🚀 Starting server on %s:%s", self.host, self.port)
         uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
 
     async def log_requests(

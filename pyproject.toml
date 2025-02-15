@@ -10,7 +10,14 @@ requires-python = ">=3.9"
 license = { file = "LICENSE" }
 dynamic = ["version"]
 readme = "README.md"
-dependencies = ["fastapi", "httpx", "websockets", "uvicorn"]
+dependencies = [
+    "fastapi",
+    "httpx",
+    "websockets",
+    "uvicorn",
+    "rich",
+    "rich-argparse",
+]
 
 
 [project.urls]
@@ -69,9 +76,9 @@ variable-rgx = "^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$"
 good-names = ["_"]
 
 [tool.coverage.run]
+omit = ["*/clinguin/__main__.py", "*/clinguin/cli.py"]
 data_file = ".coverage"
 source = ["clinguin", "tests"]
-omit = ["*/clinguin/__main__.py"]
 branch = true
 parallel = true
 concurrency = ["multiprocessing"]

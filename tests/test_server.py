@@ -12,6 +12,8 @@ import sys
 import time
 from typing import Generator
 
+import logging
+
 import httpx
 import pytest
 import websockets
@@ -45,9 +47,8 @@ def start_server():  # nocoverage
 
     # Ensure coverage saves before process exits
     atexit.register(stop_coverage)
-
     try:
-        server = Server(port=8000, host="127.0.0.1", mode="single")
+        server = Server(port=8000, host="127.0.0.1", log_level=logging.INFO)
         server.run()
     finally:
         stop_coverage()  # Ensure we always save before exit

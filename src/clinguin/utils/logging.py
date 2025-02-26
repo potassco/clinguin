@@ -7,6 +7,7 @@ logging.
 
 import logging
 from typing import TextIO
+from typing import Any
 
 NOTSET = logging.NOTSET
 DEBUG = logging.DEBUG
@@ -87,3 +88,29 @@ def colored(s: str, color: str) -> str:
         color (str): A color name: GREY, BLUE, GREEN, YELLOW, RED
     """
     return f"{COLORS[color.upper()]}{s}{COLORS['NORMAL']}"
+
+
+def uictl_log(text: Any) -> str:
+    """
+    Adds the color of the ui control to the given text for logging
+
+    Args:
+        text (Any): The text to log
+
+    Returns:
+        str: The colored text
+    """
+    return colored(text, "CYAN")
+
+
+def domctl_log(text: Any) -> str:
+    """
+    Adds the color of the domain control to the given text for logging
+
+    Args:
+        text (Any): The text to log
+
+    Returns:
+        str: The colored text
+    """
+    return colored(text, "MAGENTA")

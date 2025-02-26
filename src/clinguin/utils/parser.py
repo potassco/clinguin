@@ -2,14 +2,19 @@
 The command line parser for the project.
 """
 
+import importlib
+import os
+import re
+
 from argparse import ArgumentParser, _SubParsersAction
-from importlib import metadata
-from typing import Any, Optional, cast
+import sys
+from typing import Any, Optional, cast, Dict, Set, List, Type
 
 from rich_argparse import ArgumentDefaultsRichHelpFormatter
 from rich.text import Text
 
 from . import logging
+from ..server.backends.clingo_backend import ClingoBackend
 
 __all__ = ["get_parser"]
 
@@ -46,7 +51,7 @@ ascii_art_client = Text(
     justify="left",
 )
 
-VERSION = metadata.version("clinguin")
+VERSION = importlib.metadata.version("clinguin")
 
 
 def add_logger(parser: ArgumentParser) -> None:
@@ -73,64 +78,30 @@ def add_logger(parser: ArgumentParser) -> None:
         default="warning",
         choices=[val for _, val in levels],
         metavar=f"{{{','.join(key for key, _ in levels)}}}",
-        help="Set log level [%(default)s]",
+        help="Set log level",
         type=cast(Any, lambda name: get_level(levels, name)),
     )
 
 
-def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
+def get_parser() -> ArgumentParser:
     """
-    Setup the parser for the server command.
-    Args:
-        subparsers (_SubParsersAction): The subparsers to add the server command to.
+    Return the parser for command line options.
     """
-    parser: ArgumentParser = subparsers.add_parser(
-        "server",
-        description=ascii_art_clinguin
-        + ascii_art_server
-        + "\n🚀 Start the server for clinguin.\
-        \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
-        help="Start the server",
+    parser = ArgumentParser(
+        description=ascii_art_clinguin + "\n🚀 Clinguin CLI - Start the server or client."
+        "\nUse: clinguin server or clinguin client",  # type: ignore
         formatter_class=ArgumentDefaultsRichHelpFormatter,
     )
-    add_logger(parser)
 
-    parser.add_argument(
-        "--multi",
-        action="store_true",
-        help="Enable multiple backend instances per client connection.",
-    )
+    parser.add_argument("--version", "-v", action="version", version=f"%(prog)s {VERSION}")
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-    parser.add_argument(
-        "--backend",
-        type=str,
-        metavar="",  # Suppress metavar display in help
-        help="Specify the backend class name to use.",
-        default="ClingoBackend",
-    )
+    setup_server_parser(subparsers)
+    setup_client_parser(subparsers)
+    return parser
 
-    parser.add_argument(
-        "--custom-classes",
-        type=str,
-        metavar="",
-        help="Path to a directory containing custom backend classes.",
-    )
 
-    parser.add_argument(
-        "--port",
-        type=int,
-        default=8000,
-        metavar="",
-        help="Set the server port.",
-    )
-
-    parser.add_argument(
-        "--host",
-        type=str,
-        default="127.0.0.1",  # Default to localhost
-        metavar="",
-        help="Specify the server host. Use 0.0.0.0 for external access.",
-    )
+# ----------------- Client -----------------
 
 
 def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
@@ -187,19 +158,197 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     )
 
 
-def get_parser() -> ArgumentParser:
+# ----------------- Server -----------------
+
+
+def get_default_backend_path() -> str:
     """
-    Return the parser for command line options.
+    Get the absolute path to the installed clinguin/server/backends directory.
+
+    Returns:
+        str: The full absolute path to the backend directory.
     """
-    parser = ArgumentParser(
-        description=ascii_art_clinguin + "\n🚀 Clinguin CLI - Start the server or client."
-        "\nUse: clinguin server or clinguin client",  # type: ignore
+    with importlib.resources.path("clinguin.server", "backends") as backend_path:
+        return str(backend_path)
+
+
+def get_backend_from_sysargv():
+    """Extracts the backend from sys.argv manually."""
+    if "--backend" in sys.argv:
+        index = sys.argv.index("--backend")
+        if index + 1 < len(sys.argv):  # Ensure there's a value after --backend
+            return sys.argv[index + 1]
+    return "ClingoBackend"  # Default backend if not specified
+
+
+def find_backend_classes(directories: List[str]) -> Dict[str, str]:
+    """
+    Scan multiple directories for Python files and extract backend class names that inherit from ClingoBackend
+    (directly or indirectly), including ClingoBackend itself, using regex.
+
+    Arguments:
+        directories (List[str]): A list of directories containing backend Python modules.
+
+    Returns:
+        Dict[str, str]: A dictionary mapping backend class names to their file paths.
+    """
+    backend_classes = {}
+
+    class_pattern = re.compile(r"class\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\))?\s*:")
+
+    class_hierarchy = {}  # Maps class names to their parent class (if any)
+    class_files = {}  # Maps class names to their file paths
+
+    for directory in directories:
+        if not os.path.isdir(directory):
+            raise FileNotFoundError(f"Directory not found: {directory}")
+
+        for filename in os.listdir(directory):
+            if filename.endswith(".py") and filename != "__init__.py":
+                module_path = os.path.join(directory, filename)
+
+                with open(module_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+
+                # Find all class definitions and their direct parents
+                matches = class_pattern.findall(content)
+                for class_name, parent_class in matches:
+                    if class_name not in class_files:
+                        class_hierarchy[class_name] = parent_class if parent_class else None
+                        class_files[class_name] = module_path
+
+    def is_subclass_of_clingo_backend(cls: str, visited: Set[str]) -> bool:
+        """Recursively checks if a class inherits from ClingoBackend or is ClingoBackend itself."""
+        if cls in visited:
+            return False
+        visited.add(cls)
+
+        if cls == "ClingoBackend":
+            return True
+        parent = class_hierarchy.get(cls)
+        if parent and is_subclass_of_clingo_backend(parent, visited):
+            return True
+        return False
+
+    for class_name in class_hierarchy.keys():
+        if is_subclass_of_clingo_backend(class_name, set()):
+            backend_classes[class_name] = class_files[class_name]
+
+    return backend_classes
+
+
+def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[ClingoBackend]:
+    """
+    Lazily imports the selected backend class when needed.
+
+    Arguments:
+        class_name (str): The name of the backend class to import.
+        backends_dict (Dict[str, str]): A dictionary mapping backend class names to file paths.
+
+    Returns:
+        Type[ClingoBackend]: The imported backend class.
+
+    Raises:
+        ImportError: If the backend class cannot be found.
+    """
+    if class_name == "ClingoBackend":
+        return ClingoBackend
+
+    module_path = backends_dict.get(class_name)
+    if not module_path:
+        raise ImportError(f"Backend class '{class_name}' not found.")
+
+    module_name = os.path.basename(module_path).replace(".py", "")
+
+    spec = importlib.util.spec_from_file_location(module_name, module_path)
+    if spec and spec.loader:
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        try:
+            spec.loader.exec_module(module)
+        except ModuleNotFoundError as e:
+            print(
+                logging.colored(
+                    f"Error loading backend module '{module_name}'. Make sure all required packages are imported. For default backends provided in the clinguin package, please follow the documentation to install the dependencies automatically using pip.",
+                    "RED",
+                )
+            )
+            raise e
+
+        backend_class = getattr(module, class_name, None)
+        if isinstance(backend_class, type) and issubclass(backend_class, ClingoBackend):
+            return backend_class
+        else:
+            raise ImportError(f"Backend class '{class_name}' was found but is not a subclass of ClingoBackend.")
+
+    raise ImportError(f"Backend class '{class_name}' was found but could not be loaded.")
+
+
+def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
+    """
+    Setup the parser for the server command.
+    Args:
+        subparsers (_SubParsersAction): The subparsers to add the server command to.
+    """
+    parser: ArgumentParser = subparsers.add_parser(
+        "server",
+        description=ascii_art_clinguin
+        + ascii_art_server
+        + "\n🚀 Start the server for clinguin.\
+        \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
+        help="Start the server",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
     )
+    add_logger(parser)
 
-    parser.add_argument("--version", "-v", action="version", version=f"%(prog)s {VERSION}")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    default_backend_dir = get_default_backend_path()
+    user_backend_dir = "./docs"  # Example user-provided path
 
-    setup_server_parser(subparsers)
-    setup_client_parser(subparsers)
-    return parser
+    available_backends = find_backend_classes([default_backend_dir, user_backend_dir])
+
+    parser.add_argument(
+        "--multi",
+        action="store_true",
+        help="Enable multiple backend instances per client connection.",
+    )
+
+    parser.add_argument(
+        "--backend",
+        type=str,
+        metavar=f"{{{','.join(available_backends.keys())}}}",
+        help="Specify the backend class name to use.",
+        default="ClingoBackend",
+    )
+
+    parser.add_argument(
+        "--custom-classes",
+        type=str,
+        metavar="",
+        help="Path to a directory containing custom backend classes.",
+    )
+
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8000,
+        metavar="",
+        help="Set the server port.",
+    )
+
+    parser.add_argument(
+        "--host",
+        type=str,
+        default="127.0.0.1",  # Default to localhost
+        metavar="",
+        help="Specify the server host. Use 0.0.0.0 for external access.",
+    )
+
+    selected_backend_name = get_backend_from_sysargv()
+    backend = lazy_import_backend(selected_backend_name, available_backends)
+
+    group = parser.add_argument_group(
+        selected_backend_name, description=f"Options registered by the selected backend: '{selected_backend_name}'."
+    )
+    group.title = selected_backend_name
+    backend.register_options(group)
+    parser.set_defaults(backend=backend)

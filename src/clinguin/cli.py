@@ -19,7 +19,14 @@ def main() -> None:
 
     configure_logging(sys.stderr, args.log, sys.stderr.isatty())
     if args.command == "server":
-        server = Server(port=args.port, host=args.host, multi=args.multi)
+        args_cls = args.backend_class.args_class
+        server = Server(
+            backend_class=args.backend_class,
+            backend_args=args_cls.from_args(args),
+            port=args.port,
+            host=args.host,
+            multi=args.multi,
+        )
         server.run()
     elif args.command == "client":
         client = Client(port=args.port, host=args.host, build=args.build, custom_path=args.custom_path)

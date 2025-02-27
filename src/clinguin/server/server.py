@@ -3,14 +3,19 @@
 import logging
 import sys
 import time
+import traceback
 import uuid
+from types import SimpleNamespace
 
 from typing import Callable, Coroutine, Any
+from fastapi.responses import JSONResponse
 
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request, Response
 from pydantic import BaseModel
 
+from clinguin.server.backends import ClingoBackend
+from clinguin.utils.errors import get_server_error_alert
 from ..utils.logging import configure_logging, colored
 
 log = logging.getLogger(__name__)
@@ -26,7 +31,15 @@ class OperationRequest(BaseModel):
 class Server:
     """FastAPI server for handling HTTP and WebSocket connections."""
 
-    def __init__(self, port: int = 8000, host: str = "127.0.0.1", multi: bool = False, log_level: int | None = None):
+    def __init__(
+        self,
+        backend_class: ClingoBackend,
+        backend_args: SimpleNamespace,
+        port: int = 8000,
+        host: str = "127.0.0.1",
+        multi: bool = False,
+        log_level: int | None = None,
+    ):
         """Initialize the server with the given port and host.
         Args:
             port (int): The port to run the server on (8000 by default).
@@ -34,11 +47,14 @@ class Server:
             multi (bool): Uses one backend instance per client if True.
             log_level (int): The log level for the server
         """
+        self.backend_class = backend_class
+        self.backend_args = backend_args
         self.port = port
         self.host = host
         self.multi = multi
         self.app = FastAPI()
         self.sessions: dict[str, WebSocket] = {}
+        self.backends: dict[str, ClingoBackend] = {}
         self.version = 1
 
         if log_level is not None:
@@ -52,6 +68,25 @@ class Server:
         self.app.get("/info")(self.get_info)
         self.app.post("/operation")(self.execute_operation)
         self.app.websocket("/ws")(self.websocket_endpoint)
+
+    def get_backend(self, session_id: str) -> ClingoBackend:
+        """Get the backend for the given session ID."""
+        if self.multi:
+            if session_id not in self.backends:
+                self.backends[session_id] = self.backend_class(args=self.backend_args)
+            return self.backends[session_id]
+        return self.backend_class(args=self.backend_args)
+
+    def get_session_from_request(self, fastapi_request: Request) -> str:
+        """Get the backend by inspecting the fastapi request."""
+        initiator_session_id = fastapi_request.headers.get("session-id")
+        if not initiator_session_id:
+            log.error("Missing session ID in headers.")
+            raise HTTPException(
+                status_code=400,
+                detail="Missing session ID in headers.",
+            )
+        return initiator_session_id
 
     def run(self) -> None:
         """Run the FastAPI server."""
@@ -72,16 +107,27 @@ class Server:
 
     # ---------- HTTP endpoints ----------
 
-    async def get_info(self) -> dict[str, int | str]:
+    async def get_info(self, fastapi_request: Request) -> dict[str, int | str]:
         """Retrieve server status or session information."""
-        return {
-            "status": "running",
-            "version": self.version,
-            "active_sessions": len(self.sessions),
-        }
+        session = self.get_session_from_request(fastapi_request)
+        backend = self.get_backend(session)
+        response = {"status": "running", "version": self.version, "active_sessions": len(self.sessions)}
+        try:
+            json = backend.get()
+            print(json)
+            self.last_response = json
+            response.update(json)
+            log.debug("Response: %s", response)
+        except Exception as e:
+            log.error("Handling global exception in endpoint")
+            log.error(e)
+            log.error(traceback.format_exc())
+            response.update(get_server_error_alert(str(e), self.last_response))
+        return JSONResponse(content=response)
 
     async def execute_operation(self, request_body: OperationRequest, fastapi_request: Request) -> dict[str, Any]:
         """Execute an operation provided by the client."""
+
         if request_body.client_version < self.version:
             log.warning("Client version is outdated.")
             raise HTTPException(
@@ -90,19 +136,16 @@ class Server:
             )
 
         # Get the session ID from the request headers
-        initiator_session_id = fastapi_request.headers.get("session-id")
-        if not initiator_session_id:
-            raise HTTPException(
-                status_code=400,
-                detail="Missing session ID in headers.",
-            )
+        session = self.get_session_from_request(fastapi_request)
+        backend = self.get_backend(session)
 
+        # TODO call actual operation
         # Example operation handling
         operation_result = {"message": f"Executed operation: {request_body.operation}"}
 
         # Increment version and notify all clients in single-backend mode
         self.version += 1
-        await self.notify_clients(exclude_session_id=initiator_session_id)
+        await self.notify_clients(exclude_session_id=session)
 
         return {"result": operation_result, "version": self.version}
 

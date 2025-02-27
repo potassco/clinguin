@@ -10,7 +10,9 @@ import os
 import signal
 import sys
 import time
+from types import SimpleNamespace
 from typing import Generator
+from pathlib import Path
 
 import logging
 
@@ -20,9 +22,18 @@ import websockets
 from coverage import Coverage
 
 from clinguin.server import Server
+from clinguin.server.backends import ClingoBackend
 
 WEBSOCKET_URL = "ws://127.0.0.1:8000/ws"
 HTTP_URL = "http://127.0.0.1:8000"
+
+TEST_DATA_DIR = Path(__file__).parent / "data"
+
+
+backend_args = SimpleNamespace(
+    domain_files=[str(TEST_DATA_DIR / "encoding.lp"), str(TEST_DATA_DIR / "instance.lp")],
+    ui_files=[str(TEST_DATA_DIR / "ui.lp")],
+)
 
 
 def start_server():  # nocoverage
@@ -48,14 +59,20 @@ def start_server():  # nocoverage
     # Ensure coverage saves before process exits
     atexit.register(stop_coverage)
     try:
-        server = Server(port=8000, host="127.0.0.1", log_level=logging.INFO)
+        server = Server(
+            backend_class=ClingoBackend,
+            backend_args=ClingoBackend.args_class.from_args(backend_args),
+            port=8000,
+            host="127.0.0.1",
+            log_level=logging.INFO,
+        )
         server.run()
     finally:
         stop_coverage()  # Ensure we always save before exit
         sys.exit(0)  # Ensure a clean exit
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="module", autouse=True)
 def server():
     """Starts the server in a separate process before tests."""
     process = multiprocessing.Process(target=start_server, daemon=True)
@@ -73,14 +90,53 @@ def client() -> Generator[httpx.Client, None, None]:
         yield client
 
 
-def test_info_endpoint(server, client):  # pylint: disable=unused-argument
+@pytest.mark.asyncio
+async def test_info_endpoint():  # pylint: disable=unused-argument
     """Test the /info endpoint."""
-    response = client.get("/info")
-    assert response.status_code == 200
-    data = response.json()
-    assert data["status"] == "running"
-    assert data["version"] == 1
-    assert data["active_sessions"] == 0
+    async with websockets.connect(WEBSOCKET_URL) as ws:
+        # Receive initial connection messages
+        msg = await asyncio.wait_for(ws.recv(), timeout=5)
+
+        data = json.loads(msg)
+        headers = {"session-id": data["session_id"]}
+
+        async with httpx.AsyncClient(timeout=5) as client:
+
+            response = await asyncio.wait_for(
+                client.get(f"{HTTP_URL}/info", headers=headers),
+                timeout=5,
+            )
+            data = response.json()
+
+            assert response.status_code == 200
+            assert data["status"] == "running"
+            assert data["version"] == 1
+            assert data["active_sessions"] == 1
+            assert "ui" in data
+            assert data["ui"]["id"] == "root"
+            assert data["ui"]["children"][0]["id"] == "w"
+            assert "ds" in data
+            assert "_ds_context" in data["ds"]
+            assert "_ds_constants" in data["ds"]
+            assert "_ds_browsing" in data["ds"]
+            assert "_ds_cautious_optimal" in data["ds"]
+            assert "_ds_brave_optimal" in data["ds"]
+            assert "_ds_cautious" in data["ds"]
+            assert "_ds_brave" in data["ds"]
+            assert "_ds_model" in data["ds"]
+            assert "_ds_opt" in data["ds"]
+            assert "_ds_unsat" in data["ds"]
+            assert "_ds_assume" in data["ds"]
+
+
+# def test_info_endpoint(server, client):  # pylint: disable=unused-argument
+#     """Test the /info endpoint."""
+#     response = client.get("/info")
+#     assert response.status_code == 200
+#     data = response.json()
+#     assert data["status"] == "running"
+#     assert data["version"] == 1
+#     assert data["active_sessions"] == 0
 
 
 @pytest.mark.asyncio

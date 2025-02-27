@@ -3,23 +3,28 @@
 """
 Module that contains the ClingoBackend.
 """
-from argparse import ArgumentParser, Namespace
+from argparse import ArgumentParser
+from types import SimpleNamespace
+
 import functools
 import logging
 import textwrap
 import time
+import os
 from functools import cached_property
 from pathlib import Path
 from typing import List, Dict, Set, Optional, Tuple, Any
+from dataclasses import dataclass, field, fields
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
 
 from clinguin.server.ui import UIState
 
-# from clinguin.server.data.domain_state import solve, tag
+from clinguin.server.domain_state import solve, tag
 
 from clinguin.utils.logging import domctl_log
+from clinguin.server.json_encoder import JsonEncoder
 
 # from ....utils.transformer import UsesSignatureTransformer
 
@@ -28,18 +33,98 @@ enable_python()
 log = logging.getLogger(__name__)
 
 
+@dataclass
+class BackendArgs:
+    """Base arguments for ClingoBackend."""
+
+    VALID_OPT_MODES = {"opt", "enum", "optN", "ignore"}
+
+    domain_files: List[str] = field(default_factory=list)
+    ui_files: List[str] = field(default_factory=list)
+    const: List[str] = field(default_factory=list)
+    clingo_ctl_arg: List[str] = field(default_factory=list)
+    default_opt_mode: str = "ignore"
+    opt_timeout: Optional[int] = None
+
+    def __post_init__(self):
+        """Validates that file paths exist and are actual files."""
+        for file_path in self.domain_files + self.ui_files:
+            if not os.path.isfile(file_path):
+                raise ValueError(f"Invalid file path: {file_path} does not exist or is not a file.")
+
+        # Validate `default_opt_mode`
+        if self.default_opt_mode not in self.VALID_OPT_MODES:
+            valid_options = ", ".join(self.VALID_OPT_MODES)
+            raise ValueError(
+                f"Invalid default_opt_mode: '{self.default_opt_mode}'. " f"Must be one of: {valid_options}"
+            )
+
+        for c in self.const:
+            values = c.split("=")
+            if (len(values) != 2) or (not values[0]) or (not values[1]):
+                raise ValueError("Invalid constant format. Expected name=value.")
+
+    @classmethod
+    def from_args(cls, args: SimpleNamespace):
+        """Creates BackendArgs from `args`, filtering out extra fields."""
+        valid_fields = {f.name for f in fields(cls)}  # Get valid field names
+        filtered_args = {k: v for k, v in vars(args).items() if k in valid_fields}  # Keep only valid fields
+        return cls(**filtered_args)
+
+    @classmethod
+    def register_options(cls, parser: ArgumentParser):
+        """Registers CLI options dynamically based on BackendArgs fields."""
+        defaults = cls()  # Create a BackendArgs instance to get default values
+
+        parser.add_argument(
+            "--domain-files",
+            nargs="+",
+            help="Files with the domain-specific encodings.",
+            default=defaults.domain_files,
+            metavar="",
+        )
+        parser.add_argument(
+            "--ui-files", nargs="+", help="Files defining the UI encodings.", default=defaults.ui_files, metavar=""
+        )
+        parser.add_argument(
+            "-c",
+            "--const",
+            action="append",
+            help="Constant passed to Clingo, e.g., <id>=<term>.",
+            default=defaults.const,
+            metavar="",
+        )
+        parser.add_argument(
+            "--clingo-ctl-arg",
+            action="append",
+            help="Arguments passed to the Clingo control object.",
+            default=defaults.clingo_ctl_arg,
+            metavar="",
+        )
+        parser.add_argument(
+            "--default-opt-mode",
+            type=str,
+            help="Default optimization mode.",
+            default=defaults.default_opt_mode,
+            metavar="",
+        )
+        parser.add_argument(
+            "--opt-timeout",
+            type=int,
+            help="Optional timeout for optimization.",
+            default=defaults.opt_timeout,
+            metavar="",
+        )
+
+
 class ClingoBackend:
     """
     This backend contains the basic clingo functionality for a backend using clingo.
 
       Attributes:
-        _domain_files (list[str]): Files containing the domain-specific encodings.
-        _ui_files (list[str]): Files used to generate UI predicates.
-        _constants (dict[str, str]): Constants passed via the command line. It is updated when calling :func:`~set_constant`.
-        _clingo_ctl_arg (list[str]): Arguments for the domain Clingo control object.
-        _default_opt_mode (str): Default optimization mode. Used to get the default model in the. See :fun:`~_ds_model` .
-        _opt_timeout (Optional[int]): Timeout for optimization. If set, once it passed it will stop looking for a models with better cost.
+        _args (BackendArgs): Arguments for the backend.
 
+        _constants (dict[str, str]): Constants that might be set interactively.
         _context (list): Stores the context during interactions.
         _ctl (Optional[clingo.Control]): Clingo control object for solving `domain-ctl`.
         _ui_state (Optional[UIState]): UIState object managing UI construction.
@@ -59,13 +144,7 @@ class ClingoBackend:
         _backup_ds_cache (dict[str, Any]): Cache for domain state constructors in case of unsatisfiable output.
     """
 
-    # Set from the command line arguments in ~_init_command_line
-    _domain_files: List[str]
-    _ui_files: List[str]
-    _constants: Dict[str, str]
-    _clingo_ctl_arg: List[str]
-    _default_opt_mode: str
-    _opt_timeout: Optional[int]
+    args_class = BackendArgs
 
     # Set on the initialization
     _context: List[Any]
@@ -74,6 +153,7 @@ class ClingoBackend:
     _atoms: Set[str]
     _assumptions: Set[Tuple[str, bool]]
     _externals: Dict[str, Set[str]]
+    _constants: Dict[str, str]
     _handler: Optional[Any]  # clingo.SolveHandle
     _iterator: Optional[Any]
     _model: Optional[List[Any]]  # clingo.Symbol
@@ -86,7 +166,7 @@ class ClingoBackend:
     _domain_state_constructors: List[str]
     _backup_ds_cache: Dict[str, Any]
 
-    def __init__(self, args: Namespace):
+    def __init__(self, args: BackendArgs):
         """
         Creates the clingo backend with the given arguments.
         It will setup all attributes by calling :func:`~_init_ds_constructors()` and :func:`~_restart()`.
@@ -95,7 +175,7 @@ class ClingoBackend:
         Instead, custom backends should overwrite specialized methods.
 
         Arguments:
-            args (Namespace): The namespace with the arguments for the registered options.
+            args (BackendArgs): The arguments for the backend. When using it in the CLI these are the arguments registered in :func:`~register_options`.
                                 It can be used to set attributes using the method :func:`~_init_ds_constructors()`
 
         """
@@ -106,82 +186,6 @@ class ClingoBackend:
 
         # Restart the backend to initialize all internal attributes
         self._restart()
-
-    # ---------------------------------------------
-    # Class methods
-    # ---------------------------------------------
-
-    @classmethod
-    def register_options(cls, parser: ArgumentParser):
-        """
-        Registers options in the command line.
-
-        It can be extended by custom backends to add custom command-line options.
-
-        Arguments:
-            parser (ArgumentParser): A group of the argparse argument parser
-
-        Example:
-
-            .. code-block:: python
-
-                @classmethod
-                def register_options(cls, parser):
-                    ClingoBackend.register_options(parser)
-
-                    parser.add_argument(
-                        "--my-custom-option",
-                        help="Help message",
-                        nargs="*",
-                    )
-
-        """
-        parser.add_argument(
-            "--domain-files",
-            nargs="+",
-            help="Files with the domain specific encodings and the instances",
-            metavar="",
-        )
-        parser.add_argument(
-            "--ui-files",
-            nargs="+",
-            help="Files with the encodings that generate the UI predicates: elem, attr and when",
-            metavar="",
-        )
-        parser.add_argument(
-            "-c",
-            "--const",
-            action="append",
-            help="Constant passed to clingo, <id>=<term> replaces term occurrences of <id> with <term>",
-            metavar="",
-        )
-        parser.add_argument(
-            "--clingo-ctl-arg",
-            action="append",
-            help="""Argument that will be passed to clingo control object for the domain.
-            Should have format <name>=<value>, for example parallel-mode=2 will become --parallel-mode=2.""",
-            metavar="",
-        )
-        parser.add_argument(
-            "--default-opt-mode",
-            type=str,
-            help="Default optimization mode for computing a model",
-            default="ignore",
-            metavar="",
-        )
-
-        parser.add_argument(
-            "--opt-timeout",
-            help=textwrap.dedent(
-                """\
-                    Optional timeout for searching for optimal models.
-                    The timeout is not exactly enforced (might take longer)
-                    but only checked after each solution is found.
-                 """
-            ),
-            type=int,
-            metavar="",
-        )
 
     # ---------------------------------------------
     # Properties
@@ -206,7 +210,7 @@ class ClingoBackend:
         """
         Gets the list of arguments used for creating a control object
         """
-        return ["0"] + self._constants_argument_list + [f"--{o}" for o in self._clingo_ctl_arg]
+        return ["0"] + self._constants_argument_list + [f"--{o}" for o in self._args.clingo_ctl_arg]
 
     @property
     def _assumption_list(self) -> set[tuple[str, bool]]:
@@ -280,19 +284,12 @@ class ClingoBackend:
 
     def _init_command_line(self):
         """
-        Initializes the attributes based on the command-line arguments provided.
+        Initializes the attributes based on the provided arguments.
+        It is the place to do any post-processing of the arguments.
         This method is called when the server starts or after a restart.
 
         Sets:
-            _domain_files (list[str]): List of domain files from `--domain-files`.
-            _ui_files (list[str]): UI files from `--ui-files` (must be provided).
             _constants (dict[str, str]): Dictionary of constants passed via `-c name=value`.
-            _clingo_ctl_arg (list[str]): List of additional arguments for Clingo via `--clingo-ctl-arg`.
-            _default_opt_mode (str): Default optimization mode from `--default-opt-mode`.
-            _opt_timeout (Optional[int]): Timeout for optimization from `--opt-timeout`.
-
-        If any command line arguments are added in :meth:`~ClingoBackend.register_options`,
-        they should be initialized here.
 
         Example:
 
@@ -304,29 +301,14 @@ class ClingoBackend:
 
 
         Raises:
-            RuntimeError: If `--ui-files` is not provided.
             ValueError: If a constant is provided in an invalid format.
         """
-
-        self._domain_files = self._args.domain_files or []
-
-        if not self._args.ui_files:
-            raise RuntimeError("UI files need to be provided under --ui-files")
-        self._ui_files = self._args.ui_files
 
         self._constants = {}
         if self._args.const is not None:
             for c in self._args.const:
-                if "=" not in c:
-                    raise ValueError("Invalid constant format. Expected name=value.")
                 name, value = c.split("=")
                 self._constants[name] = value
-
-        self._clingo_ctl_arg = self._args.clingo_ctl_arg or []
-
-        self._default_opt_mode = self._args.default_opt_mode
-
-        self._opt_timeout = self._args.opt_timeout
 
     def _init_interactive(self):
         """
@@ -411,7 +393,7 @@ class ClingoBackend:
         See Also:
             :func:`~_load_file`
         """
-        for f in self._domain_files:
+        for f in self._args.domain_files:
             path = Path(f)
             if not path.is_file():
                 log.critical("File %s does not exist", f)
@@ -602,7 +584,7 @@ class ClingoBackend:
         and creating a new control object (ui_control) using the UI files provided
         """
         domain_state = self._domain_state
-        self._ui_state = UIState(self._ui_files, domain_state, self._constants_argument_list)
+        self._ui_state = UIState(self._args.ui_files, domain_state, self._constants_argument_list)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
         for m in self._messages:
@@ -638,28 +620,27 @@ class ClingoBackend:
         Returns:
             The program tagged
         """
-        return "a"
-        # if self._is_browsing:
-        #     log.debug("Returning cache for %s", ds_id)
-        #     return self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
-        # log.debug(domctl_log(f'domctl.configuration.solve.models = {models}"'))
-        # log.debug(domctl_log(f'domctl.configuration.solve.opt_mode = {opt_mode}"'))
-        # log.debug(domctl_log(f'domctl.configuration.solve.enum_mode = {enum_mode}"'))
-        # self._ctl.configuration.solve.models = models
-        # self._ctl.configuration.solve.opt_mode = opt_mode
-        # self._ctl.configuration.solve.enum_mode = enum_mode
-        # self._prepare()
-        # log.debug(domctl_log(f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"))
-        # symbols, ucore = solve(
-        #     self._ctl,
-        #     self._assumption_list,
-        #     self._on_model,
-        # )
-        # self._unsat_core = ucore
-        # if symbols is None:
-        #     log.warning("Got an UNSAT result with the given domain encoding.")
-        #     return self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
-        # return " ".join([str(s) + "." for s in list(tag(symbols, ds_tag))]) + "\n"
+        if self._is_browsing:
+            log.debug("Returning cache for %s", ds_id)
+            return self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
+        log.debug(domctl_log(f'domctl.configuration.solve.models = {models}"'))
+        log.debug(domctl_log(f'domctl.configuration.solve.opt_mode = {opt_mode}"'))
+        log.debug(domctl_log(f'domctl.configuration.solve.enum_mode = {enum_mode}"'))
+        self._ctl.configuration.solve.models = models
+        self._ctl.configuration.solve.opt_mode = opt_mode
+        self._ctl.configuration.solve.enum_mode = enum_mode
+        self._prepare()
+        log.debug(domctl_log(f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"))
+        symbols, ucore = solve(
+            self._ctl,
+            self._assumption_list,
+            self._on_model,
+        )
+        self._unsat_core = ucore
+        if symbols is None:
+            log.warning("Got an UNSAT result with the given domain encoding.")
+            return self._backup_ds_cache[ds_id] if ds_id in self._backup_ds_cache else ""
+        return " ".join([str(s) + "." for s in list(tag(symbols, ds_tag))]) + "\n"
 
     @functools.lru_cache(maxsize=None)  # pylint: disable=[method-cache-max-size-none]
     def _ui_uses_predicate(self, name: str, arity: int):
@@ -673,7 +654,7 @@ class ClingoBackend:
         return True
         # transformer = UsesSignatureTransformer(name, arity)
         # log.debug("Transformer parsing UI files to find %s/%s", name, arity)
-        # transformer.parse_files(self._ui_files)
+        # transformer.parse_files(self._args.ui_files)
         # if not transformer.contained:
         #     log.debug("Predicate NOT contained. Domain constructor will be skipped")
         # return transformer.contained
@@ -744,7 +725,7 @@ class ClingoBackend:
         if self._model is None:
             log.debug(domctl_log('domctl.configuration.solve.enum_mode = "auto"'))
             self._ctl.configuration.solve.models = 1
-            self._ctl.configuration.solve.opt_mode = self._default_opt_mode
+            self._ctl.configuration.solve.opt_mode = self._args.default_opt_mode
             self._ctl.configuration.solve.enum_mode = "auto"
 
             self._prepare()
@@ -920,10 +901,8 @@ class ClingoBackend:
         Updates the UI and transforms the facts into a JSON.
         This method will be automatically called after executing all the operations.
         """
-        # self._update_ui_state()
-        # json_structure = StandardJsonEncoder.encode(self._ui_state, self._domain_state_dict)
-        # return json_structure
-        return {}
+        self._update_ui_state()
+        return JsonEncoder.encode(self._ui_state, self._domain_state_dict)
 
     def restart(self):
         """
@@ -1069,7 +1048,7 @@ class ClingoBackend:
                             in 'next_solution' operation. Exiting browsing."
                     )
                     break
-                if self._opt_timeout is not None and time.time() - start > self._opt_timeout:
+                if self._args.opt_timeout is not None and time.time() - start > self._args.opt_timeout:
                     log.warning(
                         "Timeout for finding optimal model was reached. Returning model without proving optimality."
                     )

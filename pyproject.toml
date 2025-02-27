@@ -18,6 +18,8 @@ dependencies = [
     "rich",
     "rich-argparse",
     "clingo",
+    "clorm",
+    "networkx",
 ]
 
 

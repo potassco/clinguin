@@ -172,13 +172,22 @@ def get_default_backend_path() -> str:
         return str(backend_path)
 
 
-def get_backend_from_sysargv():
+def get_backend_from_sysargv() -> str:
     """Extracts the backend from sys.argv manually."""
     if "--backend" in sys.argv:
         index = sys.argv.index("--backend")
-        if index + 1 < len(sys.argv):  # Ensure there's a value after --backend
+        if index + 1 < len(sys.argv):
             return sys.argv[index + 1]
-    return "ClingoBackend"  # Default backend if not specified
+    return "ClingoBackend"
+
+
+def get_custom_backends_directory() -> Optional[str]:
+    """Extracts the backend directory from sys.argv manually."""
+    if "--custom-backends-dir" in sys.argv:
+        index = sys.argv.index("--custom-backends-dir")
+        if index + 1 < len(sys.argv):
+            return sys.argv[index + 1]
+    return None
 
 
 def find_backend_classes(directories: List[str]) -> Dict[str, str]:
@@ -201,7 +210,7 @@ def find_backend_classes(directories: List[str]) -> Dict[str, str]:
 
     for directory in directories:
         if not os.path.isdir(directory):
-            raise FileNotFoundError(f"Directory not found: {directory}")
+            raise FileNotFoundError(f"Custom backend directory not found: {directory}")
 
         for filename in os.listdir(directory):
             if filename.endswith(".py") and filename != "__init__.py":
@@ -301,10 +310,11 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     )
     add_logger(parser)
 
-    default_backend_dir = get_default_backend_path()
-    user_backend_dir = "./docs"  # Example user-provided path
-
-    available_backends = find_backend_classes([default_backend_dir, user_backend_dir])
+    directories = [get_default_backend_path()]
+    custom_backends_dir = get_custom_backends_directory()
+    if custom_backends_dir:
+        directories.append(custom_backends_dir)
+    available_backends = find_backend_classes(directories)
 
     parser.add_argument(
         "--multi",
@@ -350,5 +360,5 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         selected_backend_name, description=f"Options registered by the selected backend: '{selected_backend_name}'."
     )
     group.title = selected_backend_name
-    backend.register_options(group)
-    parser.set_defaults(backend=backend)
+    backend.args_class.register_options(group)
+    parser.set_defaults(backend_class=backend)

@@ -6,6 +6,7 @@ import shutil
 import subprocess
 import sys
 from typing import Optional
+import importlib
 
 import uvicorn
 from fastapi import FastAPI
@@ -39,8 +40,16 @@ class Client:
         self.port = port
         self.host = host
         self.server_url = server_url
-        self.angular_src_path = os.path.abspath("src/clinguin/client/angular")  # Angular project location
-        self.frontend_dist_path = os.path.abspath("src/clinguin/client/dist/browser")  # Serve the `browser/` subfolder
+
+        if os.path.exists(os.path.dirname(__file__)):
+            # Development mode (running from source)
+            package_path = os.path.dirname(__file__)
+        else:
+            # Installed mode (running from `site-packages/`)
+            package_path = os.path.dirname(importlib.resources.files(clinguin))
+
+        self.angular_src_path = os.path.join(package_path, "angular")
+        self.frontend_dist_path = os.path.join(package_path, "dist", "browser")
         self.custom_path = custom_path or os.path.expanduser("~/.clinguin/client/")  # User-provided customizations
 
         if log_level is not None:

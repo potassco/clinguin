@@ -14,9 +14,6 @@ $light: #F4F5F7;
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
-
 .myspinner {
     position: fixed;
     top: 0;
@@ -30,19 +27,62 @@ $light: #F4F5F7;
     align-items: end;
 }
 
-/* (Optional) Apply a "closed-hand" cursor during drag operation. */
 .my-drop-target {
     filter: opacity(0.5);
 }
 
 .my-drop-valid-target {
     border-style: dashed !important;
-    ;
     border-color: black !important;
     border-width: thin !important;
 }
 
-
 .my-drag-target {
     filter: opacity(0.2);
 }
+  
+  body.has-sidebar-pinned {
+	overflow-x: hidden;
+	
+	&.sidebar-position-start {
+	  .navbar.fixed-top {
+		width: calc(100% - var(--sidebar-width));
+		margin-left: var(--sidebar-width);
+		padding-left: 0 !important;
+	  }
+
+	  .navbar-brand {
+		margin-left: 1rem;
+	  }
+
+	  .d-flex {
+		max-width: 100%;
+	  }
+	}
+	
+	&.sidebar-position-end {
+	  .navbar.fixed-top {
+		width: calc(100% - var(--sidebar-width));
+		margin-right: var(--sidebar-width);
+		padding-right: 0 !important;
+	  }
+
+	  .navbar-brand {
+		margin-right: 1rem;
+	  }
+
+	  .d-flex {
+		max-width: 100%;
+	  }
+	}
+  }
+  
+
+.offcanvas-sidebar {
+	&.pinned .offcanvas-body,
+	&.pinned .offcanvas-body > .child-container,
+	&.pinned .offcanvas-body > .child-container > *:first-child {
+	  padding-top: 0 !important;
+	  margin-top: 0 !important;
+	}
+  }

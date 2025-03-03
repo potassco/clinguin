@@ -2,9 +2,78 @@
 % WINDOW
 %%%%%%%%%%%%%%%%%%%%%%%%
 elem(window, window, root).
-attr(window, child_layout, flex).
-attr(window, flex_direction, row).
+attr(window, class, ("d-flex"; "flex-sm-column"; "flex-md-row"; "aling-items-center")).
 
+
+elem(sidebar, sidebar, window).
+%attr(sidebar, title, "Quick Help Guide").
+attr(sidebar, position, "end").
+attr(sidebar, class, ("d-flex";"flex-column";"bg-light";"bg-opacity-75";"border";"border-1")).
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% SIDEBAR NAVIGATION
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+elem(nav_container, container, sidebar).
+attr(nav_container, class, ("d-flex";"p-3")).
+attr(nav_container, class, "flex-column").
+
+
+    % Basic Instructions
+    elem(basic_instructions, collapse, nav_container).
+	attr(basic_instructions, label, "Basic Instructions").
+	attr(basic_instructions, icon, "fa-info-circle").
+	attr(basic_instructions, class, ("m-2")).
+	attr(basic_instructions, order, 1).
+
+        elem(basic_content, container, basic_instructions).
+        attr(basic_content, class, ("p-2";"small")).
+
+            elem(basic_text1, label, basic_content).
+            attr(basic_text1, label, "1. Add new people using the + button").
+			attr(basic_text1, class, "d-block").
+			attr(basic_text1, order, 1).
+
+            elem(basic_text2, label, basic_content).
+            attr(basic_text2, label, "2. Use checkboxes to include/exclude people").
+			attr(basic_text2, class, "d-block").
+			attr(basic_text2, order, 2).
+
+            elem(basic_text3, label, basic_content).
+            attr(basic_text3, label, "3. Assign seats using the dropdowns").
+			attr(basic_text3, order, 3).
+			attr(basic_text3, class, "d-block").
+
+
+    % Tips Section
+    elem(tips_section, collapse, nav_container).
+    attr(tips_section, label, "Pro Tips").
+    attr(tips_section, icon, "fa-lightbulb").
+    attr(tips_section, class, "m-2").
+	attr(tips_section, order, 2).
+
+        elem(tips_content, container, tips_section).
+        attr(tips_content, class, ("p-2";"small")).
+
+            elem(tip_text1, label, tips_content).
+            attr(tip_text1, label, "• Use 'Next' to explore alternatives").
+			attr(tip_text1, order, 1).
+			attr(tip_text1, class, "d-block").
+
+            elem(tip_text2, label, tips_content).
+            attr(tip_text2, label, "• Check unassigned people section").
+			attr(tip_text2, class, "d-block").
+			attr(tip_text2, order, 2).
+
+			elem(tip_text3, label, tips_content).
+			attr(tip_text3, label, "• Download your final plan").
+			attr(tip_text3, class, "d-block").
+			attr(tip_text3, order, 3).
+
+			elem(tip_text4, label, tips_content).
+			attr(tip_text4, label, "• Clear to start over").
+			attr(tip_text4, class, "d-block").
+			attr(tip_text4, order, 4).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % MODAL
@@ -37,8 +106,10 @@ attr(window, flex_direction, row).
     %%%%%%%%%%%%%%%%%%%%%%%%
 
     elem(included, container, window).
-    attr(included, class, ("bg-secondary";"bg-opacity-50";"w-25";"p-4";"rounded";"d-flex";"flex-column";"justify-content-start")).
+    attr(included, class, ("bg-secondary";"bg-opacity-50";"p-4";"ps-5";"rounded";"d-flex";"flex-column";"justify-content-start"; "m-1")).
     attr(included, order, 1).
+	attr(included, width, 400).
+
 
         elem(add_button, button, included).
         attr(add_button, icon, "fa-user-plus").
@@ -96,8 +167,9 @@ attr(window, flex_direction, row).
         attr(table(T), class, "bg-primary"):-table(T,L).
         attr(table(T), class, "bg-opacity-50"):-table(T,L).
         attr(table(T), class, "rounded"):-table(T,L).
-        attr(table(T), class, "m-2"):-table(T,L).
-        attr(table(T), class, "p-4"):-table(T,L).
+        attr(table(T), class, "m-1"):-table(T,L).
+        attr(table(T), class, ("p-4";"ps-5")):-table(T,L).
+		attr(table(T), width, 400):-table(T,L).
 
             elem(table_label_container(T), container, table(T)):-table(T,_).
             attr(table_label_container(T), order, 1):-table(T,_).
@@ -115,7 +187,7 @@ attr(window, flex_direction, row).
 			attr(table_dropdowns(T), tooltip, "Click to assign a person to a seat"):-table(T,_).
 
                 elem(table_seat(S,T), dropdown_menu, table_dropdowns(T)):-seat(S,T).
-                attr(table_seat(S,T), class, ("btn-primary";"m-1";"btn-sm";"text-capitalize")):-seat(S,T).
+                attr(table_seat(S,T), class, ("btn-primary";"m-1";"btn-sm";"text-capitalize";"m-2")):-seat(S,T).
                 attr(table_seat(S,T), selected, P):- _all(assign(seat(S,T),P)).
                 attr(table_seat(S,T), selected, P):- assign(seat(S,T),P), _clinguin_browsing.
 

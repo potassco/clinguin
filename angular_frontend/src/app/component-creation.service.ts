@@ -10,6 +10,8 @@ import { ModalComponent } from './modal/modal.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CollapseComponent } from './collapse/collapse.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,8 @@ export class ComponentCreationService {
       { key: "modal", value: ModalComponent },
       { key: "progress_bar", value: ProgressBarComponent },
       { key: "checkbox", value: CheckboxComponent },
-	  { key: "collapse", value: CollapseComponent }
+	  { key: "collapse", value: CollapseComponent },
+	  { key: "sidebar", value: SidebarComponent }
 
     ]
 

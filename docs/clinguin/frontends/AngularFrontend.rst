@@ -129,6 +129,26 @@ Corresponds to a limited version of `bootstrap modal <https://getbootstrap.com/d
 
     *Values*: String. Can be ``sm`` for small, ``m`` for medium, ``lg`` for large, or ``xl`` for extra large.
 
+``sidebar``
+..............
+
+A sidebar panel that slides in from the edge of the screen, triggered by hovering near the edge and can be pinned to remain visible.
+
+**Attributes**
+
+:ref:`Class <Class>`,
+
+``title``
+    *Description*: The title displayed at the top of the offcanvas panel. It is optional.
+
+    *Values*: String
+
+``position``
+    *Description*: The side of the screen from which the offcanvas appears
+
+    *Values*: String. Can be ``start`` (left side) or ``end`` (right side). Defaults to ``start``.
+	
+
 .. _button:
 
 ``button``

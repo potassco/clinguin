@@ -1,0 +1,39 @@
+<div class="sidebar-overlay" 
+    [ngClass]="{ 'visible': isVisible && !isPinned }"
+    (click)="hideOnMouseLeave($event)">
+</div>
+
+<div class="offcanvas-sidebar"
+    [ngClass]="{
+        'visible': isVisible,
+        'pinned': isPinned,
+        'position-start': position === 'start',
+        'position-end': position === 'end',
+        'no-title': !title
+    }"
+    [style.width.px]="width"
+    (mouseleave)="hideOnMouseLeave($event)">
+  
+    <div class="offcanvas-header" [class.compact-header]="!title">
+        <div class="w-100 text-center" *ngIf="title">
+            <h5 class="offcanvas-title navbar-brand fw-light fs-5 m-0">{{ title }}</h5>
+        </div>
+        <button type="button" class="btn btn-link pin-button" (click)="toggle()">
+            <i class="fa" [ngClass]="{ 'fa-thumbtack': !isPinned, 'fa-times': isPinned }"></i>
+        </button>
+    </div>
+      
+    <div class="offcanvas-body">
+        <ng-container #childContainer></ng-container>
+    </div>
+</div>
+
+<div class="sidebar-trigger"
+    *ngIf="!isPinned"
+    [ngClass]="{
+        'trigger-start': position === 'start',
+        'trigger-end': position === 'end'
+    }"
+    (mouseenter)="show()">
+    <i class="fa" [ngClass]="{ 'fa-angle-right': position === 'start', 'fa-angle-left': position === 'end' }"></i>
+</div>

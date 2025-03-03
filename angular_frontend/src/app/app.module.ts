@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { WindowComponent } from './window/window.component';
 import { ContainerComponent } from './container/container.component';
 import { DropdownMenuComponent } from './dropdown-menu/dropdown-menu.component';
-import { NgbCollapseModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModule, NgbOffcanvasModule } from '@ng-bootstrap/ng-bootstrap';
 import { LabelComponent } from './label/label.component';
 import { MenuBarComponent } from './menu-bar/menu-bar.component';
 import { ButtonComponent } from './button/button.component';
@@ -22,6 +22,7 @@ import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CollapseComponent } from './collapse/collapse.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -51,7 +52,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     ContextMenuComponent,
     ProgressBarComponent,
     CheckboxComponent,
-	CollapseComponent
+	CollapseComponent,
+ 	SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ export function appConfigInit(appConfigService: ConfigService) {
     HttpClientModule,
     NgbModule,
     NgbCollapseModule,
+	NgbOffcanvasModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

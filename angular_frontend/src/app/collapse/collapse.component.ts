@@ -1,31 +1,34 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
 import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { ElementLookupService } from '../element-lookup.service';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { ChildBearerService } from '../child-bearer.service';
 
 @Component({
   selector: 'app-collapse',
   templateUrl: './collapse.component.html'
 })
-export class CollapseComponent {
+export class CollapseComponent implements OnInit {
   @ViewChild('toggleButton', { static: false }) toggleButton!: ElementRef;
   @ViewChild('icon', { static: false }) icon!: ElementRef;
   @ViewChild('iconCollapse', { static: false }) iconCollapse!: ElementRef;
   @ViewChild('collapseContent', { static: false }) collapseContent!: ElementRef;
   @ViewChild('childContainer', { read: ViewContainerRef }) childContainer!: ViewContainerRef;
-  @ViewChild(NgbCollapse) ngbCollapse!: NgbCollapse;
+  @ViewChild('labelSpan', { static: false }) labelSpan!: ElementRef;
 
   @Input() element: ElementDto | null = null;
   @Input() parentLayout: string = "";
 
-  isCollapsed = true; // Tracks whether the content is collapsed or expanded
-  label: string = ""; // Label for the collapse button
-
-  // Default icons
-  defaultCollapsedIcon: string = "fa-caret-down"; // Default collapsed icon class
-  defaultExpandedIcon: string = "fa-caret-up"; // Default expanded icon class
+  isCollapsed = true;
+  label: string = "";
+  initialRender = true;
+  
+  // Icons
+  readonly defaultCollapsedIcon: string = "fa-caret-down";
+  readonly defaultExpandedIcon: string = "fa-caret-up";
+  
+  // Static state cache
+  private static stateCache = new Map<string, boolean>();
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -34,72 +37,128 @@ export class CollapseComponent {
     private childBearerService: ChildBearerService
   ) { }
 
+  ngOnInit(): void {
+    if (!this.element) return;
+    
+    this.elementLookupService.addElementObject(this.element.id, this, this.element);
+    this.loadState();
+  }
+
   ngAfterViewInit(): void {
-    if (this.element != null) {
-      this.elementLookupService.addElementObject(this.element.id, this, this.element);
+    if (!this.element) return;
+    
+    setTimeout(() => {
+      this.setAttributes(this.element!.attributes);
+      this.renderChildren();
+      
+      setTimeout(() => this.initialRender = false, 50);
+    });
+  }
 
-      this.setAttributes(this.element.attributes);
+  private get cacheKey(): string {
+    return `collapse_${this.element?.id || 'unknown'}`;
+  }
 
-      setTimeout(() => {
-        if (this.element?.children && this.element.children.length > 0) {
-          this.element.children.forEach(childElement => {
-            this.childBearerService.bearChild(
-              this.childContainer,
-              childElement,
-              'flex'
-            );
-          });
-        }
-        this.cd.detectChanges();
-      });
+  private loadState(): void {
+    try {
+		if (!this.element) return;
+		const savedState = localStorage.getItem(`collapse_state_${this.element.id}`);
+		if (savedState) {
+			const state = JSON.parse(savedState);
+			this.isCollapsed = state.isCollapsed;
+			CollapseComponent.stateCache.set(this.cacheKey, this.isCollapsed);
+			return;
+		}
+
+		if (CollapseComponent.stateCache.has(this.cacheKey)) {
+		this.isCollapsed = CollapseComponent.stateCache.get(this.cacheKey)!;
+		}
+	} catch (e) {
+		console.error(`Failed to load collapse state: ${e}`);
+	}
+  }
+
+  private saveState(): void {
+    if (!this.element) return;
+    
+    try {
+      // Update memory cache
+      CollapseComponent.stateCache.set(this.cacheKey, this.isCollapsed);
+      
+      // Persist to localStorage
+      localStorage.setItem(`collapse_state_${this.element.id}`, 
+        JSON.stringify({ isCollapsed: this.isCollapsed }));
+    } catch (e) {
+      console.error(`Failed to save collapse state: ${e}`);
     }
   }
 
-  setAttributes(attributes: AttributeDto[]) {
-    // Set label and initial collapsed state
+  private renderChildren(): void {
+    if (!this.element?.children?.length) return;
+    
+    this.element.children.forEach(childElement => {
+      this.childBearerService.bearChild(
+        this.childContainer,
+        childElement,
+        'flex'
+      );
+    });
+  }
+
+  setAttributes(attributes: AttributeDto[]): void {
     this.label = this.attributeService.findGetAttributeValue("label", attributes, "");
-    const initialState = this.attributeService.findGetAttributeValue("collapsed", attributes, "true");
-    this.isCollapsed = initialState === "true";
+    
+    // Only use attribute collapsed state if not already loaded from storage
+    if (!CollapseComponent.stateCache.has(this.cacheKey)) {
+      const initialState = this.attributeService.findGetAttributeValue("collapsed", attributes, "true");
+      this.isCollapsed = initialState === "true";
+    }
 
-    let htmlButton = this.toggleButton.nativeElement;
+    if (this.toggleButton?.nativeElement) {
+      const htmlButton = this.toggleButton.nativeElement;
+      htmlButton.className = "d-flex align-items-center cursor-pointer collapsed-header";
+      this.attributeService.addClasses(htmlButton, attributes, [], []);
+      this.attributeService.addGeneralAttributes(htmlButton, attributes);
+    }
 
-    this.attributeService.addAttributes(htmlButton, attributes);
-    this.attributeService.addClasses(htmlButton, attributes, ["btn"], []);
-    this.attributeService.addGeneralAttributes(htmlButton, attributes);
+    if (this.labelSpan?.nativeElement) {
+      const htmlLabelSpan = this.labelSpan.nativeElement;
+      htmlLabelSpan.className = "flex-grow-1";
+      
+      attributes
+        .filter(attr => attr.key === 'class' && typeof attr.value === 'string')
+        .map(attr => attr.value)
+        .filter(className => 
+          className.startsWith('text-') ||
+          className.startsWith('fw-') ||
+          className.startsWith('fst-') ||
+          className.startsWith('fs-')
+        )
+        .forEach(className => htmlLabelSpan.classList.add(className));
+    }
 
     this.updateIcon(attributes);
-
-    this.cd.detectChanges();
   }
 
-  // Toggle collapse state and update the icon dynamically
-  toggle() {
-    this.isCollapsed = !this.isCollapsed; // Switch between collapsed and expanded states
-
-    // Update icon classes based on the current state
-    if (this.icon && this.element?.attributes) {
-      this.updateIcon(this.element.attributes);
-    }
-
-    this.cd.detectChanges(); // Trigger change detection after toggling
+  toggle(): void {
+    this.isCollapsed = !this.isCollapsed;
+    this.saveState();
+    this.updateIcon(this.element?.attributes || []);
   }
 
-  // Update icon based on collapse state
-  updateIcon(attributes: AttributeDto[]) {
+  updateIcon(attributes: AttributeDto[]): void {
+    if (!this.iconCollapse?.nativeElement || !this.icon?.nativeElement) return;
+    
     const htmlIconCollapse = this.iconCollapse.nativeElement;
-    htmlIconCollapse.className = "";
-    htmlIconCollapse.style.paddingLeft = "6px";
-    if (this.isCollapsed) {
-      console.log("collapsed");
-      htmlIconCollapse.classList.add("fa");
-      htmlIconCollapse.classList.add(this.defaultCollapsedIcon);
-      this.attributeService.addClasses(htmlIconCollapse, attributes, ["fa"], [this.defaultCollapsedIcon], 'collapsed_icon');
-    } else {
-      console.log("expanded");
-      this.attributeService.addClasses(htmlIconCollapse, attributes, ["fa"], [this.defaultExpandedIcon], 'expanded_icon');
-    }
-
+    htmlIconCollapse.className = "icon ms-2 fa";
+    htmlIconCollapse.classList.add(this.isCollapsed ? this.defaultCollapsedIcon : this.defaultExpandedIcon);
+    
     const htmlIconCustom = this.icon.nativeElement;
-    this.attributeService.addClasses(htmlIconCustom, attributes, ["fa", "sm"], [], 'icon');
+    htmlIconCustom.className = "icon me-2 fa";
+    
+    const iconClass = this.attributeService.findGetAttributeValue("icon", attributes, "");
+    if (iconClass) {
+      htmlIconCustom.classList.add(iconClass);
+    }
   }
 }

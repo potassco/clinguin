@@ -1,5 +1,12 @@
 # Changes
 
+## clinguin 2.3.0
+
+  * Additions
+    * Sidebar component
+    * Local storage for sidebar and collapse
+    * Tooltips component
+
 ## clinguin 2.2.1
 
   * Additions

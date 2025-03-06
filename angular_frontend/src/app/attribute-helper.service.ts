@@ -110,7 +110,7 @@ export class AttributeHelperService {
 			// Create a tooltip element
 			const tooltip = document.createElement("div");
 			tooltip.innerText = tooltipAttribute.value;
-			tooltip.style.position = "absolute";
+			tooltip.style.position = "fixed";
 			tooltip.style.backgroundColor = "black";
 			tooltip.style.color = "white";
 			tooltip.style.padding = "5px";

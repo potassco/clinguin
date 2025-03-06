@@ -49,7 +49,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     
     this.setAttributes(this.element.attributes);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.renderChildren();
       this.updateLayout();
     });

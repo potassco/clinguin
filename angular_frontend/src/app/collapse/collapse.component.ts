@@ -47,7 +47,7 @@ export class CollapseComponent implements OnInit {
   ngAfterViewInit(): void {
     if (!this.element) return;
     
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.setAttributes(this.element!.attributes);
       this.renderChildren();
       

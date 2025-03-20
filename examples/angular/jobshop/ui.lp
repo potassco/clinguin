@@ -11,12 +11,43 @@ color(3,"bg-warning").
 elem(window, window, root).
 attr(window, class, ("column-reverse";"justify-content-between")).
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% TABS CONFIGURATION
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+elem(tabs, container, window).
+attr(tabs, order, 1).
+attr(tabs, class, ("border";"border-1";"rounded";"align-items-center";"d-flex";"flex-column";"justify-content-center";"p-3")).
+
+elem(tabs_container, tabs, tabs).
+attr(tabs_container, class, ("nav-fill"; "nav-pills")).
+attr(tabs_container, orientation, "vertical").
+%attr(tabs_container, class, ("nav-fill")).
+%attr(tabs_container, width, 200).
+%attr(tabs_container, width, 400).
+
+
+elem(tab(M), tabs_item, tabs_container) :- machine(M).
+attr(tab(M), title, @concat("Machine ", M)) :- machine(M).
+attr(tab(M), order, M) :- machine(M).
+attr(tab(M), active_class, ("bg-secondary";"text-white")) :- machine(M).
+attr(tab(M), inactive_class, ("text-dark")) :- machine(M).
+
+
+elem(tab_content(M), container, tab(M)) :- machine(M).
+attr(tab_content(M), width, 600) :- machine(M).
+attr(tab_content(M), class, ("ps-2"; "pt-3";"d-flex";"align-items-center")) :- machine(M).
+
+
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Machine containers
     %%%%%%%%%%%%%%%%%%%%%%%%
-    elem(c(M), container, window):- machine(M).
+    elem(c(M), container, tab_content(M)):- machine(M).
     attr(c(M), class, ("border";"border-dark";"bg-secondary";"rounded";"bg-opacity-25";"m-1";"p-1")):- machine(M).
     attr(c(M), flex_direction, column):- machine(M).
+	attr(c(M), width, 550):- machine(M).
 
         %%%%%%%%%%%%%%%%%%%%%%%%
         % Title

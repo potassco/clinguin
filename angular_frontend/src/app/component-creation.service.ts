@@ -11,6 +11,7 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CollapseComponent } from './collapse/collapse.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { TabsComponent } from './tabs/tabs.component';
 
 
 @Injectable({
@@ -34,7 +35,8 @@ export class ComponentCreationService {
       { key: "progress_bar", value: ProgressBarComponent },
       { key: "checkbox", value: CheckboxComponent },
 	  { key: "collapse", value: CollapseComponent },
-	  { key: "sidebar", value: SidebarComponent }
+	  { key: "sidebar", value: SidebarComponent },
+	  { key: "tabs", value: TabsComponent },
 
     ]
 

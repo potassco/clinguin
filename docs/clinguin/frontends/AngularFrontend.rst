@@ -227,6 +227,60 @@ See the :ref:`Context` section for more details.
 
     *Values*: String
 
+
+``tabs``
+.................
+
+The tabs element creates a tabbed interface, allowing users to organize content into separate panes that can be viewed by clicking on corresponding tab buttons. Tabs are useful for grouping related content while conserving screen space. All children should be :ref:`tabs-item` 
+
+**Attributes**
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
+:ref:`Grid <Grid>`,
+:ref:`Relative and Absolute <Relative and Absolute>`,
+:ref:`Direction <Direction>`,
+:ref:`Color <Color>`,
+:ref:`Size <Size>`,
+:ref:`Border <Border>`
+
+``orientation``
+    *Description*: Determines whether tabs are displayed horizontally or vertically.
+
+    *Values*: String. Can be `horizontal`` (default) or `vertical`.
+
+The `class` attribute can be used with the following custom classes for styling:
+
+- `nav-tabs`: Displays tabs with a tab-like appearance (default)
+- `nav-pills`: Displays tabs with a button-like appearance
+- `nav-fill`: Makes tabs fill the available width equally
+
+``tabs-item``
+.................
+
+A child element of `tabs` that represents an individual tab and its content.
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`
+
+``title``
+    *Description*: The text displayed on the tab button.
+
+    *Values*: String.
+
+``active_class``
+    *Description*: Bootstrap classes to apply to the tab button when it is active.
+
+    *Values*: String or list of strings.
+
+``inactive_class``
+    *Description*: Bootstrap classes to apply to the tab button when it is inactive.
+
+    *Values*: String or list of strings.
+
+
 ``dropdown-menu``
 .................
 

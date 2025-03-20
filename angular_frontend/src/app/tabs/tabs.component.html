@@ -1,0 +1,16 @@
+<div #tabsContainer class="custom-tabs">
+	<!-- Tab buttons bar -->
+	<ul #tabNav>
+	  <li class="nav-item" *ngFor="let tab of tabs">
+		<button [id]="'tab-btn-' + tab.id"
+        (click)="setActiveTab(tab.id)">
+  {{ tab.title }}
+</button>
+	  </li>
+	</ul>
+	
+	<!-- Tab content pane -->
+	<div #tabContentWrapper [style.display]="activeTabId ? 'block' : 'none'">
+	  <div #tabContent></div>
+	</div>
+  </div>

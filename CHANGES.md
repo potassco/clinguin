@@ -3,6 +3,12 @@
 ## clinguin 2.4
 
   * Additions
+    * Tabs component
+  * Fix error message bug
+
+## clinguin 2.3
+
+  * Additions
     * Sidebar component
     * Local storage for sidebar and collapse
     * Tooltips component

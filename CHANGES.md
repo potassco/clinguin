@@ -1,6 +1,6 @@
 # Changes
 
-## clinguin 2.3.1
+## clinguin 2.4
 
   * Additions
     * Sidebar component

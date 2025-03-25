@@ -439,11 +439,13 @@ export class CallBackHelperService {
           call[0].operation = "(" + call.map(x => { return x.operation }).join(',') + ")"
         }
 
-        try {
-          handleCallback(call[0], event)
-        } catch (error: any) {
-          let frontendService = LocatorService.injector.get(DrawFrontendService)
-          frontendService.postMessage(error.message, "warning")
+        if (call[0] != null) {
+          try {
+            handleCallback(call[0], event)
+          } catch (error: any) {
+            let frontendService = LocatorService.injector.get(DrawFrontendService)
+            frontendService.postMessage(error.message, "warning")
+          }
         }
       })
 

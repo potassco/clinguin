@@ -343,7 +343,7 @@ class ClingoBackend:
             :func:`~_load_file`
         """
         self._logger.debug(
-            domctl_log(f"domain_ctl = Control({self._ctl_arguments_list})")
+            domctl_log(f"domainctl = Control({self._ctl_arguments_list})")
         )
         self._ctl = Control(self._ctl_arguments_list)
 
@@ -1075,10 +1075,6 @@ class ClingoBackend:
 
             self._model = model.symbols(shown=True, atoms=True, theory=True)
         except StopIteration:
-            print(
-                "optimizing",
-            )
-            print(optimizing)
             if optimizing:
                 m = "No more optimal solutions"
             else:

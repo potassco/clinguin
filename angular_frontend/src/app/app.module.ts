@@ -24,6 +24,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CollapseComponent } from './collapse/collapse.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TabsComponent } from './tabs/tabs.component';
+import { FileInputComponent } from './file-input/file-input.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -55,7 +56,8 @@ export function appConfigInit(appConfigService: ConfigService) {
     CheckboxComponent,
 	CollapseComponent,
  	SidebarComponent,
-  TabsComponent
+  TabsComponent,
+  FileInputComponent
   ],
   imports: [
     BrowserModule,

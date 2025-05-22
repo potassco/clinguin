@@ -12,6 +12,7 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CollapseComponent } from './collapse/collapse.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TabsComponent } from './tabs/tabs.component';
+import { FileInputComponent } from './file-input/file-input.component';
 
 
 @Injectable({
@@ -37,6 +38,7 @@ export class ComponentCreationService {
 	  { key: "collapse", value: CollapseComponent },
 	  { key: "sidebar", value: SidebarComponent },
 	  { key: "tabs", value: TabsComponent },
+	  { key: "file_input", value: FileInputComponent },
 
     ]
 

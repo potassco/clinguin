@@ -135,20 +135,6 @@ attr(nav_container, class, ("d-flex";"flex-column")).
                 when(included_btn_add(P), click, call, set_external(include(P),false)) :- person(P), include(P).
 
 
-    elem(unassigned, collapse, included).
-    attr(unassigned, order, 3).
-    attr(unassigned, label, "People unassigned").
-    attr(unassigned, icon, ("fa-list")).
-    % attr(unassigned, collapsed, false).
-    % attr(unassigned, expanded_icon, ("fa-home")).
-    % attr(unassigned, class, ("text-danger")).
-    % attr(unassigned, class, ("disabled")):- #false : person(P), include(P), not _all(assign(_,P)).
-
-    elem(unassigned_content, container, unassigned).
-    attr(unassigned_content, class, ("border";"m-1";"p-3";"rounded";"border-dark";"align-items-start")).
-
-    elem(unassigned(P), label, unassigned_content):- person(P), include(P), not _all(assign(_,P)).
-    attr(unassigned(P), label, @stringify(P,true)):- person(P), include(P), not _all(assign(_,P)).
 
     %%%%%%%%%%%%%%%%%%%%%%%%
     % Table setup

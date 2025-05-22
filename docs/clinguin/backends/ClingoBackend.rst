@@ -52,3 +52,5 @@ Domain state constructors
 .. autoproperty:: ClingoBackend._ds_browsing
 
 .. autoproperty:: ClingoBackend._ds_constants
+
+.. autoproperty:: ClingoBackend._ds_files

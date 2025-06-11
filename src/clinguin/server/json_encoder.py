@@ -69,7 +69,7 @@ class JsonEncoder:
 
         cls._generate_hierarchy(ui_state, root, elements_dict)
 
-        return {"ui": root.dict(), "ds": ds_dict}  # ✅ FastAPI will handle serialization
+        return {"ui": root.model_dump(), "ds": ds_dict}  # ✅ FastAPI will handle serialization
 
     @classmethod
     def _generate_hierarchy(cls, ui_state, hierarchy_root: ElementDTO, elements_dict: Dict[str, ElementDTO]) -> None:

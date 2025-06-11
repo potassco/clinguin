@@ -197,6 +197,7 @@ def test_ds():
         "_ds_opt",
         "_ds_unsat",
         "_ds_assume",
+        "_ds_atom",
         "_ds_external",
     ]
     for key in expected_keys:

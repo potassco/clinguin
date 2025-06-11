@@ -1,3 +1,3 @@
-from .clingo_backend import ClingoBackend
+from .clingo_backend import ClingoBackend, BackendArgs
 
-__all__ = ["ClingoBackend"]
+__all__ = ["ClingoBackend", "BackendArgs"]

@@ -405,7 +405,7 @@ A progress bar component used to display a percentage of completion. Corresponds
 
 ``file_input``
 ...................
-A file input component that allows users to upload files to the application. The uploaded files can then be managed through backend operations.
+A file input component that allows users to upload files to the application. The component automatically handles file upload operations without requiring manual when event handlers. Uploaded files are processed and made available through the backend file management system.
 
 **Attributes**
 :ref:`Class <Class>`,
@@ -413,19 +413,14 @@ A file input component that allows users to upload files to the application. The
 :ref:`Order <Order>`
 
 ``accept``
-	*Description*: The file types that are accepted for upload. This attribute is optional.
+	*Description*: The file types that are accepted for upload. This attribute is optional and defaults to ".lp" files.
 
 	*Values*: String. Can be a list of file extensions (e.g., ".lp" for ASP files or ".txt" for text files)
 
 ``disabled``
 	*Description*: Disables the file input field.
 
-	*Values*: Boolean (`true` to disable, `false` to enable)
-
-``multiple``
-	*Description*: Allows multiple files to be selected for upload.
-
-	*Values*: Boolean (`true` to allow multiple files, `false` to allow only one file)
+	*Values*: Boolean (`true` to disable, `false` to enable). Default is `false`.
 
 .. admonition:: Example
 
@@ -433,10 +428,9 @@ A file input component that allows users to upload files to the application. The
 
 	.. code-block:: prolog
 
-		elem(file_input_1, file_input, main_container).
-		attr(file_input_3, accept, ".lp").
-		attr(file_input_3, multiple, true).
-		when(file_upload, change, call, upload_file(_context_value(_filename))).
+		elem(file_input, file_input, main_container).
+		attr(file_input, accept, ".lp").
+		when(file_input, change, call, upload_file(_value)).
 
 .. _checkbox:
 

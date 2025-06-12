@@ -907,9 +907,11 @@ class ClingoBackend:
 			prg += f"_clinguin_const({k},{v})."
 		return prg + "\n"
 	
-	@cached_property
+	@property
 	def _ds_files(self):
-		"""Domain state for file management"""
+		"""
+  		Domain state for file management
+		"""
 		prg = "#defined _clinguin_optional_file/1. #defined _clinguin_active_file/1. #defined _clinguin_domain/1."
 		
 		# Available optional files
@@ -934,6 +936,39 @@ class ClingoBackend:
 			prg += f'_clinguin_domain("{name}").\n'
 		
 		return prg
+
+	# ---------------------------------------------
+	# File Management Helpers
+	# ---------------------------------------------
+
+	def _find_file_path(self, name):
+		"""
+		Helper to find file path by name.
+		
+		Args:
+			name (str): File name to search for
+			
+		Returns:
+			str or None: File path if found, None otherwise
+		"""
+		name = name.strip('"')
+		if name in self._uploaded_files:
+			return self._uploaded_files[name]
+		for f in self._optional_files:
+			if Path(f).name == name:
+				return f
+		return None
+
+	def _reload_domain(self):
+		"""
+		Helper to reload domain after file changes.
+		Rebuilds domain files list and reinitializes control.
+		"""
+		self._domain_files = self._original_domain_files + self._active_files
+		self._clear_cache(["_ds_files", "_ds_model", "_ds_brave", "_ds_cautious"])
+		self._outdate()
+		self._init_ctl()
+		self._ground()
 
 	########################################################################################################
 
@@ -1283,125 +1318,94 @@ class ClingoBackend:
 		self._ground()
 
 	def upload_file(self, filename):
-		"""Upload file from base64 content"""
-		try:
-			content = next((c.value for c in self._context if c.key == "_value"), None)
-			if not content:
-				raise RuntimeError("No content found in context")
+		"""
+  		Upload file from base64 content in the context.
+    
+		Args:
+			filename (str): The original filename of the uploaded file.
+    	"""
+		content = next((c.value for c in self._context if c.key == "_value"), None)
+		if not content:
+			raise RuntimeError("No content found in context")
 
-			original_name = filename.strip('"')
-			
-			existing = {Path(f).name for f in self._optional_files}
-			existing.update(self._uploaded_files.keys())
-			
-			unique_name = original_name
-			if original_name in existing:
-				base = Path(original_name).stem
-				ext = Path(original_name).suffix
-				counter = 1
-				while f"{base}_{counter}{ext}" in existing:
-					counter += 1
-				unique_name = f"{base}_{counter}{ext}"
-			
-			with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.lp') as f:
-				f.write(base64.b64decode(content).decode('utf-8'))
-				temp_path = f.name
+		original_name = filename.strip('"')
+		existing = {Path(f).name for f in self._optional_files} | set(self._uploaded_files.keys())
+		
+		unique_name = original_name
+		counter = 1
+		while unique_name in existing:
+			base, ext = Path(original_name).stem, Path(original_name).suffix
+			unique_name = f"{base}_{counter}{ext}"
+			counter += 1
+		
+		decoded_content = base64.b64decode(content).decode('utf-8')
+		with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.lp') as f:
+			f.write(decoded_content)
+			self._uploaded_files[unique_name] = f.name
 
-			self._uploaded_files[unique_name] = temp_path
-			self._clear_cache(["_ds_files"])
-			
-			self._logger.info(f"Uploaded: {original_name} as {unique_name}")
-			self._messages.append(("Success", f"Uploaded: {unique_name}", "success"))
-			
-		except Exception as e:
-			self._logger.error(f"Upload failed: {e}")
-			self._messages.append(("Error", f"Upload failed: {e}", "danger"))
-			raise
+		self._clear_cache(["_ds_files"])
+		self._messages.append(("Success", f"Uploaded: {unique_name}", "success"))
 
 	def activate_file(self, filename):
-		"""Activate an optional file"""
-		name = filename.strip('"')
-		filepath = None
-		
-		if name in self._uploaded_files:
-			filepath = self._uploaded_files[name]
-		else:
-			for f in self._optional_files:
-				if Path(f).name == name:
-					filepath = f
-					break
-		
+		"""
+  		Activate an optional file to include it in the domain control.
+    
+		Args:
+			filename (str): The name of the file to activate.
+    	"""
+		filepath = self._find_file_path(filename)
 		if not filepath:
 			self._messages.append(("Error", f"File not found: {filename}", "danger"))
 			return
 		
 		if filepath not in self._active_files:
 			self._active_files.append(filepath)
-			
-			self._domain_files = self._original_domain_files + self._active_files
-			self._clear_cache(["_ds_files"])
-			self._outdate()
-			self._init_ctl()
-			self._ground()
-			
+			self._reload_domain()
+			name = filename.strip('"')
 			self._messages.append(("Success", f"Activated: {name}", "success"))
 
 	def deactivate_file(self, filename):
-		"""Deactivate an active file"""
-		name = filename.strip('"')
-		filepath = None
-		
-		if name in self._uploaded_files:
-			filepath = self._uploaded_files[name]
-		else:
-			for f in self._optional_files:
-				if Path(f).name == name:
-					filepath = f
-					break
-		
+		"""
+		Deactivate an active file, removing it from the active files list.
+  
+		Args:
+			filename (str): The name of the file to deactivate.
+		"""
+		filepath = self._find_file_path(filename)
 		if filepath and filepath in self._active_files:
 			self._active_files.remove(filepath)
-			
-			self._domain_files = self._original_domain_files + self._active_files
-			self._clear_cache(["_ds_files"])
-			self._outdate()
-			self._init_ctl()
-			self._ground()
-			
+			self._reload_domain()
+			name = filename.strip('"')
 			self._messages.append(("Success", f"Deactivated: {name}", "success"))
 
 	def remove_file(self, filename):
-		"""Remove a file completely"""
+		"""
+  		Remove a file completely.
+    	
+     	Args:
+      		filename (str): The name of the file to remove.
+        """
 		name = filename.strip('"')
+		filepath = self._find_file_path(name)
 		
-		filepath = None
-		if name in self._uploaded_files:
-			filepath = self._uploaded_files[name]
-		else:
-			for f in self._optional_files:
-				if Path(f).name == name:
-					filepath = f
-					break
-     
 		if filepath and filepath in self._active_files:
 			self._active_files.remove(filepath)
 		
+		# Remove from optional files
 		self._optional_files = [f for f in self._optional_files if Path(f).name != name]
 		
+		# Remove uploaded file
 		if name in self._uploaded_files:
 			Path(self._uploaded_files[name]).unlink(missing_ok=True)
 			del self._uploaded_files[name]
 		
-		self._domain_files = self._original_domain_files + self._active_files
-		self._clear_cache(["_ds_files"])
-		self._outdate()
-		self._init_ctl()
-		self._ground()
-		
+		self._reload_domain()
 		self._messages.append(("Success", f"Removed: {name}", "success"))
 
 	def reset(self):
-		"""Reset to initial file state"""
+		"""
+  		Reset to the initial command line arguments, restoring the deleted files, and removing all uploaded or active files, assumptions, externals, and atoms.
+		"""
 		for temp_path in self._uploaded_files.values():
 			Path(temp_path).unlink(missing_ok=True)
 		

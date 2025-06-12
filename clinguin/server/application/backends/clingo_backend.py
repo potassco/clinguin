@@ -3,12 +3,12 @@
 """
 Module that contains the ClingoBackend.
 """
-import base64
 import functools
 import logging
-import tempfile
 import textwrap
 import time
+import tempfile
+import base64
 from functools import cached_property
 from pathlib import Path
 from typing import Any
@@ -20,8 +20,8 @@ from clingo.script import enable_python
 from clinguin.server import StandardJsonEncoder, UIState
 from clinguin.server.data.domain_state import solve, tag
 
-from clinguin.utils.logger import domctl_log
-from clinguin.utils.transformer import UsesSignatureTransformer
+from ....utils.logger import domctl_log
+from ....utils.transformer import UsesSignatureTransformer
 
 enable_python()
 # pylint: disable=attribute-defined-outside-init
@@ -129,7 +129,7 @@ class ClingoBackend:
 			type=int,
 			metavar="",
 		)
-		
+  
 		parser.add_argument(
 			"--optional-files",
 			nargs="+",
@@ -236,6 +236,7 @@ class ClingoBackend:
 		self._add_domain_state_constructor("_ds_atom")
 		self._add_domain_state_constructor("_ds_assume")
 		self._add_domain_state_constructor("_ds_external")
+		self._add_domain_state_constructor("_ds_files")
 
 	def _init_command_line(self):
 		"""
@@ -264,6 +265,8 @@ class ClingoBackend:
 		"""
 
 		self._domain_files = self._args.domain_files or []
+		self._optional_files = self._args.optional_files or []
+		self._original_domain_files = self._domain_files.copy()
 
 		if not self._args.ui_files:
 			self._logger.warning(
@@ -289,10 +292,7 @@ class ClingoBackend:
 		self._default_opt_mode = self._args.default_opt_mode
 
 		self._opt_timeout = self._args.opt_timeout
-  
-		self._optional_files = self._args.optional_files.copy() if self._args.optional_files else []
-		self._original_domain_files = self._domain_files.copy()
-		
+
 	def _init_interactive(self):
 		"""
 		Initializes the attributes that will change during the interaction.
@@ -345,8 +345,9 @@ class ClingoBackend:
 		# Messages to be shown in the UI: Set dynamically in operations during the interaction
 		self._messages = []
   
-		self._uploaded_files = {} 
+		self._uploaded_files = {}
 		self._active_files = []
+  
 
 	def _init_ctl(self):
 		"""
@@ -714,6 +715,29 @@ class ClingoBackend:
 			ds[f] = symbols
 		return ds
 
+	@property
+	def _ds_files(self):
+		"""Domain state for file management"""
+		prg = "#defined _clinguin_optional_file/1. #defined _clinguin_active_file/1. "
+		
+		# Optional files
+		for filepath in self._optional_files:
+			name = Path(filepath).name
+			prg += f'_clinguin_optional_file("{name}"). '
+		
+		for name in self._uploaded_files:
+			prg += f'_clinguin_optional_file("{name}"). '
+		
+		# Active files  
+		for filepath in self._active_files:
+			if filepath in self._uploaded_files.values():
+				name = next(k for k, v in self._uploaded_files.items() if v == filepath)
+			else:
+				name = Path(filepath).name
+			prg += f'_clinguin_active_file("{name}"). '
+		
+		return prg + "\n"
+
 	# -------- Domain state methods
 
 	@property
@@ -944,6 +968,27 @@ class ClingoBackend:
 		return prg + "\n"
 
 	########################################################################################################
+ 
+	# ---------------------------------------------
+	# File management helpers
+	# ---------------------------------------------
+ 
+	def _find_file_path(self, name):
+		"""Find file path by name"""
+		name = name.strip('"')
+		if name in self._uploaded_files:
+			return self._uploaded_files[name]
+		for f in self._optional_files:
+			if Path(f).name == name:
+				return f
+		return None
+
+	def _reload_domain(self):
+		"""Reload domain after file changes"""
+		self._domain_files = self._original_domain_files + self._active_files
+		self._outdate()
+		self._init_ctl()
+		self._ground()
 
 	# ---------------------------------------------
 	# Public operations
@@ -1289,138 +1334,92 @@ class ClingoBackend:
 		self._outdate()
 		self._init_ctl()
 		self._ground()
-
+  
 	def upload_file(self, filename):
-		"""Upload file from base64 content"""
-		try:
-			content = next((c.value for c in self._context if c.key == "_value"), None)
-			if not content:
-				raise RuntimeError("No content found in context")
-
-			original_name = filename.strip('"')
-			
-			existing = {Path(f).name for f in self._optional_files}
-			existing.update(self._uploaded_files.keys())
-			
-			unique_name = original_name
-			if original_name in existing:
-				base = Path(original_name).stem
-				ext = Path(original_name).suffix
-				counter = 1
-				while f"{base}_{counter}{ext}" in existing:
-					counter += 1
-				unique_name = f"{base}_{counter}{ext}"
-			
-			with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.lp') as f:
-				f.write(base64.b64decode(content).decode('utf-8'))
-				temp_path = f.name
-
-			self._uploaded_files[unique_name] = temp_path
-			self._clear_cache(["_ds_files"])
-			
-			self._logger.info(f"Uploaded: {original_name} as {unique_name}")
-			self._messages.append(("Success", f"Uploaded: {unique_name}", "success"))
-			
-		except Exception as e:
-			self._logger.error(f"Upload failed: {e}")
-			self._messages.append(("Error", f"Upload failed: {e}", "danger"))
-			raise
+		"""
+  		Upload file from base64 content in the context.
+    
+		Args:
+			filename (str): The original filename of the uploaded file.
+    	"""
+		
+		content = next((c.value for c in self._context if c.key == "_value"), None)
+		if not content:
+			raise RuntimeError("No content found in context")
+		
+		original_name = next((c.value for c in self._context if c.key == "_filename"), filename)
+		original_name = original_name.strip('"')
+		
+		existing_files = {Path(f).name for f in self._optional_files} | set(self._uploaded_files.keys())
+		unique_name = original_name
+		counter = 1
+		while unique_name in existing_files:
+			base, ext = Path(original_name).stem, Path(original_name).suffix
+			unique_name = f"{base}_{counter}{ext}"
+			counter += 1
+		
+		decoded_content = base64.b64decode(content).decode('utf-8')
+		with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.lp') as f:
+			f.write(decoded_content)
+			self._uploaded_files[unique_name] = f.name
+		
+		self._messages.append(("Success", f"Uploaded: {unique_name}", "success"))
 
 	def activate_file(self, filename):
-		"""Activate an optional file"""
-		name = filename.strip('"')
-		filepath = None
-		
-		if name in self._uploaded_files:
-			filepath = self._uploaded_files[name]
-		else:
-			for f in self._optional_files:
-				if Path(f).name == name:
-					filepath = f
-					break
-		
-		if not filepath:
+		"""
+  		Activate an optional file to include it in the domain control.
+    
+		Args:
+			filename (str): The name of the file to activate.
+    	"""
+		path = self._find_file_path(filename)
+		if not path:
 			self._messages.append(("Error", f"File not found: {filename}", "danger"))
 			return
-		
-		if filepath not in self._active_files:
-			self._active_files.append(filepath)
-			
-			self._domain_files = self._original_domain_files + self._active_files
-			self._clear_cache(["_ds_files"])
-			self._outdate()
-			self._init_ctl()
-			self._ground()
-			
+		if path not in self._active_files:
+			self._active_files.append(path)
+			self._reload_domain()
+			name = filename.strip('"')
 			self._messages.append(("Success", f"Activated: {name}", "success"))
 
 	def deactivate_file(self, filename):
-		"""Deactivate an active file"""
-		name = filename.strip('"')
-		filepath = None
-		
-		if name in self._uploaded_files:
-			filepath = self._uploaded_files[name]
-		else:
-			for f in self._optional_files:
-				if Path(f).name == name:
-					filepath = f
-					break
-		
-		if filepath and filepath in self._active_files:
-			self._active_files.remove(filepath)
-			
-			self._domain_files = self._original_domain_files + self._active_files
-			self._clear_cache(["_ds_files"])
-			self._outdate()
-			self._init_ctl()
-			self._ground()
-			
+		"""
+		Deactivate an active file, removing it from the active files list.
+  
+		Args:
+			filename (str): The name of the file to deactivate.
+		"""
+		path = self._find_file_path(filename)
+		if path in self._active_files:
+			self._active_files.remove(path)
+			self._reload_domain()
+			name = filename.strip('"')
 			self._messages.append(("Success", f"Deactivated: {name}", "success"))
 
 	def remove_file(self, filename):
-		"""Remove a file completely"""
+		"""
+  		Remove a file completely.
+    	
+     	Args:
+      		filename (str): The name of the file to remove.
+        """
 		name = filename.strip('"')
-		
-		filepath = None
-		if name in self._uploaded_files:
-			filepath = self._uploaded_files[name]
-		else:
-			for f in self._optional_files:
-				if Path(f).name == name:
-					filepath = f
-					break
-	 
-		if filepath and filepath in self._active_files:
-			self._active_files.remove(filepath)
-		
+		path = self._find_file_path(name)
+		self._active_files = [p for p in self._active_files if p != path]
 		self._optional_files = [f for f in self._optional_files if Path(f).name != name]
-		
 		if name in self._uploaded_files:
-			Path(self._uploaded_files[name]).unlink(missing_ok=True)
-			del self._uploaded_files[name]
-		
-		self._domain_files = self._original_domain_files + self._active_files
-		self._clear_cache(["_ds_files"])
-		self._outdate()
-		self._init_ctl()
-		self._ground()
-		
+			Path(self._uploaded_files.pop(name)).unlink(missing_ok=True)
+		self._reload_domain()
 		self._messages.append(("Success", f"Removed: {name}", "success"))
 
 	def reset(self):
-		"""Reset to initial file state"""
-		for temp_path in self._uploaded_files.values():
-			Path(temp_path).unlink(missing_ok=True)
-		
-		self._uploaded_files = {}
-		self._optional_files = self._args.optional_files.copy() if self._args.optional_files else []
-		self._active_files = []
-		
-		self._domain_files = self._original_domain_files + self._active_files
-		self._clear_cache(["_ds_files"])
-		self._outdate()
-		self._init_ctl()
-		self._ground()
-		
+		"""
+  		Reset to the initial command line arguments, restoring the deleted files, and removing all uploaded or active files, assumptions, externals, and atoms.
+		"""
+		for tmp in self._uploaded_files.values():
+			Path(tmp).unlink(missing_ok=True)
+		self._uploaded_files.clear()
+		self._optional_files = self._args.optional_files or []
+		self._active_files.clear()
+		self._reload_domain()
 		self._messages.append(("Success", "Reset complete", "success"))

@@ -2,11 +2,6 @@
     <input 
         class="form-control"
         type="file"
-        [id]="inputId"
-        [accept]="acceptTypes"
-        [multiple]=true
-        [disabled]="isDisabled"
         (change)="onFileSelected($event)"
-        #fileInput
-    >
+        #fileInput>
 </div>

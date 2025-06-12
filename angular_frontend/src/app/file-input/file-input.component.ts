@@ -1,10 +1,9 @@
-// file-input.component.ts
-import { Component, ElementRef, Input, ViewChild, ChangeDetectorRef } from "@angular/core";
-import { CallBackHelperService } from "../callback-helper.service";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { AttributeDto, ElementDto, WhenDto } from "../types/json-response.dto";
 import { ElementLookupService } from "../element-lookup.service";
 import { ContextService } from "../context.service";
 import { AttributeHelperService } from "../attribute-helper.service";
+import { DrawFrontendService } from "../draw-frontend.service";
 
 @Component({
   selector: "app-file-input",
@@ -15,60 +14,54 @@ export class FileInputComponent {
     @ViewChild('container') container!: ElementRef;
     @Input() element!: ElementDto;
 
-    inputId = `file-input-${crypto.randomUUID()}`;
-    acceptTypes = '.lp';
-    isDisabled = false;
-
     constructor(
-        private callBackHelper: CallBackHelperService,
         private elementLookupService: ElementLookupService,
         private contextService: ContextService,
         private attributeService: AttributeHelperService,
-        private cd: ChangeDetectorRef
+        private frontendService: DrawFrontendService
     ) {}
 
     ngAfterViewInit(): void {
-        if (this.element) {
-            this.setAttributes(this.element.attributes);
-            this.elementLookupService.addElementObject(this.element.id, this, this.element);
-            const htmlFileInput = this.fileInput.nativeElement;
-            this.callBackHelper.setCallbacks(htmlFileInput, this.element.when);
-        }
+        this.setAttributes(this.element.attributes);
+        this.elementLookupService.addElementObject(this.element.id, this, this.element);
     }
 
     setAttributes(attributes: AttributeDto[]) {
-        this.acceptTypes = this.attributeService.findGetAttributeValue("accept", attributes, '.lp');
-        this.isDisabled = this.attributeService.findGetAttributeValue("disabled", attributes, 'false') === 'true';
-        const htmlDdbut = this.container.nativeElement;
-        this.attributeService.addClasses(htmlDdbut, attributes, ['form-group'], []);
-
+        const accept = this.attributeService.findGetAttributeValue("accept", attributes, '.lp');
+        const disabled = this.attributeService.findGetAttributeValue("disabled", attributes, 'false') === 'true';
+        const multiple = this.attributeService.findGetAttributeValue("multiple", attributes, 'false') === 'true';
+        
+        this.fileInput.nativeElement.accept = accept;
+        this.fileInput.nativeElement.disabled = disabled;
+        this.fileInput.nativeElement.multiple = multiple;
+        
+        this.attributeService.addClasses(this.container.nativeElement, attributes, ['form-group'], []);
         this.attributeService.addGeneralAttributes(this.fileInput.nativeElement, attributes);
-        this.attributeService.setAttributesDirectly(this.fileInput.nativeElement, attributes);
-
-        this.cd.detectChanges();
     }
 
     onFileSelected(event: any): void {
-        const files = event.target.files;
-        for (const file of files) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const content = reader.result as string;
-                const base64Content = btoa(unescape(encodeURIComponent(content)));
-                
-                this.contextService.addContext('_value', base64Content);
-                
-                const newWhen: WhenDto = {
-                    id: this.element.id,
-                    interactionType: 'call',
-                    operation: `upload_file("${file.name}")`,
-                    event: 'change',
-                    actionType: ""
-                };
-                
-                this.callBackHelper.handleCallback(newWhen, event);
-            };
-            reader.readAsText(file);
-        }
+        const files = Array.from(event.target.files) as File[];
+        if (!files || files.length === 0) return;
+        
+        this.uploadFiles(files, 0);
     }
+
+    private uploadFiles(files: File[], index: number): void {
+		if (index >= files.length) return;
+		const file = files[index];
+		const reader = new FileReader();
+		reader.onload = () => {
+			this.contextService.addContext('_value', btoa(reader.result as string));
+			const changeCallback = this.element.when?.find(w =>
+			w.actionType === 'change' && w.interactionType === 'call'
+			);
+			if (changeCallback) {
+			changeCallback.operation =
+				`upload_file("${file.name}")`;
+			this.frontendService.operationPost(changeCallback);
+			}
+			setTimeout(() => this.uploadFiles(files, index + 1), 100);
+		};
+		reader.readAsText(file);
+		}
 }

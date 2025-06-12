@@ -422,6 +422,11 @@ A file input component that allows users to upload files to the application. The
 
 	*Values*: Boolean (`true` to disable, `false` to enable)
 
+``multiple``
+	*Description*: Allows multiple files to be selected for upload.
+
+	*Values*: Boolean (`true` to allow multiple files, `false` to allow only one file)
+
 .. admonition:: Example
 
 	``file_input`` works with the ``upload_file`` operation.
@@ -430,7 +435,8 @@ A file input component that allows users to upload files to the application. The
 
 		elem(file_input_1, file_input, main_container).
 		attr(file_input_3, accept, ".lp").
-		when(upload_input, change, call, upload_file(_value)).
+		attr(file_input_3, multiple, true).
+		when(file_upload, change, call, upload_file(_context_value(_filename))).
 
 .. _checkbox:
 

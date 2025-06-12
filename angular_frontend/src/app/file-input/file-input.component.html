@@ -1,0 +1,11 @@
+<div class="form-group" #container>
+    <input 
+        class="form-control"
+        type="file"
+        [accept]="acceptTypes"
+        [multiple]=true
+        [disabled]="isDisabled"
+        (change)="onFileSelected($event)"
+        #fileInput
+    >
+</div>

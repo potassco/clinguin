@@ -355,6 +355,14 @@ export class CallBackHelperService {
     return value
   }
 
+  handleCallback(when: WhenDto, event: Event | null) {
+	let operation_string = when.operation
+	operation_string = replaceContext(operation_string)
+	operation_string = replaceDragged(operation_string, event)
+	when.operation = operation_string
+	this.frontendService.operationPost(when)
+  }
+
   setCallbacks(html: HTMLElement, dos: WhenDto[]) {
     this.handleEvent(html, dos, "click", "click")
     this.handleEvent(html, dos, "input", "input")

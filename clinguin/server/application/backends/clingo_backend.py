@@ -223,6 +223,7 @@ class ClingoBackend:
         self._add_domain_state_constructor("_ds_model")  # Keep after brave and cautious
         self._add_domain_state_constructor("_ds_opt")
         self._add_domain_state_constructor("_ds_unsat")  # Keep after all solve calls
+        self._add_domain_state_constructor("_ds_atom")
         self._add_domain_state_constructor("_ds_assume")
         self._add_domain_state_constructor("_ds_external")
 
@@ -522,6 +523,20 @@ class ClingoBackend:
         self._logger.debug(domctl_log(f"domctl.ground([({program}, {arguments})])"))
         arguments_symbols = [parse_term(a) for a in arguments]
         self._ctl.ground([(program, arguments_symbols)])
+        self._load_externals()
+
+    def _load_externals(self):
+        """
+        Loads the externals into the control.
+        This method is called after grounding to ensure that the externals are loaded.
+        """
+        for symbol in self._ctl.symbolic_atoms:
+            if symbol.is_external:
+                self._logger.debug(f"Setting external symbol found: {symbol}")
+                symbol_str = str(symbol.symbol)
+                self._externals["released"].add(symbol_str)
+            else:
+                print(f"Symbol found: {symbol}")
 
     def _prepare(self):
         """
@@ -737,7 +752,10 @@ class ClingoBackend:
                 )
             self._model = symbols
 
-        return " ".join([str(s) + "." for s in self._model]) + "\n"
+        tagged = (
+            " ".join(["_clinguin_model(" + str(s) + ")." for s in self._model]) + "\n"
+        )
+        return " ".join([str(s) + "." for s in self._model]) + "\n" + tagged
 
     @cached_property
     def _ds_brave(self):
@@ -826,6 +844,18 @@ class ClingoBackend:
         return prg + "\n"
 
     @property
+    def _ds_atom(self):
+        """
+        Adds information about the added atoms.
+
+        Includes predicate  ``_clinguin_atom/1`` for every atom that was added.
+        """
+        prg = "#defined _clinguin_atom/1. "
+        for a in self._atoms:
+            prg += f"_clinguin_atom({str(a)}). "
+        return prg + "\n"
+
+    @property
     def _ds_assume(self):
         """
         Adds information about the assumptions.
@@ -866,7 +896,7 @@ class ClingoBackend:
          - ``_clinguin_optimal/0``: If the solution is optimal
          - ``_clinguin_optimizing/0``: If there is an optimization in the program
         """
-        prg = "#defined _clinguin_cost/2. #defined _clinguin_cost/1. #defined _clinguin_optimal/1. "
+        prg = "#defined _clinguin_cost/2. #defined _clinguin_cost/1. #defined _clinguin_optimal/0. #defined _clinguin_optimizing/0. "
 
         for i, c in enumerate(self._cost):
             prg += f"_clinguin_cost({i},{c}). "

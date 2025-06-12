@@ -3,6 +3,7 @@ Clinguin Context passed to the clingo control object with helper python function
 """
 
 from clingo.symbol import String, SymbolType
+from clingo import parse_term
 
 
 class ClinguinContext:
@@ -26,7 +27,12 @@ class ClinguinContext:
         Returns:
             The string concatenating all symbols
         """
-        return String("".join([str(x).strip('"') for x in args]))
+        new_atom = "".join([str(x).strip('"') for x in args])
+        try:
+            new_symbol = parse_term(new_atom)
+        except Exception:
+            new_symbol = String(new_atom)
+        return new_symbol
 
     def format(self, s, *args):
         """
@@ -54,7 +60,12 @@ class ClinguinContext:
             args_str = [str(v).strip('"') for v in args[0].arguments]
         else:
             args_str = [str(v).strip('"') for v in args]
-        return String(s.string.format(*args_str))
+        new_atom = s.string.format(*args_str)
+        try:
+            new_symbol = parse_term(new_atom)
+        except Exception:
+            new_symbol = String(new_atom)
+        return new_symbol
 
     def stringify(self, s, capitalize=False):
         """

@@ -10,6 +10,99 @@ import { hide } from '@popperjs/core';
 import { isEmpty, throwError } from 'rxjs';
 
 
+type Term = Atom | FunctionCall | Tuple;
+
+type Atom = string;
+
+interface FunctionCall {
+  type: "func";
+  name: string;
+  args: (string | number | FunctionCall | Tuple)[];
+}
+
+interface Tuple {
+  type: "tuple";
+  values: (string | number | FunctionCall | Tuple)[];
+}
+
+function isTerm(input: string): boolean {
+  try {
+    parseV(input);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function parseV(input: string): Term {
+  input = input.trim();
+
+  // Tuple: (t1, ..., tn)
+  if (input.startsWith("(") && input.endsWith(")")) {
+    const content = input.slice(1, -1).trim();
+    const values = splitArgs(content).map(parseT);
+    return { type: "tuple", values };
+  }
+
+  // Function call: a(t1, ..., tn)
+  const funcMatch = input.match(/^([a-z][a-zA-Z0-9_]*)\((.*)\)$/);
+  if (funcMatch) {
+    const [, name, argsStr] = funcMatch;
+    const args = splitArgs(argsStr).map(parseT);
+    return { type: "func", name, args };
+  }
+
+  // Atom
+  if (input.match(/^[a-z][a-zA-Z0-9_]*$/)) return input;
+
+  throw new Error("Invalid value term (v): " + input);
+}
+
+// Parses a t = s | v | n
+function parseT(input: string): string | number | FunctionCall | Tuple {
+  input = input.trim();
+
+  if (input.match(/^"-?\d+"$/)) throw new Error("Invalid quoted number");
+
+  if (input.match(/^"-?[^"]*"$/)) {
+    return input.slice(1, -1); // string literal
+  }
+
+  if (input.match(/^-?\d+$/)) {
+    return parseInt(input, 10); // number
+  }
+
+  // Try to parse as a v
+  return parseV(input);
+}
+
+function splitArgs(input: string): string[] {
+  const args: string[] = [];
+  let depth = 0;
+  let current = '';
+  let insideQuotes = false;
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    if (char === '"' && input[i - 1] !== '\\') {
+      insideQuotes = !insideQuotes;
+    } else if (!insideQuotes) {
+      if (char === '(') depth++;
+      else if (char === ')') depth--;
+      else if (char === ',' && depth === 0) {
+        args.push(current.trim());
+        current = '';
+        continue;
+      }
+    }
+    current += char;
+  }
+
+  if (current.trim()) args.push(current.trim());
+  return args;
+}
+
+
 function aspArgumentSplitter(aspArguments: string): string[] {
 
   let returnStrings: string[] = []
@@ -228,7 +321,7 @@ function replaceContext(operation_string: string) {
 
     let isNumber = /^[0-9]*$/.test(new_value);
 
-    let isConst = regex_const.test(new_value);
+    let isConst = isTerm(new_value);
 
     // console.log("new value!", new_value)
     let isQuoted = new_value.length > 1 && new_value[0] == '"' && new_value.slice(-1) == '"';

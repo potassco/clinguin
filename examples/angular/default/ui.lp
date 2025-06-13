@@ -25,6 +25,7 @@ attr(footer_item(C), class, ("m-1";"btn-outline-dark")):- elem(footer_item(C),dr
 attr(elem_container(C), class, ("d-flex"; "flex-row"; "align-items-left";"justify-content-between")):-elem(elem_container(C),container,_).
 attr(elem_title(C), order, 1):-elem(elem_title(C),_,_).
 attr(elem_title(C), class, ("pe-5";"fst-italic")):-elem(elem_title(C),_,_).
+attr(elem_title(C), height, "28pt"):-elem(elem_title(C),label,_).
 attr(elem_val(C), order, 2):-elem(elem_val(C),_,_).
 attr(elem_val(C), class, ("btn-outline";"btn-small";"fw-light")):-elem(elem_val(C),_,_).
 attr(elem_val(C), class, ("pe-3";"pt-1";"pb-1")):-elem(elem_val(C),label,_).
@@ -35,6 +36,16 @@ attr(elem_val(C), class, ("pe-3";"pt-1";"pb-1")):-elem(elem_val(C),label,_).
 
 elem(main(state), container, w).
 attr(main(state), order, 1).
+
+    % ## Files
+    % ------------
+
+    elem(section(files), container, main(state)).
+
+        elem(title(files), label, section(files)).
+        attr(title(files), label, "Files").
+
+        elem(content(files), container, section(files)).
 
 
     % ## Constants
@@ -137,6 +148,8 @@ attr(main(state), order, 1).
         attr(title(unsat), label, "UNSAT"):-_clinguin_unsat.
         attr(title(unsat), class, "text-danger"):-_clinguin_unsat.
 
+        elem(content(unsat), container, section(unsat)):-_clinguin_unsat.
+
 
         % #Todo add MUS
 
@@ -150,6 +163,8 @@ attr(main(state), order, 1).
         elem(title(sat), label, section(sat)):-not _clinguin_unsat.
         attr(title(sat), label, "SAT"):-not _clinguin_unsat.
         attr(title(sat), class, "text-success"):-not _clinguin_unsat.
+
+        elem(content(sat), container, section(sat)):-not _clinguin_unsat.
 
 
 elem(main(input), container, w).
@@ -312,55 +327,14 @@ attr(main(input), order, 2).
                     when(elem_val(external(A),release), click, call, set_external(A,release)):-_clinguin_external(A,V).
 
 
-        elem(footer(externals), container, section(externals)).
-
-            elem(footer_elem(externals), container, footer(externals)).
-
-                elem(footer_item(external(name)),textfield,footer_elem(externals)).
-                attr(footer_item(external(name)),order,3).
-                attr(footer_item(external(name)),placeholder,"atom").
-                when(footer_item(external(name)),input,context,(external_name,_value)).
-
-                elem(footer_item(external(val)),dropdown_menu,footer_elem(externals)).
-                attr(footer_item(external(val)),class,"btn-outline-dark").
-                attr(footer_item(external(val)),order,2).
-
-
-                    elem(footer_item(external(val,true)),dropdown_menu_item,footer_item(external(val))).
-                    attr(footer_item(external(val,true)),label,true).
-                    attr(footer_item(external(val,true)),class,"text-success").
-                    when(footer_item(external(val,true)),click,context,(external_val,true)).
-                    when(footer_item(external(val,true)),click, update,(footer_item(external(val)),selected,true)).
-                    when(footer_item(external(val,true)),click, update,(footer_item(external(val)),class,"text-success")).
-
-                    elem(footer_item(external(val,false)),dropdown_menu_item,footer_item(external(val))).
-                    attr(footer_item(external(val,false)),class,"text-danger").
-                    attr(footer_item(external(val,false)),label,false).
-                    when(footer_item(external(val,false)),click,context,(external_val,false)).
-                    when(footer_item(external(val,false)),click, update,(footer_item(external(val)),selected,false)).
-                    when(footer_item(external(val,false)),click, update,(footer_item(external(val)),class,"text-danger")).
-
-                elem(footer_item(external(btn)),button,footer_elem(externals)).
-                attr(footer_item(external(btn)),order,1).
-                attr(footer_item(external(btn)),label,"Set external").
-                attr(footer_item(external(btn)),tooltip,"▶︎▶︎ set_external(_,_)").
-                when(footer_item(external(btn)),click,call, set_external(_context_value(external_name),_context_value(external_val))).
-
-            % elem(footer_elem(clear_externals), container, footer(externals)).
-
-            % elem(footer_item(clear_externals), button, footer(externals)).
-            % attr(footer_item(clear_externals), label, "Clear").
-            % attr(footer_item(clear_externals), class, "btn-danger").
-            % attr(footer_item(clear_externals), icon, "fa-trash").
-            % attr(footer_item(clear_externals), tooltip, "▶︎▶︎ clear_externals()").
-            % when(footer_item(clear_externals), click, call, clear_assumptions).
-
 elem(main(model), container, w).
 attr(main(model), order, 3).
 
     %  ## Model
     %  ---------------
     elem(section(model), container, main(model)).
+    attr(section(model), order, 1):-_clinguin_browsing.
+    attr(section(model), class, "bg-primary"):-_clinguin_browsing.
 
         elem(title(model), label, section(model)).
             attr(title(model), label, "Current model").
@@ -374,17 +348,82 @@ attr(main(model), order, 3).
                     attr(elem_title(model(A)), label, A):-_clinguin_model(A).
                     attr(elem_title(model(A)), class, "font-monospace"):-_clinguin_model(A).
                     attr(elem_title(model(A)), tooltip, A):-_clinguin_model(A).
-                    attr(elem_title(model(A)), class, "opacity-25"):-not _all(A), _clinguin_model(A).
+                    attr(elem_title(model(A)), class, "opacity-25"):- _all(A), _clinguin_model(A).
+                    attr(elem_title(model(A)), class, "text-primary"):-  _clinguin_model(A), _clinguin_browsing.
 
             elem(footer(model), container, section(model)).
 
-                elem(footer_item(next_solution), button, footer(model)).
+
+
+            elem(footer_elem(select), container, footer(model)).
+            attr(footer_elem(select), order, 2).
+
+                elem(footer_item(select(select_show)),textfield,footer_elem(select)).
+                attr(footer_item(select(select_show)),order,1).
+                attr(footer_item(select(select_show)),width,"315pt").
+                attr(footer_item(select(select_show)),placeholder,"Optional #show").
+                when(footer_item(select(select_show)),input,context,(select_show,_value)).
+
+                elem(footer_item(select(btn)),button,footer_elem(select)).
+                attr(footer_item(select(btn)),order,2).
+                attr(footer_item(select(btn)),label,"Select solution").
+                attr(footer_item(select(btn)),icon,"fa-hand-pointer").
+                attr(footer_item(select(btn)),class,"btn-success").
+                attr(footer_item(select(btn)),tooltip,"▶︎▶︎ select").
+                when(footer_item(select(btn)),click,call, select(_context_value(select_show,str," "))).
+
+
+            elem(footer_elem(download), container, footer(model)).
+            attr(footer_elem(download), order, 3).
+
+                elem(footer_item(download(download_show)),textfield,footer_elem(download)).
+                attr(footer_item(download(download_show)),order,2).
+                attr(footer_item(download(download_show)),placeholder,"Optional #show").
+                when(footer_item(download(download_show)),input,context,(download_show,_value)).
+
+                elem(footer_item(download(download_name)),textfield,footer_elem(download)).
+                attr(footer_item(download(download_name)),order,1).
+                attr(footer_item(download(download_name)),placeholder,"File name").
+                when(footer_item(download(download_name)),input,context,(download_name,_value)).
+
+                elem(footer_item(download(btn)),button,footer_elem(download)).
+                attr(footer_item(download(btn)),order,3).
+                attr(footer_item(download(btn)),label,"Download solution").
+                attr(footer_item(download(btn)),icon,"fa-download").
+                attr(footer_item(download(btn)),class,"btn-success").
+                attr(footer_item(download(btn)),tooltip,"▶︎▶︎ download").
+                when(footer_item(download(btn)),click,call, download(_context_value(download_show,str," "),_context_value(download_name,str,"file.lp"))).
+
+
+            elem(footer_elem(browse), container, footer(model)).
+            attr(footer_elem(browse), order, 1).
+
+                elem(footer_item(next_solution), button, footer_elem(browse)).
+                attr(footer_item(next_solution), order, 3).
                 attr(footer_item(next_solution), label, "Next").
-                attr(footer_item(next_solution), icon, "fa-forward").
+                attr(footer_item(next_solution), icon, "fa-forward-step").
                 attr(footer_item(next_solution), tooltip, "▶︎▶︎ next_solution()").
                 when(footer_item(next_solution), click, call, next_solution).
 
+                elem(footer_item(next_solution_opt), button, footer_elem(browse)).
+                attr(footer_item(next_solution_opt), order, 2).
+                attr(footer_item(next_solution_opt), label, "Next Optimizing").
+                attr(footer_item(next_solution_opt), icon, "fa-forward-fast").
+                attr(footer_item(next_solution_opt), tooltip, "▶︎▶︎ next_solution(optN)").
+                when(footer_item(next_solution_opt), click, call, next_solution(optN)).
+
+                elem(footer_item(stop), button, footer_elem(browse)).
+                attr(footer_item(stop), order, 1).
+                attr(footer_item(stop), label, "Stop Browsing").
+                attr(footer_item(stop), class, "btn-danger").
+                attr(footer_item(stop), class, "disabled"):-not _clinguin_browsing.
+                attr(footer_item(stop), icon, "fa-stop").
+                attr(footer_item(stop), tooltip, "▶︎▶︎ stop_browsing"):-_clinguin_browsing.
+                attr(footer_item(stop), tooltip, "not _clinguin_browsing"):-not _clinguin_browsing.
+                when(footer_item(stop), click, call, stop_browsing).
+
     elem(section(brave), container, main(model)).
+    attr(section(brave), order, 2).
 
         elem(title(brave), label, section(brave)).
             attr(title(brave), label, "In Some Model (Brave)").
@@ -400,19 +439,37 @@ attr(main(model), order, 3).
                     attr(elem_title(brave(A)), class, "opacity-25"):-_any(A), _all(A).
 
                     attr(elem_title(brave(A)), tooltip, @format("_any({})",A)):-_any(A).
-                    attr(elem_title(brave(A)), class, "text-success"):-_any_opt(A).
+                    attr(elem_title(brave(A)), class, "text-primary"):-_any_opt(A).
                     attr(elem_title(brave(A)), class, "fw-bold"):-_all_opt(A).
 
 
-                    elem(elem_val(brave(A)), button, elem_container(brave(A))):-_any(A).
+                    elem(elem_val(brave(A)), dropdown_menu, elem_container(brave(A))):-_any(A).
                     attr(elem_val(brave(A)), icon, "fa-plus"):-_any(A).
-                    attr(elem_val(brave(A)), class, ("text-primary")):-_any(A).
-                    attr(elem_val(brave(A)), tooltip, @format("▶︎▶︎ add_assumption({},true)",A)):-_any(A).
-                    when(elem_val(brave(A)), click, call, add_assumption(A,true)):-_any(A).
+                    attr(elem_val(brave(A)), tooltip, @format("▶︎▶︎ add_assumption({},_)",A)):-_any(A).
+
+                        elem(elem_val_true(brave(A)), dropdown_menu_item, elem_val(brave(A))):-_any(A).
+                        attr(elem_val_true(brave(A)), label, true):-_any(A).
+                        attr(elem_val_true(brave(A)), class, "text-success"):-_any(A).
+                        when(elem_val_true(brave(A)), click, call, add_assumption(A,true)):-_any(A).
+
+                        elem(elem_val_false(brave(A)), dropdown_menu_item, elem_val(brave(A))):-_any(A).
+                        attr(elem_val_false(brave(A)), label, false):-_any(A).
+                        attr(elem_val_false(brave(A)), class, "text-danger"):-_any(A).
+                        when(elem_val_false(brave(A)), click, call, add_assumption(A,false)):-_any(A).
+
+
+                    % elem(elem_val(brave(A)), button, elem_container(brave(A))):-_any(A), not _all(A).
+                    % attr(elem_val(brave(A)), icon, "fa-plus"):-_any(A), not _all(A).
+                    % attr(elem_val(brave(A)), class, ("text-primary")):-_any(A), not _all(A).
+                    % attr(elem_val(brave(A)), tooltip, @format("▶︎▶︎ add_assumption({},true)",A)):-_any(A), not _all(A).
+                    % when(elem_val(brave(A)), click, call, add_assumption(A,true)):-_any(A), not _all(A).
+
+
 
 
 
     elem(section(cautious), container, main(model)).
+    attr(section(cautious), order, 3).
 
         elem(title(cautious), label, section(cautious)).
             attr(title(cautious), label, "In All Models (Cautious)").
@@ -440,18 +497,3 @@ attr(main(model), order, 3).
         attr(menu_bar_restart, class, "btn-outline-danger").
         attr(menu_bar_restart, class, "border-0").
         when(menu_bar_restart, click, call, restart).
-
-        elem(menu_bar_download, button, menu_bar).
-        attr(menu_bar_download, label, "Download").
-        attr(menu_bar_download, icon, "fa-download").
-        when(menu_bar_download, click, call, download).
-
-        elem(menu_bar_select, button, menu_bar).
-        attr(menu_bar_select, label, "Select solution").
-        attr(menu_bar_select, icon, "fa-hand-pointer").
-        when(menu_bar_select, click, call, select).
-
-        elem(menu_bar_next_opt, button, menu_bar).
-        attr(menu_bar_next_opt, label, "Next").
-        attr(menu_bar_next_opt, icon, "fa-forward-fast").
-        when(menu_bar_next_opt, click, call, next_solution(optN)).

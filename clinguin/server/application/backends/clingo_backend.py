@@ -532,11 +532,9 @@ class ClingoBackend:
         """
         for symbol in self._ctl.symbolic_atoms:
             if symbol.is_external:
-                self._logger.debug(f"Setting external symbol found: {symbol}")
                 symbol_str = str(symbol.symbol)
+                self._logger.debug(f"Setting external symbol found: {symbol_str}")
                 self._externals["released"].add(symbol_str)
-            else:
-                print(f"Symbol found: {symbol}")
 
     def _prepare(self):
         """
@@ -918,7 +916,7 @@ class ClingoBackend:
         """
         prg = "#defined _clinguin_const/2. "
         for k, v in self._constants.items():
-            prg += f"_clinguin_const({k},{v})."
+            prg += f'_clinguin_const("{k}",{v}).'
         return prg + "\n"
 
     ########################################################################################################

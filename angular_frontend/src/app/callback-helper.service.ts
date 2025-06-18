@@ -250,8 +250,7 @@ function handleUpdate(when: WhenDto, event: Event | null) {
     if (elementLookup.object != null) {
       if ("setAttributes" in elementLookup.object) {
         if (elementLookup.object.setAttributes != undefined && typeof elementLookup.object.setAttributes === 'function') {
-
-          elementLookup.object.setAttributes(tmpAttributes)
+          elementLookup.object.setAttributes(tmpAttributes, true)
         }
       }
     }

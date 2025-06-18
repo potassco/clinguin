@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ViewContainerRef, OnInit, Optional } from '@angular/core';
 import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { ElementLookupService } from '../element-lookup.service';
@@ -22,11 +22,11 @@ export class CollapseComponent implements OnInit {
   isCollapsed = true;
   label: string = "";
   initialRender = true;
-  
+
   // Icons
   readonly defaultCollapsedIcon: string = "fa-caret-down";
   readonly defaultExpandedIcon: string = "fa-caret-up";
-  
+
   // Static state cache
   private static stateCache = new Map<string, boolean>();
 
@@ -39,18 +39,18 @@ export class CollapseComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.element) return;
-    
+
     this.elementLookupService.addElementObject(this.element.id, this, this.element);
     this.loadState();
   }
 
   ngAfterViewInit(): void {
     if (!this.element) return;
-    
+
     requestAnimationFrame(() => {
       this.setAttributes(this.element!.attributes);
       this.renderChildren();
-      
+
       setTimeout(() => this.initialRender = false, 50);
     });
   }
@@ -61,32 +61,32 @@ export class CollapseComponent implements OnInit {
 
   private loadState(): void {
     try {
-		if (!this.element) return;
-		const savedState = localStorage.getItem(`collapse_state_${this.element.id}`);
-		if (savedState) {
-			const state = JSON.parse(savedState);
-			this.isCollapsed = state.isCollapsed;
-			CollapseComponent.stateCache.set(this.cacheKey, this.isCollapsed);
-			return;
-		}
+      if (!this.element) return;
+      const savedState = localStorage.getItem(`collapse_state_${this.element.id}`);
+      if (savedState) {
+        const state = JSON.parse(savedState);
+        this.isCollapsed = state.isCollapsed;
+        CollapseComponent.stateCache.set(this.cacheKey, this.isCollapsed);
+        return;
+      }
 
-		if (CollapseComponent.stateCache.has(this.cacheKey)) {
-		this.isCollapsed = CollapseComponent.stateCache.get(this.cacheKey)!;
-		}
-	} catch (e) {
-		console.error(`Failed to load collapse state: ${e}`);
-	}
+      if (CollapseComponent.stateCache.has(this.cacheKey)) {
+        this.isCollapsed = CollapseComponent.stateCache.get(this.cacheKey)!;
+      }
+    } catch (e) {
+      console.error(`Failed to load collapse state: ${e}`);
+    }
   }
 
   private saveState(): void {
     if (!this.element) return;
-    
+
     try {
       // Update memory cache
       CollapseComponent.stateCache.set(this.cacheKey, this.isCollapsed);
-      
+
       // Persist to localStorage
-      localStorage.setItem(`collapse_state_${this.element.id}`, 
+      localStorage.setItem(`collapse_state_${this.element.id}`,
         JSON.stringify({ isCollapsed: this.isCollapsed }));
     } catch (e) {
       console.error(`Failed to save collapse state: ${e}`);
@@ -95,7 +95,7 @@ export class CollapseComponent implements OnInit {
 
   private renderChildren(): void {
     if (!this.element?.children?.length) return;
-    
+
     this.element.children.forEach(childElement => {
       this.childBearerService.bearChild(
         this.childContainer,
@@ -105,11 +105,11 @@ export class CollapseComponent implements OnInit {
     });
   }
 
-  setAttributes(attributes: AttributeDto[]): void {
+  setAttributes(attributes: AttributeDto[], overWriteCache: boolean = false): void {
     this.label = this.attributeService.findGetAttributeValue("label", attributes, "");
-    
-    // Only use attribute collapsed state if not already loaded from storage
-    if (!CollapseComponent.stateCache.has(this.cacheKey)) {
+
+    // Only use attribute collapsed state if not already loaded from storage or if overWriteCache is true
+    if (overWriteCache || !CollapseComponent.stateCache.has(this.cacheKey)) {
       const initialState = this.attributeService.findGetAttributeValue("collapsed", attributes, "true");
       this.isCollapsed = initialState === "true";
     }
@@ -124,11 +124,11 @@ export class CollapseComponent implements OnInit {
     if (this.labelSpan?.nativeElement) {
       const htmlLabelSpan = this.labelSpan.nativeElement;
       htmlLabelSpan.className = "flex-grow-1";
-      
+
       attributes
         .filter(attr => attr.key === 'class' && typeof attr.value === 'string')
         .map(attr => attr.value)
-        .filter(className => 
+        .filter(className =>
           className.startsWith('text-') ||
           className.startsWith('fw-') ||
           className.startsWith('fst-') ||
@@ -138,6 +138,10 @@ export class CollapseComponent implements OnInit {
     }
 
     this.updateIcon(attributes);
+
+    if (overWriteCache) {
+      this.saveState();
+    }
   }
 
   toggle(): void {
@@ -148,14 +152,14 @@ export class CollapseComponent implements OnInit {
 
   updateIcon(attributes: AttributeDto[]): void {
     if (!this.iconCollapse?.nativeElement || !this.icon?.nativeElement) return;
-    
+
     const htmlIconCollapse = this.iconCollapse.nativeElement;
     htmlIconCollapse.className = "icon ms-2 fa";
     htmlIconCollapse.classList.add(this.isCollapsed ? this.defaultCollapsedIcon : this.defaultExpandedIcon);
-    
+
     const htmlIconCustom = this.icon.nativeElement;
     htmlIconCustom.className = "icon me-2 fa";
-    
+
     const iconClass = this.attributeService.findGetAttributeValue("icon", attributes, "");
     if (iconClass) {
       htmlIconCustom.classList.add(iconClass);

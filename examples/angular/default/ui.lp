@@ -37,15 +37,15 @@ attr(elem_val(C), class, ("pe-3";"pt-1";"pb-1")):-elem(elem_val(C),label,_).
 elem(main(state), container, w).
 attr(main(state), order, 1).
 
-    % ## Files
-    % ------------
+    % % ## Files
+    % % ------------
 
-    elem(section(files), container, main(state)).
+    % elem(section(files), container, main(state)).
 
-        elem(title(files), label, section(files)).
-        attr(title(files), label, "Files").
+    %     elem(title(files), label, section(files)).
+    %     attr(title(files), label, "Files").
 
-        elem(content(files), container, section(files)).
+    %     elem(content(files), container, section(files)).
 
 
     % ## Constants

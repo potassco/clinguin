@@ -1,10 +1,12 @@
 <div class="collapse-container">
 	<div #toggleButton class="d-flex align-items-center cursor-pointer collapsed-header" (click)="toggle()">
-	  <i #icon class="icon me-2"></i>
-	  <span #labelSpan class="flex-grow-1">{{label}}</span>
-	  <i #iconCollapse class="icon ms-2"></i>
+		<i #icon class="icon me-2"></i>
+		<span #labelSpan class="flex-grow-1">{{label}}</span>
+		<i #iconCollapse class="icon ms-2"></i>
 	</div>
-	<div #collapseContent class="overflow-hidden" [style.maxHeight]="isCollapsed ? '0' : '2000px'" [style.opacity]="isCollapsed ? '0' : '1'" [style.transition]="initialRender ? 'none' : 'max-height 0.2s ease-out, opacity 0.2s ease-out'">
-	  <div #childContainer></div>
+	<div #collapseContent class="overflow-hidden" [style.maxHeight]="isCollapsed ? '0' : 'none'"
+		[style.opacity]="isCollapsed ? '0' : '1'"
+		[style.transition]="initialRender ? 'none' : 'max-height 0.2s ease-out, opacity 0.2s ease-out'">
+		<div #childContainer></div>
 	</div>
-  </div>
+</div>

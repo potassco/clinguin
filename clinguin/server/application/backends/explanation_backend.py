@@ -7,6 +7,7 @@ from functools import cached_property
 
 from clingexplaid.mus import CoreComputer
 from clingexplaid.transformers import AssumptionTransformer
+from clingexplaid.transformers.transformer_assumption import FilterSignature
 from clingo.script import enable_python
 
 from clinguin.server.application.backends.clingo_backend import (
@@ -66,8 +67,9 @@ class ExplanationBackend(ClingoBackend):
                 raise ValueError(
                     "Argument assumption_signature must have format name,arity"
                 ) from ex
+        filters = [FilterSignature(s, a) for s, a in self._assumption_sig]
         self._assumption_transformer = AssumptionTransformer(
-            signatures=self._assumption_sig
+            filters=filters,
         )
 
     @extends(ClingoBackend)
@@ -84,8 +86,9 @@ class ExplanationBackend(ClingoBackend):
             f (str): The file path
 
         """
-
+        print(f"Loading file {f}")
         transformed_program = self._assumption_transformer.parse_files([f])
+        print("Here")
         self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
         self._ctl.add("base", [], transformed_program)
 

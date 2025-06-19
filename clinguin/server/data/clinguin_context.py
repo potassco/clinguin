@@ -67,6 +67,32 @@ class ClinguinContext:
             new_symbol = String(new_atom)
         return new_symbol
 
+    def replace(self, s, old, new):
+        """
+        Replaces all occurrences of the old string with the new string
+
+        Example:
+            .. code-block:: prolog
+
+                attr(s_l(I), label, @replace("Semester 1", "1", "2")).
+
+            Label will be `Semester 2`
+
+        Args:
+            s: The string to transform
+            old: The string to replace
+            new: The string to insert instead
+        Returns:
+            The string with the replaced values
+        """
+        val = str(s).strip('"')
+        new_atom = val.replace(str(old).strip('"'), str(new).strip('"'))
+        try:
+            new_symbol = parse_term(new_atom)
+        except Exception:
+            new_symbol = String(new_atom)
+        return new_symbol
+
     def stringify(self, s, capitalize=False):
         """
         Turns a value into a string without underscore and capitalized if requested

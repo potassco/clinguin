@@ -11,6 +11,18 @@ import { ContextService } from './context.service';
 import { LocatorService } from './locator.service';
 import { ElementLookupDto, ElementLookupService } from './element-lookup.service';
 
+function restoreScrollIfNeeded(savedScrollTop: string | null) {
+    setTimeout(() => {
+        requestAnimationFrame(() => {
+            if (savedScrollTop) {
+                console.log("Restoring scroll position to:", savedScrollTop);
+                window.scrollTo(0, parseInt(savedScrollTop, 10));
+                localStorage.removeItem('scrollTop');
+            }
+        });
+    }, 50);
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -65,6 +77,7 @@ export class DrawFrontendService {
         let errorIcon = document.getElementById("error")
 
         errorIcon?.setAttribute("hidden", "true");
+        const savedScrollTop = localStorage.getItem('scrollTop');
 
         this.httpService.post(callback.operation, context).pipe(
             catchError((error: HttpErrorResponse) => {
@@ -79,7 +92,10 @@ export class DrawFrontendService {
                 next: (data: JsonResponse) => {
                     this.lastData = data.ui
                     this.frontendJson.next(data.ui)
-                    loader?.setAttribute("hidden", "true")
+                    loader?.setAttribute("hidden", "true");
+                    // Restore scroll after rendering
+                    restoreScrollIfNeeded(savedScrollTop);
+
                 }
             })
 

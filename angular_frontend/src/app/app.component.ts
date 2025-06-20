@@ -10,30 +10,32 @@ import { LocatorService } from './locator.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-	@ViewChild('contentWrapper',{static:false}) contentWrapper!: ElementRef;
+	@ViewChild('contentWrapper', { static: false }) contentWrapper!: ElementRef;
 
 	title = 'Clinguin';
 	sidebarVisible: boolean = false;
 
-	menuBar : ElementDto | null = null
-	messageList : ElementDto[] = []
+	menuBar: ElementDto | null = null
+	messageList: ElementDto[] = []
 
-	constructor(private frontendService: DrawFrontendService, private cd: ChangeDetectorRef, private elementLookupService: ElementLookupService) {}
+	constructor(private frontendService: DrawFrontendService, private cd: ChangeDetectorRef, private elementLookupService: ElementLookupService) { }
 
 
 	ngAfterViewInit(): void {
 
-		this.frontendService.menuBar.subscribe({next: data => {
-			this.menuBar = null
-			this.cd.detectChanges()
-			this.menuBar = data
-			this.cd.detectChanges()
-		}})
+		this.frontendService.menuBar.subscribe({
+			next: data => {
+				this.menuBar = null
+				this.cd.detectChanges()
+				this.menuBar = data
+				this.cd.detectChanges()
+			}
+		})
 
-		this.contentWrapper.nativeElement.addEventListener("click", function(){
+		this.contentWrapper.nativeElement.addEventListener("click", function () {
 			let lookupService = LocatorService.injector.get(ElementLookupService)
 
-			lookupService.elementLookup.forEach((element:ElementLookupDto) => {
+			lookupService.elementLookup.forEach((element: ElementLookupDto) => {
 				if (element.element.type == "menu_bar_section" && element.object != null && "collapsed" in element.object) {
 					if (element.object.collapsed == false) {
 						element.object.collapsed = true
@@ -41,5 +43,19 @@ export class AppComponent {
 				}
 			})
 		})
-  	}
+
+		window.addEventListener('scroll', () => {
+			const scrollTop = window.scrollY;
+			localStorage.setItem('scrollTop', scrollTop.toString());
+		});
+
+		window.addEventListener('load', () => {
+			const scrollTop = window.scrollY;
+			localStorage.setItem('scrollTop', scrollTop.toString());
+		});
+
+
+	}
+
+
 }

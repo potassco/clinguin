@@ -133,3 +133,14 @@ Finally, we use the menu bar component type to add the title and different opera
         attr(menu_bar_next, label, "Next").
         attr(menu_bar_next, icon, "fa-forward-step").
         when(menu_bar_next, click, callback, next_solution).
+
+Don't know where to start?
+--------------------------
+
+You can start by running clinguin without ui-files, this will use the default UI which shows all clinguin features.
+
+For instance, you can run this with the placement example:
+
+.. code-block:: console
+
+    $ clinguin client-server --domain-files examples/angular/placement/instance.lp examples/angular/placement/encoding.lp

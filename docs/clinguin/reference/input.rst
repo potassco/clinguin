@@ -33,6 +33,9 @@ The encoding that will generate the :ref:`ui-state` using the :ref:`domain-state
 They are provided when starting the server via the command line in argument ``--ui-files``.
 
 
+If no UI files are provided, the default UI will be used, which can be used for debugging purposes.
+
+
 .. tip::
 
     There are helper functions available for the UI files to handle strings. This functions can be used with the *clingo* syntax for external function: ``@fun(args)``.

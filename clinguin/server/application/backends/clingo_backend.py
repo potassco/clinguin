@@ -19,6 +19,7 @@ from clinguin.server.data.domain_state import solve, tag
 
 from ....utils.logger import domctl_log
 from ....utils.transformer import UsesSignatureTransformer
+from importlib.resources import files
 
 enable_python()
 # pylint: disable=attribute-defined-outside-init
@@ -256,8 +257,15 @@ class ClingoBackend:
         self._domain_files = self._args.domain_files or []
 
         if not self._args.ui_files:
-            raise RuntimeError("UI files need to be provided under --ui-files")
-        self._ui_files = self._args.ui_files
+            self._logger.warning(
+                "UI files need to be provided under --ui-files. Using default UI encoding."
+            )
+            default_ui_path = files(
+                "clinguin.server.application.backends.standard_utils"
+            ).joinpath("default_ui.lp")
+            self._ui_files = [default_ui_path]
+        else:
+            self._ui_files = self._args.ui_files
 
         self._constants = {}
         if self._args.const is not None:

@@ -2,9 +2,9 @@
 Clinguin Context passed to the clingo control object with helper python functions
 """
 
+import hashlib
 from clingo.symbol import String, SymbolType, Number
 from clingo import parse_term
-import hashlib
 
 
 class ClinguinContext:

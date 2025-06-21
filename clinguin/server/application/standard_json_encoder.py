@@ -51,6 +51,7 @@ class StandardJsonEncoder:
             elements_dict : Dict
         """
         logger = logging.getLogger(Logger.server_logger_name)
+        logger.debug("Generating JSON for UI")
 
         dependency = []
         elements_info = {}

@@ -2,8 +2,9 @@
 Clinguin Context passed to the clingo control object with helper python functions
 """
 
-from clingo.symbol import String, SymbolType
+from clingo.symbol import String, SymbolType, Number
 from clingo import parse_term
+import hashlib
 
 
 class ClinguinContext:
@@ -66,6 +67,29 @@ class ClinguinContext:
         except Exception:
             new_symbol = String(new_atom)
         return new_symbol
+
+    def to_int(self, s):
+        """
+        Converts any symbol into an integer using a hash. It can be used to infer an order in the symbols
+        for the `order` attribute in the UI.
+
+        Example:
+            .. code-block:: prolog
+
+                attr(s_l(I), label, @to_int(person("Susana"))).
+
+            Label will be `12`
+
+        Args:
+            s: The symbol to convert to an integer
+        Returns:
+            The integer value of the string
+        """
+        if s.type == SymbolType.Number:
+            return s.number
+        s = str(s)
+        h = hashlib.sha256(s.encode()).hexdigest()
+        return Number(int(h, 16) % 10**4)
 
     def replace(self, s, old, new):
         """

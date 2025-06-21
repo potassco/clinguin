@@ -10,6 +10,7 @@ import time
 from functools import cached_property
 from pathlib import Path
 from typing import Any
+from importlib.resources import files
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
@@ -19,7 +20,6 @@ from clinguin.server.data.domain_state import solve, tag
 
 from ....utils.logger import domctl_log
 from ....utils.transformer import UsesSignatureTransformer
-from importlib.resources import files
 
 enable_python()
 # pylint: disable=attribute-defined-outside-init
@@ -541,7 +541,7 @@ class ClingoBackend:
         for symbol in self._ctl.symbolic_atoms:
             if symbol.is_external:
                 symbol_str = str(symbol.symbol)
-                self._logger.debug(f"Setting external symbol found: {symbol_str}")
+                self._logger.debug("Setting external symbol found: %s", symbol_str)
                 self._externals["released"].add(symbol_str)
 
     def _prepare(self):
@@ -902,7 +902,8 @@ class ClingoBackend:
          - ``_clinguin_optimal/0``: If the solution is optimal
          - ``_clinguin_optimizing/0``: If there is an optimization in the program
         """
-        prg = "#defined _clinguin_cost/2. #defined _clinguin_cost/1. #defined _clinguin_optimal/0. #defined _clinguin_optimizing/0. "
+        prg = "#defined _clinguin_cost/2. #defined _clinguin_cost/1."
+        prg += "#defined _clinguin_optimal/0. #defined _clinguin_optimizing/0."
 
         for i, c in enumerate(self._cost):
             prg += f"_clinguin_cost({i},{c}). "

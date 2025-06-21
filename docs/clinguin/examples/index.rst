@@ -14,6 +14,7 @@
 .. toctree::
    :maxdepth: 1
 
+   default
    sudoku
    catdog
    elevator

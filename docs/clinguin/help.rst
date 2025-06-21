@@ -3,6 +3,22 @@
 |:speech_balloon:| Help
 ========================
 
+
+
+
+.. admonition:: **Don't know where to start?**
+    :class: tip
+
+    You can start by running clinguin with your domain and files and without ui-files, this will use the default UI which shows all clinguin features.
+    This way, you can see which actions are available and what information you can use to build your UI.
+
+    For instance, you can run this with the placement example:
+
+    .. code-block:: console
+
+        $ clinguin client-server --domain-files examples/angular/placement/instance.lp examples/angular/placement/encoding.lp
+
+
 .. admonition:: **Logging**
     :class: important
 

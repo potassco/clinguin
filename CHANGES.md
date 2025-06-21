@@ -1,5 +1,15 @@
 # Changes
 
+## clinguin 2.5
+
+  * Additions
+    * New context function to get a number from a symbol
+    * New context function to replace strings
+    * Saved scroll position
+    * Cache for collapse containers overwritten when using update
+    * Default UI for debugging
+  * Fixed clingo-explaid version to fix bug
+
 ## clinguin 2.4
 
   * Additions

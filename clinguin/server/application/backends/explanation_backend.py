@@ -6,7 +6,7 @@ import textwrap
 from functools import cached_property
 
 from clingexplaid.mus import CoreComputer
-from clingexplaid.transformers import AssumptionTransformer
+from clingexplaid.preprocessors import AssumptionPreprocessor, FilterSignature
 from clingo.script import enable_python
 
 from clinguin.server.application.backends.clingo_backend import (
@@ -66,8 +66,20 @@ class ExplanationBackend(ClingoBackend):
                 raise ValueError(
                     "Argument assumption_signature must have format name,arity"
                 ) from ex
-        self._assumption_transformer = AssumptionTransformer(
-            signatures=self._assumption_sig
+
+    def _create_ctl(self) -> None:
+        """
+        Initializes the control object (domain-control).
+        It is used when the server is started or after a restart.
+
+        See Also:
+            :func:`~_load_file`
+        """
+        super()._create_ctl()
+        filters = {FilterSignature(s, a) for s, a in self._assumption_sig}
+        self._assumption_transformer = AssumptionPreprocessor(
+            control=self._ctl,
+            filters=filters,
         )
 
     @extends(ClingoBackend)
@@ -84,9 +96,29 @@ class ExplanationBackend(ClingoBackend):
             f (str): The file path
 
         """
-        transformed_program = self._assumption_transformer.parse_files([f])
+        self._logger.debug("Assumption transformer will process file %s", f)
+        self._assumption_transformer.process("", files=[f])
+
+    @extends(ClingoBackend)
+    def _load_and_add(self) -> None:
+        """
+        Loads domain files and atoms into the control.
+
+        This method iterates over the domain files and atoms specified in the instance and loads them into the control.
+        It raises an exception if a domain file does not exist or if there is a syntax error in the logic program file.
+
+        Overwrites by adding the rules parsed by _load_file
+
+        Raises:
+            Exception: If a domain file does not exist or if there is a syntax error in the logic program file.
+
+        See Also:
+            :func:`~_load_file`
+        """
+        super()._load_and_add()
+        transformed_program = self._assumption_transformer.parsed_prg
         self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
-        self._ctl.add("base", [], transformed_program)
+        # self._ctl.add("base", [], transformed_program)
 
     # ---------------------------------------------
     # Solving
@@ -102,10 +134,9 @@ class ExplanationBackend(ClingoBackend):
         """
         super()._ground(program, arguments)
         # pylint: disable= attribute-defined-outside-init
-        transformer_assumptions = self._assumption_transformer.get_assumption_symbols(
-            self._ctl, arguments=self._ctl_arguments_list
-        )
-        self._assumptions_from_signature = [(a, True) for a in transformer_assumptions]
+        self._assumptions_from_signature = [
+            a for a in list(self._assumption_transformer.assumptions)
+        ]
 
     # ---------------------------------------------
     # Class methods

@@ -51,17 +51,24 @@ export class FileInputComponent {
 		const file = files[index];
 		const reader = new FileReader();
 		reader.onload = () => {
+			this.contextService.addContext('_filename', file.name);
 			this.contextService.addContext('_value', btoa(reader.result as string));
+			
 			const changeCallback = this.element.when?.find(w =>
-			w.actionType === 'change' && w.interactionType === 'call'
+				w.actionType === 'change' && w.interactionType === 'call'
 			);
+			
 			if (changeCallback) {
-			changeCallback.operation =
-				`upload_file("${file.name}")`;
-			this.frontendService.operationPost(changeCallback);
+				this.frontendService.operationPost(changeCallback);
+			} else {
+				this.frontendService.postMessage(
+					'Upload not allowed in current state', 
+					'warning'
+				);
 			}
+			
 			setTimeout(() => this.uploadFiles(files, index + 1), 100);
 		};
 		reader.readAsText(file);
-		}
+	}
 }

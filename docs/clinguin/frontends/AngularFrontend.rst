@@ -403,6 +403,34 @@ A progress bar component used to display a percentage of completion. Corresponds
     If you wish to use percentages, you can pass an interget between 0 and 100 to the value attribute
     and use the default values for min and max; 0 and 100 respectively.
 
+``file_input``
+...................
+A file input component that allows users to upload files to the application. The component automatically handles file upload operations without requiring manual when event handlers. Uploaded files are processed and made available through the backend file management system.
+
+**Attributes**
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`
+
+``accept``
+	*Description*: The file types that are accepted for upload. This attribute is optional and defaults to ".lp" files.
+
+	*Values*: String. Can be a list of file extensions (e.g., ".lp" for ASP files or ".txt" for text files)
+
+``disabled``
+	*Description*: Disables the file input field.
+
+	*Values*: Boolean (`true` to disable, `false` to enable). Default is `false`.
+
+.. admonition:: Example
+
+	``file_input`` works with the ``upload_file`` operation.
+
+	.. code-block:: prolog
+
+		elem(file_input, file_input, main_container).
+		attr(file_input, accept, ".lp").
+		when(file_input, change, call, upload_file(_value)).
 
 .. _checkbox:
 

@@ -134,6 +134,8 @@ Corresponds to a limited version of `bootstrap modal <https://getbootstrap.com/d
 
 A sidebar panel that slides in from the edge of the screen, triggered by hovering near the edge and can be pinned to remain visible.
 
+The elements in the sidebar can't be ordered directly, to impose an order one can crate a main container and set the order of the container.
+
 **Attributes**
 
 :ref:`Class <Class>`,
@@ -147,7 +149,7 @@ A sidebar panel that slides in from the edge of the screen, triggered by hoverin
     *Description*: The side of the screen from which the offcanvas appears
 
     *Values*: String. Can be ``start`` (left side) or ``end`` (right side). Defaults to ``start``.
-	
+
 
 .. _button:
 
@@ -231,7 +233,7 @@ See the :ref:`Context` section for more details.
 ``tabs``
 .................
 
-The tabs element creates a tabbed interface, allowing users to organize content into separate panes that can be viewed by clicking on corresponding tab buttons. Tabs are useful for grouping related content while conserving screen space. All children should be :ref:`tabs-item` 
+The tabs element creates a tabbed interface, allowing users to organize content into separate panes that can be viewed by clicking on corresponding tab buttons. Tabs are useful for grouping related content while conserving screen space. All children should be :ref:`tabs-item`
 
 **Attributes**
 
@@ -405,7 +407,12 @@ A progress bar component used to display a percentage of completion. Corresponds
 
 ``file_input``
 ...................
-A file input component that allows users to upload files to the application. The component automatically handles file upload operations without requiring manual when event handlers. Uploaded files are processed and made available through the backend file management system.
+
+A file input component that allows users to upload files to the backend.
+These files are not automatically activated, they need to be activated using the `activate_file` operation.
+When a file is chosen the event `change` is triggered, with this, the file name and content (in base 64) are added to the context,
+then, the corresponding `when` events are triggered.
+When allowing multiple selection of files, all `when` events will be processed for each file separate.
 
 **Attributes**
 :ref:`Class <Class>`,
@@ -419,6 +426,11 @@ A file input component that allows users to upload files to the application. The
 
 ``disabled``
 	*Description*: Disables the file input field.
+
+	*Values*: Boolean (`true` to disable, `false` to enable). Default is `false`.
+
+``multiple``
+	*Description*: Allows uploading multiple files at once. Each file will pre processed by an individual operation execution.
 
 	*Values*: Boolean (`true` to disable, `false` to enable). Default is `false`.
 

@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ContextService {
 
-    contextKeyVal : ContextItem[] = []
+    contextKeyVal: ContextItem[] = []
 
-    addContext(key: string, value: string) {
-
+    addContext(key: string, value: any) {
         let found = false
         for (let index = 0; index < this.contextKeyVal.length; index++) {
             let item = this.contextKeyVal[index]
@@ -18,12 +17,12 @@ export class ContextService {
             }
         }
 
-        if (found == false) {
+        if (!found) {
             this.contextKeyVal.push(new ContextItem(key, value))
         }
     }
 
-    getContext() : ContextItem[] {
+    getContext(): ContextItem[] {
         return this.contextKeyVal
     }
 
@@ -44,16 +43,16 @@ export class ContextService {
         }
     }
 
-    clearContext() : void {
+    clearContext(): void {
         this.contextKeyVal.length = 0
     }
 }
 
 export class ContextItem {
-    key!:string
-    value!:string
+    key!: string
+    value!: string
 
-    constructor(key:string, value:string) {
+    constructor(key: string, value: string) {
         this.key = key
         this.value = value
     }

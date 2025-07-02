@@ -1,5 +1,11 @@
 # Changes
 
+## clinguin 2.6.0
+
+  * Additions
+    * File uploading and activation form the UI
+    * New example to show files
+
 ## clinguin 2.5
 
   * Additions

@@ -24,9 +24,10 @@ from ....utils.logger import domctl_log
 from ....utils.transformer import UsesSignatureTransformer
 
 enable_python()
+
+
 # pylint: disable=attribute-defined-outside-init
-
-
+# pylint: disable=too-many-public-methods
 class ClingoBackend:
     """
     This backend contains the basic clingo functionality for a backend using clingo.
@@ -1146,11 +1147,7 @@ class ClingoBackend:
             while optimizing and not model.optimality_proven:
                 if len(model.cost) == 0:
                     self._messages.append(
-                        (
-                            "Browsing Warning",
-                            "No optimization provided",
-                            "warning",
-                        )
+                        ("Browsing Warning", "No optimization provided", "warning", 1)
                     )
                     self._logger.warning(
                         "No optimization statement provided in encoding but optimization condition provided"
@@ -1380,7 +1377,9 @@ class ClingoBackend:
         path = self._find_file_path(filename)
         if not path:
             self._logger.error(
-                f"File not found: {filename}, available files: {self._optional_files}"
+                "File not found: %s, available files: %s",
+                filename,
+                self._optional_files,
             )
             self._messages.append(("Error", f"File not found: {filename}", "danger"))
             return

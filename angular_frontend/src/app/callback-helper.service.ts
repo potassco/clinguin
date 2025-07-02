@@ -448,11 +448,15 @@ export class CallBackHelperService {
   }
 
   handleCallback(when: WhenDto, event: Event | null) {
-	let operation_string = when.operation
-	operation_string = replaceContext(operation_string)
-	operation_string = replaceDragged(operation_string, event)
-	when.operation = operation_string
-	this.frontendService.operationPost(when)
+    let operation_string = when.operation
+    operation_string = replaceContext(operation_string)
+    operation_string = replaceDragged(operation_string, event)
+    when.operation = operation_string
+    this.frontendService.operationPost(when)
+  }
+
+  handleUpdate(when: WhenDto, event: Event | null) {
+    handleUpdate(when, event)
   }
 
   setCallbacks(html: HTMLElement, dos: WhenDto[]) {

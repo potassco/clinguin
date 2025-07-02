@@ -106,7 +106,7 @@ class ClingoBackend:
             "--clingo-ctl-arg",
             action="append",
             help="""Argument that will be passed to clingo control object for the domain.
-			Should have format <name>=<value>, for example parallel-mode=2 will become --parallel-mode=2.""",
+                Should have format <name>=<value>, for example parallel-mode=2 will become --parallel-mode=2.""",
             metavar="",
         )
         parser.add_argument(
@@ -121,10 +121,10 @@ class ClingoBackend:
             "--opt-timeout",
             help=textwrap.dedent(
                 """\
-					Optional timeout for searching for optimal models.
-					The timeout is not exactly enforced (might take longer)
-					but only checked after each solution is found.
-				 """
+                    Optional timeout for searching for optimal models.
+                    The timeout is not exactly enforced (might take longer)
+                    but only checked after each solution is found.
+                 """
             ),
             type=int,
             metavar="",
@@ -1019,7 +1019,8 @@ class ClingoBackend:
         Arguments:
                 program (str): The name of the program to ground used in the #program directive
                 arguments (tuple, optional): The list of arguments to ground the program. Defaults to an empty list.
-                These are the arguments of your #program directive. For instance, in #program step(t). the argument is t.
+                These are the arguments of your #program directive.
+                For instance, in #program step(t). the argument is t.
         """
         self._ground(program, arguments)
 
@@ -1152,8 +1153,8 @@ class ClingoBackend:
                         )
                     )
                     self._logger.warning(
-                        "No optimization statement provided in encoding but optimization condition provided\
-							in 'next_solution' operation. Exiting browsing."
+                        "No optimization statement provided in encoding but optimization condition provided"
+                        " in 'next_solution' operation. Exiting browsing."
                     )
                     break
                 if (

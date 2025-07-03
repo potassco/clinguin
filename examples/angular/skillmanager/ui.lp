@@ -153,3 +153,4 @@ attr(menu_bar, icon, "fa-hand-holding-heart").
     attr(menu_bar_restart, class, "btn-outline-danger").
     attr(menu_bar_restart, class, "border-0").
     when(menu_bar_restart, click, call, restart).
+

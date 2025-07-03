@@ -66,3 +66,9 @@ attr(menu_bar, icon, "fa-table-cells").
     attr(menu_bar_next, label, "Next").
     attr(menu_bar_next, icon, "fa-forward-step").
     when(menu_bar_next, click, callback, next_solution).
+
+linked_issue((X',Y'),(X,Y)):-_clinguin_mus(sudoku(X,Y,V)), _clinguin_mus(initial(X',Y',V')).
+elem(l((X,Y),(X',Y')), line, window):- linked_issue((X,Y),(X',Y')).
+attr(l((X,Y),(X',Y')), start, pos(X,Y)):- linked_issue((X,Y),(X',Y')).
+attr(l((X,Y),(X',Y')), end, pos(X',Y')):- linked_issue((X,Y),(X',Y')).
+attr(l((X,Y),(X',Y')), color, @color(red)):- linked_issue((X,Y),(X',Y')).

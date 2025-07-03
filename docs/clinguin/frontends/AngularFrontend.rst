@@ -729,12 +729,12 @@ All the attributes of the `LeaderLine` can be used to customize the appearance a
 
 	.. code-block:: prolog
 
-		elem(b1, button, w).
-		elem(b2, button, w).
-		elem(l, line, w).
+        elem(b1, button, w).
+        elem(b2, button, w).
+        elem(l, line, w).
         attr(l, start, b1).
         attr(l, end, b2).
-		elem(b1, color, @color(blue)).
+        elem(b1, color, @color(blue)).
 
 
 

@@ -26,3 +26,4 @@
    sudoku_basic
    sudoku_advanced
    jobshop
+   skillmanager

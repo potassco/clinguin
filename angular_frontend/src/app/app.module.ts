@@ -25,6 +25,7 @@ import { CollapseComponent } from './collapse/collapse.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { FileInputComponent } from './file-input/file-input.component';
+import { LineComponent } from './line/line.component';
 
 function initialize() {
   return (): Promise<boolean> => {
@@ -57,7 +58,8 @@ export function appConfigInit(appConfigService: ConfigService) {
 	CollapseComponent,
  	SidebarComponent,
   TabsComponent,
-  FileInputComponent
+  FileInputComponent,
+  LineComponent
   ],
   imports: [
     BrowserModule,

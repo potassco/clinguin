@@ -15,74 +15,83 @@ $light: #F4F5F7;
 @import 'bootstrap/scss/bootstrap';
 
 .myspinner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    opacity: 70%;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: flex;
-    justify-content: end;
-    align-items: end;
+	position: fixed;
+	top: 0;
+	left: 0;
+	opacity: 70%;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	display: flex;
+	justify-content: end;
+	align-items: end;
 }
 
 .my-drop-target {
-    filter: opacity(0.5);
+	filter: opacity(0.5);
 }
 
 .my-drop-valid-target {
-    border-style: dashed !important;
-    border-color: black !important;
-    border-width: thin !important;
+	border-style: dashed !important;
+	border-color: black !important;
+	border-width: thin !important;
 }
 
 .my-drag-target {
-    filter: opacity(0.2);
+	filter: opacity(0.2);
 }
-  
-  body.has-sidebar-pinned {
+
+body.has-sidebar-pinned {
 	overflow-x: hidden;
-	
+
 	&.sidebar-position-start {
-	  .navbar.fixed-top {
-		width: calc(100% - var(--sidebar-width));
-		margin-left: var(--sidebar-width);
-		padding-left: 0 !important;
-	  }
+		.navbar.fixed-top {
+			width: calc(100% - var(--sidebar-width));
+			margin-left: var(--sidebar-width);
+			padding-left: 0 !important;
+		}
 
-	  .navbar-brand {
-		margin-left: 1rem;
-	  }
+		.navbar-brand {
+			margin-left: 1rem;
+		}
 
-	  .d-flex {
-		max-width: 100%;
-	  }
+		.d-flex {
+			max-width: 100%;
+		}
 	}
-	
+
 	&.sidebar-position-end {
-	  .navbar.fixed-top {
-		width: calc(100% - var(--sidebar-width));
-		margin-right: var(--sidebar-width);
-		padding-right: 0 !important;
-	  }
+		.navbar.fixed-top {
+			width: calc(100% - var(--sidebar-width));
+			margin-right: var(--sidebar-width);
+			padding-right: 0 !important;
+		}
 
-	  .navbar-brand {
-		margin-right: 1rem;
-	  }
+		.navbar-brand {
+			margin-right: 1rem;
+		}
 
-	  .d-flex {
-		max-width: 100%;
-	  }
+		.d-flex {
+			max-width: 100%;
+		}
 	}
-  }
-  
+}
+
 
 .offcanvas-sidebar {
+
 	&.pinned .offcanvas-body,
-	&.pinned .offcanvas-body > .child-container,
-	&.pinned .offcanvas-body > .child-container > *:first-child {
-	  padding-top: 0 !important;
-	  margin-top: 0 !important;
+	&.pinned .offcanvas-body>.child-container,
+	&.pinned .offcanvas-body>.child-container>*:first-child {
+		padding-top: 0 !important;
+		margin-top: 0 !important;
 	}
-  }
+}
+
+body {
+	position: relative;
+}
+
+.leader-line {
+	z-index: 1040;
+}

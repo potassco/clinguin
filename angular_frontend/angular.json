@@ -32,7 +32,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/leader-line/leader-line.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -95,7 +97,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "https://cdn.jsdelivr.net/npm/leader-line"
+            ]
           }
         }
       }

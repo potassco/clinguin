@@ -13,6 +13,8 @@ import { CollapseComponent } from './collapse/collapse.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { FileInputComponent } from './file-input/file-input.component';
+import { LineComponent } from './line/line.component';
+
 
 
 @Injectable({
@@ -35,10 +37,11 @@ export class ComponentCreationService {
       { key: "modal", value: ModalComponent },
       { key: "progress_bar", value: ProgressBarComponent },
       { key: "checkbox", value: CheckboxComponent },
-	  { key: "collapse", value: CollapseComponent },
-	  { key: "sidebar", value: SidebarComponent },
-	  { key: "tabs", value: TabsComponent },
-	  { key: "file_input", value: FileInputComponent },
+      { key: "collapse", value: CollapseComponent },
+      { key: "sidebar", value: SidebarComponent },
+      { key: "tabs", value: TabsComponent },
+      { key: "file_input", value: FileInputComponent },
+      { key: "line", value: LineComponent },
 
     ]
 
@@ -53,7 +56,6 @@ export class ComponentCreationService {
       console.log("Could not associate component key with an component: " + key)
       //throw new Error("Could not associate component key with an component: " + key)
     }
-
 
     return component
   }

@@ -573,6 +573,171 @@ It behaves like a normal button that will show and hide content when clicked. Un
 		attr(c, label, "Collapse").
 		elem(b1, button, c).
 
+
+
+``line``
+.............
+
+A line between two element. The line is created using the `LeaderLine <https://anseki.github.io/leader-line/#options>`_ tool.
+It can be used to add a visual connection between two elements in the UI.
+All the attributes of the `LeaderLine` can be used to customize the appearance and behavior of the line, check their documentation for more details.
+
+**Attributes**
+
+:ref:`Class <Class>`,
+:ref:`Visibility <Visibility>`,
+:ref:`Order <Order>`,
+:ref:`Child layout <Child layout>`,
+:ref:`Direction <Direction>`,
+
+``start``
+	*Description*: The element where the line starts.
+
+	*Values*: The identifier of the element
+
+``end``
+    *Description*: The element where the line ends.
+
+    *Values*: The identifier of the element
+
+``color``
+    *Description*: The color of the line.
+    *Values*: Color. Can be a color name (e.g., "red", "blue") or a hex code (e.g., "#FF0000", "#0052CC"). Defaults to "#0052CC". Use ``@color`` directive to use the color pallet for clinguin.
+
+``size``
+    *Description*: The size of the line.
+    *Values*: Integer. Defaults to 2.
+
+``path``
+    *Description*: The path of the line. It can be "arc", "straight", or "fluid".
+    *Values*: String. Defaults to "arc".
+
+``startSocket``
+    *Description*: The identifier of the starting socket for the line.
+    *Values*: String. Defaults to "".
+
+``endSocket``
+    *Description*: The identifier of the ending socket for the line.
+    *Values*: String. Defaults to "".
+
+``startSocketGravity``
+    *Description*: The gravity or pull at the starting socket, affecting line curvature.
+    *Values*: Number. Defaults to 0.
+
+``endSocketGravity``
+    *Description*: The gravity or pull at the ending socket, affecting line curvature.
+    *Values*: Number. Defaults to 0.
+
+``startPlug``
+    *Description*: The type of plug at the start of the line.
+    *Values*: String. Defaults to "".
+
+``endPlug``
+    *Description*: The type of plug at the end of the line.
+    *Values*: String. Defaults to "".
+
+``startPlugColor``
+    *Description*: The color of the plug at the start of the line.
+    *Values*: String representing a color code. Defaults to "".
+
+``endPlugColor``
+    *Description*: The color of the plug at the end of the line.
+    *Values*: String representing a color code. Defaults to "".
+
+``startPlugSize``
+    *Description*: The size of the plug at the start of the line.
+    *Values*: Number. Defaults to 2.
+
+``endPlugSize``
+    *Description*: The size of the plug at the end of the line.
+    *Values*: Number. Defaults to 2.
+
+``outline``
+    *Description*: Whether the line has an outline.
+    *Values*: Boolean. Defaults to false.
+
+``outlineColor``
+    *Description*: The color of the line's outline.
+    *Values*: String representing a color code. Defaults to "".
+
+``outlineSize``
+    *Description*: The thickness of the line's outline.
+    *Values*: Number. Defaults to 1.
+
+``startPlugOutline``
+    *Description*: Whether the start plug has an outline.
+    *Values*: Boolean. Defaults to false.
+
+``endPlugOutline``
+    *Description*: Whether the end plug has an outline.
+    *Values*: Boolean. Defaults to false.
+
+``startPlugOutlineSize``
+    *Description*: The thickness of the outline for the start plug.
+    *Values*: Number. Defaults to 1.
+
+``endPlugOutlineSize``
+    *Description*: The thickness of the outline for the end plug.
+    *Values*: Number. Defaults to 1.
+
+``startPlugOutlineColor``
+    *Description*: The color of the outline for the start plug.
+    *Values*: String representing a color code. Defaults to "".
+
+``endPlugOutlineColor``
+    *Description*: The color of the outline for the end plug.
+    *Values*: String representing a color code. Defaults to "".
+
+``startLabel``
+    *Description*: The label displayed at the start of the line.
+    *Values*: String. Defaults to "".
+
+``endLabel``
+    *Description*: The label displayed at the end of the line.
+    *Values*: String. Defaults to "".
+
+``middleLabel``
+    *Description*: The label displayed in the middle of the line.
+    *Values*: String. Defaults to "".
+
+``dash``
+    *Description*: Whether the line is dashed.
+    *Values*: Boolean. Defaults to false.
+
+``gradient``
+    *Description*: Whether the line uses a gradient color.
+    *Values*: Boolean. Defaults to false.
+
+``dropShadow``
+    *Description*: Whether the line has a drop shadow effect.
+    *Values*: Boolean. Defaults to false.
+
+
+
+
+
+.. important::
+	**Loops**
+
+	The start and end elements of the line must be different.
+
+
+.. admonition:: Example
+
+    In this example a ``line`` between button ``b1`` and button ``b2``. In this case we use ``@color(blue)`` to set the color of the line using the `@color` directive
+    from the :ref:`ClingraphContext`.
+
+	.. code-block:: prolog
+
+		elem(b1, button, w).
+		elem(b2, button, w).
+		elem(l, line, w).
+        attr(l, start, b1).
+        attr(l, end, b2).
+		elem(b1, color, @color(blue)).
+
+
+
 Atributes
 +++++++++
 

@@ -32,6 +32,7 @@ export class DrawFrontendService {
     menuBar: Subject<ElementDto> = new Subject()
     messageLists: Subject<ElementDto[]> = new Subject()
     contextMenus: Subject<ElementDto[]> = new Subject()
+    lines: any[] = [];  // <-- Use an array for tracking LeaderLine instances
 
     lastData: ElementDto | null = null
 
@@ -73,6 +74,11 @@ export class DrawFrontendService {
         let context = this.contextService.getContext()
         let loader = document.getElementById("loader")
         loader?.removeAttribute("hidden")
+        for (const line of this.lines) {
+            line.remove();
+        }
+        this.lines = [];
+
 
         let errorIcon = document.getElementById("error")
 

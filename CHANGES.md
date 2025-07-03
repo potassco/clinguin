@@ -1,5 +1,10 @@
 # Changes
 
+## clinguin 2.6.1
+
+  * Additions
+    * Line component
+
 ## clinguin 2.6.0
 
   * Additions

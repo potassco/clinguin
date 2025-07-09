@@ -21,6 +21,8 @@ export class CollapseComponent implements OnInit {
 
   isCollapsed = true;
   label: string = "";
+  collapsedIcon: string = "";
+  expandedIcon: string = "";
   initialRender = true;
 
   // Icons
@@ -107,6 +109,8 @@ export class CollapseComponent implements OnInit {
 
   setAttributes(attributes: AttributeDto[], overWriteCache: boolean = false): void {
     this.label = this.attributeService.findGetAttributeValue("label", attributes, "");
+    this.collapsedIcon = this.attributeService.findGetAttributeValue("collapsedIcon", attributes, this.defaultCollapsedIcon);
+    this.expandedIcon = this.attributeService.findGetAttributeValue("expandedIcon", attributes, this.defaultExpandedIcon);
 
     // Only use attribute collapsed state if not already loaded from storage or if overWriteCache is true
     if (overWriteCache || !CollapseComponent.stateCache.has(this.cacheKey)) {
@@ -155,7 +159,7 @@ export class CollapseComponent implements OnInit {
 
     const htmlIconCollapse = this.iconCollapse.nativeElement;
     htmlIconCollapse.className = "icon ms-2 fa";
-    htmlIconCollapse.classList.add(this.isCollapsed ? this.defaultCollapsedIcon : this.defaultExpandedIcon);
+    htmlIconCollapse.classList.add(this.isCollapsed ? this.collapsedIcon : this.expandedIcon);
 
     const htmlIconCustom = this.icon.nativeElement;
     htmlIconCustom.className = "icon me-2 fa";

@@ -264,10 +264,45 @@ function handleUpdate(when: WhenDto, event: Event | null) {
 
       childBearerService.setChildTagAttributes(elementLookup.tagHtml, elementLookup.element)
     }
+    const drawFrontendService = LocatorService.injector.get(DrawFrontendService);
+
+    if (elementLookup.element.type === "line") {
+
+      // Find the matching line (by ID or endpoint elements)
+      const startId = elementLookup.element.attributes.find(a => a.key === 'start')?.value;
+      const endId = elementLookup.element.attributes.find(a => a.key === 'end')?.value;
+
+      const startEl = document.getElementById(startId ?? '');
+      const endEl = document.getElementById(endId ?? '');
+
+      if (startEl && endEl) {
+        for (const line of drawFrontendService.lines) {
+          if (line.start === startEl && line.end === endEl) {
+            // Prepare updated options
+            const updatedOptions: any = {};
+            for (const attr of elementLookup.element.attributes) {
+              updatedOptions[attr.key] = attr.value;
+            }
+
+            // Update the visual line
+            line.setOptions(updatedOptions);
+            line.position();
+
+            break;
+          }
+        }
+      } else {
+        console.warn("Cannot find start/end elements to update LeaderLine");
+      }
+    }
+    for (const line of drawFrontendService.lines) {
+      console.info("Updating line position for element with id: " + line.start.id + " to " + line.end.id)
+      line
+      line.position();
+    }
 
   } else {
-    console.log("COULD NOT FIND ELEMENT FOR when:" + id + "::" + key + "::" + value)
-    console.log(when)
+    console.info("COULD NOT FIND ELEMENT FOR when:" + id + "::" + key + "::" + value)
   }
 
 

@@ -58,10 +58,15 @@ export class LineComponent implements AfterViewInit {
 
   constructor(private cd: ChangeDetectorRef, private callbackService: CallBackHelperService, private attributeService: AttributeHelperService, private elementLookupService: ElementLookupService, private drawFrontendService: DrawFrontendService) { }
 
+  resizeObserver = new ResizeObserver(() => {
+    if (this.line) {
+      this.line.position(); // Recalculate the line's position on size/layout changes
+    }
+  });
+
   ngAfterViewInit(): void {
-    // Delay to ensure DOM is fully rendered
     if (this.element != null) {
-      this.setAttributes(this.element.attributes)
+      this.setAttributes(this.element.attributes);
     }
 
     setTimeout(() => {
@@ -71,11 +76,15 @@ export class LineComponent implements AfterViewInit {
       if (elementByIdStart && elementByIdEnd && elementByIdEnd !== elementByIdStart) {
         this.line = new LeaderLine(elementByIdStart, elementByIdEnd, this.options);
         this.drawFrontendService.lines.push(this.line);
-      }
-      else {
+
+        this.resizeObserver.observe(elementByIdStart);
+        this.resizeObserver.observe(elementByIdEnd);
+      } else {
         console.warn('One or both elements not found! Or both are the same');
+        console.warn('Start Element for ', this.start, ' found ', elementByIdStart);
+        console.warn('End Element for ', this.end, ' found ', elementByIdEnd);
       }
-    }, 10);
+    }, 30);
   }
 
   setAttributes(attributes: AttributeDto[]) {
@@ -84,6 +93,12 @@ export class LineComponent implements AfterViewInit {
     attributes.forEach((attr: AttributeDto) => {
       this.options[attr.key] = attr.value
     })
+    // ✅ If the line exists, apply the new options and reposition
+    if (this.line) {
+      console.log("Updating line options:", this.options);
+      this.line.setOptions(this.options);
+      this.line.position();
+    }
   }
 }
 

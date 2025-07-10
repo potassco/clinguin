@@ -14,7 +14,6 @@ from clinguin.server.application.backends.clingo_backend import (
 )
 from clinguin.utils.annotations import extends
 
-from ....utils.logger import domctl_log
 
 enable_python()
 
@@ -97,28 +96,7 @@ class ExplanationBackend(ClingoBackend):
 
         """
         self._logger.debug("Assumption transformer will process file %s", f)
-        self._assumption_transformer.process("", files=[f])
-
-    @extends(ClingoBackend)
-    def _load_and_add(self) -> None:
-        """
-        Loads domain files and atoms into the control.
-
-        This method iterates over the domain files and atoms specified in the instance and loads them into the control.
-        It raises an exception if a domain file does not exist or if there is a syntax error in the logic program file.
-
-        Overwrites by adding the rules parsed by _load_file
-
-        Raises:
-            Exception: If a domain file does not exist or if there is a syntax error in the logic program file.
-
-        See Also:
-            :func:`~_load_file`
-        """
-        super()._load_and_add()
-        transformed_program = self._assumption_transformer.parsed_prg
-        self._logger.debug(domctl_log(f'domctl.add("base", [], {transformed_program})'))
-        # self._ctl.add("base", [], transformed_program)
+        self._assumption_transformer.process_files([f])
 
     # ---------------------------------------------
     # Solving

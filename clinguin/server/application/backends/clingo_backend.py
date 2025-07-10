@@ -506,6 +506,9 @@ class ClingoBackend:
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
+            if symbol in self._externals["released"]:
+                self._externals["released"].remove(symbol)
+
         elif name == "false":
             self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, False)"))
             self._ctl.assign_external(symbol, False)
@@ -513,6 +516,9 @@ class ClingoBackend:
 
             if symbol in self._externals["true"]:
                 self._externals["true"].remove(symbol)
+
+            if symbol in self._externals["released"]:
+                self._externals["released"].remove(symbol)
 
         else:
             raise ValueError(

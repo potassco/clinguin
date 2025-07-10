@@ -49,19 +49,33 @@ export class FileInputComponent {
     }
 
     private uploadFiles(files: File[], index: number): void {
-        console.log('Uploading file:', files[index]?.name, 'Index:', index);
+        console.debug('Uploading file:', files[index]?.name, 'Index:', index);
         if (index >= files.length) return;
         const file = files[index];
+        const textExtensions = ['json', 'yml', 'yaml', 'txt', 'lp', 'csv', 'tsv', 'log', 'md'];
+        const ext = file.name.split('.').pop()?.toLowerCase();
+        const as_text = file.type.startsWith("text/") || textExtensions.includes(ext ?? '');
         const reader = new FileReader();
         reader.onload = () => {
             this.contextService.addContext('filename', file.name);
-            this.contextService.addContext('filecontent', btoa(reader.result as string));
+            // reader.readAsArrayBuffer(file)
+            if (as_text) {
+                const text = reader.result as string;
+                const base64 = btoa(text);
+                this.contextService.addContext('filecontent', base64);
+            } else {
+                const arrayBuffer = reader.result as ArrayBuffer;
+                const binary = new Uint8Array(arrayBuffer)
+                    .reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+                const base64 = btoa(binary);
+                this.contextService.addContext('filecontent', base64);
+            }
 
             const changeCallbacks = this.element.when?.filter(when => when.event === 'change') || [];
-            console.log('Change callbacks for file input:', changeCallbacks);
+            console.debug('Change callbacks for file input:', changeCallbacks);
 
             for (const changeCallback of changeCallbacks) {
-                console.log('Processing change callback for file input:', changeCallback);
+                console.debug('Processing change callback for file input:', changeCallback);
                 if (!changeCallback) {
                     this.frontendService.postMessage(
                         'No action found for file input change',
@@ -71,11 +85,11 @@ export class FileInputComponent {
 
                     if (changeCallback.interactionType === 'call') {
                         const changeCallbackCopy = { ...changeCallback };
-                        console.log('Executing change callback for file input:', changeCallbackCopy);
+                        console.debug('Executing change callback for file input:', changeCallbackCopy);
                         this.callbackHelperService.handleCallback(changeCallbackCopy, null)
 
                     } else if (changeCallback.interactionType === 'update') {
-                        console.log('Updating modal visibility for file input:', changeCallback);
+                        console.debug('Updating modal visibility for file input:', changeCallback);
                         this.callbackHelperService.handleUpdate(changeCallback, null);
                     }
                 }
@@ -85,7 +99,12 @@ export class FileInputComponent {
             }
 
         };
-        reader.readAsText(file);
+        if (as_text) {
+            reader.readAsText(file);
+        } else {
+            reader.readAsArrayBuffer(file);
+        }
+
     }
 
 

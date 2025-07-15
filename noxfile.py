@@ -1,15 +1,16 @@
+import glob
 import os
 import sys
-import glob
-import nox
 import time
+
+import nox
 
 nox.options.sessions = "lint_pylint", "typecheck", "test"
 
 EDITABLE_TESTS = True
-PYTHON_VERSIONS = None
+PYTHON_VERSIONS = ["3.11"]
 if "GITHUB_ACTIONS" in os.environ:
-    PYTHON_VERSIONS = ["3.9", "3.11"]
+    PYTHON_VERSIONS = ["3.11"]
     EDITABLE_TESTS = False
 
 
@@ -85,5 +86,7 @@ def test(session):
     coverage_files = glob.glob(".coverage*")
     if coverage_files:
         session.run("coverage", "combine", "--quiet", *coverage_files)
+
+    session.run("coverage", "html")
 
     session.run("coverage", "report", "-m", "--fail-under=100")

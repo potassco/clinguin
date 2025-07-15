@@ -3,12 +3,13 @@
 # pylint: disable=redefined-outer-name
 
 
+import logging
 import os
 import shutil
 from unittest.mock import patch
 
-import logging
 import pytest
+
 from clinguin.client import Client
 
 ANGULAR_SRC_PATH = os.path.abspath("src/clinguin/client/angular")  # Ensure absolute path
@@ -38,6 +39,7 @@ def test_build_frontend(
     """Test that the frontend builds correctly and custom files are included."""
 
     # Simulate Angular build output by manually creating `dist/browser/`
+    os.makedirs(os.path.dirname(ANGULAR_DIST_PATH), exist_ok=True)
     os.makedirs(ANGULAR_DIST_PATH, exist_ok=True)
 
     # Run the frontend build process

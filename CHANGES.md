@@ -1,5 +1,10 @@
 # Changes
 
+## clinguin 2.7.0
+
+  * Updated clingo-explaid version
+  * Fixes to Line component and reaction to events on start and end
+
 ## clinguin 2.6.1
 
   * Additions

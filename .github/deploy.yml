@@ -14,17 +14,16 @@ pip:
         python3 -m pip install --user -r .github/requirements.txt
 
 conda:
-    package_name:
-        'clinguin'
+    package_name: "clinguin"
     os:
-        - 'ubuntu-latest'
+        - "ubuntu-latest"
     channels_release:
-        - 'potassco'
-        - 'conda-forge'
+        - "potassco"
+        - "conda-forge"
     channels_dev:
-        - 'potassco/label/dev'
-        - 'potassco'
-        - 'conda-forge'
+        - "potassco/label/dev"
+        - "potassco"
+        - "conda-forge"
     version: |
         version = None
         with open('setup.cfg') as fh:
@@ -33,35 +32,35 @@ conda:
                 if m is not None:
                     version = m.group(1)
     meta:
-      url: https://github.com/potassco/{{ name }}/archive/v{{ version }}.tar.gz
-      git_url: https://github.com/potassco/{{ name }}.git
-      requirements:
-        host:
-          - python >=3.8
-          - pip
-        run:
-          - clingo>=5.6.0
-          - clorm>=1.4.1
-          - clingo-dl
-          - fastapi
-          - networkx
-          - uvicorn
-          - clingraph
-          - Pillow
-          - clingexplaid>=1.0.14
+        url: https://github.com/potassco/{{ name }}/archive/v{{ version }}.tar.gz
+        git_url: https://github.com/potassco/{{ name }}.git
+        requirements:
+            host:
+                - python >=3.8
+                - pip
+            run:
+                - clingo>=5.6.0
+                - clorm>=1.4.1
+                - clingo-dl
+                - fastapi
+                - networkx
+                - uvicorn
+                - clingraph
+                - Pillow
+                - clingexplaid>=1.3.3
 
-      build:
-        noarch: python
-        script: 'python -m pip install --no-deps --ignore-installed .'
-        entry_points:
-          -  clinguin =  clinguin:main
+        build:
+            noarch: python
+            script: "python -m pip install --no-deps --ignore-installed ."
+            entry_points:
+                - clinguin =  clinguin:main
 
-      about:
-        home: https://potassco.org/
-        license: MIT
-        license_family: MIT
-        license_file: LICENSE
-        summary: A system to build User Interfaces in ASP
+        about:
+            home: https://potassco.org/
+            license: MIT
+            license_family: MIT
+            license_file: LICENSE
+            summary: A system to build User Interfaces in ASP
 
-        doc_url: https://clinguin.readthedocs.io/en/latest/index.html
-        dev_url: https://github.com/potassco/{{ name }}
+            doc_url: https://clinguin.readthedocs.io/en/latest/index.html
+            dev_url: https://github.com/potassco/{{ name }}

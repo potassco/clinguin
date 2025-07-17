@@ -50,6 +50,7 @@ export class LineComponent implements AfterViewInit {
     middleLabel: "",
     dash: false,
     gradient: false,
+    zIndex: 99999,
     dropShadow: false,
 
   }
@@ -63,6 +64,7 @@ export class LineComponent implements AfterViewInit {
       this.line.position(); // Recalculate the line's position on size/layout changes
     }
   });
+
 
   ngAfterViewInit(): void {
     if (this.element != null) {
@@ -79,12 +81,18 @@ export class LineComponent implements AfterViewInit {
 
         this.resizeObserver.observe(elementByIdStart);
         this.resizeObserver.observe(elementByIdEnd);
+        if (this.element != null) {
+          this.elementLookupService.addElementObject(this.element.id, this, this.element);
+          this.callbackService.setCallbacks(elementByIdEnd, this.element.when)
+          this.callbackService.setCallbacks(elementByIdStart, this.element.when)
+        }
       } else {
         console.warn('One or both elements not found! Or both are the same');
         console.warn('Start Element for ', this.start, ' found ', elementByIdStart);
         console.warn('End Element for ', this.end, ' found ', elementByIdEnd);
       }
     }, 30);
+
   }
 
   setAttributes(attributes: AttributeDto[]) {

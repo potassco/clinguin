@@ -93,5 +93,7 @@ body {
 }
 
 .leader-line {
-	z-index: 1040;
+	pointer-events: none;
+	position: absolute !important;
+	z-index: 99999 !important;
 }

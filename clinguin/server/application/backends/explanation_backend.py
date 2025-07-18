@@ -76,6 +76,7 @@ class ExplanationBackend(ClingoBackend):
         """
         super()._create_ctl()
         filters = {FilterSignature(s, a) for s, a in self._assumption_sig}
+        # pylint: disable=attribute-defined-outside-init
         self._assumption_transformer = AssumptionPreprocessor(
             control=self._ctl,
             filters=filters,
@@ -112,9 +113,9 @@ class ExplanationBackend(ClingoBackend):
         """
         super()._ground(program, arguments)
         # pylint: disable= attribute-defined-outside-init
-        self._assumptions_from_signature = [
-            a for a in list(self._assumption_transformer.assumptions)
-        ]
+        self._assumptions_from_signature = list(
+            self._assumption_transformer.assumptions
+        )
 
     # ---------------------------------------------
     # Class methods

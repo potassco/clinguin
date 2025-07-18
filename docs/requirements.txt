@@ -14,6 +14,6 @@ nbsphinx>=0.8.8
 jinja2>=3.0.3
 clingo-dl
 furo
-clingexplaid>=1.3.3
+clingexplaid>=1.3.4
 sphinxemoji
 myst_parser

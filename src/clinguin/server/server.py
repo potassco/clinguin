@@ -6,17 +6,17 @@ import time
 import traceback
 import uuid
 from types import SimpleNamespace
-
-from typing import Callable, Coroutine, Any
-from fastapi.responses import JSONResponse
+from typing import Any, Callable, Coroutine, Optional
 
 import uvicorn
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
 from clinguin.utils.errors import get_server_error_alert
-from ..utils.logging import configure_logging, colored
+
+from ..utils.logging import colored, configure_logging
 
 log = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class Server:
         port: int = 8000,
         host: str = "127.0.0.1",
         multi: bool = False,
-        log_level: int | None = None,
+        log_level: Optional[int] = None,
     ):
         """Initialize the server with the given port and host.
         Args:
@@ -137,7 +137,7 @@ class Server:
 
         # Get the session ID from the request headers
         session = self.get_session_from_request(fastapi_request)
-        backend = self.get_backend(session)
+        self.get_backend(session)
 
         # TODO call actual operation
         # Example operation handling

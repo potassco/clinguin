@@ -2,19 +2,18 @@
 
 # pylint: disable=redefined-outer-name
 
-import atexit
 import asyncio
+import atexit
 import json
+import logging
 import multiprocessing
 import os
 import signal
 import sys
 import time
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Generator
-from pathlib import Path
-
-import logging
 
 import httpx
 import pytest
@@ -236,3 +235,30 @@ async def test_websocket_disconnect():
 
         # The new session should be different if the old one was removed properly
         assert data["session_id"] != data2["session_id"]
+
+
+@pytest.mark.asyncio
+async def test_multi_backend_mode():
+    """Test that multi=True creates separate backend instances per session."""
+    # Create server with multi=True
+    server = Server(
+        backend_class=ClingoBackend,
+        backend_args=ClingoBackend.args_class.from_args(backend_args),
+        port=8001,  # different port
+        host="127.0.0.1",
+        multi=True,
+        log_level=logging.INFO,
+    )
+
+    # Test that different sessions get different backends
+    backend1 = server.get_backend("session1")
+    backend2 = server.get_backend("session2")
+
+    # Should be different instances
+    assert backend1 is not backend2
+    assert "session1" in server.backends
+    assert "session2" in server.backends
+
+    # Test that same session gets same backend
+    backend1_again = server.get_backend("session1")
+    assert backend1 is backend1_again

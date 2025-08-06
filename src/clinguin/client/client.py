@@ -1,16 +1,18 @@
 """Client module for serving the Angular frontend."""
 
+import importlib
 import logging
 import os
 import shutil
 import subprocess
 import sys
 from typing import Optional
-import importlib
 
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+
+import clinguin
 
 from ..utils.logging import configure_logging
 

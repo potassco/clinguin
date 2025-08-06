@@ -5,7 +5,7 @@ This module contains utility functions for text manipulation.
 import base64
 
 
-def parse_string_with_quotes(text):
+def parse_string_with_quotes(text: str) -> str:
     """
     Parses a string with quotes inside and returns the string without quotes.
     Additionally it correctly parses newlines to ''correct'' newlines.
@@ -22,7 +22,7 @@ def parse_string_with_quotes(text):
     return text
 
 
-def image_to_b64(img):
+def image_to_b64(img: bytes) -> str:
     """
     Encodes an image in base 64
     """

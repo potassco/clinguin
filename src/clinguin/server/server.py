@@ -6,17 +6,17 @@ import time
 import traceback
 import uuid
 from types import SimpleNamespace
-
-from typing import Callable, Coroutine, Any
-from fastapi.responses import JSONResponse
+from typing import Any, Callable, Coroutine, Dict, Optional, Union
 
 import uvicorn
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
 from clinguin.utils.errors import get_server_error_alert
-from ..utils.logging import configure_logging, colored
+
+from ..utils.logging import colored, configure_logging
 
 log = logging.getLogger(__name__)
 
@@ -33,12 +33,12 @@ class Server:
 
     def __init__(
         self,
-        backend_class: ClingoBackend,
+        backend_class: "ClingoBackend",
         backend_args: SimpleNamespace,
         port: int = 8000,
         host: str = "127.0.0.1",
         multi: bool = False,
-        log_level: int | None = None,
+        log_level: Optional[int] = None,
     ):
         """Initialize the server with the given port and host.
         Args:
@@ -107,7 +107,7 @@ class Server:
 
     # ---------- HTTP endpoints ----------
 
-    async def get_info(self, fastapi_request: Request) -> dict[str, int | str]:
+    async def get_info(self, fastapi_request: Request) -> Dict[str, Union[int, str]]:
         """Retrieve server status or session information."""
         session = self.get_session_from_request(fastapi_request)
         backend = self.get_backend(session)
@@ -125,7 +125,7 @@ class Server:
             response.update(get_server_error_alert(str(e), self.last_response))
         return JSONResponse(content=response)
 
-    async def execute_operation(self, request_body: OperationRequest, fastapi_request: Request) -> dict[str, Any]:
+    async def execute_operation(self, request_body: OperationRequest, fastapi_request: Request) -> Dict[str, Any]:
         """Execute an operation provided by the client."""
 
         if request_body.client_version < self.version:
@@ -137,7 +137,7 @@ class Server:
 
         # Get the session ID from the request headers
         session = self.get_session_from_request(fastapi_request)
-        backend = self.get_backend(session)
+        self.get_backend(session)
 
         # TODO call actual operation
         # Example operation handling
@@ -174,7 +174,7 @@ class Server:
             await websocket.send_json({"error": str(e)})
             del self.sessions[session_id]
 
-    async def notify_clients(self, exclude_session_id: str | None = None) -> None:
+    async def notify_clients(self, exclude_session_id: Optional[str] = None) -> None:
         """Notify all connected clients of a version update in single-backend mode."""
         log.info("Notifying clients of version update")
         disconnected_sessions: list[str] = []

@@ -5,16 +5,15 @@ The command line parser for the project.
 import importlib
 import os
 import re
-
-from argparse import ArgumentParser, _SubParsersAction
 import sys
-from typing import Any, Optional, cast, Dict, Set, List, Type
+from argparse import ArgumentParser, _SubParsersAction
+from typing import Any, Dict, List, Optional, Set, Type, cast
 
-from rich_argparse import ArgumentDefaultsRichHelpFormatter
 from rich.text import Text
+from rich_argparse import ArgumentDefaultsRichHelpFormatter
 
-from . import logging
 from ..server.backends.clingo_backend import ClingoBackend
+from . import logging
 
 __all__ = ["get_parser"]
 
@@ -26,7 +25,7 @@ ascii_art_clinguin = Text(
  | (__  | | | | | | | | | (_| | | |_| | | | | | | |
   \___| |_| |_| |_| |_|  \__, |  \__,_| |_| |_| |_|
                          |___/
-    """,
+            """,
     no_wrap=True,
     justify="left",
 )

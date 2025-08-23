@@ -283,6 +283,7 @@ class ClingoBackend:
         self._constants = {}
         if self._args.const is not None:
             for c in self._args.const:
+                c = c.strip(" ")
                 if "=" not in c:
                     raise ValueError("Invalid constant format. Expected name=value.")
                 name, value = c.split("=")
@@ -462,10 +463,12 @@ class ClingoBackend:
                 name (str): name of the constant
                 value (Any): value of the constant
         """
+        print(self._constants)
         name = name.strip('"')
-        self._constants[name] = value
         value = str(value).strip('"')
         self._constants[name] = value
+        print(self._constants)
+
         self._logger.debug("Constant %s updated successfully to %s", name, value)
 
     def _add_atom(self, predicate_symbol):
@@ -1215,6 +1218,8 @@ class ClingoBackend:
         if atom_symbol not in [a[0] for a in self._assumptions]:
             self._add_assumption(atom_symbol, value)
             self._outdate()
+        else:
+            self._logger.warning("Assumption already exists. Not adding it again.")
 
     def remove_assumption(self, atom):
         """

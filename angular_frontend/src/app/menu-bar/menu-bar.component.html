@@ -1,27 +1,21 @@
 <nav #navbarElement class="navbar navbar-expand navbar-light justify-content-between bg-light fixed-top">
-	<div class="container-fluid">
+  <div class="container-fluid">
     <a class="navbar-brand text-dark d-flex align-items-center">
-      <i #titleIcon class="me-2"></i>
+      <i #titleIcon class="me-2 mt-1"></i>
       <span class="brand-text">{{title}}</span>
     </a>
-	<button class="navbar-toggler d-lg-none" 
-            type="button" 
-            [attr.aria-expanded]="!isCollapsed"
-            (click)="isCollapsed = !isCollapsed">
+    <button class="navbar-toggler d-lg-none" type="button" [attr.aria-expanded]="!isCollapsed"
+      (click)="isCollapsed = !isCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
-	<div class="navbar-collapse" 
-         [class.collapse]="isCollapsed" 
-         [class.show]="!isCollapsed">
-	<div class="navbar-nav ms-auto d-flex flex-row flex-wrap">
-        <button *ngFor="let button of menuBarButtons" 
-                type="button" 
-                [id]="button.id" 
-                class="btn btn-sm mx-1 my-1 navbar-btn">
+    <div class="navbar-collapse" [class.collapse]="isCollapsed" [class.show]="!isCollapsed">
+      <div class="navbar-nav ms-auto d-flex flex-row flex-wrap">
+        <button *ngFor="let button of menuBarButtons" type="button" [id]="button.id"
+          class="btn btn-sm mx-1 my-1 navbar-btn">
           <i #icon class="me-1"></i>
           <span class="btn-text">{{button.title}}</span>
         </button>
       </div>
     </div>
-	</div>
-  </nav>
+  </div>
+</nav>

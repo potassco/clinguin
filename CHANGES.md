@@ -1,5 +1,10 @@
 # Changes
 
+## clinguin 2.7.1
+
+  * Added a backend for clingcon
+  * Small fixes to layout
+
 ## clinguin 2.7.0
 
   * Updated clingo-explaid version

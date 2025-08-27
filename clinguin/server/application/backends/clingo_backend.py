@@ -603,7 +603,12 @@ class ClingoBackend:
             self._ui_files, domain_state, self._constants_argument_list
         )
         self._ui_state.update_ui_state()
-        self._ui_state.replace_images_with_b64()
+        # start_time = time.time()
+        # self._ui_state.replace_images_with_b64()
+        # elapsed_time = time.time() - start_time
+        # self._logger.info(
+        #     "Time to replace images with base64: %.4f seconds", elapsed_time
+        # )
         for m in self._messages:
             self._ui_state.add_message(m[0], m[1], m[2])
         self._messages = []
@@ -701,7 +706,11 @@ class ClingoBackend:
         ds = ""
         for f in self._domain_state_constructors:
             ds += f"\n%%%%%%%% {f} %%%%%%%\n"
-            ds += getattr(self, f)
+            start_time = time.time()
+            result = getattr(self, f)
+            elapsed_time = time.time() - start_time
+            self._logger.info("Time to compute %s: %.4f seconds", f, elapsed_time)
+            ds += result
         return ds
 
     @property
@@ -711,31 +720,29 @@ class ClingoBackend:
 
         Some domain state constructors might skip the computation if the UI does not require them.
         """
+        start_time = time.time()
         ds = {}
         for f in self._domain_state_constructors:
             prg = getattr(self, f)
-            ctl = Control(["0"])
-            ctl.add("base", [], prg)
-            ctl.ground([("base", [])])
-            symbols = []
-            with ctl.solve(yield_=True) as handle:
-                for m in handle:
-                    symbols = [str(a).replace('"', "'") for a in m.symbols(shown=True)]
-            ds[f] = symbols
+            ds[f] = prg.split(".\t")
+        elapsed_time = time.time() - start_time
+        self._logger.info(
+            "Time to compute domain state dict: %.4f seconds", elapsed_time
+        )
         return ds
 
     @property
     def _ds_files(self):
         """Domain state for file management"""
-        prg = "#defined _clinguin_optional_file/1. #defined _clinguin_active_file/1. "
+        prg = "#defined _clinguin_optional_file/1.\t#defined _clinguin_active_file/1.\t"
 
         # Optional files
         for filepath in self._optional_files:
             name = Path(filepath).name
-            prg += f'_clinguin_optional_file("{name}"). '
+            prg += f'_clinguin_optional_file("{name}").\t'
 
         for name in self._uploaded_files:
-            prg += f'_clinguin_optional_file("{name}"). '
+            prg += f'_clinguin_optional_file("{name}").\t'
 
         # Active files
         for filepath in self._active_files:
@@ -743,7 +750,7 @@ class ClingoBackend:
                 name = next(k for k, v in self._uploaded_files.items() if v == filepath)
             else:
                 name = Path(filepath).name
-            prg += f'_clinguin_active_file("{name}"). '
+            prg += f'_clinguin_active_file("{name}").\t'
 
         return prg + "\n"
 
@@ -756,7 +763,7 @@ class ClingoBackend:
 
         Includes predicate  ``_clinguin_context/2`` indicating each key and value in the context.
         """
-        prg = "#defined _clinguin_context/2. "
+        prg = "#defined _clinguin_context/2.\t"
         for a in self._context:
             value = str(a.value)
             try:
@@ -765,7 +772,7 @@ class ClingoBackend:
                 symbol = None
             if symbol is None:
                 value = f'"{value}"'
-            prg += f"_clinguin_context({str(a.key)},{value})."
+            prg += f"_clinguin_context({str(a.key)},{value}).\t"
         return prg + "\n"
 
     @cached_property
@@ -800,16 +807,16 @@ class ClingoBackend:
                 )
                 return (
                     self._backup_ds_cache["_ds_model"]
-                    + "\n".join([str(a) + "." for a in self._atoms])
+                    + "\t".join([str(a) + "." for a in self._atoms])
                     if "_ds_model" in self._backup_ds_cache
                     else ""
                 )
             self._model = symbols
 
         tagged = (
-            " ".join(["_clinguin_model(" + str(s) + ")." for s in self._model]) + "\n"
+            " ".join(["_clinguin_model(" + str(s) + ").\t" for s in self._model]) + "\n"
         )
-        return " ".join([str(s) + "." for s in self._model]) + "\n" + tagged
+        return "\t".join([str(s) + "." for s in self._model]) + "\n" + tagged
 
     @cached_property
     def _ds_brave(self):
@@ -1009,9 +1016,13 @@ class ClingoBackend:
         This method will be automatically called after executing all the operations.
         """
         self._update_ui_state()
+
+        start_time = time.time()
         json_structure = StandardJsonEncoder.encode(
             self._ui_state, self._domain_state_dict
         )
+        elapsed_time = time.time() - start_time
+        self._logger.info("Time to encode JSON: %.4f seconds", elapsed_time)
         return json_structure
 
     def restart(self):

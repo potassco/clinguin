@@ -5,6 +5,7 @@ Module that contains the UI State class.
 import logging
 import os
 from pathlib import Path
+import time
 
 import clorm
 from clingo import Control, parse_term
@@ -102,19 +103,28 @@ class UIState:
         Computes the answer set representing the UI state
         """
         log.debug("Computing UI state\n")
+        start_time = time.time()
         uictl = self.ui_control()
+        elapsed_time = time.time() - start_time
+        log.info("Time to create and ground UI control: %.4f seconds", elapsed_time)
 
         defined = False
         log.debug(uictl_log("uictl.solve(yield_=True)"))
+        start_time = time.time()
         with uictl.solve(yield_=True) as result:
             for m in result:
                 model_symbols = m.symbols(shown=True, atoms=True)
                 defined = True
                 break
+        elapsed_time = time.time() - start_time
+        log.info("Time to solve UI state: %.4f seconds", elapsed_time)
         if not defined:
             log.critical("UI encoding was UNSATISFIABLE")
             raise RuntimeError("UI encoding was UNSATISFIABLE")
+        start_time = time.time()
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
+        elapsed_time = time.time() - start_time
+        log.info("Time to unify UI state: %.4f seconds", elapsed_time)
         # log.debug(uictl_log(". ".join([str(s) for s in model_symbols])))
         # log.debug(uictl_log(self._factbase.asp_str(width=100000, commented=True)))
 

@@ -3,6 +3,7 @@ Module which contains the StandardJsonEncoder
 """
 
 import logging
+import time
 
 import networkx as nx
 
@@ -56,6 +57,7 @@ class StandardJsonEncoder:
         dependency = []
         elements_info = {}
 
+        start_time = time.time()
         for w in ui_state.get_elements():
             elements_info[w.id] = {"parent": w.parent, "type": w.type}
             dependency.append((w.id, w.parent))
@@ -68,15 +70,27 @@ class StandardJsonEncoder:
                     str(w.parent),
                 )
                 raise Exception(msg % (str(w), str(w.parent)))
+        elapsed_time = time.time() - start_time
+        logger.info("  Encoder Time to get elements info: %.4f seconds", elapsed_time)
 
+        start_time = time.time()
         directed_graph = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(directed_graph))))
+        elapsed_time = time.time() - start_time
+        logger.info("  Encoder Time to order elements: %.4f seconds", elapsed_time)
 
+        start_time = time.time()
         attrs = ui_state.get_attributes_grouped()
         attrs = {a[0]: list(a[1]) for a in attrs}
         cbs = ui_state.get_callbacks_grouped()
         cbs = {a[0]: list(a[1]) for a in cbs}
+        elapsed_time = time.time() - start_time
+        logger.info(
+            "  Encoder Time to group attributes and callbacks: %.4f seconds",
+            elapsed_time,
+        )
 
+        start_time = time.time()
         for element_id in order:
             if str(element_id) == str(hierarchy_root.id):
                 continue
@@ -106,3 +120,6 @@ class StandardJsonEncoder:
 
             elements_dict[str(element_id)] = element
             elements_dict[str(element.parent)].add_child(element)
+
+        elapsed_time = time.time() - start_time
+        logger.info("  Encoder Time to create hierarchy: %.4f seconds", elapsed_time)

@@ -73,6 +73,7 @@ def main():
         server = threading.Thread(target=server_start, args=[args_copy])
 
         server.start()
+        server.join(2)
 
         client_log_dict = args_to_dict_converter(
             args_dict, timestamp, name_prefix="client_"

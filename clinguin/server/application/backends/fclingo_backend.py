@@ -2,16 +2,14 @@
 Module that contains the Clingcon Backend.
 """
 
+from clingo.ast import Location, Position, ProgramBuilder, Rule, parse_files
 from clingcon import ClingconTheory
+from fclingo import THEORY, Translator
+from fclingo.__main__ import DEF, Statistic
+from fclingo.parsing import HeadBodyTransformer
+
 from clinguin.server.application.backends.theory_backend import TheoryBackend
 from clinguin.utils.annotations import extends
-from clinguin.server.application.backends.clingo_backend import ClingoBackend
-from clingo.ast import ProgramBuilder, parse_files
-from clingo.ast import Location, Position, ProgramBuilder, Rule, parse_string
-
-from fclingo import THEORY, Translator
-from fclingo.__main__ import CSP, DEF, Statistic
-from fclingo.parsing import HeadBodyTransformer
 
 
 class Config:
@@ -22,7 +20,7 @@ class Config:
         self.defined = defined
 
 
-class FclingoBackend(TheoryBackend):
+class F(TheoryBackend):
     """
     Backend that allows programs using fclingo theory atoms as input.
     It also includes the assignment in the domain state.

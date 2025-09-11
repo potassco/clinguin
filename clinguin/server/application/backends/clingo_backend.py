@@ -463,11 +463,9 @@ class ClingoBackend:
                 name (str): name of the constant
                 value (Any): value of the constant
         """
-        print(self._constants)
         name = name.strip('"')
         value = str(value).strip('"')
         self._constants[name] = value
-        print(self._constants)
 
         self._logger.debug("Constant %s updated successfully to %s", name, value)
 

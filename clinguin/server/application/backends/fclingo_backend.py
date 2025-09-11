@@ -20,7 +20,7 @@ class Config:
         self.defined = defined
 
 
-class F(TheoryBackend):
+class FclingoBackend(TheoryBackend):
     """
     Backend that allows programs using fclingo theory atoms as input.
     It also includes the assignment in the domain state.

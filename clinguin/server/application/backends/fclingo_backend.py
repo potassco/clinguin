@@ -12,7 +12,12 @@ from clinguin.server.application.backends.theory_backend import TheoryBackend
 from clinguin.utils.annotations import extends
 
 
+# pylint: disable=too-few-public-methods
 class Config:
+    """
+    Configuration class for the fclingo backend.
+    """
+
     def __init__(self, max_int, min_int, print_trans, defined) -> None:
         self.max_int = max_int
         self.min_int = min_int

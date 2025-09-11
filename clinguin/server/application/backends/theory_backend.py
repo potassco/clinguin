@@ -26,7 +26,7 @@ class TheoryBackend(ClingoBackend):
     # Setups
     # ---------------------------------------------
 
-    theory_class = None  # To be defined in subclasses
+    theory_class: type = type  # To be defined in subclasses, should be a callable class
 
     @extends(ClingoBackend)
     def _init_command_line(self):

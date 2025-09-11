@@ -17,3 +17,5 @@ furo
 clingexplaid>=1.3.4
 sphinxemoji
 myst_parser
+clingcon
+fclingo @ git+https://github.com/potassco/fclingo.git@master

@@ -655,7 +655,7 @@ class ClingoBackend:
         self._prepare()
         self._logger.debug(
             domctl_log(
-                f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"
+                f"domctl.solve({[(str(a), b) for a, b in self._assumption_list]}, yield_=True)"
             )
         )
         symbols, ucore = solve(
@@ -786,7 +786,7 @@ class ClingoBackend:
             self._prepare()
             self._logger.debug(
                 domctl_log(
-                    f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"
+                    f"domctl.solve({[(str(a), b) for a, b in self._assumption_list]}, yield_=True)"
                 )
             )
 
@@ -1139,7 +1139,7 @@ class ClingoBackend:
             self._prepare()
             self._logger.debug(
                 domctl_log(
-                    f"domctl.solve({[(str(a),b) for a,b in self._assumption_list]}, yield_=True)"
+                    f"domctl.solve({[(str(a), b) for a, b in self._assumption_list]}, yield_=True)"
                 )
             )
             self._handler = self._ctl.solve(self._assumption_list, yield_=True)

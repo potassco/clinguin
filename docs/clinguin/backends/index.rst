@@ -22,3 +22,5 @@ Built-in Backends
     ClingraphBackend.rst
     ExplanationBackend.rst
     ClingoDLBackend.rst
+    ClingconBackend.rst
+    FclingoBackend.rst

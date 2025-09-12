@@ -26,6 +26,8 @@ autodoc_mock_imports = [
     "clingodl",
     "clingraph",
     "clingexplaid",
+    "clingcon",
+    "fclingo",
 ]
 
 autodoc_typehints = "none"

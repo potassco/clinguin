@@ -40,21 +40,21 @@ jobs:
 
     - name: Publish package to TestPyPI (wip)
       if: ${{ github.event.inputs.wip == 'true' }}
-      uses: pypa/gh-action-pypi-publish@master
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-        packages_dir: dist/
         repository_url: https://test.pypi.org/legacy/
 
     - name: Build source package (release)
       if: ${{ github.event.inputs.wip == 'false' }}
       run: python3 .github/pipsource.py --release
 
-    - name: Publish package to TestPyPI (release)
+
+    - name: Publish package to PyPI (release)
       if: ${{ github.event.inputs.wip == 'false'}}
-      uses: pypa/gh-action-pypi-publish@master
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN_RELEASE }}
-        packages_dir: dist/
+

@@ -43,7 +43,7 @@ copyright = "2022, Susana Hahn, Alexander Beiser"
 author = "Susana Hahn, Alexander Beiser"
 
 # The full version, including alpha/beta/rc tags
-release = "2.7.2"
+release = "2.7.3"
 
 # -- General configuration ---------------------------------------------------
 

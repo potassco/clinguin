@@ -1,6 +1,6 @@
 # Changes
 
-## clinguin 2.7.2
+## clinguin 2.7.3
 
   * Added a backend for fclingo with example
 

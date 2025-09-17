@@ -2,9 +2,10 @@
 Module that contains the Clingcon Backend.
 """
 
+import warnings
+
 from clingo.ast import Location, Position, ProgramBuilder, Rule, parse_files
 from clingcon import ClingconTheory
-import warnings
 
 
 try:

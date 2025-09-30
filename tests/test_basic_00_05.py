@@ -22,6 +22,7 @@ class TestBasic00_05:
     def test_health(self):
         uri = f"{self.uvicorn_url}/health"
         received_by_postman = json.dumps(Health.get_reference_json())
+        print(received_by_postman)
         UtilsTestUtils.assert_get_request(uri, received_by_postman)
 
     def test_basic_05(self):

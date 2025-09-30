@@ -147,7 +147,8 @@ class ClingoBackend:
 
         parser.add_argument(
             "--include-ds-in-response",
-            help="""If set, the response of the server will include the domain state as a dictionary. Setting it will impact performance.""",
+            help="""If set, the response of the server will include the domain state as a dictionary.
+            Setting it will impact performance.""",
             action="store_true",
         )
 

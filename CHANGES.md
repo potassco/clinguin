@@ -1,5 +1,11 @@
 # Changes
 
+## clinguin 2.7.4
+
+  * New flags to improve performance
+    * `--explicit-show` only shows atoms that are part of a show statement in the domain state
+  * DS state is only return in the response when explicitly requested
+
 ## clinguin 2.7.3
 
   * Added a backend for fclingo with example

@@ -31,6 +31,7 @@ class UtilsTestUtils:
             assert False
         except Exception as ex:
             print(ex)
+
             assert False
 
     @classmethod

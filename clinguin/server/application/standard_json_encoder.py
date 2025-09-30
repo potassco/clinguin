@@ -34,7 +34,8 @@ class StandardJsonEncoder:
 
         root = ElementDto("root", "root", "root")
         elements_dict[str(root.id)] = root
-
+        if not ds_dict:
+            ds_dict = {}
         cls._generate_hierarchy(ui_state, root, elements_dict)
         return {"ui": root, "ds": ds_dict}
 

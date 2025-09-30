@@ -137,6 +137,19 @@ class ClingoBackend:
             help="Optional domain files that can be activated/deactivated",
             metavar="",
         )
+        parser.add_argument(
+            "--explicit-show",
+            help="""If set, the UI encoding will only consider atoms that are shown in the domain encoding.
+            Otherwise, all atoms are considered. While this option can improve performance,
+            the user must make sure any predicate used in the UI is shown in the domain encoding.""",
+            action="store_true",
+        )
+
+        parser.add_argument(
+            "--include-ds-in-response",
+            help="""If set, the response of the server will include the domain state as a dictionary. Setting it will impact performance.""",
+            action="store_true",
+        )
 
     # ---------------------------------------------
     # Properties
@@ -294,6 +307,10 @@ class ClingoBackend:
         self._default_opt_mode = self._args.default_opt_mode
 
         self._opt_timeout = self._args.opt_timeout
+
+        self._explicit_show = self._args.explicit_show
+
+        self._include_ds_in_response = self._args.include_ds_in_response
 
     def _init_interactive(self):
         """
@@ -662,6 +679,7 @@ class ClingoBackend:
             self._ctl,
             self._assumption_list,
             self._on_model,
+            include_all_atoms=not self._explicit_show,
         )
         self._unsat_core = ucore
         if symbols is None:
@@ -790,7 +808,12 @@ class ClingoBackend:
                 )
             )
 
-            symbols, ucore = solve(self._ctl, self._assumption_list, self._on_model)
+            symbols, ucore = solve(
+                self._ctl,
+                self._assumption_list,
+                self._on_model,
+                include_all_atoms=not self._explicit_show,
+            )
             self._unsat_core = ucore
             if symbols is None:
                 self._logger.warning(
@@ -1007,9 +1030,11 @@ class ClingoBackend:
         This method will be automatically called after executing all the operations.
         """
         self._update_ui_state()
-        json_structure = StandardJsonEncoder.encode(
-            self._ui_state, self._domain_state_dict
-        )
+        ds = None
+        if self._include_ds_in_response:
+            self._logger.debug("Including domain state in response")
+            ds = self._domain_state
+        json_structure = StandardJsonEncoder.encode(self._ui_state, ds)
         return json_structure
 
     def restart(self):

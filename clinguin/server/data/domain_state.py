@@ -17,7 +17,7 @@ def tag(symbols, tag_name):
     return tagged
 
 
-def solve(ctl, assumptions, on_model=lambda m: None):
+def solve(ctl, assumptions, on_model=lambda m: None, include_all_atoms=True):
     """
     Adds information about the browsing to the domain state.
 
@@ -27,7 +27,7 @@ def solve(ctl, assumptions, on_model=lambda m: None):
         model_symbols = None
         for m in result:
             on_model(m)
-            model_symbols = m.symbols(shown=True, atoms=True, theory=True)
+            model_symbols = m.symbols(shown=True, atoms=include_all_atoms, theory=True)
         if model_symbols is None:
             return None, result.core()
     return model_symbols, None

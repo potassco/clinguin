@@ -63,6 +63,11 @@
     If you are unsure how to use a feature, you can check the :ref:`examples` section for inspiration.
     You can also use the search bar to see which examples use the feature you are interested in.
 
+.. admonition:: **Loading empty page with error**
+    :class: tip
+
+    If the page is loaded empty with the error icon. It might be the case that the encodings took to long to load. Try reloading the page.
+
 
 .. admonition:: **Long response time**
     :class: tip
@@ -79,6 +84,15 @@
         This will make the server stop searching for models with a better cost after ``10`` seconds. Note that the response time might be longer than this timeout
         if the solver is already searching when the timeout is reached. If you pass a timeout of ``0``, the server will only get the first model; you can then keep calling the operation ``next_solution(optN)`` to improve the cost, one at a time.
         Check out the `placement example <https://github.com/potassco/clinguin/tree/master/examples/angular/placement>`_.
+
+    *Show statements*
+        Another reason for a long response time is that the problem is very large and there is an overhead of atoms in the domain state that are not needed but slow down creating the UI state.
+        This is the case because in clinguin, by default, we show all atoms that are part of the answer set so that they can be used in the UI encoding.
+        This can be done differently by adding ``#show`` statements to your :ref:`domain-files` to only show the atoms that are relevant for your UI and also passing the flag ``--explicit-show`` in the command line.
+        Notice that any atom that is not shown will not be part of the :ref:`domain-state` and thus cannot be used in the UI encoding.
+
+
+
 
 
 .. admonition:: **Can't manage to place or style things in my UI**

@@ -1142,14 +1142,19 @@ class ClingoBackend:
             self._ground()
             self._outdate()
 
-    def next_solution(self, opt_mode="ignore"):
+    def next_solution(self, opt_mode="ignore", opt_timeout=None):
         """
         Obtains the next solution. If a no browsing has been started yet, then it calls solve,
         otherwise it iterates the models in the last call. To keep the atoms shown in the solution, use :func:`~select`.
 
         Arguments:
                 opt_mode: The clingo optimization mode, bu default is 'ignore', to browse only optimal models use 'optN'
+                opt_timeout: The timeout in seconds to find an optimal solution. If not provided, the default timeout
+                        provided in the command line is used. If no timeout is provided, it will wait until an optimal
+                        solution is found. Otherwise, if the timeout is reached, it will return the current solution
+                        without proving optimality.
         """
+        opt_timeout = int(opt_timeout) if opt_timeout is not None else None
         if self._ctl.configuration.solve.opt_mode != opt_mode:
             self._logger.debug("Ended browsing since opt mode changed")
             self._outdate()
@@ -1176,7 +1181,9 @@ class ClingoBackend:
             model = next(self._iterator)
             self._clear_cache(["_ds_model"])
             self._on_model(model)
-            self._model = model.symbols(shown=True, atoms=True, theory=True)
+            self._model = model.symbols(
+                shown=True, atoms=not self._explicit_show, theory=True
+            )
             while optimizing and not model.optimality_proven:
                 if len(model.cost) == 0:
                     self._messages.append(
@@ -1187,10 +1194,8 @@ class ClingoBackend:
                         " in 'next_solution' operation. Exiting browsing."
                     )
                     break
-                if (
-                    self._opt_timeout is not None
-                    and time.time() - start > self._opt_timeout
-                ):
+                timeout = opt_timeout if opt_timeout is not None else self._opt_timeout
+                if timeout is not None and time.time() - start > timeout:
                     self._logger.warning(
                         "Timeout for finding optimal model was reached. Returning model without proving optimality."
                     )
@@ -1200,7 +1205,9 @@ class ClingoBackend:
                 self._clear_cache(["_ds_model"])
                 self._on_model(model)
 
-            self._model = model.symbols(shown=True, atoms=True, theory=True)
+            self._model = model.symbols(
+                shown=True, atoms=not self._explicit_show, theory=True
+            )
         except StopIteration:
             if optimizing:
                 m = "No more optimal solutions"

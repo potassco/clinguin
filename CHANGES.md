@@ -1,5 +1,13 @@
 # Changes
 
+## clinguin 2.7.5
+
+  * Fix bug:
+    * Not using explicit show when browsing solutions
+  * Features:
+    * The operation `next_solution` can now have an optimality timeout in seconds.
+
+
 ## clinguin 2.7.4
 
   * New flags to improve performance

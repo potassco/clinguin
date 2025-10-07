@@ -256,3 +256,4 @@ attr(nav_container, class, ("d-flex";"flex-column")).
         attr(m, message, "Optimality not proven"):- _clinguin_optimizing, not _clinguin_optimal.
         attr(m, type, success):- _clinguin_optimizing, _clinguin_optimal.
         attr(m, type, warning):- _clinguin_optimizing, not _clinguin_optimal.
+

@@ -11,3 +11,4 @@
 
 % Least empty seats possible
 #minimize{1@1,S,T:seat(S,T),assign(seat(_,T),_),not assign(seat(S,T),_)}.
+

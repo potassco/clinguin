@@ -104,38 +104,46 @@ export class AttributeHelperService {
 
     }
 
-	setCustomTooltip(html: HTMLElement, attributes: AttributeDto[]) {
-		const tooltipAttribute = this.findAttribute("tooltip", attributes);
-		if (tooltipAttribute) {
-			// Create a tooltip element
-			const tooltip = document.createElement("div");
-			tooltip.innerText = tooltipAttribute.value;
-			tooltip.style.position = "fixed";
-			tooltip.style.backgroundColor = "black";
-			tooltip.style.color = "white";
-			tooltip.style.padding = "5px";
-			tooltip.style.borderRadius = "3px";
-			tooltip.style.fontSize = "12px";
-			tooltip.style.visibility = "hidden";
-	
-			// Append the tooltip to the parent element
-			html.appendChild(tooltip);
-	
-			// Show and position the tooltip on hover
-			html.onmouseenter = (event) => {
-				tooltip.style.visibility = "visible";
-				tooltip.style.top = `${event.clientY + 10}px`;
-				tooltip.style.left = `${event.clientX + 10}px`;
-			};
-			html.onmousemove = (event) => {
-				tooltip.style.top = `${event.clientY + 10}px`;
-				tooltip.style.left = `${event.clientX + 10}px`;
-			};
-			html.onmouseleave = () => {
-				tooltip.style.visibility = "hidden";
-			};
-		}
-	}
+    setCustomTooltip(html: HTMLElement, attributes: AttributeDto[]) {
+        const tooltipAttribute = this.findAttribute("tooltip", attributes);
+        const tooltipErrorAttribute = this.findAttribute("tooltip_error", attributes);
+
+        const valid_tooltips = ["BUTTON", "APP-LABEL", "APP-COLLAPSE", "P"]
+        console.log(html.tagName);
+        if (!valid_tooltips.includes(html.tagName)) return;
+
+        const value = tooltipAttribute ? tooltipAttribute.value : (tooltipErrorAttribute ? tooltipErrorAttribute.value : null);
+        if (tooltipAttribute || tooltipErrorAttribute) {
+            // Create a tooltip element
+            const tooltip = document.createElement("div");
+            tooltip.innerText = value!;
+            tooltip.style.position = "fixed";
+            tooltip.style.backgroundColor = tooltipErrorAttribute ? "#FF5630" : "#000848";
+            tooltip.style.color = "white";
+            tooltip.style.padding = "7px";
+            tooltip.style.borderRadius = "3px";
+            tooltip.style.fontSize = "12px";
+            tooltip.style.visibility = "hidden";
+            tooltip.style.zIndex = "1000";
+
+            // Append the tooltip to the parent element
+            html.appendChild(tooltip);
+
+            // Show and position the tooltip on hover
+            html.onmouseenter = (event) => {
+                tooltip.style.visibility = "visible";
+                tooltip.style.top = `${event.clientY + 10}px`;
+                tooltip.style.left = `${event.clientX + 10}px`;
+            };
+            html.onmousemove = (event) => {
+                tooltip.style.top = `${event.clientY + 10}px`;
+                tooltip.style.left = `${event.clientX + 10}px`;
+            };
+            html.onmouseleave = () => {
+                tooltip.style.visibility = "hidden";
+            };
+        }
+    }
 
     addAttributes(html: HTMLElement, attributes: AttributeDto[]) {
 
@@ -334,34 +342,43 @@ export class AttributeHelperService {
     setChildLayout(html: HTMLElement, attributes: AttributeDto[]) {
         let attribute = this.findAttribute("child_layout", attributes)
         let flex_direction = this.findAttribute("flex_direction", attributes)
+        let display_overwrite = this.findAttribute("display", attributes)
+        console.log(display_overwrite);
 
-        if (attribute != null) {
-            let value = attribute?.value
+        if (display_overwrite != null && display_overwrite.value == "none") {
+            console.log(display_overwrite.value);
+            html.style.display = display_overwrite.value
+        }
+        else {
 
-            if (value == "grid") {
-                html.style.display = "grid"
-            } else if (value == "flex") {
+            if (attribute != null) {
+                let value = attribute?.value
+
+                if (value == "grid") {
+                    html.style.display = "grid"
+                } else if (value == "flex") {
+                    html.style.display = "flex"
+
+                    if (flex_direction != null) {
+                        html.style.flexDirection = flex_direction.value
+                    } else {
+                        html.style.flexDirection = "column"
+                    }
+                } else if (value == "absstatic") {
+                    html.style.position = "relative"
+                    html.style.display = "flex"
+                } else if (value == "relstatic") {
+                    html.style.position = "relative"
+                    html.style.display = "flex"
+                }
+            } else {
                 html.style.display = "flex"
-
                 if (flex_direction != null) {
                     html.style.flexDirection = flex_direction.value
+
                 } else {
                     html.style.flexDirection = "column"
                 }
-            } else if (value == "absstatic") {
-                html.style.position = "relative"
-                html.style.display = "flex"
-            } else if (value == "relstatic") {
-                html.style.position = "relative"
-                html.style.display = "flex"
-            }
-        } else {
-            html.style.display = "flex"
-            if (flex_direction != null) {
-                html.style.flexDirection = flex_direction.value
-
-            } else {
-                html.style.flexDirection = "column"
             }
         }
     }

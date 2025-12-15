@@ -193,6 +193,21 @@ class ClinguinContext:
             if 0 <= o < 100:
                 hex_color = f"{hex_color}{o:02d}"
         return String(hex_color)
+    
+    def decimal_string(self, number, decimals):
+        """
+        Converts a number given in percentage to a decimal string with the given number of decimals
+        Args:
+            number: The number in percentage
+            decimals: The number of decimals to show
+        Returns:
+            The decimal string
+        """
+        number = number.number if number.type == SymbolType.Number else 0
+        decimals = decimals.number if decimals.type == SymbolType.Number else 0
+        
+        decimal = number/100
+        return String(f"{decimal:.{decimals}f}")
 
     def __getattr__(self, name):
         # pylint: disable=import-outside-toplevel

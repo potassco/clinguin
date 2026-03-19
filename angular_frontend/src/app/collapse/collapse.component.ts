@@ -3,6 +3,7 @@ import { AttributeDto, ElementDto } from '../types/json-response.dto';
 import { AttributeHelperService } from '../attribute-helper.service';
 import { ElementLookupService } from '../element-lookup.service';
 import { ChildBearerService } from '../child-bearer.service';
+import { CallBackHelperService } from '../callback-helper.service';
 
 @Component({
   selector: 'app-collapse',
@@ -36,7 +37,8 @@ export class CollapseComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private attributeService: AttributeHelperService,
     private elementLookupService: ElementLookupService,
-    private childBearerService: ChildBearerService
+    private childBearerService: ChildBearerService,
+    private callbackService: CallBackHelperService,
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +57,10 @@ export class CollapseComponent implements OnInit {
 
       setTimeout(() => this.initialRender = false, 50);
     });
+    let htmlDdbut = this.toggleButton.nativeElement;
+    this.callbackService.setCallbacks(htmlDdbut, this.element.when);
+
+    this.cd.detectChanges()
   }
 
   private get cacheKey(): string {

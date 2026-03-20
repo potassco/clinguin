@@ -1,5 +1,10 @@
 # Changes
 
+## clinguin 2.7.6
+
+  * Features:
+    * Added callbacks to the collapse component
+
 ## clinguin 2.7.5
 
   * Fix bug:

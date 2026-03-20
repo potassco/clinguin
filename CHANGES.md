@@ -1,5 +1,10 @@
 # Changes
 
+## clinguin 2.7.7
+
+  * Features:
+    * Improved tooltip
+
 ## clinguin 2.7.6
 
   * Features:

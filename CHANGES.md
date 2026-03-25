@@ -1,5 +1,16 @@
 # Changes
 
+## clinguin 2.7.8
+
+  * Fixes:
+    * Dropdowns inside collapse now showing
+    * Negative numbers in context without quotes now working
+
+## clinguin 2.7.7
+
+  * Features:
+    * Improved tooltip
+
 ## clinguin 2.7.6
 
   * Features:

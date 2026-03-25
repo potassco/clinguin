@@ -353,7 +353,7 @@ function replaceContext(operation_string: string) {
     }
 
 
-    let isNumber = /^[0-9]*$/.test(new_value);
+    let isNumber = /^-?\d+$/.test(new_value);
 
     let isConst = isTerm(new_value);
 

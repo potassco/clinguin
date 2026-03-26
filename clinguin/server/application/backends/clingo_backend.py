@@ -328,7 +328,7 @@ class ClingoBackend:
                 _atoms (set[str]): A set to store the atoms set dynamically in operations during the interaction.
                 _assumptions (set[(str,bool)]): A set to store the assumptions set dynamically in operations during the
                 interaction.
-                _externals (dict): A dictionary with true, false and released sets of external atoms
+                _externals (dict): A dictionary with true, false and none sets of external atoms
                 _model (list[clingo.Symbol]): The model set in `on_model`.
                 _unsat_core (list[int]): The unsatisfiable core set in `on_model`.
                 _cost (list): A list to store the cost set in `on_model`.
@@ -349,7 +349,7 @@ class ClingoBackend:
         # Atoms and assumptions: Set dynamically in operations during the interaction
         self._atoms = set()
         self._assumptions = set()
-        self._externals = {"true": set(), "false": set(), "released": set()}
+        self._externals = {"true": set(), "false": set(), "none": set()}
 
         # Handler and Iterator: Set while browsing in next_solution operation
         self._handler = None
@@ -503,19 +503,21 @@ class ClingoBackend:
 
         Args:
                 symbol (clingo.Symbol): The clingo symbol to be set
-                name (str): Either "true", "false" or "release"
+                name (str): Either "true", "false", "none", "release"
         """
         name = name.strip('"')
         if name == "release":
             self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))
             self._ctl.release_external(symbol)
-            self._externals["released"].add(symbol)
 
             if symbol in self._externals["true"]:
                 self._externals["true"].remove(symbol)
 
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
+
+            if symbol in self._externals["none"]:
+                self._externals["none"].remove(symbol)
 
         elif name == "true":
             self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, True)"))
@@ -525,8 +527,8 @@ class ClingoBackend:
             if symbol in self._externals["false"]:
                 self._externals["false"].remove(symbol)
 
-            if symbol in self._externals["released"]:
-                self._externals["released"].remove(symbol)
+            if symbol in self._externals["none"]:
+                self._externals["none"].remove(symbol)
 
         elif name == "false":
             self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, False)"))
@@ -536,12 +538,23 @@ class ClingoBackend:
             if symbol in self._externals["true"]:
                 self._externals["true"].remove(symbol)
 
-            if symbol in self._externals["released"]:
-                self._externals["released"].remove(symbol)
+            if symbol in self._externals["none"]:
+                self._externals["none"].remove(symbol)
+
+        elif name == "none":
+            self._logger.debug(domctl_log(f"ctl.assign_external({symbol}, None)"))
+            self._ctl.assign_external(symbol, None)
+            self._externals["none"].add(symbol)
+
+            if symbol in self._externals["true"]:
+                self._externals["true"].remove(symbol)
+
+            if symbol in self._externals["false"]:
+                self._externals["false"].remove(symbol)
 
         else:
             raise ValueError(
-                f"Invalid external value {name}. Must be true, false or relase"
+                f"Invalid external value {name}. Must be true, false, none or release"
             )
 
     def _add_assumption(self, symbol, value="true"):
@@ -583,7 +596,7 @@ class ClingoBackend:
             if symbol.is_external:
                 symbol_str = str(symbol.symbol)
                 self._logger.debug("Setting external symbol found: %s", symbol_str)
-                self._externals["released"].add(symbol_str)
+                self._externals["none"].add(symbol_str)
 
     def _prepare(self):
         """
@@ -957,8 +970,8 @@ class ClingoBackend:
             prg += f"_clinguin_external({str(a)},true). "
         for a in self._externals["false"]:
             prg += f"_clinguin_external({str(a)},false). "
-        for a in self._externals["released"]:
-            prg += f"_clinguin_external({str(a)},release). "
+        for a in self._externals["none"]:
+            prg += f"_clinguin_external({str(a)},none). "
         return prg + "\n"
 
     @property

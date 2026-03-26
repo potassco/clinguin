@@ -1,5 +1,12 @@
 # Changes
 
+
+## clinguin 2.8.0
+
+  * Features:
+    * Option to free external by setting it to none.
+    * !released externals are now not tracked and not longer included in the domain state.
+
 ## clinguin 2.7.8
 
   * Fixes:

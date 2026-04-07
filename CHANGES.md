@@ -1,6 +1,12 @@
 # Changes
 
 
+## clinguin 2.8.1
+
+  * Fixes:
+    * Fixed @to_int function
+
+
 ## clinguin 2.8.0
 
   * Features:

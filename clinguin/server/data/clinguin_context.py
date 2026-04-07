@@ -85,9 +85,11 @@ class ClinguinContext:
         Returns:
             The integer value of the string
         """
-        if s.type == SymbolType.Number:
-            return s.number
         s = str(s)
+        try:
+            return Number(int(s))
+        except ValueError:
+            pass
         h = hashlib.sha256(s.encode()).hexdigest()
         return Number(int(h, 16) % 10**4)
 

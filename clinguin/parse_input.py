@@ -316,6 +316,7 @@ class ArgumentParser:
             help=textwrap.dedent(
                 f"""\
                 Optionally specify which backend to use using the class name.
+                Backends for clingcon, clingo-dl and fclingo are only available if the corresponding module is installed.
                 {sub_classes_str}
                 """
             ),

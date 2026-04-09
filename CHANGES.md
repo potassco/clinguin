@@ -1,5 +1,9 @@
 # Changes
 
+## clinguin 2.8.2
+
+  * Fixes
+    * Dependencies for clingcon clingo-dl and flingo are optional
 
 ## clinguin 2.8.1
 

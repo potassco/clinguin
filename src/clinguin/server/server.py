@@ -6,17 +6,19 @@ import time
 import traceback
 import uuid
 from types import SimpleNamespace
-
-from typing import Callable, Coroutine, Any
-from fastapi.responses import JSONResponse
+from typing import Any, Callable, Coroutine
 
 import uvicorn
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request, Response
+from clingo import SymbolType, parse_term
+from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
 from clinguin.utils.errors import get_server_error_alert
-from ..utils.logging import configure_logging, colored
+
+from ..utils.logging import colored, configure_logging
 
 log = logging.getLogger(__name__)
 
@@ -53,9 +55,17 @@ class Server:
         self.host = host
         self.multi = multi
         self.app = FastAPI()
+        self.app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
         self.sessions: dict[str, WebSocket] = {}
         self.backends: dict[str, ClingoBackend] = {}
+        self.backend: ClingoBackend | None = None
         self.version = 1
+        self.last_response = None
 
         if log_level is not None:
             configure_logging(
@@ -75,7 +85,9 @@ class Server:
             if session_id not in self.backends:
                 self.backends[session_id] = self.backend_class(args=self.backend_args)
             return self.backends[session_id]
-        return self.backend_class(args=self.backend_args)
+        if self.backend is None:
+            self.backend = self.backend_class(args=self.backend_args)
+        return self.backend
 
     def get_session_from_request(self, fastapi_request: Request) -> str:
         """Get the backend by inspecting the fastapi request."""
@@ -139,7 +151,29 @@ class Server:
         session = self.get_session_from_request(fastapi_request)
         backend = self.get_backend(session)
 
-        # TODO call actual operation
+        try:
+            print(f"OPERATION: {request_body.operation} | session={session} | version={request_body.client_version}")
+
+            operation_result = self._execute_backend_operation(backend, request_body.operation)
+
+            self.version += 1
+            await self.notify_clients(exclude_session_id=session)
+
+            return {"result": operation_result, "version": self.version}
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            print("ERROR IN /operation:", repr(e))
+            log.error("Handling exception in /operation")
+            log.error(e)
+            log.error(traceback.format_exc())
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to execute operation '{request_body.operation}': {e}",
+            ) from e
+
+        """ # TODO call actual operation
         # Example operation handling
         operation_result = {"message": f"Executed operation: {request_body.operation}"}
 
@@ -147,7 +181,34 @@ class Server:
         self.version += 1
         await self.notify_clients(exclude_session_id=session)
 
-        return {"result": operation_result, "version": self.version}
+        return {"result": operation_result, "version": self.version} """
+
+    # ---------- Helper methods ----------
+
+    def _symbol_to_python(self, symbol):
+        """Convert a clingo symbol into a Python value."""
+        if symbol.type == SymbolType.String:
+            return symbol.string
+        if symbol.type == SymbolType.Number:
+            return symbol.number
+        return str(symbol)
+
+    def _execute_backend_operation(self, backend: ClingoBackend, operation: str):
+        """
+        Parse an operation string and call the corresponding backend method.
+        """
+        term = parse_term(operation)
+        method_name = term.name
+        args = [self._symbol_to_python(arg) for arg in term.arguments]
+
+        method = getattr(backend, method_name, None)
+        if method is None or not callable(method):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unknown operation: {method_name}",
+            )
+
+        return method(*args)
 
     # ---------- WebSocket endpoint ----------
 

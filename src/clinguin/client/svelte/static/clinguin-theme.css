@@ -1,0 +1,43 @@
+/* ── tokens ───────────────────────────────────────────── */
+:root {
+  --clinguin-primary:        #e6f0ff;
+  --clinguin-border-color:   #ccc;
+  --clinguin-border-radius:  10px;
+  --clinguin-spacing-2:      0.5rem;
+  --clinguin-status-color:   #555;
+  --clinguin-error-color:    #c00;
+}
+
+/* ── shell status components ──────────────────────────── */
+.clinguin-status {
+  color: var(--clinguin-status-color);
+  padding: 1rem;
+}
+
+.clinguin-error {
+  color: var(--clinguin-error-color);
+  padding: 1rem;
+  white-space: pre-wrap;
+}
+
+.clinguin-loading {
+  position: fixed;
+  top: 0; right: 0;
+  padding: 0.2rem 0.6rem;
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 0.8rem;
+}
+
+/* ── skeleton ─────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position:  200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.clinguin-skeleton {
+  background: linear-gradient(90deg, #ececec 25%, #d8d8d8 50%, #ececec 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--clinguin-border-radius);
+  min-height: 2rem;
+}

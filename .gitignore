@@ -5,7 +5,7 @@
 .\#*
 
 # Mac/OSX
-.DS_Store
+**/.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -21,6 +21,7 @@ pip-delete-this-directory.txt
 
 # pyenv
 .python-version
+.venv
 
 # mypy
 .mypy_cache/
@@ -29,11 +30,13 @@ dmypy.json
 *egg-info*
 
 # unclassified
-# dist
-build
 .coverage
+.coverage*
 _build
 _autosummary
 site
 
-.coverage*
+# Svelte / Node
+src/clinguin/client/svelte/node_modules/
+src/clinguin/client/svelte/build/
+src/clinguin/client/svelte/.svelte-kit/

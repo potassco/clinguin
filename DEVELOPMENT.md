@@ -35,6 +35,51 @@ python -m pipx install pre-commit
 pre-commit install
 ```
 
+## Frontend (SvelteKit)
+
+The frontend lives in `src/clinguin/client/svelte/`. Node.js 18+ is required.
+
+### Running in development
+
+Start the backend server first, then in a separate terminal:
+
+```bash
+cd src/clinguin/client/svelte
+npm install
+npm run dev
+```
+
+The dev server runs on `http://localhost:5173` and connects to the backend at
+`http://127.0.0.1:8000` by default.
+
+### Building for production
+
+The frontend is built automatically by `client.py` when `--build` is passed:
+
+```bash
+clinguin client --build
+```
+
+To build manually:
+
+```bash
+cd src/clinguin/client/svelte
+npm install
+npm run build
+```
+
+### Adding shadcn-svelte components
+
+```bash
+cd src/clinguin/client/svelte
+npx shadcn-svelte@latest add <component>
+```
+
+Components are installed into `src/lib/components/ui/`. After installing,
+import the component in the relevant Clinguin component in
+`src/lib/components/` and register the new element type in
+`src/lib/registry.ts` if needed.
+
 [editable]: https://setuptools.pypa.io/en/latest/userguide/development_mode.html
 [nox]: https://nox.thea.codes/en/stable/index.html
 [pipx]: https://pypa.github.io/pipx/

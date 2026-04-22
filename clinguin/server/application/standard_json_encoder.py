@@ -63,11 +63,12 @@ class StandardJsonEncoder:
         for w in ui_state.get_elements():
             if str(w.parent) != "root" and w.parent not in elements_info:
                 msg = "Error in %s. Parent element (ID: %s) undefined."
-                logger.critical(
+                logger.debug(
                     msg,
                     str(w),
                     str(w.parent),
                 )
+                continue
                 raise Exception(msg % (str(w), str(w.parent)))
 
         directed_graph = nx.DiGraph(dependency)
@@ -83,10 +84,11 @@ class StandardJsonEncoder:
                 continue
 
             if element_id not in elements_info:
-                logger.critical(
+                logger.debug(
                     " The ID : '%s' was used as parent in an elem/3 predicate, could not be found!",
                     str(element_id),
                 )
+                continue
                 raise Exception(" The ID : " + str(element_id) + " could not be found!")
 
             element_type = elements_info[element_id]["type"]
@@ -106,4 +108,18 @@ class StandardJsonEncoder:
                 element.set_callbacks(elem_callbacks)
 
             elements_dict[str(element_id)] = element
+            if not str(element.parent) in elements_dict:
+                logger.debug(
+                    "Error in %s. Parent element (ID: %s) undefined.",
+                    str(element),
+                    str(element.parent),
+                )
+                continue
+                raise Exception(
+                    "Error in "
+                    + str(element)
+                    + ". Parent element (ID: "
+                    + str(element.parent)
+                    + ") undefined."
+                )
             elements_dict[str(element.parent)].add_child(element)

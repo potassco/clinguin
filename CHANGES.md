@@ -1,5 +1,15 @@
 # Changes
 
+## clinguin 2.8.3
+
+  * Changes
+    * Parent elements are now optional, no error is raised.
+    * A debug message is printed when the parent is not present and the children are ignored.
+  * Fixes
+    * Fixed collapse
+    * Paragraph now in multiple lines
+
+
 ## clinguin 2.8.2
 
   * Fixes

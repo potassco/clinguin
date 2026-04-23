@@ -6,7 +6,7 @@
   let { node }: ElemProps = $props();
 
   const elem = $derived(useElem(node));
-  const label = $derived(elem.attr('label') || elem.attr('text'));
+  const label = $derived(elem.attr('text') || elem.attr('label'));
   const variant = $derived(elem.attr('variant') || 'default'); // support 'primary', 'secondary', 'destructive', 'outline', 'ghost', 'link'
   const size = $derived(elem.attr('size') || 'default');
 </script>

@@ -9,21 +9,21 @@
   onMount(() => {
     const elem = useElem(node);
     const title = elem.attr('title');
-    const message = elem.attr('message');
+    const sonner = elem.attr('sonner');
     const type = elem.attr('type') || 'info';
 
     switch (type) {
       case 'success':
-        toast.success(title, { description: message });
+        toast.success(title, { description: sonner });
         break;
       case 'danger':
-        toast.error(title, { description: message });
+        toast.error(title, { description: sonner });
         break;
       case 'warning':
-        toast.warning(title, { description: message });
+        toast.warning(title, { description: sonner });
         break;
       default:
-        toast.info(title, { description: message });
+        toast.info(title, { description: sonner });
     }
   });
 </script>

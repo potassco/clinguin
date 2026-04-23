@@ -1,5 +1,9 @@
+@import "tailwindcss";
 @import "tw-animate-css";
 @import "@fontsource-variable/inter";
+@source inline("{hover:,}bg-{gray,blue}-{50,{100..900..100},950}");
+@source inline("text-{white,black}");
+@source inline("order-{1..12}");
 
 @custom-variant dark (&:is(.dark *));
 

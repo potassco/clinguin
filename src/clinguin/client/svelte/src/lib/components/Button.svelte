@@ -12,10 +12,15 @@
 </script>
 
 <Button
+  id={node.id}
+  style={elem.style}
   variant={variant as any}
   size={size as any}
   class={elem.attr('class')}
   {...elem.actions}
 >
+  {#if elem.icon}
+    <elem.icon class="size-4" />
+  {/if}
   {label}
 </Button>

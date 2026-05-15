@@ -4,6 +4,15 @@
 @source inline("{hover:,}bg-{gray,blue}-{50,{100..900..100},950}");
 @source inline("text-{white,black}");
 @source inline("order-{1..12}");
+@source inline("flex flex-col flex-row flex-wrap");
+@source inline("items-center items-start items-end items-stretch");
+@source inline("justify-center justify-between justify-evenly justify-end justify-start");
+@source inline("gap-{1..12}");
+@source inline("p-{1..12} px-{1..12} py-{1..12} pt-{1..12} pb-{1..12}");
+@source inline("border border-b border-t border-gray-300 rounded-md rounded-lg rounded-full");
+@source inline("min-h-screen w-full h-full");
+@source inline("text-xs text-sm text-base text-lg text-xl text-2xl text-3xl");
+@source inline("font-normal font-medium font-semibold font-bold");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,8 +52,8 @@
 }
 
 body {
-  background-color: oklch(1 0 0);
-  color: oklch(0.145 0 0);
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: 'Inter Variable', sans-serif;
 }
 

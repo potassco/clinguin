@@ -1,21 +1,40 @@
+
 elem(w, window, root).
-attr(w, class, ("flex"; "flex-col"; "gap-4"; "p-4")).
+attr(w, class, ("min-h-screen"; "p-6"; "flex"; "flex-col"; "gap-6")).
 
-elem(b, button, w).
-attr(b, label, "Next").
-%attr(b, variant, secondary).
-attr(b, class, ("bg-gray-600"; "text-white"; "order-1"; "hover:bg-blue-900")).
-%attr(b, class, ("test-red";"test-text-blue")).
-attr(b, order, 1).
-when(b, click, call, next_solution).
 
-elem(c, container, w).
-attr(c, class, ("p-2";"border";"border-gray-300";"rounded-md"; "flex"; "flex-row";"justify-evenly";"order-2")).
-attr(c, order, 2).
+elem(header, container, w).
+attr(header, class, ("flex"; "items-center"; "justify-between"; "border-b"; "pb-4")).
+attr(header, order, 1).
 
-elem(objects(X), container, c) :- object(X).
-attr(objects(X), class, ("p-2";"border";"border-gray-300";"rounded-md";"text-center")) :- object(X).
+elem(title, text, header).
+attr(title, text, "Solution Browser").
+attr(title, class, ("text-xl"; "font-semibold")).
 
-elem(l(X), text, objects(X)) :- object(X).
-attr(l(X), text, @stringify(X, true)) :- object(X).
-attr(l(X), class, ("text-sm";"font-medium";"p-2")) :- object(X).
+elem(toggle, theme_toggle, header).
+attr(toggle, icon_dark, "Sun").
+attr(toggle, icon_light, "Moon").
+attr(toggle, class, ("p-2"; "rounded-md"; "hover:bg-gray-100")).
+
+
+elem(content, container, w).
+attr(content, class, ("flex"; "flex-row"; "gap-3"; "flex-wrap")).
+attr(content, order, 2).
+
+elem(card(X), container, content) :- object(X).
+attr(card(X), class, ("flex"; "items-center"; "gap-2"; "px-3"; "py-2"; "border"; "border-gray-300"; "rounded-md")) :- object(X).
+
+elem(label(X), text, card(X)) :- object(X).
+attr(label(X), text, @stringify(X, true)) :- object(X).
+attr(label(X), icon, "Dot") :- object(X).
+attr(label(X), class, ("text-sm"; "font-medium")) :- object(X).
+
+
+elem(footer, container, w).
+attr(footer, class, ("flex"; "justify-end"; "border-t"; "pt-4")).
+attr(footer, order, 3).
+
+elem(next_btn, button, footer).
+attr(next_btn, label, "Next solution").
+attr(next_btn, icon, "ArrowRight").
+when(next_btn, click, call, next_solution).

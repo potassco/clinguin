@@ -3,6 +3,7 @@ import Container from '$lib/components/Container.svelte';
 import Text from '$lib/components/Text.svelte';
 //import Label from '$lib/components/Label.svelte';
 import Sonner from '$lib/components/Sonner.svelte';
+import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 
 export const registry: Record<string, any> = {
   root: Container,
@@ -13,4 +14,5 @@ export const registry: Record<string, any> = {
   button: Button,
   sonner: Sonner,
   message: Sonner, // Temporary alias for backward compatibility with "message" attr in Sonner component
+  theme_toggle: ThemeToggle
 };

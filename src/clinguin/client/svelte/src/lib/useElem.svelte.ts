@@ -10,6 +10,7 @@
 import { getAttr } from '$lib/utils';
 import type { ClinguinNode } from '$lib/context.svelte';
 import { appContext } from '$lib/context.svelte';
+import * as LucideIcons from '@lucide/svelte';
 
 /** Base prop interface for all Clinguin components. */
 export interface ElemProps {
@@ -37,5 +38,11 @@ export function useElem(node: ClinguinNode) {
     ])
   );
 
-  return { attr, actions };
+  const iconName = getAttr(node, 'icon');
+  const icon = iconName ? (LucideIcons as any)[iconName] ?? null : null;
+
+  const orderVal = attr('order');
+  const style = orderVal ? `order: ${orderVal}` : undefined;
+
+  return { attr, actions, icon, style };
 }

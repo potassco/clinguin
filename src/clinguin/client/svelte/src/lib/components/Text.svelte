@@ -8,6 +8,9 @@
   const elem = $derived(useElem(node));
 </script>
 
-<span class={cn(elem.attr('class'))} {...elem.actions}>
+<span id={node.id} class={cn(elem.attr('class'))} {...elem.actions}>
+  {#if elem.icon}
+    <elem.icon class="size-4" />
+  {/if}
   {elem.attr('label') || elem.attr('text')}
 </span>

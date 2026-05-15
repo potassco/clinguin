@@ -10,7 +10,7 @@
   const children = $derived(node?.children ?? []);
 </script>
 
-<div class={cn(elem.attr('class'))} {...elem.actions}>
+<div id={node.id} class={cn(elem.attr('class'))} style={elem.style} {...elem.actions}>
   {#each children as child (child.id)}
     <Renderer node={child} />
   {/each}

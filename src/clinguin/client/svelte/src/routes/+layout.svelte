@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { appContext } from '$lib/context.svelte';
+  import { ModeWatcher } from 'mode-watcher';
   import '../app.css';
 
   let { children } = $props();
@@ -10,6 +11,7 @@
   });
 </script>
 
+<ModeWatcher />
 {@render children()}
 
 <svelte:head>

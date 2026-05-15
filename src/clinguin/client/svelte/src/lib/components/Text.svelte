@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { cn } from '$lib/utils';
-  import { useElem } from '$lib/useElem.svelte';
-  import type { ElemProps } from '$lib/useElem.svelte';
-
-  let { node }: ElemProps = $props();
-
-  const elem = $derived(useElem(node));
+  import { cn } from "$lib/utils";
+  import type { ElementProps } from "$lib/frontendElement";
+  let { element }: ElementProps = $props();
 </script>
 
-<span id={node.id} class={cn(elem.attr('class'))} {...elem.actions}>
-  {#if elem.icon}
-    <elem.icon class="size-4" />
+<span
+  id={element.node.id}
+  class={cn(element.attr("class"))}
+  {...element.actions}
+>
+  {#if element.icon}
+    <element.icon class="size-4" />
   {/if}
-  {elem.attr('label') || elem.attr('text')}
+  {element.attr("label") || element.attr("text")}
 </span>

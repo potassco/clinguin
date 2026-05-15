@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { ClinguinNode } from "$lib/context.svelte";
+import type { ClinguinNode } from "$lib/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,6 +29,6 @@ export function getAttr(node: ClinguinNode, key: string): string | undefined {
 /** Converts an http(s) URL to its ws(s) equivalent for WebSocket connections. */
 export function toWebSocketUrl(httpUrl: string): string {
   if (httpUrl.startsWith('https://')) return httpUrl.replace('https://', 'wss://');
-  if (httpUrl.startsWith('http://'))  return httpUrl.replace('http://',  'ws://');
+  if (httpUrl.startsWith('http://')) return httpUrl.replace('http://', 'ws://');
   return httpUrl;
 }

@@ -1,25 +1,23 @@
 <script lang="ts">
-  import { toast } from 'svelte-sonner';
-  import { useElem } from '$lib/useElem.svelte';
-  import type { ElemProps } from '$lib/useElem.svelte';
-  import { onMount } from 'svelte';
+  import { toast } from "svelte-sonner";
+  import { onMount } from "svelte";
 
-  let { node }: ElemProps = $props();
+  import type { ElementProps } from "$lib/frontendElement";
+  let { element }: ElementProps = $props();
 
   onMount(() => {
-    const elem = useElem(node);
-    const title = elem.attr('title');
-    const sonner = elem.attr('sonner');
-    const type = elem.attr('type') || 'info';
+    const title = element.attr("title");
+    const sonner = element.attr("sonner");
+    const type = element.attr("type") || "info";
 
     switch (type) {
-      case 'success':
+      case "success":
         toast.success(title, { description: sonner });
         break;
-      case 'danger':
+      case "danger":
         toast.error(title, { description: sonner });
         break;
-      case 'warning':
+      case "warning":
         toast.warning(title, { description: sonner });
         break;
       default:

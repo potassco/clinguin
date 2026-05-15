@@ -10,16 +10,25 @@
 -->
 
 <script lang="ts">
-  import { registry } from '$lib/registry';
-  import type { ElemProps } from '$lib/useElem.svelte';
+  import { registry } from "$lib/registry";
+  import { FrontendElement } from "$lib/frontendElement";
+  import type { ClinguinNode } from "$lib/types";
 
-  let { node }: ElemProps = $props();
+  export interface NodeProps {
+    node: ClinguinNode;
+  }
+  let { node }: NodeProps = $props();
+  function toFrontendElement(node: ClinguinNode): FrontendElement {
+    return new FrontendElement(node);
+  }
+  let elem = $derived(toFrontendElement(node));
+  console.log("Rendering node:", elem);
 
-  const Component = $derived(node?.type ? registry[node.type] : null);
+  const Component = $derived(elem.node?.type ? registry[elem.node.type] : null);
 </script>
 
 {#if Component}
-  <Component {node} />
+  <Component element={elem} />
 {:else}
   <div>
     Unsupported element type: <code>{node?.type}</code>

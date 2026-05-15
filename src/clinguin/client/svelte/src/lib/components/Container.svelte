@@ -1,16 +1,19 @@
 <script lang="ts">
-  import { useElem } from '$lib/useElem.svelte';
-  import { cn } from '$lib/utils';
-  import type { ElemProps } from '$lib/useElem.svelte';
-  import Renderer from '$lib/Renderer.svelte';
+  import { cn } from "$lib/utils";
+  import type { ElementProps } from "$lib/frontendElement";
+  import Renderer from "$lib/Renderer.svelte";
 
-  let { node }: ElemProps = $props();
-
-  const elem = $derived(useElem(node));
-  const children = $derived(node?.children ?? []);
+  let { element }: ElementProps = $props();
+  console.log("Container element:", element);
+  const children = $derived(element.node?.children ?? []);
 </script>
 
-<div id={node.id} class={cn(elem.attr('class'))} style={elem.style} {...elem.actions}>
+<div
+  id={element.node.id}
+  class={cn(element.attr("class"))}
+  style={element.style}
+  {...element.actions}
+>
   {#each children as child (child.id)}
     <Renderer node={child} />
   {/each}

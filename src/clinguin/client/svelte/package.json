@@ -25,7 +25,7 @@
 		"mode-watcher": "^1.1.0",
 		"shadcn-svelte": "^1.2.7",
 		"svelte": "^5.55.2",
-		"svelte-check": "^4.4.6",
+		"svelte-check": "^4.4.8",
 		"svelte-sonner": "^1.1.0",
 		"tailwind-merge": "^3.5.0",
 		"tailwind-variants": "^3.2.2",

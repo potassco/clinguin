@@ -1,26 +1,23 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button';
-  import FrontendElement from '$lib/frontendElement';
-  import type { ElemProps } from '$lib/frontendElement';
+  import { Button } from "$lib/components/ui/button";
+  import type { ElementProps } from "$lib/frontendElement";
+  let { element }: ElementProps = $props();
 
-  let { node }: ElemProps = $props();
-
-  const elem = $derived(FrontendElement(node));
-  const label = $derived(elem.attr('text') || elem.attr('label'));
-  const variant = $derived(elem.attr('variant') || 'default'); // support 'primary', 'secondary', 'destructive', 'outline', 'ghost', 'link'
-  const size = $derived(elem.attr('size') || 'default');
+  const label = $derived(element.attr("text") || element.attr("label"));
+  const variant = $derived(element.attr("variant") || "default"); // support 'primary', 'secondary', 'destructive', 'outline', 'ghost', 'link'
+  const size = $derived(element.attr("size") || "default");
 </script>
 
 <Button
-  id={node.id}
-  style={elem.style}
+  id={element.node.id}
+  style={element.style}
   variant={variant as any}
   size={size as any}
-  class={elem.attr('class')}
-  {...elem.actions}
+  class={element.attr("class")}
+  {...element.actions}
 >
-  {#if elem.icon}
-    <elem.icon class="size-4" />
+  {#if element.icon}
+    <element.icon class="size-4" />
   {/if}
   {label}
 </Button>

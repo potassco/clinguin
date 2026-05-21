@@ -69,7 +69,7 @@ class JsonEncoder:
 
         cls._generate_hierarchy(ui_state, root, elements_dict)
 
-        return {"ui": root.model_dump(), "ds": ds_dict}  # ✅ FastAPI will handle serialization
+        return {"ui": root.model_dump(), "ds": ds_dict}
 
     @classmethod
     def _generate_hierarchy(cls, ui_state, hierarchy_root: ElementDTO, elements_dict: Dict[str, ElementDTO]) -> None:
@@ -121,11 +121,10 @@ class JsonEncoder:
             element_type = elements_info[element_id]["type"]
             parent = elements_info[element_id]["parent"]
 
-            # 🔥 Ensure Raw objects are converted to strings
             element = ElementDTO(
-                id=str(element_id),  # ✅ Convert Raw to string
-                type=str(element_type),  # ✅ Convert Raw to string
-                parent=str(parent),  # ✅ Convert Raw to string
+                id=str(element_id),
+                type=str(element_type),
+                parent=str(parent),
             )
 
             if element_id in attrs:

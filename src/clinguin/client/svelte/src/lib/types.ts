@@ -1,4 +1,11 @@
 
+export type AppError = {
+    code: number;
+    title: string;
+    message: string;
+};
+
+
 /**
  * attr/3
  * Example: attr(my_button, label, "Click me").

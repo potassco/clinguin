@@ -6,6 +6,7 @@
  */
 
 import { toWebSocketUrl } from '$lib/utils';
+import type { AppError } from '$lib/types';
 
 // Fallback used only during direct `npm run dev` without client.py.
 // In production, VITE_SERVER_URL is injected at build time by client.py.
@@ -18,11 +19,17 @@ class AppContext {
   version = $state(1);
   connectionPromise = $state<Promise<void> | null>(null);
   loading = $state(false);
-  error = $state('');
   ui = $state<ClinguinNode | null>(null);
   ds = $state<unknown>(null);
+  connected = $state(false);
 
   private ws: WebSocket | null = null;
+
+  error = $state<AppError | null>(null);
+
+  private _errorMessage = (err: unknown): string =>
+    err instanceof Error ? err.message : 'Unknown error.';
+
 
   connect = () => {
     this.connectionPromise = this._connect();
@@ -36,7 +43,17 @@ class AppContext {
     this.version = data.version;
     this.ui = data.ui ?? null;
     this.ds = data.ds ?? null;
+    this.connected = true;  // set once, never reset
   };
+
+  private _extractErrorMessage = async (response: Response): Promise<string> => {
+    try {
+      const body = await response.json();
+      if (typeof body.detail === 'string') return body.detail;
+    } catch { /* not JSON */ }
+    return 'The server rejected the request. Please try again.';
+  };
+
 
   /**
    * Opens a WebSocket connection to /ws.
@@ -78,7 +95,7 @@ class AppContext {
       method: 'GET',
       headers: { 'session-id': this.sessionId }
     });
-    if (!response.ok) throw new Error(`GET /info failed with status ${response.status}`);
+    if (!response.ok) throw new Error(await this._extractErrorMessage(response));
     return response.json();
   };
 
@@ -88,14 +105,16 @@ class AppContext {
    */
   fetchInfo = async (): Promise<void> => {
     this.loading = true;
-    this.error = '';
     try {
       const data = await this._doFetchInfo();
       this.version = data.version;
       this.ui = data.ui ?? null;
       this.ds = data.ds ?? null;
+      if (this.ui === null) {
+        this.error = { code: 500, title: 'Server error', message: 'Unexpected response format. Expected ui field.' };
+      }
     } catch (err) {
-      this.error = err instanceof Error ? err.message : 'Unknown error while fetching UI.';
+      this.error = { code: 500, title: 'Server Error', message: this._errorMessage(err) };
     } finally {
       this.loading = false;
     }
@@ -127,32 +146,40 @@ class AppContext {
    */
   callOperation = async (operation: string): Promise<void> => {
     this.loading = true;
-    this.error = '';
     try {
       const response = await fetch(`${this.serverUrl}/operation`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'session-id': this.sessionId
-        },
+        headers: { 'Content-Type': 'application/json', 'session-id': this.sessionId },
         body: JSON.stringify({ operation, client_version: this.version })
       });
 
       if (response.status === 409) {
-        await this.fetchInfo();
-        throw new Error('Client version outdated. Synced with latest UI.');
+        await this._doFetchInfo();
+        this.error = { code: 409, title: 'Conflict', message: 'Action conflicts with a newer state. Please try again.' };
+        return;
       }
-      if (!response.ok) throw new Error(`POST /operation failed with status ${response.status}`);
+
+      if (!response.ok) {
+        this.error = {
+          code: response.status,
+          title: response.statusText,
+          message: await this._extractErrorMessage(response),
+        };
+        return;
+      }
 
       const data = await response.json();
       this.version = data.version ?? this.version;
-      await this.fetchInfo();
+      await this._doFetchInfo();
     } catch (err) {
-      this.error = err instanceof Error ? err.message : 'Unknown error while executing operation.';
+      // Only network-level failures reach here (fetch itself threw)
+      this.error = { code: 503, title: 'Network Error', message: this._errorMessage(err) };
     } finally {
       this.loading = false;
     }
   };
+
+
 }
 
 export const appContext = new AppContext();

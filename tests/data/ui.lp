@@ -14,13 +14,13 @@ attr(title, class, ("text-xl"; "font-semibold")).
 elem(toggle, theme_toggle, header).
 attr(toggle, icon_dark, "Sun").
 attr(toggle, icon_light, "Moon").
-attr(toggle, class, ("p-2"; "rounded-md"; "hover:bg-gray-100")).
+attr(toggle, variant, "outline").
+attr(toggle, class, ("p-2";"rounded-full")).
 
 
 elem(content, container, w).
 attr(content, class, ("flex"; "flex-row"; "gap-3"; "flex-wrap")).
 attr(content, order, 2).
-
 elem(card(X), container, content) :- object(X).
 attr(card(X), class, ("flex"; "items-center"; "gap-2"; "px-3"; "py-2"; "border"; "border-gray-300"; "rounded-md")) :- object(X).
 
@@ -38,3 +38,9 @@ elem(next_btn, button, footer).
 attr(next_btn, label, "Next solution").
 attr(next_btn, icon, "ArrowRight").
 when(next_btn, click, call, next_solution).
+when(next_btn, click, call, set_external(find,true)).
+
+elem(unsat_msg, sonner, w):-_clinguin_unsat.
+attr(unsat_msg, title, "Unsatisfiable"):-_clinguin_unsat.
+attr(unsat_msg, type, error):-_clinguin_unsat.
+

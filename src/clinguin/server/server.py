@@ -8,6 +8,7 @@ import uuid
 from types import SimpleNamespace
 from typing import Any, Callable, Coroutine
 
+from httpx import request
 import uvicorn
 from clingo import SymbolType, parse_term
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
@@ -16,7 +17,6 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
-from clinguin.utils.errors import get_server_error_alert
 
 from ..utils.logging import colored, configure_logging
 
@@ -131,10 +131,13 @@ class Server:
             response.update(json)
             log.debug("Response: %s", response)
         except Exception as e:
-            log.error("Handling global exception in endpoint")
+            log.error("Raising exception in endpoint")
             log.error(e)
             log.error(traceback.format_exc())
-            response.update(get_server_error_alert(str(e), self.last_response))
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to retrieve info: {e}",
+            ) from e
         return JSONResponse(content=response)
 
     async def execute_operation(self, request_body: OperationRequest, fastapi_request: Request) -> dict[str, Any]:
@@ -152,7 +155,14 @@ class Server:
         backend = self.get_backend(session)
 
         try:
-            print(f"OPERATION: {request_body.operation} | session={session} | version={request_body.client_version}")
+
+            log.info(
+                colored(
+                    f"=>=> OPERATION: {request_body.operation} ",
+                    "green",
+                )
+            )
+            log.debug(f"=>=> session={session} | version={request_body.client_version}")
 
             operation_result = self._execute_backend_operation(backend, request_body.operation)
 
@@ -164,7 +174,7 @@ class Server:
         except HTTPException:
             raise
         except Exception as e:
-            print("ERROR IN /operation:", repr(e))
+            log.error("ERROR IN /operation: %s", repr(e))
             log.error("Handling exception in /operation")
             log.error(e)
             log.error(traceback.format_exc())
@@ -203,6 +213,7 @@ class Server:
 
         method = getattr(backend, method_name, None)
         if method is None or not callable(method):
+            print(f"Unknown operation: {method_name}")
             raise HTTPException(
                 status_code=400,
                 detail=f"Unknown operation: {method_name}",

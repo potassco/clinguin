@@ -3,6 +3,7 @@
 """
 Module that contains the ClingoBackend.
 """
+
 from argparse import ArgumentParser
 from types import SimpleNamespace
 
@@ -540,9 +541,9 @@ class ClingoBackend:
         self._ui_state = UIState(self._args.ui_files, domain_state, self._constants_argument_list)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
-        for m in self._messages:
-            self._ui_state.add_message(m[0], m[1], m[2])
-        self._messages = []
+        # for m in self._messages:
+        #     self._ui_state.add_message(m[0], m[1], m[2])
+        # self._messages = []
 
     ########################################################################################################
 
@@ -697,10 +698,8 @@ class ClingoBackend:
                             "warning",
                         )
                     )
-                    log.warning(
-                        "No optimization statement provided in encoding but optimization condition provided\
-                            in 'next_solution' operation. Exiting browsing."
-                    )
+                    log.warning("No optimization statement provided in encoding but optimization condition provided\
+                            in 'next_solution' operation. Exiting browsing.")
                     break
                 if self._args.opt_timeout is not None and time.time() - start > self._args.opt_timeout:
                     log.warning(

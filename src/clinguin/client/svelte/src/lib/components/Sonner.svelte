@@ -7,21 +7,21 @@
 
   onMount(() => {
     const title = element.attr("title");
-    const sonner = element.attr("sonner");
+    const description = element.attr("description") || "";
     const type = element.attr("type") || "info";
 
     switch (type) {
       case "success":
-        toast.success(title, { description: sonner });
+        toast.success(title, { description: description });
         break;
       case "danger":
-        toast.error(title, { description: sonner });
+        toast.error(title, { description: description });
         break;
       case "warning":
-        toast.warning(title, { description: sonner });
+        toast.warning(title, { description: description });
         break;
       default:
-        toast.info(title, { description: sonner });
+        toast.info(title, { description: description });
     }
   });
 </script>

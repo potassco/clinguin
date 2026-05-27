@@ -1,6 +1,6 @@
 
 elem(w, window, root).
-attr(w, class, ("min-h-screen"; "p-6"; "flex"; "flex-col"; "gap-6")).
+attr(w, class, ("min-h-screen"; "p-6"; "flex"; "flex-col"; "gap-6"; "logo-bg")).
 
 
 elem(header, container, w).
@@ -8,8 +8,11 @@ attr(header, class, ("flex"; "items-center"; "justify-between"; "border-b"; "pb-
 attr(header, order, 1).
 
 elem(title, text, header).
-attr(title, text, "Solution Browser").
-attr(title, class, ("text-xl"; "font-semibold")).
+attr(title, text, "Clinguin v.3 Test").
+attr(title, class, ("text-xl"; "font-semibold"; "inline-flex"; "items-center"; "gap-5"; "flex-row-reverse")).
+attr(title, icon, "/assets/potassco-logo.svg").
+attr(title, icon_size, "size-10").
+
 
 elem(toggle, theme_toggle, header).
 attr(toggle, icon_dark, "Sun").
@@ -43,4 +46,3 @@ when(next_btn, click, call, set_external(find,true)).
 elem(unsat_msg, sonner, w):-_clinguin_unsat.
 attr(unsat_msg, title, "Unsatisfiable"):-_clinguin_unsat.
 attr(unsat_msg, type, error):-_clinguin_unsat.
-

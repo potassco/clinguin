@@ -5,16 +5,15 @@ The command line parser for the project.
 import importlib
 import os
 import re
-
-from argparse import ArgumentParser, _SubParsersAction
 import sys
-from typing import Any, Optional, cast, Dict, Set, List, Type
+from argparse import ArgumentParser, _SubParsersAction
+from typing import Any, Dict, List, Optional, Set, Type, cast
 
-from rich_argparse import ArgumentDefaultsRichHelpFormatter
 from rich.text import Text
+from rich_argparse import ArgumentDefaultsRichHelpFormatter
 
-from . import logging
 from ..server.backends.clingo_backend import ClingoBackend
+from . import logging
 
 __all__ = ["get_parser"]
 
@@ -151,10 +150,17 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     )
 
     parser.add_argument(
-        "--custom-path",
+        "--theme",
         type=str,
-        metavar="",
-        help="Path to custom frontend files to include before building.",
+        metavar="PATH",
+        help="Path to a custom CSS file.",
+    )
+
+    parser.add_argument(
+        "--assets",
+        type=str,
+        metavar="PATH",
+        help="Path to a directory of static assets (images, fonts, icons) to serve.",
     )
 
 

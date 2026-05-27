@@ -22,7 +22,8 @@
     return new FrontendElement(node);
   }
   let elem = $derived(toFrontendElement(node));
-  console.log("Rendering node:", elem);
+  // svelte-ignore state_referenced_locally
+  //console.log("Rendering node:", elem);
 
   const Component = $derived(elem.node?.type ? registry[elem.node.type] : null);
 </script>

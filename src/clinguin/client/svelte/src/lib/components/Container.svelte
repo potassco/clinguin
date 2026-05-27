@@ -4,7 +4,7 @@
   import Renderer from "$lib/Renderer.svelte";
 
   let { element }: ElementProps = $props();
-  console.log("Container element:", element);
+  //console.log("Container element:", element);
   const children = $derived(element.node?.children ?? []);
 </script>
 

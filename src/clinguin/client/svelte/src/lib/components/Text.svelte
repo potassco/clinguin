@@ -9,8 +9,10 @@
   class={cn(element.attr("class"))}
   {...element.actions}
 >
-  {#if element.icon}
-    <element.icon class="size-4" />
-  {/if}
+{#if element.iconSrc}
+  <img src={element.iconSrc} alt="" class={element.iconSize}/>
+{:else if element.icon}
+  <element.icon class={element.iconSize} />
+{/if}
   {element.attr("label") || element.attr("text")}
 </span>

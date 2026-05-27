@@ -1,0 +1,36 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+  --font-primary: 'Roboto', sans-serif;
+  --font-body: 'Roboto', sans-serif;
+  --background: #860c0c;
+} */
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/assets/fonts/ComicNeue-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/assets/fonts/ComicNeue-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+:root {
+  --font-primary: 'CustomFont', sans-serif;
+  --font-body: 'CustomFont', sans-serif;
+}
+
+html.dark {
+  --background: #033902;
+}
+
+.logo-bg {
+  background-image: url('/assets/potassco-logo.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+
+  background-size: 120px;
+}

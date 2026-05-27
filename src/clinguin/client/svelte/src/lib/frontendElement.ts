@@ -21,6 +21,8 @@ export class FrontendElement {
 	actions = {};
 	icon: any = null
 	iconName: string | undefined = undefined;
+	iconSrc: string | null = null;
+	iconSize: string | undefined = undefined;
 	style: string | undefined = undefined;
 	orderVal: string | undefined = undefined;
 	constructor(public node: ClinguinNode) {
@@ -39,9 +41,15 @@ export class FrontendElement {
 			])
 		);
 		this.iconName = getAttr(this.node, 'icon');
-		this.icon = this.iconName ? (LucideIcons as any)[this.
-			iconName] ?? null : null;
+		const isImagePath = this.iconName &&
+			(this.iconName.startsWith('/') || /\.(svg|png|jpg|jpeg|webp)$/i.test(this.iconName));
 
+		this.iconSrc = isImagePath ? (this.iconName ?? null) : null;
+		this.icon = !isImagePath && this.iconName
+			? (LucideIcons as any)[this.iconName] ?? null
+			: null;
+
+		this.iconSize = this.attr('icon_size') || 'size-4';
 		this.orderVal = this.attr('order');
 		this.style = this.orderVal ? `order: ${this.orderVal}` : undefined;
 	}
@@ -53,4 +61,3 @@ export class FrontendElement {
 		return getAttr(this.node, key) ?? fallback;
 	}
 }
-

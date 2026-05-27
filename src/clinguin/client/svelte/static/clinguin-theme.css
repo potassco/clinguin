@@ -67,6 +67,7 @@ html.dark {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@import "@fontsource-variable/inter";
 
 :root {
   --font-primary: 'Inter Variable', sans-serif;

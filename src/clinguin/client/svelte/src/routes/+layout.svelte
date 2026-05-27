@@ -6,6 +6,8 @@
 
   let { children } = $props();
 
+  const customTheme = import.meta.env.VITE_CUSTOM_THEME;
+
   onMount(() => {
     appContext.connect();
   });
@@ -17,5 +19,7 @@
 <svelte:head>
   <link rel="stylesheet" href="/clinguin-theme.css" />
   <!-- TODO implement this so that it comes from the command line -->
-  <link rel="stylesheet" href="/potassco-theme.css" />
+  {#if customTheme}
+    <link rel="stylesheet" href={`/${customTheme}`} />
+  {/if}
 </svelte:head>

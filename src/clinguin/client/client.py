@@ -27,7 +27,8 @@ class Client:
         host: str = "127.0.0.1",
         server_url: str = "http://127.0.0.1:8000",
         build: bool = False,
-        custom_path: str | None = None,
+        theme: str | None = None,
+        assets: str | None = None,
         log_level: int | None = None,
     ):
         """
@@ -38,7 +39,8 @@ class Client:
             host (str): Host to bind the client to. Use 0.0.0.0 for external access.
             server_url (str): Full URL of the Clinguin server the frontend will connect to.
             build (bool): Whether to rebuild the frontend on startup.
-            custom_path (str): Path to custom frontend files to include before building.
+            theme (str | None): Path to a custom CSS file.
+            assets (str | None): Path to a directory of static assets.
             log_level (int): Log level for the client.
         """
         self.port = port
@@ -54,12 +56,13 @@ class Client:
 
         self.svelte_src_path = os.path.join(package_path, "svelte")
         self.frontend_dist_path = os.path.join(package_path, "svelte", "build")
-        self.custom_path = custom_path or os.path.expanduser("~/.clinguin/client/")
+        self.theme = theme or None
+        self.assets = assets or None
 
         if log_level is not None:
             configure_logging(stream=sys.stderr, level=log_level, use_color=True)
 
-        if custom_path and not build:  # nocoverage
+        if (theme or assets) and not build:
             log.warning("Svelte will be rebuilt to include custom files.")  # nocoverage
             build = True
 
@@ -72,8 +75,9 @@ class Client:
             log.info("Serving Svelte frontend from %s", self.frontend_dist_path)
             self.app.mount("/", StaticFiles(directory=self.frontend_dist_path, html=True), name="frontend")
         else:  # nocoverage
-            log.error("No frontend found at %s", self.frontend_dist_path)
-            log.error("Run with --build to build the frontend first.")
+            raise RuntimeError(
+                f"No frontend found at {self.frontend_dist_path}. Run with --build to build the frontend first."
+            )
 
     def run(self) -> None:
         """Run the client."""
@@ -84,7 +88,8 @@ class Client:
     def build_frontend(self) -> None:
         """
         Build the Svelte frontend.
-        Injects VITE_SERVER_URL so the frontend knows which backend to connect to.
+        Injects VITE_SERVER_URL and VITE_CUSTOM_THEME so the frontend
+        knows which backend to connect to and which CSS file to load.
         """
         if not os.path.exists(self.svelte_src_path):  # nocoverage
             raise RuntimeError(f"Svelte source folder not found: {self.svelte_src_path}")
@@ -96,9 +101,26 @@ class Client:
             check=True,
         )
 
+        theme_filename = ""
+        if self.theme:
+            if not os.path.isfile(self.theme):  # nocoverage
+                raise RuntimeError(f"Theme file not found: {self.theme}")
+            theme_filename = os.path.basename(self.theme)
+            dest = os.path.join(self.svelte_src_path, "static", theme_filename)
+            shutil.copy(self.theme, dest)
+            log.debug("Copied theme file %s → static/%s", self.theme, theme_filename)
+
+        if self.assets:  # nocoverage
+            if not os.path.isdir(self.assets):
+                raise RuntimeError(f"Assets directory not found: {self.assets}")
+            dest = os.path.join(self.svelte_src_path, "static", "assets")
+            shutil.copytree(self.assets, dest, dirs_exist_ok=True)
+            log.debug("Copied assets from %s → static/assets/", self.assets)
+
         log.debug("Building Svelte frontend...")
         env = os.environ.copy()
         env["VITE_SERVER_URL"] = self.server_url
+        env["VITE_CUSTOM_THEME"] = theme_filename
         subprocess.run(
             ["npm", "run", "build"],
             cwd=self.svelte_src_path,
@@ -109,31 +131,16 @@ class Client:
         if not os.path.exists(self.frontend_dist_path):  # nocoverage
             raise RuntimeError(f"Svelte build failed. Expected output not found: {self.frontend_dist_path}")
 
-        log.warning("Svelte frontend built. Refresh your browser to see changes.")
+        log.info("Svelte frontend built. Refresh your browser to see changes.")
 
-    def include_custom_files(self, custom_path: str, svelte_src_path: str) -> None:  # nocoverage
-        """
-        Copy user-provided custom CSS and components into the Svelte project before building.
+        if theme_filename:
+            leftover = os.path.join(self.svelte_src_path, "static", theme_filename)
+            if os.path.exists(leftover):
+                os.remove(leftover)
+                log.debug("Cleaned up static/%s after build", theme_filename)
 
-        Args:
-            custom_path (str): Path to user-provided custom files (e.g., ~/.clinguin/client/)
-            svelte_src_path (str): Path to the Svelte project (e.g., clinguin/client/svelte/)
-        """
-        custom_path = os.path.expanduser(custom_path)
-
-        if not os.path.exists(custom_path):
-            log.info("No custom files found at %s. Skipping customization.", custom_path)
-            return
-
-        log.info("Copying user customizations from %s to %s/src/custom/", custom_path, svelte_src_path)
-
-        for item in os.listdir(custom_path):
-            src_item = os.path.join(custom_path, item)
-            dest_item = os.path.join(svelte_src_path, "src/custom", item)
-
-            if os.path.isdir(src_item):
-                shutil.copytree(src_item, dest_item, dirs_exist_ok=True)
-            else:
-                shutil.copy(src_item, dest_item)
-
-        log.info("Custom files successfully included.")
+        if self.assets:
+            leftover_dir = os.path.join(self.svelte_src_path, "static", "assets")
+            if os.path.exists(leftover_dir):
+                shutil.rmtree(leftover_dir)
+                log.debug("Cleaned up static/assets/ after build")

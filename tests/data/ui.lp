@@ -46,3 +46,12 @@ when(next_btn, click, call, set_external(find,true)).
 elem(unsat_msg, sonner, w):-_clinguin_unsat.
 attr(unsat_msg, title, "Unsatisfiable"):-_clinguin_unsat.
 attr(unsat_msg, type, error):-_clinguin_unsat.
+
+elem(toggle_btn, button, footer).
+attr(toggle_btn, label, "Toggle content").
+attr(content, visibility, hidden) :- _clinguin_external(content_hidden, true).
+
+when(toggle_btn, click, call, set_external(content_hidden,true)) :-
+    not _clinguin_external(content_hidden, true).
+when(toggle_btn, click, call, set_external(content_hidden,false)) :-
+    _clinguin_external(content_hidden, true).

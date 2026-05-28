@@ -13,6 +13,7 @@
   class={cn(element.attr("class"))}
   style={element.style}
   {...element.actions}
+  hidden={element.hidden}
 >
   {#each children as child (child.id)}
     <Renderer node={child} />

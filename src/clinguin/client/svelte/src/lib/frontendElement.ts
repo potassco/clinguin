@@ -8,7 +8,7 @@
  */
 
 import { getAttr } from '$lib/utils';
-import type { ClinguinNode, ClinguinWhen } from '$lib/types';
+import type { ClinguinNode } from '$lib/types';
 import { appContext } from '$lib/context.svelte';
 import * as LucideIcons from '@lucide/svelte';
 
@@ -34,25 +34,12 @@ export class FrontendElement {
 		 * { onClick: () => appContext.handleWhen(...) }
 		 */
 
-		const grouped = new Map<string, ClinguinWhen[]>();
-		(node.when ?? []).forEach((w) => {
-			const eventKey = `on${w.event}`;
-			if (!grouped.has(eventKey)) grouped.set(eventKey, []);
-			grouped.get(eventKey)!.push(w);
-		});
-
-		const order: Record<string, number> = {update: 0, context: 1, call: 2};
 		this.actions = Object.fromEntries(
-			Array.from(grouped.entries()).map(([eventKey, whens]) => {
-				whens.sort((a, b) => order[a.action] - order[b.action]);
-				return [eventKey, async () => {
-					for (const when of whens) {
-						await appContext.handleWhen(when);
-					}
-				}];
-			})
+			(this.node.when ?? []).map((w) => [
+				`on${w.event}`,
+				() => appContext.handleWhen(w)
+			])
 		);
-
 		this.iconName = getAttr(this.node, 'icon');
 		const isImagePath = this.iconName &&
 			(this.iconName.startsWith('/') || /\.(svg|png|jpg|jpeg|webp)$/i.test(this.iconName));
@@ -72,9 +59,5 @@ export class FrontendElement {
 	 */
 	attr(key: string, fallback = ''): string {
 		return getAttr(this.node, key) ?? fallback;
-	}
-
-	get hidden(): boolean {
-		return this.attr('visibility') === 'hidden';
 	}
 }

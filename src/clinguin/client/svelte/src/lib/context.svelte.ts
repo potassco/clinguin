@@ -5,7 +5,7 @@
  * It uses Svelte's $state for reactivity and is instantiated as a singleton exported as appContext.
  */
 
-import { buildNodeMap, parseUpdateOperation, toWebSocketUrl } from '$lib/utils';
+import { toWebSocketUrl } from '$lib/utils';
 import type { AppError } from '$lib/types';
 
 // Fallback used only during direct `npm run dev` without client.py.
@@ -20,7 +20,6 @@ class AppContext {
   connectionPromise = $state<Promise<void> | null>(null);
   loading = $state(false);
   ui = $state<ClinguinNode | null>(null);
-  nodeMap = $derived(this.ui ? buildNodeMap(this.ui) : new Map<string, ClinguinNode>());
   ds = $state<unknown>(null);
   connected = $state(false);
 
@@ -134,26 +133,6 @@ class AppContext {
         if (!when.operation) return;
         await this.callOperation(when.operation);
         return;
-	  case 'update':
-		if (!when.operation) return;
-		const parsed = parseUpdateOperation(when.operation);
-		if (!parsed) return;
-		const node = this.nodeMap.get(parsed.targetId);
-		if (!node) {
-			console.warn('update: target node "${parsed.targetId}" not found');
-			return;
-		}
-		if (node) {
-			const attrIndex = node.attributes?.findIndex((a) => a.key === parsed.key) ?? -1;
-			if (attrIndex != -1) {
-				node.attributes![attrIndex].value = parsed.value;
-			}
-			else {
-				node.attributes = node.attributes ?? [];
-				node.attributes.push({ id: node.id, key: parsed.key, value: parsed.value });
-			}
-		}
-		return;
       default:
         console.warn('Unsupported action:', when);
     }
@@ -175,7 +154,7 @@ class AppContext {
       });
 
       if (response.status === 409) {
-        await this.fetchInfo();
+        await this._doFetchInfo();
         this.error = { code: 409, title: 'Conflict', message: 'Action conflicts with a newer state. Please try again.' };
         return;
       }
@@ -191,7 +170,7 @@ class AppContext {
 
       const data = await response.json();
       this.version = data.version ?? this.version;
-      await this.fetchInfo();
+      await this._doFetchInfo();
     } catch (err) {
       // Only network-level failures reach here (fetch itself threw)
       this.error = { code: 503, title: 'Network Error', message: this._errorMessage(err) };

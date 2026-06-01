@@ -8,7 +8,6 @@
   id={element.node.id}
   class={cn(element.attr("class"))}
   {...element.actions}
-  hidden={element.hidden}
 >
 {#if element.iconSrc}
   <img src={element.iconSrc} alt="" class={element.iconSize}/>

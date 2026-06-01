@@ -15,7 +15,6 @@
   size={size as any}
   class={element.attr("class")}
   {...element.actions}
-  hidden={element.hidden}
 >
   {#if element.icon}
     <element.icon class="size-4" />

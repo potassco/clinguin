@@ -11,7 +11,7 @@ import { getAttr } from '$lib/utils';
 import type { ClinguinNode } from '$lib/types';
 import { appContext } from '$lib/context.svelte';
 import * as LucideIcons from '@lucide/svelte';
-
+import type { HTMLAttributes } from 'svelte/elements';
 
 export interface ElementProps {
 	element: FrontendElement;
@@ -19,12 +19,13 @@ export interface ElementProps {
 
 export class FrontendElement {
 	actions = {};
-	icon: any = null
-	iconName: string | undefined = undefined;
-	iconSrc: string | null = null;
-	iconSize: string | undefined = undefined;
+	// icon: any = null
+	// iconName: string | undefined = undefined;
+	// iconSrc: string | null = null;
+	// iconSize: string | undefined = undefined;
 	style: string | undefined = undefined;
 	orderVal: string | undefined = undefined;
+
 	constructor(public node: ClinguinNode) {
 		this.node = node;
 
@@ -40,18 +41,18 @@ export class FrontendElement {
 				() => appContext.handleWhen(w)
 			])
 		);
-		this.iconName = getAttr(this.node, 'icon');
-		const isImagePath = this.iconName &&
-			(this.iconName.startsWith('/') || /\.(svg|png|jpg|jpeg|webp)$/i.test(this.iconName));
+		// this.iconName = getAttr(this.node, 'icon');
+		// const isImagePath = this.iconName &&
+		// 	(this.iconName.startsWith('/') || /\.(svg|png|jpg|jpeg|webp)$/i.test(this.iconName));
 
-		this.iconSrc = isImagePath ? (this.iconName ?? null) : null;
-		this.icon = !isImagePath && this.iconName
-			? (LucideIcons as any)[this.iconName] ?? null
-			: null;
+		// this.iconSrc = isImagePath ? (this.iconName ?? null) : null;
+		// this.icon = !isImagePath && this.iconName
+		// 	? (LucideIcons as any)[this.iconName] ?? null
+		// 	: null;
 
-		this.iconSize = this.attr('icon_size') || 'size-4';
-		this.orderVal = this.attr('order');
-		this.style = this.orderVal ? `order: ${this.orderVal}` : undefined;
+		// this.iconSize = this.attr('icon_size') || 'size-4';
+		// this.orderVal = this.attr('order');
+		// this.style = this.orderVal ? `order: ${this.orderVal}` : undefined;
 	}
 	/**
 	 * Reads an attribute value from the node by key.
@@ -59,5 +60,19 @@ export class FrontendElement {
 	 */
 	attr(key: string, fallback = ''): string {
 		return getAttr(this.node, key) ?? fallback;
+	}
+
+	get_icon() {
+		// Find icon in the children
+		// if there is no icon then return null
+		// {#if element.get_icon()}<Renderer node={element.get_icon()} />{/if}
+	}
+
+	get_html<T extends HTMLAttributes<HTMLElement>>(...keys: (keyof T)[]): Partial<T> {
+		// For each key in HTMLAttributes, if we have it as an attribute in the element then return
+		// Some error handling that if something is set but is invalid
+		// Start getting all of them with the HTMLElement
+		HTMLAttributes<HTMLDivElement>
+		return getAttr(this.node, key)
 	}
 }

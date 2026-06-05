@@ -1,6 +1,6 @@
 # Changes
 
-## clinguin 2.8.3
+## clinguin 2.8.4
 
   * Fixes
     * Collapse without overflow hidden to allow scrollable content

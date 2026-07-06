@@ -132,7 +132,6 @@ class Server:
         response = {"status": "running", "version": self.version, "active_sessions": len(self.sessions)}
         try:
             json = backend.get()
-            print(json)
             self.last_response = json
             response.update(json)
             log.debug("Response: %s", response)

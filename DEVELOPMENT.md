@@ -35,6 +35,80 @@ python -m pipx install pre-commit
 pre-commit install
 ```
 
+## Frontend (SvelteKit)
+
+The frontend lives in `src/clinguin/client/svelte/`. Node.js 18+ is required.
+
+### Running in development
+
+Terminal 1: start the server from the project root:
+
+```bash
+clinguin server --domain-files tests/data/encoding.lp --ui-files tests/data/ui.lp --port 8000
+```
+
+Terminal 2: start the Svelte dev server (from the project root):
+
+```bash
+cd src/clinguin/client/svelte
+npm install
+npm run dev
+```
+
+The dev server runs on `http://localhost:5173` and connects to the backend at
+`http://127.0.0.1:8000` by default.
+
+To test a custom theme in dev mode, copy the CSS file into `static/` first,
+then pass just the filename (not the full path) to `VITE_CUSTOM_THEME`:
+
+```bash
+cp /path/to/my-theme.css src/clinguin/client/svelte/static/my-theme.css
+VITE_CUSTOM_THEME=my-theme.css npm run dev
+```
+
+Remember to remove the file from `static/` when done. It is cleaned up
+automatically on `--build` but not in dev mode.
+
+### Building for production
+
+The frontend is built automatically by `client.py` when `--build` is passed:
+
+```bash
+clinguin client --build
+```
+
+With a custom theme:
+
+```bash
+clinguin client --build --theme path/to/my-theme.css
+```
+
+With custom assets (images, fonts, icons):
+
+```bash
+clinguin client --build --assets path/to/assets-dir/
+```
+
+To build manually:
+
+```bash
+cd src/clinguin/client/svelte
+npm install
+npm run build
+```
+
+### Adding shadcn-svelte components
+
+```bash
+cd src/clinguin/client/svelte
+npx shadcn-svelte@latest add <component>
+```
+
+Components are installed into `src/lib/components/ui/`. After installing,
+import the component in the relevant Clinguin component in
+`src/lib/components/` and register the new element type in
+`src/lib/registry.ts` if needed.
+
 [editable]: https://setuptools.pypa.io/en/latest/userguide/development_mode.html
 [nox]: https://nox.thea.codes/en/stable/index.html
 [pipx]: https://pypa.github.io/pipx/

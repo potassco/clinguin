@@ -123,6 +123,8 @@ nav:
       - reference/index.md
       - Problem: reference/problem/index.md
       - Encodings: reference/encodings/index.md
+      - Frontends:
+        - Svelte: reference/frontends/svelte.md
       - API: reference/api/index.md
   - Community:
       - community/index.md

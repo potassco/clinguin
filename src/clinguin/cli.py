@@ -3,8 +3,9 @@ CLI module to start client and server from the command line.
 """
 
 import sys
-from clinguin.server.server import Server
+
 from clinguin.client.client import Client
+from clinguin.server.server import Server
 
 from .utils.logging import configure_logging
 from .utils.parser import get_parser
@@ -29,5 +30,11 @@ def main() -> None:
         )
         server.run()
     elif args.command == "client":
-        client = Client(port=args.port, host=args.host, build=args.build, custom_path=args.custom_path)
+        client = Client(
+            port=args.port,
+            host=args.host,
+            build=args.build,
+            theme=args.theme,
+            assets=args.assets,
+        )
         client.run()

@@ -12,6 +12,7 @@
 	const checkedAttr = $derived(element.attr("checked", ""));
 	const isCheckbox = $derived(checkedAttr !== "");
 	const checked = $derived(checkedAttr === "true");
+	const disabled = $derived(element.attr("disabled") === "true");
 </script>
 
 {#snippet itemContent()}
@@ -36,6 +37,7 @@
 		variant={variant as any}
 		inset={inset}
 		class={element.attr("class")}
+		disabled={disabled}
 		{...element.actions}
 	>
 		{@render itemContent()}

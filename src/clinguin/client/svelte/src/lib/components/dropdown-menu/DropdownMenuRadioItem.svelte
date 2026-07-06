@@ -7,6 +7,7 @@
 
 	const label = $derived(element.attr("label") || element.attr("text"));
 	const value = $derived(element.attr("value"));
+	const disabled = $derived(element.attr("disabled") === "true");
 </script>
 
 <DropdownMenu.RadioItem
@@ -14,6 +15,7 @@
 	value={value}
 	class={element.attr("class")}
 	{...element.actions}
+	disabled={disabled}
 >
 	{#if element.get_icon()}
 		<Renderer node={element.get_icon()!} />

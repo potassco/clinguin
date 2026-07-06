@@ -7,6 +7,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import clinguin.cli as cli
+from fastapi.testclient import TestClient
 import logging
 import pytest
 from clinguin.client.client import Client
@@ -24,6 +25,36 @@ def test_backend_urls():
 
     assert client.backend_http_url("/info") == "https://example.com/backend/info"
     assert client.backend_ws_url("/ws") == "wss://example.com/backend/ws"
+
+
+def test_static_assets_are_proxied(monkeypatch, client):
+    """Ensure backend static assets stay reachable through the client origin."""
+    captured = {}
+
+    class FakeResponse:
+        content = b"body { color: red; }"
+        status_code = 200
+        headers = {"content-type": "text/css; charset=utf-8"}
+
+    class FakeAsyncClient:
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, exc_type, exc, tb):
+            return None
+
+        async def get(self, url, headers=None):
+            captured["url"] = url
+            captured["headers"] = headers
+            return FakeResponse()
+
+    monkeypatch.setattr("clinguin.client.client.httpx.AsyncClient", lambda timeout: FakeAsyncClient())
+
+    response = TestClient(client.app).get("/static/generated.css")
+
+    assert response.status_code == 200
+    assert response.text == "body { color: red; }"
+    assert captured["url"] == "http://127.0.0.1:8000/static/generated.css"
 
 
 def test_cli_passes_server_url(monkeypatch):

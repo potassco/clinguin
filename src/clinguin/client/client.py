@@ -76,6 +76,7 @@ class Client:
         self.app = FastAPI()
         self.app.get("/info")(self.proxy_info)
         self.app.post("/operation")(self.proxy_operation)
+        self.app.get("/static/{asset_path:path}")(self.proxy_static)
         self.app.websocket("/ws")(self.proxy_websocket)
 
         if os.path.exists(self.frontend_dist_path):
@@ -144,6 +145,23 @@ class Client:
                 upstream = await client.post(
                     self.backend_http_url("/operation"),
                     content=await request.body(),
+                    headers=self._forward_headers(request),
+                )
+        except httpx.HTTPError as exc:
+            return self._proxy_error_response(exc)
+
+        return Response(
+            content=upstream.content,
+            status_code=upstream.status_code,
+            media_type=upstream.headers.get("content-type"),
+        )
+
+    async def proxy_static(self, asset_path: str, request: Request) -> Response:
+        """Proxy generated and other backend static assets to the frontend origin."""
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                upstream = await client.get(
+                    self.backend_http_url(f"/static/{asset_path}"),
                     headers=self._forward_headers(request),
                 )
         except httpx.HTTPError as exc:

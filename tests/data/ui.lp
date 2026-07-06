@@ -16,5 +16,5 @@ attr(objects(X), width, 300):-object(X).
 attr(objects(a), draggable_as, a):-object(a).
 when(objects(b), drop, call, add_assumption(_dragged,true)):-object(b).
 
-elem(l(X), label, objects(X)):-object(X).
+elem(l(X), text, objects(X)):-object(X).
 attr(l(X), label, @stringify(X,true)):-object(X).

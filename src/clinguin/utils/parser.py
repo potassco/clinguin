@@ -97,6 +97,7 @@ def get_parser() -> ArgumentParser:
 
     setup_server_parser(subparsers)
     setup_client_parser(subparsers)
+    setup_share_parser(subparsers)
     return parser
 
 
@@ -111,9 +112,7 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "client",
-        description=ascii_art_clinguin
-        + ascii_art_client
-        + "\n🚀 Start the client for clinguin.\
+        description=ascii_art_clinguin + ascii_art_client + "\n🚀 Start the client for clinguin.\
         \n It will run Angular to render the UI and react to events.",  # type: ignore
         help="Start the client",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -162,6 +161,114 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         metavar="PATH",
         help="Path to a directory of static assets (images, fonts, icons) to serve.",
     )
+
+
+def setup_share_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
+    """
+    Setup the parser for the share command.
+
+    This starts a local backend and a browser-facing frontend together,
+    so only the client port needs to be exposed or tunneled.
+    """
+    parser: ArgumentParser = subparsers.add_parser(
+        "share",
+        description=ascii_art_clinguin
+        + ascii_art_server
+        + ascii_art_client
+        + "\n🚀 Start the server and the shareable client together.",  # type: ignore
+        help="Start server and client together",
+        formatter_class=ArgumentDefaultsRichHelpFormatter,
+    )
+    add_logger(parser)
+
+    directories = [get_default_backend_path()]
+    custom_backends_dir = get_custom_backends_directory()
+    if custom_backends_dir:
+        directories.append(custom_backends_dir)
+    available_backends = find_backend_classes(directories)
+
+    parser.add_argument(
+        "--multi",
+        action="store_true",
+        help="Enable multiple backend instances per client connection.",
+    )
+
+    parser.add_argument(
+        "--backend",
+        type=str,
+        metavar=f"{{{','.join(available_backends.keys())}}}",
+        help="Specify the backend class name to use.",
+        default="ClingoBackend",
+    )
+
+    parser.add_argument(
+        "--custom-classes",
+        type=str,
+        metavar="",
+        help="Path to a directory containing custom backend classes.",
+    )
+
+    parser.add_argument(
+        "--server-port",
+        type=int,
+        default=8000,
+        metavar="",
+        help="Local port for the backend server.",
+    )
+
+    parser.add_argument(
+        "--server-host",
+        type=str,
+        default="127.0.0.1",
+        metavar="",
+        help="Local host for the backend server.",
+    )
+
+    parser.add_argument(
+        "--client-port",
+        type=int,
+        default=8001,
+        metavar="",
+        help="Port to serve the browser-facing client.",
+    )
+
+    parser.add_argument(
+        "--client-host",
+        type=str,
+        default="0.0.0.0",
+        metavar="",
+        help="Host to bind the browser-facing client to.",
+    )
+
+    parser.add_argument(
+        "--build",
+        action="store_true",
+        help="Rebuild the Svelte frontend before serving.",
+    )
+
+    parser.add_argument(
+        "--theme",
+        type=str,
+        metavar="PATH",
+        help="Path to a custom CSS file.",
+    )
+
+    parser.add_argument(
+        "--assets",
+        type=str,
+        metavar="PATH",
+        help="Path to a directory of static assets (images, fonts, icons) to serve.",
+    )
+
+    selected_backend_name = get_backend_from_sysargv()
+    backend = lazy_import_backend(selected_backend_name, available_backends)
+
+    group = parser.add_argument_group(
+        selected_backend_name, description=f"Options registered by the selected backend: '{selected_backend_name}'."
+    )
+    group.title = selected_backend_name
+    backend.args_class.register_options(group)
+    parser.set_defaults(backend_class=backend)
 
 
 # ----------------- Server -----------------
@@ -307,9 +414,7 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "server",
-        description=ascii_art_clinguin
-        + ascii_art_server
-        + "\n🚀 Start the server for clinguin.\
+        description=ascii_art_clinguin + ascii_art_server + "\n🚀 Start the server for clinguin.\
         \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
         help="Start the server",
         formatter_class=ArgumentDefaultsRichHelpFormatter,

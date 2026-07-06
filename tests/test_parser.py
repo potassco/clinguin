@@ -58,6 +58,16 @@ def test_client_server_url():
     assert args.server_url == "http://192.168.1.100:8000"
 
 
+def test_share_defaults():
+    """Ensure the share command uses the expected server and client defaults."""
+    parser = get_parser()
+    args = parser.parse_args(["share"])
+    assert args.server_host == "127.0.0.1"
+    assert args.server_port == 8000
+    assert args.client_host == "0.0.0.0"
+    assert args.client_port == 8001
+
+
 def test_client_missing_command():
     """Ensure the parser fails when no command is provided."""
     parser = get_parser()

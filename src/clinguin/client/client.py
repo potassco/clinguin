@@ -6,9 +6,13 @@ import os
 import shutil
 import subprocess
 import sys
+from urllib.parse import urlsplit, urlunsplit
 
+import httpx
 import uvicorn
-from fastapi import FastAPI
+import websockets
+from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 import clinguin
@@ -45,7 +49,7 @@ class Client:
         """
         self.port = port
         self.host = host
-        self.server_url = server_url
+        self.server_url = server_url.rstrip("/")
 
         if os.path.exists(os.path.dirname(__file__)):
             # Development mode (running from source)
@@ -70,6 +74,9 @@ class Client:
             self.build_frontend()  # nocoverage (Mocked in tests)
 
         self.app = FastAPI()
+        self.app.get("/info")(self.proxy_info)
+        self.app.post("/operation")(self.proxy_operation)
+        self.app.websocket("/ws")(self.proxy_websocket)
 
         if os.path.exists(self.frontend_dist_path):
             log.info("Serving Svelte frontend from %s", self.frontend_dist_path)
@@ -82,8 +89,88 @@ class Client:
     def run(self) -> None:
         """Run the client."""
         log.info("🚀 Starting client on %s:%s", self.host, self.port)
-        log.info("Frontend will call server at: %s", self.server_url)
+        log.info("Proxying frontend requests to server at: %s", self.server_url)
         uvicorn.run(self.app, host=self.host, port=self.port, log_level="info")
+
+    def backend_http_url(self, path: str) -> str:
+        """Build a backend HTTP URL for the given path."""
+        return f"{self.server_url}{path}"
+
+    def backend_ws_url(self, path: str) -> str:
+        """Build a backend WebSocket URL for the given path."""
+        scheme, netloc, url_path, query, fragment = urlsplit(self.backend_http_url(path))
+        ws_scheme = "wss" if scheme == "https" else "ws"
+        return urlunsplit((ws_scheme, netloc, url_path, query, fragment))
+
+    @staticmethod
+    def _forward_headers(request: Request) -> dict[str, str]:
+        """Forward only the headers the backend needs."""
+        headers: dict[str, str] = {}
+        for header_name in ("session-id", "content-type"):
+            header_value = request.headers.get(header_name)
+            if header_value:
+                headers[header_name] = header_value
+        return headers
+
+    @staticmethod
+    def _proxy_error_response(exc: Exception) -> JSONResponse:
+        """Return a consistent upstream connection error response."""
+        return JSONResponse(
+            status_code=502,
+            content={"detail": f"Could not reach backend server: {exc}"},
+        )
+
+    async def proxy_info(self, request: Request) -> Response:
+        """Proxy GET /info to the backend server."""
+        try:
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                upstream = await client.get(
+                    self.backend_http_url("/info"),
+                    headers=self._forward_headers(request),
+                )
+        except httpx.HTTPError as exc:
+            return self._proxy_error_response(exc)
+
+        return Response(
+            content=upstream.content,
+            status_code=upstream.status_code,
+            media_type=upstream.headers.get("content-type"),
+        )
+
+    async def proxy_operation(self, request: Request) -> Response:
+        """Proxy POST /operation to the backend server."""
+        try:
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                upstream = await client.post(
+                    self.backend_http_url("/operation"),
+                    content=await request.body(),
+                    headers=self._forward_headers(request),
+                )
+        except httpx.HTTPError as exc:
+            return self._proxy_error_response(exc)
+
+        return Response(
+            content=upstream.content,
+            status_code=upstream.status_code,
+            media_type=upstream.headers.get("content-type"),
+        )
+
+    async def proxy_websocket(self, websocket: WebSocket) -> None:
+        """Proxy /ws to the backend server so the frontend can stay same-origin."""
+        await websocket.accept()
+        try:
+            async with websockets.connect(self.backend_ws_url("/ws")) as upstream:
+                while True:
+                    message = await upstream.recv()
+                    if isinstance(message, bytes):
+                        await websocket.send_bytes(message)
+                    else:
+                        await websocket.send_text(message)
+        except WebSocketDisconnect:
+            return
+        except (OSError, websockets.WebSocketException) as exc:  # pragma: no cover - depends on network failures
+            await websocket.send_json({"error": f"Could not connect to backend websocket: {exc}"})
+            await websocket.close(code=1011)
 
     def build_frontend(self) -> None:
         """
@@ -119,7 +206,7 @@ class Client:
 
         log.debug("Building Svelte frontend...")
         env = os.environ.copy()
-        env["VITE_SERVER_URL"] = self.server_url
+        env["VITE_SERVER_URL"] = ""
         env["VITE_CUSTOM_THEME"] = theme_filename
         subprocess.run(
             ["npm", "run", "build"],

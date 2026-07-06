@@ -88,6 +88,9 @@ def test_interaction_browse_select_download():
     assert backend._messages[1] == ("Download successful", "Information saved in file my_file.lp.", "success")
     assert os.path.isfile("my_file.lp")
 
+    os.remove("clinguin_download.lp")
+    os.remove("my_file.lp")
+
     backend.select()
     assert len(backend._assumptions) == 3
     assert backend._handler is None

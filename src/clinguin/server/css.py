@@ -2,6 +2,7 @@
 
 import logging
 import os
+from pathlib import Path
 import subprocess
 import sys
 
@@ -9,6 +10,8 @@ log = logging.getLogger(__name__)
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_CSS_PATH = os.path.normpath(os.path.join(_THIS_DIR, "..", "client", "svelte", "src", "app.css"))
+SVELTE_ROOT = Path(_THIS_DIR).parent / "client" / "svelte"
+TAILWIND_BIN = SVELTE_ROOT / "node_modules" / ".bin" / "tailwindcss"
 
 STATIC_DIR = os.path.join(os.getcwd(), "static")
 GENERATED_CSS_PATH = os.path.join(STATIC_DIR, "generated.css")
@@ -39,8 +42,16 @@ def generate_tailwind_css(ui_files: list[str]) -> None:
     temp_css_file = _create_temp_css_file(ui_files)
     log.info("Compiling Tailwind CSS for: %s", ", ".join(ui_files))
     try:
-        subprocess.run(["tailwindcss", "-i", temp_css_file, "-o", GENERATED_CSS_PATH], check=True)
+        subprocess.run(
+            [str(TAILWIND_BIN), "-i", temp_css_file, "-o", GENERATED_CSS_PATH],
+            check=True,
+        )
         log.info("CSS compiled successfully -> %s", GENERATED_CSS_PATH)
+    except FileNotFoundError:
+        if not os.path.exists(GENERATED_CSS_PATH):
+            with open(GENERATED_CSS_PATH, "w", encoding="utf-8") as f:
+                f.write("/* Tailwind CLI not available; using empty generated CSS. */\n")
+        log.warning("Local tailwindcss CLI not found; using existing generated CSS at %s", GENERATED_CSS_PATH)
     except subprocess.CalledProcessError as e:
         log.error("CSS compilation failed: %s", e)
         sys.exit(1)

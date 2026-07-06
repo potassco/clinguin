@@ -713,10 +713,6 @@ class ClingoBackend:
 
             self._model = model.symbols(shown=True, atoms=True, theory=True)
         except StopIteration:
-            print(
-                "optimizing",
-            )
-            print(optimizing)
             if optimizing:
                 m = "No more optimal solutions"
             else:

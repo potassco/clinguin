@@ -1,8 +1,8 @@
 """Client module for serving the Svelte frontend."""
 
-import importlib
 import logging
 import os
+from pathlib import Path
 import shutil
 import subprocess
 import sys
@@ -14,8 +14,6 @@ import websockets
 from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-
-import clinguin
 
 from ..utils.logging import configure_logging
 
@@ -51,15 +49,7 @@ class Client:
         self.host = host
         self.server_url = server_url.rstrip("/")
 
-        if os.path.exists(os.path.dirname(__file__)):
-            # Development mode (running from source)
-            package_path = os.path.dirname(__file__)
-        else:
-            # Installed mode (running from `site-packages/`)
-            package_path = os.path.dirname(importlib.resources.files(clinguin))
-
-        self.svelte_src_path = os.path.join(package_path, "svelte")
-        self.frontend_dist_path = os.path.join(package_path, "svelte", "build")
+        self.svelte_src_path, self.frontend_dist_path = self._resolve_frontend_paths()
         self.theme = theme or None
         self.assets = assets or None
 
@@ -91,6 +81,42 @@ class Client:
         log.info("🚀 Starting client on %s:%s", self.host, self.port)
         log.info("Proxying frontend requests to server at: %s", self.server_url)
         uvicorn.run(self.app, host=self.host, port=self.port, log_level="info")
+
+    @staticmethod
+    def _candidate_client_roots() -> list[Path]:
+        """Return likely client source roots for both source and installed runs."""
+        candidates: list[Path] = []
+
+        workspace_root = Path.cwd() / "src" / "clinguin" / "client"
+        if workspace_root not in candidates:
+            candidates.append(workspace_root)
+
+        package_root = Path(__file__).resolve().parent
+        if package_root not in candidates:
+            candidates.append(package_root)
+
+        return candidates
+
+    def _resolve_frontend_paths(self) -> tuple[str, str]:
+        """Resolve frontend source and build paths with a workspace fallback for tests and nox."""
+        selected_root: Path | None = None
+
+        for candidate_root in self._candidate_client_roots():
+            if (candidate_root / "svelte" / "build").exists():
+                selected_root = candidate_root
+                break
+
+        if selected_root is None:
+            for candidate_root in self._candidate_client_roots():
+                if (candidate_root / "svelte").exists():
+                    selected_root = candidate_root
+                    break
+
+        if selected_root is None:
+            selected_root = self._candidate_client_roots()[0]
+
+        svelte_root = selected_root / "svelte"
+        return str(svelte_root), str(svelte_root / "build")
 
     def backend_http_url(self, path: str) -> str:
         """Build a backend HTTP URL for the given path."""
@@ -162,10 +188,10 @@ class Client:
             async with websockets.connect(self.backend_ws_url("/ws")) as upstream:
                 while True:
                     message = await upstream.recv()
-                    if isinstance(message, bytes):
-                        await websocket.send_bytes(message)
-                    else:
+                    if isinstance(message, str):
                         await websocket.send_text(message)
+                    else:
+                        await websocket.send_bytes(bytes(message))
         except WebSocketDisconnect:
             return
         except (OSError, websockets.WebSocketException) as exc:  # pragma: no cover - depends on network failures

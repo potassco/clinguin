@@ -19,6 +19,7 @@
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"@tailwindcss/cli": "^4.3.2",
 		"@tailwindcss/vite": "^4.2.2",
 		"bits-ui": "^2.17.3",
 		"clsx": "^2.1.1",

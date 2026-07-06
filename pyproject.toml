@@ -5,8 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "clinguin"
 authors = [{ name = "Susana Hahn", email = "hahnmartinlu@uni-potsdam.de" }]
-description = "A template project."
-requires-python = ">=3.9"
+description = "Clinguin a system for ASP user interfaces."
+requires-python = ">=3.10"
 license = { file = "LICENSE" }
 dynamic = ["version"]
 readme = "README.md"
@@ -20,20 +20,30 @@ dependencies = [
     "clingo",
     "clorm",
     "networkx",
-	"pytailwindcss"
+    "pytailwindcss",
 ]
 
-
 [project.urls]
-Homepage = "https://github.com/krr-up/clinguin.git/"
+Homepage = "https://github.com/potassco/clinguin.git/"
+Documentation = "https://docs.potassco.org/clinguin/"
+Repository = "https://github.com/potassco/clinguin"
+Issues = "https://github.com/potassco/clinguin/issues"
+Changelog = "https://github.com/potassco/clinguin/blob/master/CHANGES.md"
 
 [project.optional-dependencies]
-format = ["black", "isort", "autoflake"]
-lint_pylint = ["pylint"]
-typecheck = ["types-setuptools", "mypy"]
-test = ["pytest", "pytest-asyncio", "coverage[toml]"]
-doc = ["mkdocs", "mkdocs-material", "mkdocstrings[python]"]
-dev = ["clinguin[test,typecheck,lint_pylint]"]
+lint = ["ruff"]
+typecheck = ["pytest", "ty"]
+test = ["pytest", "pytest-cov", "coverage[toml]", "pytest-asyncio"]
+doc = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings>=1.0.4",
+    "mkdocstrings-python>=2.0",
+    "clindocs>=1.5.1",
+    "mkdocs-literate-nav",
+    "pygments_clingo",
+]
+dev = ["clinguin[test,typecheck,lint]"]
 
 [project.scripts]
 clinguin = "clinguin.__main__:main"
@@ -52,53 +62,48 @@ line_length = 120
 [tool.black]
 line-length = 120
 
-[tool.pylint.format]
-max-line-length = 120
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+exclude = [
+    "/usr/**",
+    "**/site-packages/**",
+    "**/node_modules/**",
+    "**/typeshed-fallback/**",
+]
 
-[tool.pylint.design]
-max-args = 10
-max-attributes = 7
-max-bool-expr = 5
-max-branches = 12
-max-locals = 30
-max-parents = 7
-max-public-methods = 20
-max-returns = 10
-max-statements = 50
-min-public-methods = 1
-max-positional-arguments = 10
+[tool.ruff.lint]
+extend-select = ["I", "E", "F", "B", "C4", "D", "ARG", "SIM", "ANN", "Q"]
+ignore = [
+    "E741",
+    "D200",
+    "D203",
+    "D212",
+    "D413",
+    "B023", # broken lint
+]
 
-[tool.pylint.similarities]
-ignore-comments = true
-ignore-docstrings = true
-ignore-imports = true
-ignore-signatures = true
-
-[tool.pylint.basic]
-argument-rgx = "^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$"
-variable-rgx = "^[a-z][a-z0-9]*((_[a-z0-9]+)*_?)?$"
-good-names = ["_"]
-
-[tool.coverage.run]
-omit = ["*/clinguin/__main__.py", "*/clinguin/cli.py"]
-data_file = ".coverage"
-source = ["clinguin", "tests"]
-branch = true
-parallel = true
-concurrency = ["multiprocessing"]
-
-
-[tool.coverage.report]
-exclude_lines = ["assert", "nocoverage"]
-
+[tool.ruff.lint.per-file-ignores]
+"noxfile.py" = ["ANN"]
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
 
-[tool.mypy]
-strict = true
+[tool.coverage.run]
+source = ["clinguin", "tests"]
+omit = ["*/clinguin/__main__.py", "*/clinguin/utils/logging.py"]
 
-[[tool.mypy.overrides]]
-module = "tests.*"
-ignore_errors = true
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
+exclude_lines = [
+    "raise NotImplementedError",
+    "raise TypeError",
+    "nocoverage",
+    "assert",
+    "\\.\\.\\.",
+]

@@ -1,9 +1,0 @@
-clingo>=5.6.0
-clorm>=1.4.1
-clingo-dl
-fastapi
-networkx
-uvicorn
-clingraph
-Pillow
-clingexplaid>=1.0.14

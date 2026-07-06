@@ -2,6 +2,7 @@
   // General
   import { Button } from "$lib/components/ui/button";
   import type { ElementProps } from "$lib/frontendElement";
+  import Renderer from "$lib/Renderer.svelte";
 
   let { element }: ElementProps = $props();
 
@@ -13,11 +14,13 @@
 
 <Button
   id={element.node.id}
-  {...element.get_html("HTML...")}
+  {...element.get_html()}
   {...element.actions}
   variant={variant as any}
   size={size as any}
 >
-  {#if element.get_icon()}<Renderer node={element.get_icon()} />{/if}
+  {#if element.get_icon()}
+  	<Renderer node={element.get_icon()!} />
+  {/if}
   {label}
 </Button>

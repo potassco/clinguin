@@ -32,3 +32,13 @@ export function toWebSocketUrl(httpUrl: string): string {
   if (httpUrl.startsWith('http://')) return httpUrl.replace('http://', 'ws://');
   return httpUrl;
 }
+
+export function parseUpdateOperation(operation: string): { id: string; key: string; value: string } | null {
+	const match = operation.trim().match(/^\((.+),(.+),(.+)\)$/);
+	if (!match) return null;
+	return {
+		id: match[1].trim(),
+		key: match[2].trim(),
+		value: match[3].trim(),
+	};
+}

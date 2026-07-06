@@ -25,11 +25,20 @@
   // svelte-ignore state_referenced_locally
   //console.log("Rendering node:", elem);
 
+  let elem_order = $derived(elem.attr("order"));
+
   const Component = $derived(elem.node?.type ? registry[elem.node.type] : null);
 </script>
 
 {#if Component}
-  <Component element={elem} />
+	{#if elem_order}
+		<div style="order: {elem_order}">
+			<Component element={elem} />
+		</div>
+	<!--  -->
+	{:else}
+		<Component element={elem} />
+	{/if}
 {:else}
   <div>
     Unsupported element type: <code>{node?.type}</code>

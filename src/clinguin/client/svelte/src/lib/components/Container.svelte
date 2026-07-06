@@ -4,14 +4,12 @@
   import Renderer from "$lib/Renderer.svelte";
 
   let { element }: ElementProps = $props();
-  //console.log("Container element:", element);
   const children = $derived(element.node?.children ?? []);
 </script>
 
 <div
   id={element.node.id}
-  class={cn(element.attr("class"))}
-  style={element.style}
+  {...element.get_html()}
   {...element.actions}
 >
   {#each children as child (child.id)}

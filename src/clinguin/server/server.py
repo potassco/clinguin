@@ -8,17 +8,19 @@ import uuid
 from types import SimpleNamespace
 from typing import Any, Callable, Coroutine
 
-from httpx import request
 import uvicorn
 from clingo import SymbolType, parse_term
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+from httpx import request
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
 
 from ..utils.logging import colored, configure_logging
+from .css import STATIC_DIR, generate_tailwind_css
 
 log = logging.getLogger(__name__)
 
@@ -51,10 +53,14 @@ class Server:
         """
         self.backend_class = backend_class
         self.backend_args = backend_args
+
+        generate_tailwind_css(self.backend_args.ui_files)
+
         self.port = port
         self.host = host
         self.multi = multi
         self.app = FastAPI()
+        self.app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
         self.app.add_middleware(
             CORSMiddleware,
             allow_origins=["*"],

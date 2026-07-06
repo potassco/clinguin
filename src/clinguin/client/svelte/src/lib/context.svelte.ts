@@ -5,7 +5,7 @@
  * It uses Svelte's $state for reactivity and is instantiated as a singleton exported as appContext.
  */
 
-import { toWebSocketUrl } from '$lib/utils';
+import { parseUpdateOperation, toWebSocketUrl } from '$lib/utils';
 import type { AppError } from '$lib/types';
 
 // Fallback used only during direct `npm run dev` without client.py.
@@ -128,11 +128,21 @@ class AppContext {
    */
   handleWhen = async (when: ClinguinWhen): Promise<void> => {
     if (!when) return;
+	console.log('Handling when:', when); // DEBUG
     switch (when.action) {
       case 'call':
         if (!when.operation) return;
         await this.callOperation(when.operation);
         return;
+	  case 'update':
+		if (!when.operation) return;
+		const parsed = parseUpdateOperation(when.operation);
+		if (!parsed) {
+			console.warn('update: invalid operation:', when.operation);
+			return;
+		}
+		this._applyUpdate(parsed.id, parsed.key, parsed.value);
+		return;
       default:
         console.warn('Unsupported action:', when);
     }
@@ -154,7 +164,7 @@ class AppContext {
       });
 
       if (response.status === 409) {
-        await this._doFetchInfo();
+        await this.fetchInfo();
         this.error = { code: 409, title: 'Conflict', message: 'Action conflicts with a newer state. Please try again.' };
         return;
       }
@@ -170,7 +180,7 @@ class AppContext {
 
       const data = await response.json();
       this.version = data.version ?? this.version;
-      await this._doFetchInfo();
+      await this.fetchInfo();
     } catch (err) {
       // Only network-level failures reach here (fetch itself threw)
       this.error = { code: 503, title: 'Network Error', message: this._errorMessage(err) };
@@ -179,6 +189,26 @@ class AppContext {
     }
   };
 
+
+  /** Applies an "update" operation locally without refetching the UI. */
+  private _applyUpdate = (id: string, key: string, value: string): void => {
+	if (!this.ui) return;
+
+	const findAndUpdate = (node: ClinguinNode): boolean => {
+		if (node.id === id) {
+			const existing = (node.attributes ?? []).find((a) => a.key === key);
+			if (existing) {
+				existing.value = value;
+			} else {
+				(node.attributes ??= []).push({id, key, value});
+			}
+			return true;
+		}
+		return (node.children ?? []).some(findAndUpdate);
+	};
+
+	findAndUpdate(this.ui);
+};
 
 }
 

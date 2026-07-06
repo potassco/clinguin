@@ -20,6 +20,7 @@ dependencies = [
     "clingo",
     "clorm",
     "networkx",
+	"pytailwindcss"
 ]
 
 

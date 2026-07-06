@@ -19,7 +19,6 @@
 <Button
   id={element.node.id}
   onclick={toggleMode}
-  class={element.attr("class")}
   variant={variant as any}
   size={size as any}
   aria-label="Toggle theme"

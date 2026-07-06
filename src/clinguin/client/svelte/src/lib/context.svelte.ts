@@ -8,9 +8,11 @@
 import { parseUpdateOperation, toWebSocketUrl } from '$lib/utils';
 import type { AppError } from '$lib/types';
 
-// Fallback used only during direct `npm run dev` without client.py.
-// In production, VITE_SERVER_URL is injected at build time by client.py.
-const DEFAULT_SERVER_URL = 'http://127.0.0.1:8000';
+// Vite dev runs on 5173 and still needs the backend on 8000.
+// When the bundled app is served by client.py, default to same-origin so one public URL is enough.
+const DEFAULT_SERVER_URL = typeof window !== 'undefined' && window.location.port !== '5173'
+  ? window.location.origin
+  : 'http://127.0.0.1:8000';
 import type { ClinguinNode, ClinguinWhen, InfoResponse, ClinguinAttribute } from '$lib/types';
 
 class AppContext {

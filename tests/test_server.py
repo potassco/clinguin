@@ -154,7 +154,7 @@ async def test_websocket_operation():
             response = await asyncio.wait_for(
                 client.post(
                     f"{HTTP_URL}/operation",
-                    json={"operation": "test_operation", "client_version": 1},
+                    json={"operation": "clear_assumptions", "client_version": 1},
                     headers=headers,
                 ),
                 timeout=5,
@@ -187,7 +187,9 @@ async def test_websocket_version_notifications():
         async with httpx.AsyncClient(timeout=5) as client:
             response = await asyncio.wait_for(
                 client.post(
-                    f"{HTTP_URL}/operation", json={"operation": "test_operation", "client_version": 2}, headers=headers1
+                    f"{HTTP_URL}/operation",
+                    json={"operation": "clear_assumptions", "client_version": 2},
+                    headers=headers1,
                 ),
                 timeout=5,
             )
@@ -202,7 +204,7 @@ async def test_websocket_version_notifications():
         # Make a request without session id and get 400
         async with httpx.AsyncClient(timeout=5) as client:
             response = await asyncio.wait_for(
-                client.post(f"{HTTP_URL}/operation", json={"operation": "test_operation", "client_version": 3}),
+                client.post(f"{HTTP_URL}/operation", json={"operation": "clear_assumptions", "client_version": 3}),
                 timeout=5,
             )
             assert response.status_code == 400
@@ -210,7 +212,9 @@ async def test_websocket_version_notifications():
             # Make an outdated request and get 409
             response = await asyncio.wait_for(
                 client.post(
-                    f"{HTTP_URL}/operation", json={"operation": "test_operation", "client_version": 2}, headers=headers1
+                    f"{HTTP_URL}/operation",
+                    json={"operation": "clear_assumptions", "client_version": 2},
+                    headers=headers1,
                 ),
                 timeout=5,
             )

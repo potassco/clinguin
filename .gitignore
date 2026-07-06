@@ -40,3 +40,6 @@ site
 src/clinguin/client/svelte/node_modules/
 src/clinguin/client/svelte/build/
 src/clinguin/client/svelte/.svelte-kit/
+
+.nox
+node_modules

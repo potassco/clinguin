@@ -10,6 +10,7 @@
   const label = $derived(element.attr("text") || element.attr("label"));
   const variant = $derived(element.attr("variant") || "default"); // support 'primary', 'secondary', 'destructive', 'outline', 'ghost', 'link'
   const size = $derived(element.attr("size") || "default");
+  const disabled = $derived(element.attr("disabled") === "true");
 </script>
 
 <Button
@@ -18,6 +19,7 @@
   {...element.actions}
   variant={variant as any}
   size={size as any}
+  disabled={disabled}
 >
   {#if element.get_icon()}
   	<Renderer node={element.get_icon()!} />

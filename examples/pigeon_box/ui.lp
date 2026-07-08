@@ -215,22 +215,21 @@ attr(box_card(B), order, B) :- box(B).
     attr(box_pigeons(B), class, ("flex"; "flex-col"; "gap-1"; "min-h-6")) :- box(B).
 
         elem(chip(B,P), container, box_pigeons(B)) :- shown_assignment(P,B).
-        attr(chip(B,P), class, ("flex"; "items-center"; "justify-between"; "gap-1"; "px-2"; "py-1"; "rounded"; "text-xs")) :- shown_assignment(P,B).
+        attr(chip(B,P), class, ("flex"; "items-center"; "justify-between"; "gap-1"; "px-2"; "py-1"; "rounded"; "text-xs"; "transition-colors")) :- shown_assignment(P,B).
         attr(chip(B,P), class, ("bg-primary"; "text-primary-foreground")) :- shown_assignment(P,B), locked_pigeon(P).
         attr(chip(B,P), class, ("bg-accent";  "text-accent-foreground"))  :- shown_assignment(P,B), not locked_pigeon(P).
+
+        attr(chip(B,P), class, ("group"; "cursor-pointer"; "hover:bg-destructive"; "hover:text-destructive-foreground")) :- assumed(P,B).
+        when(chip(B,P), click, call, remove_assumption(in(P,B))) :- assumed(P,B).
 
             elem(chip_label(B,P), text, chip(B,P)) :- shown_assignment(P,B).
             attr(chip_label(B,P), text, @concat("Pigeon ", P)) :- shown_assignment(P,B).
             attr(chip_label(B,P), order, 1) :- shown_assignment(P,B).
 
-            elem(chip_remove(B,P), button, chip(B,P)) :- assumed(P,B).
-            attr(chip_remove(B,P), variant, "ghost") :- assumed(P,B).
-            attr(chip_remove(B,P), size, "xs") :- assumed(P,B).
-            attr(chip_remove(B,P), class, ("h-4"; "w-4"; "p-0")) :- assumed(P,B).
-            attr(chip_remove(B,P), order, 2) :- assumed(P,B).
-            when(chip_remove(B,P), click, call, remove_assumption(in(P,B))) :- assumed(P,B).
-                elem(chip_remove_icon(B,P), icon, chip_remove(B,P)) :- assumed(P,B).
-                attr(chip_remove_icon(B,P), icon, "X") :- assumed(P,B).
+            elem(chip_icon_hover(B,P), icon, chip(B,P)) :- assumed(P,B).
+            attr(chip_icon_hover(B,P), icon, "X") :- assumed(P,B).
+            attr(chip_icon_hover(B,P), class, ("hidden"; "group-hover:inline-block")) :- assumed(P,B).
+            attr(chip_icon_hover(B,P), order, 2) :- assumed(P,B).
 
 
 % ── RIGHT: Pigeon roster table ────────────────

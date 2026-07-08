@@ -11,9 +11,13 @@
 	const icon = $derived(element.get_icon());
 
 	const contentNode = $derived(
-		element.node?.children?.find((c) => c.type === "dropdown_menu_content") ?? null
+		element.node?.children?.find(
+			(c) => c.type === "dropdown_menu_content",
+		) ?? null,
 	);
-	const contentElem = $derived(contentNode ? new FrontendElement(contentNode) : null);
+	const contentElem = $derived(
+		contentNode ? new FrontendElement(contentNode) : null,
+	);
 </script>
 
 {#snippet triggerContent()}

@@ -18,6 +18,7 @@
 
 <Button
   id={element.node.id}
+  {...element.get_html()}
   onclick={toggleMode}
   variant={variant as any}
   size={size as any}

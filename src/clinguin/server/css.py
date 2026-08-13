@@ -9,9 +9,7 @@ log = logging.getLogger(__name__)
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-SVELTE_DIR = os.path.normpath(
-    os.path.join(_THIS_DIR, "..", "client", "svelte")
-)
+SVELTE_DIR = os.path.normpath(os.path.join(_THIS_DIR, "..", "client", "svelte"))
 
 APP_CSS_PATH = os.path.join(SVELTE_DIR, "src", "app.css")
 
@@ -51,3 +49,10 @@ def generate_tailwind_css(ui_files: list[str]) -> None:
         sys.exit(1)
     finally:
         _remove_temp_css_file(temp_css_file)
+
+
+def remove_generated_css() -> None:
+    """Removes the compiled generated.css from static/ ."""
+    if os.path.exists(GENERATED_CSS_PATH):
+        os.remove(GENERATED_CSS_PATH)
+        log.info("Removed generated CSS -> %s", GENERATED_CSS_PATH)

@@ -9,6 +9,7 @@
 
 	const trigger = $derived(element.attr("text") || element.attr("label"));
 	const icon = $derived(element.get_icon());
+	const disabled = $derived(element.attr("disabled") === "true");
 
 	const contentNode = $derived(
 		element.node?.children?.find((c) => c.type === "dropdown_menu_content") ?? null
@@ -27,6 +28,7 @@
 	<DropdownMenu.Sub>
 		<DropdownMenu.SubTrigger
 			id={element.node.id}
+			{disabled}
 			class={element.attr("class")}
 			{...element.actions}
 		>
@@ -38,9 +40,10 @@
 	</DropdownMenu.Sub>
 {:else}
 	<DropdownMenu.Root>
-		<DropdownMenu.Trigger>
+		<DropdownMenu.Trigger {disabled}>
 			<button
 				id={element.node.id}
+				{disabled}
 				{...element.get_html()}
 				{...element.actions}
 			>

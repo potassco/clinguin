@@ -12,6 +12,14 @@ import DropdownMenuGroup from './components/dropdown-menu/DropdownMenuGroup.svel
 import DropdownMenuLabel from './components/dropdown-menu/DropdownMenuLabel.svelte';
 import DropdownMenuRadioGroup from './components/dropdown-menu/DropdownMenuRadioGroup.svelte';
 import DropdownMenuRadioItem from './components/dropdown-menu/DropdownMenuRadioItem.svelte';
+import Checkbox from './components/Checkbox.svelte';
+import Field from '$lib/components/field/Field.svelte';
+import FieldSet from '$lib/components/field/FieldSet.svelte';
+import FieldGroup from '$lib/components/field/FieldGroup.svelte';
+import FieldLabel from '$lib/components/field/FieldLabel.svelte';
+import FieldDescription from '$lib/components/field/FieldDescription.svelte';
+import FieldError from '$lib/components/field/FieldError.svelte';
+import Input from '$lib/components/Input.svelte';
 
 export const registry: Record<string, any> = {
   root: Container,
@@ -31,5 +39,13 @@ export const registry: Record<string, any> = {
   dropdown_menu_label: DropdownMenuLabel,
   dropdown_menu_radio_group: DropdownMenuRadioGroup,
   dropdown_menu_radio_item: DropdownMenuRadioItem,
+  checkbox: Checkbox,
+  field: Field,
+  field_set: FieldSet,
+  field_group: FieldGroup,
+  field_label: FieldLabel,
+  field_description: FieldDescription,
+  field_error: FieldError,
+  input: Input
 
 };

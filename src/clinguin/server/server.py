@@ -20,7 +20,7 @@ from pydantic import BaseModel
 from clinguin.server.backends import ClingoBackend
 
 from ..utils.logging import colored, configure_logging
-from .css import STATIC_DIR, generate_tailwind_css
+from .css import STATIC_DIR, generate_tailwind_css, remove_generated_css
 
 log = logging.getLogger(__name__)
 
@@ -109,7 +109,10 @@ class Server:
     def run(self) -> None:
         """Run the FastAPI server."""
         log.info("🚀 Starting server on %s:%s", self.host, self.port)
-        uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
+        try:
+            uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
+        finally:
+            remove_generated_css()
 
     async def log_requests(
         self, request: Request, call_next: Callable[[Request], Coroutine[Any, Any, Response]]

@@ -2,6 +2,8 @@
 Module that contains the Clingcon Backend.
 """
 
+# pylint: disable=duplicate-code
+
 import warnings
 
 from clingo.ast import Location, Position, ProgramBuilder, Rule, parse_files

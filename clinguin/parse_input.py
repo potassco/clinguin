@@ -313,13 +313,11 @@ class ArgumentParser:
         parser.add_argument(
             "--backend",
             type=str,
-            help=textwrap.dedent(
-                f"""\
+            help=textwrap.dedent(f"""\
                 Optionally specify which backend to use using the class name.
-                Backends for clingcon, clingo-dl and fclingo are only available if the corresponding module is installed.
+                Backends for clingcon, clingo-dl and fclingo are available if the corresponding module is installed.
                 {sub_classes_str}
-                """
-            ),
+                """),
             metavar="",
         )
         parser.add_argument(
@@ -339,12 +337,10 @@ class ArgumentParser:
         parser.add_argument(
             "--frontend",
             type=str,
-            help=textwrap.dedent(
-                f"""\
+            help=textwrap.dedent(f"""\
                 Optionally specify which frontend to use using the class name.
                 {sub_classes_str}
-                """
-            ),
+                """),
             metavar="",
         )
         parser.add_argument(

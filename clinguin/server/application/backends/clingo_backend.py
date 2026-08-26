@@ -3,6 +3,7 @@
 """
 Module that contains the ClingoBackend.
 """
+
 import functools
 import logging
 import textwrap
@@ -120,13 +121,11 @@ class ClingoBackend:
 
         parser.add_argument(
             "--opt-timeout",
-            help=textwrap.dedent(
-                """\
+            help=textwrap.dedent("""\
                     Optional timeout for searching for optimal models.
                     The timeout is not exactly enforced (might take longer)
                     but only checked after each solution is found.
-                 """
-            ),
+                 """),
             type=int,
             metavar="",
         )
@@ -505,6 +504,7 @@ class ClingoBackend:
                 symbol (clingo.Symbol): The clingo symbol to be set
                 name (str): Either "true", "false", "none", "release"
         """
+        # pylint: disable=too-many-branches
         name = name.strip('"')
         if name == "release":
             self._logger.debug(domctl_log(f"ctl.release_external({symbol})"))

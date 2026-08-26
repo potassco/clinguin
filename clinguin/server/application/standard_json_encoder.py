@@ -15,7 +15,7 @@ from .element import ElementDto
 
 class StandardJsonEncoder:
     """
-    The standrd json encoder is responsible for converting a UIState into a json hierarchy.
+    The standard json encoder is responsible for converting a UIState into a json hierarchy.
     """
 
     def __init__(self):
@@ -62,14 +62,9 @@ class StandardJsonEncoder:
             dependency.append((w.id, w.parent))
         for w in ui_state.get_elements():
             if str(w.parent) != "root" and w.parent not in elements_info:
-                msg = "Error in %s. Parent element (ID: %s) undefined."
-                logger.debug(
-                    msg,
-                    str(w),
-                    str(w.parent),
-                )
+                msg = "Parent element %s is undefined Element %s ignored."
+                logger.info(msg, str(w.parent), str(w))
                 continue
-                raise Exception(msg % (str(w), str(w.parent)))
 
         directed_graph = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(directed_graph))))
@@ -89,7 +84,6 @@ class StandardJsonEncoder:
                     str(element_id),
                 )
                 continue
-                raise Exception(" The ID : " + str(element_id) + " could not be found!")
 
             element_type = elements_info[element_id]["type"]
             parent = elements_info[element_id]["parent"]
@@ -109,17 +103,10 @@ class StandardJsonEncoder:
 
             elements_dict[str(element_id)] = element
             if not str(element.parent) in elements_dict:
-                logger.debug(
-                    "Error in %s. Parent element (ID: %s) undefined.",
-                    str(element),
+                logger.info(
+                    "Parent element %s is undefined. Element %s ignored.",
                     str(element.parent),
+                    str(element),
                 )
                 continue
-                raise Exception(
-                    "Error in "
-                    + str(element)
-                    + ". Parent element (ID: "
-                    + str(element.parent)
-                    + ") undefined."
-                )
             elements_dict[str(element.parent)].add_child(element)

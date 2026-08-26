@@ -5,7 +5,18 @@ Module that contains the Clingcon Backend.
 import warnings
 
 from clingo.ast import Location, Position, ProgramBuilder, Rule, parse_files
-from clingcon import ClingconTheory
+
+try:
+    from clingcon import ClingconTheory
+
+    _HAS_CLINGCON = True
+except ImportError:
+    _HAS_CLINGCON = False
+    warnings.warn(
+        "clingcon is not installed. The ClingconBackend will not work until you "
+        "install it (e.g. `pip install git+https://github.com/potassco/clingcon.git`).",
+        ImportWarning,
+    )
 
 
 try:

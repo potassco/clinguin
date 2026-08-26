@@ -1,5 +1,9 @@
 # Changes
 
+## clinguin 2.8.5
+
+  * Allow clingo version 5.8.2
+
 ## clinguin 2.8.4
 
   * Fixes

@@ -2,6 +2,8 @@
 Module that contains the Clingcon Backend.
 """
 
+# pylint: disable=duplicate-code
+
 import warnings
 
 from clingo.ast import Location, Position, ProgramBuilder, Rule, parse_files
@@ -12,6 +14,7 @@ try:
     _HAS_CLINGCON = True
 except ImportError:
     _HAS_CLINGCON = False
+    ClingconTheory = None
     warnings.warn(
         "clingcon is not installed. The ClingconBackend will not work until you "
         "install it (e.g. `pip install git+https://github.com/potassco/clingcon.git`).",
@@ -64,6 +67,11 @@ class FclingoBackend(TheoryBackend):
             raise RuntimeError(
                 "fclingo is not installed. Please install it to use FclingoBackend.\n"
                 "Try: pip install git+https://github.com/potassco/fclingo.git"
+            )
+        if not _HAS_CLINGCON:
+            raise ImportError(
+                "clingcon is not installed. The ClingconBackend will not work until you "
+                "install it (e.g. `pip install git+https://github.com/potassco/clingcon.git`).",
             )
         super().__init__(*args, **kwargs)
 

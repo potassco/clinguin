@@ -33,6 +33,7 @@ export function toWebSocketUrl(httpUrl: string): string {
   return httpUrl;
 }
 
+/** Parses an update operation string of the form "(id,key,value)" into its components. */
 export function parseUpdateOperation(operation: string): { id: string; key: string; value: string } | null {
 	const match = operation.trim().match(/^\((.+),(.+),(.+)\)$/);
 	if (!match) return null;
@@ -41,4 +42,14 @@ export function parseUpdateOperation(operation: string): { id: string; key: stri
 		key: match[2].trim(),
 		value: match[3].trim(),
 	};
+}
+
+
+/** Sorts a list of ClinguinNode children by their "order" attribute, defaulting to 0 if not present. */
+export function sortedChildren(children: ClinguinNode[]): ClinguinNode[] {
+  return [...children].sort((a, b) => {
+    const oa = Number(getAttr(a, "order")) || 0;
+    const ob = Number(getAttr(b, "order")) || 0;
+    return oa - ob;
+  });
 }

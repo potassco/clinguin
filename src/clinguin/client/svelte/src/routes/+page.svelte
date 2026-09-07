@@ -2,8 +2,8 @@
   import { appContext } from "$lib/context.svelte";
   import Renderer from "$lib/Renderer.svelte";
   import { Toaster } from "$lib/components/ui/sonner";
-  import Spinner from "$lib/components/internal/Spinner.svelte";
-  import ErrorPage from "$lib/components/internal/ErrorPage.svelte";
+  import Spinner from "$lib/components/custom/internal/Spinner.svelte";
+  import ErrorPage from "$lib/components/custom/internal/ErrorPage.svelte";
 </script>
 
 {#await appContext.connectionPromise}

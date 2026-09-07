@@ -126,7 +126,7 @@ class AppContext {
    * Routes a when/4 action to the appropriate handler.
    * Currently only "call" is implemented — it sends the operation to the backend.
    *
-   * TODO: implement "update" and "context"
+   * TODO: implement "context"
    */
   handleWhen = async (when: ClinguinWhen): Promise<void> => {
     if (!when) return;

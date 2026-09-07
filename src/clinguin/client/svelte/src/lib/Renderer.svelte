@@ -1,44 +1,31 @@
 <!--
   Recursive rendering engine.
 
-  Looks up the node's type in the registry and mounts the corresponding
-  Svelte component. Components are responsible for rendering their own
-  children by including Renderer recursively (see Container.svelte).
-
-  If the node's type is not found in the registry, renders a fallback
-  showing the unsupported type and the full node data for debugging.
+  This component takes a ClinguinNode and renders it using the appropriate Svelte component.
+  If the component is not found, it falls back to the Generic component.
 -->
 
 <script lang="ts">
   import { registry } from "$lib/registry";
   import { FrontendElement } from "$lib/frontendElement";
   import type { ClinguinNode } from "$lib/types";
+  import Generic from "./components/Generic.svelte";
 
   export interface NodeProps {
     node: ClinguinNode;
   }
   let { node }: NodeProps = $props();
-  function toFrontendElement(node: ClinguinNode): FrontendElement {
-    return new FrontendElement(node);
-  }
-  let elem = $derived(toFrontendElement(node));
+  let elem = $derived(new FrontendElement(node));
   // svelte-ignore state_referenced_locally
   //console.log("Rendering node:", elem);
 
-  let elem_order = $derived(elem.attr("order"));
+  //let elem_order = $derived(elem.attr("order"));
 
-  const Component = $derived(elem.node?.type ? registry[elem.node.type] : null);
+  const Component = $derived(elem.node?.type ? (registry[elem.node.type] ?? Generic) : null);
 </script>
 
 {#if Component}
-	{#if elem_order}
-		<div style="order: {elem_order}">
-			<Component element={elem} />
-		</div>
-	<!--  -->
-	{:else}
 		<Component element={elem} />
-	{/if}
 {:else}
   <div>
     Unsupported element type: <code>{node?.type}</code>

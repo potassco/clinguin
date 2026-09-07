@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { cn } from "$lib/utils";
+  import { sortedChildren } from "$lib/utils";
   import type { ElementProps } from "$lib/frontendElement";
   import Renderer from "$lib/Renderer.svelte";
 
   let { element }: ElementProps = $props();
-  const children = $derived(element.node?.children ?? []);
+  const children = $derived(sortedChildren(element.node?.children ?? []));
 </script>
 
 <div

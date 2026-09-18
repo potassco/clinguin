@@ -9,7 +9,7 @@ from types import SimpleNamespace
 from typing import Any, Callable, Coroutine
 
 import uvicorn
-from clingo import SymbolType, parse_term
+from clingo import Function, Number, String, SymbolType, parse_term
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -25,10 +25,17 @@ from .css import STATIC_DIR, generate_tailwind_css, remove_generated_css
 log = logging.getLogger(__name__)
 
 
+class ContextDto(BaseModel):
+    key: str
+    value: str
+
+
 class OperationRequest(BaseModel):
     """Request body for the operation endpoint."""
 
     operation: str
+    context: list[ContextDto] = []
+    files: dict[str, str] = {}
     client_version: int
 
 
@@ -172,6 +179,8 @@ class Server:
             )
             log.debug(f"=>=> session={session} | version={request_body.client_version}")
 
+            backend._set_context(request_body.context)
+            backend._uploaded_files.update(request_body.files)
             operation_result = self._execute_backend_operation(backend, request_body.operation)
 
             self.version += 1
@@ -181,6 +190,8 @@ class Server:
 
         except HTTPException:
             raise
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e)) from e
         except Exception as e:
             log.error("ERROR IN /operation: %s", repr(e))
             log.error("Handling exception in /operation")
@@ -216,6 +227,7 @@ class Server:
         Parse an operation string and call the corresponding backend method.
         """
         term = parse_term(operation)
+        term = self._resolve_context_value(term, backend._context)
         method_name = term.name
         args = [self._symbol_to_python(arg) for arg in term.arguments]
 
@@ -228,6 +240,42 @@ class Server:
             )
 
         return method(*args)
+
+    def _resolve_context_value(self, symbol, context):
+        if symbol.type != SymbolType.Function:
+            return symbol
+        args = [self._resolve_context_value(a, context) for a in symbol.arguments]
+        if symbol.name != "_context_value" or not 1 <= len(args) <= 3:
+            return Function(symbol.name, args, symbol.positive)
+
+        key = args[0].string if args[0].type == SymbolType.String else str(args[0])
+        value = {c.key: c.value for c in context}.get(key, "")
+        typ = args[1].name if len(args) > 1 else None
+
+        if value == "":
+            if len(args) == 3:
+                return args[2]
+            raise HTTPException(status_code=400, detail=f"Missing required value for {key}")
+
+        if typ == "str":
+            return String(value)
+        if typ == "int":
+            try:
+                return Number(int(value))
+            except ValueError:
+                raise HTTPException(status_code=400, detail=f"Expected a number but got {value}")
+        if typ == "const":
+            try:
+                return parse_term(value)
+            except RuntimeError:
+                raise HTTPException(status_code=400, detail=f"Expected a constant but got {value}")
+        if typ is not None:
+            raise HTTPException(status_code=400, detail=f"Not a valid type {typ}. Should be str, int or const.")
+
+        try:
+            return parse_term(value)
+        except RuntimeError:
+            return String(value)
 
     # ---------- WebSocket endpoint ----------
 

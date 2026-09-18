@@ -52,4 +52,9 @@ type InfoResponse = {
     ds?: unknown;
 };
 
-export type { ClinguinAttribute, ClinguinWhen, ClinguinNode, InfoResponse };
+type ContextItem = {
+	key: string;
+	value: string;
+};
+
+export type { ClinguinAttribute, ClinguinWhen, ClinguinNode, InfoResponse, ContextItem };

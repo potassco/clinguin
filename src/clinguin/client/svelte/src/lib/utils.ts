@@ -16,7 +16,9 @@ export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & { ref?:
 /** Removes surrounding quotes from a string value. */
 export function unquote(value: unknown): string {
   const s = String(value ?? '');
-  return s.replace(/^"(.*)"$/, '$1');
+  const match = s.match(/^"(.*)"$/s);
+  if (!match) return s;
+  return match[1].replace(/\\(["\\n])/g, (_, c) => (c === 'n' ? '\n' : c));
 }
 
 /** Retrieves attribute value(s) from a node by key. */
@@ -35,13 +37,13 @@ export function toWebSocketUrl(httpUrl: string): string {
 
 /** Parses an update operation string of the form "(id,key,value)" into its components. */
 export function parseUpdateOperation(operation: string): { id: string; key: string; value: string } | null {
-	const match = operation.trim().match(/^\((.+),(.+),(.+)\)$/);
-	if (!match) return null;
-	return {
-		id: match[1].trim(),
-		key: match[2].trim(),
-		value: match[3].trim(),
-	};
+  const match = operation.trim().match(/^\((.+),(.+),(.+)\)$/);
+  if (!match) return null;
+  return {
+    id: match[1].trim(),
+    key: match[2].trim(),
+    value: match[3].trim(),
+  };
 }
 
 
@@ -52,4 +54,27 @@ export function sortedChildren(children: ClinguinNode[]): ClinguinNode[] {
     const ob = Number(getAttr(b, "order")) || 0;
     return oa - ob;
   });
+}
+
+
+export function aspArgumentSplitter(aspArguments: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let bracketLevel = 0;
+  let inString = false;
+
+  for (let i = 0; i < aspArguments.length; i++) {
+    const c = aspArguments.charAt(i);
+    if (c === '"' && aspArguments.charAt(i - 1) !== '\\') inString = !inString;
+    if (!inString && c === '(') bracketLevel++;
+    if (!inString && c === ')') bracketLevel--;
+    if (!inString && c === ',' && bracketLevel === 0) {
+      result.push(current.trim());
+      current = '';
+    } else {
+      current += c;
+    }
+  }
+  result.push(current.trim());
+  return result;
 }

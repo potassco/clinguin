@@ -11,10 +11,19 @@ import { getAttr } from '$lib/utils';
 import type { ClinguinNode } from '$lib/types';
 import { appContext } from '$lib/context.svelte';
 import type { HTMLAttributes } from 'svelte/elements';
+import { toPascalCase } from '$lib/resolveComponent';
 
 export interface ElementProps {
 	element: FrontendElement;
 }
+
+
+const CLINGUIN_ATTRS = new Set([
+	'order',
+	'text',
+	'content'
+]);
+
 
 export class FrontendElement {
 	actions = {};
@@ -33,10 +42,16 @@ export class FrontendElement {
 
 		this.actions = Object.fromEntries(
 			events.map((event) => [
-				`on${event}`,
-				async () => {
-					for (const w of whens.filter((w) => w.event === event)) {
-						await appContext.handleWhen(w);
+				event.includes('_') ? `on${toPascalCase(event)}` : `on${event}`,
+				async (arg: unknown) => {
+					const e = arg instanceof Event ? arg : undefined;
+					const value = e ? undefined : arg;
+					if (e?.type === 'submit') {
+						e.preventDefault();
+						await appContext.addFormContext(e.target as HTMLFormElement, (e as SubmitEvent).submitter);
+					}
+					for (const w of whens.filter((w) => w.event === event).sort((a, b) => Number(a.action === 'call') - Number(b.action === 'call'))) {
+						await appContext.handleWhen(w, e, value);
 					}
 				}
 			])
@@ -66,7 +81,7 @@ export class FrontendElement {
 		const result: Partial<T> = {};
 		const attrs = this.node.attributes ?? [];
 		const keysToCheck = keys.length > 0 ? keys
-		: attrs.map((a) => a.key as keyof T);
+		: attrs.map((a) => a.key as keyof T).filter((k) => !CLINGUIN_ATTRS.has(k as string));
 
 		for (const key of keysToCheck) {
 			const value = getAttr(this.node, key as string);

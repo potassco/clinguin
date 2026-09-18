@@ -5,6 +5,10 @@ Clinguin Context passed to the clingo control object for the UI with helper pyth
 from clingo.symbol import String, SymbolType
 
 
+def _text(symbol):
+    return symbol.string if symbol.type == SymbolType.String else str(symbol)
+
+
 class ClinguinContext:
     """
     Makes available a set of python functions to be used in a UI encoding for handling strings.
@@ -26,7 +30,7 @@ class ClinguinContext:
         Returns:
             The string concatenating all symbols
         """
-        return String("".join([str(x).strip('"') for x in args]))
+        return String("".join([_text(x) for x in args]))
 
     def format(self, s, *args):
         """
@@ -47,9 +51,9 @@ class ClinguinContext:
             The string obtained by formatting the string with the given arguments
         """
         if len(args) == 1 and args[0].type == SymbolType.Function and args[0].name == "":
-            args_str = [str(v).strip('"') for v in args[0].arguments]
+            args_str = [_text(v) for v in args[0].arguments]
         else:
-            args_str = [str(v).strip('"') for v in args]
+            args_str = [_text(v) for v in args]
         return String(s.string.format(*args_str))
 
     def stringify(self, s, capitalize=False):
@@ -68,7 +72,7 @@ class ClinguinContext:
         Returns:
             The string without _
         """
-        val = str(s).strip('"')
+        val = _text(s)
         val = val.replace("_", " ")
         if capitalize:
             val = val[0].upper() + val[1:]
@@ -90,7 +94,7 @@ class ClinguinContext:
         Returns:
             The string without _
         """
-        val = str(s).strip('"')
+        val = _text(s)
         return String(val.upper())
 
     def __getattr__(self, name):

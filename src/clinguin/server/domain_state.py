@@ -3,12 +3,11 @@ Util functions for generating the domain state
 """
 
 import functools
+import logging
 from functools import cached_property
 from typing import List, Optional, Tuple, Union
 
-import logging
-
-from clingo import Control, parse_term, Symbol
+from clingo import Control, String, Symbol, parse_term
 from clingo.symbol import Function
 
 from clinguin.utils.logging import domctl_log
@@ -60,6 +59,7 @@ class DomainState:
         self._backup_cache = {}
         self._domain_state_constructors = [
             "_ds_context",
+            "_ds_files",
             "_ds_constants",
             "_ds_browsing",
             "_ds_cautious_optimal",
@@ -186,8 +186,22 @@ class DomainState:
             except Exception:
                 symbol = None
             if symbol is None:
-                value = f'"{value}"'
+                value = str(String(value))
             prg += f"_clinguin_context({str(a.key)},{value})."
+        return prg + "\n"
+
+    @property
+    def _ds_files(self):
+        """Uploaded and active files."""
+        prg = (
+            "#defined _clinguin_optional_file/1. #defined _clinguin_active_file/1. "
+            "#defined _clinguin_file_content/2. "
+        )
+        for name, content in self._backend._uploaded_files.items():
+            prg += f"_clinguin_optional_file({String(name)}). "
+            prg += f"_clinguin_file_content({String(name)}, {String(content)}). "
+        for name in self._backend._active_files:
+            prg += f"_clinguin_active_file({String(name)}). "
         return prg + "\n"
 
     @cached_property

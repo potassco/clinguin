@@ -7,7 +7,7 @@ const modules = import.meta.glob<ComponentModule>(
   { eager: true }
 );
 
-function toPascalCase(value: string): string {
+export function toPascalCase(value: string): string {
   return value
     .split(/[_-]/)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -36,4 +36,12 @@ export function resolveComponent(type: string): Component | null {
   }
 
   return namespace.Root ?? namespace[toPascalCase(namespaceName)] ?? null;
+}
+
+export function isNativeTag(type: string): boolean {
+	try {
+		return !(document.createElement(type) instanceof HTMLUnknownElement);
+	} catch {
+		return false;
+	}
 }

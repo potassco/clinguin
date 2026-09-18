@@ -4,25 +4,22 @@
 Module that contains the ClingoBackend.
 """
 
-from argparse import ArgumentParser
-from types import SimpleNamespace
-
 import logging
-import time
 import os
-from pathlib import Path
-from typing import List, Dict, Set, Optional, Tuple, Any
+import time
+from argparse import ArgumentParser
 from dataclasses import dataclass, field, fields
+from pathlib import Path
+from types import SimpleNamespace
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
 
-from clinguin.server.ui import UIState
-
 from clinguin.server.domain_state import DomainState
-
-from clinguin.utils.logging import domctl_log
 from clinguin.server.json_encoder import JsonEncoder
+from clinguin.server.ui import UIState
+from clinguin.utils.logging import domctl_log
 
 # from ....utils.transformer import UsesSignatureTransformer
 
@@ -285,6 +282,8 @@ class ClingoBackend:
 
         Sets:
             _context (list): A list to store the context set by the general handler of requests.
+            _uploaded_files (dict[str, str]): A dictionary to store uploaded files with their content.
+            _active_files (list[str]): A list to store the names of active files.
             _ctl (Optional[clingo.Control]): The domain control set in `_init_ctl`.
             _ui_state (Optional[UIState]): A UIState object used to handle the UI construction,
             _atoms (set[str]): Stores dynamically set atoms.
@@ -301,6 +300,9 @@ class ClingoBackend:
         """
         # Context: Set by the general handler of requests
         self._context = []
+
+        self._uploaded_files = {}
+        self._active_files = []
 
         # Domain Control: Set in _init_ctl
         self._ctl = None
@@ -380,6 +382,10 @@ class ClingoBackend:
         for atom in self._atoms:
             log.debug(domctl_log('domctl.add("base", [], {str(atom)} + ".")'))
             self._ctl.add("base", [], str(atom) + ".")
+
+        for name in self._active_files:
+            log.debug(domctl_log(f'domctl.add("base", [], <content of {name}>)'))
+            self._ctl.add("base", [], self._uploaded_files[name])
 
     def _load_file(self, f):
         """
@@ -660,6 +666,40 @@ class ClingoBackend:
             self._ground()
             self._outdate()
 
+    def activate_file(self, name):
+        """
+        Adds an uploaded file to the domain, restarts the control and grounds.
+
+        Arguments:
+            name (str): The name of an uploaded file
+        """
+        if name not in self._uploaded_files:
+            raise ValueError(f"File not uploaded: {name}")
+        if name not in self._active_files:
+            self._active_files.append(name)
+        try:
+            self._init_ctl()
+            self._ground()
+        except RuntimeError as e:  # syntax or grounding error in the file
+            self._active_files.remove(name)
+            self._init_ctl()
+            self._ground()
+            raise ValueError(f"Could not load {name}: {e}") from e
+        self._outdate()
+
+    def deactivate_file(self, name):
+        """
+        Removes an uploaded file from the domain again.
+
+        Arguments:
+            name (str): The name of an uploaded file
+        """
+        if name in self._active_files:
+            self._active_files.remove(name)
+            self._init_ctl()
+            self._ground()
+            self._outdate()
+
     def next_solution(self, opt_mode="ignore"):
         """
         Obtains the next solution. If a no browsing has been started yet, then it calls solve,
@@ -698,8 +738,10 @@ class ClingoBackend:
                             "warning",
                         )
                     )
-                    log.warning("No optimization statement provided in encoding but optimization condition provided\
-                            in 'next_solution' operation. Exiting browsing.")
+                    log.warning(
+                        "No optimization statement provided in encoding but optimization condition provided\
+                            in 'next_solution' operation. Exiting browsing."
+                    )
                     break
                 if self._args.opt_timeout is not None and time.time() - start > self._args.opt_timeout:
                     log.warning(

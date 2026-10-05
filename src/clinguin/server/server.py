@@ -9,7 +9,7 @@ from types import SimpleNamespace
 from typing import Any, Callable, Coroutine
 
 import uvicorn
-from clingo import Function, Number, String, SymbolType, parse_term
+from clingo import Function, SymbolType, parse_term
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -245,37 +245,24 @@ class Server:
         if symbol.type != SymbolType.Function:
             return symbol
         args = [self._resolve_context_value(a, context) for a in symbol.arguments]
-        if symbol.name != "_context_value" or not 1 <= len(args) <= 3:
+        if symbol.name != "_context_value" or len(args) not in (1, 2):
             return Function(symbol.name, args, symbol.positive)
 
         key = args[0].string if args[0].type == SymbolType.String else str(args[0])
         value = {c.key: c.value for c in context}.get(key, "")
-        typ = args[1].name if len(args) > 1 else None
 
         if value == "":
-            if len(args) == 3:
-                return args[2]
+            if len(args) == 2:
+                return args[1]
             raise HTTPException(status_code=400, detail=f"Missing required value for {key}")
-
-        if typ == "str":
-            return String(value)
-        if typ == "int":
-            try:
-                return Number(int(value))
-            except ValueError:
-                raise HTTPException(status_code=400, detail=f"Expected a number but got {value}")
-        if typ == "const":
-            try:
-                return parse_term(value)
-            except RuntimeError:
-                raise HTTPException(status_code=400, detail=f"Expected a constant but got {value}")
-        if typ is not None:
-            raise HTTPException(status_code=400, detail=f"Not a valid type {typ}. Should be str, int or const.")
 
         try:
             return parse_term(value)
-        except RuntimeError:
-            return String(value)
+        except RuntimeError as error:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid value for {key}",
+            ) from error
 
     # ---------- WebSocket endpoint ----------
 

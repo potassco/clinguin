@@ -11,7 +11,13 @@
   let { element }: ElementProps = $props();
 
   const Component = $derived(resolveComponent(element.node.type));
-  const isNative = $derived(!Component && isNativeTag(element.node.type) ? element.node.type : null);
+  const isNative = $derived(
+	element.node.type === "root"
+		? "div"
+		: !Component && isNativeTag(element.node.type)
+		? element.node.type
+		: null
+	);
   const text = $derived(element.attr("text") || element.attr("content"));
   const children = $derived(sortedChildren(element.node.children ?? []));
 </script>
@@ -36,7 +42,7 @@
   </Component>
 {:else if isNative}
   <svelte:element
-    this={element.node.type}
+    this={isNative}
     id={element.node.id}
     {...element.get_html()}
     {...element.actions}

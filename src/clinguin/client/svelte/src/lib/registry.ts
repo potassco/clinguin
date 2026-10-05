@@ -1,5 +1,4 @@
 import Button from '$lib/components/old/Button.svelte';
-import Container from '$lib/components/custom/Container.svelte';
 import Text from '$lib/components/custom/Text.svelte';
 //import Label from '$lib/components/Label.svelte';
 import Sonner from '$lib/components/custom/Sonner.svelte';
@@ -22,9 +21,9 @@ import FieldError from '$lib/components/old/field/FieldError.svelte';
 import Input from '$lib/components/old/Input.svelte';
 
 export const registry: Record<string, any> = {
-  root: Container,
-  window: Container,
-  container: Container,
+  //root: Container,
+  //window: Container,
+  //container: Container,
   text: Text,
   //label: Label,
   //button: Button,

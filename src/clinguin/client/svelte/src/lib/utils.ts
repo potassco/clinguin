@@ -21,6 +21,15 @@ export function unquote(value: unknown): string {
   return match[1].replace(/\\(["\\n])/g, (_, c) => (c === 'n' ? '\n' : c));
 }
 
+/** Converts a raw DOM value into clingo's text form, based on the input type. */
+export function toAspTerm(value: string, type = 'text'): string {
+  if (value === '') return '';
+  if (type === 'number' || type === 'range') return String(Number(value));
+  if (type === 'checkbox') return 'true';
+  if (['select-one', 'radio'].includes(type)) return value;
+  return JSON.stringify(value);
+}
+
 /** Retrieves attribute value(s) from a node by key. */
 export function getAttr(node: ClinguinNode, key: string): string | undefined {
   const matches = (node.attributes ?? []).filter((a) => a?.key === key);

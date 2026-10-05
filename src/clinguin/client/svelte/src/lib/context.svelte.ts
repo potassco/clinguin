@@ -5,7 +5,7 @@
  * It uses Svelte's $state for reactivity and is instantiated as a singleton exported as appContext.
  */
 
-import { parseUpdateOperation, toWebSocketUrl, aspArgumentSplitter, unquote } from '$lib/utils';
+import { parseUpdateOperation, toWebSocketUrl, aspArgumentSplitter, toAspTerm } from '$lib/utils';
 import type { AppError } from '$lib/types';
 import { toast } from 'svelte-sonner';
 
@@ -14,7 +14,7 @@ import { toast } from 'svelte-sonner';
 const DEFAULT_SERVER_URL = typeof window !== 'undefined' && window.location.port !== '5173'
   ? window.location.origin
   : 'http://127.0.0.1:8000';
-import type { ClinguinNode, ClinguinWhen, InfoResponse, ClinguinAttribute, ContextItem } from '$lib/types';
+import type { ClinguinNode, ClinguinWhen, InfoResponse, ContextItem } from '$lib/types';
 
 class AppContext {
   serverUrl = $state(import.meta.env.VITE_SERVER_URL || DEFAULT_SERVER_URL);
@@ -27,25 +27,36 @@ class AppContext {
   context = $state<ContextItem[]>([]);
   files = $state<Record<string, string>>({});
   connected = $state(false);
+  //fieldErrors = $state<Record<string, string>>({});
 
+  /** Adds a key-value pair to the context. If the key already exists, its value is updated. */
   addContext = (key: string, value: string) => {
     const item = this.context.find((c) => c.key === key);
     if (item) item.value = value;
     else this.context.push({ key, value });
   };
 
+  /** Clears all key-value pairs from the context. */
   clearContext = (): void => {
     this.context.length = 0;
   };
 
-    addFormContext = async (form: HTMLFormElement, submitter?: HTMLElement | null): Promise<void> => {
-      const entries = [...new FormData(form, submitter)]; // read now, before any await
-      for (const [key, value] of entries) {
+    addFormContext = async (
+      form: HTMLFormElement,
+      submitter?: HTMLElement | null
+    ): Promise<void> => {
+      for (const [key, value] of new FormData(form, submitter)) {
         if (typeof value === 'string') {
-          this.addContext(key, value);
-        } else if (value.name) {                          // a chosen file (empty if none chosen)
-          this.addContext(key, value.name);               // context: only the reference
-          this.files[value.name] = await value.text();    // content: separate
+          const input = form.elements.namedItem(key);
+          const type =
+            input instanceof RadioNodeList
+              ? 'radio'
+              : (input as HTMLInputElement | null)?.type;
+
+          this.addContext(key, toAspTerm(value, type));
+        } else if (value.name) {
+          this.addContext(key, JSON.stringify(value.name));
+          this.files[value.name] = await value.text();
         }
       }
     };
@@ -137,6 +148,8 @@ class AppContext {
       this.version = data.version;
       this.ui = data.ui ?? null;
       this.ds = data.ds ?? null;
+      this.clearContext();
+      this.files = {};
       if (this.ui === null) {
         this.error = { code: 500, title: 'Server error', message: 'Unexpected response format. Expected ui field.' };
       }
@@ -174,8 +187,9 @@ class AppContext {
           return;
         }
         const [key, raw] = parts;
-        const input = value !== undefined ? String(value) : ((event?.target as HTMLInputElement | null)?.value ?? '');
-        const resolved = raw.includes('_value') ? raw.replace('_value', input) : unquote(raw);
+        const target = event?.target as HTMLInputElement | null;
+        const term = value !== undefined ? String(value) : toAspTerm(target?.value ?? '', target?.type);
+        const resolved = raw === '_value' ? term : raw;
         this.addContext(key, resolved);
         return;
       }
@@ -205,7 +219,7 @@ class AppContext {
 
       if (response.status === 409) {
         await this.fetchInfo();
-        this.error = { code: 409, title: 'Conflict', message: 'Action conflicts with a newer state. Please try again.' };
+        toast.info('The view was updated in the meantime. Please try again.');
         return;
       }
 

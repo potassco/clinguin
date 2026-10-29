@@ -3,13 +3,20 @@
 # pylint: disable=redefined-outer-name
 
 
+import asyncio
+import socket
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 import clinguin.cli as cli
+from fastapi import WebSocket
 from fastapi.testclient import TestClient
 import logging
 import pytest
+import uvicorn
+import websockets
+from websockets.exceptions import ConnectionClosedOK
+from websockets.frames import Close
 from clinguin.client.client import Client
 
 
@@ -55,6 +62,158 @@ def test_static_assets_are_proxied(monkeypatch, client):
     assert response.status_code == 200
     assert response.text == "body { color: red; }"
     assert captured["url"] == "http://127.0.0.1:8000/static/generated.css"
+
+
+@pytest.fixture
+def websocket_proxy(monkeypatch):
+    """Provide an ASGI WebSocket and an idle, controllable backend connection."""
+    incoming = asyncio.Queue()
+    outgoing = asyncio.Queue()
+    messages = asyncio.Queue()
+    receiving = asyncio.Event()
+    stopped = asyncio.Event()
+
+    async def recv():
+        receiving.set()
+        try:
+            message = await messages.get()
+            if isinstance(message, Exception):
+                raise message
+            return message
+        finally:
+            stopped.set()
+
+    upstream = SimpleNamespace(recv=AsyncMock(side_effect=recv))
+    connection = AsyncMock()
+    connection.__aenter__.return_value = upstream
+    monkeypatch.setattr("clinguin.client.client.websockets.connect", lambda url: connection)
+    incoming.put_nowait({"type": "websocket.connect"})
+    websocket = WebSocket({"type": "websocket"}, incoming.get, outgoing.put)
+    return SimpleNamespace(
+        websocket=websocket,
+        incoming=incoming,
+        outgoing=outgoing,
+        messages=messages,
+        receiving=receiving,
+        stopped=stopped,
+        connection=connection,
+    )
+
+
+@pytest.mark.parametrize("code", [1000, 1001, 1012])
+async def test_websocket_disconnect_stops_idle_proxy(client, websocket_proxy, code):
+    """Browser disconnects and server shutdown must not wait for backend traffic."""
+    proxy = websocket_proxy
+    task = asyncio.create_task(client.proxy_websocket(proxy.websocket))
+    try:
+        await asyncio.wait_for(proxy.receiving.wait(), timeout=1)
+        proxy.incoming.put_nowait({"type": "websocket.disconnect", "code": code})
+        await asyncio.wait_for(task, timeout=1)
+        assert proxy.stopped.is_set()
+        proxy.connection.__aexit__.assert_awaited_once()
+    finally:
+        task.cancel()
+        await asyncio.gather(task, return_exceptions=True)
+
+
+@pytest.mark.parametrize("message", ["update", b"update"])
+async def test_websocket_proxy_forwards_messages(client, websocket_proxy, message):
+    """Keep forwarding both text and binary backend notifications."""
+    proxy = websocket_proxy
+    proxy.messages.put_nowait(message)
+    task = asyncio.create_task(client.proxy_websocket(proxy.websocket))
+    try:
+        assert await asyncio.wait_for(proxy.outgoing.get(), timeout=1) == {
+            "type": "websocket.accept",
+            "subprotocol": None,
+            "headers": [],
+        }
+        expected = {"type": "websocket.send", "bytes" if isinstance(message, bytes) else "text": message}
+        assert await asyncio.wait_for(proxy.outgoing.get(), timeout=1) == expected
+    finally:
+        task.cancel()
+        await asyncio.gather(task, return_exceptions=True)
+    proxy.connection.__aexit__.assert_awaited_once()
+
+
+async def test_websocket_proxy_cancellation_cleans_up(client, websocket_proxy):
+    """Cancellation must propagate after cleaning up both connection tasks."""
+    proxy = websocket_proxy
+    task = asyncio.create_task(client.proxy_websocket(proxy.websocket))
+    await asyncio.wait_for(proxy.receiving.wait(), timeout=1)
+
+    task.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await task
+
+    assert proxy.stopped.is_set()
+    proxy.connection.__aexit__.assert_awaited_once()
+
+
+async def test_websocket_backend_failure_is_reported(client, websocket_proxy):
+    """Unexpected backend errors must still reach the browser."""
+    proxy = websocket_proxy
+    proxy.messages.put_nowait(OSError("backend unavailable"))
+
+    await asyncio.wait_for(client.proxy_websocket(proxy.websocket), timeout=1)
+
+    await proxy.outgoing.get()  # Accept
+    error = await proxy.outgoing.get()
+    assert error["type"] == "websocket.send"
+    assert "backend unavailable" in error["text"]
+    assert await proxy.outgoing.get() == {"type": "websocket.close", "code": 1011, "reason": ""}
+    proxy.connection.__aexit__.assert_awaited_once()
+
+
+async def test_websocket_backend_normal_close(client, websocket_proxy):
+    """A normal backend closure is not reported as a connection failure."""
+    proxy = websocket_proxy
+    proxy.messages.put_nowait(ConnectionClosedOK(Close(1000, ""), Close(1000, ""), True))
+
+    await asyncio.wait_for(client.proxy_websocket(proxy.websocket), timeout=1)
+
+    await proxy.outgoing.get()  # Accept
+    assert await proxy.outgoing.get() == {"type": "websocket.close", "code": 1000, "reason": ""}
+    assert proxy.outgoing.empty()
+    proxy.connection.__aexit__.assert_awaited_once()
+
+
+async def test_uvicorn_shutdown_with_idle_websocket(client):
+    """Graceful shutdown must finish even while the backend sends no messages."""
+    connected = asyncio.Event()
+    disconnected = asyncio.Event()
+
+    async def backend(connection):
+        connected.set()
+        await connection.wait_closed()
+        disconnected.set()
+
+    async with websockets.serve(backend, "127.0.0.1", 0) as upstream:
+        client.server_url = f"http://127.0.0.1:{upstream.sockets[0].getsockname()[1]}"
+        with socket.socket() as listener:
+            listener.bind(("127.0.0.1", 0))
+            port = listener.getsockname()[1]
+            server = uvicorn.Server(uvicorn.Config(client.app, log_level="warning", lifespan="off"))
+            task = asyncio.create_task(server.serve(sockets=[listener]))
+
+            async def wait_for_start():
+                while not server.started:
+                    if task.done():
+                        await task
+                        raise AssertionError("Server exited before starting")
+                    await asyncio.sleep(0.01)
+
+            try:
+                await asyncio.wait_for(wait_for_start(), timeout=3)
+                async with websockets.connect(f"ws://127.0.0.1:{port}/ws"):
+                    await asyncio.wait_for(connected.wait(), timeout=1)
+                    server.should_exit = True
+                    await asyncio.wait_for(task, timeout=3)
+                    await asyncio.wait_for(disconnected.wait(), timeout=1)
+            finally:
+                server.should_exit = True
+                task.cancel()
+                await asyncio.gather(task, return_exceptions=True)
 
 
 def test_cli_passes_server_url(monkeypatch):

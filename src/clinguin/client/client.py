@@ -1,5 +1,6 @@
 """Client module for serving the Svelte frontend."""
 
+import asyncio
 import importlib
 import logging
 import os
@@ -14,6 +15,8 @@ import websockets
 from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.websockets import WebSocketState
+from websockets.exceptions import ConnectionClosedOK
 
 import clinguin
 
@@ -178,17 +181,43 @@ class Client:
         await websocket.accept()
         try:
             async with websockets.connect(self.backend_ws_url("/ws")) as upstream:
-                while True:
-                    message = await upstream.recv()
-                    if isinstance(message, bytes):
-                        await websocket.send_bytes(message)
-                    else:
-                        await websocket.send_text(message)
+
+                async def forward_messages() -> None:
+                    while True:
+                        message = await upstream.recv()
+                        if isinstance(message, bytes):
+                            await websocket.send_bytes(message)
+                        else:
+                            await websocket.send_text(message)
+
+                async def wait_for_disconnect() -> None:
+                    # Receiving is necessary to observe browser disconnects and ASGI shutdown.
+                    while True:
+                        message = await websocket.receive()
+                        if message["type"] == "websocket.disconnect":
+                            return
+
+                tasks = [
+                    asyncio.create_task(forward_messages()),
+                    asyncio.create_task(wait_for_disconnect()),
+                ]
+                try:
+                    done, _ = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+                    await asyncio.gather(*done)
+                finally:
+                    for task in tasks:
+                        task.cancel()
+                    await asyncio.gather(*tasks, return_exceptions=True)
         except WebSocketDisconnect:
             return
+        except ConnectionClosedOK:
+            if websocket.client_state == WebSocketState.CONNECTED:
+                await websocket.close()
         except (OSError, websockets.WebSocketException) as exc:  # pragma: no cover - depends on network failures
-            await websocket.send_json({"error": f"Could not connect to backend websocket: {exc}"})
-            await websocket.close(code=1011)
+            log.warning("Backend websocket connection failed: %s", exc)
+            if websocket.client_state == WebSocketState.CONNECTED:
+                await websocket.send_json({"error": f"Could not connect to backend websocket: {exc}"})
+                await websocket.close(code=1011)
 
     def build_frontend(self) -> None:
         """

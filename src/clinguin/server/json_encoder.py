@@ -3,9 +3,10 @@ Module which contains the JsonEncoder
 """
 
 import logging
+from typing import Any, Dict, List
+
 import networkx as nx
 from pydantic import BaseModel
-from typing import List, Dict, Any
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +70,11 @@ class JsonEncoder:
 
         cls._generate_hierarchy(ui_state, root, elements_dict)
 
-        return {"ui": root.model_dump(), "ds": ds_dict}
+        # Pydantic 2 renamed ``dict`` to ``model_dump``. FastAPI versions that
+        # support Clinguin can still be installed with Pydantic 1, so keep the
+        # encoder usable in both environments.
+        root_dict = root.model_dump() if hasattr(root, "model_dump") else root.dict()
+        return {"ui": root_dict, "ds": ds_dict}
 
     @classmethod
     def _generate_hierarchy(cls, ui_state, hierarchy_root: ElementDTO, elements_dict: Dict[str, ElementDTO]) -> None:

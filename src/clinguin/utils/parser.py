@@ -95,6 +95,7 @@ def get_parser() -> ArgumentParser:
     parser.add_argument("--version", "-v", action="version", version=f"%(prog)s {VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    setup_init_parser(subparsers)
     setup_server_parser(subparsers)
     setup_client_parser(subparsers)
     setup_share_parser(subparsers)
@@ -112,7 +113,9 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "client",
-        description=ascii_art_clinguin + ascii_art_client + "\n🚀 Start the client for clinguin.\
+        description=ascii_art_clinguin
+        + ascii_art_client
+        + "\n🚀 Start the client for clinguin.\
         \n It will run Angular to render the UI and react to events.",  # type: ignore
         help="Start the client",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -406,6 +409,12 @@ def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[
     raise ImportError(f"Backend class '{class_name}' was found but could not be loaded.")
 
 
+def setup_init_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
+    parser = subparsers.add_parser("init", help="Create a quick-start UI")
+    parser.add_argument("directory", nargs="?", default=".")
+    parser.add_argument("--force", action="store_true")
+
+
 def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     Setup the parser for the server command.
@@ -414,7 +423,9 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "server",
-        description=ascii_art_clinguin + ascii_art_server + "\n🚀 Start the server for clinguin.\
+        description=ascii_art_clinguin
+        + ascii_art_server
+        + "\n🚀 Start the server for clinguin.\
         \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
         help="Start the server",
         formatter_class=ArgumentDefaultsRichHelpFormatter,

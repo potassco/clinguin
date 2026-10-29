@@ -117,6 +117,7 @@ plugins:
 nav:
   - Getting Started:
       - Installation: installation.md
+      - Quick start: quick-start.md
       - Usage: usage.md
   - Examples: examples/index.md
   - Reference:

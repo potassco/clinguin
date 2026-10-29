@@ -4,10 +4,12 @@ CLI module to start client and server from the command line.
 
 import sys
 import threading
+from pathlib import Path
 
 from clinguin.client.client import Client
 from clinguin.server.server import Server
 
+from .templates import create_quick_start
 from .utils.logging import configure_logging
 from .utils.parser import get_parser
 
@@ -18,6 +20,17 @@ def main() -> None:
     """
     parser = get_parser()
     args = parser.parse_args()
+
+    if args.command == "init":
+        destination = Path(args.directory)
+
+        try:
+            create_quick_start(destination, args.force)
+        except FileExistsError as error:
+            parser.error(f"Files already exist: {error}")
+
+        print(f"Created quick-start UI in {destination.resolve()}")
+        return
 
     configure_logging(sys.stderr, args.log, sys.stderr.isatty())
     if args.command == "server":

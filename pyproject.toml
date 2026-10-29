@@ -41,6 +41,9 @@ clinguin = "clinguin.__main__:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+"clinguin.templates" = ["quick_start/*.lp"]
+
 [tool.setuptools_scm]
 version_scheme = "python-simplified-semver"
 local_scheme = "no-local-version"

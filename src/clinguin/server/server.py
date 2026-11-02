@@ -5,16 +5,23 @@ import sys
 import time
 import traceback
 import uuid
+from collections.abc import Coroutine
 from types import SimpleNamespace
-from typing import Any, Callable, Coroutine
+from typing import Any, Callable
 
 import uvicorn
 from clingo import Function, SymbolType, parse_term
-from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi import (
+    FastAPI,
+    HTTPException,
+    Request,
+    Response,
+    WebSocket,
+    WebSocketDisconnect,
+)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from httpx import request
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
@@ -180,6 +187,7 @@ class Server:
             log.debug(f"=>=> session={session} | version={request_body.client_version}")
 
             backend._set_context(request_body.context)
+            backend._clear_messages()
             backend._uploaded_files.update(request_body.files)
             operation_result = self._execute_backend_operation(backend, request_body.operation)
 
@@ -233,7 +241,7 @@ class Server:
 
         method = getattr(backend, method_name, None)
         if method is None or not callable(method):
-            print(f"Unknown operation: {method_name}")
+            log.error(f"Unknown operation: {method_name}")
             raise HTTPException(
                 status_code=400,
                 detail=f"Unknown operation: {method_name}",

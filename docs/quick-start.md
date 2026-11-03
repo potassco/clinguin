@@ -58,6 +58,19 @@ This file defines the reusable menu bar. It is included and enabled by default:
 #include "menu-bar.lp".
 ```
 
+The defaults work immediately. Override the application identity from the
+`APPLICATION UI` section of `ui.lp`:
+
+```prolog
+menubar_title_override("My Application").
+menubar_subtitle_override("What this application does").
+menubar_icon_override("Menu").
+```
+
+Add global status information to `menubar_center` and application actions to
+`menubar_right`. Edit `menu-bar.lp` itself only when you want to change the
+reusable menu structure or styling.
+
 ## Add an ASP encoding
 
 When your application has a domain encoding and instance, pass them alongside the UI:

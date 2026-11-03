@@ -8,7 +8,7 @@ demo(4, "demo_4", "Warning", "Warning", "outline", "bg-amber-100 text-amber-900 
 demo(5, "demo_5", "Click", "Click me", "ghost", "rounded-md px-3 py-1 text-sm border border-slate-200 bg-white", "MousePointerClick").
 
 demo_line(1, 1, "elem(preview_btn,  button,  preview_card).").
-demo_line(1, 2, "attr(preview_btn,  label,  'Get started').").
+demo_line(1, 2, "attr(preview_btn,  text,  'Get started').").
 demo_line(1, 3, "attr(preview_btn,  variant,  'outline').").
 demo_line(1, 4, "attr(preview_btn,  class,  ('rounded-full'; 'bg-sky-100';").
 demo_line(1, 5, "    'text-sky-900'; 'border-sky-200'; 'shadow-sm'; 'px-8')).").
@@ -16,7 +16,7 @@ demo_line(1, 6, "elem(preview_icon,  icon,  preview_btn).").
 demo_line(1, 7, "attr(preview_icon,  icon,  'Rocket').").
 
 demo_line(2, 1, "elem(preview_btn,  button,  preview_card).").
-demo_line(2, 2, "attr(preview_btn,  label,  'ADD ITEM').").
+demo_line(2, 2, "attr(preview_btn,  text,  'ADD ITEM').").
 demo_line(2, 3, "attr(preview_btn,  variant,  'secondary').").
 demo_line(2, 4, "attr(preview_btn,  class,  ('rounded-lg'; 'tracking-wide';").
 demo_line(2, 5, "    'font-semibold'; 'bg-slate-100'; 'text-slate-900'; 'shadow-sm')).").
@@ -24,7 +24,7 @@ demo_line(2, 6, "elem(preview_icon,  icon,  preview_btn).").
 demo_line(2, 7, "attr(preview_icon,  icon,  'Plus').").
 
 demo_line(3, 1, "elem(preview_btn,  button,  preview_card).").
-demo_line(3, 2, "attr(preview_btn,  label,  'Confirm').").
+demo_line(3, 2, "attr(preview_btn,  text,  'Confirm').").
 demo_line(3, 3, "attr(preview_btn,  variant,  'outline').").
 demo_line(3, 4, "attr(preview_btn,  class,  ('border-4'; 'border-sky-300';").
 demo_line(3, 5, "    'rounded-xl'; 'bg-white'; 'shadow-sm')).").
@@ -32,7 +32,7 @@ demo_line(3, 6, "elem(preview_icon,  icon,  preview_btn).").
 demo_line(3, 7, "attr(preview_icon,  icon,  'Check').").
 
 demo_line(4, 1, "elem(preview_btn,  button,  preview_card).").
-demo_line(4, 2, "attr(preview_btn,  label,  'Warning').").
+demo_line(4, 2, "attr(preview_btn,  text,  'Warning').").
 demo_line(4, 3, "attr(preview_btn,  variant,  'outline').").
 demo_line(4, 4, "attr(preview_btn,  class,  ('bg-amber-100'; 'text-amber-900';").
 demo_line(4, 5, "    'border-amber-200'; 'shadow-sm'; 'rounded-xl')).").
@@ -40,7 +40,7 @@ demo_line(4, 6, "elem(preview_icon,  icon,  preview_btn).").
 demo_line(4, 7, "attr(preview_icon,  icon,  'AlertTriangle').").
 
 demo_line(5, 1, "elem(preview_btn,  button,  preview_card).").
-demo_line(5, 2, "attr(preview_btn,  label,  'Click me').").
+demo_line(5, 2, "attr(preview_btn,  text,  'Click me').").
 demo_line(5, 3, "attr(preview_btn,  variant,  'ghost').").
 demo_line(5, 4, "attr(preview_btn,  class,  ('rounded-md'; 'px-3'; 'py-1';").
 demo_line(5, 5, "    'text-sm'; 'border'; 'border-slate-200'; 'bg-white')).").
@@ -64,6 +64,10 @@ card(grid, "CSS grid", "Grid3x3").
 card(width, "Fractional widths", "Columns3").
 card(checkbox, "Checkbox", "Check").
 card(field, "Field", "Form").
+card(theme, "Theme tokens", "SunMoon").
+card(states, "Control states", "SlidersHorizontal").
+card(forms, "Form controls", "ListChecks").
+card(feedback, "Feedback and loading", "Activity").
 
 dash_col(1..4).
 
@@ -80,6 +84,10 @@ card_col(spacing, 3, 2).
 card_col(grid, 3, 3).
 card_col(checkbox, 4, 1).
 card_col(field, 4, 2).
+card_col(theme, 1, 5).
+card_col(states, 2, 5).
+card_col(forms, 3, 4).
+card_col(feedback, 4, 3).
 
 caption(typography, 2, "text-{value}").
 caption(typography, 4, "font-{value}").
@@ -98,8 +106,12 @@ caption(flex, 2, "justify-{value}").
 caption(grid, 2, "grid-cols-{value}").
 caption(grid, 4, "col-span-{value}").
 caption(width, 2, "w-{value}").
-caption(field, 3, "field_set + field_label + field_description").
-caption(field, 6, "field / invalid + field_error").
+caption(field, 3, "field(set) + field(label) + field(description)").
+caption(field, 6, "field(group) + field(error)").
+caption(theme, 2, "semantic colors + dark mode").
+caption(states, 2, "hover / focus / selected / disabled / loading").
+caption(forms, 2, "input + textarea + select").
+caption(feedback, 2, "alert + skeleton + spinner").
 
 typo(1, "xs", "text-xs").
 typo(2, "sm", "text-sm").
@@ -211,6 +223,25 @@ checkbox_demo(1, "checked", "Default").
 checkbox_demo(2, "disabled", "Disabled").
 checkbox_demo(3, "indeterminate", "Indeterminate").
 
+theme_token(1, "background", "bg-background text-foreground border-border").
+theme_token(2, "card", "bg-card text-card-foreground border-border").
+theme_token(3, "primary", "bg-primary text-primary-foreground border-primary").
+theme_token(4, "secondary", "bg-secondary text-secondary-foreground border-secondary").
+theme_token(5, "accent", "bg-accent text-accent-foreground border-accent").
+theme_token(6, "muted", "bg-muted text-muted-foreground border-border").
+theme_token(7, "destructive", "bg-destructive text-white border-destructive").
+
+control_state(1, "Default", "Ready", "default", "", false).
+control_state(2, "Hover + focus", "Interact", "outline", "hover:bg-primary hover:text-primary-foreground focus-visible:ring-primary/40", false).
+control_state(3, "Selected", "Selected", "secondary", "ring-2 ring-primary ring-offset-2", false).
+control_state(4, "Destructive", "Delete", "destructive", "", false).
+control_state(5, "Disabled", "Unavailable", "outline", "", true).
+control_state(6, "Loading", "Saving…", "secondary", "", true).
+
+select_option(1, "compact", "Compact").
+select_option(2, "comfortable", "Comfortable").
+select_option(3, "spacious", "Spacious").
+
 class(caption, "w-fit rounded-md bg-slate-100 px-2 py-1 text-xs font-mono text-slate-500").
 class(card, "flex flex-col gap-4 bg-white border border-slate-200 rounded-2xl p-5 shadow-sm h-fit min-w-0").
 class(icon_box, "w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center shrink-0").
@@ -218,22 +249,22 @@ class(panel, "bg-slate-50 rounded-xl p-4").
 
 % PAGE SHELL
 
-elem(w, window, root).
-attr(w, class, ("min-h-screen";"flex";"flex-col";"bg-slate-50";"text-slate-950")).
+elem(ui_app, div, root).
+attr(ui_app, class, ("min-h-screen";"flex";"flex-col";"bg-slate-50";"text-slate-950")).
 
-elem(header, container, w).
+elem(header, header, ui_app).
 attr(header, class, ("bg-white";"border-b";"border-slate-200";"sticky";"top-0";"z-20";"shadow-sm")).
 attr(header, order, 1).
 
-elem(header_inner, container, header).
+elem(header_inner, div, header).
 attr(header_inner, class, ("max-w-screen-2xl";"mx-auto";"w-full";"px-4";"sm:px-8";"py-3";"flex";"items-center";"justify-start";"gap-4")).
 attr(header_inner, order, 1).
 
-elem(brand, container, header_inner).
+elem(brand, div, header_inner).
 attr(brand, class, ("flex";"items-center";"gap-3";"min-w-0")).
 attr(brand, order, 1).
 
-elem(brand_icon_wrap, container, brand).
+elem(brand_icon_wrap, div, brand).
 attr(brand_icon_wrap, class, ("flex";"items-center";"justify-center";"w-9";"h-9";"rounded-xl";"bg-slate-100";"border";"border-slate-200";"shrink-0")).
 attr(brand_icon_wrap, order, 1).
 
@@ -242,7 +273,7 @@ attr(brand_icon, icon, "Layers").
 attr(brand_icon, class, "text-slate-700").
 attr(brand_icon, order, 1).
 
-elem(brand_text, container, brand).
+elem(brand_text, div, brand).
 attr(brand_text, class, ("flex";"flex-col";"leading-tight";"min-w-0")).
 attr(brand_text, order, 2).
 
@@ -256,20 +287,24 @@ attr(brand_sub, text, "Tailwind Component Showcase").
 attr(brand_sub, class, ("text-xs";"text-slate-500";"truncate")).
 attr(brand_sub, order, 2).
 
-elem(hero, container, w).
+elem(ui_content, main, ui_app).
+attr(ui_content, class, ("flex";"min-h-0";"grow";"flex-col")).
+attr(ui_content, order, 100).
+
+elem(hero, section, ui_content).
 attr(hero, class, ("bg-slate-50";"border-b";"border-slate-200";"shrink-0")).
 attr(hero, order, 2).
 
-elem(hero_inner, container, hero).
+elem(hero_inner, div, hero).
 attr(hero_inner, class, ("max-w-screen-2xl";"mx-auto";"w-full";"px-4";"sm:px-8";"pt-5";"pb-6";"flex";"flex-col";"gap-4")).
 attr(hero_inner, order, 1).
 
-elem(demo_panel(I), container, hero_inner) :- demo(I, _, _, _, _, _, _).
+elem(demo_panel(I), div, hero_inner) :- demo(I, _, _, _, _, _, _).
 attr(demo_panel(1), class, C) :- visible_panel_class(C).
 attr(demo_panel(I), class, C) :- demo(I, _, _, _, _, _, _), I!=1, hidden_panel_class(C).
 attr(demo_panel(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
-elem(code_card(I), container, demo_panel(I)) :- demo(I, _, _, _, _, _, _).
+elem(code_card(I), article, demo_panel(I)) :- demo(I, _, _, _, _, _, _).
 attr(code_card(I), class, ("bg-white";"border";"border-slate-200";"rounded-2xl";"p-5";"shadow-sm";"flex";"flex-col";"min-w-0";"overflow-hidden")) :- demo(I, _, _, _, _, _, _).
 attr(code_card(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
@@ -278,7 +313,7 @@ attr(code_caption(I), text, "CODE SNIPPET") :- demo(I, _, _, _, _, _, _).
 attr(code_caption(I), class, ("text-xs";"font-semibold";"tracking-widest";"text-slate-500";"mb-3")) :- demo(I, _, _, _, _, _, _).
 attr(code_caption(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
-elem(code_box(I), container, code_card(I)) :- demo(I, _, _, _, _, _, _).
+elem(code_box(I), div, code_card(I)) :- demo(I, _, _, _, _, _, _).
 attr(code_box(I), class, ("bg-slate-50";"rounded-xl";"p-4";"flex";"flex-col";"gap-1";"overflow-hidden")) :- demo(I, _, _, _, _, _, _).
 attr(code_box(I), order, 2) :- demo(I, _, _, _, _, _, _).
 
@@ -287,11 +322,11 @@ attr(code_line(I, N), text, Text) :- demo_line(I, N, Text).
 attr(code_line(I, N), class, ("text-xs";"font-mono";"text-slate-600";"whitespace-pre-wrap";"break-words";"leading-5")) :- demo_line(I, N, _).
 attr(code_line(I, N), order, N) :- demo_line(I, N, _).
 
-elem(preview_card(I), container, demo_panel(I)) :- demo(I, _, _, _, _, _, _).
+elem(preview_card(I), article, demo_panel(I)) :- demo(I, _, _, _, _, _, _).
 attr(preview_card(I), class, ("bg-white";"border";"border-slate-200";"rounded-2xl";"p-5";"shadow-sm";"flex";"flex-col";"gap-4";"min-h-56")) :- demo(I, _, _, _, _, _, _).
 attr(preview_card(I), order, 2) :- demo(I, _, _, _, _, _, _).
 
-elem(preview_header(I), container, preview_card(I)) :- demo(I, _, _, _, _, _, _).
+elem(preview_header(I), div, preview_card(I)) :- demo(I, _, _, _, _, _, _).
 attr(preview_header(I), class, ("flex";"items-center";"justify-between";"gap-3";"min-w-0")) :- demo(I, _, _, _, _, _, _).
 attr(preview_header(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
@@ -301,32 +336,34 @@ attr(preview_label(I), class, ("text-xs";"font-semibold";"uppercase";"tracking-w
 attr(preview_label(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
 elem(example_menu(I), dropdown_menu, preview_header(I)) :- demo(I, _, _, _, _, _, _).
-attr(example_menu(I), label, "Change example") :- demo(I, _, _, _, _, _, _).
-attr(example_menu(I), variant, "outline") :- demo(I, _, _, _, _, _, _).
-attr(example_menu(I), class, ("rounded-lg";"px-3";"py-2";"text-sm";"font-medium";"shrink-0";"bg-white";"border-slate-200";"shadow-sm")) :- demo(I, _, _, _, _, _, _).
 attr(example_menu(I), order, 2) :- demo(I, _, _, _, _, _, _).
 
-elem(example_content(I), dropdown_menu_content, example_menu(I)) :- demo(I, _, _, _, _, _, _).
-attr(example_content(I), order, 1) :- demo(I, _, _, _, _, _, _).
+elem(example_trigger(I), dropdown_menu(trigger), example_menu(I)) :- demo(I, _, _, _, _, _, _).
+attr(example_trigger(I), text, "Change example") :- demo(I, _, _, _, _, _, _).
+attr(example_trigger(I), class, ("rounded-lg";"border";"border-slate-200";"bg-white";"px-3";"py-2";"text-sm";"font-medium";"shadow-sm")) :- demo(I, _, _, _, _, _, _).
+attr(example_trigger(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
-elem(example_group(I), dropdown_menu_radio_group, example_content(I)) :- demo(I, _, _, _, _, _, _).
+elem(example_content(I), dropdown_menu(content), example_menu(I)) :- demo(I, _, _, _, _, _, _).
+attr(example_content(I), order, 2) :- demo(I, _, _, _, _, _, _).
+
+elem(example_group(I), dropdown_menu(radio_group), example_content(I)) :- demo(I, _, _, _, _, _, _).
 attr(example_group(I), value, "demo_1") :- demo(I, _, _, _, _, _, _).
 attr(example_group(I), order, 1) :- demo(I, _, _, _, _, _, _).
 
-elem(example_item(P, I), dropdown_menu_radio_item, example_group(P)) :- demo(P, _, _, _, _, _, _), demo(I, _, _, _, _, _, _).
-attr(example_item(P, I), label, L) :- demo(P, _, _, _, _, _, _), demo(I, _, L, _, _, _, _).
+elem(example_item(P, I), dropdown_menu(radio_item), example_group(P)) :- demo(P, _, _, _, _, _, _), demo(I, _, _, _, _, _, _).
+attr(example_item(P, I), text, L) :- demo(P, _, _, _, _, _, _), demo(I, _, L, _, _, _, _).
 attr(example_item(P, I), value, K) :- demo(P, _, _, _, _, _, _), demo(I, K, _, _, _, _, _).
 attr(example_item(P, I), order, I) :- demo(P, _, _, _, _, _, _), demo(I, _, _, _, _, _, _).
 when(example_item(P, I), click, update, (example_group(Q), value, K)) :- demo(P, _, _, _, _, _, _), demo(Q, _, _, _, _, _, _), demo(I, K, _, _, _, _, _).
 when(example_item(P, I), click, update, (demo_panel(I), class, C)) :- demo(P, _, _, _, _, _, _), demo(I, _, _, _, _, _, _), visible_panel_class(C).
 when(example_item(P, I), click, update, (demo_panel(J), class, C)) :- demo(P, _, _, _, _, _, _), demo(I, _, _, _, _, _, _), demo(J, _, _, _, _, _, _), I!=J, hidden_panel_class(C).
 
-elem(preview_stage(I), container, preview_card(I)) :- demo(I, _, _, _, _, _, _).
+elem(preview_stage(I), div, preview_card(I)) :- demo(I, _, _, _, _, _, _).
 attr(preview_stage(I), class, ("w-full";"flex-1";"min-h-32";"bg-slate-50";"rounded-xl";"flex";"items-center";"justify-center";"p-6")) :- demo(I, _, _, _, _, _, _).
 attr(preview_stage(I), order, 2) :- demo(I, _, _, _, _, _, _).
 
 elem(preview_btn(I), button, preview_stage(I)) :- demo(I, _, _, _, _, _, _).
-attr(preview_btn(I), label, L) :- demo(I, _, _, L, _, _, _).
+attr(preview_btn(I), text, L) :- demo(I, _, _, L, _, _, _).
 attr(preview_btn(I), variant, V) :- demo(I, _, _, _, V, _, _).
 attr(preview_btn(I), class, C) :- demo(I, _, _, _, _, C, _).
 attr(preview_btn(I), order, 1) :- demo(I, _, _, _, _, _, _).
@@ -341,27 +378,27 @@ attr(preview_status(I), text, "click it →") :- demo(I, _, _, _, _, _, _).
 attr(preview_status(I), class, ("text-xs";"text-slate-500";"italic";"text-center")) :- demo(I, _, _, _, _, _, _).
 attr(preview_status(I), order, 3) :- demo(I, _, _, _, _, _, _).
 
-elem(main, container, w).
+elem(main, div, ui_content).
 attr(main, class, ("max-w-screen-2xl";"mx-auto";"w-full";"px-4";"sm:px-8";"py-6";"flex";"flex-col";"gap-5")).
 attr(main, order, 3).
 
-elem(dashboard, container, main).
+elem(dashboard, div, main).
 attr(dashboard, class, ("grid";"grid-cols-1";"lg:grid-cols-2";"xl:grid-cols-3";"gap-6";"items-start")).
 attr(dashboard, order, 1).
 
-elem(dash_col(C), container, dashboard) :- dash_col(C).
+elem(dash_col(C), div, dashboard) :- dash_col(C).
 attr(dash_col(C), class, ("flex";"flex-col";"gap-6";"min-w-0")) :- dash_col(C).
 attr(dash_col(C), order, C) :- dash_col(C).
 
-elem(card(Key), container, dash_col(C)) :- card_col(Key, C, _).
+elem(card(Key), section, dash_col(C)) :- card_col(Key, C, _).
 attr(card(Key), class, C) :- card(Key, _, _), class(card, C).
 attr(card(Key), order, O) :- card_col(Key, _, O).
 
-elem(card_h(Key), container, card(Key)) :- card(Key, _, _).
+elem(card_h(Key), div, card(Key)) :- card(Key, _, _).
 attr(card_h(Key), class, ("flex";"items-center";"gap-3";"min-w-0")) :- card(Key, _, _).
 attr(card_h(Key), order, 1) :- card(Key, _, _).
 
-elem(card_h_icon_wrap(Key), container, card_h(Key)) :- card(Key, _, _).
+elem(card_h_icon_wrap(Key), div, card_h(Key)) :- card(Key, _, _).
 attr(card_h_icon_wrap(Key), class, C) :- card(Key, _, _), class(icon_box, C).
 attr(card_h_icon_wrap(Key), order, 1) :- card(Key, _, _).
 
@@ -382,7 +419,7 @@ attr(caption(Card, Order), order, Order) :- caption(Card, Order, _).
 
 % TYPOGRAPHY
 
-elem(typo_scale, container, card(typography)).
+elem(typo_scale, div, card(typography)).
 attr(typo_scale, class, ("flex";"flex-col";"items-center";"text-center";"gap-1";"rounded-xl";"bg-slate-50";"p-4")).
 attr(typo_scale, order, 3).
 
@@ -392,11 +429,11 @@ attr(ty(I), class, C) :- typo(I, _, C).
 attr(ty(I), class, ("w-full";"text-center")) :- typo(I, _, _).
 attr(ty(I), order, I) :- typo(I, _, _).
 
-elem(weight_grid, container, card(typography)).
+elem(weight_grid, div, card(typography)).
 attr(weight_grid, class, ("grid";"grid-cols-2";"gap-2";"rounded-xl";"bg-slate-50";"p-3")).
 attr(weight_grid, order, 5).
 
-elem(wr(I), container, weight_grid) :- weight(I, _, _).
+elem(wr(I), div, weight_grid) :- weight(I, _, _).
 attr(wr(I), class, ("bg-white";"rounded-lg";"px-3";"py-2";"flex";"items-center";"justify-center";"min-w-0";"shadow-sm")) :- weight(I, _, _).
 attr(wr(I), order, I) :- weight(I, _, _).
 
@@ -408,11 +445,11 @@ attr(ws(I), order, 1) :- weight(I, _, _).
 
 % COLORS
 
-elem(palette_grid, container, card(colors)).
+elem(palette_grid, div, card(colors)).
 attr(palette_grid, class, ("grid";"grid-cols-2";"gap-2";"rounded-xl";"bg-slate-50";"p-3")).
 attr(palette_grid, order, 3).
 
-elem(sw(I), container, palette_grid) :- palette(I, _, _, _).
+elem(sw(I), div, palette_grid) :- palette(I, _, _, _).
 attr(sw(I), class, ("flex";"items-center";"justify-center";"px-3";"py-3";"rounded-xl";"text-xs";"font-mono";"font-semibold";"min-w-0";"shadow-sm")) :- palette(I, _, _, _).
 attr(sw(I), class, BG) :- palette(I, _, BG, _).
 attr(sw(I), order, I) :- palette(I, _, _, _).
@@ -423,11 +460,11 @@ attr(sw_lbl(I), class, TC) :- palette(I, _, _, TC).
 attr(sw_lbl(I), class, "truncate") :- palette(I, _, _, _).
 attr(sw_lbl(I), order, 1) :- palette(I, _, _, _).
 
-elem(shade_grid, container, card(colors)).
+elem(shade_grid, div, card(colors)).
 attr(shade_grid, class, ("grid";"grid-cols-5";"gap-2";"rounded-xl";"bg-slate-50";"p-3")).
 attr(shade_grid, order, 5).
 
-elem(sh(I), container, shade_grid) :- shade(I, _, _, _).
+elem(sh(I), div, shade_grid) :- shade(I, _, _, _).
 attr(sh(I), class, ("flex";"items-center";"justify-center";"h-12";"rounded-xl";"shadow-sm";"min-w-0")) :- shade(I, _, _, _).
 attr(sh(I), class, BG) :- shade(I, _, BG, _).
 attr(sh(I), order, I) :- shade(I, _, _, _).
@@ -438,11 +475,11 @@ attr(sh_lbl(I), class, TC) :- shade(I, _, _, TC).
 attr(sh_lbl(I), class, ("text-xs";"font-mono";"font-semibold")) :- shade(I, _, _, _).
 attr(sh_lbl(I), order, 1) :- shade(I, _, _, _).
 
-elem(text_grid, container, card(colors)).
+elem(text_grid, div, card(colors)).
 attr(text_grid, class, ("grid";"grid-cols-2";"gap-2";"rounded-xl";"bg-slate-50";"p-3")).
 attr(text_grid, order, 7).
 
-elem(tc(I), container, text_grid) :- text_color(I, _, _).
+elem(tc(I), div, text_grid) :- text_color(I, _, _).
 attr(tc(I), class, ("bg-white";"rounded-lg";"px-3";"py-2";"min-w-0";"shadow-sm")) :- text_color(I, _, _).
 attr(tc(I), order, I) :- text_color(I, _, _).
 
@@ -454,12 +491,12 @@ attr(tc_lbl(I), order, 1) :- text_color(I, _, _).
 
 % BUTTONS
 
-elem(btn_variants, container, card(buttons)).
+elem(btn_variants, div, card(buttons)).
 attr(btn_variants, class, ("flex";"flex-wrap";"items-center";"gap-2";"rounded-xl";"bg-slate-50";"p-3")).
 attr(btn_variants, order, 3).
 
 elem(bd(I), button, btn_variants) :- btn_demo(I, _, _, _).
-attr(bd(I), label, L) :- btn_demo(I, _, L, _).
+attr(bd(I), text, L) :- btn_demo(I, _, L, _).
 attr(bd(I), variant, V) :- btn_demo(I, V, _, _).
 attr(bd(I), order, I) :- btn_demo(I, _, _, _).
 when(bd(I), click, update, (btn_status, text, L)) :- btn_demo(I, _, L, _).
@@ -468,28 +505,28 @@ elem(bd_icon(I), icon, bd(I)) :- btn_demo(I, _, _, Ico).
 attr(bd_icon(I), icon, Ico) :- btn_demo(I, _, _, Ico).
 attr(bd_icon(I), order, 1) :- btn_demo(I, _, _, _).
 
-elem(btn_sizes, container, card(buttons)).
+elem(btn_sizes, div, card(buttons)).
 attr(btn_sizes, class, ("flex";"items-center";"gap-2";"flex-wrap";"rounded-xl";"bg-slate-50";"p-3")).
 attr(btn_sizes, order, 5).
 
 elem(bsm, button, btn_sizes).
-attr(bsm, label, "Small").
+attr(bsm, text, "Small").
 attr(bsm, variant, "outline").
 attr(bsm, size, "sm").
 attr(bsm, order, 1).
 
 elem(bmd, button, btn_sizes).
-attr(bmd, label, "Default").
+attr(bmd, text, "Default").
 attr(bmd, variant, "outline").
 attr(bmd, order, 2).
 
 elem(blg, button, btn_sizes).
-attr(blg, label, "Large").
+attr(blg, text, "Large").
 attr(blg, variant, "outline").
 attr(blg, size, "lg").
 attr(blg, order, 3).
 
-elem(btn_feedback, container, card(buttons)).
+elem(btn_feedback, div, card(buttons)).
 attr(btn_feedback, class, ("flex";"items-center";"gap-2";"text-sm";"text-slate-500";"bg-slate-50";"rounded-xl";"px-3";"py-2")).
 attr(btn_feedback, order, 6).
 
@@ -504,15 +541,15 @@ attr(btn_status, order, 2).
 
 % RADIUS / BORDERS / SHADOWS / OPACITY
 
-elem(round_grid, container, card(radius)).
+elem(round_grid, div, card(radius)).
 attr(round_grid, class, ("grid";"grid-cols-3";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(round_grid, order, 3).
 
-elem(rd(I), container, round_grid) :- rounding(I, _, _, _).
+elem(rd(I), div, round_grid) :- rounding(I, _, _, _).
 attr(rd(I), class, ("min-w-0")) :- rounding(I, _, _, _).
 attr(rd(I), order, I) :- rounding(I, _, _, _).
 
-elem(rd_box(I), container, rd(I)) :- rounding(I, _, _, _).
+elem(rd_box(I), div, rd(I)) :- rounding(I, _, _, _).
 attr(rd_box(I), class, ("h-16";"w-full";"shadow-sm";"flex";"items-center";"justify-center")) :- rounding(I, _, _, _).
 attr(rd_box(I), class, R) :- rounding(I, _, R, _).
 attr(rd_box(I), class, Color) :- rounding(I, _, _, Color).
@@ -523,15 +560,15 @@ attr(rd_lbl(I), text, V) :- rounding(I, V, _, _).
 attr(rd_lbl(I), class, ("text-[10px]";"font-mono";"font-medium";"text-slate-700";"text-center")) :- rounding(I, _, _, _).
 attr(rd_lbl(I), order, 1) :- rounding(I, _, _, _).
 
-elem(border_grid, container, card(borders)).
+elem(border_grid, div, card(borders)).
 attr(border_grid, class, ("grid";"grid-cols-4";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(border_grid, order, 3).
 
-elem(brd(I), container, border_grid) :- border_demo(I, _, _).
+elem(brd(I), div, border_grid) :- border_demo(I, _, _).
 attr(brd(I), class, ("min-w-0")) :- border_demo(I, _, _).
 attr(brd(I), order, I) :- border_demo(I, _, _).
 
-elem(brd_box(I), container, brd(I)) :- border_demo(I, _, _).
+elem(brd_box(I), div, brd(I)) :- border_demo(I, _, _).
 attr(brd_box(I), class, ("h-14";"w-full";"bg-white";"rounded-xl";"flex";"items-center";"justify-center";"shadow-sm")) :- border_demo(I, _, _).
 attr(brd_box(I), class, B) :- border_demo(I, _, B).
 attr(brd_box(I), order, 1) :- border_demo(I, _, _).
@@ -541,15 +578,15 @@ attr(brd_lbl(I), text, V) :- border_demo(I, V, _).
 attr(brd_lbl(I), class, ("text-[10px]";"font-mono";"font-semibold";"text-slate-950";"text-center";"truncate")) :- border_demo(I, _, _).
 attr(brd_lbl(I), order, 1) :- border_demo(I, _, _).
 
-elem(shadow_grid, container, card(shadows)).
+elem(shadow_grid, div, card(shadows)).
 attr(shadow_grid, class, ("grid";"grid-cols-3";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(shadow_grid, order, 3).
 
-elem(sd(I), container, shadow_grid) :- shadow_demo(I, _, _).
+elem(sd(I), div, shadow_grid) :- shadow_demo(I, _, _).
 attr(sd(I), class, ("min-w-0")) :- shadow_demo(I, _, _).
 attr(sd(I), order, I) :- shadow_demo(I, _, _).
 
-elem(sd_box(I), container, sd(I)) :- shadow_demo(I, _, _).
+elem(sd_box(I), div, sd(I)) :- shadow_demo(I, _, _).
 attr(sd_box(I), class, ("h-16";"w-full";"bg-white";"rounded-xl";"flex";"items-center";"justify-center")) :- shadow_demo(I, _, _).
 attr(sd_box(I), class, S) :- shadow_demo(I, _, S).
 attr(sd_box(I), order, 1) :- shadow_demo(I, _, _).
@@ -559,15 +596,15 @@ attr(sd_lbl(I), text, V) :- shadow_demo(I, V, _).
 attr(sd_lbl(I), class, ("text-xs";"font-mono";"font-medium";"text-slate-600";"text-center")) :- shadow_demo(I, _, _).
 attr(sd_lbl(I), order, 1) :- shadow_demo(I, _, _).
 
-elem(opacity_row, container, card(opacity)).
+elem(opacity_row, div, card(opacity)).
 attr(opacity_row, class, ("grid";"grid-cols-4";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(opacity_row, order, 3).
 
-elem(op(I), container, opacity_row) :- opacity_demo(I, _, _).
+elem(op(I), div, opacity_row) :- opacity_demo(I, _, _).
 attr(op(I), class, "min-w-0") :- opacity_demo(I, _, _).
 attr(op(I), order, I) :- opacity_demo(I, _, _).
 
-elem(op_box(I), container, op(I)) :- opacity_demo(I, _, _).
+elem(op_box(I), div, op(I)) :- opacity_demo(I, _, _).
 attr(op_box(I), class, ("h-14";"w-full";"flex";"items-center";"justify-center";"bg-violet-300";"rounded-xl";"shadow-sm")) :- opacity_demo(I, _, _).
 attr(op_box(I), class, O) :- opacity_demo(I, _, O).
 attr(op_box(I), order, 1) :- opacity_demo(I, _, _).
@@ -579,11 +616,11 @@ attr(op_lbl(I), order, 1) :- opacity_demo(I, _, _).
 
 % SPACING
 
-elem(padding_rows, container, card(spacing)).
+elem(padding_rows, div, card(spacing)).
 attr(padding_rows, class, ("grid";"grid-cols-4";"gap-3";"bg-slate-50";"rounded-xl";"p-4";"items-start";"overflow-hidden")).
 attr(padding_rows, order, 3).
 
-elem(pd(I), container, padding_rows) :- padding_demo(I, _, _).
+elem(pd(I), div, padding_rows) :- padding_demo(I, _, _).
 attr(pd(I), class, ("flex";"flex-col";"items-center";"gap-2";"min-w-0")) :- padding_demo(I, _, _).
 attr(pd(I), order, I) :- padding_demo(I, _, _).
 
@@ -592,25 +629,25 @@ attr(pd_val(I), text, V) :- padding_demo(I, V, _).
 attr(pd_val(I), class, ("w-8";"h-6";"rounded-md";"bg-slate-100";"flex";"items-center";"justify-center";"text-xs";"font-mono";"font-semibold";"text-slate-500")) :- padding_demo(I, _, _).
 attr(pd_val(I), order, 1) :- padding_demo(I, _, _).
 
-elem(pd_pad(I), container, pd(I)) :- padding_demo(I, _, _).
+elem(pd_pad(I), div, pd(I)) :- padding_demo(I, _, _).
 attr(pd_pad(I), class, ("rounded-lg";"bg-violet-100";"shadow-inner";"inline-flex";"items-center";"justify-center";"mx-auto";"shrink-0")) :- padding_demo(I, _, _).
 attr(pd_pad(I), class, P) :- padding_demo(I, _, P).
 attr(pd_pad(I), order, 2) :- padding_demo(I, _, _).
 
-elem(pd_inner(I), container, pd_pad(I)) :- padding_demo(I, _, _).
+elem(pd_inner(I), div, pd_pad(I)) :- padding_demo(I, _, _).
 attr(pd_inner(I), class, ("bg-violet-300";"rounded-full";"w-3";"h-3";"shadow-sm")) :- padding_demo(I, _, _).
 attr(pd_inner(I), order, 1) :- padding_demo(I, _, _).
 
-elem(gap_rows, container, card(spacing)).
+elem(gap_rows, div, card(spacing)).
 attr(gap_rows, class, ("flex";"flex-col";"items-start";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(gap_rows, order, 5).
 
-elem(gp(I), container, gap_rows) :- gap_demo(I, _, _).
+elem(gp(I), div, gap_rows) :- gap_demo(I, _, _).
 attr(gp(I), class, ("flex";"items-center";"bg-white";"rounded-xl";"p-3";"shadow-sm";"w-fit";"min-w-0")) :- gap_demo(I, _, _).
 attr(gp(I), class, G) :- gap_demo(I, _, G).
 attr(gp(I), order, I) :- gap_demo(I, _, _).
 
-elem(gp_lbl(I), container, gp(I)) :- gap_demo(I, _, _).
+elem(gp_lbl(I), div, gp(I)) :- gap_demo(I, _, _).
 attr(gp_lbl(I), class, ("w-10";"h-8";"rounded-md";"bg-slate-100";"flex";"items-center";"justify-center";"shrink-0")) :- gap_demo(I, _, _).
 attr(gp_lbl(I), order, 1) :- gap_demo(I, _, _).
 
@@ -619,17 +656,17 @@ attr(gp_lbl_text(I), text, V) :- gap_demo(I, V, _).
 attr(gp_lbl_text(I), class, ("text-xs";"font-mono";"font-semibold";"text-slate-500")) :- gap_demo(I, _, _).
 attr(gp_lbl_text(I), order, 1) :- gap_demo(I, _, _).
 
-elem(gp_dot(I, N), container, gp(I)) :- gap_demo(I, _, _), flex_item(N, _).
+elem(gp_dot(I, N), div, gp(I)) :- gap_demo(I, _, _), flex_item(N, _).
 attr(gp_dot(I, N), class, ("w-4";"h-4";"rounded-full";"bg-sky-300";"shadow-sm")) :- gap_demo(I, _, _), flex_item(N, _).
 attr(gp_dot(I, N), order, O) :- gap_demo(I, _, _), flex_item(N, _), O=N+1.
 
 % LAYOUT
 
-elem(flex_rows, container, card(flex)).
+elem(flex_rows, div, card(flex)).
 attr(flex_rows, class, ("flex";"flex-col";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(flex_rows, order, 3).
 
-elem(ar(I), container, flex_rows) :- align_row(I, _, _).
+elem(ar(I), div, flex_rows) :- align_row(I, _, _).
 attr(ar(I), class, ("flex";"flex-col";"gap-2")) :- align_row(I, _, _).
 attr(ar(I), order, I) :- align_row(I, _, _).
 
@@ -638,12 +675,12 @@ attr(ar_lbl(I), text, V) :- align_row(I, V, _).
 attr(ar_lbl(I), class, ("text-xs";"font-mono";"text-slate-500")) :- align_row(I, _, _).
 attr(ar_lbl(I), order, 1) :- align_row(I, _, _).
 
-elem(ar_track(I), container, ar(I)) :- align_row(I, _, _).
+elem(ar_track(I), div, ar(I)) :- align_row(I, _, _).
 attr(ar_track(I), class, ("flex";"flex-row";"items-center";"gap-2";"w-full";"h-14";"bg-white";"rounded-xl";"p-2";"shadow-sm")) :- align_row(I, _, _).
 attr(ar_track(I), class, JC) :- align_row(I, _, JC).
 attr(ar_track(I), order, 2) :- align_row(I, _, _).
 
-elem(ar_item(I, N), container, ar_track(I)) :- align_row(I, _, _), flex_item(N, _).
+elem(ar_item(I, N), div, ar_track(I)) :- align_row(I, _, _), flex_item(N, _).
 attr(ar_item(I, N), class, ("w-9";"h-9";"rounded-md";"bg-sky-300";"flex";"items-center";"justify-center";"shrink-0")) :- align_row(I, _, _), flex_item(N, _).
 attr(ar_item(I, N), order, N) :- align_row(I, _, _), flex_item(N, _).
 
@@ -652,11 +689,11 @@ attr(ar_item_lbl(I, N), text, L) :- align_row(I, _, _), flex_item(N, L).
 attr(ar_item_lbl(I, N), class, ("text-xs";"font-bold";"text-sky-950")) :- align_row(I, _, _), flex_item(N, _).
 attr(ar_item_lbl(I, N), order, 1) :- align_row(I, _, _), flex_item(N, _).
 
-elem(grid_variants, container, card(grid)).
+elem(grid_variants, div, card(grid)).
 attr(grid_variants, class, ("flex";"flex-col";"gap-2";"bg-slate-50";"rounded-xl";"p-4")).
 attr(grid_variants, order, 3).
 
-elem(gv(I), container, grid_variants) :- grid_variant(I, _, _).
+elem(gv(I), div, grid_variants) :- grid_variant(I, _, _).
 attr(gv(I), class, ("flex";"flex-col";"gap-1")) :- grid_variant(I, _, _).
 attr(gv(I), order, I) :- grid_variant(I, _, _).
 
@@ -665,24 +702,24 @@ attr(gv_lbl(I), text, V) :- grid_variant(I, V, _).
 attr(gv_lbl(I), class, ("text-xs";"font-mono";"text-slate-500")) :- grid_variant(I, _, _).
 attr(gv_lbl(I), order, 1) :- grid_variant(I, _, _).
 
-elem(gv_grid(I), container, gv(I)) :- grid_variant(I, _, _).
+elem(gv_grid(I), div, gv(I)) :- grid_variant(I, _, _).
 attr(gv_grid(I), class, ("grid";"gap-2";"w-full";"bg-white";"rounded-xl";"p-2";"shadow-sm")) :- grid_variant(I, _, _).
 attr(gv_grid(I), class, C) :- grid_variant(I, _, C).
 attr(gv_grid(I), order, 2) :- grid_variant(I, _, _).
 
-elem(gc(I, N), container, gv_grid(I)) :- grid_variant(I, _, _), grid_cell(N).
+elem(gc(I, N), div, gv_grid(I)) :- grid_variant(I, _, _), grid_cell(N).
 attr(gc(I, N), class, ("h-7";"bg-slate-300";"border";"border-slate-300";"rounded-md";"shadow-inner")) :- grid_variant(I, _, _), grid_cell(N).
 attr(gc(I, N), order, N) :- grid_variant(I, _, _), grid_cell(N).
 
-elem(span_demo, container, card(grid)).
+elem(span_demo, div, card(grid)).
 attr(span_demo, class, ("flex";"flex-col";"gap-2";"bg-slate-50";"rounded-xl";"p-4")).
 attr(span_demo, order, 5).
 
-elem(span_track(R), container, span_demo) :- span_demo_cell(R, _, _, _, _, _, _).
+elem(span_track(R), div, span_demo) :- span_demo_cell(R, _, _, _, _, _, _).
 attr(span_track(R), class, ("grid";"grid-cols-4";"gap-2";"bg-white";"rounded-xl";"p-3";"shadow-sm")) :- span_demo_cell(R, _, _, _, _, _, _).
 attr(span_track(R), order, R) :- span_demo_cell(R, _, _, _, _, _, _).
 
-elem(span_cell(R, N), container, span_track(R)) :- span_demo_cell(R, N, _, _, _, _, _).
+elem(span_cell(R, N), div, span_track(R)) :- span_demo_cell(R, N, _, _, _, _, _).
 attr(span_cell(R, N), class, ("h-7";"rounded-lg";"flex";"items-center";"justify-center";"shadow-sm")) :- span_demo_cell(R, N, _, _, _, _, _).
 attr(span_cell(R, N), class, Span) :- span_demo_cell(R, N, _, Span, _, _, _), Span!="".
 attr(span_cell(R, N), class, Bg) :- span_demo_cell(R, N, _, _, Bg, _, _).
@@ -694,19 +731,19 @@ attr(span_cell_lbl(R, N), text, L) :- span_demo_cell(R, N, L, _, _, _, _), L!=""
 attr(span_cell_lbl(R, N), class, ("text-[10px]";"font-semibold";"font-mono")) :- span_demo_cell(R, N, L, _, _, _, _), L!="".
 attr(span_cell_lbl(R, N), order, 1) :- span_demo_cell(R, N, L, _, _, _, _), L!="".
 
-elem(width_rows, container, card(width)).
+elem(width_rows, div, card(width)).
 attr(width_rows, class, ("flex";"flex-col";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(width_rows, order, 3).
 
-elem(wd(I), container, width_rows) :- width_demo(I, _, _).
+elem(wd(I), div, width_rows) :- width_demo(I, _, _).
 attr(wd(I), class, ("flex";"flex-col";"gap-2")) :- width_demo(I, _, _).
 attr(wd(I), order, I) :- width_demo(I, _, _).
 
-elem(wd_track(I), container, wd(I)) :- width_demo(I, _, _).
+elem(wd_track(I), div, wd(I)) :- width_demo(I, _, _).
 attr(wd_track(I), class, ("w-full";"h-10";"bg-white";"rounded-full";"overflow-hidden";"p-1";"shadow-sm")) :- width_demo(I, _, _).
 attr(wd_track(I), order, 1) :- width_demo(I, _, _).
 
-elem(wd_bar(I), container, wd_track(I)) :- width_demo(I, _, _).
+elem(wd_bar(I), div, wd_track(I)) :- width_demo(I, _, _).
 attr(wd_bar(I), class, ("h-full";"bg-sky-300";"rounded-full";"flex";"items-center";"justify-center";"min-w-12";"shadow-sm")) :- width_demo(I, _, _).
 attr(wd_bar(I), class, W) :- width_demo(I, _, W).
 attr(wd_bar(I), order, 1) :- width_demo(I, _, _).
@@ -718,20 +755,20 @@ attr(wd_lbl(I), order, 1) :- width_demo(I, _, _).
 
 
 
-elem(checkbox_rows, container, card(checkbox)).
+elem(checkbox_rows, div, card(checkbox)).
 attr(checkbox_rows, class, ("flex";"flex-col";"gap-3";"bg-slate-50";"rounded-xl";"p-4")).
 attr(checkbox_rows, order, 3).
 
-elem(cb_row(I), container, checkbox_rows) :- checkbox_demo(I, _, _).
+elem(cb_row(I), div, checkbox_rows) :- checkbox_demo(I, _, _).
 attr(cb_row(I), class, ("flex";"items-center";"gap-2")) :- checkbox_demo(I, _, _).
 attr(cb_row(I), order, I) :- checkbox_demo(I, _, _).
 
 elem(cb(I), checkbox, cb_row(I)) :- checkbox_demo(I, _, _).
 attr(cb(I), order, 1) :- checkbox_demo(I, _, _).
 
-attr(cb(I), checked, "true") :- checkbox_demo(I, "checked", _).
-attr(cb(I), disabled, "true") :- checkbox_demo(I, "disabled", _).
-attr(cb(I), indeterminate, "true") :- checkbox_demo(I, "indeterminate", _).
+attr(cb(I), checked, true) :- checkbox_demo(I, "checked", _).
+attr(cb(I), disabled, true) :- checkbox_demo(I, "disabled", _).
+attr(cb(I), indeterminate, true) :- checkbox_demo(I, "indeterminate", _).
 
 elem(cb_lbl(I), text, cb_row(I)) :- checkbox_demo(I, _, _).
 attr(cb_lbl(I), text, L) :- checkbox_demo(I, _, L).
@@ -740,18 +777,24 @@ attr(cb_lbl(I), order, 2) :- checkbox_demo(I, _, _).
 
 
 
-elem(field_set_demo, field_set, card(field)).
-attr(field_set_demo, legend, "Account").
-attr(field_set_demo, legend_variant, "legend").
+elem(field_set_demo, field(set), card(field)).
 attr(field_set_demo, class, ("bg-slate-50";"rounded-xl";"p-4")).
 attr(field_set_demo, order, 4).
 
+elem(field_legend_demo, field(legend), field_set_demo).
+attr(field_legend_demo, text, "Account").
+attr(field_legend_demo, variant, "legend").
+attr(field_legend_demo, order, 1).
+
+elem(field_set_group, field(group), field_set_demo).
+attr(field_set_group, order, 2).
+
 % vertical field: label + description + input-ish placeholder
-elem(fld_vertical, field, field_set_demo).
+elem(fld_vertical, field, field_set_group).
 attr(fld_vertical, orientation, "vertical").
 attr(fld_vertical, order, 1).
 
-elem(fld_v_label, field_label, fld_vertical).
+elem(fld_v_label, field(label), fld_vertical).
 attr(fld_v_label, text, "Username").
 attr(fld_v_label, for, "fld_v_input").
 attr(fld_v_label, order, 1).
@@ -761,34 +804,33 @@ attr(fld_v_input, id, "fld_v_input").
 attr(fld_v_input, placeholder, "e.g. mariia").
 attr(fld_v_input, order, 2).
 
-elem(fld_v_desc, field_description, fld_vertical).
+elem(fld_v_desc, field(description), fld_vertical).
 attr(fld_v_desc, text, "Shown on your public profile.").
 attr(fld_v_desc, order, 3).
 
 % horizontal field: label beside control
-elem(fld_horizontal, field, field_set_demo).
+elem(fld_horizontal, field, field_set_group).
 attr(fld_horizontal, orientation, "horizontal").
 attr(fld_horizontal, order, 2).
 attr(fld_horizontal, class, ("border-t";"border-slate-200";"pt-3")).
 
 elem(fld_h_check, checkbox, fld_horizontal).
-attr(fld_h_check, checked, "true").
+attr(fld_h_check, checked, true).
 attr(fld_h_check, order, 1).
 
-elem(fld_h_label, field_label, fld_horizontal).
+elem(fld_h_label, field(label), fld_horizontal).
 attr(fld_h_label, text, "Enable notifications").
 attr(fld_h_label, order, 2).
 
-elem(field_group_demo, field_group, card(field)).
+elem(field_group_demo, field(group), card(field)).
 attr(field_group_demo, class, ("bg-slate-50";"rounded-xl";"p-4")).
 attr(field_group_demo, order, 7).
 
 elem(fld_invalid, field, field_group_demo).
 attr(fld_invalid, orientation, "vertical").
-attr(fld_invalid, invalid, "false").
 attr(fld_invalid, order, 1).
 
-elem(fld_i_label, field_label, fld_invalid).
+elem(fld_i_label, field(label), fld_invalid).
 attr(fld_i_label, text, "Email").
 attr(fld_i_label, for, "fld_i_input").
 attr(fld_i_label, order, 1).
@@ -800,16 +842,235 @@ attr(fld_i_input, placeholder, "you@example.com").
 attr(fld_i_input, order, 2).
 
 % error hidden until submit
-elem(fld_i_error, field_error, fld_invalid).
+elem(fld_i_error, field(error), fld_invalid).
 attr(fld_i_error, text, "Enter a valid email address.").
 attr(fld_i_error, class, "hidden").
 attr(fld_i_error, order, 3).
 
 % submit reveals the error state (static demo — no real validation)
 elem(fld_submit, button, field_group_demo).
-attr(fld_submit, label, "Submit").
+attr(fld_submit, text, "Submit").
 attr(fld_submit, variant, "outline").
 attr(fld_submit, class, ("mt-3";"w-fit")).
 attr(fld_submit, order, 2).
-when(fld_submit, click, update, (fld_invalid, invalid, "true")).
+when(fld_submit, click, update, (fld_invalid, class, "text-destructive")).
 when(fld_submit, click, update, (fld_i_error, class, "")).
+
+% THEME TOKENS
+
+elem(theme_toolbar, div, card(theme)).
+attr(theme_toolbar, class, ("flex";"items-center";"justify-between";"gap-3";"rounded-xl";"border";"border-border";"bg-background";"p-3")).
+attr(theme_toolbar, order, 3).
+
+elem(theme_hint, p, theme_toolbar).
+attr(theme_hint, text, "Toggle the theme to see semantic colors adapt.").
+attr(theme_hint, class, ("text-sm";"text-muted-foreground")).
+attr(theme_hint, order, 1).
+
+elem(theme_switch, theme_toggle, theme_toolbar).
+attr(theme_switch, variant, "outline").
+attr(theme_switch, size, "icon").
+attr(theme_switch, order, 2).
+
+elem(theme_grid, div, card(theme)).
+attr(theme_grid, class, ("grid";"grid-cols-2";"gap-2")).
+attr(theme_grid, order, 4).
+
+elem(theme_swatch(I), div, theme_grid) :- theme_token(I, _, _).
+attr(theme_swatch(I), class, ("flex";"min-h-16";"items-end";"rounded-xl";"border";"p-3";"shadow-xs")) :- theme_token(I, _, _).
+attr(theme_swatch(I), class, C) :- theme_token(I, _, C).
+attr(theme_swatch(I), order, I) :- theme_token(I, _, _).
+
+elem(theme_swatch_label(I), span, theme_swatch(I)) :- theme_token(I, _, _).
+attr(theme_swatch_label(I), text, L) :- theme_token(I, L, _).
+attr(theme_swatch_label(I), class, ("text-xs";"font-mono";"font-semibold")) :- theme_token(I, _, _).
+attr(theme_swatch_label(I), order, 1) :- theme_token(I, _, _).
+
+% CONTROL STATES
+
+elem(state_grid, div, card(states)).
+attr(state_grid, class, ("grid";"grid-cols-2";"gap-3";"rounded-xl";"bg-muted/40";"p-4")).
+attr(state_grid, order, 3).
+
+elem(state_demo(I), div, state_grid) :- control_state(I, _, _, _, _, _).
+attr(state_demo(I), class, ("flex";"min-w-0";"flex-col";"gap-2")) :- control_state(I, _, _, _, _, _).
+attr(state_demo(I), order, I) :- control_state(I, _, _, _, _, _).
+
+elem(state_label(I), span, state_demo(I)) :- control_state(I, _, _, _, _, _).
+attr(state_label(I), text, L) :- control_state(I, L, _, _, _, _).
+attr(state_label(I), class, ("text-xs";"font-mono";"text-muted-foreground";"truncate")) :- control_state(I, _, _, _, _, _).
+attr(state_label(I), order, 1) :- control_state(I, _, _, _, _, _).
+
+elem(state_button(I), button, state_demo(I)) :- control_state(I, _, _, _, _, _).
+attr(state_button(I), text, T) :- control_state(I, _, T, _, _, _).
+attr(state_button(I), variant, V) :- control_state(I, _, _, V, _, _).
+attr(state_button(I), class, C) :- control_state(I, _, _, _, C, _), C!="".
+attr(state_button(I), disabled, true) :- control_state(I, _, _, _, _, true).
+attr(state_button(I), order, 2) :- control_state(I, _, _, _, _, _).
+
+elem(state_loading_spinner, spinner, state_button(6)).
+attr(state_loading_spinner, class, "size-4").
+attr(state_loading_spinner, order, 1).
+
+% FORM CONTROLS
+
+elem(form_showcase, field(group), card(forms)).
+attr(form_showcase, class, ("rounded-xl";"border";"border-border";"bg-muted/40";"p-4")).
+attr(form_showcase, order, 3).
+
+elem(form_name, field, form_showcase).
+attr(form_name, orientation, "vertical").
+attr(form_name, order, 1).
+
+elem(form_name_label, field(label), form_name).
+attr(form_name_label, text, "Display name").
+attr(form_name_label, for, "showcase-name").
+attr(form_name_label, order, 1).
+
+elem(form_name_input, input, form_name).
+attr(form_name_input, id, "showcase-name").
+attr(form_name_input, name, "display_name").
+attr(form_name_input, placeholder, "Ada Lovelace").
+attr(form_name_input, order, 2).
+
+elem(form_name_description, field(description), form_name).
+attr(form_name_description, text, "A standard text input with focus styling.").
+attr(form_name_description, order, 3).
+
+elem(form_bio, field, form_showcase).
+attr(form_bio, orientation, "vertical").
+attr(form_bio, order, 2).
+
+elem(form_bio_label, field(label), form_bio).
+attr(form_bio_label, text, "Bio").
+attr(form_bio_label, for, "showcase-bio").
+attr(form_bio_label, order, 1).
+
+elem(form_bio_input, textarea, form_bio).
+attr(form_bio_input, id, "showcase-bio").
+attr(form_bio_input, name, "bio").
+attr(form_bio_input, placeholder, "Tell us a little about yourself…").
+attr(form_bio_input, rows, 3).
+attr(form_bio_input, order, 2).
+
+elem(form_density, field, form_showcase).
+attr(form_density, orientation, "vertical").
+attr(form_density, order, 3).
+
+elem(form_density_label, field(label), form_density).
+attr(form_density_label, text, "Interface density").
+attr(form_density_label, for, "showcase-density").
+attr(form_density_label, order, 1).
+
+elem(form_density_select, select, form_density).
+attr(form_density_select, type, "single").
+attr(form_density_select, value, "comfortable").
+attr(form_density_select, name, "density").
+attr(form_density_select, order, 2).
+
+elem(form_density_trigger, select(trigger), form_density_select).
+attr(form_density_trigger, id, "showcase-density").
+attr(form_density_trigger, text, "Comfortable").
+attr(form_density_trigger, class, "w-full").
+attr(form_density_trigger, order, 1).
+
+elem(form_density_content, select(content), form_density_select).
+attr(form_density_content, order, 2).
+
+elem(form_density_item(I), select(item), form_density_content) :- select_option(I, _, _).
+attr(form_density_item(I), text, L) :- select_option(I, _, L).
+attr(form_density_item(I), value, V) :- select_option(I, V, _).
+attr(form_density_item(I), order, I) :- select_option(I, _, _).
+when(form_density_item(I), click, update, (form_density_trigger, text, L)) :- select_option(I, _, L).
+
+elem(form_disabled, field, form_showcase).
+attr(form_disabled, orientation, "vertical").
+attr(form_disabled, order, 4).
+
+elem(form_disabled_label, field(label), form_disabled).
+attr(form_disabled_label, text, "Generated identifier").
+attr(form_disabled_label, for, "showcase-id").
+attr(form_disabled_label, order, 1).
+
+elem(form_disabled_input, input, form_disabled).
+attr(form_disabled_input, id, "showcase-id").
+attr(form_disabled_input, value, "usr_01J8K4").
+attr(form_disabled_input, disabled, true).
+attr(form_disabled_input, order, 2).
+
+% FEEDBACK AND LOADING
+
+elem(feedback_alerts, div, card(feedback)).
+attr(feedback_alerts, class, ("flex";"flex-col";"gap-3")).
+attr(feedback_alerts, order, 3).
+
+elem(feedback_info, alert, feedback_alerts).
+attr(feedback_info, order, 1).
+
+elem(feedback_info_icon, icon, feedback_info).
+attr(feedback_info_icon, icon, "Info").
+attr(feedback_info_icon, order, 1).
+
+elem(feedback_info_title, alert(title), feedback_info).
+attr(feedback_info_title, text, "Settings saved").
+attr(feedback_info_title, order, 2).
+
+elem(feedback_info_description, alert(description), feedback_info).
+attr(feedback_info_description, text, "Your preferences are available on every device.").
+attr(feedback_info_description, order, 3).
+
+elem(feedback_error, alert, feedback_alerts).
+attr(feedback_error, variant, "destructive").
+attr(feedback_error, order, 2).
+
+elem(feedback_error_icon, icon, feedback_error).
+attr(feedback_error_icon, icon, "CircleAlert").
+attr(feedback_error_icon, order, 1).
+
+elem(feedback_error_title, alert(title), feedback_error).
+attr(feedback_error_title, text, "Could not connect").
+attr(feedback_error_title, order, 2).
+
+elem(feedback_error_description, alert(description), feedback_error).
+attr(feedback_error_description, text, "Check the server and try again.").
+attr(feedback_error_description, order, 3).
+
+elem(loading_preview, div, card(feedback)).
+attr(loading_preview, class, ("flex";"flex-col";"gap-4";"rounded-xl";"border";"border-border";"bg-muted/40";"p-4")).
+attr(loading_preview, order, 4).
+
+elem(skeleton_row, div, loading_preview).
+attr(skeleton_row, class, ("flex";"items-center";"gap-3")).
+attr(skeleton_row, order, 1).
+
+elem(skeleton_avatar, skeleton, skeleton_row).
+attr(skeleton_avatar, class, ("size-10";"shrink-0";"rounded-full")).
+attr(skeleton_avatar, order, 1).
+
+elem(skeleton_lines, div, skeleton_row).
+attr(skeleton_lines, class, ("flex";"min-w-0";"flex-1";"flex-col";"gap-2")).
+attr(skeleton_lines, order, 2).
+
+elem(skeleton_line_primary, skeleton, skeleton_lines).
+attr(skeleton_line_primary, class, ("h-3";"w-3/4")).
+attr(skeleton_line_primary, order, 1).
+
+elem(skeleton_line_secondary, skeleton, skeleton_lines).
+attr(skeleton_line_secondary, class, ("h-3";"w-1/2")).
+attr(skeleton_line_secondary, order, 2).
+
+elem(spinner_row, div, loading_preview).
+attr(spinner_row, class, ("flex";"items-center";"gap-4";"border-t";"border-border";"pt-4";"text-sm";"text-muted-foreground")).
+attr(spinner_row, order, 2).
+
+elem(spinner_small, spinner, spinner_row).
+attr(spinner_small, class, "size-4").
+attr(spinner_small, order, 1).
+
+elem(spinner_large, spinner, spinner_row).
+attr(spinner_large, class, ("size-7";"text-primary")).
+attr(spinner_large, order, 2).
+
+elem(spinner_label, span, spinner_row).
+attr(spinner_label, text, "Loading states").
+attr(spinner_label, order, 3).

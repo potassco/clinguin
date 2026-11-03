@@ -6,10 +6,14 @@
 %
 % The template requires ui_app and provides three insertion points:
 %     menubar_left    - application identity
-%     menubar_center  - navigation or status information
+%     menubar_center
 %     menubar_right   - buttons and menus
 %
-% Edit "CUSTOMIZATION" below for the usual changes.
+% Edit "CUSTOMIZATION" below for visual changes.
+% Application code in ui.lp can override the default identity with:
+%     menubar_title_override("My title").
+%     menubar_subtitle_override("My subtitle").
+%     menubar_icon_override("My icon").
 % Optional elements are available at the end.
 % ============================================================================
 
@@ -17,13 +21,24 @@
 % ============================================================================
 % CUSTOMIZATION
 %
-% Change the text and icon below. Comment out a menubar_show/1 fact to hide
-% the corresponding element.
+% These defaults make the template work without application-specific code.
+% Applications should normally use the override facts documented above.
+% Comment out a menubar_show/1 fact to hide the corresponding element.
 % ============================================================================
 
-menubar_title("My Application").
-menubar_subtitle("Interactive ASP application").
-menubar_icon("Menu").
+#defined menubar_title_override/1.
+#defined menubar_subtitle_override/1.
+#defined menubar_icon_override/1.
+
+menubar_title(Title) :- menubar_title_override(Title).
+menubar_title("My Application") :- not menubar_title_override(_).
+
+menubar_subtitle(Subtitle) :- menubar_subtitle_override(Subtitle).
+menubar_subtitle("Interactive ASP application") :-
+    not menubar_subtitle_override(_).
+
+menubar_icon(Icon) :- menubar_icon_override(Icon).
+menubar_icon("Menu") :- not menubar_icon_override(_).
 
 menubar_show(icon).
 menubar_show(subtitle).

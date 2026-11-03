@@ -18,7 +18,8 @@
 % its own file.
 % ==============================================================================
 
-% Sticky menu bar. Customize it in menu-bar.lp.
+% Sticky menu bar. Its visual template is in menu-bar.lp; application identity
+% can be overridden in the APPLICATION UI section below.
 #include "menu-bar.lp".
 
 
@@ -55,4 +56,9 @@ attr(ui_app, class,
 %
 % Add the elements of your application below and attach top-level content to
 % ui_content.
+%
+% To replace the menu bar defaults from this file, add:
+%     menubar_title_override("My Application").
+%     menubar_subtitle_override("What this application does").
+%     menubar_icon_override("Menu").
 % ============================================================================

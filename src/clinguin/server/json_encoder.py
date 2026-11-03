@@ -82,6 +82,7 @@ class JsonEncoder:
         Converts UIState into a JSON hierarchy (represented by an ElementDTO).
         It first gets all dependencies, orders the elements according to dependencies,
         and then adds for each element its attributes, whens, and children.
+        Elements with undefined parents and their descendants are skipped.
 
         Arguments:
             ui_state: The UI state containing elements.
@@ -101,8 +102,8 @@ class JsonEncoder:
         for w in ui_state.get_elements():
             if str(w.parent) != "root" and w.parent not in elements_info:
                 msg = f"Error in {w}. Parent element (ID: {w.parent}) undefined."
-                log.error(msg)
-                raise Exception(msg)
+                log.warning(msg)
+                continue
 
         directed_graph = nx.DiGraph(dependency)
         order = list(reversed(list(nx.topological_sort(directed_graph))))
@@ -121,10 +122,14 @@ class JsonEncoder:
                 log.error(
                     f" The ID '{element_id}' was used as a parent in an elem/3 predicate, but could not be found!"
                 )
-                raise Exception(f" The ID '{element_id}' could not be found!")
+                continue
 
             element_type = elements_info[element_id]["type"]
             parent = elements_info[element_id]["parent"]
+
+            if str(parent) not in elements_dict:
+                log.warning("Skipping element '%s': parent '%s' is not in the hierarchy.", element_id, parent)
+                continue
 
             element = ElementDTO(
                 id=str(element_id),

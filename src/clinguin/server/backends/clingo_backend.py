@@ -5,17 +5,14 @@ Module that contains the ClingoBackend.
 """
 
 import logging
-import os
 import time
-from argparse import ArgumentParser
-from dataclasses import dataclass, field, fields
 from pathlib import Path
-from types import SimpleNamespace
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from clingo import Control, parse_term
 from clingo.script import enable_python
 
+from clinguin.server.data import BackendArgs, ClinguinMessage
 from clinguin.server.domain_state import DomainState
 from clinguin.server.json_encoder import JsonEncoder
 from clinguin.server.ui import UIState
@@ -44,90 +41,6 @@ log = logging.getLogger(__name__)
 #         return f"ClinguinFile(path={self.path}, content={self.content})"
 
 
-@dataclass
-class BackendArgs:
-    """Base arguments for ClingoBackend."""
-
-    VALID_OPT_MODES = {"opt", "enum", "optN", "ignore"}
-
-    domain_files: List[str] = field(default_factory=list)
-    ui_files: List[str] = field(default_factory=list)
-    const: List[str] = field(default_factory=list)
-    clingo_ctl_arg: List[str] = field(default_factory=list)
-    default_opt_mode: str = "ignore"
-    opt_timeout: Optional[int] = None
-
-    def __post_init__(self):
-        """Validates that file paths exist and are actual files."""
-        for file_path in self.domain_files + self.ui_files:
-            if not os.path.isfile(file_path):
-                raise ValueError(f"Invalid file path: {file_path} does not exist or is not a file.")
-
-        # Validate `default_opt_mode`
-        if self.default_opt_mode not in self.VALID_OPT_MODES:
-            valid_options = ", ".join(self.VALID_OPT_MODES)
-            raise ValueError(
-                f"Invalid default_opt_mode: '{self.default_opt_mode}'. " f"Must be one of: {valid_options}"
-            )
-
-        for c in self.const:
-            values = c.split("=")
-            if (len(values) != 2) or (not values[0]) or (not values[1]):
-                raise ValueError("Invalid constant format. Expected name=value.")
-
-    @classmethod
-    def from_args(cls, args: SimpleNamespace):
-        """Creates BackendArgs from `args`, filtering out extra fields."""
-        valid_fields = {f.name for f in fields(cls)}  # Get valid field names
-        filtered_args = {k: v for k, v in vars(args).items() if k in valid_fields}  # Keep only valid fields
-        return cls(**filtered_args)
-
-    @classmethod
-    def register_options(cls, parser: ArgumentParser):
-        """Registers CLI options dynamically based on BackendArgs fields."""
-        defaults = cls()  # Create a BackendArgs instance to get default values
-
-        parser.add_argument(
-            "--domain-files",
-            nargs="+",
-            help="Files with the domain-specific encodings.",
-            default=defaults.domain_files,
-            metavar="",
-        )
-        parser.add_argument(
-            "--ui-files", nargs="+", help="Files defining the UI encodings.", default=defaults.ui_files, metavar=""
-        )
-        parser.add_argument(
-            "-c",
-            "--const",
-            action="append",
-            help="Constant passed to Clingo, e.g., <id>=<term>.",
-            default=defaults.const,
-            metavar="",
-        )
-        parser.add_argument(
-            "--clingo-ctl-arg",
-            action="append",
-            help="Arguments passed to the Clingo control object.",
-            default=defaults.clingo_ctl_arg,
-            metavar="",
-        )
-        parser.add_argument(
-            "--default-opt-mode",
-            type=str,
-            help="Default optimization mode.",
-            default=defaults.default_opt_mode,
-            metavar="",
-        )
-        parser.add_argument(
-            "--opt-timeout",
-            type=int,
-            help="Optional timeout for optimization.",
-            default=defaults.opt_timeout,
-            metavar="",
-        )
-
-
 class ClingoBackend:
     """
     This backend contains the basic clingo functionality for a backend using clingo.
@@ -150,7 +63,7 @@ class ClingoBackend:
         _cost (list): Cost values assigned to the current model by optimization.
         _optimal (bool): Whether the solution is optimal.
         _optimizing (bool): Whether the request asked for optimal models.
-        _messages (list[tuple[str, str, str]]): Messages sent to the UI. Include warning, errors and information.
+        _messages (list[ClinguinMessage]): Messages sent to the UI. Include warning, errors and information. Reset to empty in each call.
 
         _domain_state_constructors (list[str]): List of domain state constructors (methods to generate the domain state).
     """
@@ -173,7 +86,7 @@ class ClingoBackend:
     _cost: List[Any]
     _optimal: bool
     _optimizing: bool
-    _messages: List[Tuple[str, str, str]]
+    _messages: List[ClinguinMessage]
 
     _domain_state_constructors: List[str]
 
@@ -296,7 +209,7 @@ class ClingoBackend:
             _cost (list): Cost values assigned to the current model.
             _optimal (bool): Whether the current solution is optimal.
             _optimizing (bool): Whether the solver is optimizing.
-            _messages (list[tuple[str, str, str]]): Messages to be displayed in the UI.
+            _messages (list[ClinguinMessage]): Messages to be displayed in the UI.
         """
         # Context: Set by the general handler of requests
         self._context = []
@@ -394,7 +307,7 @@ class ClingoBackend:
         Arguments:
             f (str): The file path
         """
-        log.debug(domctl_log(f"domctl.load({str(f)})"))
+        log.debug(domctl_log(f"domctl.load({f!s})"))
         self._ctl.load(str(f))
 
     def _outdate(self):
@@ -412,6 +325,24 @@ class ClingoBackend:
     # ---------------------------------------------
     # Setters
     # ---------------------------------------------
+
+    def _add_message(self, message: ClinguinMessage) -> None:
+        """
+        Adds a message to the backend's message list.
+        Messages are then available as part of the domain information for UI display.
+
+        Arguments:
+            message (ClinguinMessage): The message to be added
+        """
+        log.info("Adding message: %s", message)
+        self._messages.append(message)
+
+    def _clear_messages(self) -> None:
+        """
+        Clears a messages from the backend's message list.
+
+        """
+        self._messages.clear()
 
     def _set_context(self, context):
         """
@@ -547,9 +478,6 @@ class ClingoBackend:
         self._ui_state = UIState(self._args.ui_files, domain_state, self._constants_argument_list)
         self._ui_state.update_ui_state()
         self._ui_state.replace_images_with_b64()
-        # for m in self._messages:
-        #     self._ui_state.add_message(m[0], m[1], m[2])
-        # self._messages = []
 
     ########################################################################################################
 
@@ -611,20 +539,20 @@ class ClingoBackend:
         ctl.ground([("base", [])])
         with ctl.solve(yield_=True) as hnd:
             for m in hnd:
-                atoms = [f"{str(s)}." for s in m.symbols(shown=True)]
+                atoms = [f"{s!s}." for s in m.symbols(shown=True)]
 
         final_prg = "\n".join(atoms)
 
         file_name = file_name.strip('"')
         with open(file_name, "w", encoding="UTF-8") as file:
             file.write(final_prg)
-        self._messages.append(
-            (
-                "Download successful",
-                f"Information saved in file {file_name}.",
-                "success",
-            )
+        message = ClinguinMessage(
+            message_id="download_success",
+            message_type="info",
+            title="Download successful",
+            content=f"Information saved in file {file_name}.",
         )
+        self._add_message(message)
 
     def clear_atoms(self):
         """
@@ -731,17 +659,14 @@ class ClingoBackend:
             self._model = model.symbols(shown=True, atoms=True, theory=True)
             while optimizing and not model.optimality_proven:
                 if len(model.cost) == 0:
-                    self._messages.append(
-                        (
-                            "Browsing Warning",
-                            "No optimization provided",
-                            "warning",
-                        )
+                    message = ClinguinMessage(
+                        message_id="no_optimization",
+                        message_type="warning",
+                        title="Browsing Warning",
+                        content="Optimization requested but no optimization statement provided",
                     )
-                    log.warning(
-                        "No optimization statement provided in encoding but optimization condition provided\
-                            in 'next_solution' operation. Exiting browsing."
-                    )
+                    self._add_message(message)
+
                     break
                 if self._args.opt_timeout is not None and time.time() - start > self._args.opt_timeout:
                     log.warning(
@@ -762,7 +687,13 @@ class ClingoBackend:
 
             log.info(m)
             self._outdate()
-            self._messages.append(("Browsing Information", m, "info"))
+            message = ClinguinMessage(
+                message_id="no_more_solutions",
+                message_type="info",
+                title="Browsing Information",
+                content=m,
+            )
+            self._add_message(message)
 
     def clear_assumptions(self):
         """
@@ -868,8 +799,13 @@ class ClingoBackend:
 
         """
         if self._model is None:
-            self._messages.append(("No solution", "There is no solution to be selected", "danger"))
-            log.error("No solution. No model has been computed that can be selected")
+            message = ClinguinMessage(
+                message_id="no_solution",
+                message_type="error",
+                title="No solution",
+                content="There is no solution to be selected.",
+            )
+            self._add_message(message)
         else:
             symbols_to_ignore = self._externals["true"]
             symbols_to_ignore.union(self._externals["false"])
@@ -882,7 +818,7 @@ class ClingoBackend:
                     ctl.add("base", [], show_prg.strip('"'))
                 except RuntimeError as exc:
                     raise Exception("Show program can't be parsed. Make sure it is a valid clingo program.") from exc
-                prg = "\n".join([f"{str(s)}." for s in self._model])
+                prg = "\n".join([f"{s!s}." for s in self._model])
                 ctl.add("base", [], prg)
                 ctl.ground([("base", [])])
 

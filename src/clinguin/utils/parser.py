@@ -263,6 +263,12 @@ def setup_share_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         help="Path to a directory of static assets (images, fonts, icons) to serve.",
     )
 
+    parser.add_argument(
+        "--dev",
+        action="store_true",
+        help="Recompile Tailwind CSS whenever the UI is refreshed.",
+    )
+
     selected_backend_name = get_backend_from_sysargv()
     backend = lazy_import_backend(selected_backend_name, available_backends)
 
@@ -473,6 +479,12 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         default="127.0.0.1",  # Default to localhost
         metavar="",
         help="Specify the server host. Use 0.0.0.0 for external access.",
+    )
+
+    parser.add_argument(
+        "--dev",
+        action="store_true",
+        help="Recompile Tailwind CSS whenever the UI is refreshed.",
     )
 
     selected_backend_name = get_backend_from_sysargv()

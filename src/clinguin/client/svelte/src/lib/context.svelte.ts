@@ -20,6 +20,7 @@ class AppContext {
   serverUrl = $state(import.meta.env.VITE_SERVER_URL || DEFAULT_SERVER_URL);
   sessionId = $state('');
   version = $state(1);
+  cssVersion = $state(0);
   connectionPromise = $state<Promise<void> | null>(null);
   loading = $state(false);
   ui = $state<ClinguinNode | null>(null);
@@ -146,6 +147,7 @@ class AppContext {
     try {
       const data = await this._doFetchInfo();
       this.version = data.version;
+	  this.cssVersion = data.css_version ?? this.cssVersion;
       this.ui = data.ui ?? null;
       this.ds = data.ds ?? null;
       this.clearContext();

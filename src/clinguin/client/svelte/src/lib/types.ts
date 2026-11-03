@@ -48,6 +48,7 @@ type InfoResponse = {
     status: string;
     version: number;
     active_sessions: number;
+	css_version?: number;
     ui?: ClinguinNode;
     ds?: unknown;
 };

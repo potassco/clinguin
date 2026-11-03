@@ -22,5 +22,5 @@
   {#if customTheme}
     <link rel="stylesheet" href={`/${customTheme}`} />
   {/if}
-  <link rel="stylesheet" href={`${appContext.serverUrl}/static/generated.css`} />
+  <link rel="stylesheet" href={`${appContext.serverUrl}/static/generated.css?v=${appContext.cssVersion}`} />
 </svelte:head>

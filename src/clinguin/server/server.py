@@ -11,14 +11,7 @@ from typing import Any, Callable
 
 import uvicorn
 from clingo import Function, SymbolType, parse_term
-from fastapi import (
-    FastAPI,
-    HTTPException,
-    Request,
-    Response,
-    WebSocket,
-    WebSocketDisconnect,
-)
+from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -56,6 +49,7 @@ class Server:
         port: int = 8000,
         host: str = "127.0.0.1",
         multi: bool = False,
+        dev: bool = False,
         log_level: int | None = None,
     ):
         """Initialize the server with the given port and host.
@@ -73,6 +67,8 @@ class Server:
         self.port = port
         self.host = host
         self.multi = multi
+        self.dev = dev
+        self.css_version = 0
         self.app = FastAPI()
         self.app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
         self.app.add_middleware(
@@ -144,9 +140,16 @@ class Server:
 
     async def get_info(self, fastapi_request: Request) -> dict[str, int | str]:
         """Retrieve server status or session information."""
+        if self.dev:
+            generate_tailwind_css(self.backend_args.ui_files)
+            self.css_version += 1
         session = self.get_session_from_request(fastapi_request)
         backend = self.get_backend(session)
         response = {"status": "running", "version": self.version, "active_sessions": len(self.sessions)}
+
+        if self.dev:
+            response["css_version"] = self.css_version
+
         try:
             json = backend.get()
             self.last_response = json

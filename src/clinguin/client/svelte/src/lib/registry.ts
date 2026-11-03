@@ -28,7 +28,7 @@ export const registry: Record<string, any> = {
   //label: Label,
   //button: Button,
   sonner: Sonner,
-  message: Sonner, // Temporary alias for backward compatibility with "message" attr in Sonner component
+  //message: Sonner, // Temporary alias for backward compatibility with "message" attr in Sonner component
   theme_toggle: ThemeToggle,
   icon: Icon,
   /* dropdown_menu: DropdownMenu,

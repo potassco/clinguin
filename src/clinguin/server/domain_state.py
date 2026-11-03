@@ -406,9 +406,9 @@ class DomainState:
         """
         Adds messages to the domain state.
 
-        Includes predicate ``_clinguin_message/3`` for each message with title, content, and type.
+        Includes predicate ``_clinguin_message/4`` for each message with title, content, and type.
         """
-        prg = "#defined _clinguin_message/3. "
+        prg = "#defined _clinguin_message/4. "
         for message in self._backend._messages:
             prg += f'_clinguin_message({message.message_id},{message.message_type},"{message.title}","{message.content}"). '
         return prg + "\n"

@@ -41,6 +41,7 @@ def main() -> None:
             port=args.port,
             host=args.host,
             multi=args.multi,
+            dev=args.dev,
         )
         server.run()
     elif args.command == "client":
@@ -61,6 +62,7 @@ def main() -> None:
             port=args.server_port,
             host=args.server_host,
             multi=args.multi,
+            dev=args.dev,
         )
         client = Client(
             port=args.client_port,

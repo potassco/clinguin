@@ -50,6 +50,14 @@ ascii_art_client = Text(
     justify="left",
 )
 
+ascii_art_init = Text(
+    r"""
+        I N I T
+    """,
+    no_wrap=True,
+    justify="left",
+)
+
 VERSION = importlib.metadata.version("clinguin")
 
 
@@ -113,9 +121,7 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "client",
-        description=ascii_art_clinguin
-        + ascii_art_client
-        + "\n🚀 Start the client for clinguin.\
+        description=ascii_art_clinguin + ascii_art_client + "\n🚀 Start the client for clinguin.\
         \n It will run Angular to render the UI and react to events.",  # type: ignore
         help="Start the client",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -361,7 +367,7 @@ def find_backend_classes(directories: List[str]) -> Dict[str, str]:
             return True
         return False
 
-    for class_name in class_hierarchy.keys():
+    for class_name in class_hierarchy:
         if is_subclass_of_clingo_backend(class_name, set()):
             backend_classes[class_name] = class_files[class_name]
 
@@ -416,9 +422,21 @@ def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[
 
 
 def setup_init_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
-    parser = subparsers.add_parser("init", help="Create a quick-start UI")
-    parser.add_argument("directory", nargs="?", default=".")
-    parser.add_argument("--force", action="store_true")
+    """
+    Setup the parser for the init command.
+    Args:
+        subparsers (_SubParsersAction): The subparsers to add the init command to.
+    """
+    parser: ArgumentParser = subparsers.add_parser(
+        "init",
+        description=ascii_art_clinguin + "\n🛠 Initialize a new clinguin project.",
+        help="Create a quick-start UI by providing a project directory. It will create the necessary files and directories for a new clinguin project using our templates.",
+        formatter_class=ArgumentDefaultsRichHelpFormatter,
+    )
+    parser.add_argument("directory", nargs="?", default=".", help="Project directory.")
+    parser.add_argument(
+        "--force", action="store_true", help="Force initialization even if the project directory already exists."
+    )
 
 
 def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
@@ -429,9 +447,7 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "server",
-        description=ascii_art_clinguin
-        + ascii_art_server
-        + "\n🚀 Start the server for clinguin.\
+        description=ascii_art_clinguin + ascii_art_server + "\n🚀 Start the server for clinguin.\
         \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
         help="Start the server",
         formatter_class=ArgumentDefaultsRichHelpFormatter,

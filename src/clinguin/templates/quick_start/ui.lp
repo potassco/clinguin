@@ -18,9 +18,10 @@
 % its own file.
 % ==============================================================================
 
-% Sticky menu bar. Its visual template is in menu-bar.lp; application identity
-% can be overridden in the APPLICATION UI section below.
-#include "menu-bar.lp".
+% Sticky menu bar. Its visual template is in ui-menu-bar.lp;
+#include "ui-menu-bar.lp".
+% Messages area. Its visual template is in ui-messages.lp.
+#include "ui-messages.lp".
 
 
 

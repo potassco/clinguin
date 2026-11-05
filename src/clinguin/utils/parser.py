@@ -7,7 +7,7 @@ import os
 import re
 import sys
 from argparse import ArgumentParser, _SubParsersAction
-from typing import Any, Dict, List, Optional, Set, Type, cast
+from typing import Any, Optional, cast
 
 from rich.text import Text
 from rich_argparse import ArgumentDefaultsRichHelpFormatter
@@ -318,7 +318,7 @@ def get_custom_backends_directory() -> Optional[str]:
     return None
 
 
-def find_backend_classes(directories: List[str]) -> Dict[str, str]:
+def find_backend_classes(directories: list[str]) -> dict[str, str]:
     """
     Scan multiple directories for Python files and extract backend class names that inherit from ClingoBackend
     (directly or indirectly), including ClingoBackend itself, using regex.
@@ -354,7 +354,7 @@ def find_backend_classes(directories: List[str]) -> Dict[str, str]:
                         class_hierarchy[class_name] = parent_class if parent_class else None
                         class_files[class_name] = module_path
 
-    def is_subclass_of_clingo_backend(cls: str, visited: Set[str]) -> bool:
+    def is_subclass_of_clingo_backend(cls: str, visited: set[str]) -> bool:
         """Recursively checks if a class inherits from ClingoBackend or is ClingoBackend itself."""
         if cls in visited:
             return False
@@ -374,7 +374,7 @@ def find_backend_classes(directories: List[str]) -> Dict[str, str]:
     return backend_classes
 
 
-def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[ClingoBackend]:
+def lazy_import_backend(class_name: str, backends_dict: dict[str, str]) -> type[ClingoBackend]:
     """
     Lazily imports the selected backend class when needed.
 
@@ -383,7 +383,7 @@ def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[
         backends_dict (Dict[str, str]): A dictionary mapping backend class names to file paths.
 
     Returns:
-        Type[ClingoBackend]: The imported backend class.
+        type[ClingoBackend]: The imported backend class.
 
     Raises:
         ImportError: If the backend class cannot be found.

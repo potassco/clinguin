@@ -19,7 +19,9 @@
 % ==============================================================================
 
 % Sticky menu bar. Customize it in menu-bar.lp.
-#include "menu-bar.lp".
+#include "ui-menu-bar.lp".
+% Messages area. Customize it in ui-messages.lp.
+#include "ui-messages.lp".
 
 
 

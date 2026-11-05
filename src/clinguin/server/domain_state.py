@@ -237,7 +237,9 @@ class DomainState:
                 )
             self._backend._model = symbols
 
-        return " ".join([str(s) + "." for s in self._backend._model]) + "\n"
+        model = " ".join([str(s) + "." for s in self._backend._model]) + "\n"
+        model_reified = " ".join([f"_clinguin_model({s!s})." for s in self._backend._model]) + "\n"
+        return model + model_reified
 
     @cached_property
     def _ds_brave(self):

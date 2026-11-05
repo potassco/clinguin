@@ -11,7 +11,14 @@ from typing import Any, Callable
 
 import uvicorn
 from clingo import Function, SymbolType, parse_term
-from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi import (
+    FastAPI,
+    HTTPException,
+    Request,
+    Response,
+    WebSocket,
+    WebSocketDisconnect,
+)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -154,7 +161,7 @@ class Server:
             json = backend.get()
             self.last_response = json
             response.update(json)
-            log.debug("Response: %s", response)
+            # log.debug("Response: %s", response)
         except Exception as e:
             log.error("Raising exception in endpoint")
             log.error(e)

@@ -12,12 +12,12 @@
 
   const Component = $derived(resolveComponent(element.node.type));
   const isNative = $derived(
-	element.node.type === "root"
-		? "div"
-		: !Component && isNativeTag(element.node.type)
-		? element.node.type
-		: null
-	);
+    element.node.type === "root"
+      ? "div"
+      : !Component && isNativeTag(element.node.type)
+        ? element.node.type
+        : null,
+  );
   const text = $derived(element.attr("text") || element.attr("content"));
   const children = $derived(sortedChildren(element.node.children ?? []));
 </script>
@@ -33,11 +33,7 @@
 {/snippet}
 
 {#if Component}
-  <Component
-    id={element.node.id}
-    {...element.get_html()}
-    {...element.actions}
-  >
+  <Component id={element.node.id} {...element.get_html()} {...element.actions}>
     {@render content()}
   </Component>
 {:else if isNative}
@@ -50,7 +46,7 @@
     {@render content()}
   </svelte:element>
 {:else}
-  <div>
+  <div class="text-red-500 border border-red-500 p-2">
     Unresolved component:
     <code>{element.node.type}</code>
   </div>

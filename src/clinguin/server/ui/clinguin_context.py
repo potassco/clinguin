@@ -2,7 +2,10 @@
 Clinguin Context passed to the clingo control object for the UI with helper python functions
 """
 
-from clingo.symbol import String, SymbolType
+import hashlib
+
+from clingo import parse_term
+from clingo.symbol import Number, String, SymbolType
 
 
 def _text(symbol):
@@ -30,7 +33,12 @@ class ClinguinContext:
         Returns:
             The string concatenating all symbols
         """
-        return String("".join([_text(x) for x in args]))
+        new_atom = "".join([_text(x) for x in args])
+        try:
+            new_symbol = parse_term(new_atom)
+        except Exception:
+            new_symbol = String(new_atom)
+        return new_symbol
 
     def format(self, s, *args):
         """
@@ -54,7 +62,63 @@ class ClinguinContext:
             args_str = [_text(v) for v in args[0].arguments]
         else:
             args_str = [_text(v) for v in args]
-        return String(s.string.format(*args_str))
+        new_atom = s.string.format(*args_str)
+        try:
+            new_symbol = parse_term(new_atom)
+        except Exception:
+            new_symbol = String(new_atom)
+        return new_symbol
+
+    def to_int(self, s):
+        """
+        Converts any symbol into an integer using a hash. It can be used to infer an order in the symbols
+        for the `order` attribute in the UI.
+
+        Example:
+            .. code-block:: prolog
+
+                attr(s_l(I), label, @to_int(person("Susana"))).
+
+            Label will be `12`
+
+        Args:
+            s: The symbol to convert to an integer
+        Returns:
+            The integer value of the string
+        """
+        s = str(s)
+        try:
+            return Number(int(s))
+        except ValueError:
+            pass
+        h = hashlib.sha256(s.encode()).hexdigest()
+        return Number(int(h, 16) % 10**4)
+
+    def replace(self, s, old, new):
+        """
+        Replaces all occurrences of the old string with the new string
+
+        Example:
+            .. code-block:: prolog
+
+                attr(s_l(I), label, @replace("Semester 1", "1", "2")).
+
+            Label will be `Semester 2`
+
+        Args:
+            s: The string to transform
+            old: The string to replace
+            new: The string to insert instead
+        Returns:
+            The string with the replaced values
+        """
+        val = _text(s)
+        new_atom = val.replace(_text(old), _text(new))
+        try:
+            new_symbol = parse_term(new_atom)
+        except Exception:
+            new_symbol = String(new_atom)
+        return new_symbol
 
     def stringify(self, s, capitalize=False):
         """
@@ -72,7 +136,7 @@ class ClinguinContext:
         Returns:
             The string without _
         """
-        val = _text(s)
+        val = str(s).strip('"')
         val = val.replace("_", " ")
         if capitalize:
             val = val[0].upper() + val[1:]
@@ -94,8 +158,59 @@ class ClinguinContext:
         Returns:
             The string without _
         """
-        val = _text(s)
+        val = str(s).strip('"')
         return String(val.upper())
+
+    def color(self, option, opacity=None):
+        """
+        Gets the html color code for the different options and the given opacity
+
+        Args:
+            option: primary, secondary, success, info, warning, danger, light
+            opacity: Numeric value indicating the opacity of the color
+        """
+        option = str(option)
+        opacity = str(opacity) if opacity is not None else None
+        colors = {
+            "primary": "#0052CC",
+            "blue": "#0052CC",
+            "secondary": "#6554C0",
+            "purple": "#6554C0",
+            "success": "#36B37E",
+            "green": "#36B37E",
+            "info": "#B3BAC5",
+            "gray": "#B3BAC5",
+            "warning": "#FFAB00",
+            "yellow": "#FFAB00",
+            "danger": "#FF5630",
+            "red": "#FF5630",
+            "light": "#F4F5F7",
+        }
+        if option not in colors:
+            return String("#000000")
+
+        hex_color = colors[option]
+
+        if opacity is not None and opacity.isnumeric():
+            o = int(opacity)
+            if 0 <= o < 100:
+                hex_color = f"{hex_color}{o:02d}"
+        return String(hex_color)
+
+    def decimal_string(self, number, decimals):
+        """
+        Converts a number given in percentage to a decimal string with the given number of decimals
+        Args:
+            number: The number in percentage
+            decimals: The number of decimals to show
+        Returns:
+            The decimal string
+        """
+        number = number.number if number.type == SymbolType.Number else 0
+        decimals = decimals.number if decimals.type == SymbolType.Number else 0
+
+        decimal = number / 100
+        return String(f"{decimal:.{decimals}f}")
 
     def __getattr__(self, name):
         # pylint: disable=import-outside-toplevel

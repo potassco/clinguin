@@ -216,7 +216,7 @@ attr(menubar_main_buttons, order, 1).
     attr(menubar_select_solution, variant, "outline").
     attr(menubar_select_solution, size, "xs").
     attr(menubar_select_solution, order, 1).
-    when(menubar_select_solution, click, call, select_solution).
+    when(menubar_select_solution, click, call, select).
         elem(menubar_select_solution_icon, icon, menubar_select_solution).
         attr(menubar_select_solution_icon, icon, "MousePointerClick").
 

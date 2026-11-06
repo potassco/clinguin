@@ -102,7 +102,7 @@ class JsonEncoder:
         for w in ui_state.get_elements():
             if str(w.parent) != "root" and w.parent not in elements_info:
                 msg = f"Error in {w}. Parent element (ID: {w.parent}) undefined."
-                log.warning(msg)
+                log.debug(msg)
                 continue
 
         directed_graph = nx.DiGraph(dependency)
@@ -119,7 +119,7 @@ class JsonEncoder:
                 continue
 
             if element_id not in elements_info:
-                log.error(
+                log.debug(
                     f" The ID '{element_id}' was used as a parent in an elem/3 predicate, but could not be found!"
                 )
                 continue
@@ -128,7 +128,7 @@ class JsonEncoder:
             parent = elements_info[element_id]["parent"]
 
             if str(parent) not in elements_dict:
-                log.warning("Skipping element '%s': parent '%s' is not in the hierarchy.", element_id, parent)
+                log.debug("Skipping element '%s': parent '%s' is not in the hierarchy.", element_id, parent)
                 continue
 
             element = ElementDTO(

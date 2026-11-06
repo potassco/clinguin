@@ -127,7 +127,7 @@ class Client:
     async def proxy_info(self, request: Request) -> Response:
         """Proxy GET /info to the backend server."""
         try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
+            async with httpx.AsyncClient(timeout=200.0) as client:
                 upstream = await client.get(
                     self.backend_http_url("/info"),
                     headers=self._forward_headers(request),
@@ -144,7 +144,7 @@ class Client:
     async def proxy_operation(self, request: Request) -> Response:
         """Proxy POST /operation to the backend server."""
         try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
+            async with httpx.AsyncClient(timeout=200.0) as client:
                 upstream = await client.post(
                     self.backend_http_url("/operation"),
                     content=await request.body(),
@@ -180,7 +180,7 @@ class Client:
         """Proxy /ws to the backend server so the frontend can stay same-origin."""
         await websocket.accept()
         try:
-            async with websockets.connect(self.backend_ws_url("/ws")) as upstream:
+            async with websockets.connect(self.backend_ws_url("/ws"), open_timeout=100) as upstream:
 
                 async def forward_messages() -> None:
                     while True:

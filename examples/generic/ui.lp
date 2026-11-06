@@ -20,6 +20,7 @@
 	% menubar_title_override("My Application").
 	% menubar_subtitle_override("What this application does").
 	% menubar_icon_override("Menu").
+	show_statements_for_download_and_save("#show sudoku/3.").
 % ---------------------------------------------------
 
 
@@ -30,7 +31,8 @@
 	% ignore_message_type(info;error;warning;success).
 % ---------------------------------------------------
 
-
+% ### Dev Tools
+#include "ui-dev.lp".
 
 % ============================================================================
 % FIXED STRUCTURE

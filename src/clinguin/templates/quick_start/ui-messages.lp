@@ -3,7 +3,7 @@
 % Handles clinguin messages by showing alerts to the user
 %
 % Enable it in ui.lp:
-%     #include "messages.lp".
+%     #include "ui-messages.lp".
 %
 %
 % Edit "CUSTOMIZATION" below for the usual changes.
@@ -36,11 +36,11 @@ attr(alerts, class, "fixed inset-0 z-50 flex flex-col justify-end gap-4 p-4 poin
 
     elem(alert(X), alert, alerts):- _clinguin_message(X,T,_,_), not ignore_message_id(X), not ignore_message_type(T).
     attr(alert(X), class, "pointer-events-auto"):- _clinguin_message(X,_,_,_).
-    attr(alert(X), class, "max-w-xl min-w-xs backdrop-blur-3xl bg-card-500/60"):- _clinguin_message(X,_,_,_).
+    attr(alert(X), class, "max-w-xl min-w-xs backdrop-blur-2xl bg-card-500/30"):- _clinguin_message(X,_,_,_).
     attr(alert(X), class, "border-destructive text-destructive dark:border-destructive dark:text-destructive"):- _clinguin_message(X,error,_,_).
     attr(alert(X), class, "border-green-600 text-green-600 dark:border-green-700 dark:text-green-700"):- _clinguin_message(X,success,_,_).
     attr(alert(X), class, "border-yellow-600 text-yellow-600 dark:border-yellow-700 dark:text-yellow-700"):- _clinguin_message(X,warning,_,_).
-    attr(alert(X), class, "border-gray-600 text-gray-600 dark:border-gray-400 dark:text-gray-400"):- _clinguin_message(X,info,_,_).
+    attr(alert(X), class, "border-gray-800 text-gray-800 dark:border-gray-200 dark:text-gray-200"):- _clinguin_message(X,info,_,_).
 
 
         elem(alert_icon(X), icon, alert(X)):- _clinguin_message(X,_,_,_).

@@ -1,38 +1,45 @@
 % ============================================================================
-% CLINGUIN UI QUICK START
+% # CLINGUIN UI QUICK START
 %
-% 1. Uncomment the templates you want to use.
-% 2. Customize each enabled template in its own file.
+% 1. Include the templates you want to use. (all included by default)
+% 2. Customize each enabled template in its own file or just overwrite it here.
 % 3. Write your application UI below "APPLICATION UI".
-%
-% Reusable templates attach to one of these stable elements:
-%     ui_app      - the complete application
-%     ui_content  - the main application content
 % ============================================================================
 
 
 % ==============================================================================
-% TEMPLATES
+% ## TEMPLATES
 %
-% Uncomment the templates you want to use. Customize each template in
-% its own file.
+% Uncomment the templates you want to use and customize them as needed.
+% Further customization can be done in their respective files.
 % ==============================================================================
 
-% Sticky menu bar. Its visual template is in ui-menu-bar.lp;
+% ### Menu bar
+% Sticky menu bar on top of the application with icon and buttons
 #include "ui-menu-bar.lp".
-% Messages area. Its visual template is in ui-messages.lp.
-#include "ui-messages.lp".
+	% menubar_title_override("My Application").
+	% menubar_subtitle_override("What this application does").
+	% menubar_icon_override("Menu").
+	show_statements_for_download_and_save("#show sudoku/3.").
+% ---------------------------------------------------
 
+
+% ### Messages
+% Handles clinguin messages by showing alerts to the user
+#include "ui-messages.lp".
+	% ignore_message_id(download_success;no_optimization;no_more_solutions;no_solution).
+	% ignore_message_type(info;error;warning;success).
+% ---------------------------------------------------
 
 
 % ============================================================================
 % FIXED STRUCTURE
 %
 % The following elements are used by the templates and should not be removed
-% or renamed.
+% or renamed since templates depend on these elements.
 % ============================================================================
 
-% The root element is the top-level container for the application.
+% DO NOT REMOVE! The root element is the top-level container for the application.
 elem(ui_app, div, root).
 attr(ui_app, class,
     ("min-h-screen";
@@ -42,7 +49,7 @@ attr(ui_app, class,
      "text-foreground")).
 
 
-	% The main content area is where the application content is displayed.
+	% DO NOT REMOVE!  The main content area is where the application content is displayed.
 	elem(ui_content, main, ui_app).
 	attr(ui_content, class,
 		("flex";

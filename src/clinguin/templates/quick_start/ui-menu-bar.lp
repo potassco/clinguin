@@ -188,18 +188,61 @@ attr(menubar, class,
 % Edit or remove their when/4 atoms as needed.
 % -----------------------------------------------------------------------------
 
-%*
-            elem(menubar_next_button, button, menubar_right).
-            attr(menubar_next_button, text, "Next solution").
-            attr(menubar_next_button, variant, "outline").
-            attr(menubar_next_button, size, "sm").
-            attr(menubar_next_button, order, 1).
-            when(menubar_next_button, click, call, next_solution).
 
-            elem(menubar_clear_button, button, menubar_right).
-            attr(menubar_clear_button, text, "Clear").
-            attr(menubar_clear_button, variant, "ghost").
-            attr(menubar_clear_button, size, "sm").
-            attr(menubar_clear_button, order, 2).
-            when(menubar_clear_button, click, call, clear_assumptions).
-*%
+elem(menubar_main_buttons, button_group, menubar_right).
+attr(menubar_main_buttons, order, 1).
+    elem(menubar_next_button, button, menubar_main_buttons).
+    attr(menubar_next_button, text, "Browse"):- not _clinguin_browsing.
+    attr(menubar_next_button, text, "Next solution"):-_clinguin_browsing.
+    attr(menubar_next_button, variant, "outline").
+    attr(menubar_next_button, size, "xs").
+    attr(menubar_next_button, order, 3).
+    when(menubar_next_button, click, call, next_solution).
+        elem(menubar_next_button_icon, icon, menubar_next_button).
+        attr(menubar_next_button_icon, icon, "Play"):- not _clinguin_browsing.
+        attr(menubar_next_button_icon, icon, "SkipForward"):-_clinguin_browsing.
+
+    elem(menubar_download_button, button, menubar_main_buttons).
+    attr(menubar_download_button, text, "Download").
+    attr(menubar_download_button, variant, "outline").
+    attr(menubar_download_button, size, "xs").
+    attr(menubar_download_button, order, 2).
+    when(menubar_download_button, click, call, download):- not show_statements_for_download_and_save(_).
+    when(menubar_download_button, click, call, download(S)):- show_statements_for_download_and_save(S).
+        elem(menubar_download_button_icon, icon, menubar_download_button).
+        attr(menubar_download_button_icon, icon, "Download").
+
+
+    elem(menubar_select_solution, button, menubar_main_buttons):-_clinguin_browsing.
+    attr(menubar_select_solution, text, "Select solution").
+    attr(menubar_select_solution, variant, "outline").
+    attr(menubar_select_solution, size, "xs").
+    attr(menubar_select_solution, order, 1).
+    when(menubar_select_solution, click, call, select):-not show_statements_for_download_and_save(_).
+    when(menubar_select_solution, click, call, select(S)):- show_statements_for_download_and_save(S).
+        elem(menubar_select_solution_icon, icon, menubar_select_solution).
+        attr(menubar_select_solution_icon, icon, "MousePointerClick").
+
+elem(menubar_danger_buttons, button_group, menubar_right).
+attr(menubar_danger_buttons, order, 2).
+
+    elem(menubar_clear_button, button, menubar_danger_buttons).
+    attr(menubar_clear_button, text, "Clear").
+    attr(menubar_clear_button, variant, "destructive").
+    attr(menubar_clear_button, size, "xs").
+    attr(menubar_clear_button, order, 2).
+    when(menubar_clear_button, click, call, clear_assumptions).
+
+        elem(menubar_clear_button_icon, icon, menubar_clear_button).
+        attr(menubar_clear_button_icon, icon, "Trash").
+
+    elem(menubar_restart_button, button, menubar_danger_buttons).
+    attr(menubar_restart_button, text, "Restart").
+    attr(menubar_restart_button, variant, "destructive").
+    attr(menubar_restart_button, size, "xs").
+    attr(menubar_restart_button, order, 2).
+    when(menubar_restart_button, click, call, restart).
+
+        elem(menubar_restart_button_icon, icon, menubar_restart_button).
+        attr(menubar_restart_button_icon, icon, "RotateCcw").
+

@@ -207,16 +207,19 @@ attr(menubar_main_buttons, order, 1).
     attr(menubar_download_button, variant, "outline").
     attr(menubar_download_button, size, "xs").
     attr(menubar_download_button, order, 2).
-    when(menubar_download_button, click, call, download).
+    when(menubar_download_button, click, call, download):- not show_statements_for_download_and_save(_).
+    when(menubar_download_button, click, call, download(S)):- show_statements_for_download_and_save(S).
         elem(menubar_download_button_icon, icon, menubar_download_button).
         attr(menubar_download_button_icon, icon, "Download").
+
 
     elem(menubar_select_solution, button, menubar_main_buttons):-_clinguin_browsing.
     attr(menubar_select_solution, text, "Select solution").
     attr(menubar_select_solution, variant, "outline").
     attr(menubar_select_solution, size, "xs").
     attr(menubar_select_solution, order, 1).
-    when(menubar_select_solution, click, call, select).
+    when(menubar_select_solution, click, call, select):-not show_statements_for_download_and_save(_).
+    when(menubar_select_solution, click, call, select(S)):- show_statements_for_download_and_save(S).
         elem(menubar_select_solution_icon, icon, menubar_select_solution).
         attr(menubar_select_solution_icon, icon, "MousePointerClick").
 

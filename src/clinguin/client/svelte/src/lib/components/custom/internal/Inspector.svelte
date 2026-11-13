@@ -84,8 +84,8 @@
 
 {#snippet section(title: string, lines: string[] = [])}
   {#if lines.length}
-    <div class="mt-2 border-t border-border pt-2">
-      <div class="mb-1 font-sans font-medium text-muted-foreground">
+    <div class="mt-2 border-b border-border pt-2">
+      <div class="mb-1 font-sans font-medium text-primary">
         {title}
       </div>
       {#each lines as line}<div>{line}</div>{/each}
@@ -95,7 +95,7 @@
 
 <aside
   data-clinguin-inspector
-  class="sticky top-0 h-screen w-80 shrink-0 overflow-y-auto border-l border-border bg-muted/30"
+  class="sticky top-0 h-screen w-90 shrink-0 overflow-y-auto border-l border-border bg-muted/30"
 >
   <header
     class="sticky top-0 flex items-center justify-between border-b border-border bg-background px-4 py-3"
@@ -116,15 +116,14 @@
         class="rounded-lg border border-border bg-background shadow-sm"
         style:margin-left="{depth * 0.75}rem"
       >
-        <summary class="cursor-pointer px-3 py-2 font-semibold">
-          {node.id}
-          <Badge variant="outline" class="ml-1 align-middle font-normal"
-            >{node.type}</Badge
-          >
+        <summary class="list-none cursor-pointer px-3 py-2 font-semibold">
+          <Badge class="align-middle font-normal">{node.type}</Badge>
+          <br />
+          <span class="ml-1">{node.id}</span>
         </summary>
 
         <div class="border-t border-border px-3 py-2">
-          <div class="text-muted-foreground">parent: {node.parent}</div>
+          <!-- <div class="text-muted-foreground">parent: {node.parent}</div> -->
           {@render section(
             "Attributes",
             node.attributes?.map((a) => `${a.key} = ${a.value}`),

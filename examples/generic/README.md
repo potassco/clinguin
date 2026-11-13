@@ -28,3 +28,10 @@ and `filter_cautious/1`.
 ```
 clinguin share --inspect --build --ui-files examples/generic/ui.lp --domain-files examples/sudoku/encoding.lp examples/sudoku/instance.lp
 ```
+
+## Assets
+
+```
+clinguin share --inspect --build --assets examples/generic/ \ --ui-files examples/generic/ui.lp \
+  --domain-files examples/sudoku/encoding.lp examples/sudoku/instance.lp
+```

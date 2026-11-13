@@ -240,6 +240,14 @@ attr(p_table, class,
 				elem(p_table_body_row_cautious_badge_icon(P), icon, p_table_body_row_cautious_badge(P)):-atom(P),_all(P).
 				attr(p_table_body_row_cautious_badge_icon(P), icon, "Star"):-atom(P),_all(P).
 
+elem(logo, img, menubar_inner).
+attr(logo, src, "/assets/potassco-logo.svg").
+attr(logo, alt, "Project logo").
+attr(logo, class, ("h-8"; "w-auto")).
+attr(logo, loading, "lazy").
+attr(logo, decoding, "async").
+
+
 
 	% <Table.Root>
 	% <Table.Caption>A list of your recent invoices.</Table.Caption>

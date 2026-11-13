@@ -40,7 +40,7 @@ menubar_subtitle("Interactive ASP application") :-
 menubar_icon(Icon) :- menubar_icon_override(Icon).
 menubar_icon("Menu") :- not menubar_icon_override(_).
 
-menubar_show(icon).
+%menubar_show(icon).
 menubar_show(subtitle).
 menubar_show(theme).
 
@@ -245,4 +245,3 @@ attr(menubar_danger_buttons, order, 2).
 
         elem(menubar_restart_button_icon, icon, menubar_restart_button).
         attr(menubar_restart_button_icon, icon, "RotateCcw").
-

@@ -6,6 +6,7 @@
   import type { ClinguinNode } from "$lib/types";
 
   const HIGHLIGHT = "data-clinguin-inspected";
+  const HIGHLIGHT_PARENT = "data-clinguin-inspected-parent";
 
   let selectedId = $state<string | null>(null);
   // When off, clicks reach the app again; the selected node keeps updating live.
@@ -33,12 +34,30 @@
     return result;
   });
 
-  // Highlight the selected node in the UI.
+  // Highlight the selected node and its ancestors in the UI.
   $effect(() => {
-    if (!selectedId || !nodes.has(selectedId)) return;
-    const element = document.getElementById(selectedId);
-    element?.setAttribute(HIGHLIGHT, "");
-    return () => element?.removeAttribute(HIGHLIGHT);
+    const highlighted: Element[] = [];
+    const visited = new Set<string>();
+    let mainNode = selectedId ? nodes.get(selectedId) : undefined;
+    let node = mainNode;
+    while (node && !visited.has(node.id)) {
+      visited.add(node.id);
+      const element = document.getElementById(node.id);
+      if (element) {
+        if (node === mainNode) {
+          element.setAttribute(HIGHLIGHT, "");
+        } else {
+          element.setAttribute(HIGHLIGHT_PARENT, "ancestor");
+        }
+        highlighted.push(element);
+      }
+      node = node.parent === node.id ? undefined : nodes.get(node.parent);
+    }
+    return () =>
+      highlighted.forEach((element) => {
+        element.removeAttribute(HIGHLIGHT);
+        element.removeAttribute(HIGHLIGHT_PARENT);
+      });
   });
 
   // Inspect a node when the user clicks on it in the UI.
@@ -48,7 +67,10 @@
 
     const element = event
       .composedPath()
-      .find((item): item is Element => item instanceof Element && nodes.has(item.id));
+      .find(
+        (item): item is Element =>
+          item instanceof Element && nodes.has(item.id),
+      );
     if (!element) return;
 
     // Inspect mode consumes clicks instead of executing UI actions.
@@ -63,7 +85,9 @@
 {#snippet section(title: string, lines: string[] = [])}
   {#if lines.length}
     <div class="mt-2 border-t border-border pt-2">
-      <div class="mb-1 font-sans font-medium text-muted-foreground">{title}</div>
+      <div class="mb-1 font-sans font-medium text-muted-foreground">
+        {title}
+      </div>
       {#each lines as line}<div>{line}</div>{/each}
     </div>
   {/if}
@@ -78,7 +102,9 @@
   >
     <h2 class="text-sm font-semibold">Inspector</h2>
     <div class="flex items-center gap-2">
-      <Label for="clinguin-inspect-mode" class="text-xs text-muted-foreground">Inspect mode</Label>
+      <Label for="clinguin-inspect-mode" class="text-xs text-muted-foreground"
+        >Inspect mode</Label
+      >
       <Switch id="clinguin-inspect-mode" bind:checked={active} />
     </div>
   </header>
@@ -92,21 +118,30 @@
       >
         <summary class="cursor-pointer px-3 py-2 font-semibold">
           {node.id}
-          <Badge variant="outline" class="ml-1 align-middle font-normal">{node.type}</Badge>
+          <Badge variant="outline" class="ml-1 align-middle font-normal"
+            >{node.type}</Badge
+          >
         </summary>
 
         <div class="border-t border-border px-3 py-2">
           <div class="text-muted-foreground">parent: {node.parent}</div>
-          {@render section("Attributes", node.attributes?.map((a) => `${a.key} = ${a.value}`))}
+          {@render section(
+            "Attributes",
+            node.attributes?.map((a) => `${a.key} = ${a.value}`),
+          )}
           {@render section(
             "Actions",
-            node.when?.map((w) => [w.event, w.action, w.operation].filter(Boolean).join(" → ")),
+            node.when?.map((w) =>
+              [w.event, w.action, w.operation].filter(Boolean).join(" → "),
+            ),
           )}
         </div>
       </details>
     {:else}
       <p class="font-sans text-sm text-muted-foreground">
-        {active ? "Click a UI element to inspect it." : "Turn on inspect mode to select elements."}
+        {active
+          ? "Click a UI element to inspect it."
+          : "Turn on inspect mode to select elements."}
       </p>
     {/each}
   </div>

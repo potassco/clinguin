@@ -29,6 +29,11 @@ h6 {
   outline-offset: -2px;
 }
 
+[data-clinguin-inspected-parent] {
+  outline: 2px dashed var(--color-primary);
+  outline-offset: -2px;
+}
+
 @theme inline {
   --font-sans: var(--font-primary);
   --color-sidebar-ring: var(--sidebar-ring);

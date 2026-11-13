@@ -241,8 +241,8 @@ attr(p_table, class,
 				attr(p_table_body_row_cautious_badge_icon(P), icon, "Star"):-atom(P),_all(P).
 
 elem(logo, img, menubar_inner).
-attr(logo, src, "/assets/potassco-logo.svg").
-attr(logo, alt, "Project logo").
+attr(logo, src, "/assets/potassco-icon.svg").
+attr(logo, alt, "Potassco").
 attr(logo, class, ("h-8"; "w-auto")).
 attr(logo, loading, "lazy").
 attr(logo, decoding, "async").

@@ -4,6 +4,16 @@ icon: material/help-circle
 
 # Help
 
+## Documentation topics to expand
+
+- How to use images
+    - `--assets` in command line.
+    - adding `/assets` to the immage
+- Dev UI to show domain state
+- `--inspect` feature
+- Using templates
+
+
 ## First steps
 
 !!! tip "Search bar"

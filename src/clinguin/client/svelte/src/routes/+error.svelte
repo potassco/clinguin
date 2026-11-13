@@ -1,6 +1,6 @@
 <script>
 	import { page } from "$app/stores";
-	import ErrorPage from "$lib/components/internal/ErrorPage.svelte";
+	import ErrorPage from "$lib/components/custom/internal/ErrorPage.svelte";
 </script>
 
 <ErrorPage

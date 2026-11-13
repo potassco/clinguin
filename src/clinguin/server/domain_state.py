@@ -3,14 +3,14 @@ Util functions for generating the domain state
 """
 
 import functools
-from functools import cached_property
-from typing import List, Optional, Tuple, Union
-
 import logging
+from functools import cached_property
+from typing import Optional, Union
 
-from clingo import Control, parse_term, Symbol
+from clingo import Control, String, Symbol, parse_term
 from clingo.symbol import Function
 
+from clinguin.server.data import ClinguinMessage
 from clinguin.utils.logging import domctl_log
 
 log = logging.getLogger(__name__)
@@ -60,6 +60,7 @@ class DomainState:
         self._backup_cache = {}
         self._domain_state_constructors = [
             "_ds_context",
+            "_ds_files",
             "_ds_constants",
             "_ds_browsing",
             "_ds_cautious_optimal",
@@ -72,9 +73,10 @@ class DomainState:
             "_ds_assume",
             "_ds_external",
             "_ds_atom",
+            "_ds_messages",
         ]
 
-    def clear_cache(self, methods: Optional[List[str]] = None):
+    def clear_cache(self, methods: Optional[list[str]] = None):
         """
         Clears the cache of domain state constructor methods
 
@@ -121,7 +123,7 @@ class DomainState:
             return self._backup_cache[ds_id] if ds_id in self._backup_cache else ""
         return " ".join([str(s) + "." for s in list(self.tag(symbols, ds_tag))]) + "\n"
 
-    @functools.lru_cache(maxsize=None)  # pylint: disable=[method-cache-max-size-none]
+    @functools.cache  # pylint: disable=[method-cache-max-size-none]
     def _ui_uses_predicate(self, name: str, arity: int):
         """
         Returns a truth value of weather the ui_files contain the given signature.
@@ -186,8 +188,22 @@ class DomainState:
             except Exception:
                 symbol = None
             if symbol is None:
-                value = f'"{value}"'
-            prg += f"_clinguin_context({str(a.key)},{value})."
+                value = str(String(value))
+            prg += f"_clinguin_context({a.key!s},{value})."
+        return prg + "\n"
+
+    @property
+    def _ds_files(self):
+        """Uploaded and active files."""
+        prg = (
+            "#defined _clinguin_optional_file/1. #defined _clinguin_active_file/1. "
+            "#defined _clinguin_file_content/2. "
+        )
+        for name, content in self._backend._uploaded_files.items():
+            prg += f"_clinguin_optional_file({String(name)}). "
+            prg += f"_clinguin_file_content({String(name)}, {String(content)}). "
+        for name in self._backend._active_files:
+            prg += f"_clinguin_active_file({String(name)}). "
         return prg + "\n"
 
     @cached_property
@@ -221,7 +237,9 @@ class DomainState:
                 )
             self._backend._model = symbols
 
-        return " ".join([str(s) + "." for s in self._backend._model]) + "\n"
+        model = " ".join([str(s) + "." for s in self._backend._model]) + "\n"
+        model_reified = " ".join([f"_clinguin_model({s!s})." for s in self._backend._model]) + "\n"
+        return model + model_reified
 
     @cached_property
     def _ds_brave(self):
@@ -289,6 +307,10 @@ class DomainState:
         prg = "#defined _clinguin_unsat/0. "
         if self._backend._unsat_core is not None:
             prg += "_clinguin_unsat."
+            message = ClinguinMessage(
+                message_id="unsat", message_type="error", title="Unsatisfiable", content="The problem is unsatisfiable."
+            )
+            self._backend._add_message(message)
         return prg + "\n"
 
     @property
@@ -314,7 +336,7 @@ class DomainState:
         prg = "#defined _clinguin_assume/2. "
         for a, v in self._backend._assumption_list:
             v_str = "true" if v else "false"
-            prg += f"_clinguin_assume({str(a)},{v_str}). "
+            prg += f"_clinguin_assume({a!s},{v_str}). "
         return prg + "\n"
 
     @property
@@ -326,7 +348,7 @@ class DomainState:
         """
         prg = "#defined _clinguin_atom/1. "
         for a in self._backend._atoms:
-            prg += f"_clinguin_atom({str(a)}). "
+            prg += f"_clinguin_atom({a!s}). "
         return prg + "\n"
 
     @property
@@ -338,11 +360,11 @@ class DomainState:
         """
         prg = "#defined _clinguin_external/2. "
         for a in self._backend._externals["true"]:
-            prg += f"_clinguin_external({str(a)},true). "
+            prg += f"_clinguin_external({a!s},true). "
         for a in self._backend._externals["false"]:
-            prg += f"_clinguin_external({str(a)},false). "
+            prg += f"_clinguin_external({a!s},false). "
         for a in self._backend._externals["released"]:
-            prg += f"_clinguin_external({str(a)},release). "
+            prg += f"_clinguin_external({a!s},release). "
         return prg + "\n"
 
     @property
@@ -381,8 +403,20 @@ class DomainState:
             prg += f"_clinguin_const({k},{v})."
         return prg + "\n"
 
+    @property
+    def _ds_messages(self):
+        """
+        Adds messages to the domain state.
+
+        Includes predicate ``_clinguin_message/4`` for each message with title, content, and type.
+        """
+        prg = "#defined _clinguin_message/4. "
+        for message in self._backend._messages:
+            prg += f'_clinguin_message({message.message_id},{message.message_type},"{message.title}","{message.content}"). '
+        return prg + "\n"
+
     @staticmethod
-    def tag(symbols: List[Symbol], tag_name: str):
+    def tag(symbols: list[Symbol], tag_name: str):
         """
         Adds a predicate around all the symbols
         """
@@ -394,7 +428,7 @@ class DomainState:
         return tagged
 
     @staticmethod
-    def solve(ctl: Control, assumptions: List[Union[Tuple[Symbol, bool], int]], on_model=lambda m: None):
+    def solve(ctl: Control, assumptions: list[Union[tuple[Symbol, bool], int]], on_model=lambda m: None):
         """
         Adds information about the browsing to the domain state.
 

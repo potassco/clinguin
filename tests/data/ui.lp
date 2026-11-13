@@ -18,3 +18,13 @@ when(objects(b), drop, call, add_assumption(_dragged,true)):-object(b).
 
 elem(l(X), text, objects(X)):-object(X).
 attr(l(X), label, @stringify(X,true)):-object(X).
+
+elem(dd, dropdown_menu, w).
+attr(dd, label, "Menu").
+
+elem(dd_content, dropdown_menu_content, dd).
+
+elem(dd_item_disabled, dropdown_menu_item, dd_content).
+attr(dd_item_disabled, label, "Disabled item").
+attr(dd_item_disabled, disabled, "true").
+when(dd_item_disabled, click, call, add_assumption(_dragged,true)).

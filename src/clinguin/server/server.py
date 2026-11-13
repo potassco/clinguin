@@ -5,30 +5,37 @@ import sys
 import time
 import traceback
 import uuid
+from collections.abc import Coroutine
 from types import SimpleNamespace
-from typing import Any, Callable, Coroutine
+from typing import Any, Callable
 
 import uvicorn
-from clingo import SymbolType, parse_term
+from clingo import Function, SymbolType, parse_term
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from httpx import request
 from pydantic import BaseModel
 
 from clinguin.server.backends import ClingoBackend
 
 from ..utils.logging import colored, configure_logging
-from .css import STATIC_DIR, generate_tailwind_css
+from .css import STATIC_DIR, generate_tailwind_css, remove_generated_css
 
 log = logging.getLogger(__name__)
+
+
+class ContextDto(BaseModel):
+    key: str
+    value: str
 
 
 class OperationRequest(BaseModel):
     """Request body for the operation endpoint."""
 
     operation: str
+    context: list[ContextDto] = []
+    files: dict[str, str] = {}
     client_version: int
 
 
@@ -42,6 +49,8 @@ class Server:
         port: int = 8000,
         host: str = "127.0.0.1",
         multi: bool = False,
+        dev: bool = False,
+        inspect: bool = False,
         log_level: int | None = None,
     ):
         """Initialize the server with the given port and host.
@@ -59,6 +68,9 @@ class Server:
         self.port = port
         self.host = host
         self.multi = multi
+        self.dev = dev
+        self.inspect = inspect
+        self.css_version = 0
         self.app = FastAPI()
         self.app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
         self.app.add_middleware(
@@ -109,7 +121,10 @@ class Server:
     def run(self) -> None:
         """Run the FastAPI server."""
         log.info("🚀 Starting server on %s:%s", self.host, self.port)
-        uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
+        try:
+            uvicorn.run(self.app, host=self.host, port=self.port, log_level="warning")
+        finally:
+            remove_generated_css()
 
     async def log_requests(
         self, request: Request, call_next: Callable[[Request], Coroutine[Any, Any, Response]]
@@ -125,16 +140,30 @@ class Server:
 
     # ---------- HTTP endpoints ----------
 
-    async def get_info(self, fastapi_request: Request) -> dict[str, int | str]:
+    async def get_info(self, fastapi_request: Request) -> dict[str, Any]:
         """Retrieve server status or session information."""
+        if self.dev:
+            generate_tailwind_css(self.backend_args.ui_files)
+            self.css_version += 1
         session = self.get_session_from_request(fastapi_request)
         backend = self.get_backend(session)
-        response = {"status": "running", "version": self.version, "active_sessions": len(self.sessions)}
+        response = {
+            "status": "running",
+            "version": self.version,
+            "active_sessions": len(self.sessions),
+            "features": {
+                "inspector": self.inspect,
+            },
+        }
+
+        if self.dev:
+            response["css_version"] = self.css_version
+
         try:
             json = backend.get()
             self.last_response = json
             response.update(json)
-            log.debug("Response: %s", response)
+            # log.debug("Response: %s", response)
         except Exception as e:
             log.error("Raising exception in endpoint")
             log.error(e)
@@ -169,6 +198,9 @@ class Server:
             )
             log.debug(f"=>=> session={session} | version={request_body.client_version}")
 
+            backend._set_context(request_body.context)
+            backend._clear_messages()
+            backend._uploaded_files.update(request_body.files)
             operation_result = self._execute_backend_operation(backend, request_body.operation)
 
             self.version += 1
@@ -178,6 +210,8 @@ class Server:
 
         except HTTPException:
             raise
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e)) from e
         except Exception as e:
             log.error("ERROR IN /operation: %s", repr(e))
             log.error("Handling exception in /operation")
@@ -213,18 +247,42 @@ class Server:
         Parse an operation string and call the corresponding backend method.
         """
         term = parse_term(operation)
+        term = self._resolve_context_value(term, backend._context)
         method_name = term.name
         args = [self._symbol_to_python(arg) for arg in term.arguments]
 
         method = getattr(backend, method_name, None)
         if method is None or not callable(method):
-            print(f"Unknown operation: {method_name}")
+            log.error(f"Unknown operation: {method_name}")
             raise HTTPException(
                 status_code=400,
                 detail=f"Unknown operation: {method_name}",
             )
 
         return method(*args)
+
+    def _resolve_context_value(self, symbol, context):
+        if symbol.type != SymbolType.Function:
+            return symbol
+        args = [self._resolve_context_value(a, context) for a in symbol.arguments]
+        if symbol.name != "_context_value" or len(args) not in (1, 2):
+            return Function(symbol.name, args, symbol.positive)
+
+        key = args[0].string if args[0].type == SymbolType.String else str(args[0])
+        value = {c.key: c.value for c in context}.get(key, "")
+
+        if value == "":
+            if len(args) == 2:
+                return args[1]
+            raise HTTPException(status_code=400, detail=f"Missing required value for {key}")
+
+        try:
+            return parse_term(value)
+        except RuntimeError as error:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid value for {key}",
+            ) from error
 
     # ---------- WebSocket endpoint ----------
 

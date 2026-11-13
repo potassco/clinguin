@@ -7,7 +7,7 @@ import os
 import re
 import sys
 from argparse import ArgumentParser, _SubParsersAction
-from typing import Any, Dict, List, Optional, Set, Type, cast
+from typing import Any, Optional, cast
 
 from rich.text import Text
 from rich_argparse import ArgumentDefaultsRichHelpFormatter
@@ -45,6 +45,14 @@ ascii_art_client = Text(
          __          ___      ___
         /  ` |    | |__  |\ |  |
         \__, |___ | |___ | \|  |
+    """,
+    no_wrap=True,
+    justify="left",
+)
+
+ascii_art_init = Text(
+    r"""
+        I N I T
     """,
     no_wrap=True,
     justify="left",
@@ -95,6 +103,7 @@ def get_parser() -> ArgumentParser:
     parser.add_argument("--version", "-v", action="version", version=f"%(prog)s {VERSION}")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    setup_init_parser(subparsers)
     setup_server_parser(subparsers)
     setup_client_parser(subparsers)
     setup_share_parser(subparsers)
@@ -112,7 +121,9 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "client",
-        description=ascii_art_clinguin + ascii_art_client + "\n🚀 Start the client for clinguin.\
+        description=ascii_art_clinguin
+        + ascii_art_client
+        + "\n🚀 Start the client for clinguin.\
         \n It will run Angular to render the UI and react to events.",  # type: ignore
         help="Start the client",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -260,6 +271,18 @@ def setup_share_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         help="Path to a directory of static assets (images, fonts, icons) to serve.",
     )
 
+    parser.add_argument(
+        "--dev",
+        action="store_true",
+        help="Recompile Tailwind CSS whenever the UI is refreshed.",
+    )
+
+    parser.add_argument(
+        "--inspect",
+        action="store_true",
+        help="Enable the built-in browser UI inspector.",
+    )
+
     selected_backend_name = get_backend_from_sysargv()
     backend = lazy_import_backend(selected_backend_name, available_backends)
 
@@ -303,7 +326,7 @@ def get_custom_backends_directory() -> Optional[str]:
     return None
 
 
-def find_backend_classes(directories: List[str]) -> Dict[str, str]:
+def find_backend_classes(directories: list[str]) -> dict[str, str]:
     """
     Scan multiple directories for Python files and extract backend class names that inherit from ClingoBackend
     (directly or indirectly), including ClingoBackend itself, using regex.
@@ -339,7 +362,7 @@ def find_backend_classes(directories: List[str]) -> Dict[str, str]:
                         class_hierarchy[class_name] = parent_class if parent_class else None
                         class_files[class_name] = module_path
 
-    def is_subclass_of_clingo_backend(cls: str, visited: Set[str]) -> bool:
+    def is_subclass_of_clingo_backend(cls: str, visited: set[str]) -> bool:
         """Recursively checks if a class inherits from ClingoBackend or is ClingoBackend itself."""
         if cls in visited:
             return False
@@ -352,14 +375,14 @@ def find_backend_classes(directories: List[str]) -> Dict[str, str]:
             return True
         return False
 
-    for class_name in class_hierarchy.keys():
+    for class_name in class_hierarchy:
         if is_subclass_of_clingo_backend(class_name, set()):
             backend_classes[class_name] = class_files[class_name]
 
     return backend_classes
 
 
-def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[ClingoBackend]:
+def lazy_import_backend(class_name: str, backends_dict: dict[str, str]) -> type[ClingoBackend]:
     """
     Lazily imports the selected backend class when needed.
 
@@ -368,7 +391,7 @@ def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[
         backends_dict (Dict[str, str]): A dictionary mapping backend class names to file paths.
 
     Returns:
-        Type[ClingoBackend]: The imported backend class.
+        type[ClingoBackend]: The imported backend class.
 
     Raises:
         ImportError: If the backend class cannot be found.
@@ -406,6 +429,24 @@ def lazy_import_backend(class_name: str, backends_dict: Dict[str, str]) -> Type[
     raise ImportError(f"Backend class '{class_name}' was found but could not be loaded.")
 
 
+def setup_init_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
+    """
+    Setup the parser for the init command.
+    Args:
+        subparsers (_SubParsersAction): The subparsers to add the init command to.
+    """
+    parser: ArgumentParser = subparsers.add_parser(
+        "init",
+        description=ascii_art_clinguin + "\n🛠 Initialize a new clinguin project.",
+        help="Create a quick-start UI by providing a project directory. It will create the necessary files and directories for a new clinguin project using our templates.",
+        formatter_class=ArgumentDefaultsRichHelpFormatter,
+    )
+    parser.add_argument("directory", nargs="?", default=".", help="Project directory.")
+    parser.add_argument(
+        "--force", action="store_true", help="Force initialization even if the project directory already exists."
+    )
+
+
 def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     Setup the parser for the server command.
@@ -414,7 +455,9 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "server",
-        description=ascii_art_clinguin + ascii_art_server + "\n🚀 Start the server for clinguin.\
+        description=ascii_art_clinguin
+        + ascii_art_server
+        + "\n🚀 Start the server for clinguin.\
         \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
         help="Start the server",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -462,6 +505,18 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         default="127.0.0.1",  # Default to localhost
         metavar="",
         help="Specify the server host. Use 0.0.0.0 for external access.",
+    )
+
+    parser.add_argument(
+        "--dev",
+        action="store_true",
+        help="Recompile Tailwind CSS whenever the UI is refreshed.",
+    )
+
+    parser.add_argument(
+        "--inspect",
+        action="store_true",
+        help="Enable the built-in browser UI inspector.",
     )
 
     selected_backend_name = get_backend_from_sysargv()

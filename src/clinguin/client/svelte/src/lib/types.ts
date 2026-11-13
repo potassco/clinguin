@@ -48,8 +48,17 @@ type InfoResponse = {
     status: string;
     version: number;
     active_sessions: number;
+	css_version?: number;
+	features?: {
+		inspector?: boolean;
+	};
     ui?: ClinguinNode;
     ds?: unknown;
 };
 
-export type { ClinguinAttribute, ClinguinWhen, ClinguinNode, InfoResponse };
+type ContextItem = {
+	key: string;
+	value: string;
+};
+
+export type { ClinguinAttribute, ClinguinWhen, ClinguinNode, InfoResponse, ContextItem };

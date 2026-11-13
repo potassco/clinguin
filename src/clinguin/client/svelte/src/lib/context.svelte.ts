@@ -28,6 +28,7 @@ class AppContext {
   context = $state<ContextItem[]>([]);
   files = $state<Record<string, string>>({});
   connected = $state(false);
+  inspectorEnabled = $state(false);
   //fieldErrors = $state<Record<string, string>>({});
 
   /** Adds a key-value pair to the context. If the key already exists, its value is updated. */
@@ -80,6 +81,7 @@ class AppContext {
     await this._openWebSocket();
     const data = await this._doFetchInfo();
     this.version = data.version;
+    this.inspectorEnabled = data.features?.inspector ?? false;
     this.ui = data.ui ?? null;
     this.ds = data.ds ?? null;
     this.connected = true;  // set once, never reset
@@ -148,6 +150,7 @@ class AppContext {
       const data = await this._doFetchInfo();
       this.version = data.version;
 	  this.cssVersion = data.css_version ?? this.cssVersion;
+      this.inspectorEnabled = data.features?.inspector ?? false;
       this.ui = data.ui ?? null;
       this.ds = data.ds ?? null;
       this.clearContext();

@@ -121,7 +121,9 @@ def setup_client_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "client",
-        description=ascii_art_clinguin + ascii_art_client + "\n🚀 Start the client for clinguin.\
+        description=ascii_art_clinguin
+        + ascii_art_client
+        + "\n🚀 Start the client for clinguin.\
         \n It will run Angular to render the UI and react to events.",  # type: ignore
         help="Start the client",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -273,6 +275,12 @@ def setup_share_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         "--dev",
         action="store_true",
         help="Recompile Tailwind CSS whenever the UI is refreshed.",
+    )
+
+    parser.add_argument(
+        "--inspect",
+        action="store_true",
+        help="Enable the built-in browser UI inspector.",
     )
 
     selected_backend_name = get_backend_from_sysargv()
@@ -447,7 +455,9 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
     """
     parser: ArgumentParser = subparsers.add_parser(
         "server",
-        description=ascii_art_clinguin + ascii_art_server + "\n🚀 Start the server for clinguin.\
+        description=ascii_art_clinguin
+        + ascii_art_server
+        + "\n🚀 Start the server for clinguin.\
         \n It will use the domain encodings to reason and the ui encodings to define the UI.",  # type: ignore
         help="Start the server",
         formatter_class=ArgumentDefaultsRichHelpFormatter,
@@ -501,6 +511,12 @@ def setup_server_parser(subparsers: _SubParsersAction) -> None:  # type: ignore
         "--dev",
         action="store_true",
         help="Recompile Tailwind CSS whenever the UI is refreshed.",
+    )
+
+    parser.add_argument(
+        "--inspect",
+        action="store_true",
+        help="Enable the built-in browser UI inspector.",
     )
 
     selected_backend_name = get_backend_from_sysargv()

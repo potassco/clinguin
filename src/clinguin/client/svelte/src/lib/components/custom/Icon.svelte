@@ -15,8 +15,16 @@
 </script>
 
 {#if isImagePath}
-    <img src={iconName} alt="" class={cn(iconSize, element.attr("class"))} />
+    <img
+        id={element.node.id}
+        src={iconName}
+        alt=""
+        class={cn(iconSize, element.attr("class"))}
+    />
 {:else if LucideIcon}
     <!-- svelte-ignore element_invalid_self_closing_tag -->
-    <LucideIcon class={cn(iconSize, element.attr("class"))} />
+    <LucideIcon
+        id={element.node.id}
+        class={cn(iconSize, element.attr("class"))}
+    />
 {/if}

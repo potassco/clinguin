@@ -4,7 +4,7 @@
   import { Toaster } from "$lib/components/ui/sonner";
   import Spinner from "$lib/components/custom/internal/Spinner.svelte";
   import ErrorPage from "$lib/components/custom/internal/ErrorPage.svelte";
-  import DevInspector from "$lib/components/custom/internal/DevInspector.svelte";
+  import Inspector from "$lib/components/custom/internal/Inspector.svelte";
 </script>
 
 <div class="flex min-h-screen">
@@ -43,6 +43,6 @@
   </main>
 
   {#if appContext.inspectorEnabled}
-    <DevInspector />
+    <Inspector />
   {/if}
 </div>

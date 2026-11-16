@@ -74,9 +74,11 @@
     if (!element) return;
 
     // Inspect mode consumes clicks instead of executing UI actions.
-    event.preventDefault();
-    event.stopPropagation();
     selectedId = element.id;
+	if (event.type === "click") {
+		event.preventDefault();
+		event.stopPropagation();
+	}
   };
 </script>
 

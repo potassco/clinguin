@@ -80,7 +80,7 @@
   };
 </script>
 
-<svelte:document onclickcapture={inspect} />
+<svelte:document onclickcapture={inspect} onpointerdowncapture={inspect} />
 
 {#snippet section(title: string, lines: string[] = [])}
   {#if lines.length}

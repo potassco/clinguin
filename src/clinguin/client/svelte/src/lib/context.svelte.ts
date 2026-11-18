@@ -5,25 +5,63 @@
  * It uses Svelte's $state for reactivity and is instantiated as a singleton exported as appContext.
  */
 
-import { parseUpdateOperation, toWebSocketUrl } from '$lib/utils';
+import { parseUpdateOperation, toWebSocketUrl, aspArgumentSplitter, toAspTerm } from '$lib/utils';
 import type { AppError } from '$lib/types';
+import { toast } from 'svelte-sonner';
 
 // Vite dev runs on 5173 and still needs the backend on 8000.
 // When the bundled app is served by client.py, default to same-origin so one public URL is enough.
 const DEFAULT_SERVER_URL = typeof window !== 'undefined' && window.location.port !== '5173'
   ? window.location.origin
   : 'http://127.0.0.1:8000';
-import type { ClinguinNode, ClinguinWhen, InfoResponse, ClinguinAttribute } from '$lib/types';
+import type { ClinguinNode, ClinguinWhen, InfoResponse, ContextItem } from '$lib/types';
 
 class AppContext {
   serverUrl = $state(import.meta.env.VITE_SERVER_URL || DEFAULT_SERVER_URL);
   sessionId = $state('');
   version = $state(1);
+  cssVersion = $state(0);
   connectionPromise = $state<Promise<void> | null>(null);
   loading = $state(false);
   ui = $state<ClinguinNode | null>(null);
   ds = $state<unknown>(null);
+  context = $state<ContextItem[]>([]);
+  files = $state<Record<string, string>>({});
   connected = $state(false);
+  inspectorEnabled = $state(false);
+  //fieldErrors = $state<Record<string, string>>({});
+
+  /** Adds a key-value pair to the context. If the key already exists, its value is updated. */
+  addContext = (key: string, value: string) => {
+    const item = this.context.find((c) => c.key === key);
+    if (item) item.value = value;
+    else this.context.push({ key, value });
+  };
+
+  /** Clears all key-value pairs from the context. */
+  clearContext = (): void => {
+    this.context.length = 0;
+  };
+
+    addFormContext = async (
+      form: HTMLFormElement,
+      submitter?: HTMLElement | null
+    ): Promise<void> => {
+      for (const [key, value] of new FormData(form, submitter)) {
+        if (typeof value === 'string') {
+          const input = form.elements.namedItem(key);
+          const type =
+            input instanceof RadioNodeList
+              ? 'radio'
+              : (input as HTMLInputElement | null)?.type;
+
+          this.addContext(key, toAspTerm(value, type));
+        } else if (value.name) {
+          this.addContext(key, JSON.stringify(value.name));
+          this.files[value.name] = await value.text();
+        }
+      }
+    };
 
   private ws: WebSocket | null = null;
 
@@ -43,6 +81,7 @@ class AppContext {
     await this._openWebSocket();
     const data = await this._doFetchInfo();
     this.version = data.version;
+    this.inspectorEnabled = data.features?.inspector ?? false;
     this.ui = data.ui ?? null;
     this.ds = data.ds ?? null;
     this.connected = true;  // set once, never reset
@@ -110,8 +149,12 @@ class AppContext {
     try {
       const data = await this._doFetchInfo();
       this.version = data.version;
+	  this.cssVersion = data.css_version ?? this.cssVersion;
+      this.inspectorEnabled = data.features?.inspector ?? false;
       this.ui = data.ui ?? null;
       this.ds = data.ds ?? null;
+      this.clearContext();
+      this.files = {};
       if (this.ui === null) {
         this.error = { code: 500, title: 'Server error', message: 'Unexpected response format. Expected ui field.' };
       }
@@ -124,27 +167,37 @@ class AppContext {
 
   /**
    * Routes a when/4 action to the appropriate handler.
-   * Currently only "call" is implemented — it sends the operation to the backend.
-   *
-   * TODO: implement "update" and "context"
    */
-  handleWhen = async (when: ClinguinWhen): Promise<void> => {
+  handleWhen = async (when: ClinguinWhen, event?: Event, value?: unknown): Promise<void> => {
     if (!when) return;
-	console.log('Handling when:', when); // DEBUG
     switch (when.action) {
       case 'call':
         if (!when.operation) return;
         await this.callOperation(when.operation);
         return;
-	  case 'update':
-		if (!when.operation) return;
-		const parsed = parseUpdateOperation(when.operation);
-		if (!parsed) {
-			console.warn('update: invalid operation:', when.operation);
-			return;
-		}
-		this._applyUpdate(parsed.id, parsed.key, parsed.value);
-		return;
+      case 'update':
+        if (!when.operation) return;
+        const parsed = parseUpdateOperation(when.operation);
+        if (!parsed) {
+            console.warn('update: invalid operation:', when.operation);
+            return;
+        }
+        this._applyUpdate(parsed.id, parsed.key, parsed.value);
+        return;
+      case 'context': {
+        const op = when.operation?.trim() ?? '';
+        const parts = op.startsWith('(') ? aspArgumentSplitter(op.slice(1, -1)) : [];
+        if (parts.length !== 2) {
+          console.warn('context: expected (Key, Value), got', when.operation);
+          return;
+        }
+        const [key, raw] = parts;
+        const target = event?.target as HTMLInputElement | null;
+        const term = value !== undefined ? String(value) : toAspTerm(target?.value ?? '', target?.type);
+        const resolved = raw === '_value' ? term : raw;
+        this.addContext(key, resolved);
+        return;
+      }
       default:
         console.warn('Unsupported action:', when);
     }
@@ -159,26 +212,34 @@ class AppContext {
   callOperation = async (operation: string): Promise<void> => {
     this.loading = true;
     try {
+      const context = $state.snapshot(this.context);
+
+      const files = $state.snapshot(this.files);
+
       const response = await fetch(`${this.serverUrl}/operation`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'session-id': this.sessionId },
-        body: JSON.stringify({ operation, client_version: this.version })
+        body: JSON.stringify({ operation, client_version: this.version, context, files }),
       });
 
       if (response.status === 409) {
         await this.fetchInfo();
-        this.error = { code: 409, title: 'Conflict', message: 'Action conflicts with a newer state. Please try again.' };
+        toast.info('The view was updated in the meantime. Please try again.');
         return;
       }
 
       if (!response.ok) {
-        this.error = {
-          code: response.status,
-          title: response.statusText,
-          message: await this._extractErrorMessage(response),
-        };
+        const message = await this._extractErrorMessage(response);
+        if (response.status === 400) {
+          toast.warning(message);
+          return;
+        }
+        this.error = { code: response.status, title: response.statusText, message };
         return;
       }
+
+      this.clearContext();
+      this.files = {};
 
       const data = await response.json();
       this.version = data.version ?? this.version;
@@ -194,22 +255,22 @@ class AppContext {
 
   /** Applies an "update" operation locally without refetching the UI. */
   private _applyUpdate = (id: string, key: string, value: string): void => {
-	if (!this.ui) return;
+    if (!this.ui) return;
 
-	const findAndUpdate = (node: ClinguinNode): boolean => {
-		if (node.id === id) {
-			const existing = (node.attributes ?? []).find((a) => a.key === key);
-			if (existing) {
-				existing.value = value;
-			} else {
-				(node.attributes ??= []).push({id, key, value});
-			}
-			return true;
-		}
-		return (node.children ?? []).some(findAndUpdate);
-	};
+    const findAndUpdate = (node: ClinguinNode): boolean => {
+        if (node.id === id) {
+            const existing = (node.attributes ?? []).find((a) => a.key === key);
+            if (existing) {
+                existing.value = value;
+            } else {
+                (node.attributes ??= []).push({id, key, value});
+            }
+            return true;
+        }
+        return (node.children ?? []).some(findAndUpdate);
+    };
 
-	findAndUpdate(this.ui);
+    findAndUpdate(this.ui);
 };
 
 }

@@ -163,6 +163,7 @@ A clickable row inside a menu (or a group).
 | `inset` | `"true"`/`"false"` — indents to align with items that have icons |
 | `checked` | if this attribute is set at all, the item becomes a checkbox item, checked when the value is `"true"` — omit entirely for a normal item |
 | `order` | numeric sort key among siblings |
+| `disabled` | `true`/`false` — disables the item if set to `true` |
 
 ```prolog
 elem(clear_item, dropdown_menu_item, danger_group).
@@ -198,6 +199,7 @@ Wraps a set of `dropdown_menu_radio_item` children for single-select.
 |---|---|
 | `label` / `text` | item label |
 | `value` | this item's value — matched against the parent group's `value` |
+| `disabled` | `true`/`false` — disables the item if set to `true` |
 
 ```prolog
 elem(title_group_menu, dropdown_menu_radio_group, title_sub_content).

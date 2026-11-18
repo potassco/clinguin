@@ -2,6 +2,7 @@
 """
 Module that contains the UI State class.
 """
+
 import logging
 import os
 from pathlib import Path
@@ -11,11 +12,9 @@ from clingo import Control, parse_term
 from clingo.symbol import Function, Number, String
 from clorm import Raw
 
-from clinguin.server.ui import ClinguinContext
-from clinguin.utils.text import parse_string_with_quotes, image_to_b64
-
+from clinguin.server.ui import Attribute, ClinguinContext, Element, When
 from clinguin.utils.logging import uictl_log
-from clinguin.server.ui import Attribute, Element, When
+from clinguin.utils.text import image_to_b64, parse_string_with_quotes
 
 log = logging.getLogger(__name__)
 
@@ -107,19 +106,6 @@ class UIState:
         self._factbase = clorm.unify(self.__class__.unifiers, model_symbols)
         # log.debug(uictl_log(". ".join([str(s) for s in model_symbols])))
         # log.debug(uictl_log(self._factbase.asp_str(width=100000, commented=True)))
-
-    def add_message(self, title, message, attribute_type="info"):
-        """
-        Adds a ''Message'' (aka. Notification/Pop-Up) for the user with a certain title and message.
-        """
-        windows = list(self._factbase.query(Element).where(Element.type == Raw(Function("window", []))).all())
-        if len(windows) == 0:
-            raise ValueError("No window found to add message. Make sure an element of type window appears in your UI")
-        mid = f"{hash(message)}"
-        self.add_element(mid, "message", windows[0].symbol.arguments[0])
-        self.add_attribute(mid, "title", title)
-        self.add_attribute(mid, "message", message)
-        self.add_attribute(mid, "type", attribute_type)
 
     # Manage factbase
 

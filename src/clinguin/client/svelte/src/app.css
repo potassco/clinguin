@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* shadcn-svelte components style `data-checked:` / `data-unchecked:`, but bits-ui
+   only sets `data-state="checked|unchecked"` — map the variants onto it. */
+@custom-variant data-checked (&[data-state="checked"]);
+@custom-variant data-unchecked (&[data-state="unchecked"]);
+
 
 body {
   background-color: var(--background);
@@ -17,6 +22,16 @@ h4,
 h5,
 h6 {
   font-family: var(--font-primary);
+}
+
+[data-clinguin-inspected] {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+[data-clinguin-inspected-parent] {
+  outline: 1px dashed color-mix(in srgb, var(--color-primary) 80%, transparent);
+  outline-offset: -2px;
 }
 
 @theme inline {

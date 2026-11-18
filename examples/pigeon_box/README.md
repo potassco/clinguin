@@ -17,3 +17,23 @@ or
 ```
 clinguin client --build
 ```
+
+### Themes
+
+**Green Theme:**
+
+```
+clinguin client --theme ../../../../examples/pigeon_box/green.css --build
+```
+
+**Orange Theme:**
+
+```
+clinguin client --theme ../../../../examples/pigeon_box/orange.css --build
+```
+
+**Blue Theme:**
+
+```
+clinguin client --theme ../../../../examples/pigeon_box/blue.css --build
+```

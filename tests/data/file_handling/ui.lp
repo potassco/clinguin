@@ -1,3 +1,4 @@
+#include "ui-messages.lp".
 % ---------------------------------------------------------------------------
 % Derived file state
 % ---------------------------------------------------------------------------
@@ -43,7 +44,7 @@ elem(upload_form, form, upload_section).
 attr(upload_form, class, ("flex"; "items-center"; "gap-2")).
 attr(upload_form, order, 2).
 
-when(upload_form, submit, call, update).
+when(upload_form, submit, call, add_to_domain_files).
 
 elem(file_input, input, upload_form).
 attr(file_input, type, "file").

@@ -7,7 +7,7 @@ import logging
 from functools import cached_property
 from typing import Optional, Union
 
-from clingo import Control, String, Symbol, parse_term
+from clingo import Control, String, Symbol
 from clingo.symbol import Function
 
 from clinguin.server.data import ClinguinMessage
@@ -174,23 +174,13 @@ class DomainState:
     # -------- Domain state methods
 
     @property
-    def _ds_context(self):
+    def _ds_request_payload(self):
         """
-        Adds context information from the client.
+        Adds request payload information from the client.
 
         Includes predicate  ``_clinguin_context/2`` indicating each key and value in the context.
         """
-        prg = "#defined _clinguin_context/2. "
-        for a in self._backend._context:
-            value = str(a.value)
-            try:
-                symbol = parse_term(value)
-            except Exception:
-                symbol = None
-            if symbol is None:
-                value = str(String(value))
-            prg += f"_clinguin_context({a.key!s},{value})."
-        return prg + "\n"
+        return "_clinguin_request_payload/1."
 
     @property
     def _ds_files(self):

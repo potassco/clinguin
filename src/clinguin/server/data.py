@@ -25,13 +25,38 @@ class ClinguinMessage:
     content: str
 
 
+class ClinguinFile:
+    """
+    A class to represent a Clinguin file.
+    Use for domain, optional, uploaded files.
+
+    Attributes:
+        path (str): The path to the file.
+        content (str): The content of the file.
+    """
+
+    def __init__(self, path: str, content: str):
+        self.path = path
+        self.content = content
+        # Domain files are always active
+        self.active = False
+        self.initially_active = False
+        self.uploaded = False
+
+    def __repr__(self):
+        return f"ClinguinFile(path={self.path}, content={self.content})"
+
+    def to_asp_facts(self):
+        return "_clinguin_file_content()"
+
+
 @dataclass
 class BackendArgs:
     """Base arguments for ClingoBackend."""
 
     VALID_OPT_MODES = {"opt", "enum", "optN", "ignore"}
 
-    domain_files: list[str] = field(default_factory=list)
+    domain_files: list[ClinguinFile] = field(default_factory=list)
     optional_files: list[str] = field(default_factory=list)
     ui_files: list[str] = field(default_factory=list)
     const: list[str] = field(default_factory=list)

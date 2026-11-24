@@ -24,22 +24,6 @@ enable_python()
 # pylint: disable=attribute-defined-outside-init
 log = logging.getLogger(__name__)
 
-# class ClinguinFile():
-#     """
-#     A class to represent a Clinguin file.
-
-#     Attributes:
-#         path (str): The path to the file.
-#         content (str): The content of the file.
-#     """
-
-#     def __init__(self, path: str, content: str):
-#         self.path = path
-#         self.content = content
-
-#     def __repr__(self):
-#         return f"ClinguinFile(path={self.path}, content={self.content})"
-
 
 class ClingoBackend:
     """
@@ -50,7 +34,7 @@ class ClingoBackend:
         _ds_constructor (DomainState): DomainState constructor to generate the domain state.
 
         _constants (dict[str, str]): Constants that might be set interactively.
-        _context (list): Stores the context during interactions.
+        _last_request_payload (OperationRequest): Stores the info of the request
         _ctl (Optional[clingo.Control]): Clingo control object for solving `domain-ctl`.
         _ui_state (Optional[UIState]): UIState object managing UI construction.
         _atoms (set[str]): Set of dynamically defined atoms.
@@ -351,14 +335,14 @@ class ClingoBackend:
         """
         self._messages.clear()
 
-    def _set_context(self, context):
+    def _set_request_payload(self, request_payload: OperationRequest):
         """
-        Sets the context. Used by general endpoint handler after a request.
+        Sets the request payload. Used by general endpoint handler after a request.
 
         Arguments:
-            context: The context dictionary
+            request_payload: The request payload object
         """
-        self._context = context
+        # self._context = context
 
     def _set_constant(self, name: str, value: Any) -> None:
         """
@@ -616,12 +600,26 @@ class ClingoBackend:
         try:
             self._init_ctl()
             self._ground()
-        except RuntimeError as e:
+        except RuntimeError:
             self._active_files.remove(name)
             self._init_ctl()
             self._ground()
-            raise ValueError(f"Could not load {name}: {e}") from e
+            message = ClinguinMessage(
+                message_id="error",
+                message_type="error",
+                title="Invalid file",
+                content="Invalid file",
+            )
+            self._add_message(message)
+            # raise ValueError(f"Could not load {name}: {e}") from e
 
+        message = ClinguinMessage(
+            message_id="error",
+            message_type="error",
+            title="Invalid file",
+            content="Invalid file",
+        )
+        self._add_message(message)
         self._outdate()
 
     def deactivate_file(self, name):
@@ -873,3 +871,17 @@ class ClingoBackend:
         self._outdate()
         self._init_ctl()
         self._ground()
+
+    def add_to_domain_files_from_request(self):
+        """
+        Adds a file to the domain files.
+
+        Arguments:
+
+            file (ClinguinFile): The file to be added
+
+        """
+        for n, f in self._last_request_payload.files:
+            file = ClinguinFile(n, content=f)
+            self._domain_files.append(file)
+        self._outdate()

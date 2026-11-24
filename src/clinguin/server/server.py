@@ -198,9 +198,8 @@ class Server:
             )
             log.debug(f"=>=> session={session} | version={request_body.client_version}")
 
-            backend._set_context(request_body.context)
+            backend._set_request_payload(request_body)
             backend._clear_messages()
-            backend._uploaded_files.update(request_body.files)
             operation_result = self._execute_backend_operation(backend, request_body.operation)
 
             self.version += 1

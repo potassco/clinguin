@@ -199,11 +199,18 @@ class DomainState:
             "#defined _clinguin_optional_file/1. #defined _clinguin_active_file/1. "
             "#defined _clinguin_file_content/2. "
         )
-        for name, content in self._backend._uploaded_files.items():
+
+        available_files = sorted(set(self._backend._optional_files) | set(self._backend._uploaded_files))
+
+        for name in available_files:
             prg += f"_clinguin_optional_file({String(name)}). "
+
+        for name, content in self._backend._uploaded_files.items():
             prg += f"_clinguin_file_content({String(name)}, {String(content)}). "
+
         for name in self._backend._active_files:
             prg += f"_clinguin_active_file({String(name)}). "
+
         return prg + "\n"
 
     @cached_property

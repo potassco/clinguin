@@ -2,14 +2,12 @@
 Test cases for main application functionality using pytest.
 """
 
-import pytest
-
-from clinguin.utils import logging
-from clinguin.utils.logging import get_logger
-from clinguin.server.backends import ClingoBackend, BackendArgs
-from clingo import parse_term
 import os
-import json
+
+import pytest
+from clingo import parse_term
+
+from clinguin.server.backends import BackendArgs, ClingoBackend
 
 
 def test_args_invalid_path():
@@ -27,9 +25,37 @@ def test_args_invalid_const_format():
         BackendArgs(domain_files=["tests/data/encoding.lp"], const=["c,1"])
 
 
+def test_args_invalid_optional_path():
+    with pytest.raises(ValueError):
+        BackendArgs(optional_files=["wrong/optional.lp"])
+
+
+def test_optional_files_initialized(tmp_path):
+    optional_file = tmp_path / "optional.lp"
+    optional_file.write_text("optional_fact.", encoding="utf-8")
+
+    backend = ClingoBackend(BackendArgs(optional_files=[str(optional_file)]))
+
+    assert backend._optional_files == {"optional.lp": str(optional_file)}
+
+
+def test_optional_files_in_domain_state(tmp_path):
+    optional_file = tmp_path / "optional.lp"
+    optional_file.write_text("optional_fact.", encoding="utf-8")
+
+    backend = ClingoBackend(BackendArgs(optional_files=[str(optional_file)]))
+
+    files_state = backend._ds_constructor._ds_files
+
+    assert '_clinguin_optional_file("optional.lp").' in files_state
+    assert '_clinguin_file_content("optional.lp"' not in files_state
+    assert '_clinguin_active_file("optional.lp").' not in files_state
+
+
 def test_args_defaults():
     args = BackendArgs(domain_files=["tests/data/encoding.lp"])
     assert args.domain_files == ["tests/data/encoding.lp"]
+    assert args.optional_files == []
     assert args.ui_files == []
     assert args.const == []
     assert args.clingo_ctl_arg == []

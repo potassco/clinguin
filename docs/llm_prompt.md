@@ -292,15 +292,15 @@ default replacement for current-model atoms.
 - Render relevant `_clinguin_message/4` facts as persistent page alerts when
   users must retain the information. A transient `sonner` alone is insufficient.
 
-#### 4.3 Optional uploaded files
+#### 4.3 Available domain files
 
 Only when Part II requests file behavior:
 
 | Predicate | Meaning |
 | --- | --- |
-| `_clinguin_optional_file(Name)` | Uploaded file available. |
-| `_clinguin_active_file(Name)` | Uploaded file active in the domain. |
-| `_clinguin_file_content(Name, Content)` | Uploaded text content. |
+| `_clinguin_optional_file(Name)` | File available for activation, either uploaded by the client or configured with `--optional-files`. |
+| `_clinguin_active_file(Name)` | Available file currently active in the domain. |
+| `_clinguin_file_content(Name, Content)` | Text content of a client-uploaded file. Configured optional-file content is not exposed while inactive. |
 
 Treat names and contents as untrusted; do not display full contents by default.
 
@@ -390,9 +390,11 @@ attr(add_button, text, "Add person").
   missing or empty input) or `_context_value(Key, Default)`. Substitution is
   recursive; the result must parse as an ASP term. v2 forms with a type
   argument are unsupported: in v3 a second argument is always a default.
-- A file input contributes its file name to context and its content
-  separately; for an input named `instance`, use
-  `activate_file(_context_value(instance))`.
+- A file input contributes its file name to context and sends its content
+  separately. The server stores the submitted file before executing the
+  operation. For an input named `instance`, use
+  `activate_file(_context_value(instance))` to upload and activate it in one
+  call, or call `update` to upload it without activation.
 
 #### 5.4 Backend operation catalogue
 
@@ -434,14 +436,15 @@ when(select_button, click, call, select("#show assigned/2.")) :-
 | `add_atom(A)` / `remove_atom(A)` / `clear_atoms` | Add/remove dynamic facts, then rebuild and ground. Needs permission. |
 | `set_external(A, true/false)` | Assign a declared external. |
 | `set_external(A, release)` | Permanently release it (not the same as false). |
-| `activate_file(Name)` / `deactivate_file(Name)` | Only for files received through a Clinguin file input. |
+| `activate_file(Name)` / `deactivate_file(Name)` | Activate/deactivate a client-uploaded file or a file configured with `--optional-files`. |
+| `remove_file(Name)` | Remove an uploaded or configured optional file from the current backend session. It does not delete a configured file from disk. |
 
 **Lifecycle, grounding, constants**
 
 | Operation | Effect |
 | --- | --- |
 | `update` | Clear cached domain-state computations and recompute. |
-| `restart` | Restore CLI configuration; clears assumptions, atoms, externals, files, browsing, context. |
+| `restart` | Restore CLI configuration; discard uploaded files, restore configured optional files as inactive, and clear assumptions, atoms, externals, browsing, and context. |
 | `set_constant(Name, Value)` | Change a constant and reinitialize interactive state. |
 | `ground(Program)` | Ground a zero-argument `#program` part. Technical interface only (needs permission). |
 

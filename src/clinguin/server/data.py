@@ -32,6 +32,7 @@ class BackendArgs:
     VALID_OPT_MODES = {"opt", "enum", "optN", "ignore"}
 
     domain_files: list[str] = field(default_factory=list)
+    optional_files: list[str] = field(default_factory=list)
     ui_files: list[str] = field(default_factory=list)
     const: list[str] = field(default_factory=list)
     clingo_ctl_arg: list[str] = field(default_factory=list)
@@ -40,7 +41,7 @@ class BackendArgs:
 
     def __post_init__(self):
         """Validates that file paths exist and are actual files."""
-        for file_path in self.domain_files + self.ui_files:
+        for file_path in self.domain_files + self.optional_files + self.ui_files:
             if not os.path.isfile(file_path):
                 raise ValueError(f"Invalid file path: {file_path} does not exist or is not a file.")
 
@@ -73,6 +74,13 @@ class BackendArgs:
             nargs="+",
             help="Files with the domain-specific encodings.",
             default=defaults.domain_files,
+            metavar="",
+        )
+        parser.add_argument(
+            "--optional-files",
+            nargs="+",
+            help="Optional domain files that can be activated and deactivated.",
+            default=defaults.optional_files,
             metavar="",
         )
         parser.add_argument(

@@ -79,6 +79,7 @@ class ClingoBackend:
     _assumptions: Set[Tuple[str, bool]]
     _externals: Dict[str, Set[str]]
     _constants: Dict[str, str]
+    _optional_files: Dict[str, str]
     _handler: Optional[Any]  # clingo.SolveHandle
     _iterator: Optional[Any]
     _model: Optional[List[Any]]  # clingo.Symbol
@@ -181,6 +182,7 @@ class ClingoBackend:
         Raises:
             ValueError: If a constant is provided in an invalid format.
         """
+        self._optional_files = {Path(file_path).name: file_path for file_path in self._args.optional_files}
 
         self._constants = {}
         if self._args.const is not None:
@@ -297,8 +299,13 @@ class ClingoBackend:
             self._ctl.add("base", [], str(atom) + ".")
 
         for name in self._active_files:
-            log.debug(domctl_log(f'domctl.add("base", [], <content of {name}>)'))
-            self._ctl.add("base", [], self._uploaded_files[name])
+            if name in self._uploaded_files:
+                log.debug(domctl_log(f'domctl.add("base", [], <content of {name}>)'))
+                self._ctl.add("base", [], self._uploaded_files[name])
+            elif name in self._optional_files:
+                self._load_file(self._optional_files[name])
+            else:
+                raise ValueError(f"File not found: {name}")
 
     def _load_file(self, f):
         """
@@ -596,23 +603,25 @@ class ClingoBackend:
 
     def activate_file(self, name):
         """
-        Adds an uploaded file to the domain, restarts the control and grounds.
-
-        Arguments:
-            name (str): The name of an uploaded file
+        Activates an uploaded or configured optional file.
         """
-        if name not in self._uploaded_files:
-            raise ValueError(f"File not uploaded: {name}")
-        if name not in self._active_files:
-            self._active_files.append(name)
+        if name not in self._uploaded_files and name not in self._optional_files:
+            raise ValueError(f"File not found: {name}")
+
+        if name in self._active_files:
+            return
+
+        self._active_files.append(name)
+
         try:
             self._init_ctl()
             self._ground()
-        except RuntimeError as e:  # syntax or grounding error in the file
+        except RuntimeError as e:
             self._active_files.remove(name)
             self._init_ctl()
             self._ground()
             raise ValueError(f"Could not load {name}: {e}") from e
+
         self._outdate()
 
     def deactivate_file(self, name):
@@ -627,6 +636,23 @@ class ClingoBackend:
             self._init_ctl()
             self._ground()
             self._outdate()
+
+    def remove_file(self, name):
+        """
+        Removes an uploaded or configured optional file from this session.
+        """
+        if name not in self._uploaded_files and name not in self._optional_files:
+            raise ValueError(f"File not found: {name}")
+
+        if name in self._active_files:
+            self._active_files.remove(name)
+
+        self._uploaded_files.pop(name, None)
+        self._optional_files.pop(name, None)
+
+        self._init_ctl()
+        self._ground()
+        self._outdate()
 
     def next_solution(self, opt_mode="ignore"):
         """
